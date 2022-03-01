@@ -338,8 +338,20 @@ public class BlogPostingResourceImpl
 				null, _createServiceContext(blogPosting, groupId)));
 	}
 
+	private int _checkTest() {
+		boolean shouldReturn = true;
+
+		if (shouldReturn) {
+			return 1;
+		}
+
+		return 0;
+	}
+
 	private ServiceContext _createServiceContext(
 		BlogPosting blogPosting, long groupId) {
+
+		_checkTest();
 
 		ServiceContext serviceContext =
 			ServiceContextRequestUtil.createServiceContext(
