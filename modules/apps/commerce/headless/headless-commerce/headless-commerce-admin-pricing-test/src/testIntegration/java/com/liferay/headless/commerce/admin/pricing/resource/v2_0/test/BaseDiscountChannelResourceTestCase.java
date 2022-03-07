@@ -446,6 +446,76 @@ public abstract class BaseDiscountChannelResourceTestCase {
 	}
 
 	@Test
+	public void testGetDiscountIdDiscountChannelsPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long id = testGetDiscountIdDiscountChannelsPage_getId();
+
+		DiscountChannel discountChannel1 =
+			testGetDiscountIdDiscountChannelsPage_addDiscountChannel(
+				id, randomDiscountChannel());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		DiscountChannel discountChannel2 =
+			testGetDiscountIdDiscountChannelsPage_addDiscountChannel(
+				id, randomDiscountChannel());
+
+		for (EntityField entityField : entityFields) {
+			Page<DiscountChannel> page =
+				discountChannelResource.getDiscountIdDiscountChannelsPage(
+					id, null,
+					getFilterString(entityField, "eq", discountChannel1),
+					Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(discountChannel1),
+				(List<DiscountChannel>)page.getItems());
+		}
+	}
+
+	@Test
+	public void testGetDiscountIdDiscountChannelsPageWithFilterIntegerEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.INTEGER);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long id = testGetDiscountIdDiscountChannelsPage_getId();
+
+		DiscountChannel discountChannel1 =
+			testGetDiscountIdDiscountChannelsPage_addDiscountChannel(
+				id, randomDiscountChannel());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		DiscountChannel discountChannel2 =
+			testGetDiscountIdDiscountChannelsPage_addDiscountChannel(
+				id, randomDiscountChannel());
+
+		for (EntityField entityField : entityFields) {
+			Page<DiscountChannel> page =
+				discountChannelResource.getDiscountIdDiscountChannelsPage(
+					id, null,
+					getFilterString(entityField, "eq", discountChannel1),
+					Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(discountChannel1),
+				(List<DiscountChannel>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetDiscountIdDiscountChannelsPageWithFilterStringEquals()
 		throws Exception {
 
@@ -539,6 +609,20 @@ public abstract class BaseDiscountChannelResourceTestCase {
 				BeanUtils.setProperty(
 					discountChannel1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetDiscountIdDiscountChannelsPageWithSortDouble()
+		throws Exception {
+
+		testGetDiscountIdDiscountChannelsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, discountChannel1, discountChannel2) -> {
+				BeanUtils.setProperty(
+					discountChannel1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(
+					discountChannel2, entityField.getName(), 0.5);
 			});
 	}
 

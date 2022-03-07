@@ -253,6 +253,64 @@ public abstract class BaseAccountGroupResourceTestCase {
 	}
 
 	@Test
+	public void testGetAccountGroupsPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		AccountGroup accountGroup1 = testGetAccountGroupsPage_addAccountGroup(
+			randomAccountGroup());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		AccountGroup accountGroup2 = testGetAccountGroupsPage_addAccountGroup(
+			randomAccountGroup());
+
+		for (EntityField entityField : entityFields) {
+			Page<AccountGroup> page = accountGroupResource.getAccountGroupsPage(
+				getFilterString(entityField, "eq", accountGroup1),
+				Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(accountGroup1),
+				(List<AccountGroup>)page.getItems());
+		}
+	}
+
+	@Test
+	public void testGetAccountGroupsPageWithFilterIntegerEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.INTEGER);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		AccountGroup accountGroup1 = testGetAccountGroupsPage_addAccountGroup(
+			randomAccountGroup());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		AccountGroup accountGroup2 = testGetAccountGroupsPage_addAccountGroup(
+			randomAccountGroup());
+
+		for (EntityField entityField : entityFields) {
+			Page<AccountGroup> page = accountGroupResource.getAccountGroupsPage(
+				getFilterString(entityField, "eq", accountGroup1),
+				Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(accountGroup1),
+				(List<AccountGroup>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetAccountGroupsPageWithFilterStringEquals()
 		throws Exception {
 
@@ -333,6 +391,18 @@ public abstract class BaseAccountGroupResourceTestCase {
 				BeanUtils.setProperty(
 					accountGroup1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetAccountGroupsPageWithSortDouble() throws Exception {
+		testGetAccountGroupsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, accountGroup1, accountGroup2) -> {
+				BeanUtils.setProperty(
+					accountGroup1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(
+					accountGroup2, entityField.getName(), 0.5);
 			});
 	}
 
