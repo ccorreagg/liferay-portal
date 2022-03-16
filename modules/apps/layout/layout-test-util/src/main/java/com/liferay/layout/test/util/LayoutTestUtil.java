@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.HashMap;
 import java.util.List;
@@ -180,6 +181,34 @@ public class LayoutTestUtil {
 			LayoutConstants.DEFAULT_PARENT_LAYOUT_ID, title, StringPool.BLANK,
 			StringPool.BLANK, LayoutConstants.TYPE_CONTENT, false,
 			StringPool.BLANK, serviceContext);
+	}
+
+	public static Layout addTypeContentPublishedLayout(
+			Group group, String title)
+		throws Exception {
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(
+				TestPropsValues.getGroupId(), TestPropsValues.getUserId());
+
+		Layout layout = LayoutLocalServiceUtil.addLayout(
+			TestPropsValues.getUserId(), group.getGroupId(), false,
+			LayoutConstants.DEFAULT_PARENT_LAYOUT_ID, title, StringPool.BLANK,
+			StringPool.BLANK, LayoutConstants.TYPE_CONTENT, false,
+			StringPool.BLANK, serviceContext);
+
+		serviceContext.setAttribute("published", Boolean.TRUE);
+
+		Layout draftLayout = LayoutLocalServiceUtil.fetchDraftLayout(
+			layout.getPlid());
+
+		LayoutLocalServiceUtil.updateStatus(
+			draftLayout.getUserId(), draftLayout.getPlid(),
+			WorkflowConstants.STATUS_APPROVED, serviceContext);
+
+		return LayoutLocalServiceUtil.updateStatus(
+			layout.getUserId(), layout.getPlid(),
+			WorkflowConstants.STATUS_APPROVED, serviceContext);
 	}
 
 	public static Layout addTypeLinkToLayoutLayout(
