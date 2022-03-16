@@ -228,7 +228,8 @@ public class SitePageResourceTest extends BaseSitePageResourceTestCase {
 			Group group, boolean importPageDefinition, String title)
 		throws Exception {
 
-		Layout layout = LayoutTestUtil.addTypeContentLayout(group, title);
+		Layout layout = LayoutTestUtil.addTypeContentPublishedLayout(
+			group, title);
 
 		if (importPageDefinition) {
 			String name = PrincipalThreadLocal.getName();
