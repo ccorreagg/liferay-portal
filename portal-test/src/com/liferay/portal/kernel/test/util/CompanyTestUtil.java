@@ -67,7 +67,7 @@ public class CompanyTestUtil {
 
 		// Reset company default locale and timezone
 
-		User user = UserLocalServiceUtil.loadGetDefaultUser(companyId);
+		User user = UserLocalServiceUtil.getDefaultUser(companyId);
 
 		user.setLanguageId(defaultLanguageId);
 
