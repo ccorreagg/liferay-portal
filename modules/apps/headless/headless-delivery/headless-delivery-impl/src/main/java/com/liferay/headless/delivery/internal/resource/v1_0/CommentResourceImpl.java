@@ -103,6 +103,23 @@ public class CommentResourceImpl
 	}
 
 	@Override
+	public void
+			deleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String structuredContentExternalReferenceCode,
+				String externalReferenceCode)
+		throws Exception {
+
+		JournalArticle journalArticle = _getLatestJournalArticle(
+			structuredContentExternalReferenceCode, siteId);
+
+		com.liferay.portal.kernel.comment.Comment comment = _getComment(
+			externalReferenceCode, siteId, JournalArticle.class.getName(),
+			journalArticle.getResourcePrimKey());
+
+		_deleteComment(comment.getCommentId());
+	}
+
+	@Override
 	public Page<Comment> getBlogPostingCommentsPage(
 			Long blogPostingId, String search, Aggregation aggregation,
 			Filter filter, Pagination pagination, Sort[] sorts)
@@ -218,6 +235,29 @@ public class CommentResourceImpl
 		com.liferay.portal.kernel.comment.Comment comment = _getComment(
 			externalReferenceCode, siteId, DLFileEntry.class.getName(),
 			dlFileEntry.getFileEntryId());
+
+		DiscussionPermission discussionPermission = _getDiscussionPermission();
+
+		discussionPermission.checkViewPermission(
+			contextCompany.getCompanyId(), comment.getGroupId(),
+			comment.getClassName(), comment.getClassPK());
+
+		return CommentUtil.toComment(comment, _commentManager, _portal);
+	}
+
+	@Override
+	public Comment
+			getSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String structuredContentExternalReferenceCode,
+				String externalReferenceCode)
+		throws Exception {
+
+		JournalArticle journalArticle = _getLatestJournalArticle(
+			structuredContentExternalReferenceCode, siteId);
+
+		com.liferay.portal.kernel.comment.Comment comment = _getComment(
+			externalReferenceCode, siteId, JournalArticle.class.getName(),
+			journalArticle.getResourcePrimKey());
 
 		DiscussionPermission discussionPermission = _getDiscussionPermission();
 
@@ -359,6 +399,33 @@ public class CommentResourceImpl
 			comment.getText());
 	}
 
+	@Override
+	public Comment
+			putSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String structuredContentExternalReferenceCode,
+				String externalReferenceCode, Comment comment)
+		throws Exception {
+
+		JournalArticle journalArticle = _getLatestJournalArticle(
+			structuredContentExternalReferenceCode, siteId);
+
+		com.liferay.portal.kernel.comment.Comment existingComment =
+			_fetchComment(
+				externalReferenceCode, siteId, JournalArticle.class.getName(),
+				journalArticle.getResourcePrimKey());
+
+		if (existingComment != null) {
+			return _updateComment(
+				existingComment, existingComment.getCommentId(),
+				comment.getText());
+		}
+
+		return _postEntityComment(
+			comment.getExternalReferenceCode(), journalArticle.getGroupId(),
+			JournalArticle.class.getName(), journalArticle.getResourcePrimKey(),
+			comment.getText());
+	}
+
 	private Function<String, ServiceContext> _createServiceContextFunction() {
 		return className -> {
 			ServiceContext serviceContext = new ServiceContext();
@@ -475,6 +542,29 @@ public class CommentResourceImpl
 		}
 
 		return dlFileEntry;
+	}
+
+	private JournalArticle _getLatestJournalArticle(
+			String externalReferenceCode, Long siteId)
+		throws Exception {
+
+		JournalArticle journalArticle =
+			_journalArticleService.fetchLatestArticleByExternalReferenceCode(
+				siteId, externalReferenceCode);
+
+		if (journalArticle == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(
+				"No structured content exists with external reference code ");
+			sb.append(externalReferenceCode);
+			sb.append(" and site ID ");
+			sb.append(siteId);
+
+			throw new NotFoundException(sb.toString());
+		}
+
+		return journalArticle;
 	}
 
 	private long _getUserId() {
