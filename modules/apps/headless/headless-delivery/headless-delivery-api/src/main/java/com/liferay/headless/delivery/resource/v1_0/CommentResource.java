@@ -124,6 +124,24 @@ public interface CommentResource {
 				String externalReferenceCode, Comment comment)
 		throws Exception;
 
+	public void
+			deleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String structuredContentExternalReferenceCode,
+				String externalReferenceCode)
+		throws Exception;
+
+	public Comment
+			getSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String structuredContentExternalReferenceCode,
+				String externalReferenceCode)
+		throws Exception;
+
+	public Comment
+			putSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String structuredContentExternalReferenceCode,
+				String externalReferenceCode, Comment comment)
+		throws Exception;
+
 	public Page<Comment> getStructuredContentCommentsPage(
 			Long structuredContentId, String search,
 			com.liferay.portal.vulcan.aggregation.Aggregation aggregation,

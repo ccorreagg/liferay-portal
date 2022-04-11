@@ -728,6 +728,55 @@ public class Mutation {
 	}
 
 	@GraphQLField(
+		description = "Deletes the structured content's comment by structured content's and comment's external reference codes."
+	)
+	public boolean
+			deleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode(
+				@GraphQLName("siteKey") @NotEmpty String siteKey,
+				@GraphQLName("structuredContentExternalReferenceCode") String
+					structuredContentExternalReferenceCode,
+				@GraphQLName("externalReferenceCode") String
+					externalReferenceCode)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_commentResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			commentResource ->
+				commentResource.
+					deleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode(
+						Long.valueOf(siteKey),
+						structuredContentExternalReferenceCode,
+						externalReferenceCode));
+
+		return true;
+	}
+
+	@GraphQLField(
+		description = "Updates the structured content's comment given the structured content's and comment's external reference codes, or creates it if it not exists."
+	)
+	public Comment
+			updateSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode(
+				@GraphQLName("siteKey") @NotEmpty String siteKey,
+				@GraphQLName("structuredContentExternalReferenceCode") String
+					structuredContentExternalReferenceCode,
+				@GraphQLName("externalReferenceCode") String
+					externalReferenceCode,
+				@GraphQLName("comment") Comment comment)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_commentResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			commentResource ->
+				commentResource.
+					putSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode(
+						Long.valueOf(siteKey),
+						structuredContentExternalReferenceCode,
+						externalReferenceCode, comment));
+	}
+
+	@GraphQLField(
 		description = "Creates a new comment on the structured content."
 	)
 	public Comment createStructuredContentComment(
