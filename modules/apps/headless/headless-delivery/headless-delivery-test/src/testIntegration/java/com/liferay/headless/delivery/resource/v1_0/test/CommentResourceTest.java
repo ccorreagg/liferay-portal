@@ -60,7 +60,7 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 			Comment comment =
 				testDeleteSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode_addComment();
 
-			// Non existing document
+			// Non-existing document
 
 			assertHttpResponseStatusCode(
 				404,
@@ -71,7 +71,7 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 						comment.getExternalReferenceCode()));
 		}
 
-		// Non existing comment
+		// Non-existing comment
 
 		assertHttpResponseStatusCode(
 			204,
@@ -99,6 +99,59 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 
 	@Override
 	@Test
+	public void testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode()
+		throws Exception {
+
+		super.
+			testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode();
+
+		try (LogCapture logCapture = LoggerTestUtil.configureLog4JLogger(
+				"com.liferay.portal.vulcan.internal.jaxrs.exception.mapper." +
+					"WebApplicationExceptionMapper",
+				LoggerTestUtil.ERROR)) {
+
+			Comment comment =
+				testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+			// Non-existing journal article
+
+			assertHttpResponseStatusCode(
+				404,
+				commentResource.
+					deleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+						testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+						RandomTestUtil.randomString(),
+						comment.getExternalReferenceCode()));
+		}
+
+		// Non-existing comment
+
+		assertHttpResponseStatusCode(
+			204,
+			commentResource.
+				deleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+					testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+					testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getStructuredContentExternalReferenceCode(),
+					RandomTestUtil.randomString()));
+
+		// Comment associated to a different journal article
+
+		JournalArticle prevJournalArticle = _journalArticle;
+
+		Comment comment =
+			testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+		assertHttpResponseStatusCode(
+			204,
+			commentResource.
+				deleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+					testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+					prevJournalArticle.getExternalReferenceCode(),
+					comment.getExternalReferenceCode()));
+	}
+
+	@Override
+	@Test
 	public void testGetSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode()
 		throws Exception {
 
@@ -113,7 +166,7 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 			Comment comment =
 				testGetSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode_addComment();
 
-			// Non existing document
+			// Non-existing document
 
 			assertHttpResponseStatusCode(
 				404,
@@ -124,7 +177,7 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 						comment.getExternalReferenceCode()));
 		}
 
-		// Non existing comment
+		// Non-existing comment
 
 		assertHttpResponseStatusCode(
 			404,
@@ -147,6 +200,59 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 				getSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
 					testGetSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
 					prevFileEntry.getExternalReferenceCode(),
+					comment.getExternalReferenceCode()));
+	}
+
+	@Override
+	@Test
+	public void testGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode()
+		throws Exception {
+
+		super.
+			testGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode();
+
+		try (LogCapture logCapture = LoggerTestUtil.configureLog4JLogger(
+				"com.liferay.portal.vulcan.internal.jaxrs.exception.mapper." +
+					"WebApplicationExceptionMapper",
+				LoggerTestUtil.ERROR)) {
+
+			Comment comment =
+				testGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+			// Non-existing structured content
+
+			assertHttpResponseStatusCode(
+				404,
+				commentResource.
+					getSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+						testGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+						RandomTestUtil.randomString(),
+						comment.getExternalReferenceCode()));
+		}
+
+		// Non-existing comment
+
+		assertHttpResponseStatusCode(
+			404,
+			commentResource.
+				getSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+					testGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+					testGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getStructuredContentExternalReferenceCode(),
+					RandomTestUtil.randomString()));
+
+		// Comment associated to a different journal article
+
+		JournalArticle prevJournalArticle = _journalArticle;
+
+		Comment comment =
+			testGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+		assertHttpResponseStatusCode(
+			404,
+			commentResource.
+				getSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+					testGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+					prevJournalArticle.getExternalReferenceCode(),
 					comment.getExternalReferenceCode()));
 	}
 
@@ -191,6 +297,45 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 
 	@Override
 	@Test
+	public void testGraphQLGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCodeNotFound()
+		throws Exception {
+
+		super.
+			testGraphQLGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCodeNotFound();
+
+		// Existing StructuredContent but not existing Comment
+
+		testGraphQLGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+		Assert.assertEquals(
+			"Not Found",
+			JSONUtil.getValueAsString(
+				invokeGraphQLQuery(
+					new GraphQLField(
+						"structuredContentByExternalReferenceCode" +
+							"StructuredContentExternalReferenceCode" +
+								"CommentByExternalReferenceCode",
+						HashMapBuilder.<String, Object>put(
+							"externalReferenceCode",
+							"\"" + RandomTestUtil.randomString() + "\""
+						).put(
+							"siteKey",
+							"\"" +
+								testGraphQLGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId() +
+									"\""
+						).put(
+							"structuredContentExternalReferenceCode",
+							"\"" +
+								testGraphQLGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getStructuredContentExternalReferenceCode() +
+									"\""
+						).build(),
+						getGraphQLFields())),
+				"JSONArray/errors", "Object/0", "JSONObject/extensions",
+				"Object/code"));
+	}
+
+	@Override
+	@Test
 	public void testPutSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode()
 		throws Exception {
 
@@ -216,6 +361,36 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 				putSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
 					testPutSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
 					testPutSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode_getDocumentExternalReferenceCode(),
+					randomComment.getExternalReferenceCode(), randomComment));
+	}
+
+	@Override
+	@Test
+	public void testPutSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode()
+		throws Exception {
+
+		super.
+			testPutSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode();
+
+		// Existing comment with an ERC associated to a different type of parent
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Comment postComment =
+			testPutSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+		Comment otherComment = _addBlogPostingComment();
+
+		Comment randomComment = randomComment();
+
+		randomComment.setExternalReferenceCode(
+			otherComment.getExternalReferenceCode());
+
+		assertHttpResponseStatusCode(
+			400,
+			commentResource.
+				putSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+					testPutSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+					testPutSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getStructuredContentExternalReferenceCode(),
 					randomComment.getExternalReferenceCode(), randomComment));
 	}
 
@@ -265,6 +440,30 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 		throws Exception {
 
 		return testGroup.getGroupId();
+	}
+
+	@Override
+	protected Comment
+			testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_addComment()
+		throws Exception {
+
+		return _addStructuredContentComment();
+	}
+
+	@Override
+	protected Long
+			testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId()
+		throws Exception {
+
+		return testGroup.getGroupId();
+	}
+
+	@Override
+	protected String
+			testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getStructuredContentExternalReferenceCode()
+		throws Exception {
+
+		return _journalArticle.getExternalReferenceCode();
 	}
 
 	@Override
@@ -322,6 +521,30 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 	}
 
 	@Override
+	protected Comment
+			testGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_addComment()
+		throws Exception {
+
+		return _addStructuredContentComment();
+	}
+
+	@Override
+	protected Long
+			testGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId()
+		throws Exception {
+
+		return testGroup.getGroupId();
+	}
+
+	@Override
+	protected String
+			testGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getStructuredContentExternalReferenceCode()
+		throws Exception {
+
+		return _journalArticle.getExternalReferenceCode();
+	}
+
+	@Override
 	protected Long testGetStructuredContentCommentsPage_getStructuredContentId()
 		throws Exception {
 
@@ -360,6 +583,30 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 	}
 
 	@Override
+	protected Comment
+			testGraphQLGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_addComment()
+		throws Exception {
+
+		return _addStructuredContentComment();
+	}
+
+	@Override
+	protected Long
+			testGraphQLGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId()
+		throws Exception {
+
+		return testGroup.getGroupId();
+	}
+
+	@Override
+	protected String
+			testGraphQLGetSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getStructuredContentExternalReferenceCode()
+		throws Exception {
+
+		return _journalArticle.getExternalReferenceCode();
+	}
+
+	@Override
 	protected Comment testPutComment_addComment() throws Exception {
 		return commentResource.postCommentComment(
 			_addBlogPostingComment().getId(), randomComment());
@@ -386,6 +633,30 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 		throws Exception {
 
 		return testGroup.getGroupId();
+	}
+
+	@Override
+	protected Comment
+			testPutSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_addComment()
+		throws Exception {
+
+		return _addStructuredContentComment();
+	}
+
+	@Override
+	protected Long
+			testPutSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId()
+		throws Exception {
+
+		return testGroup.getGroupId();
+	}
+
+	@Override
+	protected String
+			testPutSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getStructuredContentExternalReferenceCode()
+		throws Exception {
+
+		return _journalArticle.getExternalReferenceCode();
 	}
 
 	private Comment _addBlogPostingComment() throws Exception {
@@ -423,6 +694,13 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 		return JournalTestUtil.addArticle(testGroup.getGroupId(), 0);
 	}
 
+	private Comment _addStructuredContentComment() throws Exception {
+		_journalArticle = _addJournalArticle();
+
+		return commentResource.postStructuredContentComment(
+			_journalArticle.getResourcePrimKey(), randomComment());
+	}
+
 	private String _formatHTML(Comment comment) {
 		String text = HtmlUtil.stripHtml(comment.getText());
 
@@ -435,5 +713,6 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 
 	private BlogsEntry _blogsEntry;
 	private FileEntry _fileEntry;
+	private JournalArticle _journalArticle;
 
 }
