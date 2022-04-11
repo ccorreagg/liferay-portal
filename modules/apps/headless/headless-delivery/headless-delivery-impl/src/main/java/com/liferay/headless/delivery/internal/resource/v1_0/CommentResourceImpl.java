@@ -87,6 +87,23 @@ public class CommentResourceImpl
 
 	@Override
 	public void
+			deleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String blogPostingExternalReferenceCode,
+				String externalReferenceCode)
+		throws Exception {
+
+		BlogsEntry blogsEntry = _getBlogsEntry(
+			blogPostingExternalReferenceCode, siteId);
+
+		com.liferay.portal.kernel.comment.Comment comment = _getComment(
+			externalReferenceCode, siteId, BlogsEntry.class.getName(),
+			blogsEntry.getEntryId());
+
+		_deleteComment(comment.getCommentId());
+	}
+
+	@Override
+	public void
 			deleteSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode(
 				Long siteId, String documentExternalReferenceCode,
 				String externalReferenceCode)
@@ -220,6 +237,29 @@ public class CommentResourceImpl
 	@Override
 	public EntityModel getEntityModel(MultivaluedMap multivaluedMap) {
 		return new CommentEntityModel();
+	}
+
+	@Override
+	public Comment
+			getSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String blogPostingExternalReferenceCode,
+				String externalReferenceCode)
+		throws Exception {
+
+		BlogsEntry blogsEntry = _getBlogsEntry(
+			blogPostingExternalReferenceCode, siteId);
+
+		com.liferay.portal.kernel.comment.Comment comment = _getComment(
+			externalReferenceCode, siteId, BlogsEntry.class.getName(),
+			blogsEntry.getEntryId());
+
+		DiscussionPermission discussionPermission = _getDiscussionPermission();
+
+		discussionPermission.checkViewPermission(
+			contextCompany.getCompanyId(), comment.getGroupId(),
+			comment.getClassName(), comment.getClassPK());
+
+		return CommentUtil.toComment(comment, _commentManager, _portal);
 	}
 
 	@Override
@@ -374,6 +414,33 @@ public class CommentResourceImpl
 
 	@Override
 	public Comment
+			putSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String blogPostingExternalReferenceCode,
+				String externalReferenceCode, Comment comment)
+		throws Exception {
+
+		BlogsEntry blogsEntry = _getBlogsEntry(
+			blogPostingExternalReferenceCode, siteId);
+
+		com.liferay.portal.kernel.comment.Comment existingComment =
+			_fetchComment(
+				externalReferenceCode, siteId, BlogsEntry.class.getName(),
+				blogsEntry.getEntryId());
+
+		if (existingComment != null) {
+			return _updateComment(
+				existingComment, existingComment.getCommentId(),
+				comment.getText());
+		}
+
+		return _postEntityComment(
+			comment.getExternalReferenceCode(), blogsEntry.getGroupId(),
+			BlogsEntry.class.getName(), blogsEntry.getEntryId(),
+			comment.getText());
+	}
+
+	@Override
+	public Comment
 			putSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode(
 				Long siteId, String documentExternalReferenceCode,
 				String externalReferenceCode, Comment comment)
@@ -457,6 +524,27 @@ public class CommentResourceImpl
 		}
 
 		return null;
+	}
+
+	private BlogsEntry _getBlogsEntry(String externalReferenceCode, Long siteId)
+		throws Exception {
+
+		BlogsEntry blogsEntry =
+			_blogsEntryService.fetchBlogsEntryByExternalReferenceCode(
+				siteId, externalReferenceCode);
+
+		if (blogsEntry == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append("No blog posting exists with external reference code ");
+			sb.append(externalReferenceCode);
+			sb.append(" and site ID ");
+			sb.append(siteId);
+
+			throw new NotFoundException(sb.toString());
+		}
+
+		return blogsEntry;
 	}
 
 	private com.liferay.portal.kernel.comment.Comment _getComment(
