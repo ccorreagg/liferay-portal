@@ -46,6 +46,59 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 
 	@Override
 	@Test
+	public void testDeleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode()
+		throws Exception {
+
+		super.
+			testDeleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode();
+
+		try (LogCapture logCapture = LoggerTestUtil.configureLog4JLogger(
+				"com.liferay.portal.vulcan.internal.jaxrs.exception.mapper." +
+					"WebApplicationExceptionMapper",
+				LoggerTestUtil.ERROR)) {
+
+			Comment comment =
+				testDeleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+			// Non-existing blogs entry
+
+			assertHttpResponseStatusCode(
+				404,
+				commentResource.
+					deleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+						testDeleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+						RandomTestUtil.randomString(),
+						comment.getExternalReferenceCode()));
+		}
+
+		// Non-existing comment
+
+		assertHttpResponseStatusCode(
+			204,
+			commentResource.
+				deleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+					testDeleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+					testDeleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getBlogPostingExternalReferenceCode(),
+					RandomTestUtil.randomString()));
+
+		// Comment associated to a different blogs entry
+
+		BlogsEntry prevBlogsEntry = _blogsEntry;
+
+		Comment comment =
+			testDeleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+		assertHttpResponseStatusCode(
+			204,
+			commentResource.
+				deleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+					testDeleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+					prevBlogsEntry.getExternalReferenceCode(),
+					comment.getExternalReferenceCode()));
+	}
+
+	@Override
+	@Test
 	public void testDeleteSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode()
 		throws Exception {
 
@@ -147,6 +200,59 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 				deleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
 					testDeleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
 					prevJournalArticle.getExternalReferenceCode(),
+					comment.getExternalReferenceCode()));
+	}
+
+	@Override
+	@Test
+	public void testGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode()
+		throws Exception {
+
+		super.
+			testGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode();
+
+		try (LogCapture logCapture = LoggerTestUtil.configureLog4JLogger(
+				"com.liferay.portal.vulcan.internal.jaxrs.exception.mapper." +
+					"WebApplicationExceptionMapper",
+				LoggerTestUtil.ERROR)) {
+
+			Comment comment =
+				testGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+			// Non-existing blogs entry
+
+			assertHttpResponseStatusCode(
+				404,
+				commentResource.
+					getSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+						testGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+						RandomTestUtil.randomString(),
+						comment.getExternalReferenceCode()));
+		}
+
+		// Non-existing comment
+
+		assertHttpResponseStatusCode(
+			404,
+			commentResource.
+				getSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+					testGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+					testGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getBlogPostingExternalReferenceCode(),
+					RandomTestUtil.randomString()));
+
+		// Comment associated to a different blogs entry
+
+		BlogsEntry prevBlogsEntry = _blogsEntry;
+
+		Comment comment =
+			testGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+		assertHttpResponseStatusCode(
+			404,
+			commentResource.
+				getSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+					testGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+					prevBlogsEntry.getExternalReferenceCode(),
 					comment.getExternalReferenceCode()));
 	}
 
@@ -258,6 +364,45 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 
 	@Override
 	@Test
+	public void testGraphQLGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCodeNotFound()
+		throws Exception {
+
+		super.
+			testGraphQLGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCodeNotFound();
+
+		// Existing BlogPosting but not existing Comment
+
+		testGraphQLGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+		Assert.assertEquals(
+			"Not Found",
+			JSONUtil.getValueAsString(
+				invokeGraphQLQuery(
+					new GraphQLField(
+						"blogPostingByExternalReferenceCode" +
+							"BlogPostingExternalReferenceCode" +
+								"CommentByExternalReferenceCode",
+						HashMapBuilder.<String, Object>put(
+							"blogPostingExternalReferenceCode",
+							"\"" +
+								testGraphQLGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getBlogPostingExternalReferenceCode() +
+									"\""
+						).put(
+							"externalReferenceCode",
+							"\"" + RandomTestUtil.randomString() + "\""
+						).put(
+							"siteKey",
+							"\"" +
+								testGraphQLGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId() +
+									"\""
+						).build(),
+						getGraphQLFields())),
+				"JSONArray/errors", "Object/0", "JSONObject/extensions",
+				"Object/code"));
+	}
+
+	@Override
+	@Test
 	public void testGraphQLGetSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCodeNotFound()
 		throws Exception {
 
@@ -332,6 +477,36 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	@Override
+	@Test
+	public void testPutSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode()
+		throws Exception {
+
+		super.
+			testPutSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode();
+
+		// Existing comment with an ERC associated to a different type of parent
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Comment postComment =
+			testPutSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_addComment();
+
+		Comment otherComment = _addDocumentComment();
+
+		Comment randomComment = randomComment();
+
+		randomComment.setExternalReferenceCode(
+			otherComment.getExternalReferenceCode());
+
+		assertHttpResponseStatusCode(
+			400,
+			commentResource.
+				putSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCodeHttpResponse(
+					testPutSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId(),
+					testPutSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getBlogPostingExternalReferenceCode(),
+					randomComment.getExternalReferenceCode(), randomComment));
 	}
 
 	@Override
@@ -420,6 +595,30 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 
 	@Override
 	protected Comment
+			testDeleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_addComment()
+		throws Exception {
+
+		return _addBlogPostingComment();
+	}
+
+	@Override
+	protected String
+			testDeleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getBlogPostingExternalReferenceCode()
+		throws Exception {
+
+		return _blogsEntry.getExternalReferenceCode();
+	}
+
+	@Override
+	protected Long
+			testDeleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId()
+		throws Exception {
+
+		return testGroup.getGroupId();
+	}
+
+	@Override
+	protected Comment
 			testDeleteSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode_addComment()
 		throws Exception {
 
@@ -498,6 +697,30 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 
 	@Override
 	protected Comment
+			testGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_addComment()
+		throws Exception {
+
+		return _addBlogPostingComment();
+	}
+
+	@Override
+	protected String
+			testGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getBlogPostingExternalReferenceCode()
+		throws Exception {
+
+		return _blogsEntry.getExternalReferenceCode();
+	}
+
+	@Override
+	protected Long
+			testGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId()
+		throws Exception {
+
+		return testGroup.getGroupId();
+	}
+
+	@Override
+	protected Comment
 			testGetSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode_addComment()
 		throws Exception {
 
@@ -560,6 +783,30 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 
 	@Override
 	protected Comment
+			testGraphQLGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_addComment()
+		throws Exception {
+
+		return _addBlogPostingComment();
+	}
+
+	@Override
+	protected String
+			testGraphQLGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getBlogPostingExternalReferenceCode()
+		throws Exception {
+
+		return _blogsEntry.getExternalReferenceCode();
+	}
+
+	@Override
+	protected Long
+			testGraphQLGetSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId()
+		throws Exception {
+
+		return testGroup.getGroupId();
+	}
+
+	@Override
+	protected Comment
 			testGraphQLGetSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode_addComment()
 		throws Exception {
 
@@ -610,6 +857,30 @@ public class CommentResourceTest extends BaseCommentResourceTestCase {
 	protected Comment testPutComment_addComment() throws Exception {
 		return commentResource.postCommentComment(
 			_addBlogPostingComment().getId(), randomComment());
+	}
+
+	@Override
+	protected Comment
+			testPutSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_addComment()
+		throws Exception {
+
+		return _addBlogPostingComment();
+	}
+
+	@Override
+	protected String
+			testPutSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getBlogPostingExternalReferenceCode()
+		throws Exception {
+
+		return _blogsEntry.getExternalReferenceCode();
+	}
+
+	@Override
+	protected Long
+			testPutSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode_getSiteId()
+		throws Exception {
+
+		return testGroup.getGroupId();
 	}
 
 	@Override
