@@ -104,6 +104,19 @@ public class CommentResourceImpl
 
 	@Override
 	public void
+			deleteSiteCommentByExternalReferenceCodeParentCommentExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String parentCommentExternalReferenceCode,
+				String externalReferenceCode)
+		throws Exception {
+
+		com.liferay.portal.kernel.comment.Comment comment = _getComment(
+			externalReferenceCode, parentCommentExternalReferenceCode, siteId);
+
+		_deleteComment(comment.getCommentId());
+	}
+
+	@Override
+	public void
 			deleteSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode(
 				Long siteId, String documentExternalReferenceCode,
 				String externalReferenceCode)
@@ -264,6 +277,25 @@ public class CommentResourceImpl
 
 	@Override
 	public Comment
+			getSiteCommentByExternalReferenceCodeParentCommentExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String parentCommentExternalReferenceCode,
+				String externalReferenceCode)
+		throws Exception {
+
+		com.liferay.portal.kernel.comment.Comment comment = _getComment(
+			externalReferenceCode, parentCommentExternalReferenceCode, siteId);
+
+		DiscussionPermission discussionPermission = _getDiscussionPermission();
+
+		discussionPermission.checkViewPermission(
+			contextCompany.getCompanyId(), comment.getGroupId(),
+			comment.getClassName(), comment.getClassPK());
+
+		return CommentUtil.toComment(comment, _commentManager, _portal);
+	}
+
+	@Override
+	public Comment
 			getSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode(
 				Long siteId, String documentExternalReferenceCode,
 				String externalReferenceCode)
@@ -366,16 +398,10 @@ public class CommentResourceImpl
 			throw new NotFoundException();
 		}
 
-		return _postComment(
-			() -> _commentManager.addComment(
-				comment.getExternalReferenceCode(), _getUserId(),
-				parentComment.getClassName(), parentComment.getClassPK(),
-				StringPool.BLANK, parentComment.getCommentId(),
-				StringPool.BLANK,
-				StringBundler.concat("<p>", comment.getText(), "</p>"),
-				_createServiceContextFunction()),
-			parentComment.getClassName(), parentComment.getClassPK(),
-			parentComment.getGroupId());
+		return _postParentCommentComment(
+			comment.getExternalReferenceCode(), parentComment.getGroupId(),
+			parentComment.getCommentId(), parentComment.getClassName(),
+			parentComment.getClassPK(), comment.getText());
 	}
 
 	@Override
@@ -437,6 +463,36 @@ public class CommentResourceImpl
 			comment.getExternalReferenceCode(), blogsEntry.getGroupId(),
 			BlogsEntry.class.getName(), blogsEntry.getEntryId(),
 			comment.getText());
+	}
+
+	@Override
+	public Comment
+			putSiteCommentByExternalReferenceCodeParentCommentExternalReferenceCodeCommentByExternalReferenceCode(
+				Long siteId, String parentCommentExternalReferenceCode,
+				String externalReferenceCode, Comment comment)
+		throws Exception {
+
+		com.liferay.portal.kernel.comment.Comment parentComment = _getComment(
+			parentCommentExternalReferenceCode, siteId);
+
+		com.liferay.portal.kernel.comment.Comment existingComment =
+			_fetchComment(
+				externalReferenceCode, siteId, parentComment.getClassName(),
+				parentComment.getClassPK());
+
+		if ((existingComment != null) &&
+			(parentComment.getCommentId() ==
+				existingComment.getParentCommentId())) {
+
+			return _updateComment(
+				existingComment, existingComment.getCommentId(),
+				comment.getText());
+		}
+
+		return _postParentCommentComment(
+			comment.getExternalReferenceCode(), parentComment.getGroupId(),
+			parentComment.getCommentId(), parentComment.getClassName(),
+			parentComment.getClassPK(), comment.getText());
 	}
 
 	@Override
@@ -565,6 +621,61 @@ public class CommentResourceImpl
 			sb.append(" is associated to another entity");
 
 			throw new NoSuchCommentException(sb.toString());
+		}
+
+		return comment;
+	}
+
+	private com.liferay.portal.kernel.comment.Comment _getComment(
+			String externalReferenceCode, Long siteId)
+		throws Exception {
+
+		com.liferay.portal.kernel.comment.Comment comment =
+			_commentManager.fetchComment(siteId, externalReferenceCode);
+
+		if (comment == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append("No comment exists with external reference code ");
+			sb.append(externalReferenceCode);
+			sb.append(" and site ID ");
+			sb.append(siteId);
+
+			throw new NotFoundException(sb.toString());
+		}
+
+		DiscussionPermission discussionPermission = _getDiscussionPermission();
+
+		discussionPermission.checkViewPermission(
+			contextCompany.getCompanyId(), comment.getGroupId(),
+			comment.getClassName(), comment.getClassPK());
+
+		return comment;
+	}
+
+	private com.liferay.portal.kernel.comment.Comment _getComment(
+			String externalReferenceCode, String parentExternalReferenceCode,
+			Long siteId)
+		throws Exception {
+
+		com.liferay.portal.kernel.comment.Comment parentComment = _getComment(
+			parentExternalReferenceCode, siteId);
+
+		com.liferay.portal.kernel.comment.Comment comment = _getComment(
+			externalReferenceCode, siteId, parentComment.getClassName(),
+			parentComment.getClassPK());
+
+		if (parentComment.getCommentId() != comment.getParentCommentId()) {
+			StringBundler sb = new StringBundler(6);
+
+			sb.append("No comment exists with external reference code ");
+			sb.append(comment.getExternalReferenceCode());
+			sb.append(", site ID ");
+			sb.append(parentComment.getGroupId());
+			sb.append(" and parent comment with external reference code ");
+			sb.append(parentComment.getExternalReferenceCode());
+
+			throw new NotFoundException(sb.toString());
 		}
 
 		return comment;
@@ -717,6 +828,20 @@ public class CommentResourceImpl
 			() -> _commentManager.addComment(
 				externalReferenceCode, _getUserId(), groupId, className,
 				classPK, StringPool.BLANK, StringPool.BLANK,
+				StringBundler.concat("<p>", text, "</p>"),
+				_createServiceContextFunction()),
+			className, classPK, groupId);
+	}
+
+	private Comment _postParentCommentComment(
+			String externalReferenceCode, long groupId, long parentCommentId,
+			String className, long classPK, String text)
+		throws Exception {
+
+		return _postComment(
+			() -> _commentManager.addComment(
+				externalReferenceCode, _getUserId(), className, classPK,
+				StringPool.BLANK, parentCommentId, StringPool.BLANK,
 				StringBundler.concat("<p>", text, "</p>"),
 				_createServiceContextFunction()),
 			className, classPK, groupId);
