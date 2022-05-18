@@ -14,6 +14,7 @@
 
 package com.liferay.data.engine.rest.internal.resource.v2_0;
 
+import com.liferay.portal.vulcan.openapi.OpenAPIResourceItem;
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -50,7 +51,7 @@ import org.osgi.service.component.annotations.Reference;
 	info = @Info(description = "A Java client JAR is available for use with the group ID 'com.liferay', artifact ID 'com.liferay.data.engine.rest.client', and version '3.0.14'.", license = @License(name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html"), title = "Data Engine", version = "v2.0")
 )
 @Path("/v2.0")
-public class OpenAPIResourceImpl {
+public class OpenAPIResourceImpl implements OpenAPIResourceItem {
 
 	@GET
 	@Path("/openapi.{type:json|yaml}")
@@ -70,6 +71,16 @@ public class OpenAPIResourceImpl {
 		}
 
 		return _openAPIResource.getOpenAPI(_resourceClasses, type, _uriInfo);
+	}
+
+	@Override
+	public String getBasePath() {
+		return "/data-engine";
+	}
+
+	@Override
+	public Set<Class<?>> getResourceClasses() {
+		return _resourceClasses;
 	}
 
 	@Reference

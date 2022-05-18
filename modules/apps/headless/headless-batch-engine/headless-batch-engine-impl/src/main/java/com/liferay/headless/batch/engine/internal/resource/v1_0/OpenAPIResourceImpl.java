@@ -14,6 +14,7 @@
 
 package com.liferay.headless.batch.engine.internal.resource.v1_0;
 
+import com.liferay.portal.vulcan.openapi.OpenAPIResourceItem;
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -50,7 +51,7 @@ import org.osgi.service.component.annotations.Reference;
 	info = @Info(license = @License(name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html"), title = "Headless Batch Engine", version = "v1.0")
 )
 @Path("/v1.0")
-public class OpenAPIResourceImpl {
+public class OpenAPIResourceImpl implements OpenAPIResourceItem {
 
 	@GET
 	@Path("/openapi.{type:json|yaml}")
@@ -70,6 +71,16 @@ public class OpenAPIResourceImpl {
 		}
 
 		return _openAPIResource.getOpenAPI(_resourceClasses, type, _uriInfo);
+	}
+
+	@Override
+	public String getBasePath() {
+		return "/headless-batch-engine";
+	}
+
+	@Override
+	public Set<Class<?>> getResourceClasses() {
+		return _resourceClasses;
 	}
 
 	@Reference
