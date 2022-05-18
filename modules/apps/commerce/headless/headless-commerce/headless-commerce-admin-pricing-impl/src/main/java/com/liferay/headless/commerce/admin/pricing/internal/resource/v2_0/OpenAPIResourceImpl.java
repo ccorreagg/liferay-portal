@@ -14,6 +14,7 @@
 
 package com.liferay.headless.commerce.admin.pricing.internal.resource.v2_0;
 
+import com.liferay.portal.vulcan.openapi.OpenAPIResourceItem;
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -51,7 +52,7 @@ import org.osgi.service.component.annotations.Reference;
 	info = @Info(description = "Liferay Commerce Admin Pricing API. A Java client JAR is available for use with the group ID 'com.liferay', artifact ID 'com.liferay.headless.commerce.admin.pricing.client', and version '4.0.15'.", license = @License(name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html"), title = "Liferay Commerce Admin Pricing API", version = "v2.0")
 )
 @Path("/v2.0")
-public class OpenAPIResourceImpl {
+public class OpenAPIResourceImpl implements OpenAPIResourceItem {
 
 	@GET
 	@Path("/openapi.{type:json|yaml}")
@@ -71,6 +72,16 @@ public class OpenAPIResourceImpl {
 		}
 
 		return _openAPIResource.getOpenAPI(_resourceClasses, type, _uriInfo);
+	}
+
+	@Override
+	public String getBasePath() {
+		return "/headless-commerce-admin-pricing";
+	}
+
+	@Override
+	public Set<Class<?>> getResourceClasses() {
+		return _resourceClasses;
 	}
 
 	@Reference
