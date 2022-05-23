@@ -178,16 +178,10 @@ const APIGUI = () => {
 													setEndpoint(endpoint);
 												}}
 											>
-												{endpoint
-													.substring(
-														endpoint.indexOf(
-															'/o/'
-														) + 3
-													)
-													.replace(
-														'/openapi.json',
-														''
-													)}
+												{endpoint.substring(
+													endpoint.indexOf('/o/') + 3,
+													endpoint.lastIndexOf('/')
+												)}
 											</ClayDropDown.Item>
 										))}
 									</ClayDropDown.Group>
