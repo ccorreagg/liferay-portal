@@ -112,7 +112,10 @@ public class HeadlessDiscoveryOpenAPIApplication extends Application {
 
 			String path = resourceMethodInfoDTO.path;
 
-			if (path.contains("/openapi")) {
+			if (path.contains("/openapi") ||
+				path.startsWith(
+					HeadlessDiscoveryGlobalOpenAPIApplication.BASE_PATH)) {
+
 				String openAPIPath = StringUtil.replace(
 					resourceMethodInfoDTO.path, "{type:json|yaml}", "yaml");
 
