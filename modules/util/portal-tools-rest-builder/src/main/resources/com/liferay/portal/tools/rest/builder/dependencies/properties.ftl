@@ -12,6 +12,9 @@ api.version=${openAPIYAML.info.version}
 batch.engine.entity.class.name=${javaDataType}
 batch.engine.task.item.delegate=true
 </#if>
+<#if stringUtil.equals(schemaName, "openapi")>
+openapi.resource.item=true
+</#if>
 <#if configYAML.resourceApplicationSelect??>
 osgi.jaxrs.application.select=${configYAML.resourceApplicationSelect}
 <#elseif configYAML.application??>
