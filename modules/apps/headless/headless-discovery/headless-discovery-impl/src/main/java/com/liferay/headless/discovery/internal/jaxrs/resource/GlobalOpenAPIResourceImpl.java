@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.headless.discovery.internal.jaxrs.application;
+package com.liferay.headless.discovery.internal.jaxrs.resource;
 
 import com.liferay.portal.vulcan.openapi.OpenAPIResourceItem;
 import com.liferay.portal.vulcan.openapi.OpenAPIResourceItemRegistry;
@@ -27,7 +27,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -42,19 +41,15 @@ import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
  */
 @Component(
 	property = {
-		JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=" + HeadlessDiscoveryGlobalOpenAPIApplication.BASE_PATH,
-		JaxrsWhiteboardConstants.JAX_RS_EXTENSION_SELECT + "=(osgi.jaxrs.name=Liferay.Vulcan)",
-		JaxrsWhiteboardConstants.JAX_RS_NAME + "=Liferay.Headless.Discovery.GlobalOpenAPI",
-		"auth.verifier.auth.verifier.PortalSessionAuthVerifier.check.csrf.token=false"
+		JaxrsWhiteboardConstants.JAX_RS_APPLICATION_SELECT + "=(osgi.jaxrs.name=Liferay.Headless.Discovery.OpenAPI)",
+		JaxrsWhiteboardConstants.JAX_RS_RESOURCE + "=true"
 	},
-	service = Application.class
+	service = {GlobalOpenAPIResourceImpl.class}
 )
-public class HeadlessDiscoveryGlobalOpenAPIApplication extends Application {
-
-	public static final String BASE_PATH = "/globalopenapi";
+public class GlobalOpenAPIResourceImpl {
 
 	@GET
-	@Path("/globalopenapi.{type:json|yaml}")
+	@Path("/openapi.{type:json|yaml}")
 	@Produces({MediaType.APPLICATION_JSON, "application/yaml"})
 	public Response getOpenAPI(@PathParam("type") String type)
 		throws Exception {
@@ -74,7 +69,7 @@ public class HeadlessDiscoveryGlobalOpenAPIApplication extends Application {
 		}
 
 		return _openAPIResource.getGlobalOpenAPI(
-			BASE_PATH, resourceClasses, type, _uriInfo);
+			"/openapi", resourceClasses, type, _uriInfo);
 	}
 
 	public Set<Object> getSingletons() {
