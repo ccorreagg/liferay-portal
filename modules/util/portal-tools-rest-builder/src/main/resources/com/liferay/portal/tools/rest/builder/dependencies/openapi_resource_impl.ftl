@@ -1,5 +1,6 @@
 package ${configYAML.apiPackagePath}.internal.resource.${escapedVersion};
 
+import com.liferay.portal.vulcan.openapi.OpenAPIResourceItem;
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -49,7 +50,7 @@ import org.osgi.service.component.annotations.Reference;
 <#if configYAML.application??>
 	@Path("/${openAPIYAML.info.version}")
 </#if>
-public class OpenAPIResourceImpl {
+public class OpenAPIResourceImpl implements OpenAPIResourceItem {
 
 	@GET
 	@Path("/openapi.{type:json|yaml}")
@@ -65,6 +66,20 @@ public class OpenAPIResourceImpl {
 		}
 
 		return _openAPIResource.getOpenAPI(_resourceClasses, type, _uriInfo);
+	}
+
+	@Override
+	public String getBasePath() {
+		<#if configYAML.application??>
+			return "${configYAML.application.baseURI}";
+		<#else>
+			return null;
+		</#if>
+	}
+
+	@Override
+	public Set<Class<?>> getResourceClasses() {
+		return _resourceClasses;
 	}
 
 	@Reference
