@@ -15,8 +15,6 @@
 package com.liferay.search.experiences.rest.internal.odata.entity.v1_0;
 
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.odata.entity.BooleanEntityField;
 import com.liferay.portal.odata.entity.DateTimeEntityField;
 import com.liferay.portal.odata.entity.EntityField;
@@ -45,17 +43,13 @@ public class SXPElementEntityModel implements EntityModel {
 			new StringEntityField(
 				"description",
 				locale -> Field.getSortableFieldName(
-					LocalizationUtil.getLocalizedName(
-						Field.DESCRIPTION, LocaleUtil.toLanguageId(locale))),
-				locale -> LocalizationUtil.getLocalizedName(
-					Field.DESCRIPTION, LocaleUtil.toLanguageId(locale))),
+					Field.getLocalizedName(locale, Field.DESCRIPTION)),
+				locale -> Field.getLocalizedName(locale, Field.DESCRIPTION)),
 			new StringEntityField(
 				"title",
 				locale -> Field.getSortableFieldName(
-					LocalizationUtil.getLocalizedName(
-						Field.TITLE, LocaleUtil.toLanguageId(locale))),
-				locale -> LocalizationUtil.getLocalizedName(
-					Field.TITLE, LocaleUtil.toLanguageId(locale))));
+					Field.getLocalizedName(locale, Field.TITLE)),
+				locale -> Field.getLocalizedName(locale, Field.TITLE)));
 	}
 
 	@Override

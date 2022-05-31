@@ -16,7 +16,6 @@ package com.liferay.headless.delivery.internal.odata.entity.v1_0;
 
 import com.liferay.headless.common.spi.odata.entity.EntityFieldsMapFactory;
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.odata.entity.CollectionEntityField;
 import com.liferay.portal.odata.entity.DateTimeEntityField;
 import com.liferay.portal.odata.entity.DoubleEntityField;
@@ -65,9 +64,8 @@ public class ContentElementEntityModel implements EntityModel {
 			new StringEntityField(
 				"title",
 				locale -> Field.getSortableFieldName(
-					"localized_title_".concat(LocaleUtil.toLanguageId(locale))),
-				locale -> "localized_title_".concat(
-					LocaleUtil.toLanguageId(locale))));
+					Field.getLocalizedName(locale, "localized_title")),
+				locale -> Field.getLocalizedName(locale, "localized_title")));
 	}
 
 	@Override

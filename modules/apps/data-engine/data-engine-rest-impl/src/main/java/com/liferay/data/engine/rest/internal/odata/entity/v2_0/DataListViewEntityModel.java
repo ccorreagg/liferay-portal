@@ -15,7 +15,6 @@
 package com.liferay.data.engine.rest.internal.odata.entity.v2_0;
 
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.odata.entity.DateTimeEntityField;
 import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
@@ -41,9 +40,8 @@ public class DataListViewEntityModel implements EntityModel {
 			new StringEntityField(
 				"name",
 				locale -> Field.getSortableFieldName(
-					"localized_name_".concat(LocaleUtil.toLanguageId(locale))),
-				locale -> "localized_name_".concat(
-					LocaleUtil.toLanguageId(locale))));
+					Field.getLocalizedName(locale, "localized_name")),
+				locale -> Field.getLocalizedName(locale, "localized_name")));
 	}
 
 	@Override

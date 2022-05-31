@@ -16,7 +16,6 @@ package com.liferay.headless.admin.taxonomy.internal.odata.entity.v1_0;
 
 import com.liferay.headless.common.spi.odata.entity.EntityFieldsMapFactory;
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.odata.entity.DateTimeEntityField;
 import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
@@ -42,9 +41,8 @@ public class VocabularyEntityModel implements EntityModel {
 			new StringEntityField(
 				"name",
 				locale -> Field.getSortableFieldName(
-					"localized_title_" + LocaleUtil.toLanguageId(locale)),
-				locale ->
-					"localized_title_" + LocaleUtil.toLanguageId(locale)));
+					Field.getLocalizedName(locale, "localized_title")),
+				locale -> Field.getLocalizedName(locale, "localized_title")));
 	}
 
 	@Override

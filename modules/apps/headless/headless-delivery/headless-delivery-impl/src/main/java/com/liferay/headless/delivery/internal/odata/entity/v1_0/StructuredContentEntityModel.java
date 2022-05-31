@@ -15,9 +15,7 @@
 package com.liferay.headless.delivery.internal.odata.entity.v1_0;
 
 import com.liferay.headless.common.spi.odata.entity.EntityFieldsMapFactory;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.odata.entity.CollectionEntityField;
 import com.liferay.portal.odata.entity.ComplexEntityField;
 import com.liferay.portal.odata.entity.DateTimeEntityField;
@@ -72,16 +70,13 @@ public class StructuredContentEntityModel implements EntityModel {
 			new StringEntityField(
 				"friendlyUrlPath",
 				locale -> Field.getSortableFieldName(
-					StringBundler.concat(
-						"urlTitle_", LocaleUtil.toLanguageId(locale),
-						"_String")),
-				locale -> "urlTitle_".concat(LocaleUtil.toLanguageId(locale))),
+					Field.getLocalizedName(locale, "urlTitle") + "_String"),
+				locale -> Field.getLocalizedName(locale, "urlTitle")),
 			new StringEntityField(
 				"title",
 				locale -> Field.getSortableFieldName(
-					"localized_title_".concat(LocaleUtil.toLanguageId(locale))),
-				locale -> "localized_title_".concat(
-					LocaleUtil.toLanguageId(locale))));
+					Field.getLocalizedName(locale, "localized_title")),
+				locale -> Field.getLocalizedName(locale, "localized_title")));
 	}
 
 	@Override
