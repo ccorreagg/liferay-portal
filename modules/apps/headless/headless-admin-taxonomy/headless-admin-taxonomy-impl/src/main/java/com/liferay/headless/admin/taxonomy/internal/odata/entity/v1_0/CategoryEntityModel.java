@@ -42,7 +42,9 @@ public class CategoryEntityModel implements EntityModel {
 			new StringEntityField(
 				"name",
 				locale -> Field.getSortableFieldName(
-					"localized_title_" + LocaleUtil.toLanguageId(locale))));
+					"localized_title_" + LocaleUtil.toLanguageId(locale)),
+				locale ->
+					"localized_title_" + LocaleUtil.toLanguageId(locale)));
 	}
 
 	@Override

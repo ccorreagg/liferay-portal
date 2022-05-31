@@ -41,8 +41,9 @@ public class DataListViewEntityModel implements EntityModel {
 			new StringEntityField(
 				"name",
 				locale -> Field.getSortableFieldName(
-					"localized_name_".concat(
-						LocaleUtil.toLanguageId(locale)))));
+					"localized_name_".concat(LocaleUtil.toLanguageId(locale))),
+				locale -> "localized_name_".concat(
+					LocaleUtil.toLanguageId(locale))));
 	}
 
 	@Override

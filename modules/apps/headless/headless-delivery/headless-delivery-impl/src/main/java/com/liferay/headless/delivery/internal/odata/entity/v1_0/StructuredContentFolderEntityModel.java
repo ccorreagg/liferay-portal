@@ -47,8 +47,9 @@ public class StructuredContentFolderEntityModel implements EntityModel {
 			new StringEntityField(
 				"name",
 				locale -> Field.getSortableFieldName(
-					"localized_title_".concat(
-						LocaleUtil.toLanguageId(locale)))));
+					"localized_title_".concat(LocaleUtil.toLanguageId(locale))),
+				locale -> "localized_title_".concat(
+					LocaleUtil.toLanguageId(locale))));
 	}
 
 	@Override

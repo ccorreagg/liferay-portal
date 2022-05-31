@@ -36,7 +36,8 @@ public class InstanceEntityModel implements EntityModel {
 			new StringEntityField(
 				"assetType",
 				locale -> Field.getSortableFieldName(
-					"assetType_".concat(LocaleUtil.toLanguageId(locale)))),
+					"assetType_".concat(LocaleUtil.toLanguageId(locale))),
+				locale -> "assetType_".concat(LocaleUtil.toLanguageId(locale))),
 			new StringEntityField("assigneeName", locale -> "assigneeName"),
 			new DateTimeEntityField(
 				"dateCreated", locale -> "createDate", locale -> "createDate"),
