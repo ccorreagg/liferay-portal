@@ -4,4 +4,5 @@ Bundle-Version: 5.0.1
 Export-Package:\
 	com.liferay.object.rest.dto.v1_0,\
 	com.liferay.object.rest.manager.v1_0,\
+	com.liferay.object.rest.openapi.v1_0,\
 	com.liferay.object.rest.resource.v1_0
