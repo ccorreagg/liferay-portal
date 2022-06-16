@@ -45,6 +45,7 @@ import com.liferay.portal.vulcan.internal.jaxrs.context.provider.PaginationConte
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.RestrictFieldsQueryParamContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.SortContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.UserContextProvider;
+import com.liferay.portal.vulcan.internal.jaxrs.context.resolver.ExtensionContextResolver;
 import com.liferay.portal.vulcan.internal.jaxrs.context.resolver.ObjectMapperContextResolver;
 import com.liferay.portal.vulcan.internal.jaxrs.context.resolver.XmlMapperContextResolver;
 import com.liferay.portal.vulcan.internal.jaxrs.dynamic.feature.StatusDynamicFeature;
@@ -70,6 +71,7 @@ import com.liferay.portal.vulcan.internal.jaxrs.writer.interceptor.EntityExtensi
 import com.liferay.portal.vulcan.internal.jaxrs.writer.interceptor.NestedFieldsWriterInterceptor;
 import com.liferay.portal.vulcan.internal.jaxrs.writer.interceptor.PageEntityExtensionWriterInterceptor;
 import com.liferay.portal.vulcan.internal.param.converter.provider.DateParamConverterProvider;
+import com.liferay.portal.vulcan.jaxrs.context.ExtensionContextRegistry;
 
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
@@ -148,6 +150,8 @@ public class VulcanFeature implements Feature {
 				_roleLocalService, _getScopeChecker(),
 				_vulcanBatchEngineImportTaskResource));
 		featureContext.register(
+			new ExtensionContextResolver(_extensionContextRegistry));
+		featureContext.register(
 			new FilterContextProvider(
 				_expressionConvert, _filterParserProvider, _language, _portal));
 		featureContext.register(
@@ -209,6 +213,9 @@ public class VulcanFeature implements Feature {
 		target = "(result.class.name=com.liferay.portal.kernel.search.filter.Filter)"
 	)
 	private ExpressionConvert<Filter> _expressionConvert;
+
+	@Reference
+	private ExtensionContextRegistry _extensionContextRegistry;
 
 	@Reference
 	private FilterParserProvider _filterParserProvider;
