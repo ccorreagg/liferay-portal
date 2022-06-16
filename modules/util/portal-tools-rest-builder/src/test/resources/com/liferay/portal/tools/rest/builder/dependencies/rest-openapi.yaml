@@ -33,6 +33,14 @@ components:
                     type: string
                 description:
                     type: string
+                documentArray1:
+                    items:
+                        $ref: "#/components/schemas/Document"
+                    type: array
+                documentArray2:
+                    items:
+                        $ref: "#/components/schemas/Document"
+                    type: array
                 documentsRepository:
                     $ref: "#/components/schemas/Folder"
                 externalField:
