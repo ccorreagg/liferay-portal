@@ -36,6 +36,17 @@ public abstract class EntityExtensionContext<T> implements ExtensionContext {
 		return getEntityFilteredPropertyKeys(_toEntity(object));
 	}
 
+	public void setEntityExtendedProperties(
+		T entity, Map<String, Object> extendedProperties) {
+	}
+
+	@Override
+	public void setExtendedProperties(
+		Object object, Map<String, Object> extendedProperties) {
+
+		setEntityExtendedProperties(_toEntity(object), extendedProperties);
+	}
+
 	private T _toEntity(Object object) {
 		try {
 			T entity = (T)object;

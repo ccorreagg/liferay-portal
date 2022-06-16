@@ -17,13 +17,20 @@ package com.liferay.portal.vulcan.jaxrs.context;
 import java.util.Map;
 import java.util.Set;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * @author Javier de Arcos
  */
+@ProviderType
 public interface ExtensionContext {
 
 	public Map<String, Object> getExtendedProperties(Object object);
 
 	public Set<String> getFilteredPropertyKeys(Object object);
+
+	public default void setExtendedProperties(
+		Object object, Map<String, Object> extendedProperties) {
+	}
 
 }
