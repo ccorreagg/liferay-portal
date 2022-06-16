@@ -69,6 +69,7 @@ import java.security.ProtectionDomain;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -1529,25 +1530,20 @@ public class RESTBuilder {
 				continue;
 			}
 
-			for (Map.Entry<String, Schema> entry2 :
-					propertySchemas.entrySet()) {
+			Map<Schema, String> schemaReferences = new HashMap<>();
 
+			for (Schema propertySchema : propertySchemas.values()) {
+				schemaReferences.put(
+					propertySchema, _getReference(propertySchema));
+			}
+
+			Set<Map.Entry<String, Schema>> propertySchemasEntrySet =
+				propertySchemas.entrySet();
+
+			for (Map.Entry<String, Schema> entry2 : propertySchemasEntrySet) {
 				Schema propertySchema = entry2.getValue();
 
-				String description = propertySchema.getDescription();
-
-				String reference = null;
-
-				if (StringUtil.startsWith(
-						description, "https://www.schema.org/")) {
-
-					reference = description;
-				}
-				else if (propertySchema.getItems() != null) {
-					Items items = propertySchema.getItems();
-
-					reference = items.getReference();
-				}
+				String reference = schemaReferences.get(propertySchema);
 
 				if (reference == null) {
 					continue;
@@ -1564,6 +1560,19 @@ public class RESTBuilder {
 				int z = yamlString.indexOf(':', y);
 
 				if (Objects.equals(propertySchema.getType(), "array")) {
+					Stream<Map.Entry<String, Schema>> propertySchemasStream =
+						propertySchemasEntrySet.stream();
+
+					if (propertySchemasStream.anyMatch(
+							entry ->
+								!propertyName.equals(entry.getKey()) &&
+								StringUtil.equals(
+									reference,
+									schemaReferences.get(entry.getValue())))) {
+
+						continue;
+					}
+
 					String plural = TextFormatter.formatPlural(schemaVarName);
 
 					if (propertyName.endsWith(
@@ -1670,6 +1679,23 @@ public class RESTBuilder {
 		}
 
 		return endIndex;
+	}
+
+	private String _getReference(Schema schema) {
+		String reference = null;
+
+		if (StringUtil.startsWith(
+				schema.getDescription(), "https://www.schema.org/")) {
+
+			reference = schema.getDescription();
+		}
+		else if (schema.getItems() != null) {
+			Items items = schema.getItems();
+
+			reference = items.getReference();
+		}
+
+		return reference;
 	}
 
 	private Set<String> _getRelatedSchemaNames(
