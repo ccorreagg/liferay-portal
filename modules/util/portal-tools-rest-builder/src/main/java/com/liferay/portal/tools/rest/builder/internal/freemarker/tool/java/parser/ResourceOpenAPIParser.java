@@ -398,14 +398,19 @@ public class ResourceOpenAPIParser {
 			for (JavaMethodSignature existingJavaMethodSignature :
 					javaMethodSignatures) {
 
-				String httpMethod = OpenAPIParserUtil.getHTTPMethod(
-					existingJavaMethodSignature.getOperation());
+				Operation existingOperation =
+					existingJavaMethodSignature.getOperation();
 
 				if (Objects.equals(
 						existingJavaMethodSignature.getPath(),
 						batchPath + "/batch") &&
-					httpMethod.equals(
+					StringUtil.equals(
+						OpenAPIParserUtil.getHTTPMethod(existingOperation),
 						OpenAPIParserUtil.getHTTPMethod(batchOperation))) {
+
+					existingOperation.setDeprecated(
+						batchOperation.isDeprecated() &&
+						existingOperation.isDeprecated());
 
 					return;
 				}
@@ -501,6 +506,7 @@ public class ResourceOpenAPIParser {
 			batchOperation.setOperationId(operation.getOperationId() + "Batch");
 		}
 
+		batchOperation.setDeprecated(operation.isDeprecated());
 		batchOperation.setParameters(
 			_getBatchParameters(operation, schemaName));
 		batchOperation.setTags(operation.getTags());
