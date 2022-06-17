@@ -14,8 +14,16 @@
 
 package com.liferay.portal.vulcan.jaxrs.context;
 
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+
+import javax.ws.rs.core.UriInfo;
 
 /**
  * @author Javier de Arcos
@@ -36,9 +44,30 @@ public abstract class EntityExtensionContext<T> implements ExtensionContext {
 		return getEntityFilteredPropertyKeys(_toEntity(object));
 	}
 
-	public void setEntityExtendedProperties(
-		T entity, Map<String, Object> extendedProperties) {
+	public void setContextAcceptLanguage(AcceptLanguage acceptLanguage) {
+		contextAcceptLanguage = acceptLanguage;
 	}
+
+	public void setContextCompany(Company company) {
+		contextCompany = company;
+	}
+
+	public void setContextHttpServletRequest(
+		HttpServletRequest httpServletRequest) {
+
+		contextHttpServletRequest = httpServletRequest;
+	}
+
+	public void setContextUriInfo(UriInfo uriInfo) {
+		contextUriInfo = uriInfo;
+	}
+
+	public void setContextUser(User user) {
+		contextUser = user;
+	}
+
+	public abstract void setEntityExtendedProperties(
+		T entity, Map<String, Object> extendedProperties);
 
 	@Override
 	public void setExtendedProperties(
@@ -46,6 +75,12 @@ public abstract class EntityExtensionContext<T> implements ExtensionContext {
 
 		setEntityExtendedProperties(_toEntity(object), extendedProperties);
 	}
+
+	protected AcceptLanguage contextAcceptLanguage;
+	protected Company contextCompany;
+	protected HttpServletRequest contextHttpServletRequest;
+	protected UriInfo contextUriInfo;
+	protected User contextUser;
 
 	private T _toEntity(Object object) {
 		try {

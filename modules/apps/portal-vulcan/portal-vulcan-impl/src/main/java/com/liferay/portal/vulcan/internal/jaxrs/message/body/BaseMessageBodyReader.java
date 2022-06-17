@@ -19,7 +19,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.internal.jaxrs.validation.ValidationUtil;
 import com.liferay.portal.vulcan.jaxrs.context.ExtensionContext;
 
@@ -44,6 +47,7 @@ import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Providers;
@@ -98,7 +102,7 @@ public abstract class BaseMessageBodyReader
 			clazz, extensionContext, jsonNode, object, objectMapper);
 
 		if (!StringUtil.equals(
-				_httpServletRequest.getMethod(), HttpMethod.PATCH)) {
+				_contextHttpServletRequest.getMethod(), HttpMethod.PATCH)) {
 
 			ValidationUtil.validate(object);
 		}
@@ -178,13 +182,32 @@ public abstract class BaseMessageBodyReader
 			}
 		}
 
+		extensionContext.setContextAcceptLanguage(_contextAcceptLanguage);
+		extensionContext.setContextCompany(_contextCompany);
+		extensionContext.setContextHttpServletRequest(
+			_contextHttpServletRequest);
+		extensionContext.setContextUriInfo(_contextUriInfo);
+		extensionContext.setContextUser(_contextUser);
+
 		extensionContext.setExtendedProperties(object, extendedProperties);
 	}
+
+	@Context
+	private AcceptLanguage _contextAcceptLanguage;
+
+	@Context
+	private Company _contextCompany;
+
+	@Context
+	private HttpServletRequest _contextHttpServletRequest;
 
 	private final Class<? extends ObjectMapper> _contextType;
 
 	@Context
-	private HttpServletRequest _httpServletRequest;
+	private UriInfo _contextUriInfo;
+
+	@Context
+	private User _contextUser;
 
 	private final MediaType _mediaType;
 

@@ -14,6 +14,9 @@
 
 package com.liferay.portal.vulcan.internal.jaxrs.writer.interceptor;
 
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.internal.jaxrs.extension.ExtendedEntity;
 import com.liferay.portal.vulcan.jaxrs.context.ExtensionContext;
 
@@ -21,7 +24,10 @@ import java.io.IOException;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import javax.ws.rs.ext.Providers;
 import javax.ws.rs.ext.WriterInterceptor;
@@ -55,6 +61,13 @@ public class EntityExtensionWriterInterceptor implements WriterInterceptor {
 		ExtensionContext extensionContext,
 		WriterInterceptorContext writerInterceptorContext) {
 
+		extensionContext.setContextAcceptLanguage(_contextAcceptLanguage);
+		extensionContext.setContextCompany(_contextCompany);
+		extensionContext.setContextHttpServletRequest(
+			_contextHttpServletRequest);
+		extensionContext.setContextUriInfo(_contextUriInfo);
+		extensionContext.setContextUser(_contextUser);
+
 		writerInterceptorContext.setEntity(
 			ExtendedEntity.extend(
 				writerInterceptorContext.getEntity(),
@@ -65,6 +78,21 @@ public class EntityExtensionWriterInterceptor implements WriterInterceptor {
 
 		writerInterceptorContext.setGenericType(ExtendedEntity.class);
 	}
+
+	@Context
+	private AcceptLanguage _contextAcceptLanguage;
+
+	@Context
+	private Company _contextCompany;
+
+	@Context
+	private HttpServletRequest _contextHttpServletRequest;
+
+	@Context
+	private UriInfo _contextUriInfo;
+
+	@Context
+	private User _contextUser;
 
 	@Context
 	private Providers _providers;
