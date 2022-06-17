@@ -111,6 +111,11 @@ public class JAXRSExtensionContextUtil {
 			return null;
 		}
 
+		@Override
+		public void setEntityExtendedProperties(
+			TestObject entity, Map<String, Object> extendedProperties) {
+		}
+
 	}
 
 	private static class TestExtensionContextResolver
