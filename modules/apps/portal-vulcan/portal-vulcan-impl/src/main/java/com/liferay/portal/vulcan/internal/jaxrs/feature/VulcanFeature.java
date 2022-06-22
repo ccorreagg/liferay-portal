@@ -31,6 +31,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.extension.ExtensionProviderRegistry;
 import com.liferay.portal.vulcan.internal.jaxrs.container.request.filter.CTContainerRequestFilter;
 import com.liferay.portal.vulcan.internal.jaxrs.container.request.filter.ContextContainerRequestFilter;
 import com.liferay.portal.vulcan.internal.jaxrs.container.request.filter.LogContainerRequestFilter;
@@ -45,7 +46,7 @@ import com.liferay.portal.vulcan.internal.jaxrs.context.provider.PaginationConte
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.RestrictFieldsQueryParamContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.SortContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.UserContextProvider;
-import com.liferay.portal.vulcan.internal.jaxrs.context.resolver.ExtensionContextResolver;
+import com.liferay.portal.vulcan.internal.jaxrs.context.resolver.ExtensionProvidersContextResolver;
 import com.liferay.portal.vulcan.internal.jaxrs.context.resolver.ObjectMapperContextResolver;
 import com.liferay.portal.vulcan.internal.jaxrs.context.resolver.XmlMapperContextResolver;
 import com.liferay.portal.vulcan.internal.jaxrs.dynamic.feature.StatusDynamicFeature;
@@ -71,7 +72,6 @@ import com.liferay.portal.vulcan.internal.jaxrs.writer.interceptor.EntityExtensi
 import com.liferay.portal.vulcan.internal.jaxrs.writer.interceptor.NestedFieldsWriterInterceptor;
 import com.liferay.portal.vulcan.internal.jaxrs.writer.interceptor.PageEntityExtensionWriterInterceptor;
 import com.liferay.portal.vulcan.internal.param.converter.provider.DateParamConverterProvider;
-import com.liferay.portal.vulcan.jaxrs.context.ExtensionContextRegistry;
 
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
@@ -150,7 +150,7 @@ public class VulcanFeature implements Feature {
 				_roleLocalService, _getScopeChecker(),
 				_vulcanBatchEngineImportTaskResource));
 		featureContext.register(
-			new ExtensionContextResolver(_extensionContextRegistry));
+			new ExtensionProvidersContextResolver(_extensionProviderRegistry));
 		featureContext.register(
 			new FilterContextProvider(
 				_expressionConvert, _filterParserProvider, _language, _portal));
@@ -215,7 +215,7 @@ public class VulcanFeature implements Feature {
 	private ExpressionConvert<Filter> _expressionConvert;
 
 	@Reference
-	private ExtensionContextRegistry _extensionContextRegistry;
+	private ExtensionProviderRegistry _extensionProviderRegistry;
 
 	@Reference
 	private FilterParserProvider _filterParserProvider;

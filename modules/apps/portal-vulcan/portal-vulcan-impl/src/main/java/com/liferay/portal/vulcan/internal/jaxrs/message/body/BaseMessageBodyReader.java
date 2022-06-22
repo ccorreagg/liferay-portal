@@ -23,8 +23,9 @@ import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.internal.extension.ExtensionContext;
+import com.liferay.portal.vulcan.internal.extension.ExtensionProviders;
 import com.liferay.portal.vulcan.internal.jaxrs.validation.ValidationUtil;
-import com.liferay.portal.vulcan.jaxrs.context.ExtensionContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +39,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -84,10 +86,10 @@ public abstract class BaseMessageBodyReader
 
 		ObjectReader objectReader = objectMapper.readerFor(clazz);
 
-		ExtensionContext extensionContext = _getExtensionContext(
+		ExtensionProviders extensionProviders = _getExtensionProviders(
 			clazz, mediaType);
 
-		if (extensionContext == null) {
+		if (!extensionProviders.exists()) {
 			return objectReader.readValue(inputStream);
 		}
 
@@ -98,8 +100,20 @@ public abstract class BaseMessageBodyReader
 
 		Object object = objectReader.readValue(jsonNode);
 
-		_setExtendedProperties(
-			clazz, extensionContext, jsonNode, object, objectMapper);
+		Map<String, Object> extendedProperties = _getExtendedProperties(
+			clazz, jsonNode, objectMapper);
+
+		extensionProviders.validate(
+			extendedProperties,
+			Objects.equals(
+				_contextHttpServletRequest.getMethod(), HttpMethod.PATCH));
+
+		// Guardar las extendedProperties de alguna manera. Thread Local?
+
+		ExtensionContext extensionContext = _createExtendedContext(
+			extendedProperties, extensionProviders);
+
+		// Iniciar la transacción
 
 		if (!StringUtil.equals(
 				_contextHttpServletRequest.getMethod(), HttpMethod.PATCH)) {
@@ -110,13 +124,58 @@ public abstract class BaseMessageBodyReader
 		return object;
 	}
 
-	private ExtensionContext _getExtensionContext(
+	private ExtensionContext _createExtendedContext(
+		Map<String, Object> extendedProperties,
+		ExtensionProviders extensionProviders) {
+
+		ExtensionContext.Builder builder = new ExtensionContext.Builder();
+
+		builder.setAcceptLanguage(_contextAcceptLanguage);
+		builder.setCompany(_contextCompany);
+		builder.setExtendedProperties(extendedProperties);
+		builder.setExtensionProviders(extensionProviders);
+		builder.setHttpServletRequest(_contextHttpServletRequest);
+		builder.setUriInfo(_contextUriInfo);
+		builder.setUser(_contextUser);
+
+		return builder.build();
+	}
+
+	private Map<String, Object> _getExtendedProperties(
+			Class<?> clazz, JsonNode jsonNode, ObjectMapper objectMapper)
+		throws IOException {
+
+		List<String> clazzFieldNames = new ArrayList<>();
+
+		for (Field field : clazz.getDeclaredFields()) {
+			clazzFieldNames.add(field.getName());
+		}
+
+		Iterator<String> fieldNamesIterator = jsonNode.fieldNames();
+		Map<String, Object> extendedProperties = new HashMap<>();
+
+		while (fieldNamesIterator.hasNext()) {
+			String jsonFieldName = fieldNamesIterator.next();
+
+			if (!clazzFieldNames.contains(jsonFieldName)) {
+				JsonNode fieldNameJsonNode = jsonNode.get(jsonFieldName);
+
+				extendedProperties.put(
+					jsonFieldName,
+					_getJsonNodeValue(fieldNameJsonNode, objectMapper));
+			}
+		}
+
+		return extendedProperties;
+	}
+
+	private ExtensionProviders _getExtensionProviders(
 		Class<?> clazz, MediaType mediaType) {
 
-		ContextResolver<ExtensionContext> extensionContextContextResolver =
-			_providers.getContextResolver(ExtensionContext.class, mediaType);
+		ContextResolver<ExtensionProviders> extensionProvidersContextResolver =
+			_providers.getContextResolver(ExtensionProviders.class, mediaType);
 
-		return extensionContextContextResolver.getContext(clazz);
+		return extensionProvidersContextResolver.getContext(clazz);
 	}
 
 	private Object _getJsonNodeValue(
@@ -154,42 +213,6 @@ public abstract class BaseMessageBodyReader
 			() -> new InternalServerErrorException(
 				"Unable to generate object mapper for class " + clazz)
 		);
-	}
-
-	private void _setExtendedProperties(
-			Class<?> clazz, ExtensionContext extensionContext,
-			JsonNode jsonNode, Object object, ObjectMapper objectMapper)
-		throws IOException {
-
-		List<String> clazzFieldNames = new ArrayList<>();
-
-		for (Field field : clazz.getDeclaredFields()) {
-			clazzFieldNames.add(field.getName());
-		}
-
-		Iterator<String> fieldNamesIterator = jsonNode.fieldNames();
-		Map<String, Object> extendedProperties = new HashMap<>();
-
-		while (fieldNamesIterator.hasNext()) {
-			String jsonFieldName = fieldNamesIterator.next();
-
-			if (!clazzFieldNames.contains(jsonFieldName)) {
-				JsonNode fieldNameJsonNode = jsonNode.get(jsonFieldName);
-
-				extendedProperties.put(
-					jsonFieldName,
-					_getJsonNodeValue(fieldNameJsonNode, objectMapper));
-			}
-		}
-
-		extensionContext.setContextAcceptLanguage(_contextAcceptLanguage);
-		extensionContext.setContextCompany(_contextCompany);
-		extensionContext.setContextHttpServletRequest(
-			_contextHttpServletRequest);
-		extensionContext.setContextUriInfo(_contextUriInfo);
-		extensionContext.setContextUser(_contextUser);
-
-		extensionContext.setExtendedProperties(object, extendedProperties);
 	}
 
 	@Context
