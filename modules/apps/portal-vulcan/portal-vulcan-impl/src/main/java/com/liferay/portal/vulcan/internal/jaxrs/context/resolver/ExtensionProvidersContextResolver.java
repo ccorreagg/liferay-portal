@@ -14,11 +14,14 @@
 
 package com.liferay.portal.vulcan.internal.jaxrs.context.resolver;
 
+import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.vulcan.extension.ExtensionProvider;
 import com.liferay.portal.vulcan.extension.ExtensionProviderRegistry;
 import com.liferay.portal.vulcan.internal.extension.ExtensionProviders;
 
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
+import java.util.List;
 
 /**
  * @author Javier de Arcos
@@ -35,9 +38,14 @@ public class ExtensionProvidersContextResolver
 
 	@Override
 	public ExtensionProviders getContext(Class<?> clazz) {
-		return new ExtensionProviders(
-			clazz,
-			_extensionProviderRegistry.getExtensionProviders(clazz.getName()));
+		List<ExtensionProvider> extensionProviders =
+			_extensionProviderRegistry.getExtensionProviders(clazz.getName());
+
+		if (ListUtil.isEmpty(extensionProviders)) {
+			return null;
+		}
+
+		return new ExtensionProviders(clazz, extensionProviders);
 	}
 
 	private final ExtensionProviderRegistry _extensionProviderRegistry;
