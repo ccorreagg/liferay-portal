@@ -51,6 +51,7 @@ public class ExtensionProviderRegistryImpl
 	protected void activate(BundleContext bundleContext) {
 		_serviceTracker = ServiceTrackerFactory.create(
 			bundleContext, ExtensionProvider.class, null);
+		_serviceTracker.open();
 	}
 
 	@Deactivate
