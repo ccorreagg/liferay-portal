@@ -14,13 +14,30 @@
 
 package com.liferay.portal.vulcan.extension;
 
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.vulcan.extension.validation.DefaultExtendedPropertyValidator;
 import com.liferay.portal.vulcan.extension.validation.ExtendedPropertyValidator;
+
+import java.math.BigDecimal;
+
+import java.util.Map;
 
 /**
  * @author Carlos Correa
  */
 public class ExtendedPropertyDefinition {
+
+	public ExtendedPropertyDefinition(
+		Class<?> clazz, String name, boolean required, FieldType type,
+		ExtendedPropertyValidator validator) {
+
+		_name = name;
+		_required = required;
+		_type = type;
+		_validator = validator;
+
+		_propertyClass = clazz;
+	}
 
 	public ExtendedPropertyDefinition(
 		String name, boolean required, FieldType type) {
@@ -29,7 +46,9 @@ public class ExtendedPropertyDefinition {
 		_required = required;
 		_type = type;
 
-		_validator = new DefaultExtendedPropertyValidator(type);
+		_propertyClass = _fieldTypeClassMap.getOrDefault(type, null);
+
+		_validator = new DefaultExtendedPropertyValidator();
 	}
 
 	public ExtendedPropertyDefinition(
@@ -40,10 +59,16 @@ public class ExtendedPropertyDefinition {
 		_required = required;
 		_type = type;
 		_validator = validator;
+
+		_propertyClass = _fieldTypeClassMap.getOrDefault(type, null);
 	}
 
 	public String getName() {
 		return _name;
+	}
+
+	public Class<?> getPropertyClass() {
+		return _propertyClass;
 	}
 
 	public FieldType getType() {
@@ -60,11 +85,29 @@ public class ExtendedPropertyDefinition {
 
 	public enum FieldType {
 
-		BIG_DECIMAL, BOOLEAN, DECIMAL, DOUBLE, INTEGER, LONG, TEXT
+		BIG_DECIMAL, BOOLEAN, DATE, DECIMAL, DOUBLE, INTEGER, LONG,
+		MULTIPLE_ELEMENT, SINGLE_ELEMENT, TEXT
 
 	}
 
+	private final Map<FieldType, Class<?>> _fieldTypeClassMap =
+		HashMapBuilder.<FieldType, Class<?>>put(
+			FieldType.BIG_DECIMAL, BigDecimal.class
+		).<FieldType, Class<?>>put(
+			FieldType.BOOLEAN, Boolean.class
+		).<FieldType, Class<?>>put(
+			FieldType.DECIMAL, Float.class
+		).<FieldType, Class<?>>put(
+			FieldType.DOUBLE, Double.class
+		).<FieldType, Class<?>>put(
+			FieldType.INTEGER, Integer.class
+		).<FieldType, Class<?>>put(
+			FieldType.LONG, Long.class
+		).<FieldType, Class<?>>put(
+			FieldType.TEXT, String.class
+		).build();
 	private final String _name;
+	private final Class<?> _propertyClass;
 	private final boolean _required;
 	private final FieldType _type;
 	private final ExtendedPropertyValidator _validator;

@@ -16,8 +16,13 @@ package com.liferay.portal.vulcan.extension.validation;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.vulcan.extension.ExtendedPropertyDefinition;
+import com.liferay.portal.vulcan.util.ObjectMapperUtil;
 
-import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import java.util.Map;
 
 import javax.validation.ValidationException;
 
@@ -27,60 +32,67 @@ import javax.validation.ValidationException;
 public class DefaultExtendedPropertyValidator
 	implements ExtendedPropertyValidator {
 
-	public DefaultExtendedPropertyValidator(
-		ExtendedPropertyDefinition.FieldType fieldType) {
-
-		this.fieldType = fieldType;
-	}
-
 	@Override
-	public void validate(String fieldName, Object fieldValue) {
+	public void validate(
+		ExtendedPropertyDefinition extendedPropertyDefinition,
+		Object fieldValue) {
+
 		boolean valid = false;
 
-		if (fieldType == ExtendedPropertyDefinition.FieldType.BIG_DECIMAL) {
-			if (fieldValue instanceof BigDecimal) {
-				valid = true;
-			}
-		}
-		else if (fieldType == ExtendedPropertyDefinition.FieldType.BOOLEAN) {
-			if (fieldValue instanceof Boolean) {
-				valid = true;
-			}
-		}
-		else if (fieldType == ExtendedPropertyDefinition.FieldType.DECIMAL) {
-			if (fieldValue instanceof Float) {
-				valid = true;
-			}
-		}
-		else if (fieldType == ExtendedPropertyDefinition.FieldType.DOUBLE) {
-			if (fieldValue instanceof Double) {
-				valid = true;
-			}
-		}
-		else if (fieldType == ExtendedPropertyDefinition.FieldType.INTEGER) {
-			if (fieldValue instanceof Integer) {
-				valid = true;
-			}
-		}
-		else if (fieldType == ExtendedPropertyDefinition.FieldType.LONG) {
-			if (fieldValue instanceof Long) {
-				valid = true;
-			}
-		}
-		else if (fieldType == ExtendedPropertyDefinition.FieldType.TEXT) {
+		Class<?> clazz = extendedPropertyDefinition.getPropertyClass();
+
+		ExtendedPropertyDefinition.FieldType fieldType =
+			extendedPropertyDefinition.getType();
+
+		if (fieldType == ExtendedPropertyDefinition.FieldType.DATE) {
 			if (fieldValue instanceof String) {
+				DateFormat dateFormat = new SimpleDateFormat(
+					"yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+				try {
+					dateFormat.parse((String)fieldValue);
+					valid = true;
+				}
+				catch (ParseException parseException) {
+				}
+			}
+		}
+		else if (fieldType ==
+					ExtendedPropertyDefinition.FieldType.MULTIPLE_ELEMENT) {
+
+			Class<?> fieldValueClass = fieldValue.getClass();
+
+			if ((clazz != null) && fieldValueClass.isArray()) {
+				valid = true;
+
+				for (Object object : (Object[])fieldValue) {
+					if (ObjectMapperUtil.readValue(clazz, object) == null) {
+						valid = false;
+
+						break;
+					}
+				}
+			}
+		}
+		else if (fieldType ==
+					ExtendedPropertyDefinition.FieldType.SINGLE_ELEMENT) {
+
+			if ((clazz != null) && (fieldValue instanceof Map) &&
+				(ObjectMapperUtil.readValue(clazz, fieldValue) != null)) {
+
 				valid = true;
 			}
+		}
+		else if ((clazz != null) && clazz.isInstance(fieldValue)) {
+			valid = true;
 		}
 
 		if (!valid) {
 			throw new ValidationException(
 				StringBundler.concat(
-					"The field ", fieldName, " is not valid, expected type: ",
-					fieldType));
+					"Invalid field ", extendedPropertyDefinition.getName(),
+					", expected type: ", extendedPropertyDefinition.getType()));
 		}
 	}
-
-	protected ExtendedPropertyDefinition.FieldType fieldType;
 
 }
