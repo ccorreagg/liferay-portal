@@ -16,6 +16,7 @@ package com.liferay.portal.vulcan.internal.extension;
 
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
+import com.liferay.portal.vulcan.extension.ExtendedPropertyDefinition;
 import com.liferay.portal.vulcan.extension.ExtensionProvider;
 
 import java.io.Serializable;
@@ -24,6 +25,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+
+import javax.validation.ValidationException;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -183,6 +186,354 @@ public class ExtensionProvidersTest {
 		).setExtendedProperties(
 			Mockito.eq(_COMPANY_ID_TEST), Mockito.eq(_OBJECT_TEST),
 			Mockito.eq(Collections.singletonMap("test2", 5))
+		);
+	}
+
+	@Test
+	public void testValidate() {
+		ExtensionProvider extensionProviderMock1 = Mockito.mock(
+			ExtensionProvider.class);
+		ExtensionProvider extensionProviderMock2 = Mockito.mock(
+			ExtensionProvider.class);
+
+		ExtendedPropertyDefinition extendedFieldDefinition1 =
+			new ExtendedPropertyDefinition(
+				"field1", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition2 =
+			new ExtendedPropertyDefinition(
+				"field2", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition3 =
+			new ExtendedPropertyDefinition(
+				"field3", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition4 =
+			new ExtendedPropertyDefinition(
+				"field4", false, ExtendedPropertyDefinition.FieldType.TEXT);
+
+		Mockito.when(
+			extensionProviderMock1.getExtendedPropertyDefinitions(
+				Mockito.anyLong(), Mockito.anyString())
+		).thenReturn(
+			HashMapBuilder.put(
+				extendedFieldDefinition1.getName(), extendedFieldDefinition1
+			).put(
+				extendedFieldDefinition2.getName(), extendedFieldDefinition2
+			).build()
+		);
+		Mockito.when(
+			extensionProviderMock2.getExtendedPropertyDefinitions(
+				Mockito.anyLong(), Mockito.anyString())
+		).thenReturn(
+			HashMapBuilder.put(
+				extendedFieldDefinition3.getName(), extendedFieldDefinition3
+			).put(
+				extendedFieldDefinition4.getName(), extendedFieldDefinition4
+			).build()
+		);
+
+		ExtensionProviders extensionProviders = new ExtensionProviders(
+			_CLASS_NAME_TEST,
+			Arrays.asList(extensionProviderMock1, extensionProviderMock2));
+
+		extensionProviders.validate(
+			_COMPANY_ID_TEST,
+			HashMapBuilder.<String, Serializable>put(
+				"field1", "value1"
+			).<String, Serializable>put(
+				"field2", "value2"
+			).<String, Serializable>put(
+				"field3", "value3"
+			).<String, Serializable>put(
+				"field4", "value4"
+			).build(),
+			false);
+
+		Mockito.verify(
+			extensionProviderMock1
+		).getExtendedPropertyDefinitions(
+			_COMPANY_ID_TEST, _CLASS_NAME_TEST
+		);
+		Mockito.verify(
+			extensionProviderMock2
+		).getExtendedPropertyDefinitions(
+			_COMPANY_ID_TEST, _CLASS_NAME_TEST
+		);
+	}
+
+	@Test(expected = ValidationException.class)
+	public void testValidateInvalidProperty() {
+		ExtensionProvider extensionProviderMock1 = Mockito.mock(
+			ExtensionProvider.class);
+		ExtensionProvider extensionProviderMock2 = Mockito.mock(
+			ExtensionProvider.class);
+
+		ExtendedPropertyDefinition extendedFieldDefinition1 =
+			new ExtendedPropertyDefinition(
+				"field1", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition2 =
+			new ExtendedPropertyDefinition(
+				"field2", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition3 =
+			new ExtendedPropertyDefinition(
+				"field3", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition4 =
+			new ExtendedPropertyDefinition(
+				"field4", true, ExtendedPropertyDefinition.FieldType.TEXT);
+
+		Mockito.when(
+			extensionProviderMock1.getExtendedPropertyDefinitions(
+				Mockito.anyLong(), Mockito.anyString())
+		).thenReturn(
+			HashMapBuilder.put(
+				extendedFieldDefinition1.getName(), extendedFieldDefinition1
+			).put(
+				extendedFieldDefinition2.getName(), extendedFieldDefinition2
+			).build()
+		);
+		Mockito.when(
+			extensionProviderMock2.getExtendedPropertyDefinitions(
+				Mockito.anyLong(), Mockito.anyString())
+		).thenReturn(
+			HashMapBuilder.put(
+				extendedFieldDefinition3.getName(), extendedFieldDefinition3
+			).put(
+				extendedFieldDefinition4.getName(), extendedFieldDefinition4
+			).build()
+		);
+
+		ExtensionProviders extensionProviders = new ExtensionProviders(
+			_CLASS_NAME_TEST,
+			Arrays.asList(extensionProviderMock1, extensionProviderMock2));
+
+		extensionProviders.validate(
+			_COMPANY_ID_TEST,
+			HashMapBuilder.<String, Serializable>put(
+				"field1", 1L
+			).<String, Serializable>put(
+				"field2", "value2"
+			).<String, Serializable>put(
+				"field3", "value3"
+			).<String, Serializable>put(
+				"field4", "value4"
+			).build(),
+			false);
+
+		Mockito.verify(
+			extensionProviderMock1
+		).getExtendedPropertyDefinitions(
+			_COMPANY_ID_TEST, _CLASS_NAME_TEST
+		);
+		Mockito.verify(
+			extensionProviderMock2
+		).getExtendedPropertyDefinitions(
+			_COMPANY_ID_TEST, _CLASS_NAME_TEST
+		);
+	}
+
+	@Test(expected = ValidationException.class)
+	public void testValidateMissingMandatoryProperty() {
+		ExtensionProvider extensionProviderMock1 = Mockito.mock(
+			ExtensionProvider.class);
+		ExtensionProvider extensionProviderMock2 = Mockito.mock(
+			ExtensionProvider.class);
+
+		ExtendedPropertyDefinition extendedFieldDefinition1 =
+			new ExtendedPropertyDefinition(
+				"field1", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition2 =
+			new ExtendedPropertyDefinition(
+				"field2", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition3 =
+			new ExtendedPropertyDefinition(
+				"field3", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition4 =
+			new ExtendedPropertyDefinition(
+				"field4", true, ExtendedPropertyDefinition.FieldType.TEXT);
+
+		Mockito.when(
+			extensionProviderMock1.getExtendedPropertyDefinitions(
+				Mockito.anyLong(), Mockito.anyString())
+		).thenReturn(
+			HashMapBuilder.put(
+				extendedFieldDefinition1.getName(), extendedFieldDefinition1
+			).put(
+				extendedFieldDefinition2.getName(), extendedFieldDefinition2
+			).build()
+		);
+		Mockito.when(
+			extensionProviderMock2.getExtendedPropertyDefinitions(
+				Mockito.anyLong(), Mockito.anyString())
+		).thenReturn(
+			HashMapBuilder.put(
+				extendedFieldDefinition3.getName(), extendedFieldDefinition3
+			).put(
+				extendedFieldDefinition4.getName(), extendedFieldDefinition4
+			).build()
+		);
+
+		ExtensionProviders extensionProviders = new ExtensionProviders(
+			_CLASS_NAME_TEST,
+			Arrays.asList(extensionProviderMock1, extensionProviderMock2));
+
+		extensionProviders.validate(
+			_COMPANY_ID_TEST,
+			HashMapBuilder.<String, Serializable>put(
+				"field1", "value1"
+			).<String, Serializable>put(
+				"field2", "value2"
+			).<String, Serializable>put(
+				"field3", "value3"
+			).build(),
+			false);
+
+		Mockito.verify(
+			extensionProviderMock1
+		).getExtendedPropertyDefinitions(
+			_COMPANY_ID_TEST, _CLASS_NAME_TEST
+		);
+		Mockito.verify(
+			extensionProviderMock2
+		).getExtendedPropertyDefinitions(
+			_COMPANY_ID_TEST, _CLASS_NAME_TEST
+		);
+	}
+
+	@Test
+	public void testValidateMissingMandatoryPropertyInPartialUpdate() {
+		ExtensionProvider extensionProviderMock1 = Mockito.mock(
+			ExtensionProvider.class);
+		ExtensionProvider extensionProviderMock2 = Mockito.mock(
+			ExtensionProvider.class);
+
+		ExtendedPropertyDefinition extendedFieldDefinition1 =
+			new ExtendedPropertyDefinition(
+				"field1", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition2 =
+			new ExtendedPropertyDefinition(
+				"field2", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition3 =
+			new ExtendedPropertyDefinition(
+				"field3", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition4 =
+			new ExtendedPropertyDefinition(
+				"field4", true, ExtendedPropertyDefinition.FieldType.TEXT);
+
+		Mockito.when(
+			extensionProviderMock1.getExtendedPropertyDefinitions(
+				Mockito.anyLong(), Mockito.anyString())
+		).thenReturn(
+			HashMapBuilder.put(
+				extendedFieldDefinition1.getName(), extendedFieldDefinition1
+			).put(
+				extendedFieldDefinition2.getName(), extendedFieldDefinition2
+			).build()
+		);
+		Mockito.when(
+			extensionProviderMock2.getExtendedPropertyDefinitions(
+				Mockito.anyLong(), Mockito.anyString())
+		).thenReturn(
+			HashMapBuilder.put(
+				extendedFieldDefinition3.getName(), extendedFieldDefinition3
+			).put(
+				extendedFieldDefinition4.getName(), extendedFieldDefinition4
+			).build()
+		);
+
+		ExtensionProviders extensionProviders = new ExtensionProviders(
+			_CLASS_NAME_TEST,
+			Arrays.asList(extensionProviderMock1, extensionProviderMock2));
+
+		extensionProviders.validate(
+			_COMPANY_ID_TEST,
+			HashMapBuilder.<String, Serializable>put(
+				"field1", "value1"
+			).<String, Serializable>put(
+				"field2", "value2"
+			).<String, Serializable>put(
+				"field3", "value3"
+			).build(),
+			true);
+
+		Mockito.verify(
+			extensionProviderMock1
+		).getExtendedPropertyDefinitions(
+			_COMPANY_ID_TEST, _CLASS_NAME_TEST
+		);
+		Mockito.verify(
+			extensionProviderMock2
+		).getExtendedPropertyDefinitions(
+			_COMPANY_ID_TEST, _CLASS_NAME_TEST
+		);
+	}
+
+	@Test(expected = ValidationException.class)
+	public void testValidateUnknownProperty() {
+		ExtensionProvider extensionProviderMock1 = Mockito.mock(
+			ExtensionProvider.class);
+		ExtensionProvider extensionProviderMock2 = Mockito.mock(
+			ExtensionProvider.class);
+
+		ExtendedPropertyDefinition extendedFieldDefinition1 =
+			new ExtendedPropertyDefinition(
+				"field1", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition2 =
+			new ExtendedPropertyDefinition(
+				"field2", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition3 =
+			new ExtendedPropertyDefinition(
+				"field3", false, ExtendedPropertyDefinition.FieldType.TEXT);
+		ExtendedPropertyDefinition extendedFieldDefinition4 =
+			new ExtendedPropertyDefinition(
+				"field4", true, ExtendedPropertyDefinition.FieldType.TEXT);
+
+		Mockito.when(
+			extensionProviderMock1.getExtendedPropertyDefinitions(
+				Mockito.anyLong(), Mockito.anyString())
+		).thenReturn(
+			HashMapBuilder.put(
+				extendedFieldDefinition1.getName(), extendedFieldDefinition1
+			).put(
+				extendedFieldDefinition2.getName(), extendedFieldDefinition2
+			).build()
+		);
+		Mockito.when(
+			extensionProviderMock2.getExtendedPropertyDefinitions(
+				Mockito.anyLong(), Mockito.anyString())
+		).thenReturn(
+			HashMapBuilder.put(
+				extendedFieldDefinition3.getName(), extendedFieldDefinition3
+			).put(
+				extendedFieldDefinition4.getName(), extendedFieldDefinition4
+			).build()
+		);
+
+		ExtensionProviders extensionProviders = new ExtensionProviders(
+			_CLASS_NAME_TEST,
+			Arrays.asList(extensionProviderMock1, extensionProviderMock2));
+
+		extensionProviders.validate(
+			_COMPANY_ID_TEST,
+			HashMapBuilder.<String, Serializable>put(
+				"field1", "value1"
+			).<String, Serializable>put(
+				"field2", "value2"
+			).<String, Serializable>put(
+				"field3", "value3"
+			).<String, Serializable>put(
+				"field4", "value4"
+			).<String, Serializable>put(
+				"unknownField", "value5"
+			).build(),
+			false);
+
+		Mockito.verify(
+			extensionProviderMock1
+		).getExtendedPropertyDefinitions(
+			_COMPANY_ID_TEST, _CLASS_NAME_TEST
+		);
+		Mockito.verify(
+			extensionProviderMock2
+		).getExtendedPropertyDefinitions(
+			_COMPANY_ID_TEST, _CLASS_NAME_TEST
 		);
 	}
 
