@@ -14,16 +14,21 @@
 
 package com.liferay.portal.vulcan.internal.extension;
 
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.vulcan.extension.ExtendedPropertyDefinition;
 import com.liferay.portal.vulcan.extension.ExtensionProvider;
+import com.liferay.portal.vulcan.extension.validation.ExtendedPropertyValidator;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.validation.ValidationException;
 
 /**
  * @author Javier de Arcos
@@ -98,8 +103,69 @@ public class ExtensionProviders {
 		long companyId, Map<String, Serializable> extendedProperties,
 		boolean partialUpdate) {
 
-		// TODO: Validate extended properties
+		Map<String, ExtendedPropertyDefinition> extendedPropertyDefinitionMap =
+			new HashMap<>();
 
+		for (ExtensionProvider extensionProvider : _extensionProviderList) {
+			extendedPropertyDefinitionMap.putAll(
+				extensionProvider.getExtendedPropertyDefinitions(
+					companyId, _className));
+		}
+
+		List<String> unknownProperties = new ArrayList<>();
+
+		for (Map.Entry<String, Serializable> extendedPropertyEntry :
+				extendedProperties.entrySet()) {
+
+			String extendedPropertyName = extendedPropertyEntry.getKey();
+
+			if (!extendedPropertyDefinitionMap.containsKey(
+					extendedPropertyName)) {
+
+				unknownProperties.add(extendedPropertyName);
+
+				continue;
+			}
+
+			ExtendedPropertyDefinition extendedPropertyDefinition =
+				extendedPropertyDefinitionMap.get(extendedPropertyName);
+
+			ExtendedPropertyValidator validator =
+				extendedPropertyDefinition.getValidator();
+
+			validator.validate(
+				extendedPropertyDefinition, extendedPropertyEntry.getValue());
+
+			extendedPropertyDefinitionMap.remove(extendedPropertyName);
+		}
+
+		if (ListUtil.isNotEmpty(unknownProperties)) {
+			throw new ValidationException(
+				"The properties [" + ListUtil.toString(unknownProperties, "") +
+					"] are unknown");
+		}
+
+		if (partialUpdate) {
+			return;
+		}
+
+		List<String> missingMandatoryProperties = new ArrayList<>();
+
+		for (ExtendedPropertyDefinition extendedPropertyDefinition :
+				extendedPropertyDefinitionMap.values()) {
+
+			if (extendedPropertyDefinition.isRequired()) {
+				missingMandatoryProperties.add(
+					extendedPropertyDefinition.getName());
+			}
+		}
+
+		if (ListUtil.isNotEmpty(missingMandatoryProperties)) {
+			throw new ValidationException(
+				"The properties [" +
+					ListUtil.toString(missingMandatoryProperties, "") +
+						"] are mandatory");
+		}
 	}
 
 	private final String _className;
