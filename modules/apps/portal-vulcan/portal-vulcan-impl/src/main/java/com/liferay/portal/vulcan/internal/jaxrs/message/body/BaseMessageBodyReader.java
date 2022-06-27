@@ -89,7 +89,7 @@ public abstract class BaseMessageBodyReader
 		ExtensionProviders extensionProviders = _getExtensionProviders(
 			clazz, mediaType);
 
-		if (!extensionProviders.exists()) {
+		if (extensionProviders == null || !extensionProviders.exists()) {
 			return objectReader.readValue(inputStream);
 		}
 
