@@ -32,6 +32,20 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
  */
 public class ObjectMapperUtil {
 
+	public static <T> T readValue(Class<?> clazz, Object element) {
+		try {
+			return (T)_objectMapper.readValue(
+				_objectMapper.writeValueAsString(element), clazz);
+		}
+		catch (JsonProcessingException jsonProcessingException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(jsonProcessingException);
+			}
+
+			return null;
+		}
+	}
+
 	public static <T> T readValue(Class<?> clazz, String json) {
 		try {
 			return (T)_objectMapper.readValue(json, clazz);
@@ -42,6 +56,16 @@ public class ObjectMapperUtil {
 			}
 
 			return null;
+		}
+	}
+
+	public static <T> T unsafeReadValue(Class<?> clazz, Object element) {
+		try {
+			return (T)_objectMapper.readValue(
+				_objectMapper.writeValueAsString(element), clazz);
+		}
+		catch (JsonProcessingException jsonProcessingException) {
+			throw new RuntimeException(jsonProcessingException);
 		}
 	}
 
