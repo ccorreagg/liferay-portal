@@ -14,6 +14,8 @@
 
 package com.liferay.portal.vulcan.internal.jaxrs.message.body;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 
@@ -72,7 +74,12 @@ public abstract class BaseMessageBodyReader
 			clazz
 		);
 
-		Object value = objectMapper.readValue(inputStream);
+		JsonNode jsonNode = objectMapper.readTree(inputStream);
+
+		objectMapper = objectMapper.without(
+				DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+		Object value = objectMapper.readValue(jsonNode);
 
 		if (!StringUtil.equals(
 				_httpServletRequest.getMethod(), HttpMethod.PATCH)) {

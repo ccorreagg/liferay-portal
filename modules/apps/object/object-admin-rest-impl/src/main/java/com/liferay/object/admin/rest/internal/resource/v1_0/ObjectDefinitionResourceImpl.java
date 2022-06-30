@@ -28,6 +28,7 @@ import com.liferay.object.admin.rest.internal.odata.entity.v1_0.ObjectDefinition
 import com.liferay.object.admin.rest.resource.v1_0.ObjectDefinitionResource;
 import com.liferay.object.constants.ObjectActionKeys;
 import com.liferay.object.constants.ObjectConstants;
+import com.liferay.object.constants.ObjectDefinitionConstants;
 import com.liferay.object.exception.ObjectDefinitionAccountEntryRestrictedException;
 import com.liferay.object.exception.ObjectDefinitionStorageTypeException;
 import com.liferay.object.service.ObjectActionLocalService;
@@ -44,6 +45,7 @@ import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.language.LanguageResources;
@@ -134,6 +136,8 @@ public class ObjectDefinitionResourceImpl
 		throws Exception {
 
 		if (!Validator.isBlank(objectDefinition.getStorageType()) &&
+			!StringUtil.equals(objectDefinition.getStorageType(),
+				ObjectDefinitionConstants.STORAGE_TYPE_DEFAULT) &&
 			!GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-135430"))) {
 
 			throw new ObjectDefinitionStorageTypeException();
