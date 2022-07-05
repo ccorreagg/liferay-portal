@@ -14,9 +14,6 @@ batch.engine.task.item.delegate=true
 batch.planner.export.enabled=${freeMarkerTool.hasReadVulcanBatchImplementation(javaMethodSignatures)?c}
 batch.planner.import.enabled=${freeMarkerTool.getVulcanBatchImplementationCreateStrategies(javaMethodSignatures, freeMarkerTool.getDTOProperties(configYAML, openAPIYAML, schema))?has_content?c}
 </#if>
-<#if stringUtil.equals(schemaName, "openapi")>
-openapi.resource.item=true
-</#if>
 <#if configYAML.resourceApplicationSelect??>
 osgi.jaxrs.application.select=${configYAML.resourceApplicationSelect}
 <#elseif configYAML.application??>
