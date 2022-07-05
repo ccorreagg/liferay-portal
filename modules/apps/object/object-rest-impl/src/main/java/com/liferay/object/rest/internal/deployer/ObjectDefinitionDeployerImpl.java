@@ -23,7 +23,9 @@ import com.liferay.object.rest.internal.jaxrs.exception.mapper.ObjectEntryValues
 import com.liferay.object.rest.internal.jaxrs.exception.mapper.ObjectValidationRuleEngineExceptionMapper;
 import com.liferay.object.rest.internal.jaxrs.exception.mapper.RequiredObjectRelationshipExceptionMapper;
 import com.liferay.object.rest.internal.resource.v1_0.BaseObjectEntryResourceImpl;
+import com.liferay.object.rest.internal.resource.v1_0.OpenAPIResourceImpl;
 import com.liferay.object.rest.manager.v1_0.ObjectEntryManagerServicesTracker;
+import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
 import com.liferay.object.scope.ObjectScopeProvider;
 import com.liferay.object.scope.ObjectScopeProviderRegistry;
 import com.liferay.object.service.ObjectFieldLocalService;
@@ -35,6 +37,7 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.vulcan.graphql.dto.GraphQLDTOContributor;
+import com.liferay.portal.vulcan.openapi.OpenAPIResourceItem;
 
 import java.lang.reflect.Method;
 
@@ -128,6 +131,24 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 			Collections.addAll(
 				serviceRegistrations,
+				_bundleContext.registerService(
+					OpenAPIResourceItem.class,
+					new OpenAPIResourceImpl(
+						objectDefinition, _objectEntryOpenAPIResource),
+					HashMapDictionaryBuilder.<String, Object>put(
+						"api.version", "v1.0"
+					).put(
+						"liferay.object.definition.id",
+						objectDefinition.getObjectDefinitionId()
+					).put(
+						"liferay.object.definition.path",
+						objectDefinition.getRESTContextPath()
+					).put(
+						"osgi.jaxrs.application.select",
+						"(osgi.jaxrs.name=" + objectDefinition.getName() + ")"
+					).put(
+						"osgi.jaxrs.resource", "true"
+					).build()),
 				_bundleContext.registerService(
 					ContextProvider.class,
 					new ObjectDefinitionContextProvider(this, _portal),
@@ -329,6 +350,9 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 	@Reference
 	private ObjectEntryManagerServicesTracker
 		_objectEntryManagerServicesTracker;
+
+	@Reference
+	private ObjectEntryOpenAPIResource _objectEntryOpenAPIResource;
 
 	@Reference(
 		target = "(component.factory=com.liferay.object.rest.internal.resource.v1_0.ObjectEntryResource)"

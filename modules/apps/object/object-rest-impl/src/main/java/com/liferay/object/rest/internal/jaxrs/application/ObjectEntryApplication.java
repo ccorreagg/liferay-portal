@@ -15,7 +15,6 @@
 package com.liferay.object.rest.internal.jaxrs.application;
 
 import com.liferay.object.rest.internal.jaxrs.container.request.filter.ObjectDefinitionIdContainerRequestFilter;
-import com.liferay.object.rest.internal.resource.v1_0.OpenAPIResourceImpl;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
 
 import java.util.HashSet;
@@ -44,9 +43,6 @@ public class ObjectEntryApplication extends Application {
 		objects.add(
 			new ObjectDefinitionIdContainerRequestFilter(
 				_objectDefinitionId, _objectDefinitionName));
-		objects.add(
-			new OpenAPIResourceImpl(
-				_objectDefinitionId, _objectEntryOpenAPIResource));
 
 		return objects;
 	}
