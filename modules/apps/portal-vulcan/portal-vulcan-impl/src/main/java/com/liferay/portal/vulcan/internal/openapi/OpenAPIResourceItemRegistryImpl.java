@@ -14,10 +14,13 @@
 
 package com.liferay.portal.vulcan.internal.openapi;
 
+import com.liferay.osgi.util.ServiceTrackerFactory;
 import com.liferay.portal.vulcan.openapi.OpenAPIResourceItem;
 import com.liferay.portal.vulcan.openapi.OpenAPIResourceItemRegistry;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,25 +42,16 @@ public class OpenAPIResourceItemRegistryImpl
 	implements OpenAPIResourceItemRegistry {
 
 	@Override
-	public Set<String> getEntityClassNames() {
-		return _openAPIResourceItemMap.keySet();
-	}
-
-	@Override
-	public OpenAPIResourceItem getOpenAPIResourceItem(String entityClassName) {
-		return _openAPIResourceItemMap.get(entityClassName);
+	public List<OpenAPIResourceItem> getOpenAPIResourceItems() {
+		return Arrays.asList(_serviceTracker.getServices(new OpenAPIResourceItem[0]));
 	}
 
 	@Activate
 	protected void activate(BundleContext bundleContext)
 		throws InvalidSyntaxException {
 
-		Filter filter = bundleContext.createFilter(
-			"(openapi.resource.item=true)");
-
-		_serviceTracker = new ServiceTracker<>(
-			bundleContext, filter,
-			new OpenAPIResourceItemServiceTrackerCustomizer(bundleContext));
+		_serviceTracker = ServiceTrackerFactory.create(
+			bundleContext, OpenAPIResourceItem.class, null);
 
 		_serviceTracker.open();
 	}
@@ -67,53 +61,6 @@ public class OpenAPIResourceItemRegistryImpl
 		_serviceTracker.close();
 	}
 
-	private final Map<String, OpenAPIResourceItem> _openAPIResourceItemMap =
-		new HashMap<>();
-	private ServiceTracker<?, ?> _serviceTracker;
-
-	private class OpenAPIResourceItemServiceTrackerCustomizer
-		implements ServiceTrackerCustomizer
-			<OpenAPIResourceItem, OpenAPIResourceItem> {
-
-		@Override
-		public OpenAPIResourceItem addingService(
-			ServiceReference<OpenAPIResourceItem> serviceReference) {
-
-			OpenAPIResourceItem openAPIResourceItem = _bundleContext.getService(
-				serviceReference);
-
-			Class<?> resourceItemClass = openAPIResourceItem.getClass();
-
-			_openAPIResourceItemMap.put(
-				resourceItemClass.getName(), openAPIResourceItem);
-
-			return openAPIResourceItem;
-		}
-
-		@Override
-		public void modifiedService(
-			ServiceReference<OpenAPIResourceItem> serviceReference,
-			OpenAPIResourceItem openAPIResourceItem) {
-		}
-
-		@Override
-		public void removedService(
-			ServiceReference<OpenAPIResourceItem> serviceReference,
-			OpenAPIResourceItem openAPIResourceItem) {
-
-			Class<?> resourceItemClass = openAPIResourceItem.getClass();
-
-			_openAPIResourceItemMap.remove(resourceItemClass.getName());
-		}
-
-		private OpenAPIResourceItemServiceTrackerCustomizer(
-			BundleContext bundleContext) {
-
-			_bundleContext = bundleContext;
-		}
-
-		private final BundleContext _bundleContext;
-
-	}
+	private ServiceTracker<OpenAPIResourceItem, OpenAPIResourceItem> _serviceTracker;
 
 }

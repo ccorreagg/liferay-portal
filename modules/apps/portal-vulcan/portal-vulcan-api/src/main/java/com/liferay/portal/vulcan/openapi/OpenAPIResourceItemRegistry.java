@@ -14,6 +14,7 @@
 
 package com.liferay.portal.vulcan.openapi;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,8 +22,6 @@ import java.util.Set;
  */
 public interface OpenAPIResourceItemRegistry {
 
-	public Set<String> getEntityClassNames();
-
-	public OpenAPIResourceItem getOpenAPIResourceItem(String entityClassName);
+	public List<OpenAPIResourceItem> getOpenAPIResourceItems();
 
 }
