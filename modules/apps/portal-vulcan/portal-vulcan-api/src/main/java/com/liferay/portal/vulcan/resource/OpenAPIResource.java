@@ -15,7 +15,12 @@
 package com.liferay.portal.vulcan.resource;
 
 import com.liferay.portal.vulcan.openapi.OpenAPISchemaFilter;
+import com.liferay.portal.vulcan.util.UriInfoUtil;
 
+import io.swagger.v3.oas.models.OpenAPI;
+
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletConfig;
@@ -44,7 +49,17 @@ public interface OpenAPIResource {
 			Set<Class<?>> resourceClasses, String type, UriInfo uriInfo)
 		throws Exception {
 
-		return null;
+		String basePath = null;
+		Map<String, List<String>> queryParameters = null;
+
+		if (uriInfo != null) {
+			basePath = UriInfoUtil.getBasePath(uriInfo);
+			queryParameters = uriInfo.getQueryParameters();
+		}
+
+		return getOpenAPI(
+			basePath, openAPISchemaFilter, queryParameters, resourceClasses,
+			type);
 	}
 
 	public default Response getOpenAPI(
@@ -60,5 +75,17 @@ public interface OpenAPIResource {
 
 		return getOpenAPI(resourceClasses, type, uriInfo);
 	}
+
+	public Response getOpenAPI(
+			String basePath, OpenAPISchemaFilter openAPISchemaFilter,
+			Map<String, List<String>> parameters, Set<Class<?>> resourceClasses,
+			String type)
+		throws Exception;
+
+	public Response getOpenAPI(
+			String basePath, Set<Class<?>> resourceClasses, String type)
+		throws Exception;
+
+	public Response toResponse(OpenAPI openAPI, String type);
 
 }

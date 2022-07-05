@@ -50,6 +50,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -71,63 +72,78 @@ import org.osgi.service.component.annotations.Reference;
 public class OpenAPIResourceImpl implements OpenAPIResource {
 
 	@Override
+	public Response getOpenAPI(Set<Class<?>> resourceClasses, String type)
+		throws Exception {
+
+		return getOpenAPI(resourceClasses, type, null);
+	}
+
+	@Override
 	public Response getOpenAPI(
-			OpenAPISchemaFilter openAPISchemaFilter,
 			Set<Class<?>> resourceClasses, String type, UriInfo uriInfo)
 		throws Exception {
 
-		JaxrsOpenApiContextBuilder jaxrsOpenApiContextBuilder =
-			new JaxrsOpenApiContextBuilder();
+		String basePath = null;
 
-		OpenApiContext openApiContext = jaxrsOpenApiContextBuilder.buildContext(
-			true);
+		if (uriInfo != null) {
+			basePath = UriInfoUtil.getBasePath(uriInfo);
+		}
 
-		GenericOpenApiContext genericOpenApiContext =
-			(GenericOpenApiContext)openApiContext;
+		return getOpenAPI(basePath, resourceClasses, type);
+	}
 
-		genericOpenApiContext.setCacheTTL(0L);
-		genericOpenApiContext.setOpenApiScanner(
-			new OpenApiScanner() {
+	@Override
+	public Response getOpenAPI(
+			String basePath, OpenAPISchemaFilter openAPISchemaFilter,
+			Map<String, List<String>> params, Set<Class<?>> resourceClasses,
+			String type)
+		throws Exception {
 
-				@Override
-				public Set<Class<?>> classes() {
-					return resourceClasses;
-				}
-
-				@Override
-				public Map<String, Object> resources() {
-					return new HashMap<>();
-				}
-
-				@Override
-				public void setConfiguration(
-					OpenAPIConfiguration openAPIConfiguration) {
-				}
-
-			});
-
-		OpenAPI openAPI = openApiContext.read();
+		OpenAPI openAPI = _getOpenAPI(resourceClasses);
 
 		if (openAPISchemaFilter != null) {
 			SpecFilter specFilter = new SpecFilter();
 
 			openAPI = specFilter.filter(
-				openAPI, _toOpenAPISpecFilter(openAPISchemaFilter),
-				uriInfo.getQueryParameters(), null, null);
+				openAPI, _toOpenAPISpecFilter(openAPISchemaFilter), params,
+				null, null);
 		}
 
+		if ((basePath != null) && (openAPI != null)) {
+			Server server = new Server();
+
+			server.setUrl(basePath);
+
+			openAPI.setServers(Collections.singletonList(server));
+		}
+
+		return toResponse(openAPI, type);
+	}
+
+	@Override
+	public Response getOpenAPI(
+			String basePath, Set<Class<?>> resourceClasses, String type)
+		throws Exception {
+
+		OpenAPI openAPI = _getOpenAPI(resourceClasses);
+
+		if ((basePath != null) && (openAPI != null)) {
+			Server server = new Server();
+
+			server.setUrl(basePath);
+
+			openAPI.setServers(Collections.singletonList(server));
+		}
+
+		return toResponse(openAPI, type);
+	}
+
+	@Override
+	public Response toResponse(OpenAPI openAPI, String type) {
 		if (openAPI == null) {
 			return Response.status(
 				404
 			).build();
-		}
-
-		if (uriInfo != null) {
-			Server server = new Server();
-
-			server.setUrl(UriInfoUtil.getBasePath(uriInfo));
-
-			openAPI.setServers(Collections.singletonList(server));
 		}
 
 		if (StringUtil.equalsIgnoreCase("yaml", type)) {
@@ -149,19 +165,40 @@ public class OpenAPIResourceImpl implements OpenAPIResource {
 		).build();
 	}
 
-	@Override
-	public Response getOpenAPI(Set<Class<?>> resourceClasses, String type)
+	private OpenAPI _getOpenAPI(Set<Class<?>> resourceClasses)
 		throws Exception {
 
-		return getOpenAPI(resourceClasses, type, null);
-	}
+		JaxrsOpenApiContextBuilder jaxrsOpenApiContextBuilder =
+			new JaxrsOpenApiContextBuilder();
 
-	@Override
-	public Response getOpenAPI(
-			Set<Class<?>> resourceClasses, String type, UriInfo uriInfo)
-		throws Exception {
+		OpenApiContext openApiContext = jaxrsOpenApiContextBuilder.buildContext(
+			true);
 
-		return getOpenAPI(null, resourceClasses, type, uriInfo);
+		GenericOpenApiContext genericOpenApiContext =
+			(GenericOpenApiContext)openApiContext;
+
+		genericOpenApiContext.setCacheTTL(0L);
+		genericOpenApiContext.setOpenApiScanner(
+			new OpenApiScanner() {
+
+				@Override
+				public Set<Class<?>> classes() {
+					return new HashSet<>(resourceClasses);
+				}
+
+				@Override
+				public Map<String, Object> resources() {
+					return new HashMap<>();
+				}
+
+				@Override
+				public void setConfiguration(
+					OpenAPIConfiguration openAPIConfiguration) {
+				}
+
+			});
+
+		return openApiContext.read();
 	}
 
 	private OpenAPISpecFilter _toOpenAPISpecFilter(
