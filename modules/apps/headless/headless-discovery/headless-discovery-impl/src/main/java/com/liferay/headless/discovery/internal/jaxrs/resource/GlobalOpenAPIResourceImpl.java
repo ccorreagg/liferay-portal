@@ -56,12 +56,8 @@ public class GlobalOpenAPIResourceImpl {
 
 		Map<String, Set<Class<?>>> resourceClasses = new HashMap<>();
 
-		for (String openAPIResourceClassName :
-				_openAPIResourceItemRegistry.getEntityClassNames()) {
-
-			OpenAPIResourceItem openAPIResourceItem =
-				_openAPIResourceItemRegistry.getOpenAPIResourceItem(
-					openAPIResourceClassName);
+		for (OpenAPIResourceItem openAPIResourceItem :
+				_openAPIResourceItemRegistry.getOpenAPIResourceItems()) {
 
 			resourceClasses.put(
 				openAPIResourceItem.getBasePath(),
