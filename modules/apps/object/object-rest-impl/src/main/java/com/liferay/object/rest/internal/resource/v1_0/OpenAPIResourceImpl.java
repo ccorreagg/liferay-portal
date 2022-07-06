@@ -14,7 +14,9 @@
 
 package com.liferay.object.rest.internal.resource.v1_0;
 
+import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
+import com.liferay.portal.vulcan.openapi.OpenAPIResourceItem;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -32,14 +34,24 @@ import javax.ws.rs.core.UriInfo;
  * @author Javier Gamarra
  */
 @OpenAPIDefinition(info = @Info(title = "Object", version = "v1.0"))
-public class OpenAPIResourceImpl {
+public class OpenAPIResourceImpl implements OpenAPIResourceItem {
 
 	public OpenAPIResourceImpl(
-		long objectDefinitionId,
+		ObjectDefinition objectDefinition,
 		ObjectEntryOpenAPIResource objectEntryOpenAPIResource) {
 
-		_objectDefinitionId = objectDefinitionId;
+		_objectDefinition = objectDefinition;
 		_objectEntryOpenAPIResource = objectEntryOpenAPIResource;
+	}
+
+	@Override
+	public String getBasePath() {
+		return _objectDefinition.getRESTContextPath();
+	}
+
+	@Override
+	public Response getOpenAPI() throws Exception {
+		return getOpenAPI("json");
 	}
 
 	@GET
@@ -49,10 +61,10 @@ public class OpenAPIResourceImpl {
 		throws Exception {
 
 		return _objectEntryOpenAPIResource.getOpenAPI(
-			_objectDefinitionId, type, _uriInfo);
+			getBasePath(), _objectDefinition.getObjectDefinitionId(), type);
 	}
 
-	private final long _objectDefinitionId;
+	private final ObjectDefinition _objectDefinition;
 	private final ObjectEntryOpenAPIResource _objectEntryOpenAPIResource;
 
 	@Context
