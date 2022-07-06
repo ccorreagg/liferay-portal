@@ -32,6 +32,7 @@ import com.liferay.portal.vulcan.openapi.DTOProperty;
 import com.liferay.portal.vulcan.openapi.OpenAPISchemaFilter;
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
 import com.liferay.portal.vulcan.util.TransformUtil;
+import com.liferay.portal.vulcan.util.UriInfoUtil;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -69,7 +70,13 @@ public class ObjectEntryOpenAPIResourceImpl
 			long objectDefinitionId, UriInfo uriInfo)
 		throws Exception {
 
-		Response response = getOpenAPI(objectDefinitionId, "json", uriInfo);
+		String basePath = null;
+
+		if (uriInfo != null) {
+			basePath = UriInfoUtil.getBasePath(uriInfo);
+		}
+
+		Response response = getOpenAPI(basePath, objectDefinitionId, "json");
 
 		OpenAPI openAPI = (OpenAPI)response.getEntity();
 
@@ -131,7 +138,7 @@ public class ObjectEntryOpenAPIResourceImpl
 
 	@Override
 	public Response getOpenAPI(
-			long objectDefinitionId, String type, UriInfo uriInfo)
+			String basePath, long objectDefinitionId, String type)
 		throws Exception {
 
 		_objectDefinition = _objectDefinitionLocalService.getObjectDefinition(
@@ -141,14 +148,16 @@ public class ObjectEntryOpenAPIResourceImpl
 			_getRelatedObjectDefinitionsMap();
 
 		Response response = _openAPIResource.getOpenAPI(
+			basePath,
 			_getOpenAPISchemaFilter(_objectDefinition.getRESTContextPath()),
+			null,
 			new HashSet<Class<?>>() {
 				{
 					add(ObjectEntryResourceImpl.class);
 					add(OpenAPIResourceImpl.class);
 				}
 			},
-			type, uriInfo);
+			type);
 
 		OpenAPI openAPI = (OpenAPI)response.getEntity();
 

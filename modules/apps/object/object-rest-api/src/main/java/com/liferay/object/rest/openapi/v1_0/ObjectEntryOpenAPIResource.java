@@ -31,7 +31,7 @@ public interface ObjectEntryOpenAPIResource {
 		throws Exception;
 
 	public Response getOpenAPI(
-			long objectDefinitionId, String type, UriInfo uriInfo)
+			String basePath, long objectDefinitionId, String type)
 		throws Exception;
 
 }
