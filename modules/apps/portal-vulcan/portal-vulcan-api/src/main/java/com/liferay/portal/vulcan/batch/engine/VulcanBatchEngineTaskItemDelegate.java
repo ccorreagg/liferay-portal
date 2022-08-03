@@ -66,6 +66,10 @@ public interface VulcanBatchEngineTaskItemDelegate<T> {
 		return "v1.0";
 	}
 
+	public default boolean isBatchExportEnabled() { return false; }
+
+	public default boolean isBatchImportEnabled() { return false; }
+
 	public Page<T> read(
 			Filter filter, Pagination pagination, Sort[] sorts,
 			Map<String, Serializable> parameters, String search)
