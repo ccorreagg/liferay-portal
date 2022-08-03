@@ -347,6 +347,7 @@ public abstract class Base${schemaName}ResourceImpl
 			properties = freeMarkerTool.getDTOProperties(configYAML, openAPIYAML, schema)
 
 			createStrategies = freeMarkerTool.getVulcanBatchImplementationCreateStrategies(javaMethodSignatures, properties)
+			hasReadVulcanBatchImplementation = freeMarkerTool.hasReadVulcanBatchImplementation(javaMethodSignatures)
 			updateStrategies = freeMarkerTool.getVulcanBatchImplementationUpdateStrategies(javaMethodSignatures)
 		/>
 		@Override
@@ -527,9 +528,17 @@ public abstract class Base${schemaName}ResourceImpl
 			return "${freeMarkerTool.getVersion(openAPIYAML)}";
 		}
 
+		public boolean isBatchExportEnabled() {
+			return ${hasReadVulcanBatchImplementation?c};
+		}
+
+		public boolean isBatchImportEnabled() {
+			return ${createStrategies?has_content?c};
+		}
+
 		@Override
 		public Page<${javaDataType}> read(Filter filter, Pagination pagination, Sort[] sorts, Map<String, Serializable> parameters, String search) throws Exception {
-			<#if freeMarkerTool.hasReadVulcanBatchImplementation(javaMethodSignatures)>
+			<#if hasReadVulcanBatchImplementation>
 				<#assign parentParameterNames = []/>
 
 				<#if getAssetLibraryBatchJavaMethodSignature??>
