@@ -497,6 +497,14 @@ public abstract class BaseShipmentItemResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<ShipmentItem> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

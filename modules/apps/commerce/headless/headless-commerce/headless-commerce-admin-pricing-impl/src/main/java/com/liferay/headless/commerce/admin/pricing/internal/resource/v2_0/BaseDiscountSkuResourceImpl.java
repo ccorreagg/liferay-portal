@@ -404,6 +404,14 @@ public abstract class BaseDiscountSkuResourceImpl
 		return "v2.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<DiscountSku> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

@@ -637,6 +637,14 @@ public abstract class BaseCountryResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return true;
+	}
+
 	@Override
 	public Page<Country> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

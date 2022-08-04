@@ -578,6 +578,14 @@ public abstract class BaseReplenishmentItemResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return true;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return true;
+	}
+
 	@Override
 	public Page<ReplenishmentItem> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

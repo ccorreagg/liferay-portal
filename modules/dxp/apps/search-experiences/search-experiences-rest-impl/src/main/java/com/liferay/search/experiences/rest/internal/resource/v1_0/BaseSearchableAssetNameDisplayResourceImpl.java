@@ -155,6 +155,14 @@ public abstract class BaseSearchableAssetNameDisplayResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<SearchableAssetNameDisplay> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

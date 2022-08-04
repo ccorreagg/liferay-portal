@@ -420,6 +420,14 @@ public abstract class BaseDiscountOrderTypeResourceImpl
 		return "v2.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<DiscountOrderType> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

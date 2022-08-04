@@ -251,6 +251,14 @@ public abstract class BaseProductSpecificationResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<ProductSpecification> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

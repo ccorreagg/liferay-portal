@@ -426,6 +426,14 @@ public abstract class BaseOrderRuleAccountGroupResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<OrderRuleAccountGroup> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

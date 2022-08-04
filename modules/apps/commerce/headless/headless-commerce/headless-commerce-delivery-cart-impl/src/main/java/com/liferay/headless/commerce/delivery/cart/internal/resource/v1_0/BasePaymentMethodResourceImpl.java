@@ -154,6 +154,14 @@ public abstract class BasePaymentMethodResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return true;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<PaymentMethod> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

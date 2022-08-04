@@ -618,6 +618,14 @@ public abstract class BaseWarehouseItemResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<WarehouseItem> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

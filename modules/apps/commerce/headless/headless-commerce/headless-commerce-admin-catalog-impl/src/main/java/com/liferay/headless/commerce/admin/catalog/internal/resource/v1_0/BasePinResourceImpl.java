@@ -395,6 +395,14 @@ public abstract class BasePinResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<Pin> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

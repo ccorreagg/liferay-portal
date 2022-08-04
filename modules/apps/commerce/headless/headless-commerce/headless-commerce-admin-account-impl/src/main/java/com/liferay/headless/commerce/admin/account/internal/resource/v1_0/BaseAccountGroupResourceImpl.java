@@ -576,6 +576,14 @@ public abstract class BaseAccountGroupResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return true;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return true;
+	}
+
 	@Override
 	public Page<AccountGroup> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

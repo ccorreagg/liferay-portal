@@ -216,6 +216,14 @@ public abstract class BaseProcessMetricResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return true;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<ProcessMetric> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

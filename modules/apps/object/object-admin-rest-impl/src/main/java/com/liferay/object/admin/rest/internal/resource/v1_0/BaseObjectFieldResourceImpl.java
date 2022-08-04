@@ -578,6 +578,14 @@ public abstract class BaseObjectFieldResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return true;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return true;
+	}
+
 	@Override
 	public Page<ObjectField> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

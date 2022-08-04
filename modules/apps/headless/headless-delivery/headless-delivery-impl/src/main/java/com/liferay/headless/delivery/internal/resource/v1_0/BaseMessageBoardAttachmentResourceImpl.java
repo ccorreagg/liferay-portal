@@ -603,6 +603,14 @@ public abstract class BaseMessageBoardAttachmentResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return true;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return true;
+	}
+
 	@Override
 	public Page<MessageBoardAttachment> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

@@ -409,6 +409,14 @@ public abstract class BaseProcessResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return true;
+	}
+
 	@Override
 	public Page<Process> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

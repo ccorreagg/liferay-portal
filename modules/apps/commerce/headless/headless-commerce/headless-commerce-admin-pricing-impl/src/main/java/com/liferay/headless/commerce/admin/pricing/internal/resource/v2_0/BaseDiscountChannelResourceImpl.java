@@ -419,6 +419,14 @@ public abstract class BaseDiscountChannelResourceImpl
 		return "v2.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<DiscountChannel> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

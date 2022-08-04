@@ -165,6 +165,14 @@ public abstract class BaseDataDefinitionFieldLinkResourceImpl
 		return "v2.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return true;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return false;
+	}
+
 	@Override
 	public Page<DataDefinitionFieldLink> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

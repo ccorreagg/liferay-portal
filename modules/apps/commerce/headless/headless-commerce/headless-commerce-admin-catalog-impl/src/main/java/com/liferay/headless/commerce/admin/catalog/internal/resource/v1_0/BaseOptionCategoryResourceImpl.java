@@ -407,6 +407,14 @@ public abstract class BaseOptionCategoryResourceImpl
 		return "v1.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return false;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return true;
+	}
+
 	@Override
 	public Page<OptionCategory> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

@@ -720,6 +720,14 @@ public abstract class BaseDataRecordResourceImpl
 		return "v2.0";
 	}
 
+	public boolean isBatchExportEnabled() {
+		return true;
+	}
+
+	public boolean isBatchImportEnabled() {
+		return true;
+	}
+
 	@Override
 	public Page<DataRecord> read(
 			Filter filter, Pagination pagination, Sort[] sorts,
