@@ -50,7 +50,7 @@ public class DTOMapperImpl implements DTOMapper {
 
 		bundleContext.addServiceListener(
 			_serviceListener,
-			"(objectclass=" + DTOConverter.class.getName() + ")");
+			"(objectClass=" + DTOConverter.class.getName() + ")");
 	}
 
 	@Deactivate
