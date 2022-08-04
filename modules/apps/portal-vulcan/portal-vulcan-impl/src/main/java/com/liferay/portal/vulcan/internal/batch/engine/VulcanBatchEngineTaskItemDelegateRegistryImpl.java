@@ -14,7 +14,6 @@
 
 package com.liferay.portal.vulcan.internal.batch.engine;
 
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegateRegistry;
 
@@ -110,15 +109,11 @@ public class VulcanBatchEngineTaskItemDelegateRegistryImpl
 
 			_batchPlannerExportEnabledMap.put(
 				entityClassName,
-				GetterUtil.getBoolean(
-					serviceReference.getProperty(
-						"batch.planner.export.enabled")));
+				vulcanBatchEngineTaskItemDelegate.isBatchExportEnabled());
 
 			_batchPlannerImportEnabledMap.put(
 				entityClassName,
-				GetterUtil.getBoolean(
-					serviceReference.getProperty(
-						"batch.planner.import.enabled")));
+				vulcanBatchEngineTaskItemDelegate.isBatchImportEnabled());
 
 			_vulcanBatchEngineTaskItemDelegateMap.put(
 				entityClassName, vulcanBatchEngineTaskItemDelegate);

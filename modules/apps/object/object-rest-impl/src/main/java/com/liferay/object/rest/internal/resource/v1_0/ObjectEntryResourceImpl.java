@@ -278,6 +278,16 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 	}
 
 	@Override
+	public boolean isBatchExportEnabled() {
+		return true;
+	}
+
+	@Override
+	public boolean isBatchImportEnabled() {
+		return true;
+	}
+
+	@Override
 	public ObjectEntry postObjectEntry(ObjectEntry objectEntry)
 		throws Exception {
 

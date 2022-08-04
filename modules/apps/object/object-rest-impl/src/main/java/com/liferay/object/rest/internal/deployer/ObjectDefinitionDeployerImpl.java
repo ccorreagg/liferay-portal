@@ -116,10 +116,6 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 							"batch.engine.task.item.delegate.name",
 							objectDefinition.getShortName()
 						).put(
-							"batch.planner.export.enabled", "true"
-						).put(
-							"batch.planner.import.enabled", "true"
-						).put(
 							"entity.class.name",
 							ObjectEntry.class.getName() + "#" +
 								objectDefinition.getName()
