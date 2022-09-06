@@ -19,6 +19,10 @@ package com.liferay.portal.vulcan.graphql.servlet;
  */
 public interface ServletData {
 
+	public default String getApplicationName() {
+		return null;
+	}
+
 	public default String getGraphQLNamespace() {
 		return null;
 	}
