@@ -55,6 +55,10 @@ public class ServletDataImpl implements ServletData {
 			_shippingAddressResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Commerce.Admin.Shipment";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

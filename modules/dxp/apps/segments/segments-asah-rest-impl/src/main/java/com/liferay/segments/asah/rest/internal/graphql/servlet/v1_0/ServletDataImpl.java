@@ -51,6 +51,10 @@ public class ServletDataImpl implements ServletData {
 			_experimentResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Segments.Asah.REST";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

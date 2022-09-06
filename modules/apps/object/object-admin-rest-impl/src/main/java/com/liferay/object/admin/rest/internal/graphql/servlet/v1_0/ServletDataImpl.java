@@ -75,6 +75,10 @@ public class ServletDataImpl implements ServletData {
 			_objectViewResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Object.Admin.REST";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

@@ -50,6 +50,10 @@ public class ServletDataImpl implements ServletData {
 			_listTypeEntryResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Admin.List.Type";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

@@ -55,6 +55,10 @@ public class ServletDataImpl implements ServletData {
 			_taxonomyVocabularyResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Admin.Taxonomy";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

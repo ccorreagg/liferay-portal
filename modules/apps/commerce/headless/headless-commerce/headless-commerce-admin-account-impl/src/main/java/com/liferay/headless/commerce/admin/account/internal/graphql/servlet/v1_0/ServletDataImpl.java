@@ -68,6 +68,10 @@ public class ServletDataImpl implements ServletData {
 			_accountOrganizationResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Commerce.Admin.Account";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

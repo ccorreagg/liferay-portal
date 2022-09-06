@@ -45,6 +45,10 @@ public class ServletDataImpl implements ServletData {
 			_dsEnvelopeResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Digital.Signature.REST";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();
