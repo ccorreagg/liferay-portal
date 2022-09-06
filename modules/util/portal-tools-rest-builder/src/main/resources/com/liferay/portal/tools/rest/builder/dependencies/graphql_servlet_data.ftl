@@ -46,6 +46,10 @@ public class ServletDataImpl implements ServletData {
 		</#list>
 	}
 
+	public String getApplicationName() {
+		return "${configYAML.application.name}";
+	}
+
 	<#if configYAML.graphQLNamespace??>
 		@Override
 		public String getGraphQLNamespace() {
