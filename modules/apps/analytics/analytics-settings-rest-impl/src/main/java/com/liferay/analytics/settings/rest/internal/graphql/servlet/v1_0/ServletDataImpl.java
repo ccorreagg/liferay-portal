@@ -16,6 +16,14 @@ package com.liferay.analytics.settings.rest.internal.graphql.servlet.v1_0;
 
 import com.liferay.analytics.settings.rest.internal.graphql.mutation.v1_0.Mutation;
 import com.liferay.analytics.settings.rest.internal.graphql.query.v1_0.Query;
+import com.liferay.analytics.settings.rest.internal.resource.v1_0.ChannelResourceImpl;
+import com.liferay.analytics.settings.rest.internal.resource.v1_0.CommerceChannelResourceImpl;
+import com.liferay.analytics.settings.rest.internal.resource.v1_0.ContactAccountGroupResourceImpl;
+import com.liferay.analytics.settings.rest.internal.resource.v1_0.ContactConfigurationResourceImpl;
+import com.liferay.analytics.settings.rest.internal.resource.v1_0.ContactOrganizationResourceImpl;
+import com.liferay.analytics.settings.rest.internal.resource.v1_0.ContactUserGroupResourceImpl;
+import com.liferay.analytics.settings.rest.internal.resource.v1_0.DataSourceResourceImpl;
+import com.liferay.analytics.settings.rest.internal.resource.v1_0.SiteResourceImpl;
 import com.liferay.analytics.settings.rest.resource.v1_0.ChannelResource;
 import com.liferay.analytics.settings.rest.resource.v1_0.CommerceChannelResource;
 import com.liferay.analytics.settings.rest.resource.v1_0.ContactAccountGroupResource;
@@ -24,7 +32,11 @@ import com.liferay.analytics.settings.rest.resource.v1_0.ContactOrganizationReso
 import com.liferay.analytics.settings.rest.resource.v1_0.ContactUserGroupResource;
 import com.liferay.analytics.settings.rest.resource.v1_0.DataSourceResource;
 import com.liferay.analytics.settings.rest.resource.v1_0.SiteResource;
+import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.vulcan.graphql.servlet.ServletData;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Generated;
 
@@ -68,6 +80,10 @@ public class ServletDataImpl implements ServletData {
 			_siteResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Analytyics.Settings.REST";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();
@@ -81,6 +97,72 @@ public class ServletDataImpl implements ServletData {
 	@Override
 	public Query getQuery() {
 		return new Query();
+	}
+
+	public ObjectValuePair<Class<?>, String> getResourceMethodPair(
+		String methodName, boolean mutation) {
+
+		if (mutation) {
+			return _resourceMethodPairs.get("mutation#" + methodName);
+		}
+
+		return _resourceMethodPairs.get("query#" + methodName);
+	}
+
+	private static final Map<String, ObjectValuePair<Class<?>, String>>
+		_resourceMethodPairs = new HashMap<>();
+
+	static {
+		_resourceMethodPairs.put(
+			"mutation#patchChannel",
+			new ObjectValuePair<>(ChannelResourceImpl.class, "patchChannel"));
+		_resourceMethodPairs.put(
+			"mutation#createChannel",
+			new ObjectValuePair<>(ChannelResourceImpl.class, "postChannel"));
+		_resourceMethodPairs.put(
+			"mutation#updateContactConfiguration",
+			new ObjectValuePair<>(
+				ContactConfigurationResourceImpl.class,
+				"putContactConfiguration"));
+		_resourceMethodPairs.put(
+			"mutation#deleteDataSource",
+			new ObjectValuePair<>(
+				DataSourceResourceImpl.class, "deleteDataSource"));
+		_resourceMethodPairs.put(
+			"mutation#createDataSource",
+			new ObjectValuePair<>(
+				DataSourceResourceImpl.class, "postDataSource"));
+		_resourceMethodPairs.put(
+			"query#channels",
+			new ObjectValuePair<>(
+				ChannelResourceImpl.class, "getChannelsPage"));
+		_resourceMethodPairs.put(
+			"query#commerceChannels",
+			new ObjectValuePair<>(
+				CommerceChannelResourceImpl.class, "getCommerceChannelsPage"));
+		_resourceMethodPairs.put(
+			"query#contactAccountGroups",
+			new ObjectValuePair<>(
+				ContactAccountGroupResourceImpl.class,
+				"getContactAccountGroupsPage"));
+		_resourceMethodPairs.put(
+			"query#contactConfiguration",
+			new ObjectValuePair<>(
+				ContactConfigurationResourceImpl.class,
+				"getContactConfiguration"));
+		_resourceMethodPairs.put(
+			"query#contactOrganizations",
+			new ObjectValuePair<>(
+				ContactOrganizationResourceImpl.class,
+				"getContactOrganizationsPage"));
+		_resourceMethodPairs.put(
+			"query#contactUserGroups",
+			new ObjectValuePair<>(
+				ContactUserGroupResourceImpl.class,
+				"getContactUserGroupsPage"));
+		_resourceMethodPairs.put(
+			"query#sites",
+			new ObjectValuePair<>(SiteResourceImpl.class, "getSitesPage"));
 	}
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
