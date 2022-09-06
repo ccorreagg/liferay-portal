@@ -26,6 +26,10 @@ public class ServletDataAdapter implements ServletData {
 		return new ServletDataAdapter(graphQLContributor);
 	}
 
+	public String getApplicationName() {
+		return _graphQLContributor.getApplicationName();
+	}
+
 	@Override
 	public String getGraphQLNamespace() {
 		return _graphQLContributor.getGraphQLNamespace();
