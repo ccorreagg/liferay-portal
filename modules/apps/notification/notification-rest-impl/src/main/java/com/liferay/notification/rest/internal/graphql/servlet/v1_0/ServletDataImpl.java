@@ -50,6 +50,10 @@ public class ServletDataImpl implements ServletData {
 			_notificationTemplateResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Notification.REST";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

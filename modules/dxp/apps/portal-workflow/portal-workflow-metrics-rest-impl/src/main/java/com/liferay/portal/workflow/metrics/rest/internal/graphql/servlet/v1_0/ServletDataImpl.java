@@ -103,6 +103,10 @@ public class ServletDataImpl implements ServletData {
 			_timeRangeResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Portal.Workflow.Metrics.REST";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

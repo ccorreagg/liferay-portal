@@ -42,6 +42,10 @@ public class ServletDataImpl implements ServletData {
 			_suggestionResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Portal.Search.REST";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

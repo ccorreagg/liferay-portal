@@ -150,6 +150,10 @@ public class ServletDataImpl implements ServletData {
 			_wikiPageAttachmentResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Delivery";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

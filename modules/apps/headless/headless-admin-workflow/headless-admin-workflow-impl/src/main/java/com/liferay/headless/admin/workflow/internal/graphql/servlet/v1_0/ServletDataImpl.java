@@ -70,6 +70,10 @@ public class ServletDataImpl implements ServletData {
 			_workflowTaskResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Admin.Workflow";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

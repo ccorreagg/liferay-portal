@@ -60,6 +60,10 @@ public class ServletDataImpl implements ServletData {
 			_warehouseResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Commerce.Admin.Site.Setting";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

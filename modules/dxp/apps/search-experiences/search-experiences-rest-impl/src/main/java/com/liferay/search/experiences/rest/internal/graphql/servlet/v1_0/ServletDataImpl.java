@@ -75,6 +75,10 @@ public class ServletDataImpl implements ServletData {
 			_searchableAssetNameDisplayResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Search.Experiences.REST";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

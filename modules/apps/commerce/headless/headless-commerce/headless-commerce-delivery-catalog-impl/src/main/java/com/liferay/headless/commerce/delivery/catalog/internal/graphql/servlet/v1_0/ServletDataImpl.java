@@ -69,6 +69,10 @@ public class ServletDataImpl implements ServletData {
 			_skuResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Commerce.Delivery.Catalog";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

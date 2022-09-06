@@ -50,6 +50,10 @@ public class ServletDataImpl implements ServletData {
 			_regionResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Admin.Address";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

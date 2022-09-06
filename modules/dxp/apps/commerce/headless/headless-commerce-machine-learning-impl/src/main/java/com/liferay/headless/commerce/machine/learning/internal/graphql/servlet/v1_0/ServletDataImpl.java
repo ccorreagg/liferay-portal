@@ -48,6 +48,10 @@ public class ServletDataImpl implements ServletData {
 			_skuForecastResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Commerce.Machine.Learning";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

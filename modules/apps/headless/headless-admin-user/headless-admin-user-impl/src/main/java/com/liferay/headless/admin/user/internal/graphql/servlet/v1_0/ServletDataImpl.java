@@ -96,6 +96,10 @@ public class ServletDataImpl implements ServletData {
 			_webUrlResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Admin.User";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();

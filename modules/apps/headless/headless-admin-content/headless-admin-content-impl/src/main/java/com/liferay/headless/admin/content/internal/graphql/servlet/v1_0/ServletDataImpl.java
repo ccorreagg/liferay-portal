@@ -51,6 +51,10 @@ public class ServletDataImpl implements ServletData {
 			_structuredContentResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Admin.Content";
+	}
+
 	@Override
 	public String getGraphQLNamespace() {
 		return "admin";

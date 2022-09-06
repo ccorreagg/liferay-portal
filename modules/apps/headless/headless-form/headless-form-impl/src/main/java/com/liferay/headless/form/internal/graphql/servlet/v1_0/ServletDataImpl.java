@@ -58,6 +58,10 @@ public class ServletDataImpl implements ServletData {
 			_formStructureResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Form";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();
