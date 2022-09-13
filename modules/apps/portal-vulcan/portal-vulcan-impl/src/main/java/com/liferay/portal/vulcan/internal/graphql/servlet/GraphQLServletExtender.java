@@ -49,6 +49,7 @@ import com.liferay.portal.vulcan.graphql.dto.v1_0.Creator;
 import com.liferay.portal.vulcan.graphql.servlet.ServletData;
 import com.liferay.portal.vulcan.internal.configuration.VulcanConfiguration;
 import com.liferay.portal.vulcan.internal.configuration.util.ConfigurationUtil;
+import com.liferay.portal.vulcan.internal.graphql.constants.GraphQLConstants;
 import com.liferay.portal.vulcan.internal.graphql.data.fetcher.GraphQLDTOContributorDataFetcher;
 import com.liferay.portal.vulcan.internal.graphql.data.fetcher.LiferayMethodDataFetcher;
 import com.liferay.portal.vulcan.internal.graphql.data.processor.GraphQLDTOContributorDataFetchingProcessor;
@@ -812,7 +813,8 @@ public class GraphQLServletExtender {
 			GraphQLObjectType.Builder mutationGraphQLObjectTypeBuilder =
 				GraphQLObjectType.newObject();
 
-			mutationGraphQLObjectTypeBuilder.name("mutation");
+			mutationGraphQLObjectTypeBuilder.name(
+				GraphQLConstants.NAMESPACE_MUTATION);
 
 			ProcessingElementsContainer processingElementsContainer =
 				new ProcessingElementsContainer(_defaultTypeFunction);
@@ -859,7 +861,8 @@ public class GraphQLServletExtender {
 			GraphQLObjectType.Builder queryGraphQLObjectTypeBuilder =
 				GraphQLObjectType.newObject();
 
-			queryGraphQLObjectTypeBuilder.name("query");
+			queryGraphQLObjectTypeBuilder.name(
+				GraphQLConstants.NAMESPACE_QUERY);
 
 			_collectObjectFields(
 				ServletData::getQuery, queryGraphQLObjectTypeBuilder, false,
@@ -1379,7 +1382,7 @@ public class GraphQLServletExtender {
 			return;
 		}
 
-		String namespace = "c";
+		String namespace = GraphQLConstants.NAMESPACE_C;
 
 		GraphQLObjectType.Builder queryGraphQLObjectTypeBuilder =
 			new GraphQLObjectType.Builder();
@@ -1415,12 +1418,14 @@ public class GraphQLServletExtender {
 
 		graphQLSchemaBuilder.codeRegistry(
 			graphQLCodeRegistryBuilder.dataFetcher(
-				FieldCoordinates.coordinates("query", namespace),
+				FieldCoordinates.coordinates(
+					GraphQLConstants.NAMESPACE_QUERY, namespace),
 				(DataFetcher<Object>)dataFetchingEnvironment -> new Object()
 			).build());
 		graphQLSchemaBuilder.codeRegistry(
 			graphQLCodeRegistryBuilder.dataFetcher(
-				FieldCoordinates.coordinates("mutation", namespace),
+				FieldCoordinates.coordinates(
+					GraphQLConstants.NAMESPACE_MUTATION, namespace),
 				(DataFetcher<Object>)dataFetchingEnvironment -> new Object()
 			).build());
 	}
@@ -1447,7 +1452,8 @@ public class GraphQLServletExtender {
 
 			graphQLSchemaBuilder.codeRegistry(
 				graphQLCodeRegistryBuilder.dataFetcher(
-					FieldCoordinates.coordinates("query", "graphQLNode"),
+					FieldCoordinates.coordinates(
+						GraphQLConstants.NAMESPACE_QUERY, "graphQLNode"),
 					new NodeDataFetcher()
 				).typeResolver(
 					"GraphQLNode", new GraphQLNodeTypeResolver()
@@ -1549,10 +1555,10 @@ public class GraphQLServletExtender {
 			graphQLObjectTypeBuilder.field(
 				_addField(builder.build(), graphQLNamespace));
 
-			String parentField = "query";
+			String parentField = GraphQLConstants.NAMESPACE_QUERY;
 
 			if (mutation) {
-				parentField = "mutation";
+				parentField = GraphQLConstants.NAMESPACE_MUTATION;
 			}
 
 			graphQLSchemaBuilder.codeRegistry(
@@ -1992,7 +1998,8 @@ public class GraphQLServletExtender {
 				dataFetchingEnvironment.getFieldDefinition();
 
 			DataFetcher<?> dataFetcher = graphQLCodeRegistry.getDataFetcher(
-				(GraphQLFieldsContainer)graphQLTypes.get("query"),
+				(GraphQLFieldsContainer)graphQLTypes.get(
+					GraphQLConstants.NAMESPACE_QUERY),
 				_addField(graphQLFieldDefinition.getType(), fieldName));
 
 			DataFetchingEnvironmentImpl.Builder dataFetchingEnvironmentBuilder =

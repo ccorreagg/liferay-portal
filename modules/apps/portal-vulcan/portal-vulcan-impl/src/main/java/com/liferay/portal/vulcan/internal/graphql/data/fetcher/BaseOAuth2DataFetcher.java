@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.access.control.AccessControlAdvisor;
 import com.liferay.portal.security.access.control.AccessControlAdvisorImpl;
+import com.liferay.portal.vulcan.internal.graphql.constants.GraphQLConstants;
 
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
@@ -255,7 +256,8 @@ public abstract class BaseOAuth2DataFetcher implements DataFetcher<Object> {
 		BaseOAuth2DataFetcher.class);
 
 	private static final List<String> _graphQLNamespaces = Arrays.asList(
-		"c", "mutation", "query");
+		GraphQLConstants.NAMESPACE_C, GraphQLConstants.NAMESPACE_MUTATION,
+		GraphQLConstants.NAMESPACE_QUERY);
 
 	private final AccessControlAdvisor _accessControlAdvisor =
 		new AccessControlAdvisorImpl();
