@@ -1264,7 +1264,7 @@ public class ObjectEntryLocalServiceImpl
 				"delete from ", dbTableName, " where ",
 				pkObjectFieldDBColumnName, " = ", primaryKey));
 
-		FinderCacheUtil.clearDSLQueryCache(dbTableName);
+		FinderCacheUtil.clearCache(dbTableName);
 	}
 
 	private Predicate _fillAccountEntriesPredicate(
@@ -2162,7 +2162,7 @@ public class ObjectEntryLocalServiceImpl
 
 			preparedStatement.executeUpdate();
 
-			FinderCacheUtil.clearDSLQueryCache(
+			FinderCacheUtil.clearCache(
 				dynamicObjectDefinitionTable.getTableName());
 		}
 		catch (Exception exception) {
@@ -2571,7 +2571,7 @@ public class ObjectEntryLocalServiceImpl
 
 			preparedStatement.executeUpdate();
 
-			FinderCacheUtil.clearDSLQueryCache(
+			FinderCacheUtil.clearCache(
 				dynamicObjectDefinitionTable.getTableName());
 		}
 		catch (Exception exception) {
