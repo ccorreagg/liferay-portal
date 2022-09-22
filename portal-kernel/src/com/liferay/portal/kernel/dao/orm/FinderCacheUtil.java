@@ -31,6 +31,10 @@ public class FinderCacheUtil {
 		_finderCache.clearCache(clazz);
 	}
 
+	public static void clearCache(String className) {
+		_finderCache.clearCache(className);
+	}
+
 	public static void clearDSLQueryCache(String tableName) {
 		_finderCache.clearDSLQueryCache(tableName);
 	}

@@ -112,6 +112,11 @@ public class FinderCacheImpl
 	}
 
 	@Override
+	public void clearCache(String className) {
+		clearByEntityCache(className);
+	}
+
+	@Override
 	public void clearDSLQueryCache(String tableName) {
 		String modelImplClassName = _modelImplClassNames.get(tableName);
 
