@@ -14,13 +14,16 @@
 
 package com.liferay.portal.vulcan.internal.graphql.validation;
 
+import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.vulcan.graphql.servlet.ServletData;
 import com.liferay.portal.vulcan.graphql.validation.GraphQLRequestContext;
 
-import javax.ws.rs.HttpMethod;
 import java.lang.reflect.Method;
+
 import java.util.Objects;
+
+import javax.ws.rs.HttpMethod;
 
 /**
  * @author Carlos Correa
@@ -35,6 +38,10 @@ public class ServletDataRequestContext implements GraphQLRequestContext {
 		_httpMethod = httpMethod;
 		_method = method;
 		_servletData = servletData;
+
+		_namespace = _getNamespace(servletData);
+		_resourceClass = _getResourceClass(httpMethod, method, servletData);
+		_resourceMethod = _getResourceMethod(httpMethod, method, servletData);
 	}
 
 	@Override
@@ -48,45 +55,78 @@ public class ServletDataRequestContext implements GraphQLRequestContext {
 	}
 
 	@Override
-	public String getHttpMethod() {
-		return _httpMethod;
-	}
-
-	@Override
 	public Method getMethod() {
 		return _method;
 	}
 
 	@Override
 	public String getNamespace() {
-		if (_servletData.getGraphQLNamespace() == null) {
-			return null;
-		}
-
-		return StringUtil.upperCaseFirstLetter(
-			_servletData.getGraphQLNamespace());
+		return _namespace;
 	}
 
 	@Override
 	public Class<?> getResourceClass() {
-		String resourceMethod = _servletData.getResourceMethod(_method.getName(), Objects.equals(
-			HttpMethod.GET, _httpMethod));
+		return _resourceClass;
+	}
 
-		if (resourceMethod == null) {
+	@Override
+	public Method getResourceMethod() {
+		return _resourceMethod;
+	}
+
+	private String _getNamespace(ServletData servletData) {
+		if (servletData.getGraphQLNamespace() == null) {
 			return null;
 		}
 
-		try {
-			return Class.forName(resourceMethod.substring(0, resourceMethod.indexOf("#")));
+		return StringUtil.upperCaseFirstLetter(
+			servletData.getGraphQLNamespace());
+	}
+
+	private Class<?> _getResourceClass(
+		String httpMethod, Method method, ServletData servletData) {
+
+		ObjectValuePair<Class<?>, String> resourceMethodPair =
+			servletData.getResourceMethodPair(
+				method.getName(), !Objects.equals(HttpMethod.GET, httpMethod));
+
+		if (resourceMethodPair == null) {
+			return null;
 		}
-		catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
+
+		return resourceMethodPair.getKey();
+	}
+
+	private Method _getResourceMethod(
+		String httpMethod, Method method, ServletData servletData) {
+
+		ObjectValuePair<Class<?>, String> resourceMethodPair =
+			servletData.getResourceMethodPair(
+				method.getName(), !Objects.equals(HttpMethod.GET, httpMethod));
+
+		if (resourceMethodPair == null) {
+			return null;
 		}
+
+		Class<?> resourceClass = resourceMethodPair.getKey();
+
+		for (Method resourceMethod : resourceClass.getMethods()) {
+			if (Objects.equals(
+					resourceMethod.getName(), resourceMethodPair.getValue())) {
+
+				return resourceMethod;
+			}
+		}
+
+		return null;
 	}
 
 	private final long _companyId;
 	private final String _httpMethod;
 	private final Method _method;
+	private final String _namespace;
+	private final Class<?> _resourceClass;
+	private final Method _resourceMethod;
 	private final ServletData _servletData;
 
 }

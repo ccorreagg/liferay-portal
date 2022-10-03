@@ -78,6 +78,8 @@ public class JaxRsResourceRegistryImpl implements JaxRsResourceRegistry {
 
 		@Override
 		public Object addingService(ServiceReference<Object> serviceReference) {
+			Object object = _bundleContext.getService(serviceReference);
+
 			Map<String, Object> properties = new HashMap<>();
 
 			for (String propertyKey : serviceReference.getPropertyKeys()) {
@@ -85,11 +87,9 @@ public class JaxRsResourceRegistryImpl implements JaxRsResourceRegistry {
 					propertyKey, serviceReference.getProperty(propertyKey));
 			}
 
-			_jaxRsResourceProperties.put(
-				(String)serviceReference.getProperty("component.name"),
-				properties);
+			_jaxRsResourceProperties.put(_getClassName(object), properties);
 
-			return _bundleContext.getService(serviceReference);
+			return object;
 		}
 
 		@Override
@@ -101,12 +101,17 @@ public class JaxRsResourceRegistryImpl implements JaxRsResourceRegistry {
 		public void removedService(
 			ServiceReference<Object> serviceReference, Object object) {
 
-			_jaxRsResourceProperties.remove(
-				(String)serviceReference.getProperty("component.name"));
+			_jaxRsResourceProperties.remove(_getClassName(object));
 		}
 
 		private JaxRsResourceTrackerCustomizer(BundleContext bundleContext) {
 			_bundleContext = bundleContext;
+		}
+
+		private String _getClassName(Object object) {
+			Class<?> clazz = object.getClass();
+
+			return clazz.getName();
 		}
 
 		private final BundleContext _bundleContext;

@@ -1021,7 +1021,8 @@ public class GraphQLServletExtender {
 
 			GraphQLRequestContext graphQLRequestContext =
 				new GraphQLDTOContributorRequestContext(
-					_companyId, graphQLDTOContributor, HttpMethod.GET);
+					_companyId, graphQLDTOContributor,
+					GraphQLDTOContributor.Operation.GET_RELATIONSHIP);
 
 			graphQLSchemaBuilder.codeRegistry(
 				graphQLCodeRegistryBuilder.dataFetcher(
@@ -1033,8 +1034,7 @@ public class GraphQLServletExtender {
 						_graphQLDTOContributorDataFetchingProcessor,
 						relationshipGraphQLDTOProperty, graphQLRequestContext,
 						_graphQLRequestContextValidators,
-						GraphQLDTOContributorDataFetcher.Operation.
-							GET_RELATIONSHIP)
+						GraphQLDTOContributor.Operation.GET_RELATIONSHIP)
 				).build());
 		}
 
@@ -1257,7 +1257,8 @@ public class GraphQLServletExtender {
 
 		GraphQLRequestContext graphQLRequestContext =
 			new GraphQLDTOContributorRequestContext(
-				_companyId, graphQLDTOContributor, HttpMethod.POST);
+				_companyId, graphQLDTOContributor,
+				GraphQLDTOContributor.Operation.CREATE);
 
 		graphQLSchemaBuilder.codeRegistry(
 			graphQLCodeRegistryBuilder.dataFetcher(
@@ -1266,7 +1267,7 @@ public class GraphQLServletExtender {
 					graphQLDTOContributor,
 					_graphQLDTOContributorDataFetchingProcessor,
 					graphQLRequestContext, _graphQLRequestContextValidators,
-					GraphQLDTOContributorDataFetcher.Operation.CREATE)
+					GraphQLDTOContributor.Operation.CREATE)
 			).build());
 
 		// Delete
@@ -1281,7 +1282,8 @@ public class GraphQLServletExtender {
 				_addGraphQLArgument(Scalars.GraphQLLong, idName)));
 
 		graphQLRequestContext = new GraphQLDTOContributorRequestContext(
-			_companyId, graphQLDTOContributor, HttpMethod.DELETE);
+			_companyId, graphQLDTOContributor,
+			GraphQLDTOContributor.Operation.DELETE);
 
 		graphQLSchemaBuilder.codeRegistry(
 			graphQLCodeRegistryBuilder.dataFetcher(
@@ -1290,7 +1292,7 @@ public class GraphQLServletExtender {
 					graphQLDTOContributor,
 					_graphQLDTOContributorDataFetchingProcessor,
 					graphQLRequestContext, _graphQLRequestContextValidators,
-					GraphQLDTOContributorDataFetcher.Operation.DELETE)
+					GraphQLDTOContributor.Operation.DELETE)
 			).build());
 
 		// Get
@@ -1298,7 +1300,8 @@ public class GraphQLServletExtender {
 		String getName = StringUtil.lowerCaseFirstLetter(resourceName);
 
 		graphQLRequestContext = new GraphQLDTOContributorRequestContext(
-			_companyId, graphQLDTOContributor, HttpMethod.GET);
+			_companyId, graphQLDTOContributor,
+			GraphQLDTOContributor.Operation.GET);
 
 		queryGraphQLObjectTypeBuilder.field(
 			_addField(
@@ -1311,7 +1314,7 @@ public class GraphQLServletExtender {
 					graphQLDTOContributor,
 					_graphQLDTOContributorDataFetchingProcessor,
 					graphQLRequestContext, _graphQLRequestContextValidators,
-					GraphQLDTOContributorDataFetcher.Operation.GET)
+					GraphQLDTOContributor.Operation.GET)
 			).build());
 
 		// List
@@ -1341,7 +1344,8 @@ public class GraphQLServletExtender {
 				listName, graphQLArguments.toArray(new GraphQLArgument[0])));
 
 		graphQLRequestContext = new GraphQLDTOContributorRequestContext(
-			_companyId, graphQLDTOContributor, HttpMethod.GET);
+			_companyId, graphQLDTOContributor,
+			GraphQLDTOContributor.Operation.LIST);
 
 		graphQLSchemaBuilder.codeRegistry(
 			graphQLCodeRegistryBuilder.dataFetcher(
@@ -1350,7 +1354,7 @@ public class GraphQLServletExtender {
 					graphQLDTOContributor,
 					_graphQLDTOContributorDataFetchingProcessor,
 					graphQLRequestContext, _graphQLRequestContextValidators,
-					GraphQLDTOContributorDataFetcher.Operation.LIST)
+					GraphQLDTOContributor.Operation.LIST)
 			).build());
 
 		// Update
@@ -1364,7 +1368,8 @@ public class GraphQLServletExtender {
 				_addGraphQLArgument(Scalars.GraphQLLong, idName)));
 
 		graphQLRequestContext = new GraphQLDTOContributorRequestContext(
-			_companyId, graphQLDTOContributor, HttpMethod.PUT);
+			_companyId, graphQLDTOContributor,
+			GraphQLDTOContributor.Operation.UPDATE);
 
 		graphQLSchemaBuilder.codeRegistry(
 			graphQLCodeRegistryBuilder.dataFetcher(
@@ -1373,7 +1378,7 @@ public class GraphQLServletExtender {
 					graphQLDTOContributor,
 					_graphQLDTOContributorDataFetchingProcessor,
 					graphQLRequestContext, _graphQLRequestContextValidators,
-					GraphQLDTOContributorDataFetcher.Operation.UPDATE)
+					GraphQLDTOContributor.Operation.UPDATE)
 			).build());
 	}
 

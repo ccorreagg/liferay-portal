@@ -27,11 +27,11 @@ public class GraphQLDTOContributorRequestContext
 
 	public GraphQLDTOContributorRequestContext(
 		long companyId, GraphQLDTOContributor graphQLDTOContributor,
-		String httpMethod) {
+		GraphQLDTOContributor.Operation operation) {
 
 		_companyId = companyId;
 		_graphQLDTOContributor = graphQLDTOContributor;
-		_httpMethod = httpMethod;
+		_operation = operation;
 	}
 
 	@Override
@@ -42,11 +42,6 @@ public class GraphQLDTOContributorRequestContext
 	@Override
 	public long getCompanyId() {
 		return _companyId;
-	}
-
-	@Override
-	public String getHttpMethod() {
-		return _httpMethod;
 	}
 
 	@Override
@@ -61,11 +56,16 @@ public class GraphQLDTOContributorRequestContext
 
 	@Override
 	public Class<?> getResourceClass() {
-		return _graphQLDTOContributor.getClass();
+		return _graphQLDTOContributor.getResourceClass();
+	}
+
+	@Override
+	public Method getResourceMethod() {
+		return _graphQLDTOContributor.getResourceMethod(_operation);
 	}
 
 	private final long _companyId;
 	private final GraphQLDTOContributor _graphQLDTOContributor;
-	private final String _httpMethod;
+	private final GraphQLDTOContributor.Operation _operation;
 
 }

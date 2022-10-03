@@ -12,25 +12,15 @@
  * details.
  */
 
-package com.liferay.portal.vulcan.graphql.validation;
+package com.liferay.oauth2.provider.rest.spi.scope.checker;
 
 import java.lang.reflect.Method;
 
 /**
  * @author Carlos Correa
  */
-public interface GraphQLRequestContext {
+public interface JaxRsResourceScopeChecker {
 
-	public String getApplicationName();
-
-	public long getCompanyId();
-
-	public Method getMethod();
-
-	public String getNamespace();
-
-	public Class<?> getResourceClass();
-
-	public Method getResourceMethod();
+	public boolean check(Class<?> resourceClass, Method resourceMethod);
 
 }

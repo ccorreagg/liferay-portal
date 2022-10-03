@@ -14,7 +14,7 @@
 
 package com.liferay.oauth2.provider.scope.internal.graphql;
 
-import com.liferay.oauth2.provider.scope.ScopeChecker;
+import com.liferay.oauth2.provider.rest.spi.scope.checker.JaxRsResourceScopeChecker;
 import com.liferay.oauth2.provider.scope.liferay.OAuth2ProviderScopeLiferayAccessControlContext;
 import com.liferay.oauth2.provider.scope.liferay.ScopeContext;
 import com.liferay.portal.kernel.security.access.control.AccessControlUtil;
@@ -33,12 +33,11 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.Application;
 
 import org.osgi.framework.BundleContext;
@@ -94,37 +93,36 @@ public class OAuth2GraphQLRequestContextValidator
 	}
 
 	private void _checkScope(
-		GraphQLRequestContext graphQLRequestContext,
-		ServiceReference<?> serviceReference) {
+			GraphQLRequestContext graphQLRequestContext,
+			ServiceReference<?> applicationServiceReference)
+		throws Exception {
 
 		String scopeSheckerType = _getProperty(
-			_getProperty(
-				"http.method", "oauth2.scope.checkertype", serviceReference),
-			"oauth2.scope.checker.type", serviceReference);
+			null, "oauth2.scope.checker.type", applicationServiceReference);
 
-		if (Objects.equals("http.method", scopeSheckerType)) {
-			if (!_scopeChecker.checkScope(
-					graphQLRequestContext.getHttpMethod())) {
+		if (scopeSheckerType == null) {
+			scopeSheckerType = _getProperty(
+				"http.method", "oauth2.scope.checkertype",
+				applicationServiceReference);
+		}
+
+		Collection<ServiceReference<JaxRsResourceScopeChecker>>
+			serviceReferences = _bundleContext.getServiceReferences(
+				JaxRsResourceScopeChecker.class,
+				"(oauth2.scope.checker.type=" + scopeSheckerType + ")");
+
+		for (ServiceReference<JaxRsResourceScopeChecker> serviceReference :
+				serviceReferences) {
+
+			JaxRsResourceScopeChecker jaxRsResourceScopeChecker =
+				_bundleContext.getService(serviceReference);
+
+			if (!jaxRsResourceScopeChecker.check(
+					graphQLRequestContext.getResourceClass(),
+					graphQLRequestContext.getResourceMethod())) {
 
 				throw new ForbiddenException();
 			}
-		}
-		else if (Objects.equals("annotations", scopeSheckerType)) {
-			Class<?> resourceClass = graphQLRequestContext.getResourceClass();
-
-			Method method = graphQLRequestContext.getMethod();
-
-			String methodName = null;
-
-			if (Objects.equals(graphQLRequestContext.getHttpMethod(),
-				HttpMethod.GET)) {
-
-
-			}
-
-			resourceClass.getMethods()
-
-
 		}
 	}
 
@@ -226,9 +224,6 @@ public class OAuth2GraphQLRequestContextValidator
 	private final AccessControlAdvisor _accessControlAdvisor =
 		new AccessControlAdvisorImpl();
 	private BundleContext _bundleContext;
-
-	@Reference
-	private ScopeChecker _scopeChecker;
 
 	@Reference(
 		policy = ReferencePolicy.DYNAMIC,
