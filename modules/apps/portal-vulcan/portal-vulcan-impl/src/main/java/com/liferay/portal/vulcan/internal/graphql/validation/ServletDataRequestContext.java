@@ -69,8 +69,19 @@ public class ServletDataRequestContext implements GraphQLRequestContext {
 
 	@Override
 	public Class<?> getResourceClass() {
-		return _servletData.getResourceClass(_method.getName(), Objects.equals(
+		String resourceMethod = _servletData.getResourceMethod(_method.getName(), Objects.equals(
 			HttpMethod.GET, _httpMethod));
+
+		if (resourceMethod == null) {
+			return null;
+		}
+
+		try {
+			return Class.forName(resourceMethod.substring(0, resourceMethod.indexOf("#")));
+		}
+		catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private final long _companyId;
