@@ -33,4 +33,10 @@ public interface ServletData {
 
 	public Object getQuery();
 
+	public default String getResourceMethod(
+		String methodName, boolean mutation) {
+
+		return null;
+	}
+
 }
