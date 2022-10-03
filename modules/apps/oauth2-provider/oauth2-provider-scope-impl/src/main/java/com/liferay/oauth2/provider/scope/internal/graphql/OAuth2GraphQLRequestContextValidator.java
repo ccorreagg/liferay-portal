@@ -35,8 +35,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.ws.rs.ForbiddenException;
+import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.Application;
 
 import org.osgi.framework.BundleContext;
@@ -68,13 +70,12 @@ public class OAuth2GraphQLRequestContextValidator
 		if (OAuth2ProviderScopeLiferayAccessControlContext.
 				isOAuth2AuthVerified()) {
 
-			_enableSAP(graphQLRequestContext.getApplicationName());
+			ServiceReference<?> serviceReference = _getServiceReference(
+				graphQLRequestContext.getApplicationName());
 
-			if (!_scopeChecker.checkScope(
-					graphQLRequestContext.getHttpMethod())) {
+			_enableSAP(serviceReference);
 
-				throw new ForbiddenException();
-			}
+			_checkScope(graphQLRequestContext, serviceReference);
 		}
 
 		Method method = graphQLRequestContext.getMethod();
@@ -92,7 +93,44 @@ public class OAuth2GraphQLRequestContextValidator
 		_bundleContext = bundleContext;
 	}
 
-	private void _enableSAP(String applicationName) throws Exception {
+	private void _checkScope(
+		GraphQLRequestContext graphQLRequestContext,
+		ServiceReference<?> serviceReference) {
+
+		String scopeSheckerType = _getProperty(
+			_getProperty(
+				"http.method", "oauth2.scope.checkertype", serviceReference),
+			"oauth2.scope.checker.type", serviceReference);
+
+		if (Objects.equals("http.method", scopeSheckerType)) {
+			if (!_scopeChecker.checkScope(
+					graphQLRequestContext.getHttpMethod())) {
+
+				throw new ForbiddenException();
+			}
+		}
+		else if (Objects.equals("annotations", scopeSheckerType)) {
+			Class<?> resourceClass = graphQLRequestContext.getResourceClass();
+
+			Method method = graphQLRequestContext.getMethod();
+
+			String methodName = null;
+
+			if (Objects.equals(graphQLRequestContext.getHttpMethod(),
+				HttpMethod.GET)) {
+
+
+			}
+
+			resourceClass.getMethods()
+
+
+		}
+	}
+
+	private void _enableSAP(ServiceReference<?> serviceReference)
+		throws Exception {
+
 		AccessControlContext accessControlContext =
 			AccessControlUtil.getAccessControlContext();
 
@@ -110,14 +148,32 @@ public class OAuth2GraphQLRequestContextValidator
 				ServiceAccessPolicy.SERVICE_ACCESS_POLICY_NAMES,
 				value -> new ArrayList<>());
 
-		String policyName = _getPolicyName(applicationName);
+		String policyName = _getProperty(
+			"AUTHORIZED_OAUTH2_SAP", "oauth2.service.access.policy.name",
+			serviceReference);
 
 		if (!serviceAccessPolicyNames.contains(policyName)) {
 			serviceAccessPolicyNames.add(policyName);
 		}
 	}
 
-	private String _getPolicyName(String applicationName) throws Exception {
+	private String _getProperty(
+		String defaultValue, String propertyName,
+		ServiceReference<?> serviceReference) {
+
+		String propertyValue = (String)serviceReference.getProperty(
+			propertyName);
+
+		if (Validator.isBlank(propertyValue)) {
+			return defaultValue;
+		}
+
+		return propertyValue;
+	}
+
+	private ServiceReference<?> _getServiceReference(String applicationName)
+		throws Exception {
+
 		List<ServiceReference<Application>> serviceReferences =
 			(List<ServiceReference<Application>>)
 				_bundleContext.getServiceReferences(
@@ -125,17 +181,11 @@ public class OAuth2GraphQLRequestContextValidator
 					"(osgi.jaxrs.name=" + applicationName + ")");
 
 		if (ListUtil.isNotEmpty(serviceReferences)) {
-			for (ServiceReference<?> serviceReference : serviceReferences) {
-				String policyName = (String)serviceReference.getProperty(
-					"oauth2.service.access.policy.name");
-
-				if (!Validator.isBlank(policyName)) {
-					return policyName;
-				}
-			}
+			return serviceReferences.get(0);
 		}
 
-		return "AUTHORIZED_OAUTH2_SAP";
+		throw new UnsupportedOperationException(
+			"Invalid JAX-RS application " + applicationName);
 	}
 
 	private void _setServiceDepth() {
