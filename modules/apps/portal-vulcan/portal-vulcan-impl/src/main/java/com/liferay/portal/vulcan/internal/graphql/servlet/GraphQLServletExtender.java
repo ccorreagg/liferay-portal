@@ -53,6 +53,8 @@ import com.liferay.portal.vulcan.internal.graphql.data.fetcher.LiferayMethodData
 import com.liferay.portal.vulcan.internal.graphql.data.processor.GraphQLDTOContributorDataFetchingProcessor;
 import com.liferay.portal.vulcan.internal.graphql.data.processor.LiferayMethodDataFetchingProcessor;
 import com.liferay.portal.vulcan.internal.graphql.util.GraphQLUtil;
+import com.liferay.portal.vulcan.internal.graphql.validation.GraphQLDTOContributorRequestContext;
+import com.liferay.portal.vulcan.internal.graphql.validation.ServletDataRequestContext;
 import com.liferay.portal.vulcan.internal.multipart.MultipartUtil;
 import com.liferay.portal.vulcan.multipart.MultipartBody;
 
@@ -761,9 +763,7 @@ public class GraphQLServletExtender {
 
 				ServletData servletData = servletDataMap.get(method);
 
-				_applicationName = servletData.getApplicationName();
-				_namespace = servletData.getGraphQLNamespace();
-				_resourceClass = servletData.getClass();
+				_servletData = servletData;
 
 				_httpMethod = _getHttpMethod(method, mutation);
 
@@ -808,12 +808,10 @@ public class GraphQLServletExtender {
 
 			PropertyDataFetcher.clearReflectionCache();
 
-			_applicationName = null;
 			_companyId = companyId;
 			_httpMethod = null;
-			_namespace = null;
 			_registeredClassNames.clear();
-			_resourceClass = null;
+			_servletData = null;
 
 			GraphQLObjectType.Builder mutationGraphQLObjectTypeBuilder =
 				GraphQLObjectType.newObject();
@@ -1022,14 +1020,8 @@ public class GraphQLServletExtender {
 					relationshipGraphQLDTOProperty.getName()));
 
 			GraphQLRequestContext graphQLRequestContext =
-				new GraphQLRequestContext() {
-					{
-						setApplicationName(graphQLDTOContributor.getTypeName());
-						setCompanyId(_companyId);
-						setHttpMethod(HttpMethod.GET);
-						setResourceClass(graphQLDTOContributor.getClass());
-					}
-				};
+				new GraphQLDTOContributorRequestContext(
+					_companyId, graphQLDTOContributor, HttpMethod.GET);
 
 			graphQLSchemaBuilder.codeRegistry(
 				graphQLCodeRegistryBuilder.dataFetcher(
@@ -1263,18 +1255,9 @@ public class GraphQLServletExtender {
 				graphQLObjectType, createName,
 				graphQLArguments.toArray(new GraphQLArgument[0])));
 
-		String applicationName = graphQLDTOContributor.getTypeName();
-		Class<?> resourceClass = graphQLDTOContributor.getClass();
-
 		GraphQLRequestContext graphQLRequestContext =
-			new GraphQLRequestContext() {
-				{
-					setApplicationName(applicationName);
-					setCompanyId(_companyId);
-					setHttpMethod(HttpMethod.POST);
-					setResourceClass(resourceClass);
-				}
-			};
+			new GraphQLDTOContributorRequestContext(
+				_companyId, graphQLDTOContributor, HttpMethod.POST);
 
 		graphQLSchemaBuilder.codeRegistry(
 			graphQLCodeRegistryBuilder.dataFetcher(
@@ -1297,14 +1280,8 @@ public class GraphQLServletExtender {
 				Scalars.GraphQLBoolean, deleteName,
 				_addGraphQLArgument(Scalars.GraphQLLong, idName)));
 
-		graphQLRequestContext = new GraphQLRequestContext() {
-			{
-				setApplicationName(applicationName);
-				setCompanyId(_companyId);
-				setHttpMethod(HttpMethod.DELETE);
-				setResourceClass(resourceClass);
-			}
-		};
+		graphQLRequestContext = new GraphQLDTOContributorRequestContext(
+			_companyId, graphQLDTOContributor, HttpMethod.DELETE);
 
 		graphQLSchemaBuilder.codeRegistry(
 			graphQLCodeRegistryBuilder.dataFetcher(
@@ -1320,14 +1297,8 @@ public class GraphQLServletExtender {
 
 		String getName = StringUtil.lowerCaseFirstLetter(resourceName);
 
-		graphQLRequestContext = new GraphQLRequestContext() {
-			{
-				setApplicationName(applicationName);
-				setCompanyId(_companyId);
-				setHttpMethod(HttpMethod.GET);
-				setResourceClass(resourceClass);
-			}
-		};
+		graphQLRequestContext = new GraphQLDTOContributorRequestContext(
+			_companyId, graphQLDTOContributor, HttpMethod.GET);
 
 		queryGraphQLObjectTypeBuilder.field(
 			_addField(
@@ -1369,14 +1340,8 @@ public class GraphQLServletExtender {
 					graphQLDTOContributor.getTypeName()),
 				listName, graphQLArguments.toArray(new GraphQLArgument[0])));
 
-		graphQLRequestContext = new GraphQLRequestContext() {
-			{
-				setApplicationName(applicationName);
-				setCompanyId(_companyId);
-				setHttpMethod(HttpMethod.GET);
-				setResourceClass(resourceClass);
-			}
-		};
+		graphQLRequestContext = new GraphQLDTOContributorRequestContext(
+			_companyId, graphQLDTOContributor, HttpMethod.GET);
 
 		graphQLSchemaBuilder.codeRegistry(
 			graphQLCodeRegistryBuilder.dataFetcher(
@@ -1398,14 +1363,8 @@ public class GraphQLServletExtender {
 				_addGraphQLArgument(graphQLInputType, resourceName),
 				_addGraphQLArgument(Scalars.GraphQLLong, idName)));
 
-		graphQLRequestContext = new GraphQLRequestContext() {
-			{
-				setApplicationName(applicationName);
-				setCompanyId(_companyId);
-				setHttpMethod(HttpMethod.PUT);
-				setResourceClass(resourceClass);
-			}
-		};
+		graphQLRequestContext = new GraphQLDTOContributorRequestContext(
+			_companyId, graphQLDTOContributor, HttpMethod.PUT);
 
 		graphQLSchemaBuilder.codeRegistry(
 			graphQLCodeRegistryBuilder.dataFetcher(
@@ -1555,8 +1514,6 @@ public class GraphQLServletExtender {
 				continue;
 			}
 
-			_namespace = StringUtil.upperCaseFirstLetter(graphQLNamespace);
-
 			GraphQLObjectType.Builder builder = new GraphQLObjectType.Builder();
 
 			String prefix = "";
@@ -1565,7 +1522,8 @@ public class GraphQLServletExtender {
 				prefix = "Mutation";
 			}
 
-			builder.name(prefix + _namespace);
+			builder.name(
+				prefix + StringUtil.upperCaseFirstLetter(graphQLNamespace));
 
 			GraphQLCodeRegistry.Builder graphQLCodeRegistryBuilder =
 				processingElementsContainer.getCodeRegistryBuilder();
@@ -1576,7 +1534,7 @@ public class GraphQLServletExtender {
 
 			Method[] methods = clazz.getMethods();
 
-			_applicationName = servletData.getApplicationName();
+			_servletData = servletData;
 
 			for (Method method : methods) {
 				if (!_isMethodEnabled(method, servletData.getPath())) {
@@ -1591,16 +1549,8 @@ public class GraphQLServletExtender {
 						processingElementsContainer));
 
 				GraphQLRequestContext graphQLRequestContext =
-					new GraphQLRequestContext() {
-						{
-							setApplicationName(_applicationName);
-							setCompanyId(_companyId);
-							setHttpMethod(_httpMethod);
-							setMethod(method);
-							setNamespace(_namespace);
-							setResourceClass(servletData.getClass());
-						}
-					};
+					new ServletDataRequestContext(
+						_companyId, _httpMethod, method, _servletData);
 
 				graphQLSchemaBuilder.codeRegistry(
 					graphQLCodeRegistryBuilder.dataFetcher(
@@ -1949,7 +1899,6 @@ public class GraphQLServletExtender {
 		).build();
 	}
 
-	private String _applicationName;
 	private BundleContext _bundleContext;
 	private long _companyId;
 
@@ -1973,13 +1922,10 @@ public class GraphQLServletExtender {
 	private LiferayMethodDataFetchingProcessor
 		_liferayMethodDataFetchingProcessor;
 
-	private String _namespace;
-
 	@Reference
 	private Portal _portal;
 
 	private final Map<String, String> _registeredClassNames = new HashMap<>();
-	private Class<?> _resourceClass;
 
 	@Reference(
 		policy = ReferencePolicy.DYNAMIC,
@@ -1989,6 +1935,7 @@ public class GraphQLServletExtender {
 
 	private ServiceRegistration<ServletContextHelper>
 		_servletContextHelperServiceRegistration;
+	private ServletData _servletData;
 	private final List<ServletData> _servletDataList = new ArrayList<>();
 	private ServiceTracker<ServletData, ServletData> _servletDataServiceTracker;
 	private final Map<Long, Servlet> _servlets = new ConcurrentHashMap<>();
@@ -2541,16 +2488,8 @@ public class GraphQLServletExtender {
 			graphQLFieldDefinitionBuilder.arguments(argumentBuilder.build());
 
 			GraphQLRequestContext graphQLRequestContext =
-				new GraphQLRequestContext() {
-					{
-						setApplicationName(_applicationName);
-						setCompanyId(_companyId);
-						setHttpMethod(_httpMethod);
-						setMethod(method);
-						setNamespace(_namespace);
-						setResourceClass(_resourceClass);
-					}
-				};
+				new ServletDataRequestContext(
+					_companyId, _httpMethod, method, _servletData);
 
 			graphQLFieldDefinitionBuilder.dataFetcher(
 				new LiferayMethodDataFetcher(
