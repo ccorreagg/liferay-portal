@@ -14,6 +14,8 @@
 
 package com.liferay.portal.vulcan.graphql.servlet;
 
+import com.liferay.portal.kernel.util.ObjectValuePair;
+
 /**
  * @author Preston Crary
  */
@@ -33,7 +35,7 @@ public interface ServletData {
 
 	public Object getQuery();
 
-	public default String getResourceMethod(
+	public default ObjectValuePair<Class<?>, String> getResourceMethodPair(
 		String methodName, boolean mutation) {
 
 		return null;
