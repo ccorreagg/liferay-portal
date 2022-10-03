@@ -19,61 +19,18 @@ import java.lang.reflect.Method;
 /**
  * @author Carlos Correa
  */
-public class GraphQLRequestContext {
+public interface GraphQLRequestContext {
 
-	public String getApplicationName() {
-		return _applicationName;
-	}
+	public String getApplicationName();
 
-	public long getCompanyId() {
-		return _companyId;
-	}
+	public long getCompanyId();
 
-	public String getHttpMethod() {
-		return _httpMethod;
-	}
+	public String getHttpMethod();
 
-	public Method getMethod() {
-		return _method;
-	}
+	public Method getMethod();
 
-	public String getNamespace() {
-		return _namespace;
-	}
+	public String getNamespace();
 
-	public Class<?> getResourceClass() {
-		return _resourceClass;
-	}
-
-	public void setApplicationName(String applicationName) {
-		_applicationName = applicationName;
-	}
-
-	public void setCompanyId(long companyId) {
-		_companyId = companyId;
-	}
-
-	public void setHttpMethod(String httpMethod) {
-		_httpMethod = httpMethod;
-	}
-
-	public void setMethod(Method method) {
-		_method = method;
-	}
-
-	public void setNamespace(String namespace) {
-		_namespace = namespace;
-	}
-
-	public void setResourceClass(Class<?> resourceClass) {
-		_resourceClass = resourceClass;
-	}
-
-	private String _applicationName;
-	private long _companyId;
-	private String _httpMethod;
-	private Method _method;
-	private String _namespace;
-	private Class<?> _resourceClass;
+	public Class<?> getResourceClass();
 
 }
