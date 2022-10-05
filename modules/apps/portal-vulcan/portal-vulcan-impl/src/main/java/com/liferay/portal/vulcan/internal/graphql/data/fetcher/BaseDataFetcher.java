@@ -17,21 +17,16 @@ package com.liferay.portal.vulcan.internal.graphql.data.fetcher;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.vulcan.graphql.validation.GraphQLRequestContext;
 import com.liferay.portal.vulcan.graphql.validation.GraphQLRequestContextValidator;
-import com.liferay.portal.vulcan.internal.graphql.constants.GraphQLConstants;
 
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
-import graphql.schema.GraphQLType;
 
 import graphql.servlet.GraphQLContext;
 
 import java.lang.reflect.InvocationTargetException;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,16 +51,7 @@ public abstract class BaseDataFetcher implements DataFetcher<Object> {
 		throws Exception {
 
 		try {
-			HttpServletRequest httpServletRequest = _getHttpServletRequest(
-				dataFetchingEnvironment);
-
-			GraphQLType graphQLType = dataFetchingEnvironment.getParentType();
-
-			if (_graphQLNamespaces.contains(graphQLType.getName()) ||
-				StringUtil.equals(
-					_graphQLRequestContext.getNamespace(),
-					graphQLType.getName())) {
-
+			if (_graphQLRequestContext != null) {
 				for (GraphQLRequestContextValidator
 						graphQLRequestContextValidator :
 							_graphQLRequestContextValidators) {
@@ -76,7 +62,8 @@ public abstract class BaseDataFetcher implements DataFetcher<Object> {
 			}
 
 			return get(
-				dataFetchingEnvironment, httpServletRequest,
+				dataFetchingEnvironment,
+				_getHttpServletRequest(dataFetchingEnvironment),
 				_getHttpServletResponse(dataFetchingEnvironment));
 		}
 		catch (InvocationTargetException invocationTargetException) {
@@ -126,10 +113,6 @@ public abstract class BaseDataFetcher implements DataFetcher<Object> {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		BaseDataFetcher.class);
-
-	private static final List<String> _graphQLNamespaces = Arrays.asList(
-		GraphQLConstants.NAMESPACE_C, GraphQLConstants.NAMESPACE_MUTATION,
-		GraphQLConstants.NAMESPACE_QUERY);
 
 	private final GraphQLRequestContext _graphQLRequestContext;
 	private final ServiceTrackerList<GraphQLRequestContextValidator>

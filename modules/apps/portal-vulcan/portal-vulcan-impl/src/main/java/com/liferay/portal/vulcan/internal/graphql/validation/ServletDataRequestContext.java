@@ -23,25 +23,22 @@ import java.lang.reflect.Method;
 
 import java.util.Objects;
 
-import javax.ws.rs.HttpMethod;
-
 /**
  * @author Carlos Correa
  */
 public class ServletDataRequestContext implements GraphQLRequestContext {
 
 	public ServletDataRequestContext(
-		long companyId, String httpMethod, Method method,
+		long companyId, Method method, boolean mutation,
 		ServletData servletData) {
 
 		_companyId = companyId;
-		_httpMethod = httpMethod;
 		_method = method;
 		_servletData = servletData;
 
 		_namespace = _getNamespace(servletData);
-		_resourceClass = _getResourceClass(httpMethod, method, servletData);
-		_resourceMethod = _getResourceMethod(httpMethod, method, servletData);
+		_resourceClass = _getResourceClass(method, mutation, servletData);
+		_resourceMethod = _getResourceMethod(method, mutation, servletData);
 	}
 
 	@Override
@@ -75,7 +72,9 @@ public class ServletDataRequestContext implements GraphQLRequestContext {
 	}
 
 	private String _getNamespace(ServletData servletData) {
-		if (servletData.getGraphQLNamespace() == null) {
+		if ((servletData == null) ||
+			(servletData.getGraphQLNamespace() == null)) {
+
 			return null;
 		}
 
@@ -84,11 +83,14 @@ public class ServletDataRequestContext implements GraphQLRequestContext {
 	}
 
 	private Class<?> _getResourceClass(
-		String httpMethod, Method method, ServletData servletData) {
+		Method method, boolean mutation, ServletData servletData) {
+
+		if (servletData == null) {
+			return null;
+		}
 
 		ObjectValuePair<Class<?>, String> resourceMethodPair =
-			servletData.getResourceMethodPair(
-				method.getName(), !Objects.equals(HttpMethod.GET, httpMethod));
+			servletData.getResourceMethodPair(method.getName(), mutation);
 
 		if (resourceMethodPair == null) {
 			return null;
@@ -98,11 +100,14 @@ public class ServletDataRequestContext implements GraphQLRequestContext {
 	}
 
 	private Method _getResourceMethod(
-		String httpMethod, Method method, ServletData servletData) {
+		Method method, boolean mutation, ServletData servletData) {
+
+		if (servletData == null) {
+			return null;
+		}
 
 		ObjectValuePair<Class<?>, String> resourceMethodPair =
-			servletData.getResourceMethodPair(
-				method.getName(), !Objects.equals(HttpMethod.GET, httpMethod));
+			servletData.getResourceMethodPair(method.getName(), mutation);
 
 		if (resourceMethodPair == null) {
 			return null;
@@ -122,7 +127,6 @@ public class ServletDataRequestContext implements GraphQLRequestContext {
 	}
 
 	private final long _companyId;
-	private final String _httpMethod;
 	private final Method _method;
 	private final String _namespace;
 	private final Class<?> _resourceClass;

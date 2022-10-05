@@ -189,7 +189,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.HttpMethod;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 
@@ -719,11 +718,9 @@ public class GraphQLServletExtender {
 
 	private void _collectObjectFields(
 		Function<ServletData, Object> function,
-		GraphQLObjectType.Builder graphQLObjectTypeBuilder, boolean mutation,
+		GraphQLObjectType.Builder graphQLObjectTypeBuilder,
 		ProcessingElementsContainer processingElementsContainer,
 		List<ServletData> servletDatas) {
-
-		Map<Method, ServletData> servletDataMap = new HashMap<>();
 
 		Stream<ServletData> stream = servletDatas.stream();
 
@@ -744,7 +741,7 @@ public class GraphQLServletExtender {
 				method -> _isMethodEnabled(method, servletData.getPath())
 			).map(
 				method -> {
-					servletDataMap.put(method, servletData);
+					_servletDataMap.put(method, servletData);
 
 					return method;
 				}
@@ -760,12 +757,6 @@ public class GraphQLServletExtender {
 				Method method = methodOptional.get();
 
 				Class<?> clazz = method.getDeclaringClass();
-
-				ServletData servletData = servletDataMap.get(method);
-
-				_servletData = servletData;
-
-				_httpMethod = _getHttpMethod(method, mutation);
 
 				graphQLObjectTypeBuilder.field(
 					_graphQLFieldRetriever.getField(
@@ -809,9 +800,8 @@ public class GraphQLServletExtender {
 			PropertyDataFetcher.clearReflectionCache();
 
 			_companyId = companyId;
-			_httpMethod = null;
 			_registeredClassNames.clear();
-			_servletData = null;
+			_servletDataMap.clear();
 
 			GraphQLObjectType.Builder mutationGraphQLObjectTypeBuilder =
 				GraphQLObjectType.newObject();
@@ -853,13 +843,17 @@ public class GraphQLServletExtender {
 						Set<Class<?>> classes = classesMap.get(clazz);
 
 						classes.add(innerClasses);
+
+						for (Method method : innerClasses.getMethods()) {
+							_servletDataMap.put(method, servletData);
+						}
 					}
 				}
 			}
 
 			_collectObjectFields(
 				ServletData::getMutation, mutationGraphQLObjectTypeBuilder,
-				true, processingElementsContainer, servletDatas);
+				processingElementsContainer, servletDatas);
 
 			GraphQLObjectType.Builder queryGraphQLObjectTypeBuilder =
 				GraphQLObjectType.newObject();
@@ -868,7 +862,7 @@ public class GraphQLServletExtender {
 				GraphQLConstants.NAMESPACE_QUERY);
 
 			_collectObjectFields(
-				ServletData::getQuery, queryGraphQLObjectTypeBuilder, false,
+				ServletData::getQuery, queryGraphQLObjectTypeBuilder,
 				processingElementsContainer, servletDatas);
 
 			GraphQLSchema.Builder graphQLSchemaBuilder =
@@ -1039,36 +1033,6 @@ public class GraphQLServletExtender {
 		}
 
 		return graphQLObjectTypeBuilder.build();
-	}
-
-	private String _getHttpMethod(Method method, boolean mutation) {
-		String httpMethod = null;
-
-		if (mutation) {
-			if (StringUtil.startsWith(method.getName(), "create")) {
-				httpMethod = HttpMethod.POST;
-			}
-			else if (StringUtil.startsWith(method.getName(), "delete")) {
-				httpMethod = HttpMethod.DELETE;
-			}
-			else if (StringUtil.startsWith(method.getName(), "head")) {
-				httpMethod = HttpMethod.HEAD;
-			}
-			else if (StringUtil.startsWith(method.getName(), "options")) {
-				httpMethod = HttpMethod.OPTIONS;
-			}
-			else if (StringUtil.startsWith(method.getName(), "patch")) {
-				httpMethod = HttpMethod.PATCH;
-			}
-			else if (StringUtil.startsWith(method.getName(), "update")) {
-				httpMethod = HttpMethod.PUT;
-			}
-		}
-		else {
-			httpMethod = HttpMethod.GET;
-		}
-
-		return httpMethod;
 	}
 
 	private GraphQLObjectType _getPageGraphQLObjectType(
@@ -1539,14 +1503,12 @@ public class GraphQLServletExtender {
 
 			Method[] methods = clazz.getMethods();
 
-			_servletData = servletData;
-
 			for (Method method : methods) {
 				if (!_isMethodEnabled(method, servletData.getPath())) {
 					continue;
 				}
 
-				_httpMethod = _getHttpMethod(method, mutation);
+				_servletDataMap.put(method, servletData);
 
 				builder.field(
 					_graphQLFieldRetriever.getField(
@@ -1555,7 +1517,7 @@ public class GraphQLServletExtender {
 
 				GraphQLRequestContext graphQLRequestContext =
 					new ServletDataRequestContext(
-						_companyId, _httpMethod, method, _servletData);
+						_companyId, method, mutation, servletData);
 
 				graphQLSchemaBuilder.codeRegistry(
 					graphQLCodeRegistryBuilder.dataFetcher(
@@ -1921,7 +1883,6 @@ public class GraphQLServletExtender {
 	private GraphQLFieldRetriever _graphQLFieldRetriever;
 	private ServiceTrackerList<GraphQLRequestContextValidator>
 		_graphQLRequestContextValidators;
-	private String _httpMethod;
 
 	@Reference
 	private LiferayMethodDataFetchingProcessor
@@ -1940,8 +1901,8 @@ public class GraphQLServletExtender {
 
 	private ServiceRegistration<ServletContextHelper>
 		_servletContextHelperServiceRegistration;
-	private ServletData _servletData;
 	private final List<ServletData> _servletDataList = new ArrayList<>();
+	private final Map<Method, ServletData> _servletDataMap = new HashMap<>();
 	private ServiceTracker<ServletData, ServletData> _servletDataServiceTracker;
 	private final Map<Long, Servlet> _servlets = new ConcurrentHashMap<>();
 	private ServiceRegistration<Servlet> _servletServiceRegistration;
@@ -2492,9 +2453,17 @@ public class GraphQLServletExtender {
 
 			graphQLFieldDefinitionBuilder.arguments(argumentBuilder.build());
 
-			GraphQLRequestContext graphQLRequestContext =
-				new ServletDataRequestContext(
-					_companyId, _httpMethod, method, _servletData);
+			GraphQLRequestContext graphQLRequestContext = null;
+
+			if (_servletDataMap.containsKey(method)) {
+				Class<?> clazz = method.getDeclaringClass();
+
+				String canonicalName = clazz.getCanonicalName();
+
+				graphQLRequestContext = new ServletDataRequestContext(
+					_companyId, method, !canonicalName.contains("Query"),
+					_servletDataMap.get(method));
+			}
 
 			graphQLFieldDefinitionBuilder.dataFetcher(
 				new LiferayMethodDataFetcher(
