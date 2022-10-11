@@ -87,7 +87,7 @@ public class ObjectEntryRelatedObjectsResourceImpl
 	}
 
 	@Override
-	public ObjectEntry putCurrentObjectEntry(
+	public Object putCurrentObjectEntry(
 			Long currentObjectEntryId, String objectRelationshipName,
 			Long relatedObjectEntryId)
 		throws Exception {
@@ -101,12 +101,22 @@ public class ObjectEntryRelatedObjectsResourceImpl
 			_objectEntryManagerTracker.getObjectEntryManager(
 				_objectDefinition.getStorageType());
 
-		return _getRelatedObjectEntry(
+		ObjectDefinition relatedObjectDefinition =
 			_objectDefinitionLocalService.getObjectDefinition(
-				objectRelationship.getObjectDefinitionId2()),
+				objectRelationship.getObjectDefinitionId2());
+
+		if (relatedObjectDefinition.isSystem()) {
+			return objectEntryManager.
+				addSystemObjectRelationshipMappingTableValues(
+					relatedObjectDefinition, objectRelationship,
+					currentObjectEntryId, relatedObjectEntryId);
+		}
+
+		return _getRelatedObjectEntry(
+			relatedObjectDefinition,
 			objectEntryManager.addObjectRelationshipMappingTableValues(
 				_getDTOConverterContext(currentObjectEntryId),
-				_objectDefinition, objectRelationshipName, currentObjectEntryId,
+				objectRelationship, currentObjectEntryId,
 				relatedObjectEntryId));
 	}
 

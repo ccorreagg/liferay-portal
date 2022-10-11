@@ -14,7 +14,6 @@
 
 package com.liferay.object.rest.internal.resource.v1_0;
 
-import com.liferay.object.rest.dto.v1_0.ObjectEntry;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.pagination.Page;
@@ -79,7 +78,7 @@ public abstract class BaseObjectEntryRelatedObjectsResourceImpl {
 	@Produces({"application/json", "application/xml"})
 	@PUT
 	@Tags(@Tag(name = "ObjectEntry"))
-	public abstract ObjectEntry putCurrentObjectEntry(
+	public abstract Object putCurrentObjectEntry(
 			@NotNull @Parameter(hidden = true)
 			@PathParam("currentObjectEntryId")
 			Long currentObjectEntryId,
