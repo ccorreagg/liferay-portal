@@ -22,7 +22,9 @@ import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectRelationshipLocalService;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.vulcan.dto.converter.DTOMapper;
 import com.liferay.portal.vulcan.openapi.contributor.OpenAPIContributor;
+import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -44,21 +46,28 @@ import java.util.Objects;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.osgi.framework.BundleContext;
+
 /**
  * @author Alejandro Tardín
  */
 public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 
 	public ObjectEntryOpenAPIContributor(
+		BundleContext bundleContext, DTOMapper dtoMapper,
 		ObjectDefinition objectDefinition,
 		ObjectDefinitionLocalService objectDefinitionLocalService,
 		ObjectEntryOpenAPIResource objectEntryOpenAPIResource,
-		ObjectRelationshipLocalService objectRelationshipLocalService) {
+		ObjectRelationshipLocalService objectRelationshipLocalService,
+		OpenAPIResource openAPIResource) {
 
+		_bundleContext = bundleContext;
+		_dtoMapper = dtoMapper;
 		_objectDefinition = objectDefinition;
 		_objectDefinitionLocalService = objectDefinitionLocalService;
 		_objectEntryOpenAPIResource = objectEntryOpenAPIResource;
 		_objectRelationshipLocalService = objectRelationshipLocalService;
+		_openAPIResource = openAPIResource;
 	}
 
 	@Override
@@ -80,15 +89,12 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 
 				ObjectDefinition relatedObjectDefinition = entry.getValue();
 
-				if (!relatedObjectDefinition.isSystem()) {
-					if (uriInfo != null) {
-						_addSchema(relatedObjectDefinition, openAPI);
-					}
-
-					_addPathItem(
-						key, relatedObjectDefinition, objectRelationship,
-						paths);
+				if (uriInfo != null) {
+					_addSchema(relatedObjectDefinition, openAPI);
 				}
+
+				_addPathItem(
+					key, relatedObjectDefinition, objectRelationship, paths);
 
 				openAPI.getComponents(
 				).getSchemas(
@@ -139,7 +145,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		throws Exception {
 
 		String schemaName = OpenAPIContributorUtil.getSchemaName(
-			objectDefinition);
+			_dtoMapper, objectDefinition);
 
 		Components components = openAPI.getComponents();
 
@@ -149,12 +155,22 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 			return;
 		}
 
-		OpenAPI objectEntryOpenAPI =
-			OpenAPIContributorUtil.getObjectEntryOpenAPI(
-				objectDefinition, _objectEntryOpenAPIResource);
+		OpenAPI objectDefinitionOpenAPI;
+
+		if (objectDefinition.isSystem()) {
+			objectDefinitionOpenAPI =
+				OpenAPIContributorUtil.getSystemObjectOpenAPI(
+					_bundleContext, _dtoMapper, objectDefinition,
+					_openAPIResource);
+		}
+		else {
+			objectDefinitionOpenAPI =
+				OpenAPIContributorUtil.getObjectEntryOpenAPI(
+					objectDefinition, _objectEntryOpenAPIResource);
+		}
 
 		OpenAPIContributorUtil.copySchemas(
-			objectDefinition, objectEntryOpenAPI, openAPI);
+			_dtoMapper, objectDefinition, objectDefinitionOpenAPI, openAPI);
 	}
 
 	private Operation _createOperation(
@@ -224,11 +240,11 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 
 		if (StringUtil.equals(httpMethod, "get")) {
 			schemaName = OpenAPIContributorUtil.getPageSchemaName(
-				relatedObjectDefinition);
+				_dtoMapper, relatedObjectDefinition);
 		}
 		else {
 			schemaName = OpenAPIContributorUtil.getSchemaName(
-				relatedObjectDefinition);
+				_dtoMapper, relatedObjectDefinition);
 		}
 
 		ApiResponses operationApiResponses = operation.getResponses();
@@ -335,10 +351,13 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		return relatedObjectDefinitionsMap;
 	}
 
+	private final BundleContext _bundleContext;
+	private final DTOMapper _dtoMapper;
 	private final ObjectDefinition _objectDefinition;
 	private final ObjectDefinitionLocalService _objectDefinitionLocalService;
 	private final ObjectEntryOpenAPIResource _objectEntryOpenAPIResource;
 	private final ObjectRelationshipLocalService
 		_objectRelationshipLocalService;
+	private final OpenAPIResource _openAPIResource;
 
 }

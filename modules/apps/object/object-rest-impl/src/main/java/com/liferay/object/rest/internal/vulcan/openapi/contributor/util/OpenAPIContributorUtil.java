@@ -16,6 +16,12 @@ package com.liferay.object.rest.internal.vulcan.openapi.contributor.util;
 
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.vulcan.dto.converter.DTOMapper;
+import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -25,19 +31,35 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+
 /**
  * @author Carlos Correa
  */
 public class OpenAPIContributorUtil {
 
 	public static void copySchemas(
-		ObjectDefinition objectDefinition, OpenAPI sourceOpenAPI,
-		OpenAPI targetOpenAPI) {
+		DTOMapper dtoMapper, ObjectDefinition objectDefinition,
+		OpenAPI sourceOpenAPI, OpenAPI targetOpenAPI) {
 
-		_copySchema(
-			getPageSchemaName(objectDefinition), sourceOpenAPI, targetOpenAPI);
-		_copySchema(
-			getSchemaName(objectDefinition), sourceOpenAPI, targetOpenAPI);
+		if (objectDefinition.isSystem()) {
+			Components components = sourceOpenAPI.getComponents();
+
+			Map<String, Schema> schemas = components.getSchemas();
+
+			for (String schemaName : schemas.keySet()) {
+				_copySchema(schemaName, sourceOpenAPI, targetOpenAPI);
+			}
+		}
+		else {
+			_copySchema(
+				getPageSchemaName(dtoMapper, objectDefinition), sourceOpenAPI,
+				targetOpenAPI);
+			_copySchema(
+				getSchemaName(dtoMapper, objectDefinition), sourceOpenAPI,
+				targetOpenAPI);
+		}
 	}
 
 	public static OpenAPI getObjectEntryOpenAPI(
@@ -51,22 +73,71 @@ public class OpenAPIContributorUtil {
 		return (OpenAPI)response.getEntity();
 	}
 
-	public static String getPageSchemaName(ObjectDefinition objectDefinition) {
-		return "Page" + getSchemaName(objectDefinition);
+	public static String getObjectEntrySchemaName(
+		ObjectDefinition objectDefinition) {
+
+		return objectDefinition.getShortName();
 	}
 
-	public static String getSchemaName(ObjectDefinition objectDefinition) {
-		return objectDefinition.getShortName();
+	public static String getPageSchemaName(
+		DTOMapper dtoMapper, ObjectDefinition objectDefinition) {
+
+		return "Page" + getSchemaName(dtoMapper, objectDefinition);
+	}
+
+	public static String getSchemaName(
+		DTOMapper dtoMapper, ObjectDefinition objectDefinition) {
+
+		if (objectDefinition.isSystem()) {
+			String className = dtoMapper.toExternalDTOClassName(
+				objectDefinition.getClassName());
+
+			return StringUtil.extractLast(className, StringPool.PERIOD);
+		}
+
+		return getObjectEntrySchemaName(objectDefinition);
+	}
+
+	public static OpenAPI getSystemObjectOpenAPI(
+			BundleContext bundleContext, DTOMapper dtoMapper,
+			ObjectDefinition objectDefinition, OpenAPIResource openAPIResource)
+		throws Exception {
+
+		String className = dtoMapper.toExternalDTOClassName(
+			objectDefinition.getClassName());
+
+		ServiceReference[] serviceReferences =
+			bundleContext.getServiceReferences(
+				(String)null,
+				"(&(entity.class.name=" + className +
+					")(osgi.jaxrs.resource=true))");
+
+		if (ArrayUtil.isEmpty(serviceReferences)) {
+			throw new IllegalStateException();
+		}
+
+		Object resource = bundleContext.getService(serviceReferences[0]);
+
+		Response response = openAPIResource.getOpenAPI(
+			null, SetUtil.fromArray(resource.getClass()), "json", null);
+
+		return (OpenAPI)response.getEntity();
 	}
 
 	private static void _copySchema(
 		String schemaName, OpenAPI sourceOpenAPI, OpenAPI targetOpenAPI) {
 
-		Components components = sourceOpenAPI.getComponents();
+		Components targetComponents = targetOpenAPI.getComponents();
 
-		Map<String, Schema> schemas = components.getSchemas();
+		Map<String, Schema> targetSchemas = targetComponents.getSchemas();
 
-		targetOpenAPI.schema(schemaName, schemas.get(schemaName));
+		if (!targetSchemas.containsKey(schemaName)) {
+			Components components = sourceOpenAPI.getComponents();
+
+			Map<String, Schema> schemas = components.getSchemas();
+
+			targetSchemas.put(schemaName, schemas.get(schemaName));
+		}
 	}
 
 }

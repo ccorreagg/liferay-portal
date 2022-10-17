@@ -125,7 +125,7 @@ public class RelatedObjectEntryOpenAPIContributor
 				objectDefinition, _objectEntryOpenAPIResource);
 
 		OpenAPIContributorUtil.copySchemas(
-			objectDefinition, objectEntryOpenAPI, openAPI);
+			null, objectDefinition, objectEntryOpenAPI, openAPI);
 
 		Paths paths = openAPI.getPaths();
 
@@ -220,7 +220,7 @@ public class RelatedObjectEntryOpenAPIContributor
 										setContent(
 											_getContent(
 												OpenAPIContributorUtil.
-													getPageSchemaName(
+													getObjectEntrySchemaName(
 														objectDefinition)));
 									}
 								});
@@ -291,7 +291,7 @@ public class RelatedObjectEntryOpenAPIContributor
 										setContent(
 											_getContent(
 												OpenAPIContributorUtil.
-													getSchemaName(
+													getObjectEntrySchemaName(
 														objectDefinition)));
 									}
 								});
