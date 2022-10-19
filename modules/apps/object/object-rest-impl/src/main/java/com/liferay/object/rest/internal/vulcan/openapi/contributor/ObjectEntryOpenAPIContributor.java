@@ -90,12 +90,14 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 
 				ObjectDefinition relatedObjectDefinition = entry.getValue();
 
+				String relatedSchemaName = _objectHelper.getSchemaName(relatedObjectDefinition);
+
 				if (uriInfo != null) {
-					_addSchema(relatedObjectDefinition, openAPI);
+					_addSchema(relatedObjectDefinition, openAPI, relatedSchemaName);
 				}
 
 				_addPathItem(
-					key, relatedObjectDefinition, objectRelationship, paths);
+					key, objectRelationship, paths, relatedSchemaName);
 
 				openAPI.getComponents(
 				).getSchemas(
@@ -121,8 +123,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 	}
 
 	private void _addPathItem(
-		String key, ObjectDefinition objectDefinition,
-		ObjectRelationship objectRelationship, Paths paths) {
+		String key,	ObjectRelationship objectRelationship, Paths paths, String schemaName) {
 
 		paths.addPathItem(
 			StringUtil.replace(
@@ -136,16 +137,14 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 						_objectDefinition.getShortName()),
 					objectRelationship.getName(),
 					StringUtil.lowerCaseFirstLetter(
-						objectDefinition.getShortName())
+						schemaName)
 				}),
 			_createPathItem(
-				objectRelationship, paths.get(key), objectDefinition));
+				objectRelationship, paths.get(key), schemaName));
 	}
 
-	private void _addSchema(ObjectDefinition objectDefinition, OpenAPI openAPI)
+	private void _addSchema(ObjectDefinition objectDefinition, OpenAPI openAPI, String schemaName)
 		throws Exception {
-
-		String schemaName = _objectHelper.getSchemaName(objectDefinition);
 
 		Components components = openAPI.getComponents();
 
@@ -173,30 +172,41 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 			objectDefinition, _objectHelper, objectDefinitionOpenAPI, openAPI);
 	}
 
-	private Operation _createOperation(
-		String httpMethod, ObjectRelationship objectRelationship,
-		Operation operation, ObjectDefinition relatedObjectDefinition) {
+	private Operation _getGetOperation(ObjectRelationship objectRelationship, Operation operation, String schemaName) {
+		return new Operation() {
+			{
+				operationId(
+					StringBundler.concat(
+						"get", _objectDefinition.getShortName(),
+						StringUtil.upperCaseFirstLetter(
+							objectRelationship.getName()),
+						schemaName, "Page"));
+				parameters(_getParameters(operation, schemaName));
+				responses(_getApiResponses(operation, OpenAPIContributorUtil.getPageSchemaName(schemaName)));
+				tags(operation.getTags());
+			}
+		};
+	}
+
+	private Operation _getPutOperation(ObjectRelationship objectRelationship, Operation operation, String schemaName) {
 
 		return new Operation() {
 			{
 				operationId(
 					StringBundler.concat(
-						httpMethod, _objectDefinition.getShortName(),
+						"put", _objectDefinition.getShortName(),
 						StringUtil.upperCaseFirstLetter(
 							objectRelationship.getName()),
-						relatedObjectDefinition.getShortName()));
-				parameters(_getParameters(operation, relatedObjectDefinition));
-				responses(
-					_getApiResponses(
-						httpMethod, operation, relatedObjectDefinition));
+						schemaName));
+				parameters(_getParameters(operation, schemaName));
+				responses(_getApiResponses(operation, schemaName));
 				tags(operation.getTags());
 			}
 		};
 	}
 
 	private PathItem _createPathItem(
-		ObjectRelationship objectRelationship, PathItem pathItem,
-		ObjectDefinition relatedObjectDefinition) {
+		ObjectRelationship objectRelationship, PathItem pathItem, String schemaName) {
 
 		Map<PathItem.HttpMethod, Operation> operations =
 			pathItem.readOperationsMap();
@@ -206,10 +216,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		if (operation != null) {
 			return new PathItem() {
 				{
-					get(
-						_createOperation(
-							"get", objectRelationship, pathItem.getGet(),
-							relatedObjectDefinition));
+					get(_getGetOperation(objectRelationship, pathItem.getGet(), schemaName));
 				}
 			};
 		}
@@ -219,10 +226,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		if (operation != null) {
 			return new PathItem() {
 				{
-					put(
-						_createOperation(
-							"put", objectRelationship, pathItem.getPut(),
-							relatedObjectDefinition));
+					put(_getPutOperation(objectRelationship, pathItem.getPut(), schemaName));
 				}
 			};
 		}
@@ -231,20 +235,9 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 	}
 
 	private ApiResponses _getApiResponses(
-		String httpMethod, Operation operation,
-		ObjectDefinition relatedObjectDefinition) {
+		Operation operation, String schemaName) {
 
 		ApiResponses apiResponses = new ApiResponses();
-
-		String schemaName;
-
-		if (StringUtil.equals(httpMethod, "get")) {
-			schemaName = OpenAPIContributorUtil.getPageSchemaName(
-				_objectHelper.getSchemaName(relatedObjectDefinition));
-		}
-		else {
-			schemaName = _objectHelper.getSchemaName(relatedObjectDefinition);
-		}
 
 		ApiResponses operationApiResponses = operation.getResponses();
 
@@ -288,7 +281,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 	}
 
 	private List<Parameter> _getParameters(
-		Operation operation, ObjectDefinition relatedObjectDefinition) {
+		Operation operation, String schemaName) {
 
 		List<Parameter> parameters = new ArrayList<>();
 
@@ -309,7 +302,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 				parameterName = StringUtil.replace(
 					parameterName, "relatedObjectEntry",
 					StringUtil.lowerCaseFirstLetter(
-						relatedObjectDefinition.getShortName()));
+						schemaName));
 			}
 
 			String finalParameterName = parameterName;
