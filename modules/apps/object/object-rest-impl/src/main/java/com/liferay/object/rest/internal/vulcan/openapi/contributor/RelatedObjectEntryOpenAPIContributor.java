@@ -16,6 +16,7 @@ package com.liferay.object.rest.internal.vulcan.openapi.contributor;
 
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectRelationship;
+import com.liferay.object.rest.internal.helper.ObjectHelper;
 import com.liferay.object.rest.internal.vulcan.openapi.contributor.util.OpenAPIContributorUtil;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
 import com.liferay.object.service.ObjectDefinitionLocalService;
@@ -127,15 +128,18 @@ public class RelatedObjectEntryOpenAPIContributor
 		OpenAPIContributorUtil.copySchemas(
 			null, objectDefinition, objectEntryOpenAPI, openAPI);
 
-		Paths paths = openAPI.getPaths();
+		DTOConverter<?, ?> dtoConverter = _objectHelper.getDTOConverter(
+			systemObjectDefinitionMetadata);
+
+		String contentType = dtoConverter.getContentType();
 
 		String name = StringBundler.concat(
 			StringPool.SLASH, _getJaxRsVersion(uriInfo), StringPool.SLASH,
 			_getSystemObjectBasePath(systemObjectDefinitionMetadata),
-			StringPool.SLASH,
-			_getIdParameterTemplate(
-				_getContentType(systemObjectDefinitionMetadata)),
+			StringPool.SLASH, _getIdParameterTemplate(contentType),
 			StringPool.SLASH, systemObjectRelationship.getName());
+
+		Paths paths = openAPI.getPaths();
 
 		paths.addPathItem(
 			name,
@@ -143,7 +147,8 @@ public class RelatedObjectEntryOpenAPIContributor
 				{
 					get(
 						_getGetOperation(
-							objectDefinition, systemObjectRelationship,
+							contentType, objectDefinition,
+							systemObjectRelationship,
 							systemObjectDefinitionMetadata));
 				}
 			});
@@ -155,7 +160,8 @@ public class RelatedObjectEntryOpenAPIContributor
 				{
 					put(
 						_getPutOperation(
-							objectDefinition, systemObjectRelationship,
+							contentType, objectDefinition,
+							systemObjectRelationship,
 							systemObjectDefinitionMetadata));
 				}
 			});
@@ -178,22 +184,13 @@ public class RelatedObjectEntryOpenAPIContributor
 		return content;
 	}
 
-	private String _getContentType(
-		SystemObjectDefinitionMetadata systemObjectDefinitionMetadata) {
-
-		DTOConverter<?, ?> dtoConverter = _dtoConverterRegistry.getDTOConverter(
-			systemObjectDefinitionMetadata.getModelClassName());
-
-		return dtoConverter.getContentType();
-	}
-
 	private Operation _getGetOperation(
+		String name,
 		ObjectDefinition objectDefinition,
 		ObjectRelationship objectRelationship,
 		SystemObjectDefinitionMetadata systemObjectDefinitionMetadata) {
 
-		String parameterName = _getIdParameterName(
-			_getContentType(systemObjectDefinitionMetadata));
+		String parameterName = _getIdParameterName(name);
 
 		return new Operation() {
 			{
@@ -227,8 +224,7 @@ public class RelatedObjectEntryOpenAPIContributor
 						}
 					});
 				tags(
-					Collections.singletonList(
-						_getContentType(systemObjectDefinitionMetadata)));
+					Collections.singletonList(name));
 			}
 		};
 	}
@@ -249,15 +245,13 @@ public class RelatedObjectEntryOpenAPIContributor
 	}
 
 	private Operation _getPutOperation(
+		String name,
 		ObjectDefinition objectDefinition,
 		ObjectRelationship objectRelationship,
 		SystemObjectDefinitionMetadata systemObjectDefinitionMetadata) {
 
 		String upperCaseFirstLetterObjectRelationshipName =
 			StringUtil.upperCaseFirstLetter(objectRelationship.getName());
-
-		DTOConverter<?, ?> dtoConverter = _dtoConverterRegistry.getDTOConverter(
-			systemObjectDefinitionMetadata.getModelClassName());
 
 		return new Operation() {
 			{
@@ -268,8 +262,7 @@ public class RelatedObjectEntryOpenAPIContributor
 							{
 								in("path");
 								name(
-									_getIdParameterName(
-										dtoConverter.getContentType()));
+									_getIdParameterName(name));
 								required(true);
 							}
 						},
@@ -298,8 +291,7 @@ public class RelatedObjectEntryOpenAPIContributor
 						}
 					});
 				tags(
-					Collections.singletonList(
-						_getContentType(systemObjectDefinitionMetadata)));
+					Collections.singletonList(name));
 			}
 		};
 	}
@@ -385,6 +377,9 @@ public class RelatedObjectEntryOpenAPIContributor
 
 	@Reference
 	private ObjectEntryOpenAPIResource _objectEntryOpenAPIResource;
+
+	@Reference
+	private ObjectHelper _objectHelper;
 
 	@Reference
 	private ObjectRelationshipLocalService _objectRelationshipLocalService;

@@ -15,11 +15,10 @@
 package com.liferay.object.rest.internal.vulcan.openapi.contributor.util;
 
 import com.liferay.object.model.ObjectDefinition;
+import com.liferay.object.rest.internal.helper.ObjectHelper;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.vulcan.dto.converter.DTOMapper;
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
@@ -40,7 +39,7 @@ import org.osgi.framework.ServiceReference;
 public class OpenAPIContributorUtil {
 
 	public static void copySchemas(
-		DTOMapper dtoMapper, ObjectDefinition objectDefinition,
+		ObjectHelper systemObjectHelper, ObjectDefinition objectDefinition,
 		OpenAPI sourceOpenAPI, OpenAPI targetOpenAPI) {
 
 		if (objectDefinition.isSystem()) {
@@ -53,12 +52,12 @@ public class OpenAPIContributorUtil {
 			}
 		}
 		else {
+			String schemaName = systemObjectHelper.getSchemaName(objectDefinition);
+
 			_copySchema(
-				getPageSchemaName(dtoMapper, objectDefinition), sourceOpenAPI,
-				targetOpenAPI);
+				schemaName, sourceOpenAPI, targetOpenAPI);
 			_copySchema(
-				getSchemaName(dtoMapper, objectDefinition), sourceOpenAPI,
-				targetOpenAPI);
+				getPageSchemaName(schemaName), sourceOpenAPI, targetOpenAPI);
 		}
 	}
 
@@ -80,36 +79,20 @@ public class OpenAPIContributorUtil {
 	}
 
 	public static String getPageSchemaName(
-		DTOMapper dtoMapper, ObjectDefinition objectDefinition) {
+		String schemaName) {
 
-		return "Page" + getSchemaName(dtoMapper, objectDefinition);
-	}
-
-	public static String getSchemaName(
-		DTOMapper dtoMapper, ObjectDefinition objectDefinition) {
-
-		if (objectDefinition.isSystem()) {
-			String className = dtoMapper.toExternalDTOClassName(
-				objectDefinition.getClassName());
-
-			return StringUtil.extractLast(className, StringPool.PERIOD);
-		}
-
-		return getObjectEntrySchemaName(objectDefinition);
+		return "Page" + schemaName;
 	}
 
 	public static OpenAPI getSystemObjectOpenAPI(
-			BundleContext bundleContext, DTOMapper dtoMapper,
-			ObjectDefinition objectDefinition, OpenAPIResource openAPIResource)
+			BundleContext bundleContext, ObjectDefinition objectDefinition,
+			ObjectHelper objectHelper, OpenAPIResource openAPIResource)
 		throws Exception {
-
-		String className = dtoMapper.toExternalDTOClassName(
-			objectDefinition.getClassName());
 
 		ServiceReference[] serviceReferences =
 			bundleContext.getServiceReferences(
 				(String)null,
-				"(&(entity.class.name=" + className +
+				"(&(entity.class.name=" + objectHelper.getExternalDTOClassName(objectDefinition) +
 					")(osgi.jaxrs.resource=true))");
 
 		if (ArrayUtil.isEmpty(serviceReferences)) {

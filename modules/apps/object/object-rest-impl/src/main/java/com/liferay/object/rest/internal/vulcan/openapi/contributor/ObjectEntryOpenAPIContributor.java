@@ -16,13 +16,13 @@ package com.liferay.object.rest.internal.vulcan.openapi.contributor;
 
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectRelationship;
+import com.liferay.object.rest.internal.helper.ObjectHelper;
 import com.liferay.object.rest.internal.vulcan.openapi.contributor.util.OpenAPIContributorUtil;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectRelationshipLocalService;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.vulcan.dto.converter.DTOMapper;
 import com.liferay.portal.vulcan.openapi.contributor.OpenAPIContributor;
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
@@ -54,18 +54,19 @@ import org.osgi.framework.BundleContext;
 public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 
 	public ObjectEntryOpenAPIContributor(
-		BundleContext bundleContext, DTOMapper dtoMapper,
+		BundleContext bundleContext,
 		ObjectDefinition objectDefinition,
 		ObjectDefinitionLocalService objectDefinitionLocalService,
 		ObjectEntryOpenAPIResource objectEntryOpenAPIResource,
+		ObjectHelper objectHelper,
 		ObjectRelationshipLocalService objectRelationshipLocalService,
 		OpenAPIResource openAPIResource) {
 
 		_bundleContext = bundleContext;
-		_dtoMapper = dtoMapper;
 		_objectDefinition = objectDefinition;
 		_objectDefinitionLocalService = objectDefinitionLocalService;
 		_objectEntryOpenAPIResource = objectEntryOpenAPIResource;
+		_objectHelper = objectHelper;
 		_objectRelationshipLocalService = objectRelationshipLocalService;
 		_openAPIResource = openAPIResource;
 	}
@@ -144,8 +145,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 	private void _addSchema(ObjectDefinition objectDefinition, OpenAPI openAPI)
 		throws Exception {
 
-		String schemaName = OpenAPIContributorUtil.getSchemaName(
-			_dtoMapper, objectDefinition);
+		String schemaName = _objectHelper.getSchemaName(objectDefinition);
 
 		Components components = openAPI.getComponents();
 
@@ -160,7 +160,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		if (objectDefinition.isSystem()) {
 			objectDefinitionOpenAPI =
 				OpenAPIContributorUtil.getSystemObjectOpenAPI(
-					_bundleContext, _dtoMapper, objectDefinition,
+					_bundleContext, objectDefinition, _objectHelper,
 					_openAPIResource);
 		}
 		else {
@@ -170,7 +170,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		}
 
 		OpenAPIContributorUtil.copySchemas(
-			_dtoMapper, objectDefinition, objectDefinitionOpenAPI, openAPI);
+			_objectHelper, objectDefinition, objectDefinitionOpenAPI, openAPI);
 	}
 
 	private Operation _createOperation(
@@ -240,11 +240,10 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 
 		if (StringUtil.equals(httpMethod, "get")) {
 			schemaName = OpenAPIContributorUtil.getPageSchemaName(
-				_dtoMapper, relatedObjectDefinition);
+				_objectHelper.getSchemaName(relatedObjectDefinition));
 		}
 		else {
-			schemaName = OpenAPIContributorUtil.getSchemaName(
-				_dtoMapper, relatedObjectDefinition);
+			schemaName = _objectHelper.getSchemaName(relatedObjectDefinition);
 		}
 
 		ApiResponses operationApiResponses = operation.getResponses();
@@ -352,10 +351,10 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 	}
 
 	private final BundleContext _bundleContext;
-	private final DTOMapper _dtoMapper;
 	private final ObjectDefinition _objectDefinition;
 	private final ObjectDefinitionLocalService _objectDefinitionLocalService;
 	private final ObjectEntryOpenAPIResource _objectEntryOpenAPIResource;
+	private final ObjectHelper _objectHelper;
 	private final ObjectRelationshipLocalService
 		_objectRelationshipLocalService;
 	private final OpenAPIResource _openAPIResource;
