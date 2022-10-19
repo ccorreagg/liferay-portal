@@ -39,7 +39,7 @@ import org.osgi.framework.ServiceReference;
 public class OpenAPIContributorUtil {
 
 	public static void copySchemas(
-		ObjectHelper systemObjectHelper, ObjectDefinition objectDefinition,
+		ObjectDefinition objectDefinition, ObjectHelper objectHelper,
 		OpenAPI sourceOpenAPI, OpenAPI targetOpenAPI) {
 
 		if (objectDefinition.isSystem()) {
@@ -52,7 +52,7 @@ public class OpenAPIContributorUtil {
 			}
 		}
 		else {
-			String schemaName = systemObjectHelper.getSchemaName(objectDefinition);
+			String schemaName = objectHelper.getSchemaName(objectDefinition);
 
 			_copySchema(
 				schemaName, sourceOpenAPI, targetOpenAPI);

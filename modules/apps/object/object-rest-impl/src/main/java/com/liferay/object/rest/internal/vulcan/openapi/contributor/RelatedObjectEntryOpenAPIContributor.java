@@ -126,7 +126,7 @@ public class RelatedObjectEntryOpenAPIContributor
 				objectDefinition, _objectEntryOpenAPIResource);
 
 		OpenAPIContributorUtil.copySchemas(
-			null, objectDefinition, objectEntryOpenAPI, openAPI);
+			objectDefinition, _objectHelper, objectEntryOpenAPI, openAPI);
 
 		DTOConverter<?, ?> dtoConverter = _objectHelper.getDTOConverter(
 			systemObjectDefinitionMetadata);

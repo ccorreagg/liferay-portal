@@ -170,7 +170,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		}
 
 		OpenAPIContributorUtil.copySchemas(
-			_objectHelper, objectDefinition, objectDefinitionOpenAPI, openAPI);
+			objectDefinition, _objectHelper, objectDefinitionOpenAPI, openAPI);
 	}
 
 	private Operation _createOperation(
