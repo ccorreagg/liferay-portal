@@ -15,6 +15,7 @@
 package com.liferay.portal.vulcan.dto.converter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,5 +29,7 @@ public interface DTOConverterRegistry {
 	}
 
 	public DTOConverter<?, ?> getDTOConverter(String dtoClassName);
+
+	public List<DTOConverter<?, ?>> getDTOConverters(String dtoClassName);
 
 }
