@@ -393,21 +393,20 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 					ObjectEntryRelatedObjectsResourceImpl.class,
 					new PrototypeServiceFactory
 						<ObjectEntryRelatedObjectsResourceImpl>() {
-		
+
 						@Override
-						public ObjectEntryRelatedObjectsResourceImpl
-							getService(
-								Bundle bundle,
-								ServiceRegistration
-									<ObjectEntryRelatedObjectsResourceImpl>
-										serviceRegistration) {
-		
+						public ObjectEntryRelatedObjectsResourceImpl getService(
+							Bundle bundle,
+							ServiceRegistration
+								<ObjectEntryRelatedObjectsResourceImpl>
+									serviceRegistration) {
+
 							return new ObjectEntryRelatedObjectsResourceImpl(
 								_objectDefinitionLocalService,
 								_objectEntryManagerTracker,
 								_objectRelationshipService);
 						}
-		
+
 						@Override
 						public void ungetService(
 							Bundle bundle,
@@ -417,7 +416,7 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 							ObjectEntryRelatedObjectsResourceImpl
 								objectEntryRelatedObjectsResourceImpl) {
 						}
-		
+
 					},
 					HashMapDictionaryBuilder.<String, Object>put(
 						"api.version", "v1.0"

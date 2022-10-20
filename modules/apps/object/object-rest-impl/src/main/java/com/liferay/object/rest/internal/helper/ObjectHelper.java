@@ -23,10 +23,11 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.vulcan.dto.converter.DTOConverter;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterRegistry;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.List;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Carlos Correa
@@ -38,23 +39,31 @@ public class ObjectHelper {
 		SystemObjectDefinitionMetadata systemObjectDefinitionMetadata) {
 
 		List<DTOConverter<?, ?>> dtoConverters =
-			_dtoConverterRegistry.getDTOConverters(systemObjectDefinitionMetadata.getModelClassName());
+			_dtoConverterRegistry.getDTOConverters(
+				systemObjectDefinitionMetadata.getModelClassName());
 
 		if (ListUtil.isEmpty(dtoConverters)) {
 			return null;
-		} else if (dtoConverters.size() == 1) {
+		}
+		else if (dtoConverters.size() == 1) {
 			return dtoConverters.get(0);
 		}
 
-		String[] restContextPaths = StringUtil.split(systemObjectDefinitionMetadata.getRESTContextPath(), StringPool.SLASH);
+		String[] restContextPaths = StringUtil.split(
+			systemObjectDefinitionMetadata.getRESTContextPath(),
+			StringPool.SLASH);
 
-		String restPackage = restContextPaths[0].replaceAll(StringPool.DASH, StringPool.PERIOD);
-		String version = restContextPaths[1].replaceAll(StringPool.PERIOD, StringPool.UNDERLINE);
+		String restPackage = restContextPaths[0].replaceAll(
+			StringPool.DASH, StringPool.PERIOD);
+		String version = restContextPaths[1].replaceAll(
+			StringPool.PERIOD, StringPool.UNDERLINE);
 
 		for (DTOConverter<?, ?> dtoConverter : dtoConverters) {
 			String className = ClassUtil.getClassName(dtoConverter);
 
-			if (className.contains(restPackage) && className.contains(version)) {
+			if (className.contains(restPackage) &&
+				className.contains(version)) {
+
 				return dtoConverter;
 			}
 		}
@@ -63,30 +72,27 @@ public class ObjectHelper {
 	}
 
 	public String getExternalDTOClassName(ObjectDefinition objectDefinition) {
-		SystemObjectDefinitionMetadata systemObjectDefinitionMetadata =
+		DTOConverter<?, ?> dtoConverter = getDTOConverter(
 			_systemObjectDefinitionMetadataTracker.
-				getSystemObjectDefinitionMetadata(objectDefinition.getName());
-
-		DTOConverter<?, ?> dtoConverter = getDTOConverter(systemObjectDefinitionMetadata);
+				getSystemObjectDefinitionMetadata(objectDefinition.getName()));
 
 		return dtoConverter.getExternalDTOClassName();
 	}
 
 	public String getSchemaName(ObjectDefinition objectDefinition) {
-
 		if (objectDefinition.isSystem()) {
-			String externalDTOClassName = getExternalDTOClassName(objectDefinition);
-
-			return StringUtil.extractLast(externalDTOClassName, StringPool.PERIOD);
+			return StringUtil.extractLast(
+				getExternalDTOClassName(objectDefinition), StringPool.PERIOD);
 		}
 
 		return objectDefinition.getShortName();
 	}
 
-
 	@Reference
 	private DTOConverterRegistry _dtoConverterRegistry;
 
 	@Reference
-	private SystemObjectDefinitionMetadataTracker _systemObjectDefinitionMetadataTracker;
+	private SystemObjectDefinitionMetadataTracker
+		_systemObjectDefinitionMetadataTracker;
+
 }

@@ -54,8 +54,7 @@ import org.osgi.framework.BundleContext;
 public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 
 	public ObjectEntryOpenAPIContributor(
-		BundleContext bundleContext,
-		ObjectDefinition objectDefinition,
+		BundleContext bundleContext, ObjectDefinition objectDefinition,
 		ObjectDefinitionLocalService objectDefinitionLocalService,
 		ObjectEntryOpenAPIResource objectEntryOpenAPIResource,
 		ObjectHelper objectHelper,
@@ -90,14 +89,15 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 
 				ObjectDefinition relatedObjectDefinition = entry.getValue();
 
-				String relatedSchemaName = _objectHelper.getSchemaName(relatedObjectDefinition);
+				String relatedSchemaName = _objectHelper.getSchemaName(
+					relatedObjectDefinition);
 
 				if (uriInfo != null) {
-					_addSchema(relatedObjectDefinition, openAPI, relatedSchemaName);
+					_addSchema(
+						relatedObjectDefinition, openAPI, relatedSchemaName);
 				}
 
-				_addPathItem(
-					key, objectRelationship, paths, relatedSchemaName);
+				_addPathItem(key, objectRelationship, paths, relatedSchemaName);
 
 				openAPI.getComponents(
 				).getSchemas(
@@ -123,7 +123,8 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 	}
 
 	private void _addPathItem(
-		String key,	ObjectRelationship objectRelationship, Paths paths, String schemaName) {
+		String key, ObjectRelationship objectRelationship, Paths paths,
+		String schemaName) {
 
 		paths.addPathItem(
 			StringUtil.replace(
@@ -136,14 +137,14 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 					StringUtil.lowerCaseFirstLetter(
 						_objectDefinition.getShortName()),
 					objectRelationship.getName(),
-					StringUtil.lowerCaseFirstLetter(
-						schemaName)
+					StringUtil.lowerCaseFirstLetter(schemaName)
 				}),
-			_createPathItem(
-				objectRelationship, paths.get(key), schemaName));
+			_createPathItem(objectRelationship, paths.get(key), schemaName));
 	}
 
-	private void _addSchema(ObjectDefinition objectDefinition, OpenAPI openAPI, String schemaName)
+	private void _addSchema(
+			ObjectDefinition objectDefinition, OpenAPI openAPI,
+			String schemaName)
 		throws Exception {
 
 		Components components = openAPI.getComponents();
@@ -154,59 +155,26 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 			return;
 		}
 
-		OpenAPI objectDefinitionOpenAPI;
+		OpenAPI sourceOpenAPI;
 
 		if (objectDefinition.isSystem()) {
-			objectDefinitionOpenAPI =
-				OpenAPIContributorUtil.getSystemObjectOpenAPI(
-					_bundleContext, objectDefinition, _objectHelper,
-					_openAPIResource);
+			sourceOpenAPI = OpenAPIContributorUtil.getSystemObjectOpenAPI(
+				_bundleContext,
+				_objectHelper.getExternalDTOClassName(objectDefinition),
+				_openAPIResource);
 		}
 		else {
-			objectDefinitionOpenAPI =
-				OpenAPIContributorUtil.getObjectEntryOpenAPI(
-					objectDefinition, _objectEntryOpenAPIResource);
+			sourceOpenAPI = OpenAPIContributorUtil.getObjectEntryOpenAPI(
+				objectDefinition, _objectEntryOpenAPIResource);
 		}
 
 		OpenAPIContributorUtil.copySchemas(
-			objectDefinition, _objectHelper, objectDefinitionOpenAPI, openAPI);
-	}
-
-	private Operation _getGetOperation(ObjectRelationship objectRelationship, Operation operation, String schemaName) {
-		return new Operation() {
-			{
-				operationId(
-					StringBundler.concat(
-						"get", _objectDefinition.getShortName(),
-						StringUtil.upperCaseFirstLetter(
-							objectRelationship.getName()),
-						schemaName, "Page"));
-				parameters(_getParameters(operation, schemaName));
-				responses(_getApiResponses(operation, OpenAPIContributorUtil.getPageSchemaName(schemaName)));
-				tags(operation.getTags());
-			}
-		};
-	}
-
-	private Operation _getPutOperation(ObjectRelationship objectRelationship, Operation operation, String schemaName) {
-
-		return new Operation() {
-			{
-				operationId(
-					StringBundler.concat(
-						"put", _objectDefinition.getShortName(),
-						StringUtil.upperCaseFirstLetter(
-							objectRelationship.getName()),
-						schemaName));
-				parameters(_getParameters(operation, schemaName));
-				responses(_getApiResponses(operation, schemaName));
-				tags(operation.getTags());
-			}
-		};
+			objectDefinition, schemaName, sourceOpenAPI, openAPI);
 	}
 
 	private PathItem _createPathItem(
-		ObjectRelationship objectRelationship, PathItem pathItem, String schemaName) {
+		ObjectRelationship objectRelationship, PathItem pathItem,
+		String schemaName) {
 
 		Map<PathItem.HttpMethod, Operation> operations =
 			pathItem.readOperationsMap();
@@ -216,7 +184,9 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		if (operation != null) {
 			return new PathItem() {
 				{
-					get(_getGetOperation(objectRelationship, pathItem.getGet(), schemaName));
+					get(
+						_getGetOperation(
+							objectRelationship, pathItem.getGet(), schemaName));
 				}
 			};
 		}
@@ -226,7 +196,9 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		if (operation != null) {
 			return new PathItem() {
 				{
-					put(_getPutOperation(objectRelationship, pathItem.getPut(), schemaName));
+					put(
+						_getPutOperation(
+							objectRelationship, pathItem.getPut(), schemaName));
 				}
 			};
 		}
@@ -280,6 +252,28 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		return content;
 	}
 
+	private Operation _getGetOperation(
+		ObjectRelationship objectRelationship, Operation operation,
+		String schemaName) {
+
+		return new Operation() {
+			{
+				operationId(
+					StringBundler.concat(
+						"get", _objectDefinition.getShortName(),
+						StringUtil.upperCaseFirstLetter(
+							objectRelationship.getName()),
+						schemaName, "Page"));
+				parameters(_getParameters(operation, schemaName));
+				responses(
+					_getApiResponses(
+						operation,
+						OpenAPIContributorUtil.getPageSchemaName(schemaName)));
+				tags(operation.getTags());
+			}
+		};
+	}
+
 	private List<Parameter> _getParameters(
 		Operation operation, String schemaName) {
 
@@ -301,8 +295,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 			else if (Objects.equals(parameterName, "relatedObjectEntryId")) {
 				parameterName = StringUtil.replace(
 					parameterName, "relatedObjectEntry",
-					StringUtil.lowerCaseFirstLetter(
-						schemaName));
+					StringUtil.lowerCaseFirstLetter(schemaName));
 			}
 
 			String finalParameterName = parameterName;
@@ -319,6 +312,25 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		}
 
 		return parameters;
+	}
+
+	private Operation _getPutOperation(
+		ObjectRelationship objectRelationship, Operation operation,
+		String schemaName) {
+
+		return new Operation() {
+			{
+				operationId(
+					StringBundler.concat(
+						"put", _objectDefinition.getShortName(),
+						StringUtil.upperCaseFirstLetter(
+							objectRelationship.getName()),
+						schemaName));
+				parameters(_getParameters(operation, schemaName));
+				responses(_getApiResponses(operation, schemaName));
+				tags(operation.getTags());
+			}
+		};
 	}
 
 	private Map<ObjectRelationship, ObjectDefinition>

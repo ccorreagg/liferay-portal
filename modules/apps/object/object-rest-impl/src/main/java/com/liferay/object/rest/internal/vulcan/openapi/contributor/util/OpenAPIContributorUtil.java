@@ -15,11 +15,9 @@
 package com.liferay.object.rest.internal.vulcan.openapi.contributor.util;
 
 import com.liferay.object.model.ObjectDefinition;
-import com.liferay.object.rest.internal.helper.ObjectHelper;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.vulcan.dto.converter.DTOMapper;
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
 import io.swagger.v3.oas.models.Components;
@@ -39,23 +37,20 @@ import org.osgi.framework.ServiceReference;
 public class OpenAPIContributorUtil {
 
 	public static void copySchemas(
-		ObjectDefinition objectDefinition, ObjectHelper objectHelper,
+		ObjectDefinition objectDefinition, String schemaName,
 		OpenAPI sourceOpenAPI, OpenAPI targetOpenAPI) {
 
 		if (objectDefinition.isSystem()) {
-			Components components = sourceOpenAPI.getComponents();
+			Components sourceComponents = sourceOpenAPI.getComponents();
 
-			Map<String, Schema> schemas = components.getSchemas();
+			Map<String, Schema> sourceSchemas = sourceComponents.getSchemas();
 
-			for (String schemaName : schemas.keySet()) {
-				_copySchema(schemaName, sourceOpenAPI, targetOpenAPI);
+			for (String sourceSchemaName : sourceSchemas.keySet()) {
+				_copySchema(sourceSchemaName, sourceOpenAPI, targetOpenAPI);
 			}
 		}
 		else {
-			String schemaName = objectHelper.getSchemaName(objectDefinition);
-
-			_copySchema(
-				schemaName, sourceOpenAPI, targetOpenAPI);
+			_copySchema(schemaName, sourceOpenAPI, targetOpenAPI);
 			_copySchema(
 				getPageSchemaName(schemaName), sourceOpenAPI, targetOpenAPI);
 		}
@@ -78,21 +73,19 @@ public class OpenAPIContributorUtil {
 		return objectDefinition.getShortName();
 	}
 
-	public static String getPageSchemaName(
-		String schemaName) {
-
+	public static String getPageSchemaName(String schemaName) {
 		return "Page" + schemaName;
 	}
 
 	public static OpenAPI getSystemObjectOpenAPI(
-			BundleContext bundleContext, ObjectDefinition objectDefinition,
-			ObjectHelper objectHelper, OpenAPIResource openAPIResource)
+			BundleContext bundleContext, String externalDTOClassName,
+			OpenAPIResource openAPIResource)
 		throws Exception {
 
 		ServiceReference[] serviceReferences =
 			bundleContext.getServiceReferences(
 				(String)null,
-				"(&(entity.class.name=" + objectHelper.getExternalDTOClassName(objectDefinition) +
+				"(&(entity.class.name=" + externalDTOClassName +
 					")(osgi.jaxrs.resource=true))");
 
 		if (ArrayUtil.isEmpty(serviceReferences)) {

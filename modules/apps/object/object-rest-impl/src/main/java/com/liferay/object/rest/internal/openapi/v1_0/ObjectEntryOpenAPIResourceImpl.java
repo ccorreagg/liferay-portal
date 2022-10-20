@@ -30,7 +30,6 @@ import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.service.ObjectRelationshipLocalService;
 import com.liferay.portal.kernel.util.TreeMapBuilder;
 import com.liferay.portal.vulcan.batch.engine.Field;
-import com.liferay.portal.vulcan.dto.converter.DTOMapper;
 import com.liferay.portal.vulcan.openapi.DTOProperty;
 import com.liferay.portal.vulcan.openapi.OpenAPISchemaFilter;
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
@@ -139,8 +138,8 @@ public class ObjectEntryOpenAPIResourceImpl
 		return _openAPIResource.getOpenAPI(
 			new ObjectEntryOpenAPIContributor(
 				_bundleContext, _objectDefinition,
-				_objectDefinitionLocalService, this,
-				_objectHelper, _objectRelationshipLocalService, _openAPIResource),
+				_objectDefinitionLocalService, this, _objectHelper,
+				_objectRelationshipLocalService, _openAPIResource),
 			_getOpenAPISchemaFilter(_objectDefinition.getRESTContextPath()),
 			new HashSet<Class<?>>() {
 				{
@@ -265,7 +264,6 @@ public class ObjectEntryOpenAPIResourceImpl
 	}
 
 	private BundleContext _bundleContext;
-
 	private ObjectDefinition _objectDefinition;
 
 	@Reference

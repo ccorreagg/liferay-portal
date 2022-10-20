@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.util.PropsUtil;
-import com.liferay.portal.vulcan.dto.converter.DTOConverter;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterRegistry;
 import com.liferay.portal.vulcan.openapi.contributor.OpenAPIContributor;
 import com.liferay.portal.vulcan.util.TransformUtil;
@@ -48,8 +47,9 @@ import java.net.URI;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
@@ -71,7 +71,10 @@ public class RelatedObjectEntryOpenAPIContributor
 			return;
 		}
 
-		List<SystemObjectDefinitionMetadata> systemObjectDefinitionMetadatas =
+		Map<ObjectDefinition, SystemObjectDefinitionMetadata>
+			systemObjectDefinitionMetadataMap = new HashMap<>();
+
+		List<ObjectDefinition> systemObjectDefinitions =
 			TransformUtil.transform(
 				_objectDefinitionLocalService.getSystemObjectDefinitions(),
 				objectDefinition -> {
@@ -86,57 +89,57 @@ public class RelatedObjectEntryOpenAPIContributor
 					String path = uri.getPath();
 
 					if (path.contains(
-							_getSystemObjectBasePath(
-								systemObjectDefinitionMetadata.
-									getRESTContextPath()))) {
+							_getSystemObjectRESTBasePath(
+								systemObjectDefinitionMetadata))) {
 
-						return systemObjectDefinitionMetadata;
+						systemObjectDefinitionMetadataMap.put(
+							objectDefinition, systemObjectDefinitionMetadata);
+
+						return objectDefinition;
 					}
 
 					return null;
 				});
 
-		for (SystemObjectDefinitionMetadata systemObjectDefinitionMetadata :
-				systemObjectDefinitionMetadatas) {
-
-			List<ObjectRelationship> systemObjectRelationships =
-				_getSystemObjectRelationships(systemObjectDefinitionMetadata);
+		for (ObjectDefinition systemObjectDefinition :
+				systemObjectDefinitions) {
 
 			for (ObjectRelationship systemObjectRelationship :
-					systemObjectRelationships) {
+					_objectRelationshipLocalService.getObjectRelationships(
+						systemObjectDefinition.getObjectDefinitionId())) {
 
 				_contribute(
-					openAPI, systemObjectDefinitionMetadata,
+					openAPI, systemObjectDefinition,
+					systemObjectDefinitionMetadataMap.get(
+						systemObjectDefinition),
 					systemObjectRelationship, uriInfo);
 			}
 		}
 	}
 
 	private void _contribute(
-			OpenAPI openAPI,
+			OpenAPI openAPI, ObjectDefinition systemObjectDefinition,
 			SystemObjectDefinitionMetadata systemObjectDefinitionMetadata,
 			ObjectRelationship systemObjectRelationship, UriInfo uriInfo)
 		throws Exception {
 
 		ObjectDefinition objectDefinition = _getRelatedObjectDefinition(
-			systemObjectDefinitionMetadata, systemObjectRelationship);
+			systemObjectDefinition, systemObjectRelationship);
 
 		OpenAPI objectEntryOpenAPI =
 			OpenAPIContributorUtil.getObjectEntryOpenAPI(
 				objectDefinition, _objectEntryOpenAPIResource);
 
 		OpenAPIContributorUtil.copySchemas(
-			objectDefinition, _objectHelper, objectEntryOpenAPI, openAPI);
+			objectDefinition, _objectHelper.getSchemaName(objectDefinition),
+			objectEntryOpenAPI, openAPI);
 
-		DTOConverter<?, ?> dtoConverter = _objectHelper.getDTOConverter(
-			systemObjectDefinitionMetadata);
-
-		String contentType = dtoConverter.getContentType();
+		String schemaName = _objectHelper.getSchemaName(systemObjectDefinition);
 
 		String name = StringBundler.concat(
 			StringPool.SLASH, _getJaxRsVersion(uriInfo), StringPool.SLASH,
 			_getSystemObjectBasePath(systemObjectDefinitionMetadata),
-			StringPool.SLASH, _getIdParameterTemplate(contentType),
+			StringPool.SLASH, _getIdParameterTemplate(schemaName),
 			StringPool.SLASH, systemObjectRelationship.getName());
 
 		Paths paths = openAPI.getPaths();
@@ -147,9 +150,8 @@ public class RelatedObjectEntryOpenAPIContributor
 				{
 					get(
 						_getGetOperation(
-							contentType, objectDefinition,
-							systemObjectRelationship,
-							systemObjectDefinitionMetadata));
+							objectDefinition, systemObjectRelationship,
+							schemaName));
 				}
 			});
 		paths.addPathItem(
@@ -160,9 +162,8 @@ public class RelatedObjectEntryOpenAPIContributor
 				{
 					put(
 						_getPutOperation(
-							contentType, objectDefinition,
-							systemObjectRelationship,
-							systemObjectDefinitionMetadata));
+							objectDefinition, systemObjectRelationship,
+							schemaName));
 				}
 			});
 	}
@@ -185,18 +186,16 @@ public class RelatedObjectEntryOpenAPIContributor
 	}
 
 	private Operation _getGetOperation(
-		String name,
 		ObjectDefinition objectDefinition,
-		ObjectRelationship objectRelationship,
-		SystemObjectDefinitionMetadata systemObjectDefinitionMetadata) {
+		ObjectRelationship objectRelationship, String schemaName) {
 
-		String parameterName = _getIdParameterName(name);
+		String parameterName = _getIdParameterName(schemaName);
 
 		return new Operation() {
 			{
 				operationId(
 					StringBundler.concat(
-						"get", systemObjectDefinitionMetadata.getName(),
+						"get", schemaName,
 						StringUtil.upperCaseFirstLetter(
 							objectRelationship.getName())));
 				parameters(
@@ -223,8 +222,7 @@ public class RelatedObjectEntryOpenAPIContributor
 								});
 						}
 					});
-				tags(
-					Collections.singletonList(name));
+				tags(Collections.singletonList(schemaName));
 			}
 		};
 	}
@@ -245,24 +243,23 @@ public class RelatedObjectEntryOpenAPIContributor
 	}
 
 	private Operation _getPutOperation(
-		String name,
 		ObjectDefinition objectDefinition,
-		ObjectRelationship objectRelationship,
-		SystemObjectDefinitionMetadata systemObjectDefinitionMetadata) {
+		ObjectRelationship objectRelationship, String schemaName) {
 
 		String upperCaseFirstLetterObjectRelationshipName =
 			StringUtil.upperCaseFirstLetter(objectRelationship.getName());
 
 		return new Operation() {
 			{
-				operationId("put" + upperCaseFirstLetterObjectRelationshipName);
+				operationId(
+					"put" + schemaName +
+						upperCaseFirstLetterObjectRelationshipName);
 				parameters(
 					Arrays.asList(
 						new Parameter() {
 							{
 								in("path");
-								name(
-									_getIdParameterName(name));
+								name(_getIdParameterName(schemaName));
 								required(true);
 							}
 						},
@@ -290,19 +287,15 @@ public class RelatedObjectEntryOpenAPIContributor
 								});
 						}
 					});
-				tags(
-					Collections.singletonList(name));
+				tags(Collections.singletonList(schemaName));
 			}
 		};
 	}
 
 	private ObjectDefinition _getRelatedObjectDefinition(
-			SystemObjectDefinitionMetadata systemObjectDefinitionMetadata,
+			ObjectDefinition systemObjectDefinition,
 			ObjectRelationship objectRelationship)
 		throws Exception {
-
-		ObjectDefinition systemObjectDefinition = _getSystemObjectDefinition(
-			systemObjectDefinitionMetadata);
 
 		long objectDefinitionId1 = objectRelationship.getObjectDefinitionId1();
 
@@ -318,55 +311,20 @@ public class RelatedObjectEntryOpenAPIContributor
 	}
 
 	private String _getSystemObjectBasePath(
-		String systemObjectRESTContextPath) {
-
-		return systemObjectRESTContextPath.split(StringPool.SLASH)[0];
-	}
-
-	private String _getSystemObjectBasePath(
 		SystemObjectDefinitionMetadata systemObjectDefinitionMetadata) {
-
-		String restContextPath =
-			systemObjectDefinitionMetadata.getRESTContextPath();
-
-		String[] restContextPathParts = restContextPath.split(StringPool.SLASH);
 
 		return StringUtil.lowerCaseFirstLetter(
-			restContextPathParts[restContextPathParts.length - 1]);
+			StringUtil.extractLast(
+				systemObjectDefinitionMetadata.getRESTContextPath(),
+				StringPool.SLASH));
 	}
 
-	private ObjectDefinition _getSystemObjectDefinition(
+	private String _getSystemObjectRESTBasePath(
 		SystemObjectDefinitionMetadata systemObjectDefinitionMetadata) {
 
-		List<ObjectDefinition> systemObjectDefinitions =
-			_objectDefinitionLocalService.getSystemObjectDefinitions();
-
-		for (ObjectDefinition systemObjectDefinition :
-				systemObjectDefinitions) {
-
-			if (Objects.equals(
-					systemObjectDefinition.getName(),
-					systemObjectDefinitionMetadata.getName())) {
-
-				return systemObjectDefinition;
-			}
-		}
-
-		return null;
-	}
-
-	private List<ObjectRelationship> _getSystemObjectRelationships(
-		SystemObjectDefinitionMetadata systemObjectDefinitionMetadata) {
-
-		ObjectDefinition systemObjectDefinition = _getSystemObjectDefinition(
-			systemObjectDefinitionMetadata);
-
-		if (systemObjectDefinition != null) {
-			return _objectRelationshipLocalService.getObjectRelationships(
-				systemObjectDefinition.getObjectDefinitionId());
-		}
-
-		return Collections.emptyList();
+		return StringUtil.split(
+			systemObjectDefinitionMetadata.getRESTContextPath(),
+			StringPool.SLASH)[0];
 	}
 
 	@Reference
