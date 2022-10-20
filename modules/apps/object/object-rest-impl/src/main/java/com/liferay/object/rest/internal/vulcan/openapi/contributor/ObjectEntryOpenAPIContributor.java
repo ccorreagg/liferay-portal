@@ -169,7 +169,7 @@ public class ObjectEntryOpenAPIContributor implements OpenAPIContributor {
 		}
 
 		OpenAPIContributorUtil.copySchemas(
-			objectDefinition, schemaName, sourceOpenAPI, openAPI);
+			schemaName, sourceOpenAPI, objectDefinition.isSystem(), openAPI);
 	}
 
 	private PathItem _createPathItem(

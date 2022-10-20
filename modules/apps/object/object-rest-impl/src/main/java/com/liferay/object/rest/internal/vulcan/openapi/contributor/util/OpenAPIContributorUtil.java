@@ -37,10 +37,10 @@ import org.osgi.framework.ServiceReference;
 public class OpenAPIContributorUtil {
 
 	public static void copySchemas(
-		ObjectDefinition objectDefinition, String schemaName,
-		OpenAPI sourceOpenAPI, OpenAPI targetOpenAPI) {
+		String schemaName, OpenAPI sourceOpenAPI, boolean system,
+		OpenAPI targetOpenAPI) {
 
-		if (objectDefinition.isSystem()) {
+		if (system) {
 			Components sourceComponents = sourceOpenAPI.getComponents();
 
 			Map<String, Schema> sourceSchemas = sourceComponents.getSchemas();
@@ -65,12 +65,6 @@ public class OpenAPIContributorUtil {
 			objectDefinition, "json", null);
 
 		return (OpenAPI)response.getEntity();
-	}
-
-	public static String getObjectEntrySchemaName(
-		ObjectDefinition objectDefinition) {
-
-		return objectDefinition.getShortName();
 	}
 
 	public static String getPageSchemaName(String schemaName) {
@@ -107,13 +101,11 @@ public class OpenAPIContributorUtil {
 
 		Map<String, Schema> targetSchemas = targetComponents.getSchemas();
 
-		if (!targetSchemas.containsKey(schemaName)) {
-			Components components = sourceOpenAPI.getComponents();
+		Components components = sourceOpenAPI.getComponents();
 
-			Map<String, Schema> schemas = components.getSchemas();
+		Map<String, Schema> schemas = components.getSchemas();
 
-			targetSchemas.put(schemaName, schemas.get(schemaName));
-		}
+		targetSchemas.put(schemaName, schemas.get(schemaName));
 	}
 
 }

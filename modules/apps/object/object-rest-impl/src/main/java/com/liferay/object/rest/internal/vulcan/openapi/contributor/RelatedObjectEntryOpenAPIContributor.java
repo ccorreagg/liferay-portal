@@ -123,16 +123,18 @@ public class RelatedObjectEntryOpenAPIContributor
 			ObjectRelationship systemObjectRelationship, UriInfo uriInfo)
 		throws Exception {
 
-		ObjectDefinition objectDefinition = _getRelatedObjectDefinition(
+		ObjectDefinition relatedObjectDefinition = _getRelatedObjectDefinition(
 			systemObjectDefinition, systemObjectRelationship);
 
-		OpenAPI objectEntryOpenAPI =
-			OpenAPIContributorUtil.getObjectEntryOpenAPI(
-				objectDefinition, _objectEntryOpenAPIResource);
+		OpenAPI relatedOpenAPI = OpenAPIContributorUtil.getObjectEntryOpenAPI(
+			relatedObjectDefinition, _objectEntryOpenAPIResource);
+
+		String relatedSchemaName = _objectHelper.getSchemaName(
+			relatedObjectDefinition);
 
 		OpenAPIContributorUtil.copySchemas(
-			objectDefinition, _objectHelper.getSchemaName(objectDefinition),
-			objectEntryOpenAPI, openAPI);
+			relatedSchemaName, relatedOpenAPI,
+			relatedObjectDefinition.isSystem(), openAPI);
 
 		String schemaName = _objectHelper.getSchemaName(systemObjectDefinition);
 
@@ -150,19 +152,20 @@ public class RelatedObjectEntryOpenAPIContributor
 				{
 					get(
 						_getGetOperation(
-							objectDefinition, systemObjectRelationship,
+							systemObjectRelationship, relatedSchemaName,
 							schemaName));
 				}
 			});
 		paths.addPathItem(
 			StringBundler.concat(
 				name, StringPool.SLASH,
-				_getIdParameterTemplate(objectDefinition.getShortName())),
+				_getIdParameterTemplate(
+					relatedObjectDefinition.getShortName())),
 			new PathItem() {
 				{
 					put(
 						_getPutOperation(
-							objectDefinition, systemObjectRelationship,
+							systemObjectRelationship, relatedSchemaName,
 							schemaName));
 				}
 			});
@@ -186,8 +189,8 @@ public class RelatedObjectEntryOpenAPIContributor
 	}
 
 	private Operation _getGetOperation(
-		ObjectDefinition objectDefinition,
-		ObjectRelationship objectRelationship, String schemaName) {
+		ObjectRelationship objectRelationship, String relatedSchemaName,
+		String schemaName) {
 
 		String parameterName = _getIdParameterName(schemaName);
 
@@ -197,7 +200,8 @@ public class RelatedObjectEntryOpenAPIContributor
 					StringBundler.concat(
 						"get", schemaName,
 						StringUtil.upperCaseFirstLetter(
-							objectRelationship.getName())));
+							objectRelationship.getName()),
+						"Page"));
 				parameters(
 					Collections.singletonList(
 						new Parameter() {
@@ -216,8 +220,8 @@ public class RelatedObjectEntryOpenAPIContributor
 										setContent(
 											_getContent(
 												OpenAPIContributorUtil.
-													getObjectEntrySchemaName(
-														objectDefinition)));
+													getPageSchemaName(
+														relatedSchemaName)));
 									}
 								});
 						}
@@ -237,14 +241,12 @@ public class RelatedObjectEntryOpenAPIContributor
 	}
 
 	private String _getJaxRsVersion(UriInfo uriInfo) {
-		String path = uriInfo.getPath();
-
-		return path.split(StringPool.SLASH)[0];
+		return StringUtil.extractFirst(uriInfo.getPath(), StringPool.SLASH);
 	}
 
 	private Operation _getPutOperation(
-		ObjectDefinition objectDefinition,
-		ObjectRelationship objectRelationship, String schemaName) {
+		ObjectRelationship objectRelationship, String relatedSchemaName,
+		String schemaName) {
 
 		String upperCaseFirstLetterObjectRelationshipName =
 			StringUtil.upperCaseFirstLetter(objectRelationship.getName());
@@ -266,9 +268,7 @@ public class RelatedObjectEntryOpenAPIContributor
 						new Parameter() {
 							{
 								in("path");
-								name(
-									_getIdParameterName(
-										objectDefinition.getShortName()));
+								name(_getIdParameterName(relatedSchemaName));
 								required(true);
 							}
 						}));
@@ -279,10 +279,7 @@ public class RelatedObjectEntryOpenAPIContributor
 								new ApiResponse() {
 									{
 										setContent(
-											_getContent(
-												OpenAPIContributorUtil.
-													getObjectEntrySchemaName(
-														objectDefinition)));
+											_getContent(relatedSchemaName));
 									}
 								});
 						}

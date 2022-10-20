@@ -55,7 +55,7 @@ public class ObjectHelper {
 
 		String restPackage = restContextPaths[0].replaceAll(
 			StringPool.DASH, StringPool.PERIOD);
-		String version = restContextPaths[1].replaceAll(
+		String version = restContextPaths[1].replace(
 			StringPool.PERIOD, StringPool.UNDERLINE);
 
 		for (DTOConverter<?, ?> dtoConverter : dtoConverters) {
