@@ -31,6 +31,7 @@ import com.liferay.object.related.models.ObjectRelatedModelsProvider;
 import com.liferay.object.related.models.ObjectRelatedModelsProviderRegistry;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
 import com.liferay.object.rest.internal.dto.v1_0.converter.ObjectEntryDTOConverter;
+import com.liferay.object.rest.internal.helper.ObjectHelper;
 import com.liferay.object.rest.internal.petra.sql.dsl.expression.OrderByExpressionUtil;
 import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryRelatedObjectsResourceImpl;
 import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryResourceImpl;
@@ -210,7 +211,8 @@ public class DefaultObjectEntryManagerImpl
 		return _toDTO(
 			(BaseModel<?>)persistedModelLocalService.getPersistedModel(
 				primaryKey2),
-			_objectEntryService.getObjectEntry(primaryKey1));
+			_objectEntryService.getObjectEntry(primaryKey1),
+			systemObjectDefinitionMetadata);
 	}
 
 	@Override
@@ -596,7 +598,11 @@ public class DefaultObjectEntryManagerImpl
 						objectEntry.getPrimaryKey(),
 						pagination.getStartPosition(),
 						pagination.getEndPosition()),
-				baseModel -> _toDTO(baseModel, objectEntry)));
+				baseModel -> _toDTO(
+					baseModel, objectEntry,
+					_systemObjectDefinitionMetadataTracker.
+						getSystemObjectDefinitionMetadata(
+							relatedObjectDefinition.getName()))));
 	}
 
 	@Override
@@ -839,13 +845,13 @@ public class DefaultObjectEntryManagerImpl
 
 	private Object _toDTO(
 			BaseModel<?> baseModel,
-			com.liferay.object.model.ObjectEntry objectEntry)
+			com.liferay.object.model.ObjectEntry objectEntry,
+			SystemObjectDefinitionMetadata systemObjectDefinitionMetadata)
 		throws Exception {
 
 		DTOConverter<BaseModel<?>, ?> dtoConverter =
-			(DTOConverter<BaseModel<?>, ?>)
-				_dtoConverterRegistry.getDTOConverter(
-					baseModel.getModelClassName());
+			(DTOConverter<BaseModel<?>, ?>)_objectHelper.getDTOConverter(
+				systemObjectDefinitionMetadata);
 
 		if (dtoConverter == null) {
 			throw new InternalServerErrorException(
@@ -1053,6 +1059,9 @@ public class DefaultObjectEntryManagerImpl
 
 	@Reference
 	private ObjectFieldLocalService _objectFieldLocalService;
+
+	@Reference
+	private ObjectHelper _objectHelper;
 
 	@Reference
 	private ObjectRelatedModelsProviderRegistry
