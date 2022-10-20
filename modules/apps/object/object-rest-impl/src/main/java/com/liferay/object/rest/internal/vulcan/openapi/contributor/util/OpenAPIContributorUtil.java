@@ -46,13 +46,15 @@ public class OpenAPIContributorUtil {
 			Map<String, Schema> sourceSchemas = sourceComponents.getSchemas();
 
 			for (String sourceSchemaName : sourceSchemas.keySet()) {
-				_copySchema(sourceSchemaName, sourceOpenAPI, targetOpenAPI);
+				_copySchema(
+					false, sourceSchemaName, sourceOpenAPI, targetOpenAPI);
 			}
 		}
 		else {
-			_copySchema(schemaName, sourceOpenAPI, targetOpenAPI);
+			_copySchema(true, schemaName, sourceOpenAPI, targetOpenAPI);
 			_copySchema(
-				getPageSchemaName(schemaName), sourceOpenAPI, targetOpenAPI);
+				true, getPageSchemaName(schemaName), sourceOpenAPI,
+				targetOpenAPI);
 		}
 	}
 
@@ -95,11 +97,16 @@ public class OpenAPIContributorUtil {
 	}
 
 	private static void _copySchema(
-		String schemaName, OpenAPI sourceOpenAPI, OpenAPI targetOpenAPI) {
+		boolean force, String schemaName, OpenAPI sourceOpenAPI,
+		OpenAPI targetOpenAPI) {
 
 		Components targetComponents = targetOpenAPI.getComponents();
 
 		Map<String, Schema> targetSchemas = targetComponents.getSchemas();
+
+		if (!force && targetSchemas.containsKey(schemaName)) {
+			return;
+		}
 
 		Components components = sourceOpenAPI.getComponents();
 

@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterRegistry;
 import com.liferay.portal.vulcan.openapi.contributor.OpenAPIContributor;
-import com.liferay.portal.vulcan.util.TransformUtil;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -48,7 +47,6 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
@@ -74,44 +72,38 @@ public class RelatedObjectEntryOpenAPIContributor
 		Map<ObjectDefinition, SystemObjectDefinitionMetadata>
 			systemObjectDefinitionMetadataMap = new HashMap<>();
 
-		List<ObjectDefinition> systemObjectDefinitions =
-			TransformUtil.transform(
-				_objectDefinitionLocalService.getSystemObjectDefinitions(),
-				objectDefinition -> {
-					SystemObjectDefinitionMetadata
-						systemObjectDefinitionMetadata =
-							_systemObjectDefinitionMetadataTracker.
-								getSystemObjectDefinitionMetadata(
-									objectDefinition.getName());
-
-					URI uri = uriInfo.getBaseUri();
-
-					String path = uri.getPath();
-
-					if (path.contains(
-							_getSystemObjectRESTBasePath(
-								systemObjectDefinitionMetadata))) {
-
-						systemObjectDefinitionMetadataMap.put(
-							objectDefinition, systemObjectDefinitionMetadata);
-
-						return objectDefinition;
-					}
-
-					return null;
-				});
-
 		for (ObjectDefinition systemObjectDefinition :
-				systemObjectDefinitions) {
+				_objectDefinitionLocalService.getSystemObjectDefinitions()) {
+
+			SystemObjectDefinitionMetadata systemObjectDefinitionMetadata =
+				_systemObjectDefinitionMetadataTracker.
+					getSystemObjectDefinitionMetadata(
+						systemObjectDefinition.getName());
+
+			URI uri = uriInfo.getBaseUri();
+
+			String path = uri.getPath();
+
+			if (path.contains(
+					_getSystemObjectRESTBasePath(
+						systemObjectDefinitionMetadata))) {
+
+				systemObjectDefinitionMetadataMap.put(
+					systemObjectDefinition, systemObjectDefinitionMetadata);
+			}
+		}
+
+		for (Map.Entry<ObjectDefinition, SystemObjectDefinitionMetadata> entry :
+				systemObjectDefinitionMetadataMap.entrySet()) {
+
+			ObjectDefinition systemObjectDefinition = entry.getKey();
 
 			for (ObjectRelationship systemObjectRelationship :
 					_objectRelationshipLocalService.getObjectRelationships(
 						systemObjectDefinition.getObjectDefinitionId())) {
 
 				_contribute(
-					openAPI, systemObjectDefinition,
-					systemObjectDefinitionMetadataMap.get(
-						systemObjectDefinition),
+					openAPI, systemObjectDefinition, entry.getValue(),
 					systemObjectRelationship, uriInfo);
 			}
 		}
