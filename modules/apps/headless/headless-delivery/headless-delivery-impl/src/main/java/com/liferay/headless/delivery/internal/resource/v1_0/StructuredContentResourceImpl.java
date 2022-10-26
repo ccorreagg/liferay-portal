@@ -118,6 +118,7 @@ import java.io.Serializable;
 
 import java.time.LocalDateTime;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -285,11 +286,31 @@ public class StructuredContentResourceImpl
 		long contentStructureId = GetterUtil.getLong(
 			(String)multivaluedMap.getFirst("contentStructureId"));
 
+		long structuredContentFolderId = GetterUtil.getLong(
+			(String)multivaluedMap.getFirst("structuredContentFolderId"));
+
 		if (contentStructureId > 0) {
 			DDMStructure ddmStructure = _ddmStructureService.getStructure(
 				contentStructureId);
 
 			entityFields = _entityFieldsProvider.provide(ddmStructure);
+		}
+		else if (structuredContentFolderId > 0) {
+			JournalFolder journalFolder = _journalFolderService.getFolder(
+				structuredContentFolderId);
+
+			List<JournalArticle> journalArticles =
+				_journalArticleService.getArticles(
+					journalFolder.getGroupId(), structuredContentFolderId,
+					contextAcceptLanguage.getPreferredLocale());
+
+			entityFields = new ArrayList<>();
+
+			for (JournalArticle journalArticle : journalArticles) {
+				entityFields.addAll(
+					_entityFieldsProvider.provide(
+						journalArticle.getDDMStructure()));
+			}
 		}
 
 		return new StructuredContentEntityModel(
