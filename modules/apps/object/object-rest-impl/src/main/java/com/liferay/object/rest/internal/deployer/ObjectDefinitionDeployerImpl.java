@@ -14,6 +14,7 @@
 
 package com.liferay.object.rest.internal.deployer;
 
+import com.liferay.oauth2.provider.scope.liferay.DynamicCompanyScope;
 import com.liferay.object.deployer.ObjectDefinitionDeployer;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
@@ -101,25 +102,23 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 			return Collections.emptyList();
 		}
 
-		String objectDefinitionKey = _getObjectDefinitionKey(
-			objectDefinition.getCompanyId(),
-			objectDefinition.getRESTContextPath());
 		ObjectScopeProvider objectScopeProvider =
 			_objectScopeProviderRegistry.getObjectScopeProvider(
 				objectDefinition.getScope());
 
 		Map<Long, ObjectDefinition> objectDefinitions =
-			_objectDefinitionsMap.get(objectDefinitionKey);
+			_objectDefinitionsMap.get(objectDefinition.getRESTContextPath());
 
 		if (objectDefinitions == null) {
 			objectDefinitions = new HashMap<>();
 
-			_objectDefinitionsMap.put(objectDefinitionKey, objectDefinitions);
+			_objectDefinitionsMap.put(
+				objectDefinition.getRESTContextPath(), objectDefinitions);
 
 			_excludeScopedMethods(objectDefinition, objectScopeProvider);
-
-			_initCustomObjectDefinition(objectDefinition, objectDefinitionKey);
 		}
+
+		_initCustomObjectDefinition(objectDefinition);
 
 		objectDefinitions.put(
 			objectDefinition.getCompanyId(), objectDefinition);
@@ -142,8 +141,7 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 		long companyId, String restContextPath) {
 
 		Map<Long, ObjectDefinition> objectDefinitions =
-			_objectDefinitionsMap.get(
-				_getObjectDefinitionKey(companyId, restContextPath));
+			_objectDefinitionsMap.get(restContextPath);
 
 		if (objectDefinitions != null) {
 			return objectDefinitions.get(companyId);
@@ -154,27 +152,34 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 	@Override
 	public synchronized void undeploy(ObjectDefinition objectDefinition) {
-		String objectDefinitionKey = _getObjectDefinitionKey(
-			objectDefinition.getCompanyId(),
-			objectDefinition.getRESTContextPath());
+		String restContextPath = objectDefinition.getRESTContextPath();
 
 		Map<Long, ObjectDefinition> objectDefinitions =
-			_objectDefinitionsMap.get(objectDefinitionKey);
+			_objectDefinitionsMap.get(restContextPath);
 
 		if (objectDefinitions != null) {
 			objectDefinitions.remove(objectDefinition.getCompanyId());
 
 			if (objectDefinitions.isEmpty()) {
-				_objectDefinitionsMap.remove(objectDefinitionKey);
+				_objectDefinitionsMap.remove(restContextPath);
 			}
 		}
 
-		if (_objectDefinitionsMap.containsKey(objectDefinitionKey)) {
-			return;
+		Map<Long, List<ServiceRegistration<?>>> scopedServiceRegistrations =
+			_scopedServiceRegistrationsMap.get(restContextPath);
+
+		if (scopedServiceRegistrations != null) {
+			_unregister(
+				scopedServiceRegistrations.remove(
+					objectDefinition.getCompanyId()));
+
+			if (!scopedServiceRegistrations.isEmpty()) {
+				return;
+			}
 		}
 
 		List<ComponentInstance> componentInstances =
-			_componentInstancesMap.remove(objectDefinitionKey);
+			_componentInstancesMap.remove(restContextPath);
 
 		if (componentInstances != null) {
 			for (ComponentInstance componentInstance : componentInstances) {
@@ -182,16 +187,7 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 			}
 		}
 
-		List<ServiceRegistration<?>> serviceRegistrations =
-			_serviceRegistrationsMap.remove(objectDefinitionKey);
-
-		if (serviceRegistrations != null) {
-			for (ServiceRegistration<?> serviceRegistration :
-					serviceRegistrations) {
-
-				serviceRegistration.unregister();
-			}
-		}
+		_unregister(_serviceRegistrationsMap.remove(restContextPath));
 	}
 
 	@Activate
@@ -259,24 +255,18 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 		}
 	}
 
-	private String _getObjectDefinitionKey(
-		long companyId, String restContextPath) {
-
-		return restContextPath + companyId;
-	}
-
 	private void _initCustomObjectDefinition(
-		ObjectDefinition objectDefinition, String objectDefinitionKey) {
+		ObjectDefinition objectDefinition) {
 
 		String osgiJaxRsName = objectDefinition.getOSGiJaxRsName();
+		String restContextPath = objectDefinition.getRESTContextPath();
 
-		_componentInstancesMap.put(
-			objectDefinitionKey,
-			Arrays.asList(
+		_componentInstancesMap.computeIfAbsent(
+			restContextPath,
+			key -> Arrays.asList(
 				_objectEntryApplicationComponentFactory.newInstance(
 					HashMapDictionaryBuilder.<String, Object>put(
-						"companyId",
-						String.valueOf(objectDefinition.getCompanyId())
+						"dynamicCompanyIdScope", "true"
 					).put(
 						"liferay.jackson", false
 					).put(
@@ -289,9 +279,45 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 						"osgi.jaxrs.name", osgiJaxRsName
 					).build())));
 
-		_serviceRegistrationsMap.put(
-			objectDefinitionKey,
-			Arrays.asList(
+		Map<Long, List<ServiceRegistration<?>>> scopedServiceRegistrations =
+			_scopedServiceRegistrationsMap.compute(
+				restContextPath,
+				(key, serviceRegistrationMap) -> {
+					if (serviceRegistrationMap == null) {
+						serviceRegistrationMap = new HashMap<>();
+					}
+
+					return serviceRegistrationMap;
+				});
+
+		scopedServiceRegistrations.computeIfAbsent(
+			objectDefinition.getCompanyId(),
+			key -> Arrays.asList(
+				_bundleContext.registerService(
+					DynamicCompanyScope.class,
+					new DynamicCompanyScope() {
+
+						@Override
+						public long getCompanyId() {
+							return objectDefinition.getCompanyId();
+						}
+
+						@Override
+						public String getPropertyName() {
+							return "osgi.jaxrs.name";
+						}
+
+						@Override
+						public String getPropertyValue() {
+							return osgiJaxRsName;
+						}
+
+					},
+					null)));
+
+		_serviceRegistrationsMap.computeIfAbsent(
+			restContextPath,
+			key -> Arrays.asList(
 				_bundleContext.registerService(
 					ContextProvider.class,
 					new ObjectDefinitionContextProvider(this, _portal),
@@ -448,6 +474,20 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 					).build())));
 	}
 
+	private void _unregister(
+		List<ServiceRegistration<?>> serviceRegistrations) {
+
+		if (serviceRegistrations == null) {
+			return;
+		}
+
+		for (ServiceRegistration<?> serviceRegistration :
+				serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		ObjectDefinitionDeployerImpl.class);
 
@@ -525,6 +565,8 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 	@Reference
 	private RoleLocalService _roleLocalService;
 
+	private final Map<String, Map<Long, List<ServiceRegistration<?>>>>
+		_scopedServiceRegistrationsMap = new HashMap<>();
 	private final Map<String, List<ServiceRegistration<?>>>
 		_serviceRegistrationsMap = new HashMap<>();
 
