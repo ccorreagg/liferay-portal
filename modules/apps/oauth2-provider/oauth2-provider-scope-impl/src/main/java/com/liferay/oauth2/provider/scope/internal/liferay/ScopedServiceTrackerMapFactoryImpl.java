@@ -14,6 +14,7 @@
 
 package com.liferay.oauth2.provider.scope.internal.liferay;
 
+import com.liferay.oauth2.provider.scope.liferay.DynamicCompanyScope;
 import com.liferay.oauth2.provider.scope.liferay.ScopedServiceTrackerMap;
 import com.liferay.oauth2.provider.scope.liferay.ScopedServiceTrackerMapFactory;
 import com.liferay.osgi.service.tracker.collections.map.PropertyServiceReferenceMapper;
@@ -23,6 +24,7 @@ import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapListener;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -52,6 +54,8 @@ public class ScopedServiceTrackerMapFactoryImpl
 
 		@Override
 		public void close() {
+			_dynamicCompanyScopedservicesByKey.close();
+			_dynamicCompanyScopeServicesByCompanyAndKey.close();
 			_servicesByCompany.close();
 			_servicesByCompanyAndKey.close();
 			_servicesByKey.close();
@@ -61,10 +65,23 @@ public class ScopedServiceTrackerMapFactoryImpl
 		public T getService(long companyId, String key) {
 			String companyIdString = String.valueOf(companyId);
 
+			String companyIdKeyString = StringBundler.concat(
+				companyIdString, "-", key);
+
 			List<T> services = _servicesByCompanyAndKey.getService(
-				StringBundler.concat(companyIdString, "-", key));
+				companyIdKeyString);
 
 			if (ListUtil.isNotEmpty(services)) {
+				return services.get(0);
+			}
+
+			services = _dynamicCompanyScopedservicesByKey.getService(key);
+
+			if (ListUtil.isNotEmpty(services) &&
+				ListUtil.isNotEmpty(
+					_dynamicCompanyScopeServicesByCompanyAndKey.getService(
+						companyIdKeyString))) {
+
 				return services.get(0);
 			}
 
@@ -90,11 +107,40 @@ public class ScopedServiceTrackerMapFactoryImpl
 			_defaultServiceSupplier = defaultServiceSupplier;
 			_onChangeRunnable = onChangeRunnable;
 
+			_dynamicCompanyScopedservicesByKey =
+				ServiceTrackerMapFactory.openMultiValueMap(
+					bundleContext, clazz,
+					StringBundler.concat(
+						"(&(dynamicCompanyIdScope=true)(", property, "=*))"),
+					new PropertyServiceReferenceMapper<>(property),
+					new ServiceTrackerMapListenerImpl());
+
+			_dynamicCompanyScopeServicesByCompanyAndKey =
+				ServiceTrackerMapFactory.openMultiValueMap(
+					bundleContext, DynamicCompanyScope.class, null,
+					(serviceReference, emitter) -> {
+						DynamicCompanyScope dynamicCompanyScope =
+							bundleContext.getService(serviceReference);
+
+						if (!StringUtil.equals(
+								dynamicCompanyScope.getPropertyName(),
+								property)) {
+
+							return;
+						}
+
+						emitter.emit(
+							StringBundler.concat(
+								dynamicCompanyScope.getCompanyId(), "-",
+								dynamicCompanyScope.getPropertyValue()));
+					});
+
 			_servicesByCompany = ServiceTrackerMapFactory.openMultiValueMap(
 				bundleContext, clazz,
 				StringBundler.concat("(&(companyId=*)(!(", property, "=*)))"),
 				new PropertyServiceReferenceMapper<>("companyId"),
 				new ServiceTrackerMapListenerImpl());
+
 			_servicesByCompanyAndKey =
 				ServiceTrackerMapFactory.openMultiValueMap(
 					bundleContext, clazz,
@@ -113,15 +159,22 @@ public class ScopedServiceTrackerMapFactoryImpl
 									StringBundler.concat(key1, "-", key2))));
 					},
 					new ServiceTrackerMapListenerImpl());
+
 			_servicesByKey = ServiceTrackerMapFactory.openMultiValueMap(
 				bundleContext, clazz,
 				StringBundler.concat(
-					"(&(", property, "=*)(|(!(companyId=*))(companyId=0)))"),
+					"(&(", property, "=*)(|(!(companyId=*))(companyId=0))",
+					"(|(!(dynamicCompanyIdScope=*))",
+					"(dynamicCompanyIdScope=false)))"),
 				new PropertyServiceReferenceMapper<>(property),
 				new ServiceTrackerMapListenerImpl());
 		}
 
 		private final Supplier<T> _defaultServiceSupplier;
+		private final ServiceTrackerMap<String, List<T>>
+			_dynamicCompanyScopedservicesByKey;
+		private final ServiceTrackerMap<String, List<DynamicCompanyScope>>
+			_dynamicCompanyScopeServicesByCompanyAndKey;
 		private final Runnable _onChangeRunnable;
 		private final ServiceTrackerMap<String, List<T>> _servicesByCompany;
 		private final ServiceTrackerMap<String, List<T>>
