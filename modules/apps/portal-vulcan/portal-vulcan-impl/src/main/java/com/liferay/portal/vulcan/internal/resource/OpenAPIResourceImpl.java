@@ -147,6 +147,20 @@ public class OpenAPIResourceImpl implements OpenAPIResource {
 	}
 
 	@Override
+	public Map<String, Schema> getSchemas(Set<Class<?>> resourceClasses)
+		throws Exception {
+
+		Response response = _getOpenAPI(
+			null, null, null, resourceClasses, "json", null);
+
+		OpenAPI openAPI = (OpenAPI)response.getEntity();
+
+		Components components = openAPI.getComponents();
+
+		return components.getSchemas();
+	}
+
+	@Override
 	public Response mergeOpenAPIs(
 		String basePath, List<String> basePaths, String description,
 		List<Response> openAPIs, String title, String type,
