@@ -17,6 +17,8 @@ package com.liferay.portal.vulcan.resource;
 import com.liferay.portal.vulcan.openapi.OpenAPISchemaFilter;
 import com.liferay.portal.vulcan.openapi.contributor.OpenAPIContributor;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,5 +58,10 @@ public interface OpenAPIResource {
 
 		return null;
 	}
+
+	public Response mergeOpenAPIs(
+		String basePath, List<String> basePaths, String description,
+		List<Response> openAPIs, String title, String type,
+		List<String> versions);
 
 }
