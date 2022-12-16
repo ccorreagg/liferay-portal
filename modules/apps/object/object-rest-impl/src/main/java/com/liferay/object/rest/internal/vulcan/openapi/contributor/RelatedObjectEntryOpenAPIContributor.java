@@ -42,13 +42,9 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 
-import java.net.URI;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.ws.rs.core.UriInfo;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -62,9 +58,11 @@ public class RelatedObjectEntryOpenAPIContributor
 	extends BaseOpenAPIContributor {
 
 	@Override
-	public void contribute(OpenAPI openAPI, UriInfo uriInfo) throws Exception {
+	public void contribute(String basePath, OpenAPI openAPI, String path)
+		throws Exception {
+
 		if (!GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-153324")) ||
-			(uriInfo == null)) {
+			(basePath == null)) {
 
 			return;
 		}
@@ -84,14 +82,10 @@ public class RelatedObjectEntryOpenAPIContributor
 				continue;
 			}
 
-			URI uri = uriInfo.getBaseUri();
-
-			String path = uri.getPath();
-
 			JaxRsApplicationDescriptor jaxRsApplicationDescriptor =
 				systemObjectDefinitionMetadata.getJaxRsApplicationDescriptor();
 
-			if (path.contains(
+			if (basePath.contains(
 					jaxRsApplicationDescriptor.getApplicationPath())) {
 
 				systemObjectDefinitionMetadataMap.put(
@@ -109,8 +103,8 @@ public class RelatedObjectEntryOpenAPIContributor
 						systemObjectDefinition.getObjectDefinitionId())) {
 
 				_contribute(
-					openAPI, systemObjectDefinition, entry.getValue(),
-					systemObjectRelationship, uriInfo);
+					openAPI, path, systemObjectDefinition, entry.getValue(),
+					systemObjectRelationship);
 			}
 		}
 	}
@@ -121,9 +115,10 @@ public class RelatedObjectEntryOpenAPIContributor
 	}
 
 	private void _contribute(
-			OpenAPI openAPI, ObjectDefinition systemObjectDefinition,
+			OpenAPI openAPI, String path,
+			ObjectDefinition systemObjectDefinition,
 			SystemObjectDefinitionMetadata systemObjectDefinitionMetadata,
-			ObjectRelationship systemObjectRelationship, UriInfo uriInfo)
+			ObjectRelationship systemObjectRelationship)
 		throws Exception {
 
 		Paths paths = openAPI.getPaths();
@@ -145,7 +140,7 @@ public class RelatedObjectEntryOpenAPIContributor
 		String schemaName = getSchemaName(systemObjectDefinition);
 
 		String name = StringBundler.concat(
-			StringPool.SLASH, _getJaxRsVersion(uriInfo), StringPool.SLASH,
+			StringPool.SLASH, _getJaxRsVersion(path), StringPool.SLASH,
 			jaxRsApplicationDescriptor.getPath(), StringPool.SLASH,
 			_getIdParameterTemplate(schemaName), StringPool.SLASH,
 			systemObjectRelationship.getName());
@@ -288,8 +283,8 @@ public class RelatedObjectEntryOpenAPIContributor
 			StringPool.CLOSE_CURLY_BRACE;
 	}
 
-	private String _getJaxRsVersion(UriInfo uriInfo) {
-		return StringUtil.extractFirst(uriInfo.getPath(), StringPool.SLASH);
+	private String _getJaxRsVersion(String path) {
+		return StringUtil.extractFirst(path, StringPool.SLASH);
 	}
 
 	private String _getOperationId(

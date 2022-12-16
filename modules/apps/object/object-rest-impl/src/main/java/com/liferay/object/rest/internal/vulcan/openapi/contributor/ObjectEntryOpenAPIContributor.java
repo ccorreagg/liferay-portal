@@ -50,8 +50,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.ws.rs.core.UriInfo;
-
 import org.osgi.framework.BundleContext;
 
 /**
@@ -82,7 +80,9 @@ public class ObjectEntryOpenAPIContributor extends BaseOpenAPIContributor {
 	}
 
 	@Override
-	public void contribute(OpenAPI openAPI, UriInfo uriInfo) throws Exception {
+	public void contribute(String basePath, OpenAPI openAPI, String path)
+		throws Exception {
+
 		List<ObjectAction> objectActions =
 			_objectActionLocalService.getObjectActions(
 				_objectDefinition.getObjectDefinitionId(),

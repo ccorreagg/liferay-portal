@@ -74,6 +74,8 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 
+import java.net.URI;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -693,22 +695,31 @@ public class OpenAPIResourceImpl implements OpenAPIResource {
 			).build();
 		}
 
+		String basePath = null;
+		String path = null;
+
 		if (uriInfo != null) {
 			Server server = new Server();
 
 			server.setUrl(_getBasePath(httpServletRequest, uriInfo));
 
 			openAPI.setServers(Collections.singletonList(server));
+
+			URI uri = uriInfo.getBaseUri();
+
+			basePath = uri.getPath();
+
+			path = uriInfo.getPath();
 		}
 
 		if (openAPIContributor != null) {
-			openAPIContributor.contribute(openAPI, uriInfo);
+			openAPIContributor.contribute(basePath, openAPI, path);
 		}
 
 		for (OpenAPIContributor trackedOpenAPIContributor :
 				_trackedOpenAPIContributors) {
 
-			trackedOpenAPIContributor.contribute(openAPI, uriInfo);
+			trackedOpenAPIContributor.contribute(basePath, openAPI, path);
 		}
 
 		return _toResponse(openAPI, type);
