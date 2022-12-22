@@ -36,6 +36,7 @@ import com.liferay.portal.vulcan.internal.extension.EntityExtensionHandler;
 import com.liferay.portal.vulcan.internal.extension.util.ExtensionUtil;
 import com.liferay.portal.vulcan.jaxrs.JaxRsResourceRegistry;
 import com.liferay.portal.vulcan.openapi.DTOProperty;
+import com.liferay.portal.vulcan.openapi.OpenAPIContext;
 import com.liferay.portal.vulcan.openapi.OpenAPISchemaFilter;
 import com.liferay.portal.vulcan.openapi.contributor.OpenAPIContributor;
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
@@ -709,8 +710,7 @@ public class OpenAPIResourceImpl implements OpenAPIResource {
 			).build();
 		}
 
-		String basePath = null;
-		String path = null;
+		OpenAPIContext openAPIContext = null;
 
 		if (uriInfo != null) {
 			Server server = new Server();
@@ -721,19 +721,21 @@ public class OpenAPIResourceImpl implements OpenAPIResource {
 
 			URI uri = uriInfo.getBaseUri();
 
-			basePath = uri.getPath();
+			openAPIContext = new OpenAPIContext();
 
-			path = uriInfo.getPath();
+			openAPIContext.setPath(uri.getPath());
+			openAPIContext.setVersion(
+				StringUtil.extractFirst(uriInfo.getPath(), StringPool.SLASH));
 		}
 
 		if (openAPIContributor != null) {
-			openAPIContributor.contribute(basePath, openAPI, path);
+			openAPIContributor.contribute(openAPI, openAPIContext);
 		}
 
 		for (OpenAPIContributor trackedOpenAPIContributor :
 				_trackedOpenAPIContributors) {
 
-			trackedOpenAPIContributor.contribute(basePath, openAPI, path);
+			trackedOpenAPIContributor.contribute(openAPI, openAPIContext);
 		}
 
 		return _toResponse(openAPI, type);

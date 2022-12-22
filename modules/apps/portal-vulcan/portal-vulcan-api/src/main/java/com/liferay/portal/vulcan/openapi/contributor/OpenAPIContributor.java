@@ -14,6 +14,8 @@
 
 package com.liferay.portal.vulcan.openapi.contributor;
 
+import com.liferay.portal.vulcan.openapi.OpenAPIContext;
+
 import io.swagger.v3.oas.models.OpenAPI;
 
 /**
@@ -21,7 +23,7 @@ import io.swagger.v3.oas.models.OpenAPI;
  */
 public interface OpenAPIContributor {
 
-	public void contribute(String basePath, OpenAPI openAPI, String path)
+	public void contribute(OpenAPI openAPI, OpenAPIContext openAPIContext)
 		throws Exception;
 
 }
