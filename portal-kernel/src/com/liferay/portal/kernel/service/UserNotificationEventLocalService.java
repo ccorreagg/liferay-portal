@@ -63,15 +63,18 @@ public interface UserNotificationEventLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.portal.service.impl.UserNotificationEventLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the user notification event local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link UserNotificationEventLocalServiceUtil} if injection and service tracking are not available.
 	 */
+	@Indexable(type = IndexableType.REINDEX)
 	public UserNotificationEvent addUserNotificationEvent(
 			long userId, boolean delivered, boolean actionRequired,
 			NotificationEvent notificationEvent)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public UserNotificationEvent addUserNotificationEvent(
 			long userId, NotificationEvent notificationEvent)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public UserNotificationEvent addUserNotificationEvent(
 			long userId, String type, long timestamp, int deliveryType,
 			long deliverBy, boolean delivered, String payload,
@@ -79,6 +82,7 @@ public interface UserNotificationEventLocalService
 			ServiceContext serviceContext)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public UserNotificationEvent addUserNotificationEvent(
 			long userId, String type, long timestamp, int deliveryType,
 			long deliverBy, String payload, boolean archived,
@@ -99,10 +103,12 @@ public interface UserNotificationEventLocalService
 	public UserNotificationEvent addUserNotificationEvent(
 		UserNotificationEvent userNotificationEvent);
 
+	@Indexable(type = IndexableType.REINDEX)
 	public List<UserNotificationEvent> addUserNotificationEvents(
 			long userId, Collection<NotificationEvent> notificationEvents)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public void archiveUserNotificationEvents(
 			long userId, int deliveryType, boolean actionRequired)
 		throws PortalException;
@@ -146,6 +152,7 @@ public interface UserNotificationEventLocalService
 			long userNotificationEventId)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.DELETE)
 	public void deleteUserNotificationEvent(String uuid, long companyId);
 
 	/**
@@ -162,9 +169,11 @@ public interface UserNotificationEventLocalService
 	public UserNotificationEvent deleteUserNotificationEvent(
 		UserNotificationEvent userNotificationEvent);
 
+	@Indexable(type = IndexableType.DELETE)
 	public void deleteUserNotificationEvents(
 		Collection<String> uuids, long companyId);
 
+	@Indexable(type = IndexableType.DELETE)
 	public void deleteUserNotificationEvents(long userId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -500,21 +509,25 @@ public interface UserNotificationEventLocalService
 	public int getUserNotificationEventsCount(
 		long userId, String type, Map<String, String> payloadParameters);
 
+	@Indexable(type = IndexableType.REINDEX)
 	public UserNotificationEvent sendUserNotificationEvents(
 			long userId, String portletId, int deliveryType, boolean delivered,
 			boolean actionRequired, JSONObject notificationEventJSONObject)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public UserNotificationEvent sendUserNotificationEvents(
 			long userId, String portletId, int deliveryType,
 			boolean actionRequired, JSONObject notificationEventJSONObject)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public UserNotificationEvent sendUserNotificationEvents(
 			long userId, String portletId, int deliveryType,
 			JSONObject notificationEventJSONObject)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public UserNotificationEvent updateUserNotificationEvent(
 		String uuid, long companyId, boolean archive);
 
@@ -532,6 +545,7 @@ public interface UserNotificationEventLocalService
 	public UserNotificationEvent updateUserNotificationEvent(
 		UserNotificationEvent userNotificationEvent);
 
+	@Indexable(type = IndexableType.REINDEX)
 	public List<UserNotificationEvent> updateUserNotificationEvents(
 		Collection<String> uuids, long companyId, boolean archive);
 
