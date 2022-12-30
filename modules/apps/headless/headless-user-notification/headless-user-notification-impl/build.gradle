@@ -11,5 +11,6 @@ dependencies {
 	compileOnly project(":apps:headless:headless-user-notification:headless-user-notification-api")
 	compileOnly project(":apps:portal-odata:portal-odata-api")
 	compileOnly project(":apps:portal-vulcan:portal-vulcan-api")
+	compileOnly project(":core:osgi-service-tracker-collections")
 	compileOnly project(":core:petra:petra-function")
 }
