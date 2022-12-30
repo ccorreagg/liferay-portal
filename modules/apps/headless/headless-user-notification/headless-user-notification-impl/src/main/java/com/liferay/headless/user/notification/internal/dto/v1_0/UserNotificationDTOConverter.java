@@ -15,16 +15,23 @@
 package com.liferay.headless.user.notification.internal.dto.v1_0;
 
 import com.liferay.headless.user.notification.dto.v1_0.UserNotification;
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.UserNotificationEvent;
+import com.liferay.portal.kernel.notifications.NotificationsHelper;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.vulcan.dto.converter.DTOConverter;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterContext;
 
 import java.util.Date;
+import java.util.Locale;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -68,7 +75,8 @@ public class UserNotificationDTOConverter
 
 				dateCreated = new Date(userNotificationEvent.getTimestamp());
 				id = userNotificationEvent.getUserNotificationEventId();
-				message = userNotificationEvent.getPayload();
+				message = _getNotificationMessage(
+					jsonObject, dtoConverterContext.getLocale());
 				read = userNotificationEvent.isArchived();
 
 				if (jsonObject.has("notificationType")) {
@@ -78,8 +86,49 @@ public class UserNotificationDTOConverter
 		};
 	}
 
+	private String _getNotificationMessage(JSONObject jsonObject, Locale locale)
+		throws Exception {
+
+		String className = jsonObject.getString("className");
+
+		NotificationsHelper notificationsHelper = _getNotificationsHelper(
+			className);
+
+		if (notificationsHelper != null) {
+			jsonObject = notificationsHelper.getJSONObject(jsonObject, locale);
+		}
+
+		if (jsonObject.has("notificationMessage")) {
+			return jsonObject.getString("notificationMessage");
+		}
+
+		return jsonObject.toString();
+	}
+
+	private NotificationsHelper _getNotificationsHelper(String className) {
+		if (_serviceTrackerMap == null) {
+			Bundle bundle = FrameworkUtil.getBundle(
+				UserNotificationDTOConverter.class);
+
+			BundleContext bundleContext = bundle.getBundleContext();
+
+			_serviceTrackerMap = ServiceTrackerMapFactory.openSingleValueMap(
+				bundleContext, NotificationsHelper.class, null,
+				(serviceReference, emitter) -> {
+					NotificationsHelper notificationsHelper =
+						bundleContext.getService(serviceReference);
+
+					emitter.emit(notificationsHelper.getClassName());
+				});
+		}
+
+		return _serviceTrackerMap.getService(className);
+	}
+
 	@Reference
 	private JSONFactory _jsonFactory;
+
+	private ServiceTrackerMap<String, NotificationsHelper> _serviceTrackerMap;
 
 	@Reference
 	private UserNotificationEventLocalService
