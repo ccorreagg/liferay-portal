@@ -38,6 +38,11 @@ import org.osgi.service.component.annotations.Deactivate;
 public class DTOMapperImpl implements DTOMapper {
 
 	@Override
+	public String toExternalDTOClassName(String internalDTOClassName) {
+		return _internalEnternalDTOClassNameMap.get(internalDTOClassName);
+	}
+
+	@Override
 	public String toInternalDTOClassName(String externalDTOClassName) {
 		return _externalInternalDTOClassNameMap.get(externalDTOClassName);
 	}
@@ -58,6 +63,8 @@ public class DTOMapperImpl implements DTOMapper {
 
 	private BundleContext _bundleContext;
 	private final Map<String, String> _externalInternalDTOClassNameMap =
+		new HashMap<>();
+	private final Map<String, String> _internalEnternalDTOClassNameMap =
 		new HashMap<>();
 	private final ServiceListener _serviceListener =
 		new DTOConverterServiceListener();
@@ -100,9 +107,12 @@ public class DTOMapperImpl implements DTOMapper {
 			if (serviceEvent.getType() == ServiceEvent.REGISTERED) {
 				_externalInternalDTOClassNameMap.put(
 					externalDTOClassName, internalDTOClassName);
+				_internalEnternalDTOClassNameMap.put(
+					internalDTOClassName, externalDTOClassName);
 			}
 			else if (serviceEvent.getType() == ServiceEvent.UNREGISTERING) {
 				_externalInternalDTOClassNameMap.remove(externalDTOClassName);
+				_internalEnternalDTOClassNameMap.remove(internalDTOClassName);
 			}
 
 			_bundleContext.ungetService(serviceReference);
