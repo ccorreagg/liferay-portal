@@ -47,6 +47,7 @@ import com.liferay.headless.delivery.dto.v1_0.util.DDMFormValuesUtil;
 import com.liferay.headless.delivery.dto.v1_0.util.DDMValueUtil;
 import com.liferay.headless.delivery.dto.v1_0.util.StructuredContentUtil;
 import com.liferay.headless.delivery.dynamic.data.mapping.DDMFormFieldUtil;
+import com.liferay.headless.delivery.internal.dto.v1_0.action.StructuredContentActionProvider;
 import com.liferay.headless.delivery.internal.dto.v1_0.converter.StructuredContentDTOConverter;
 import com.liferay.headless.delivery.internal.dto.v1_0.util.DisplayPageRendererUtil;
 import com.liferay.headless.delivery.internal.dto.v1_0.util.RatingUtil;
@@ -105,6 +106,7 @@ import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.query.Queries;
 import com.liferay.portal.search.searcher.SearchRequestBuilder;
 import com.liferay.portal.search.sort.Sorts;
+import com.liferay.portal.vulcan.action.ActionProviderContext;
 import com.liferay.portal.vulcan.aggregation.Aggregation;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterRegistry;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
@@ -1074,70 +1076,11 @@ public class StructuredContentResourceImpl
 		return _structuredContentDTOConverter.toDTO(
 			new DefaultDTOConverterContext(
 				contextAcceptLanguage.isAcceptAllLanguages(),
-				HashMapBuilder.put(
-					"delete",
-					addAction(
-						ActionKeys.DELETE, journalArticle.getResourcePrimKey(),
-						"deleteStructuredContent", journalArticle.getUserId(),
-						JournalArticle.class.getName(),
-						journalArticle.getGroupId())
-				).put(
-					"get",
-					addAction(
-						ActionKeys.VIEW, journalArticle.getResourcePrimKey(),
-						"getStructuredContent", journalArticle.getUserId(),
-						JournalArticle.class.getName(),
-						journalArticle.getGroupId())
-				).put(
-					"get-rendered-content",
-					addAction(
-						ActionKeys.VIEW, journalArticle.getResourcePrimKey(),
-						"getStructuredContentRenderedContentContentTemplate",
-						journalArticle.getUserId(),
-						JournalArticle.class.getName(),
-						journalArticle.getGroupId())
-				).put(
-					"get-rendered-content-by-display-page",
-					addAction(
-						ActionKeys.VIEW, journalArticle.getResourcePrimKey(),
-						"getStructuredContentRenderedContentByDisplayPage" +
-							"DisplayPageKey",
-						journalArticle.getUserId(),
-						JournalArticle.class.getName(),
-						journalArticle.getGroupId())
-				).put(
-					"replace",
-					addAction(
-						ActionKeys.UPDATE, journalArticle.getResourcePrimKey(),
-						"putStructuredContent", journalArticle.getUserId(),
-						JournalArticle.class.getName(),
-						journalArticle.getGroupId())
-				).put(
-					"subscribe",
-					addAction(
-						ActionKeys.SUBSCRIBE,
-						journalArticle.getResourcePrimKey(),
-						"putStructuredContentSubscribe",
-						journalArticle.getUserId(),
-						JournalArticle.class.getName(),
-						journalArticle.getGroupId())
-				).put(
-					"unsubscribe",
-					addAction(
-						ActionKeys.SUBSCRIBE,
-						journalArticle.getResourcePrimKey(),
-						"putStructuredContentUnsubscribe",
-						journalArticle.getUserId(),
-						JournalArticle.class.getName(),
-						journalArticle.getGroupId())
-				).put(
-					"update",
-					addAction(
-						ActionKeys.UPDATE, journalArticle.getResourcePrimKey(),
-						"patchStructuredContent", journalArticle.getUserId(),
-						JournalArticle.class.getName(),
-						journalArticle.getGroupId())
-				).build(),
+				_structuredContentActionProvider.getActions(
+					new ActionProviderContext(
+						journalArticle.getGroupId(), contextScopeChecker,
+						contextUriInfo, journalArticle.getUserId()),
+					journalArticle.getPrimaryKey()),
 				_dtoConverterRegistry, contextHttpServletRequest,
 				journalArticle.getResourcePrimKey(),
 				contextAcceptLanguage.getPreferredLocale(), contextUriInfo,
@@ -1337,6 +1280,9 @@ public class StructuredContentResourceImpl
 
 	@Reference
 	private Sorts _sorts;
+
+	@Reference
+	private StructuredContentActionProvider _structuredContentActionProvider;
 
 	@Reference
 	private StructuredContentDTOConverter _structuredContentDTOConverter;
