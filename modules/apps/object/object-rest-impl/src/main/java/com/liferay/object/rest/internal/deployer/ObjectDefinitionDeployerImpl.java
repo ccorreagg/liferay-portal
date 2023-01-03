@@ -20,6 +20,7 @@ import com.liferay.object.exception.NoSuchObjectDefinitionException;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.related.models.ObjectRelatedModelsProviderRegistry;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
+import com.liferay.object.rest.internal.action.ObjectDefinitionActionProvider;
 import com.liferay.object.rest.internal.graphql.dto.v1_0.ObjectDefinitionGraphQLDTOContributor;
 import com.liferay.object.rest.internal.jaxrs.application.ObjectEntryApplication;
 import com.liferay.object.rest.internal.jaxrs.context.provider.ObjectDefinitionContextProvider;
@@ -37,8 +38,10 @@ import com.liferay.object.rest.petra.sql.dsl.expression.FilterPredicateFactory;
 import com.liferay.object.rest.resource.v1_0.ObjectEntryResource;
 import com.liferay.object.scope.ObjectScopeProvider;
 import com.liferay.object.scope.ObjectScopeProviderRegistry;
+import com.liferay.object.service.ObjectActionLocalService;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
+import com.liferay.object.service.ObjectEntryService;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.service.ObjectRelationshipLocalService;
 import com.liferay.object.service.ObjectRelationshipService;
@@ -56,12 +59,14 @@ import com.liferay.portal.kernel.service.ResourceActionLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
+import com.liferay.portal.vulcan.action.ActionProvider;
 import com.liferay.portal.vulcan.graphql.dto.GraphQLDTOContributor;
 
 import java.lang.reflect.Method;
@@ -178,6 +183,18 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 			if (objectDefinitions.isEmpty()) {
 				_objectDefinitionsMap.remove(restContextPath);
+			}
+		}
+
+		List<ServiceRegistration<?>> serviceRegistrationMap =
+			_objectDefinitionServiceRegistrationsMap.remove(
+				objectDefinition.getObjectDefinitionId());
+
+		if (serviceRegistrationMap != null) {
+			for (ServiceRegistration<?> serviceRegistration :
+					serviceRegistrationMap) {
+
+				serviceRegistration.unregister();
 			}
 		}
 
@@ -334,6 +351,18 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 		else {
 			applicationServiceRegistration.setProperties(properties);
 		}
+
+		_objectDefinitionServiceRegistrationsMap.computeIfAbsent(
+			objectDefinition.getObjectDefinitionId(),
+			key -> Arrays.asList(
+				_bundleContext.registerService(
+					ActionProvider.class,
+					new ObjectDefinitionActionProvider(
+						_objectActionLocalService, objectDefinition,
+						_objectDefinitionLocalService, _objectEntryService,
+						_objectRelatedModelsProviderRegistry,
+						_objectRelationshipLocalService),
+					new HashMapDictionary<>())));
 
 		_serviceRegistrationsMap.computeIfAbsent(
 			restContextPath,
@@ -579,8 +608,13 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 	private ObjectActionEngine _objectActionEngine;
 
 	@Reference
+	private ObjectActionLocalService _objectActionLocalService;
+
+	@Reference
 	private ObjectDefinitionLocalService _objectDefinitionLocalService;
 
+	private final Map<Long, List<ServiceRegistration<?>>>
+		_objectDefinitionServiceRegistrationsMap = new HashMap<>();
 	private final Map<String, Map<Long, ObjectDefinition>>
 		_objectDefinitionsMap = new HashMap<>();
 
@@ -592,6 +626,9 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 	@Reference
 	private ObjectEntryOpenAPIResource _objectEntryOpenAPIResource;
+
+	@Reference
+	private ObjectEntryService _objectEntryService;
 
 	@Reference
 	private ObjectFieldLocalService _objectFieldLocalService;

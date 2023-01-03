@@ -16,14 +16,11 @@ package com.liferay.object.rest.internal.manager.v1_0;
 
 import com.liferay.account.service.AccountEntryLocalService;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
-import com.liferay.object.constants.ObjectActionTriggerConstants;
 import com.liferay.object.constants.ObjectConstants;
 import com.liferay.object.constants.ObjectDefinitionConstants;
 import com.liferay.object.constants.ObjectFieldConstants;
-import com.liferay.object.constants.ObjectRelationshipConstants;
 import com.liferay.object.exception.NoSuchObjectEntryException;
 import com.liferay.object.field.business.type.ObjectFieldBusinessTypeRegistry;
-import com.liferay.object.model.ObjectAction;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectField;
 import com.liferay.object.model.ObjectRelationship;
@@ -52,7 +49,6 @@ import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.sql.dsl.expression.Predicate;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModel;
@@ -80,7 +76,6 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.GroupThreadLocal;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.aggregation.Aggregations;
@@ -89,6 +84,9 @@ import com.liferay.portal.search.aggregation.bucket.NestedAggregation;
 import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.query.Queries;
 import com.liferay.portal.search.searcher.SearchRequestBuilder;
+import com.liferay.portal.vulcan.action.ActionProvider;
+import com.liferay.portal.vulcan.action.ActionProviderContext;
+import com.liferay.portal.vulcan.action.ActionProviderRegistry;
 import com.liferay.portal.vulcan.aggregation.Aggregation;
 import com.liferay.portal.vulcan.aggregation.Facet;
 import com.liferay.portal.vulcan.dto.converter.DTOConverter;
@@ -621,29 +619,6 @@ public class DefaultObjectEntryManagerImpl
 					dtoConverterContext.getUserId())));
 	}
 
-	private Map<String, String> _addAction(
-			String actionName, String methodName,
-			com.liferay.object.model.ObjectEntry objectEntry, UriInfo uriInfo)
-		throws Exception {
-
-		Map<String, String> map = ActionUtil.addAction(
-			actionName, ObjectEntryResourceImpl.class,
-			objectEntry.getObjectEntryId(), methodName, null,
-			objectEntry.getUserId(),
-			_getObjectEntryPermissionName(objectEntry.getObjectDefinitionId()),
-			objectEntry.getGroupId(), uriInfo);
-
-		if (map != null) {
-			return map;
-		}
-
-		return ActionUtil.addAction(
-			actionName, ObjectEntryResourceImpl.class,
-			objectEntry.getObjectEntryId(), methodName, null,
-			_objectEntryService.getModelResourcePermission(objectEntry),
-			uriInfo);
-	}
-
 	private void _checkObjectEntryObjectDefinitionId(
 			ObjectDefinition objectDefinition,
 			com.liferay.object.model.ObjectEntry objectEntry)
@@ -761,43 +736,6 @@ public class DefaultObjectEntryManagerImpl
 					groupId, objectRelationship.getObjectRelationshipId(),
 					objectEntryId, pagination.getStartPosition(),
 					pagination.getEndPosition())));
-	}
-
-	private boolean _hasRelatedObjectEntries(
-			String deletionType, ObjectDefinition objectDefinition,
-			com.liferay.object.model.ObjectEntry objectEntry)
-		throws PortalException {
-
-		for (ObjectRelationship objectRelationship :
-				_objectRelationshipLocalService.getObjectRelationships(
-					objectDefinition.getObjectDefinitionId(), deletionType,
-					false)) {
-
-			ObjectDefinition objectDefinition2 =
-				_objectDefinitionLocalService.getObjectDefinition(
-					objectRelationship.getObjectDefinitionId2());
-
-			if (!objectDefinition2.isActive()) {
-				continue;
-			}
-
-			ObjectRelatedModelsProvider objectRelatedModelsProvider =
-				_objectRelatedModelsProviderRegistry.
-					getObjectRelatedModelsProvider(
-						objectDefinition2.getClassName(),
-						objectRelationship.getType());
-
-			int count = objectRelatedModelsProvider.getRelatedModelsCount(
-				objectEntry.getGroupId(),
-				objectRelationship.getObjectRelationshipId(),
-				objectEntry.getPrimaryKey());
-
-			if (count > 0) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	private void _processVulcanAggregation(
@@ -922,60 +860,18 @@ public class DefaultObjectEntryManagerImpl
 				actions = Collections.emptyMap();
 			}
 
-			actions = HashMapBuilder.create(
-				actions
-			).<String, Map<String, String>>put(
-				"delete",
-				() -> {
-					if (_hasRelatedObjectEntries(
-							ObjectRelationshipConstants.DELETION_TYPE_PREVENT,
-							objectDefinition, objectEntry)) {
+			ActionProvider actionProvider =
+				_actionProviderRegistry.getActionProvider(
+					objectDefinition.getClassName() + "#" +
+						objectDefinition.getObjectDefinitionId());
 
-						return null;
-					}
-
-					return _addAction(
-						ActionKeys.DELETE, "deleteObjectEntry", objectEntry,
-						dtoConverterContext.getUriInfo());
-				}
-			).put(
-				"get",
-				_addAction(
-					ActionKeys.VIEW, "getObjectEntry", objectEntry,
-					dtoConverterContext.getUriInfo())
-			).put(
-				"permissions",
-				_addAction(
-					ActionKeys.PERMISSIONS, "getObjectEntryPermissionsPage",
-					objectEntry, dtoConverterContext.getUriInfo())
-			).put(
-				"replace",
-				_addAction(
-					ActionKeys.UPDATE, "putObjectEntry", objectEntry,
-					dtoConverterContext.getUriInfo())
-			).put(
-				"update",
-				_addAction(
-					ActionKeys.UPDATE, "patchObjectEntry", objectEntry,
-					dtoConverterContext.getUriInfo())
-			).build();
-
-			if (GetterUtil.getBoolean(
-					PropsUtil.get("feature.flag.LPS-148804"))) {
-
-				for (ObjectAction objectAction :
-						_objectActionLocalService.getObjectActions(
-							objectDefinition.getObjectDefinitionId(),
-							ObjectActionTriggerConstants.KEY_STANDALONE)) {
-
-					actions.put(
-						objectAction.getName(),
-						_addAction(
-							ActionKeys.VIEW,
-							"putByExternalReferenceCodeObjectEntryExternal" +
-								"ReferenceCodeObjectActionObjectActionName",
-							objectEntry, dtoConverterContext.getUriInfo()));
-				}
+			if (actionProvider != null) {
+				actions = actionProvider.getActions(
+					new ActionProviderContext(
+						objectEntry.getGroupId(), null,
+						dtoConverterContext.getUriInfo(),
+						objectEntry.getUserId()),
+					objectEntry.getObjectEntryId());
 			}
 		}
 
@@ -1068,6 +964,9 @@ public class DefaultObjectEntryManagerImpl
 
 	@Reference
 	private AccountEntryLocalService _accountEntryLocalService;
+
+	@Reference
+	private ActionProviderRegistry _actionProviderRegistry;
 
 	@Reference
 	private Aggregations _aggregations;
