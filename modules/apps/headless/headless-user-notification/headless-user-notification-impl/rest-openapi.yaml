@@ -14,6 +14,14 @@ components:
                         Block of actions allowed by the user making the request.
                     readOnly: true
                     type: object
+                context:
+                    allOf:
+                        - $ref: "#/components/schemas/UserNotificationContext"
+                    # @review
+                    description:
+                        Context of the user notification.
+                    readOnly: true
+                    type: object
                 dateCreated:
                     # @review
                     description:
@@ -46,6 +54,20 @@ components:
                     format: int32
                     readOnly: true
                     type: integer
+        UserNotificationContext:
+            description:
+                Represents the context of a user notification.
+            properties:
+                notifier:
+                    additionalProperties:
+                        additionalProperties:
+                            type: string
+                        type: object
+                    # @review
+                    description:
+                        Block of actions allowed by the user making the request.
+                    readOnly: true
+                    type: object
 info:
     description:
         "Headless User Notification REST API. A Java client JAR is available for use with the group ID 'com.liferay',
