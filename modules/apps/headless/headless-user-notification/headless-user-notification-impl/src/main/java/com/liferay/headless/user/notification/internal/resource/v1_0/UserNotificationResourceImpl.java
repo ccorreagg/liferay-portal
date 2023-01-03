@@ -191,7 +191,12 @@ public class UserNotificationResourceImpl
 				).build(),
 				null, userNotificationEvent.getUserNotificationEventId(),
 				contextAcceptLanguage.getPreferredLocale(), contextUriInfo,
-				contextUser),
+				contextUser) {
+
+				{
+					setAttribute("scopeChecker", contextScopeChecker);
+				}
+			},
 			userNotificationEvent);
 	}
 

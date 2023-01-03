@@ -81,18 +81,41 @@ import java.util.Optional;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 /**
  * @author Javier de Arcos
  */
-@Component(
-	property = "dto.class.name=com.liferay.object.model.ObjectEntry",
-	service = {DTOConverter.class, ObjectEntryDTOConverter.class}
-)
 public class ObjectEntryDTOConverter
 	implements DTOConverter<com.liferay.object.model.ObjectEntry, ObjectEntry> {
+
+	public ObjectEntryDTOConverter(
+		DDMExpressionFactory ddmExpressionFactory, DLAppService dlAppService,
+		DLFileEntryLocalService dLFileEntryLocalService,
+		DLURLHelper dlURLHelper, GroupLocalService groupLocalService,
+		Language language, ListTypeEntryLocalService listTypeEntryLocalService,
+		ObjectDefinitionLocalService objectDefinitionLocalService,
+		ObjectEntryLocalService objectEntryLocalService,
+		ObjectFieldLocalService objectFieldLocalService,
+		ObjectFieldSettingLocalService objectFieldSettingLocalService,
+		ObjectRelationshipLocalService objectRelationshipLocalService,
+		ObjectScopeProviderRegistry objectScopeProviderRegistry, Portal portal,
+		UserLocalService userLocalService) {
+
+		_ddmExpressionFactory = ddmExpressionFactory;
+		_dlAppService = dlAppService;
+		_dLFileEntryLocalService = dLFileEntryLocalService;
+		_dlURLHelper = dlURLHelper;
+		_groupLocalService = groupLocalService;
+		_language = language;
+		_listTypeEntryLocalService = listTypeEntryLocalService;
+		_objectDefinitionLocalService = objectDefinitionLocalService;
+		_objectEntryLocalService = objectEntryLocalService;
+		_objectFieldLocalService = objectFieldLocalService;
+		_objectFieldSettingLocalService = objectFieldSettingLocalService;
+		_objectRelationshipLocalService = objectRelationshipLocalService;
+		_objectScopeProviderRegistry = objectScopeProviderRegistry;
+		_portal = portal;
+		_userLocalService = userLocalService;
+	}
 
 	@Override
 	public String getContentType() {
@@ -627,49 +650,22 @@ public class ObjectEntryDTOConverter
 	private static final Log _log = LogFactoryUtil.getLog(
 		ObjectEntryDTOConverter.class);
 
-	@Reference
-	private DDMExpressionFactory _ddmExpressionFactory;
-
-	@Reference
-	private DLAppService _dlAppService;
-
-	@Reference
-	private DLFileEntryLocalService _dLFileEntryLocalService;
-
-	@Reference
-	private DLURLHelper _dlURLHelper;
-
-	@Reference
-	private GroupLocalService _groupLocalService;
-
-	@Reference
-	private Language _language;
-
-	@Reference
-	private ListTypeEntryLocalService _listTypeEntryLocalService;
-
-	@Reference
-	private ObjectDefinitionLocalService _objectDefinitionLocalService;
-
-	@Reference
-	private ObjectEntryLocalService _objectEntryLocalService;
-
-	@Reference
-	private ObjectFieldLocalService _objectFieldLocalService;
-
-	@Reference
-	private ObjectFieldSettingLocalService _objectFieldSettingLocalService;
-
-	@Reference
-	private ObjectRelationshipLocalService _objectRelationshipLocalService;
-
-	@Reference
-	private ObjectScopeProviderRegistry _objectScopeProviderRegistry;
-
-	@Reference
-	private Portal _portal;
-
-	@Reference
-	private UserLocalService _userLocalService;
+	private final DDMExpressionFactory _ddmExpressionFactory;
+	private final DLAppService _dlAppService;
+	private final DLFileEntryLocalService _dLFileEntryLocalService;
+	private final DLURLHelper _dlURLHelper;
+	private final GroupLocalService _groupLocalService;
+	private final Language _language;
+	private final ListTypeEntryLocalService _listTypeEntryLocalService;
+	private final ObjectDefinitionLocalService _objectDefinitionLocalService;
+	private final ObjectEntryLocalService _objectEntryLocalService;
+	private final ObjectFieldLocalService _objectFieldLocalService;
+	private final ObjectFieldSettingLocalService
+		_objectFieldSettingLocalService;
+	private final ObjectRelationshipLocalService
+		_objectRelationshipLocalService;
+	private final ObjectScopeProviderRegistry _objectScopeProviderRegistry;
+	private final Portal _portal;
+	private final UserLocalService _userLocalService;
 
 }
