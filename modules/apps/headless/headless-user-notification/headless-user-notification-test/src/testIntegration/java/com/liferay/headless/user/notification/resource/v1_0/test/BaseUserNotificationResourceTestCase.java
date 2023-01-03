@@ -1130,6 +1130,14 @@ public abstract class BaseUserNotificationResourceTestCase {
 				continue;
 			}
 
+			if (Objects.equals("context", additionalAssertFieldName)) {
+				if (userNotification.getContext() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
 			if (Objects.equals("message", additionalAssertFieldName)) {
 				if (userNotification.getMessage() == null) {
 					valid = false;
@@ -1253,6 +1261,17 @@ public abstract class BaseUserNotificationResourceTestCase {
 				if (!equals(
 						(Map)userNotification1.getActions(),
 						(Map)userNotification2.getActions())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals("context", additionalAssertFieldName)) {
+				if (!Objects.deepEquals(
+						userNotification1.getContext(),
+						userNotification2.getContext())) {
 
 					return false;
 				}
@@ -1413,6 +1432,11 @@ public abstract class BaseUserNotificationResourceTestCase {
 		sb.append(" ");
 
 		if (entityFieldName.equals("actions")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
+		}
+
+		if (entityFieldName.equals("context")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
 		}

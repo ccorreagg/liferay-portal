@@ -71,6 +71,16 @@ public class UserNotificationSerDes {
 			sb.append(_toJSON(userNotification.getActions()));
 		}
 
+		if (userNotification.getContext() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"context\": ");
+
+			sb.append(String.valueOf(userNotification.getContext()));
+		}
+
 		if (userNotification.getDateCreated() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -160,6 +170,13 @@ public class UserNotificationSerDes {
 			map.put("actions", String.valueOf(userNotification.getActions()));
 		}
 
+		if (userNotification.getContext() == null) {
+			map.put("context", null);
+		}
+		else {
+			map.put("context", String.valueOf(userNotification.getContext()));
+		}
+
 		if (userNotification.getDateCreated() == null) {
 			map.put("dateCreated", null);
 		}
@@ -223,6 +240,13 @@ public class UserNotificationSerDes {
 				if (jsonParserFieldValue != null) {
 					userNotification.setActions(
 						(Map)UserNotificationSerDes.toMap(
+							(String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "context")) {
+				if (jsonParserFieldValue != null) {
+					userNotification.setContext(
+						UserNotificationContextSerDes.toDTO(
 							(String)jsonParserFieldValue));
 				}
 			}

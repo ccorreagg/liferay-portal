@@ -99,6 +99,36 @@ public class UserNotification implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, Map<String, String>> actions;
 
+	@Schema(description = "Context of the user notification.")
+	@Valid
+	public UserNotificationContext getContext() {
+		return context;
+	}
+
+	public void setContext(UserNotificationContext context) {
+		this.context = context;
+	}
+
+	@JsonIgnore
+	public void setContext(
+		UnsafeSupplier<UserNotificationContext, Exception>
+			contextUnsafeSupplier) {
+
+		try {
+			context = contextUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField(description = "Context of the user notification.")
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	protected UserNotificationContext context;
+
 	@Schema(description = "The user notification's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
@@ -275,6 +305,16 @@ public class UserNotification implements Serializable {
 			sb.append("\"actions\": ");
 
 			sb.append(_toJSON(actions));
+		}
+
+		if (context != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"context\": ");
+
+			sb.append(String.valueOf(context));
 		}
 
 		if (dateCreated != null) {

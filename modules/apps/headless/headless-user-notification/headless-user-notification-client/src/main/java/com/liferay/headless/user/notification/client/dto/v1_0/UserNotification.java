@@ -58,6 +58,28 @@ public class UserNotification implements Cloneable, Serializable {
 
 	protected Map<String, Map<String, String>> actions;
 
+	public UserNotificationContext getContext() {
+		return context;
+	}
+
+	public void setContext(UserNotificationContext context) {
+		this.context = context;
+	}
+
+	public void setContext(
+		UnsafeSupplier<UserNotificationContext, Exception>
+			contextUnsafeSupplier) {
+
+		try {
+			context = contextUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected UserNotificationContext context;
+
 	public Date getDateCreated() {
 		return dateCreated;
 	}
