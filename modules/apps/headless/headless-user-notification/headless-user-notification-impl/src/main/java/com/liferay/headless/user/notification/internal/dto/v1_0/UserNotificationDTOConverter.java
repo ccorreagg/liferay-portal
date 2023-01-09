@@ -29,10 +29,10 @@ import com.liferay.portal.vulcan.dto.converter.DTOConverterContext;
 import java.util.Date;
 import java.util.Locale;
 
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -86,12 +86,29 @@ public class UserNotificationDTOConverter
 		};
 	}
 
+	@Activate
+	protected void activate(BundleContext bundleContext) {
+		_serviceTrackerMap = ServiceTrackerMapFactory.openSingleValueMap(
+			bundleContext, NotificationsHelper.class, null,
+			(serviceReference, emitter) -> {
+				NotificationsHelper notificationsHelper =
+					bundleContext.getService(serviceReference);
+
+				emitter.emit(notificationsHelper.getClassName());
+			});
+	}
+
+	@Deactivate
+	protected void deactivate() {
+		_serviceTrackerMap.close();
+	}
+
 	private String _getNotificationMessage(JSONObject jsonObject, Locale locale)
 		throws Exception {
 
 		String className = jsonObject.getString("className");
 
-		NotificationsHelper notificationsHelper = _getNotificationsHelper(
+		NotificationsHelper notificationsHelper = _serviceTrackerMap.getService(
 			className);
 
 		if (notificationsHelper != null) {
@@ -103,26 +120,6 @@ public class UserNotificationDTOConverter
 		}
 
 		return jsonObject.toString();
-	}
-
-	private NotificationsHelper _getNotificationsHelper(String className) {
-		if (_serviceTrackerMap == null) {
-			Bundle bundle = FrameworkUtil.getBundle(
-				UserNotificationDTOConverter.class);
-
-			BundleContext bundleContext = bundle.getBundleContext();
-
-			_serviceTrackerMap = ServiceTrackerMapFactory.openSingleValueMap(
-				bundleContext, NotificationsHelper.class, null,
-				(serviceReference, emitter) -> {
-					NotificationsHelper notificationsHelper =
-						bundleContext.getService(serviceReference);
-
-					emitter.emit(notificationsHelper.getClassName());
-				});
-		}
-
-		return _serviceTrackerMap.getService(className);
 	}
 
 	@Reference
