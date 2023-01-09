@@ -119,7 +119,7 @@ public class UserNotificationDTOConverter
 			return jsonObject.getString("notificationMessage");
 		}
 
-		return jsonObject.toString();
+		return null;
 	}
 
 	@Reference
