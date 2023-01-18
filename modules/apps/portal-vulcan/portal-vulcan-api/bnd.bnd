@@ -20,6 +20,7 @@ Export-Package:\
 	com.liferay.portal.vulcan.jaxrs,\
 	com.liferay.portal.vulcan.jaxrs.exception.mapper,\
 	com.liferay.portal.vulcan.list.type,\
+	com.liferay.portal.vulcan.message,\
 	com.liferay.portal.vulcan.multipart,\
 	com.liferay.portal.vulcan.openapi,\
 	com.liferay.portal.vulcan.openapi.contributor,\
