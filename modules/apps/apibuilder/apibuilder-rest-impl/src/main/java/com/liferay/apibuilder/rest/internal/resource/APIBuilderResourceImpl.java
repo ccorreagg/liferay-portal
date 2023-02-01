@@ -32,7 +32,9 @@ import com.liferay.apibuilder.operation.schema.Schema;
 import com.liferay.apibuilder.rest.internal.dto.converter.APIBuilderElementDTOConverter;
 import com.liferay.apibuilder.rest.resource.APIBuilderResource;
 import com.liferay.apibuilder.util.URLUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterContext;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.jaxrs.exception.mapper.Problem;
@@ -46,6 +48,7 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -72,6 +75,10 @@ public class APIBuilderResourceImpl implements APIBuilderResource {
 	@Path("{any: .*}")
 	@Produces({"application/json", "application/xml"})
 	public Response get() throws Exception {
+		if (!GetterUtil.getBoolean(PropsUtil.get("feature.flag.LPS-171047"))) {
+			throw new NotFoundException();
+		}
+
 		Operation operation = _operationProvider.getOperation(
 			_portal.getCompanyId(_httpServletRequest), Method.GET,
 			_httpServletRequest.getRequestURI());
