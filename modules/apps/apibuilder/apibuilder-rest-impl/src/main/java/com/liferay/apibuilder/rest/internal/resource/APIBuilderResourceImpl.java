@@ -1,0 +1,245 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+package com.liferay.apibuilder.rest.internal.resource;
+
+import com.liferay.apibuilder.handler.OperationHandler;
+import com.liferay.apibuilder.operation.MediaType;
+import com.liferay.apibuilder.operation.Method;
+import com.liferay.apibuilder.operation.Operation;
+import com.liferay.apibuilder.operation.OperationContext;
+import com.liferay.apibuilder.operation.provider.OperationProvider;
+import com.liferay.apibuilder.operation.registry.OperationHandlerRegistry;
+import com.liferay.apibuilder.operation.response.NotFoundOperationResponse;
+import com.liferay.apibuilder.operation.response.OperationResponse;
+import com.liferay.apibuilder.operation.response.ResponseCode;
+import com.liferay.apibuilder.operation.response.SuccessfulOperationResponse;
+import com.liferay.apibuilder.operation.schema.AttributeSchema;
+import com.liferay.apibuilder.operation.schema.AttributeValue;
+import com.liferay.apibuilder.operation.schema.ObjectSchema;
+import com.liferay.apibuilder.operation.schema.Schema;
+import com.liferay.apibuilder.rest.internal.dto.converter.APIBuilderElementDTOConverter;
+import com.liferay.apibuilder.rest.resource.APIBuilderResource;
+import com.liferay.apibuilder.util.URLUtil;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.vulcan.dto.converter.DTOConverterContext;
+import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
+import com.liferay.portal.vulcan.jaxrs.exception.mapper.Problem;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ServiceScope;
+
+/**
+ * @author Carlos Correa
+ */
+@Component(
+	property = {
+		"osgi.jaxrs.application.select=(osgi.jaxrs.name=Liferay.APIBuilder.Application)",
+		"osgi.jaxrs.resource=true"
+	},
+	scope = ServiceScope.PROTOTYPE, service = APIBuilderResource.class
+)
+public class APIBuilderResourceImpl extends BaseAPIBuilderResourceImpl {
+
+	@GET
+	@Path("{any: .*}")
+	@Produces({"application/json", "application/xml"})
+	public Response get() throws Exception {
+		Operation operation = _operationProvider.getOperation(
+			_portal.getCompanyId(contextHttpServletRequest), Method.GET,
+			contextHttpServletRequest.getRequestURI());
+
+		OperationHandler operationHandler =
+			_operationHandlerRegistry.getOperationHandler(operation);
+
+		MediaType mediaType = MediaType.parse(
+			contextHttpServletRequest.getHeader(HttpHeaders.ACCEPT));
+
+		OperationResponse operationResponse = operationHandler.handle(
+			operation, _getOperationContext(mediaType, operation));
+
+		return _toResponse(operationResponse);
+	}
+
+	private List<AttributeValue> _getAttributeValues(
+		Operation operation, HttpServletRequest httpServletRequest,
+		MediaType mediaType) {
+
+		List<AttributeValue> attributeValues = new ArrayList<>();
+
+		Map<String, String> pathParams = URLUtil.getPathParams(
+			httpServletRequest.getRequestURI(),
+			operation.getPathConfiguration());
+
+		Map<String, Schema> parameterSchemas = operation.getParameterSchemas();
+
+		Map<String, AttributeSchema> parameterSchemaMappings =
+			_getParameterSchemaMappings(operation, mediaType, true);
+
+		for (Map.Entry<String, Schema> entry : parameterSchemas.entrySet()) {
+			Schema schema = entry.getValue();
+
+			AttributeSchema attributeSchema = parameterSchemaMappings.get(
+				entry.getKey());
+
+			if (!pathParams.containsKey(attributeSchema.getExternalName())) {
+				if (schema.isRequired()) {
+					throw new IllegalArgumentException();
+				}
+
+				continue;
+			}
+
+			attributeValues.add(
+				AttributeValue.parse(
+					(AttributeSchema)schema,
+					pathParams.get(attributeSchema.getExternalName())));
+		}
+
+		return attributeValues;
+	}
+
+	private DTOConverterContext _getDTOConverterContext(Schema schema) {
+		DTOConverterContext dtoConverterContext =
+			new DefaultDTOConverterContext(null, null, null, null, null);
+
+		dtoConverterContext.setAttribute("schema", schema);
+
+		return dtoConverterContext;
+	}
+
+	private OperationContext _getOperationContext(
+		MediaType mediaType, Operation operation) {
+
+		OperationContext.Builder builder = new OperationContext.Builder();
+
+		for (AttributeValue attributeValue :
+				_getAttributeValues(
+					operation, contextHttpServletRequest, mediaType)) {
+
+			AttributeSchema attributeSchema =
+				attributeValue.getAttributeSchema();
+
+			if (attributeSchema.isPrimaryKey()) {
+				builder.withPrimaryKeyAttributeValue(attributeValue);
+			}
+			else {
+				builder.withAttributeValue(attributeValue);
+			}
+		}
+
+		return builder.withMediaType(
+			mediaType
+		).build();
+	}
+
+	private Map<String, AttributeSchema> _getParameterSchemaMappings(
+		Operation operation, MediaType mediaType, boolean reverse) {
+
+		Schema responseSchema = operation.getResponseSchema(
+			mediaType, ResponseCode.SUCCESSFUL);
+
+		if (responseSchema instanceof ObjectSchema) {
+			Map<String, AttributeSchema> schemaMappings = new HashMap<>();
+
+			ObjectSchema objectSchema = (ObjectSchema)responseSchema;
+
+			Map<String, Schema> properties = objectSchema.getProperties();
+
+			for (Schema schema : properties.values()) {
+				if (schema instanceof AttributeSchema) {
+					AttributeSchema attributeSchema = (AttributeSchema)schema;
+
+					if (reverse) {
+						schemaMappings.put(
+							attributeSchema.getName(), attributeSchema);
+					}
+					else {
+						schemaMappings.put(
+							attributeSchema.getExternalName(), attributeSchema);
+					}
+				}
+			}
+
+			return schemaMappings;
+		}
+
+		throw new IllegalStateException();
+	}
+
+	private Response _toResponse(OperationResponse operationResponse)
+		throws Exception {
+
+		if (Objects.equals(
+				operationResponse.getResponseCode(), ResponseCode.SUCCESSFUL)) {
+
+			SuccessfulOperationResponse successfulOperationResponse =
+				(SuccessfulOperationResponse)operationResponse;
+
+			return Response.status(
+				Response.Status.OK
+			).entity(
+				_dtoConverter.toDTO(
+					_getDTOConverterContext(
+						successfulOperationResponse.getSchema()),
+					successfulOperationResponse.getApiBuilderDTO())
+			).build();
+		}
+		else if (Objects.equals(
+					operationResponse.getResponseCode(),
+					ResponseCode.NOT_FOUND)) {
+
+			NotFoundOperationResponse notFoundOperationResponse =
+				(NotFoundOperationResponse)operationResponse;
+
+			return Response.status(
+				Response.Status.NOT_FOUND
+			).entity(
+				new Problem(
+					Response.Status.NOT_FOUND,
+					notFoundOperationResponse.getMessage())
+			).build();
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	@Reference
+	private APIBuilderElementDTOConverter _dtoConverter;
+
+	@Reference
+	private OperationHandlerRegistry _operationHandlerRegistry;
+
+	@Reference
+	private OperationProvider _operationProvider;
+
+	@Reference
+	private Portal _portal;
+
+}
