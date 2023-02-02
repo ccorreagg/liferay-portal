@@ -16,10 +16,8 @@ package com.liferay.apibuilder.rest.internal.resource;
 
 import com.liferay.apibuilder.handler.OperationHandler;
 import com.liferay.apibuilder.operation.MediaType;
-import com.liferay.apibuilder.operation.Method;
 import com.liferay.apibuilder.operation.Operation;
 import com.liferay.apibuilder.operation.OperationContext;
-import com.liferay.apibuilder.operation.provider.OperationProvider;
 import com.liferay.apibuilder.operation.registry.OperationHandlerRegistry;
 import com.liferay.apibuilder.operation.response.NotFoundOperationResponse;
 import com.liferay.apibuilder.operation.response.OperationResponse;
@@ -51,6 +49,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
@@ -78,18 +77,14 @@ public class APIBuilderResourceImpl extends BaseAPIBuilderResourceImpl {
 			throw new NotFoundException();
 		}
 
-		Operation operation = _operationProvider.getOperation(
-			_portal.getCompanyId(contextHttpServletRequest), Method.GET,
-			contextHttpServletRequest.getRequestURI());
-
 		OperationHandler operationHandler =
-			_operationHandlerRegistry.getOperationHandler(operation);
+			_operationHandlerRegistry.getOperationHandler(_operation);
 
 		MediaType mediaType = MediaType.parse(
 			contextHttpServletRequest.getHeader(HttpHeaders.ACCEPT));
 
 		OperationResponse operationResponse = operationHandler.handle(
-			operation, _getOperationContext(mediaType, operation));
+			_operation, _getOperationContext(mediaType, _operation));
 
 		return _toResponse(operationResponse);
 	}
@@ -240,11 +235,11 @@ public class APIBuilderResourceImpl extends BaseAPIBuilderResourceImpl {
 	@Reference
 	private APIBuilderElementDTOConverter _dtoConverter;
 
-	@Reference
-	private OperationHandlerRegistry _operationHandlerRegistry;
+	@Context
+	private Operation _operation;
 
 	@Reference
-	private OperationProvider _operationProvider;
+	private OperationHandlerRegistry _operationHandlerRegistry;
 
 	@Reference
 	private Portal _portal;
