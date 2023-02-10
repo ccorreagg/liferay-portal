@@ -21,6 +21,7 @@ import com.liferay.object.related.models.ObjectRelatedModelsProviderRegistry;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
 import com.liferay.object.rest.internal.graphql.dto.v1_0.ObjectDefinitionGraphQLDTOContributor;
 import com.liferay.object.rest.internal.jaxrs.application.ObjectEntryApplication;
+import com.liferay.object.rest.internal.jaxrs.context.provider.ClassNameSupplierContextProvider;
 import com.liferay.object.rest.internal.jaxrs.context.provider.ObjectDefinitionContextProvider;
 import com.liferay.object.rest.internal.jaxrs.exception.mapper.ObjectEntryManagerHttpExceptionMapper;
 import com.liferay.object.rest.internal.jaxrs.exception.mapper.ObjectEntryValuesExceptionMapper;
@@ -416,6 +417,21 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 		_serviceRegistrationsMap.computeIfAbsent(
 			restContextPath,
 			key -> Arrays.asList(
+				_bundleContext.registerService(
+					ContextProvider.class,
+					new ClassNameSupplierContextProvider(this, _portal),
+					HashMapDictionaryBuilder.<String, Object>put(
+						"enabled", "false"
+					).put(
+						"osgi.jaxrs.application.select",
+						"(osgi.jaxrs.name=" + osgiJaxRsName + ")"
+					).put(
+						"osgi.jaxrs.extension", "true"
+					).put(
+						"osgi.jaxrs.name",
+						objectDefinition.getOSGiJaxRsName(
+							"ClassNameSupplierContextProvider")
+					).build()),
 				_bundleContext.registerService(
 					ContextProvider.class,
 					new ObjectDefinitionContextProvider(this, _portal),
