@@ -41,6 +41,7 @@ import com.liferay.portal.vulcan.internal.jaxrs.container.response.filter.CacheC
 import com.liferay.portal.vulcan.internal.jaxrs.container.response.filter.EntityExtensionContainerResponseFilter;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.AcceptLanguageContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.AggregationContextProvider;
+import com.liferay.portal.vulcan.internal.jaxrs.context.provider.ClassNameSupplierContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.CompanyContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.FieldsQueryParamContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.FilterContextProvider;
@@ -110,6 +111,7 @@ public class VulcanFeature implements Feature {
 	public boolean configure(FeatureContext featureContext) {
 		featureContext.register(BeanValidationInterceptor.class);
 		featureContext.register(CacheContainerResponseFilter.class);
+		featureContext.register(ClassNameSupplierContextProvider.class);
 		featureContext.register(CTContainerRequestFilter.class);
 		featureContext.register(DateParamConverterProvider.class);
 		featureContext.register(EntityExtensionContainerResponseFilter.class);
