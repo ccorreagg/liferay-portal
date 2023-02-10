@@ -15,6 +15,7 @@
 package com.liferay.portal.vulcan.internal.jaxrs.context.resolver;
 
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.vulcan.extension.ClassNameSupplier;
 import com.liferay.portal.vulcan.extension.ExtensionProviderRegistry;
 import com.liferay.portal.vulcan.internal.extension.EntityExtensionHandler;
 import com.liferay.portal.vulcan.internal.extension.util.ExtensionUtil;
@@ -22,6 +23,7 @@ import com.liferay.portal.vulcan.internal.extension.util.ExtensionUtil;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
+import java.util.Optional;
 
 /**
  * @author Javier de Arcos
@@ -38,10 +40,18 @@ public class EntityExtensionHandlerContextResolver
 
 	@Override
 	public EntityExtensionHandler getContext(Class<?> clazz) {
+		String className = _classNameSupplier.getClassName();
+
+		if (className == null) {
+			className = clazz.getName();
+		}
+
 		return ExtensionUtil.getEntityExtensionHandler(
-			clazz.getName(), _company.getCompanyId(),
-			_extensionProviderRegistry);
+			className, _company.getCompanyId(), _extensionProviderRegistry);
 	}
+
+	@Context
+	private ClassNameSupplier _classNameSupplier;
 
 	@Context
 	private Company _company;
