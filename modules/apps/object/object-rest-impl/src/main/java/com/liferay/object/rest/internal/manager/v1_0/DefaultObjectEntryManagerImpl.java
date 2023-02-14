@@ -38,6 +38,8 @@ import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryResourceImpl;
 import com.liferay.object.rest.internal.util.ObjectEntryValuesUtil;
 import com.liferay.object.rest.manager.v1_0.BaseObjectEntryManager;
 import com.liferay.object.rest.manager.v1_0.ObjectEntryManager;
+import com.liferay.object.rest.manager.v1_0.ObjectRelationshipManager;
+import com.liferay.object.rest.manager.v1_0.ObjectRelationshipManagerRegistry;
 import com.liferay.object.rest.petra.sql.dsl.expression.FilterPredicateFactory;
 import com.liferay.object.service.ObjectActionLocalService;
 import com.liferay.object.service.ObjectDefinitionLocalService;
@@ -85,7 +87,6 @@ import com.liferay.portal.kernel.util.GroupThreadLocal;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.aggregation.Aggregations;
@@ -825,30 +826,6 @@ public class DefaultObjectEntryManagerImpl
 		return objectRelationships;
 	}
 
-	private ObjectDefinition _getRelatedActivatedObjectDefinition(
-			ObjectDefinition objectDefinition,
-			ObjectRelationship objectRelationship)
-		throws Exception {
-
-		ObjectDefinition relatedObjectDefinition = _getRelatedObjectDefinition(
-			objectDefinition, objectRelationship);
-
-		if (!relatedObjectDefinition.isActive()) {
-			throw new BadRequestException(
-				"ObjectDefinition " +
-					relatedObjectDefinition.getObjectDefinitionId() +
-						" must be activated");
-		}
-
-		if (relatedObjectDefinition.isSystem()) {
-			throw new UnsupportedOperationException(
-				"Unable to create nested object entries with System " +
-					"ObjectDefinition");
-		}
-
-		return relatedObjectDefinition;
-	}
-
 	private ObjectDefinition _getRelatedObjectDefinition(
 			ObjectDefinition objectDefinition,
 			ObjectRelationship objectRelationship)
@@ -941,31 +918,6 @@ public class DefaultObjectEntryManagerImpl
 		}
 
 		return false;
-	}
-
-	private boolean _isMap(List<Object> nestedObjectEntryPropertiesList) {
-		for (Object nestedObjectEntryProperties :
-				nestedObjectEntryPropertiesList) {
-
-			if (!(nestedObjectEntryProperties instanceof Map)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	private boolean _isReverse(
-		ObjectDefinition objectDefinition,
-		ObjectRelationship objectRelationship) {
-
-		if (objectDefinition.getObjectDefinitionId() ==
-				objectRelationship.getObjectDefinitionId1()) {
-
-			return false;
-		}
-
-		return true;
 	}
 
 	private void _processVulcanAggregation(
@@ -1164,24 +1116,6 @@ public class DefaultObjectEntryManagerImpl
 			defaultDTOConverterContext, serviceBuilderObjectEntry);
 	}
 
-	private ObjectEntry _toObjectEntry(
-		Map<String, Object> nestedObjectEntryProperties) {
-
-		ObjectEntry objectEntry = new ObjectEntry();
-
-		if (nestedObjectEntryProperties.containsKey("externalReferenceCode")) {
-			objectEntry.setExternalReferenceCode(
-				(String)nestedObjectEntryProperties.get(
-					"externalReferenceCode"));
-
-			nestedObjectEntryProperties.remove("externalReferenceCode");
-		}
-
-		objectEntry.setProperties(nestedObjectEntryProperties);
-
-		return objectEntry;
-	}
-
 	private Map<String, Serializable> _toObjectValues(
 			long groupId, long userId, ObjectDefinition objectDefinition,
 			ObjectEntry objectEntry, long objectEntryId, Locale locale)
@@ -1250,45 +1184,6 @@ public class DefaultObjectEntryManagerImpl
 		return values;
 	}
 
-	private void _upsertAndRelateNestedObjectEntry(
-			DTOConverterContext dtoConverterContext,
-			ObjectDefinition relatedObjectDefinition,
-			ObjectEntry nestedObjectEntry,
-			com.liferay.object.model.ObjectEntry serviceBuilderObjectEntry,
-			ObjectRelationship objectRelationship, boolean reverse)
-		throws Exception {
-
-		long groupId = getGroupId(
-			relatedObjectDefinition, relatedObjectDefinition.getScope());
-
-		com.liferay.object.model.ObjectEntry newServiceBuilderObjectEntry =
-			_objectEntryService.addOrUpdateObjectEntry(
-				nestedObjectEntry.getExternalReferenceCode(), groupId,
-				relatedObjectDefinition.getObjectDefinitionId(),
-				_toObjectValues(
-					groupId, dtoConverterContext.getUserId(),
-					relatedObjectDefinition, nestedObjectEntry, 0L,
-					dtoConverterContext.getLocale()),
-				_createServiceContext(
-					nestedObjectEntry.getProperties(),
-					dtoConverterContext.getUserId()));
-
-		if (reverse) {
-			_objectRelationshipService.addObjectRelationshipMappingTableValues(
-				objectRelationship.getObjectRelationshipId(),
-				newServiceBuilderObjectEntry.getPrimaryKey(),
-				serviceBuilderObjectEntry.getPrimaryKey(),
-				new ServiceContext());
-		}
-		else {
-			_objectRelationshipService.addObjectRelationshipMappingTableValues(
-				objectRelationship.getObjectRelationshipId(),
-				serviceBuilderObjectEntry.getPrimaryKey(),
-				newServiceBuilderObjectEntry.getPrimaryKey(),
-				new ServiceContext());
-		}
-	}
-
 	private void _upsertNestedObjectEntries(
 			DTOConverterContext dtoConverterContext,
 			ObjectDefinition objectDefinition, ObjectEntry objectEntry,
@@ -1306,71 +1201,14 @@ public class DefaultObjectEntryManagerImpl
 
 			Object propertyValue = properties.get(entry.getKey());
 
-			if ((propertyValue instanceof List) &&
-				(StringUtil.equals(
-					objectRelationship.getType(),
-					ObjectRelationshipConstants.TYPE_MANY_TO_MANY) ||
-				 (StringUtil.equals(
-					 objectRelationship.getType(),
-					 ObjectRelationshipConstants.TYPE_ONE_TO_MANY) &&
-				  (objectRelationship.getObjectDefinitionId1() ==
-					  objectDefinition.getObjectDefinitionId())))) {
+			ObjectRelationshipManager objectRelationshipManager =
+				_objectRelationshipManagerRegistry.getObjectRelationshipManager(
+					objectDefinition.getClassName(),
+					objectRelationship.getType());
 
-				if (_isMap((List)propertyValue)) {
-					List<Map<String, Object>> nestedObjectEntryPropertiesList =
-						(List<Map<String, Object>>)propertyValue;
-
-					ObjectDefinition relatedObjectDefinition =
-						_getRelatedActivatedObjectDefinition(
-							objectDefinition, objectRelationship);
-
-					for (Map<String, Object> nestedObjectEntryProperties :
-							nestedObjectEntryPropertiesList) {
-
-						ObjectEntry nestedObjectEntry = _toObjectEntry(
-							nestedObjectEntryProperties);
-
-						_upsertAndRelateNestedObjectEntry(
-							dtoConverterContext, relatedObjectDefinition,
-							nestedObjectEntry, serviceBuilderObjectEntry,
-							objectRelationship,
-							_isReverse(objectDefinition, objectRelationship));
-					}
-				}
-				else {
-					throw new BadRequestException(
-						"Unable to create nested object entries for object " +
-							"entry " +
-								serviceBuilderObjectEntry.getObjectEntryId());
-				}
-			}
-			else if ((propertyValue instanceof Map) &&
-					 StringUtil.equals(
-						 objectRelationship.getType(),
-						 ObjectRelationshipConstants.TYPE_ONE_TO_MANY) &&
-					 (objectRelationship.getObjectDefinitionId2() ==
-						 objectDefinition.getObjectDefinitionId())) {
-
-				Map<String, Object> nestedObjectEntryProperties =
-					(Map<String, Object>)propertyValue;
-
-				ObjectDefinition relatedObjectDefinition =
-					_getRelatedActivatedObjectDefinition(
-						objectDefinition, objectRelationship);
-
-				ObjectEntry nestedObjectEntry = _toObjectEntry(
-					nestedObjectEntryProperties);
-
-				_upsertAndRelateNestedObjectEntry(
-					dtoConverterContext, relatedObjectDefinition,
-					nestedObjectEntry, serviceBuilderObjectEntry,
-					objectRelationship, true);
-			}
-			else {
-				throw new BadRequestException(
-					"Unable to create nested object entries for object entry " +
-						serviceBuilderObjectEntry.getObjectEntryId());
-			}
+			objectRelationshipManager.relateWith(
+				dtoConverterContext, objectRelationship,
+				serviceBuilderObjectEntry.getPrimaryKey(), propertyValue);
 		}
 	}
 
@@ -1425,6 +1263,10 @@ public class DefaultObjectEntryManagerImpl
 
 	@Reference
 	private ObjectRelationshipLocalService _objectRelationshipLocalService;
+
+	@Reference
+	private ObjectRelationshipManagerRegistry
+		_objectRelationshipManagerRegistry;
 
 	@Reference
 	private ObjectRelationshipService _objectRelationshipService;
