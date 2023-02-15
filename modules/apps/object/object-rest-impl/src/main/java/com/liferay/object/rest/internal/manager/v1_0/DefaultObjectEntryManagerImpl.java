@@ -38,6 +38,9 @@ import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryResourceImpl;
 import com.liferay.object.rest.internal.util.ObjectEntryValuesUtil;
 import com.liferay.object.rest.manager.v1_0.BaseObjectEntryManager;
 import com.liferay.object.rest.manager.v1_0.ObjectEntryManager;
+import com.liferay.object.rest.manager.v1_0.ObjectEntryManagerRegistry;
+import com.liferay.object.rest.manager.v1_0.ObjectRelationshipElementsParser;
+import com.liferay.object.rest.manager.v1_0.ObjectRelationshipElementsParserRegistry;
 import com.liferay.object.rest.petra.sql.dsl.expression.FilterPredicateFactory;
 import com.liferay.object.service.ObjectActionLocalService;
 import com.liferay.object.service.ObjectDefinitionLocalService;
@@ -85,7 +88,6 @@ import com.liferay.portal.kernel.util.GroupThreadLocal;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.aggregation.Aggregations;
@@ -159,7 +161,7 @@ public class DefaultObjectEntryManagerImpl
 			_upsertNestedObjectEntries(
 				dtoConverterContext, objectDefinition, objectEntry,
 				_getObjectRelationships(objectDefinition, objectEntry),
-				serviceBuilderObjectEntry);
+				serviceBuilderObjectEntry.getPrimaryKey());
 		}
 
 		return _toObjectEntry(
@@ -668,7 +670,7 @@ public class DefaultObjectEntryManagerImpl
 			_upsertNestedObjectEntries(
 				dtoConverterContext, objectDefinition, objectEntry,
 				_getObjectRelationships(objectDefinition, objectEntry),
-				updateObjectEntry);
+				updateObjectEntry.getPrimaryKey());
 		}
 
 		return _toObjectEntry(
@@ -825,13 +827,27 @@ public class DefaultObjectEntryManagerImpl
 		return objectRelationships;
 	}
 
-	private ObjectDefinition _getRelatedActivatedObjectDefinition(
+	private ObjectDefinition _getRelatedObjectDefinition(
 			ObjectDefinition objectDefinition,
 			ObjectRelationship objectRelationship)
 		throws Exception {
 
-		ObjectDefinition relatedObjectDefinition = _getRelatedObjectDefinition(
-			objectDefinition, objectRelationship);
+		long relatedObjectDefinitionId;
+
+		if (objectRelationship.getObjectDefinitionId1() ==
+				objectDefinition.getObjectDefinitionId()) {
+
+			relatedObjectDefinitionId =
+				objectRelationship.getObjectDefinitionId2();
+		}
+		else {
+			relatedObjectDefinitionId =
+				objectRelationship.getObjectDefinitionId1();
+		}
+
+		ObjectDefinition relatedObjectDefinition =
+			_objectDefinitionLocalService.getObjectDefinition(
+				relatedObjectDefinitionId);
 
 		if (!relatedObjectDefinition.isActive()) {
 			throw new BadRequestException(
@@ -840,29 +856,7 @@ public class DefaultObjectEntryManagerImpl
 						" must be activated");
 		}
 
-		if (relatedObjectDefinition.isSystem()) {
-			throw new UnsupportedOperationException(
-				"Unable to create nested object entries with System " +
-					"ObjectDefinition");
-		}
-
 		return relatedObjectDefinition;
-	}
-
-	private ObjectDefinition _getRelatedObjectDefinition(
-			ObjectDefinition objectDefinition,
-			ObjectRelationship objectRelationship)
-		throws Exception {
-
-		long objectDefinitionId1 = objectRelationship.getObjectDefinitionId1();
-
-		if (objectDefinitionId1 != objectDefinition.getObjectDefinitionId()) {
-			return _objectDefinitionLocalService.getObjectDefinition(
-				objectRelationship.getObjectDefinitionId1());
-		}
-
-		return _objectDefinitionLocalService.getObjectDefinition(
-			objectRelationship.getObjectDefinitionId2());
 	}
 
 	private Page<ObjectEntry> _getSystemObjectRelatedObjectEntries(
@@ -943,31 +937,6 @@ public class DefaultObjectEntryManagerImpl
 		return false;
 	}
 
-	private boolean _isMap(List<Object> nestedObjectEntryPropertiesList) {
-		for (Object nestedObjectEntryProperties :
-				nestedObjectEntryPropertiesList) {
-
-			if (!(nestedObjectEntryProperties instanceof Map)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	private boolean _isReverse(
-		ObjectDefinition objectDefinition,
-		ObjectRelationship objectRelationship) {
-
-		if (objectDefinition.getObjectDefinitionId() ==
-				objectRelationship.getObjectDefinitionId1()) {
-
-			return false;
-		}
-
-		return true;
-	}
-
 	private void _processVulcanAggregation(
 		Aggregations aggregations, Queries queries,
 		SearchRequestBuilder searchRequestBuilder,
@@ -1003,6 +972,31 @@ public class DefaultObjectEntryManagerImpl
 
 			searchRequestBuilder.addAggregation(nestedAggregation);
 		}
+	}
+
+	private void _relate(
+			ObjectDefinition objectDefinition,
+			ObjectRelationship objectRelationship, long primaryKey,
+			long relatedPrimaryKey)
+		throws Exception {
+
+		long primaryKey1;
+		long primaryKey2;
+
+		if (objectDefinition.getObjectDefinitionId() ==
+				objectRelationship.getObjectDefinitionId1()) {
+
+			primaryKey1 = primaryKey;
+			primaryKey2 = relatedPrimaryKey;
+		}
+		else {
+			primaryKey1 = relatedPrimaryKey;
+			primaryKey2 = primaryKey;
+		}
+
+		_objectRelationshipService.addObjectRelationshipMappingTableValues(
+			objectRelationship.getObjectRelationshipId(), primaryKey1,
+			primaryKey2, new ServiceContext());
 	}
 
 	private Date _toDate(Locale locale, String valueString) {
@@ -1232,50 +1226,11 @@ public class DefaultObjectEntryManagerImpl
 		return values;
 	}
 
-	private void _upsertAndRelateNestedObjectEntry(
-			DTOConverterContext dtoConverterContext,
-			ObjectDefinition relatedObjectDefinition,
-			ObjectEntry nestedObjectEntry,
-			com.liferay.object.model.ObjectEntry serviceBuilderObjectEntry,
-			ObjectRelationship objectRelationship, boolean reverse)
-		throws Exception {
-
-		long groupId = getGroupId(
-			relatedObjectDefinition, relatedObjectDefinition.getScope());
-
-		com.liferay.object.model.ObjectEntry newServiceBuilderObjectEntry =
-			_objectEntryService.addOrUpdateObjectEntry(
-				nestedObjectEntry.getExternalReferenceCode(), groupId,
-				relatedObjectDefinition.getObjectDefinitionId(),
-				_toObjectValues(
-					groupId, dtoConverterContext.getUserId(),
-					relatedObjectDefinition, nestedObjectEntry, 0L,
-					dtoConverterContext.getLocale()),
-				_createServiceContext(
-					nestedObjectEntry.getProperties(),
-					dtoConverterContext.getUserId()));
-
-		if (reverse) {
-			_objectRelationshipService.addObjectRelationshipMappingTableValues(
-				objectRelationship.getObjectRelationshipId(),
-				newServiceBuilderObjectEntry.getPrimaryKey(),
-				serviceBuilderObjectEntry.getPrimaryKey(),
-				new ServiceContext());
-		}
-		else {
-			_objectRelationshipService.addObjectRelationshipMappingTableValues(
-				objectRelationship.getObjectRelationshipId(),
-				serviceBuilderObjectEntry.getPrimaryKey(),
-				newServiceBuilderObjectEntry.getPrimaryKey(),
-				new ServiceContext());
-		}
-	}
-
 	private void _upsertNestedObjectEntries(
 			DTOConverterContext dtoConverterContext,
 			ObjectDefinition objectDefinition, ObjectEntry objectEntry,
 			Map<String, ObjectRelationship> objectRelationships,
-			com.liferay.object.model.ObjectEntry serviceBuilderObjectEntry)
+			long primaryKey)
 		throws Exception {
 
 		Map<String, Object> properties = objectEntry.getProperties();
@@ -1286,74 +1241,41 @@ public class DefaultObjectEntryManagerImpl
 			ObjectRelationship objectRelationship = objectRelationships.get(
 				entry.getKey());
 
-			Object propertyValue = properties.get(entry.getKey());
+			ObjectDefinition relatedObjectDefinition =
+				_getRelatedObjectDefinition(
+					objectDefinition, objectRelationship);
 
-			if ((propertyValue instanceof List) &&
-				(StringUtil.equals(
-					objectRelationship.getType(),
-					ObjectRelationshipConstants.TYPE_MANY_TO_MANY) ||
-				 (StringUtil.equals(
-					 objectRelationship.getType(),
-					 ObjectRelationshipConstants.TYPE_ONE_TO_MANY) &&
-				  (objectRelationship.getObjectDefinitionId1() ==
-					  objectDefinition.getObjectDefinitionId())))) {
-
-				if (_isMap((List)propertyValue)) {
-					List<Map<String, Object>> nestedObjectEntryPropertiesList =
-						(List<Map<String, Object>>)propertyValue;
-
-					ObjectDefinition relatedObjectDefinition =
-						_getRelatedActivatedObjectDefinition(
-							objectDefinition, objectRelationship);
-
-					for (Map<String, Object> nestedObjectEntryProperties :
-							nestedObjectEntryPropertiesList) {
-
-						ObjectEntry nestedObjectEntry =
-							ObjectEntryValuesUtil.toObjectEntry(
-								nestedObjectEntryProperties);
-
-						_upsertAndRelateNestedObjectEntry(
-							dtoConverterContext, relatedObjectDefinition,
-							nestedObjectEntry, serviceBuilderObjectEntry,
-							objectRelationship,
-							_isReverse(objectDefinition, objectRelationship));
-					}
-				}
-				else {
-					throw new BadRequestException(
-						"Unable to create nested object entries for object " +
-							"entry " +
-								serviceBuilderObjectEntry.getObjectEntryId());
-				}
+			if (relatedObjectDefinition.isSystem()) {
+				throw new UnsupportedOperationException(
+					"Unable to create nested object entries with System " +
+						"Objects");
 			}
-			else if ((propertyValue instanceof Map) &&
-					 StringUtil.equals(
-						 objectRelationship.getType(),
-						 ObjectRelationshipConstants.TYPE_ONE_TO_MANY) &&
-					 (objectRelationship.getObjectDefinitionId2() ==
-						 objectDefinition.getObjectDefinitionId())) {
 
-				Map<String, Object> nestedObjectEntryProperties =
-					(Map<String, Object>)propertyValue;
+			ObjectRelationshipElementsParser objectRelationshipElementsParser =
+				_objectRelationshipElementsParserRegistry.
+					getObjectRelationshipElementsParser(
+						relatedObjectDefinition.getClassName(),
+						objectRelationship.getType());
 
-				ObjectDefinition relatedObjectDefinition =
-					_getRelatedActivatedObjectDefinition(
-						objectDefinition, objectRelationship);
+			List<?> relatedElements = objectRelationshipElementsParser.parse(
+				objectRelationship, properties.get(entry.getKey()));
 
-				ObjectEntry nestedObjectEntry =
-					ObjectEntryValuesUtil.toObjectEntry(
-						nestedObjectEntryProperties);
+			ObjectEntryManager objectEntryManager =
+				_objectEntryManagerRegistry.getObjectEntryManager(
+					relatedObjectDefinition.getStorageType());
 
-				_upsertAndRelateNestedObjectEntry(
-					dtoConverterContext, relatedObjectDefinition,
-					nestedObjectEntry, serviceBuilderObjectEntry,
-					objectRelationship, true);
-			}
-			else {
-				throw new BadRequestException(
-					"Unable to create nested object entries for object entry " +
-						serviceBuilderObjectEntry.getObjectEntryId());
+			for (ObjectEntry objectEntry1 :
+					(List<ObjectEntry>)relatedElements) {
+
+				objectEntry1 = objectEntryManager.addOrUpdateObjectEntry(
+					objectDefinition.getCompanyId(), dtoConverterContext,
+					objectEntry1.getExternalReferenceCode(),
+					relatedObjectDefinition, objectEntry1,
+					relatedObjectDefinition.getScope());
+
+				_relate(
+					objectDefinition, objectRelationship, primaryKey,
+					objectEntry1.getId());
 			}
 		}
 	}
@@ -1395,6 +1317,9 @@ public class DefaultObjectEntryManagerImpl
 	private ObjectEntryLocalService _objectEntryLocalService;
 
 	@Reference
+	private ObjectEntryManagerRegistry _objectEntryManagerRegistry;
+
+	@Reference
 	private ObjectEntryService _objectEntryService;
 
 	@Reference
@@ -1406,6 +1331,10 @@ public class DefaultObjectEntryManagerImpl
 	@Reference
 	private ObjectRelatedModelsProviderRegistry
 		_objectRelatedModelsProviderRegistry;
+
+	@Reference
+	private ObjectRelationshipElementsParserRegistry
+		_objectRelationshipElementsParserRegistry;
 
 	@Reference
 	private ObjectRelationshipLocalService _objectRelationshipLocalService;
