@@ -27,12 +27,18 @@ public class RESTBuilderArgs {
 
 	public static final String REST_CONFIG_DIR_NAME = ".";
 
+	public static final String ROOT_DIR_NAME = ".";
+
 	public File getCopyrightFile() {
 		return _copyrightFile;
 	}
 
 	public File getRESTConfigDir() {
 		return _restConfigDir;
+	}
+
+	public File getRootDir() {
+		return _rootDir;
 	}
 
 	public Boolean isForceClientVersionDescription() {
@@ -61,6 +67,10 @@ public class RESTBuilderArgs {
 
 	public void setRESTConfigDir(File restConfigDir) {
 		_restConfigDir = restConfigDir;
+	}
+
+	public void setRootDir(File rootDir) {
+		_rootDir = rootDir;
 	}
 
 	protected boolean isHelp() {
@@ -100,5 +110,12 @@ public class RESTBuilderArgs {
 		names = {"-r", "--rest-config-dir"}
 	)
 	private File _restConfigDir = new File(REST_CONFIG_DIR_NAME);
+
+	@Parameter(
+		converter = FileConverter.class,
+		description = "The directory that contains the root files.",
+		names = {"-d", "--root-dir"}
+	)
+	private File _rootDir = new File(ROOT_DIR_NAME);
 
 }

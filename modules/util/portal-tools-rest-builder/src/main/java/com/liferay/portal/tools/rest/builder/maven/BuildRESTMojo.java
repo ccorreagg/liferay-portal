@@ -77,6 +77,13 @@ public class BuildRESTMojo extends AbstractMojo {
 	}
 
 	/**
+	 * @parameter
+	 */
+	public void setRootDir(File rootDir) {
+		_restBuilderArgs.setRootDir(rootDir);
+	}
+
+	/**
 	 * @parameter default-value="${project.basedir}"
 	 * @readonly
 	 */

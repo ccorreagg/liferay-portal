@@ -22,6 +22,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.CamelCaseUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.MapUtil;
@@ -82,6 +83,12 @@ import java.util.TreeMap;
 public class RESTBuilder {
 
 	public static void main(String[] args) throws Exception {
+
+		for (String arg : args) {
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " +
+							   arg);
+		}
+
 		RESTBuilderArgs restBuilderArgs = new RESTBuilderArgs();
 
 		JCommander jCommander = new JCommander(restBuilderArgs);
@@ -128,7 +135,7 @@ public class RESTBuilder {
 	}
 
 	public RESTBuilder(
-			File copyrightFile, File configDir,
+			File copyrightFile, File configDir, File rootDir,
 			Boolean forceClientVersionDescription,
 			Boolean forcePredictableOperationId)
 		throws Exception {
@@ -163,6 +170,7 @@ public class RESTBuilder {
 		this(
 			restBuilderArgs.getCopyrightFile(),
 			restBuilderArgs.getRESTConfigDir(),
+			restBuilderArgs.getRootDir(),
 			restBuilderArgs.isForceClientVersionDescription(),
 			restBuilderArgs.isForcePredictableOperationId());
 	}
