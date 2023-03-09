@@ -78,6 +78,12 @@ public class BuildRESTTask extends JavaExec {
 		return GradleUtil.toFile(getProject(), _restConfigDir);
 	}
 
+	@InputDirectory
+	@PathSensitive(PathSensitivity.RELATIVE)
+	public File getRootDir() {
+		return GradleUtil.toFile(getProject(), _rootDir);
+	}
+
 	public void setCopyrightFile(Object copyrightFile) {
 		_copyrightFile = copyrightFile;
 	}
@@ -98,6 +104,10 @@ public class BuildRESTTask extends JavaExec {
 		_restConfigDir = restConfigDir;
 	}
 
+	public void setRootDir(Object rootDir) {
+		_rootDir = rootDir;
+	}
+
 	private static void _addArg(List<String> args, String name, File file) {
 		if (file != null) {
 			_addArg(args, name, file.getAbsolutePath());
@@ -116,6 +126,7 @@ public class BuildRESTTask extends JavaExec {
 
 		_addArg(args, "--copyright-file", getCopyrightFile());
 		_addArg(args, "--rest-config-dir", getRESTConfigDir());
+		_addArg(args, "--root-dir", getRootDir());
 
 		String forceClientVersionDescription =
 			getForceClientVersionDescription();
@@ -139,5 +150,6 @@ public class BuildRESTTask extends JavaExec {
 	private Object _forceClientVersionDescription;
 	private Object _forcePredictableOperationId;
 	private Object _restConfigDir;
+	private Object _rootDir;
 
 }

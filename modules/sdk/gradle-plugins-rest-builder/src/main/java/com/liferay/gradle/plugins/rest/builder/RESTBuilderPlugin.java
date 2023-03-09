@@ -108,6 +108,7 @@ public class RESTBuilderPlugin implements Plugin<Project> {
 		buildRESTTask.setDescription("Runs Liferay REST Builder.");
 		buildRESTTask.setGroup(BasePlugin.BUILD_GROUP);
 		buildRESTTask.setRESTConfigDir(project.getProjectDir());
+		buildRESTTask.setRootDir(project.getRootDir());
 
 		return buildRESTTask;
 	}
