@@ -22,7 +22,6 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.CamelCaseUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.MapUtil;
@@ -54,6 +53,7 @@ import com.liferay.portal.tools.rest.builder.internal.yaml.openapi.RequestBody;
 import com.liferay.portal.tools.rest.builder.internal.yaml.openapi.Response;
 import com.liferay.portal.tools.rest.builder.internal.yaml.openapi.ResponseCode;
 import com.liferay.portal.tools.rest.builder.internal.yaml.openapi.Schema;
+import com.liferay.project.templates.extensions.util.WorkspaceUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -83,10 +83,9 @@ import java.util.TreeMap;
 public class RESTBuilder {
 
 	public static void main(String[] args) throws Exception {
-
 		for (String arg : args) {
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " +
-							   arg);
+			System.out.println(
+				">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + arg);
 		}
 
 		RESTBuilderArgs restBuilderArgs = new RESTBuilderArgs();
@@ -111,6 +110,9 @@ public class RESTBuilder {
 			}
 
 			jCommander.parse(args);
+
+			System.out.println(
+				WorkspaceUtil.isWorkspace(restBuilderArgs.getRootDir()));
 
 			if (restBuilderArgs.isHelp()) {
 				_printHelp(jCommander);
@@ -169,8 +171,7 @@ public class RESTBuilder {
 	public RESTBuilder(RESTBuilderArgs restBuilderArgs) throws Exception {
 		this(
 			restBuilderArgs.getCopyrightFile(),
-			restBuilderArgs.getRESTConfigDir(),
-			restBuilderArgs.getRootDir(),
+			restBuilderArgs.getRESTConfigDir(), restBuilderArgs.getRootDir(),
 			restBuilderArgs.isForceClientVersionDescription(),
 			restBuilderArgs.isForcePredictableOperationId());
 	}
