@@ -16,6 +16,7 @@ dependencies {
 	compile group: "org.freemarker", name: "freemarker", transitive: false, version: "2.3.28"
 
 	compileInclude group: "com.beust", name: "jcommander", version: "1.48"
+	compileInclude group: "com.liferay", name: "com.liferay.project.templates.extensions", version: "1.0.125"
 	compileInclude group: "org.yaml", name: "snakeyaml", version: "1.32"
 	compileInclude project(":apps:portal-vulcan:portal-vulcan-api")
 
@@ -23,7 +24,6 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.petra.lang", version: "1.0.0"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.string", version: "5.0.1"
 	compileOnly group: "com.liferay", name: "com.liferay.portal.tools.java.parser", version: "1.0.41"
-	compileOnly group: "com.liferay", name: "com.liferay.project.templates.extensions", version: "1.0.125"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
 	compileOnly group: "javax.ws.rs", name: "javax.ws.rs-api", version: "2.1"

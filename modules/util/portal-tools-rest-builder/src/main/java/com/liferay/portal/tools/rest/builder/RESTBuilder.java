@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.util.StringUtil_IW;
 import com.liferay.portal.kernel.util.TextFormatter;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.Validator_IW;
+import com.liferay.portal.kernel.version.Version;
 import com.liferay.portal.tools.rest.builder.internal.freemarker.tool.FreeMarkerTool;
 import com.liferay.portal.tools.rest.builder.internal.freemarker.tool.java.JavaMethodSignature;
 import com.liferay.portal.tools.rest.builder.internal.freemarker.tool.java.parser.util.OpenAPIParserUtil;
@@ -57,6 +58,7 @@ import com.liferay.project.templates.extensions.util.WorkspaceUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.URL;
@@ -69,11 +71,13 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -83,11 +87,6 @@ import java.util.TreeMap;
 public class RESTBuilder {
 
 	public static void main(String[] args) throws Exception {
-		for (String arg : args) {
-			System.out.println(
-				">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + arg);
-		}
-
 		RESTBuilderArgs restBuilderArgs = new RESTBuilderArgs();
 
 		JCommander jCommander = new JCommander(restBuilderArgs);
@@ -110,9 +109,6 @@ public class RESTBuilder {
 			}
 
 			jCommander.parse(args);
-
-			System.out.println(
-				WorkspaceUtil.isWorkspace(restBuilderArgs.getRootDir()));
 
 			if (restBuilderArgs.isHelp()) {
 				_printHelp(jCommander);
@@ -145,6 +141,8 @@ public class RESTBuilder {
 		_copyrightFile = copyrightFile;
 
 		_configDir = configDir;
+
+		_version = _getVersion(rootDir);
 
 		File configFile = new File(_configDir, "rest-config.yaml");
 
@@ -1663,6 +1661,48 @@ public class RESTBuilder {
 		return _configYAML.getClientMavenGroupId();
 	}
 
+	private Version _getVersion(File rootDir) throws IOException {
+		String fileName;
+		List<String> propertyNames;
+		File parentFile = rootDir.getParentFile();
+
+		try {
+			if (WorkspaceUtil.isWorkspace(parentFile)) {
+				fileName = "gradle.properties";
+				propertyNames = Arrays.asList("liferay.workspace.product");
+			}
+			else {
+				fileName = "release.properties";
+				propertyNames = Arrays.asList("release.info.version.major",
+					"release.info.version.minor",
+					"release.info.version.bug.fix",
+					"release.info.version.trivial");
+			}
+
+			try (InputStream inputStream = new FileInputStream(
+				parentFile.getPath() + File.separator + fileName)) {
+
+				Properties properties = new Properties();
+
+				properties.load(inputStream);
+
+				List<String> propertyValues = new ArrayList<>();
+
+				for (String propertyName : propertyNames) {
+					propertyValues.add(properties.getProperty(propertyName));
+				}
+
+				return Version.parseVersion(
+					StringUtil.merge(propertyValues, StringPool.PERIOD));
+			}
+
+		} catch (Exception exception) {
+			_log.error(exception);
+
+			return null;
+		}
+	}
+
 	private String _getClientVersion() {
 		try {
 			String directory = StringUtil.removeSubstring(
@@ -1927,5 +1967,6 @@ public class RESTBuilder {
 	private final ConfigYAML _configYAML;
 	private final File _copyrightFile;
 	private final List<File> _files = new ArrayList<>();
+	private final Version _version;
 
 }
