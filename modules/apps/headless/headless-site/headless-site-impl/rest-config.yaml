@@ -8,4 +8,5 @@ author: "Rubén Pulido"
 clientDir: "../headless-site-client/src/main/java"
 forcePredictableOperationId: true
 generateBatch: false
+generateExportBatch: false
 generateGraphQL: false
