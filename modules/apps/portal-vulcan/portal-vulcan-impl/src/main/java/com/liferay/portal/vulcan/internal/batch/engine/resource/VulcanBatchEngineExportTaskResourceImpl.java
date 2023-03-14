@@ -37,7 +37,8 @@ public class VulcanBatchEngineExportTaskResourceImpl
 
 	@Override
 	public Object postExportTask(
-			String name, String callbackURL, String fieldNames)
+			String name, String callbackURL, String contentType,
+			String fieldNames)
 		throws Exception {
 
 		_exportTaskResource.setContextAcceptLanguage(_contextAcceptLanguage);
@@ -48,7 +49,7 @@ public class VulcanBatchEngineExportTaskResourceImpl
 		_exportTaskResource.setContextUser(_contextUser);
 
 		return _exportTaskResource.postExportTask(
-			name, "JSON", callbackURL,
+			name, contentType, callbackURL,
 			_getQueryParameterValue("externalReferenceCode"), fieldNames,
 			_getQueryParameterValue("taskItemDelegateName"));
 	}
