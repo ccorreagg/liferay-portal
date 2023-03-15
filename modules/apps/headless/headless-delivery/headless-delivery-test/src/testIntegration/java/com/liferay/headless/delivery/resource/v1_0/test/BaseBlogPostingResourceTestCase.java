@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
+import com.liferay.headless.batch.engine.client.dto.v1_0.ExportTask;
+import com.liferay.headless.batch.engine.client.resource.v1_0.ExportTaskResource;
 import com.liferay.headless.delivery.client.dto.v1_0.BlogPosting;
 import com.liferay.headless.delivery.client.dto.v1_0.Field;
 import com.liferay.headless.delivery.client.dto.v1_0.Rating;
@@ -34,6 +36,7 @@ import com.liferay.headless.delivery.client.serdes.v1_0.BlogPostingSerDes;
 import com.liferay.petra.function.UnsafeTriConsumer;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONDeserializer;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -49,14 +52,19 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.RoleTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.zip.ZipReader;
+import com.liferay.portal.kernel.zip.ZipReaderFactoryUtil;
 import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.search.test.util.SearchTestRule;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
+
+import java.io.File;
 
 import java.lang.reflect.Method;
 
@@ -72,6 +80,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -120,6 +130,15 @@ public abstract class BaseBlogPostingResourceTestCase {
 		BlogPostingResource.Builder builder = BlogPostingResource.builder();
 
 		blogPostingResource = builder.authentication(
+			"test@liferay.com", "test"
+		).locale(
+			LocaleUtil.getDefault()
+		).build();
+
+		ExportTaskResource.Builder exportTaskResourceBuilder =
+			ExportTaskResource.builder();
+
+		exportTaskResource = exportTaskResourceBuilder.authentication(
 			"test@liferay.com", "test"
 		).locale(
 			LocaleUtil.getDefault()
@@ -890,6 +909,61 @@ public abstract class BaseBlogPostingResourceTestCase {
 		throws Exception {
 
 		return testGraphQLBlogPosting_addBlogPosting();
+	}
+
+	@Test
+	public void testPostSiteBlogPostingsPageExportBatch() throws Exception {
+		Long siteId = testGetSiteBlogPostingsPage_getSiteId();
+		Long irrelevantSiteId =
+			testGetSiteBlogPostingsPage_getIrrelevantSiteId();
+
+		HttpInvoker.HttpResponse httpResponse =
+			blogPostingResource.postSiteBlogPostingsPageExportBatchHttpResponse(
+				siteId, null, null, null, null, null, null);
+
+		ExportTask exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+		BlogPosting[] blogPostings = getBlogPostings(exportTask);
+
+		long totalCount = blogPostings.length;
+
+		if (irrelevantSiteId != null) {
+			BlogPosting irrelevantBlogPosting =
+				testGetSiteBlogPostingsPage_addBlogPosting(
+					irrelevantSiteId, randomIrrelevantBlogPosting());
+
+			httpResponse =
+				blogPostingResource.
+					postSiteBlogPostingsPageExportBatchHttpResponse(
+						irrelevantSiteId, null, null, null, null, null, null);
+
+			exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+			blogPostings = getBlogPostings(exportTask);
+
+			Assert.assertEquals(1, blogPostings.length);
+
+			assertEquals(irrelevantBlogPosting, blogPostings[0]);
+		}
+
+		BlogPosting blogPosting1 = testGetSiteBlogPostingsPage_addBlogPosting(
+			siteId, randomBlogPosting());
+
+		BlogPosting blogPosting2 = testGetSiteBlogPostingsPage_addBlogPosting(
+			siteId, randomBlogPosting());
+
+		httpResponse =
+			blogPostingResource.postSiteBlogPostingsPageExportBatchHttpResponse(
+				siteId, null, null, null, null, null, null);
+
+		exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+		blogPostings = getBlogPostings(exportTask);
+
+		Assert.assertEquals(totalCount + 2, blogPostings.length);
+
+		assertContains(blogPosting1, Arrays.asList(blogPostings));
+		assertContains(blogPosting2, Arrays.asList(blogPostings));
 	}
 
 	@Test
@@ -2259,6 +2333,55 @@ public abstract class BaseBlogPostingResourceTestCase {
 		return true;
 	}
 
+	protected BlogPosting[] getBlogPostings(ExportTask exportTask)
+		throws Exception {
+
+		CountDownLatch countDownLatch = new CountDownLatch(100);
+
+		boolean completed = false;
+
+		while ((countDownLatch.getCount() > 0) && !completed) {
+			ExportTask updatedExportTask = exportTaskResource.getExportTask(
+				exportTask.getId());
+
+			if (updatedExportTask.getExecuteStatus() ==
+					ExportTask.ExecuteStatus.COMPLETED) {
+
+				completed = true;
+			}
+			else if (updatedExportTask.getExecuteStatus() ==
+						ExportTask.ExecuteStatus.FAILED) {
+
+				throw new PortalException("The export task failed");
+			}
+			else {
+				countDownLatch.countDown();
+				countDownLatch.await(10, TimeUnit.MILLISECONDS);
+			}
+		}
+
+		Assert.assertTrue(
+			"The status of the Export task is not COMPLETED", completed);
+
+		com.liferay.headless.batch.engine.client.http.HttpInvoker.HttpResponse
+			exportTaskHttpResponse =
+				exportTaskResource.getExportTaskContentHttpResponse(
+					exportTask.getId());
+
+		File file = FileUtil.createTempFile(
+			exportTaskHttpResponse.getBinaryContent());
+
+		ZipReader zipReader = ZipReaderFactoryUtil.getZipReader(file);
+
+		try {
+			return BlogPostingSerDes.toDTOs(
+				zipReader.getEntryAsString("export.json"));
+		}
+		finally {
+			zipReader.close();
+		}
+	}
+
 	protected java.lang.reflect.Field[] getDeclaredFields(Class clazz)
 		throws Exception {
 
@@ -2645,6 +2768,7 @@ public abstract class BaseBlogPostingResourceTestCase {
 	}
 
 	protected BlogPostingResource blogPostingResource;
+	protected ExportTaskResource exportTaskResource;
 	protected Group irrelevantGroup;
 	protected Company testCompany;
 	protected Group testGroup;

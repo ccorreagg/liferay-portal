@@ -208,6 +208,8 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 			contextHttpServletRequest);
 		vulcanBatchEngineExportTaskResource.setContextUriInfo(contextUriInfo);
 		vulcanBatchEngineExportTaskResource.setContextUser(contextUser);
+		vulcanBatchEngineExportTaskResource.setGroupLocalService(
+			groupLocalService);
 
 		Response.ResponseBuilder responseBuilder = Response.accepted();
 

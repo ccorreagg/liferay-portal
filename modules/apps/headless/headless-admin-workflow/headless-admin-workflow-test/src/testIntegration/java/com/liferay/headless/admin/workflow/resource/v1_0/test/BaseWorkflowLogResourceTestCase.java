@@ -28,8 +28,11 @@ import com.liferay.headless.admin.workflow.client.pagination.Page;
 import com.liferay.headless.admin.workflow.client.pagination.Pagination;
 import com.liferay.headless.admin.workflow.client.resource.v1_0.WorkflowLogResource;
 import com.liferay.headless.admin.workflow.client.serdes.v1_0.WorkflowLogSerDes;
+import com.liferay.headless.batch.engine.client.dto.v1_0.ExportTask;
+import com.liferay.headless.batch.engine.client.resource.v1_0.ExportTaskResource;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
@@ -41,13 +44,18 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.zip.ZipReader;
+import com.liferay.portal.kernel.zip.ZipReaderFactoryUtil;
 import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
+
+import java.io.File;
 
 import java.lang.reflect.Method;
 
@@ -63,6 +71,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -111,6 +121,15 @@ public abstract class BaseWorkflowLogResourceTestCase {
 		WorkflowLogResource.Builder builder = WorkflowLogResource.builder();
 
 		workflowLogResource = builder.authentication(
+			"test@liferay.com", "test"
+		).locale(
+			LocaleUtil.getDefault()
+		).build();
+
+		ExportTaskResource.Builder exportTaskResourceBuilder =
+			ExportTaskResource.builder();
+
+		exportTaskResource = exportTaskResourceBuilder.authentication(
 			"test@liferay.com", "test"
 		).locale(
 			LocaleUtil.getDefault()
@@ -339,6 +358,69 @@ public abstract class BaseWorkflowLogResourceTestCase {
 	}
 
 	@Test
+	public void testPostWorkflowInstanceWorkflowLogsPageExportBatch()
+		throws Exception {
+
+		Long workflowInstanceId =
+			testGetWorkflowInstanceWorkflowLogsPage_getWorkflowInstanceId();
+		Long irrelevantWorkflowInstanceId =
+			testGetWorkflowInstanceWorkflowLogsPage_getIrrelevantWorkflowInstanceId();
+
+		HttpInvoker.HttpResponse httpResponse =
+			workflowLogResource.
+				postWorkflowInstanceWorkflowLogsPageExportBatchHttpResponse(
+					workflowInstanceId, null, null, null, null);
+
+		ExportTask exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+		WorkflowLog[] workflowLogs = getWorkflowLogs(exportTask);
+
+		long totalCount = workflowLogs.length;
+
+		if (irrelevantWorkflowInstanceId != null) {
+			WorkflowLog irrelevantWorkflowLog =
+				testGetWorkflowInstanceWorkflowLogsPage_addWorkflowLog(
+					irrelevantWorkflowInstanceId,
+					randomIrrelevantWorkflowLog());
+
+			httpResponse =
+				workflowLogResource.
+					postWorkflowInstanceWorkflowLogsPageExportBatchHttpResponse(
+						irrelevantWorkflowInstanceId, null, null, null, null);
+
+			exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+			workflowLogs = getWorkflowLogs(exportTask);
+
+			Assert.assertEquals(1, workflowLogs.length);
+
+			assertEquals(irrelevantWorkflowLog, workflowLogs[0]);
+		}
+
+		WorkflowLog workflowLog1 =
+			testGetWorkflowInstanceWorkflowLogsPage_addWorkflowLog(
+				workflowInstanceId, randomWorkflowLog());
+
+		WorkflowLog workflowLog2 =
+			testGetWorkflowInstanceWorkflowLogsPage_addWorkflowLog(
+				workflowInstanceId, randomWorkflowLog());
+
+		httpResponse =
+			workflowLogResource.
+				postWorkflowInstanceWorkflowLogsPageExportBatchHttpResponse(
+					workflowInstanceId, null, null, null, null);
+
+		exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+		workflowLogs = getWorkflowLogs(exportTask);
+
+		Assert.assertEquals(totalCount + 2, workflowLogs.length);
+
+		assertContains(workflowLog1, Arrays.asList(workflowLogs));
+		assertContains(workflowLog2, Arrays.asList(workflowLogs));
+	}
+
+	@Test
 	public void testGetWorkflowLog() throws Exception {
 		WorkflowLog postWorkflowLog = testGetWorkflowLog_addWorkflowLog();
 
@@ -533,6 +615,68 @@ public abstract class BaseWorkflowLogResourceTestCase {
 		throws Exception {
 
 		return null;
+	}
+
+	@Test
+	public void testPostWorkflowTaskWorkflowLogsPageExportBatch()
+		throws Exception {
+
+		Long workflowTaskId =
+			testGetWorkflowTaskWorkflowLogsPage_getWorkflowTaskId();
+		Long irrelevantWorkflowTaskId =
+			testGetWorkflowTaskWorkflowLogsPage_getIrrelevantWorkflowTaskId();
+
+		HttpInvoker.HttpResponse httpResponse =
+			workflowLogResource.
+				postWorkflowTaskWorkflowLogsPageExportBatchHttpResponse(
+					workflowTaskId, null, null, null, null);
+
+		ExportTask exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+		WorkflowLog[] workflowLogs = getWorkflowLogs(exportTask);
+
+		long totalCount = workflowLogs.length;
+
+		if (irrelevantWorkflowTaskId != null) {
+			WorkflowLog irrelevantWorkflowLog =
+				testGetWorkflowTaskWorkflowLogsPage_addWorkflowLog(
+					irrelevantWorkflowTaskId, randomIrrelevantWorkflowLog());
+
+			httpResponse =
+				workflowLogResource.
+					postWorkflowTaskWorkflowLogsPageExportBatchHttpResponse(
+						irrelevantWorkflowTaskId, null, null, null, null);
+
+			exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+			workflowLogs = getWorkflowLogs(exportTask);
+
+			Assert.assertEquals(1, workflowLogs.length);
+
+			assertEquals(irrelevantWorkflowLog, workflowLogs[0]);
+		}
+
+		WorkflowLog workflowLog1 =
+			testGetWorkflowTaskWorkflowLogsPage_addWorkflowLog(
+				workflowTaskId, randomWorkflowLog());
+
+		WorkflowLog workflowLog2 =
+			testGetWorkflowTaskWorkflowLogsPage_addWorkflowLog(
+				workflowTaskId, randomWorkflowLog());
+
+		httpResponse =
+			workflowLogResource.
+				postWorkflowTaskWorkflowLogsPageExportBatchHttpResponse(
+					workflowTaskId, null, null, null, null);
+
+		exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+		workflowLogs = getWorkflowLogs(exportTask);
+
+		Assert.assertEquals(totalCount + 2, workflowLogs.length);
+
+		assertContains(workflowLog1, Arrays.asList(workflowLogs));
+		assertContains(workflowLog2, Arrays.asList(workflowLogs));
 	}
 
 	protected WorkflowLog testGraphQLWorkflowLog_addWorkflowLog()
@@ -1039,6 +1183,55 @@ public abstract class BaseWorkflowLogResourceTestCase {
 		return false;
 	}
 
+	protected WorkflowLog[] getWorkflowLogs(ExportTask exportTask)
+		throws Exception {
+
+		CountDownLatch countDownLatch = new CountDownLatch(100);
+
+		boolean completed = false;
+
+		while ((countDownLatch.getCount() > 0) && !completed) {
+			ExportTask updatedExportTask = exportTaskResource.getExportTask(
+				exportTask.getId());
+
+			if (updatedExportTask.getExecuteStatus() ==
+					ExportTask.ExecuteStatus.COMPLETED) {
+
+				completed = true;
+			}
+			else if (updatedExportTask.getExecuteStatus() ==
+						ExportTask.ExecuteStatus.FAILED) {
+
+				throw new PortalException("The export task failed");
+			}
+			else {
+				countDownLatch.countDown();
+				countDownLatch.await(10, TimeUnit.MILLISECONDS);
+			}
+		}
+
+		Assert.assertTrue(
+			"The status of the Export task is not COMPLETED", completed);
+
+		com.liferay.headless.batch.engine.client.http.HttpInvoker.HttpResponse
+			exportTaskHttpResponse =
+				exportTaskResource.getExportTaskContentHttpResponse(
+					exportTask.getId());
+
+		File file = FileUtil.createTempFile(
+			exportTaskHttpResponse.getBinaryContent());
+
+		ZipReader zipReader = ZipReaderFactoryUtil.getZipReader(file);
+
+		try {
+			return WorkflowLogSerDes.toDTOs(
+				zipReader.getEntryAsString("export.json"));
+		}
+		finally {
+			zipReader.close();
+		}
+	}
+
 	protected java.lang.reflect.Field[] getDeclaredFields(Class clazz)
 		throws Exception {
 
@@ -1299,6 +1492,7 @@ public abstract class BaseWorkflowLogResourceTestCase {
 	}
 
 	protected WorkflowLogResource workflowLogResource;
+	protected ExportTaskResource exportTaskResource;
 	protected Group irrelevantGroup;
 	protected Company testCompany;
 	protected Group testGroup;

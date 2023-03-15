@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
+import com.liferay.headless.batch.engine.client.dto.v1_0.ExportTask;
+import com.liferay.headless.batch.engine.client.resource.v1_0.ExportTaskResource;
 import com.liferay.headless.delivery.client.dto.v1_0.Field;
 import com.liferay.headless.delivery.client.dto.v1_0.KnowledgeBaseAttachment;
 import com.liferay.headless.delivery.client.http.HttpInvoker;
@@ -30,6 +32,7 @@ import com.liferay.headless.delivery.client.resource.v1_0.KnowledgeBaseAttachmen
 import com.liferay.headless.delivery.client.serdes.v1_0.KnowledgeBaseAttachmentSerDes;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -42,8 +45,11 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.zip.ZipReader;
+import com.liferay.portal.kernel.zip.ZipReaderFactoryUtil;
 import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.test.rule.Inject;
@@ -66,6 +72,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -113,6 +121,15 @@ public abstract class BaseKnowledgeBaseAttachmentResourceTestCase {
 			KnowledgeBaseAttachmentResource.builder();
 
 		knowledgeBaseAttachmentResource = builder.authentication(
+			"test@liferay.com", "test"
+		).locale(
+			LocaleUtil.getDefault()
+		).build();
+
+		ExportTaskResource.Builder exportTaskResourceBuilder =
+			ExportTaskResource.builder();
+
+		exportTaskResource = exportTaskResourceBuilder.authentication(
 			"test@liferay.com", "test"
 		).locale(
 			LocaleUtil.getDefault()
@@ -324,6 +341,73 @@ public abstract class BaseKnowledgeBaseAttachmentResourceTestCase {
 		throws Exception {
 
 		return null;
+	}
+
+	@Test
+	public void testPostKnowledgeBaseArticleKnowledgeBaseAttachmentsPageExportBatch()
+		throws Exception {
+
+		Long knowledgeBaseArticleId =
+			testGetKnowledgeBaseArticleKnowledgeBaseAttachmentsPage_getKnowledgeBaseArticleId();
+		Long irrelevantKnowledgeBaseArticleId =
+			testGetKnowledgeBaseArticleKnowledgeBaseAttachmentsPage_getIrrelevantKnowledgeBaseArticleId();
+
+		HttpInvoker.HttpResponse httpResponse =
+			knowledgeBaseAttachmentResource.
+				postKnowledgeBaseArticleKnowledgeBaseAttachmentsPageExportBatchHttpResponse(
+					knowledgeBaseArticleId, null, null, null);
+
+		ExportTask exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+		KnowledgeBaseAttachment[] knowledgeBaseAttachments =
+			getKnowledgeBaseAttachments(exportTask);
+
+		long totalCount = knowledgeBaseAttachments.length;
+
+		if (irrelevantKnowledgeBaseArticleId != null) {
+			KnowledgeBaseAttachment irrelevantKnowledgeBaseAttachment =
+				testGetKnowledgeBaseArticleKnowledgeBaseAttachmentsPage_addKnowledgeBaseAttachment(
+					irrelevantKnowledgeBaseArticleId,
+					randomIrrelevantKnowledgeBaseAttachment());
+
+			httpResponse =
+				knowledgeBaseAttachmentResource.
+					postKnowledgeBaseArticleKnowledgeBaseAttachmentsPageExportBatchHttpResponse(
+						irrelevantKnowledgeBaseArticleId, null, null, null);
+
+			exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+			knowledgeBaseAttachments = getKnowledgeBaseAttachments(exportTask);
+
+			Assert.assertEquals(1, knowledgeBaseAttachments.length);
+
+			assertEquals(
+				irrelevantKnowledgeBaseAttachment, knowledgeBaseAttachments[0]);
+		}
+
+		KnowledgeBaseAttachment knowledgeBaseAttachment1 =
+			testGetKnowledgeBaseArticleKnowledgeBaseAttachmentsPage_addKnowledgeBaseAttachment(
+				knowledgeBaseArticleId, randomKnowledgeBaseAttachment());
+
+		KnowledgeBaseAttachment knowledgeBaseAttachment2 =
+			testGetKnowledgeBaseArticleKnowledgeBaseAttachmentsPage_addKnowledgeBaseAttachment(
+				knowledgeBaseArticleId, randomKnowledgeBaseAttachment());
+
+		httpResponse =
+			knowledgeBaseAttachmentResource.
+				postKnowledgeBaseArticleKnowledgeBaseAttachmentsPageExportBatchHttpResponse(
+					knowledgeBaseArticleId, null, null, null);
+
+		exportTask = ExportTask.toDTO(httpResponse.getContent());
+
+		knowledgeBaseAttachments = getKnowledgeBaseAttachments(exportTask);
+
+		Assert.assertEquals(totalCount + 2, knowledgeBaseAttachments.length);
+
+		assertContains(
+			knowledgeBaseAttachment1, Arrays.asList(knowledgeBaseAttachments));
+		assertContains(
+			knowledgeBaseAttachment2, Arrays.asList(knowledgeBaseAttachments));
 	}
 
 	@Test
@@ -898,6 +982,56 @@ public abstract class BaseKnowledgeBaseAttachmentResourceTestCase {
 		return false;
 	}
 
+	protected KnowledgeBaseAttachment[] getKnowledgeBaseAttachments(
+			ExportTask exportTask)
+		throws Exception {
+
+		CountDownLatch countDownLatch = new CountDownLatch(100);
+
+		boolean completed = false;
+
+		while ((countDownLatch.getCount() > 0) && !completed) {
+			ExportTask updatedExportTask = exportTaskResource.getExportTask(
+				exportTask.getId());
+
+			if (updatedExportTask.getExecuteStatus() ==
+					ExportTask.ExecuteStatus.COMPLETED) {
+
+				completed = true;
+			}
+			else if (updatedExportTask.getExecuteStatus() ==
+						ExportTask.ExecuteStatus.FAILED) {
+
+				throw new PortalException("The export task failed");
+			}
+			else {
+				countDownLatch.countDown();
+				countDownLatch.await(10, TimeUnit.MILLISECONDS);
+			}
+		}
+
+		Assert.assertTrue(
+			"The status of the Export task is not COMPLETED", completed);
+
+		com.liferay.headless.batch.engine.client.http.HttpInvoker.HttpResponse
+			exportTaskHttpResponse =
+				exportTaskResource.getExportTaskContentHttpResponse(
+					exportTask.getId());
+
+		File file = FileUtil.createTempFile(
+			exportTaskHttpResponse.getBinaryContent());
+
+		ZipReader zipReader = ZipReaderFactoryUtil.getZipReader(file);
+
+		try {
+			return KnowledgeBaseAttachmentSerDes.toDTOs(
+				zipReader.getEntryAsString("export.json"));
+		}
+		finally {
+			zipReader.close();
+		}
+	}
+
 	protected java.lang.reflect.Field[] getDeclaredFields(Class clazz)
 		throws Exception {
 
@@ -1103,6 +1237,7 @@ public abstract class BaseKnowledgeBaseAttachmentResourceTestCase {
 	}
 
 	protected KnowledgeBaseAttachmentResource knowledgeBaseAttachmentResource;
+	protected ExportTaskResource exportTaskResource;
 	protected Group irrelevantGroup;
 	protected Company testCompany;
 	protected Group testGroup;
