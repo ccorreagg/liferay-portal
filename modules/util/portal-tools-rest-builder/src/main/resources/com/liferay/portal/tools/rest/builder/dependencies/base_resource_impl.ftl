@@ -178,6 +178,7 @@ public abstract class Base${schemaName}ResourceImpl
 				vulcanBatchEngineExportTaskResource.setContextHttpServletRequest(contextHttpServletRequest);
 				vulcanBatchEngineExportTaskResource.setContextUriInfo(contextUriInfo);
 				vulcanBatchEngineExportTaskResource.setContextUser(contextUser);
+				vulcanBatchEngineExportTaskResource.setGroupLocalService(groupLocalService);
 
 				javax.ws.rs.core.Response.ResponseBuilder responseBuilder = javax.ws.rs.core.Response.accepted();
 
