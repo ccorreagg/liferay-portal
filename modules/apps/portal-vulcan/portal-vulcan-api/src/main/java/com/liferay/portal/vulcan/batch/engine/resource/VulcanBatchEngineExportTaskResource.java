@@ -16,6 +16,7 @@ package com.liferay.portal.vulcan.batch.engine.resource;
 
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,5 +43,7 @@ public interface VulcanBatchEngineExportTaskResource {
 	public void setContextUriInfo(UriInfo contextUriInfo);
 
 	public void setContextUser(User contextUser);
+
+	public void setGroupLocalService(GroupLocalService groupLocalService);
 
 }

@@ -17,6 +17,7 @@ package com.liferay.portal.vulcan.internal.batch.engine.resource;
 import com.liferay.headless.batch.engine.resource.v1_0.ExportTaskResource;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 
@@ -47,6 +48,7 @@ public class VulcanBatchEngineExportTaskResourceImpl
 			_contextHttpServletRequest);
 		_exportTaskResource.setContextUriInfo(_contextUriInfo);
 		_exportTaskResource.setContextUser(_contextUser);
+		_exportTaskResource.setGroupLocalService(_groupLocalService);
 
 		return _exportTaskResource.postExportTask(
 			name, contentType, callbackURL,
@@ -81,6 +83,11 @@ public class VulcanBatchEngineExportTaskResourceImpl
 		_contextUser = contextUser;
 	}
 
+	@Override
+	public void setGroupLocalService(GroupLocalService groupLocalService) {
+		_groupLocalService = groupLocalService;
+	}
+
 	private String _getQueryParameterValue(String queryParameterName) {
 		MultivaluedMap<String, String> queryParameters =
 			_contextUriInfo.getQueryParameters();
@@ -93,6 +100,7 @@ public class VulcanBatchEngineExportTaskResourceImpl
 	private HttpServletRequest _contextHttpServletRequest;
 	private UriInfo _contextUriInfo;
 	private User _contextUser;
+	private GroupLocalService _groupLocalService;
 
 	@Reference
 	private ExportTaskResource _exportTaskResource;
