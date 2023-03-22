@@ -1889,6 +1889,7 @@ paths:
             tags: ["Channel"]
     /discount-order-types/{discountOrderTypeId}:
         delete:
+            operationId: deleteDiscountOrderType
             parameters:
                 - in: path
                   explode: false
@@ -1926,6 +1927,7 @@ paths:
             tags: ["DiscountOrderType"]
     /discount-order-types/{discountOrderTypeId}/order-type:
         get:
+            operationId: getDiscountOrderTypeOrderType
             parameters:
                 - in: path
                   name: discountOrderTypeId
@@ -3447,6 +3449,7 @@ paths:
             tags: ["DiscountChannel"]
     /discounts/by-externalReferenceCode/{externalReferenceCode}/discount-order-types:
         get:
+            operationId: getDiscountByExternalReferenceCodeDiscountOrderTypesPage
             parameters:
                 - in: path
                   explode: false
@@ -3526,6 +3529,7 @@ paths:
             summary: Gets a list of Discount Order Types.
             tags: ["DiscountOrderType"]
         post:
+            operationId: postDiscountByExternalReferenceCodeDiscountOrderType
             parameters:
                 - in: path
                   explode: false
@@ -4251,13 +4255,13 @@ paths:
                       - HeadlessCommerceAdminPricing.write
             summary: Creates or updates a Discount Sku.
             tags: ["DiscountSku"]
-    /discounts/{id}:
+    /discounts/{discountId}:
         delete:
             operationId: deleteDiscount
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -4294,7 +4298,7 @@ paths:
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -4360,7 +4364,7 @@ paths:
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -4430,13 +4434,13 @@ paths:
                       - HeadlessCommerceAdminPricing.write
             summary: Updates a Discount by ID.
             tags: ["Discount"]
-    /discounts/{id}/discount-account-groups:
+    /discounts/{discountId}/discount-account-groups:
         get:
-            operationId: getDiscountIdDiscountAccountGroupsPage
+            operationId: getDiscountDiscountAccountGroupsPage
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -4524,11 +4528,11 @@ paths:
             summary: Gets a list of Discount Account Groups.
             tags: ["DiscountAccountGroup"]
         post:
-            operationId: postDiscountIdDiscountAccountGroup
+            operationId: postDiscountDiscountAccountGroup
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -4604,13 +4608,13 @@ paths:
                       - HeadlessCommerceAdminPricing.write
             summary: Creates or updates a Discount Account Group.
             tags: ["DiscountAccountGroup"]
-    /discounts/{id}/discount-accounts:
+    /discounts/{discountId}/discount-accounts:
         get:
-            operationId: getDiscountIdDiscountAccountsPage
+            operationId: getDiscountDiscountAccountsPage
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -4698,11 +4702,11 @@ paths:
             summary: Gets a list of Discount Accounts.
             tags: ["DiscountAccount"]
         post:
-            operationId: postDiscountIdDiscountAccount
+            operationId: postDiscountDiscountAccount
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -4778,13 +4782,13 @@ paths:
                       - HeadlessCommerceAdminPricing.write
             summary: Creates or updates a Discount Account.
             tags: ["DiscountAccount"]
-    /discounts/{id}/discount-categories:
+    /discounts/{discountId}/discount-categories:
         get:
-            operationId: getDiscountIdDiscountCategoriesPage
+            operationId: getDiscountDiscountCategoriesPage
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -4872,11 +4876,11 @@ paths:
             summary: Gets a list of Discount Categories.
             tags: ["DiscountCategory"]
         post:
-            operationId: postDiscountIdDiscountCategory
+            operationId: postDiscountDiscountCategory
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -4952,13 +4956,13 @@ paths:
                       - HeadlessCommerceAdminPricing.write
             summary: Creates or updates a Discount Category.
             tags: ["DiscountCategory"]
-    /discounts/{id}/discount-channels:
+    /discounts/{discountId}/discount-channels:
         get:
-            operationId: getDiscountIdDiscountChannelsPage
+            operationId: getDiscountDiscountChannelsPage
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -5046,11 +5050,11 @@ paths:
             summary: Gets a list of Discount Channels.
             tags: ["DiscountChannel"]
         post:
-            operationId: postDiscountIdDiscountChannel
+            operationId: postDiscountDiscountChannel
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -5126,12 +5130,13 @@ paths:
                       - HeadlessCommerceAdminPricing.write
             summary: Creates or updates a Discount Channel.
             tags: ["DiscountChannel"]
-    /discounts/{id}/discount-order-types:
+    /discounts/{discountId}/discount-order-types:
         get:
+            operationId: getDiscountDiscountOrderTypesPage
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -5219,10 +5224,11 @@ paths:
             summary: Gets a list of Discount Order Types.
             tags: ["DiscountOrderType"]
         post:
+            operationId: postDiscountDiscountOrderType
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -5298,13 +5304,13 @@ paths:
                       - HeadlessCommerceAdminPricing.write
             summary: Creates or updates a Discount Order Type.
             tags: ["DiscountOrderType"]
-    /discounts/{id}/discount-product-groups:
+    /discounts/{discountId}/discount-product-groups:
         get:
-            operationId: getDiscountIdDiscountProductGroupsPage
+            operationId: getDiscountDiscountProductGroupsPage
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -5392,11 +5398,11 @@ paths:
             summary: Gets a list of Discount Product Groups.
             tags: ["DiscountProductGroup"]
         post:
-            operationId: postDiscountIdDiscountProductGroup
+            operationId: postDiscountDiscountProductGroup
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -5472,13 +5478,13 @@ paths:
                       - HeadlessCommerceAdminPricing.write
             summary: Creates or updates a Discount Product Group.
             tags: ["DiscountProductGroup"]
-    /discounts/{id}/discount-products:
+    /discounts/{discountId}/discount-products:
         get:
-            operationId: getDiscountIdDiscountProductsPage
+            operationId: getDiscountDiscountProductsPage
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -5566,11 +5572,11 @@ paths:
             summary: Gets a list of Discount Products.
             tags: ["DiscountProduct"]
         post:
-            operationId: postDiscountIdDiscountProduct
+            operationId: postDiscountDiscountProduct
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -5646,13 +5652,13 @@ paths:
                       - HeadlessCommerceAdminPricing.write
             summary: Creates or updates a Discount Product.
             tags: ["DiscountProduct"]
-    /discounts/{id}/discount-rules:
+    /discounts/{discountId}/discount-rules:
         get:
-            operationId: getDiscountIdDiscountRulesPage
+            operationId: getDiscountDiscountRulesPage
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -5743,11 +5749,11 @@ paths:
             summary: Gets a list of Discount Rule related to a Discount.
             tags: ["DiscountRule"]
         post:
-            operationId: postDiscountIdDiscountRule
+            operationId: postDiscountDiscountRule
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -5823,13 +5829,13 @@ paths:
                       - HeadlessCommerceAdminPricing.write
             summary: Creates or Updates a Discount Rule.
             tags: ["DiscountRule"]
-    /discounts/{id}/discount-skus:
+    /discounts/{discountId}/discount-skus:
         get:
-            operationId: getDiscountIdDiscountSkusPage
+            operationId: getDiscountDiscountSkusPage
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -5917,11 +5923,11 @@ paths:
             summary: Gets a list of Discount Skus.
             tags: ["DiscountSku"]
         post:
-            operationId: postDiscountIdDiscountSku
+            operationId: postDiscountDiscountSku
             parameters:
                 - in: path
                   explode: false
-                  name: id
+                  name: discountId
                   required: true
                   schema:
                       description:
@@ -6518,7 +6524,7 @@ paths:
             tags: ["PriceEntry"]
     /price-entries/{priceEntryId}/product:
         get:
-            operationId: getPriceEntryIdProduct
+            operationId: getPriceEntryProduct
             parameters:
                 - in: path
                   name: priceEntryId
@@ -6583,7 +6589,7 @@ paths:
             tags: ["Product"]
     /price-entries/{priceEntryId}/sku:
         get:
-            operationId: getPriceEntryIdSku
+            operationId: getPriceEntrySku
             parameters:
                 - in: path
                   name: priceEntryId
@@ -6648,7 +6654,7 @@ paths:
             tags: ["Sku"]
     /price-entries/{priceEntryId}/tier-prices:
         get:
-            operationId: getPriceEntryIdTierPricesPage
+            operationId: getPriceEntryTierPricesPage
             parameters:
                 - in: path
                   explode: false
@@ -6732,7 +6738,7 @@ paths:
             summary: Gets a list of Tier Price related to a Price Entry.
             tags: ["TierPrice"]
         post:
-            operationId: postPriceEntryIdTierPrice
+            operationId: postPriceEntryTierPrice
             parameters:
                 - in: path
                   explode: false
