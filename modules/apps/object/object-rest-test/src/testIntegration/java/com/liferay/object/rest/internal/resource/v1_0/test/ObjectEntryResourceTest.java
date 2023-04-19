@@ -46,6 +46,8 @@ import com.liferay.object.rest.resource.v1_0.ObjectEntryResource;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.service.ObjectRelationshipLocalService;
+import com.liferay.object.system.SystemObjectDefinitionManager;
+import com.liferay.object.system.SystemObjectDefinitionManagerRegistry;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.petra.function.transform.TransformUtil;
@@ -227,6 +229,14 @@ public class ObjectEntryResourceTest {
 		_siteScopedObjectEntry1 = ObjectEntryTestUtil.addObjectEntry(
 			_siteScopedObjectDefinition1, _OBJECT_FIELD_NAME_1,
 			_OBJECT_FIELD_VALUE_1);
+
+		SystemObjectDefinitionManager systemObjectDefinitionManager =
+			_systemObjectDefinitionManagerRegistry.
+				getSystemObjectDefinitionManager("User");
+
+		_userSystemObjectDefinition =
+			_objectDefinitionLocalService.fetchSystemObjectDefinition(
+				systemObjectDefinitionManager.getName());
 	}
 
 	@After
@@ -5036,6 +5046,12 @@ public class ObjectEntryResourceTest {
 
 	private ObjectDefinition _siteScopedObjectDefinition1;
 	private ObjectEntry _siteScopedObjectEntry1;
+
+	@Inject
+	private SystemObjectDefinitionManagerRegistry
+		_systemObjectDefinitionManagerRegistry;
+
+	private ObjectDefinition _userSystemObjectDefinition;
 
 	private enum Type {
 
