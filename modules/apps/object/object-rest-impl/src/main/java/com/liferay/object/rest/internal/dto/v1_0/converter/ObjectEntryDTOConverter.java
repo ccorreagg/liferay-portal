@@ -156,22 +156,16 @@ public class ObjectEntryDTOConverter
 				objectFieldName.lastIndexOf(StringPool.UNDERLINE) + 1),
 			"Id", "");
 
-		String manyToOneRelationshipName = StringUtil.removeLast(
-			objectFieldName, "Id");
-
 		AtomicReference<Serializable> relatedObjectEntryAtomicReference =
 			new AtomicReference<>();
 
 		Map<String, Serializable> nestedFieldValues =
 			NestedFieldsSupplier.supply(
 				nestedFieldName -> {
-					if (!StringUtil.equals(
-							nestedFieldName, manyToOneRelationshipName) &&
-						!StringUtil.equals(nestedFieldName, objectFieldName) &&
+					if (!nestedFieldName.contains(
+							relatedObjectDefinitionName) &&
 						!StringUtil.equals(
-							nestedFieldName, objectRelationship.getName()) &&
-						!StringUtil.equals(
-							nestedFieldName, relatedObjectDefinitionName)) {
+							nestedFieldName, objectRelationship.getName())) {
 
 						return null;
 					}
@@ -229,6 +223,9 @@ public class ObjectEntryDTOConverter
 			return;
 		}
 
+		String manyToOneRelationshipName = StringUtil.removeLast(
+			objectFieldName, "Id");
+
 		for (Map.Entry<String, Serializable> entry :
 				nestedFieldValues.entrySet()) {
 
@@ -237,15 +234,12 @@ public class ObjectEntryDTOConverter
 			if (StringUtil.equals(
 					nestedFieldName, objectRelationship.getName())) {
 
-				map.put(nestedFieldName, entry.getValue());
+				map.put(objectRelationship.getName(), entry.getValue());
 			}
 
-			if (StringUtil.equals(nestedFieldName, manyToOneRelationshipName) ||
-				StringUtil.equals(nestedFieldName, objectFieldName) ||
+			if (nestedFieldName.contains(relatedObjectDefinitionName) ||
 				StringUtil.equals(
-					nestedFieldName, objectRelationship.getName()) ||
-				StringUtil.equals(
-					nestedFieldName, relatedObjectDefinitionName)) {
+					nestedFieldName, objectRelationship.getName())) {
 
 				map.put(manyToOneRelationshipName, entry.getValue());
 			}
