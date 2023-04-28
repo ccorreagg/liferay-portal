@@ -55,6 +55,7 @@ import com.liferay.object.service.ObjectRelationshipLocalService;
 import com.liferay.object.system.SystemObjectDefinitionManager;
 import com.liferay.object.system.SystemObjectDefinitionManagerRegistry;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
@@ -62,6 +63,8 @@ import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.language.Language;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalService;
@@ -156,6 +159,9 @@ public class ObjectEntryDTOConverter
 				objectFieldName.lastIndexOf(StringPool.UNDERLINE) + 1),
 			"Id", "");
 
+		String manyToOneRelationshipName = StringUtil.removeLast(
+			objectFieldName, "Id");
+
 		AtomicReference<Serializable> relatedObjectEntryAtomicReference =
 			new AtomicReference<>();
 
@@ -168,6 +174,21 @@ public class ObjectEntryDTOConverter
 							nestedFieldName, objectRelationship.getName())) {
 
 						return null;
+					}
+
+					if (!StringUtil.equals(
+							nestedFieldName, manyToOneRelationshipName) &&
+						!StringUtil.equals(
+							nestedFieldName, objectRelationship.getName()) &&
+						!StringUtil.equals(
+							nestedFieldName, relatedObjectDefinitionName) &&
+						_log.isWarnEnabled()) {
+
+						_log.warn(
+							StringBundler.concat(
+								"Using deprecated nested field '",
+								nestedFieldName, "'. Please, replace with '",
+								objectRelationship.getName(), "'"));
 					}
 
 					if (relatedObjectEntryAtomicReference.get() != null) {
@@ -222,9 +243,6 @@ public class ObjectEntryDTOConverter
 		if (nestedFieldValues == null) {
 			return;
 		}
-
-		String manyToOneRelationshipName = StringUtil.removeLast(
-			objectFieldName, "Id");
 
 		for (Map.Entry<String, Serializable> entry :
 				nestedFieldValues.entrySet()) {
@@ -704,6 +722,9 @@ public class ObjectEntryDTOConverter
 
 		return map;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ObjectEntryDTOConverter.class);
 
 	@Reference
 	private AssetCategoryLocalService _assetCategoryLocalService;
