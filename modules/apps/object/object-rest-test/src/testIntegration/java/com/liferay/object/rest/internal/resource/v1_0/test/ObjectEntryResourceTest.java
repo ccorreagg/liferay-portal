@@ -3081,6 +3081,19 @@ public class ObjectEntryResourceTest {
 				_objectDefinition2.getRESTContextPath(), "?nestedFields=",
 				_objectRelationship1.getName()),
 			_objectRelationship1.getName());
+
+		_testGetNestedFieldDetailsInOneToManyRelationships(
+			StringBundler.concat(
+				_objectDefinition2.getRESTContextPath(), "?nestedFields=",
+				RandomTestUtil.randomString(),
+				StringUtil.removeFirst(
+					StringUtil.removeLast(
+						_objectDefinition1.getPKObjectFieldName(), "Id"),
+					"c_")),
+			StringBundler.concat(
+				"r_", _objectRelationship1.getName(), "_",
+				StringUtil.replaceLast(
+					_objectDefinition1.getPKObjectFieldName(), "Id", "")));
 	}
 
 	@Test
