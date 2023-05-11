@@ -110,22 +110,6 @@ public class CommerceAddressLocalServiceImpl
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return commerceAddressLocalService.addCommerceAddress(
-			null, className, classPK, name, description, street1, street2,
-			street3, city, zip, regionId, countryId, phoneNumber, type,
-			serviceContext);
-	}
-
-	@Indexable(type = IndexableType.REINDEX)
-	@Override
-	public CommerceAddress addCommerceAddress(
-			String externalReferenceCode, String className, long classPK,
-			String name, String description, String street1, String street2,
-			String street3, String city, String zip, long regionId,
-			long countryId, String phoneNumber, int type,
-			ServiceContext serviceContext)
-		throws PortalException {
-
 		_validate(name, street1, city, zip, countryId, type);
 
 		User user = _userLocalService.getUser(serviceContext.getUserId());

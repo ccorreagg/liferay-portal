@@ -52,26 +52,6 @@ import org.osgi.service.component.annotations.Reference;
 )
 public class WikiNodeServiceImpl extends WikiNodeServiceBaseImpl {
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addNode(String,
-	 *             String, String, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public WikiNode addNode(
-			String externalReferenceCode, String name, String description,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		_portletResourcePermission.check(
-			getPermissionChecker(), serviceContext.getScopeGroupId(),
-			ActionKeys.ADD_NODE);
-
-		return wikiNodeLocalService.addNode(
-			externalReferenceCode, getUserId(), name, description,
-			serviceContext);
-	}
-
 	@Override
 	public WikiNode addNode(
 			String externalReferenceCode, String name, String description,

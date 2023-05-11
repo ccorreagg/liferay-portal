@@ -98,18 +98,6 @@ public class CommerceTierPriceEntryLocalServiceImpl
 			int minQuantity, ServiceContext serviceContext)
 		throws PortalException {
 
-		return commerceTierPriceEntryLocalService.addCommerceTierPriceEntry(
-			null, commercePriceEntryId, price, promoPrice, bulkPricing,
-			minQuantity, serviceContext);
-	}
-
-	@Override
-	public CommerceTierPriceEntry addCommerceTierPriceEntry(
-			String externalReferenceCode, long commercePriceEntryId,
-			BigDecimal price, BigDecimal promoPrice, boolean bulkPricing,
-			int minQuantity, ServiceContext serviceContext)
-		throws PortalException {
-
 		Calendar now = new GregorianCalendar();
 
 		return commerceTierPriceEntryLocalService.addCommerceTierPriceEntry(
@@ -206,18 +194,6 @@ public class CommerceTierPriceEntryLocalServiceImpl
 
 		return _startWorkflowInstance(
 			user.getUserId(), commerceTierPriceEntry, serviceContext);
-	}
-
-	@Override
-	public CommerceTierPriceEntry addCommerceTierPriceEntry(
-			String externalReferenceCode, long commercePriceEntryId,
-			BigDecimal price, BigDecimal promoPrice, int minQuantity,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		return commerceTierPriceEntryLocalService.addCommerceTierPriceEntry(
-			null, commercePriceEntryId, price, promoPrice, minQuantity,
-			serviceContext);
 	}
 
 	@Override

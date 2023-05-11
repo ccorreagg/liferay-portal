@@ -116,29 +116,6 @@ public class WikiPageServiceImpl extends WikiPageServiceBaseImpl {
 			minorEdit, serviceContext);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addPage(String,
-	 *             long, String, String, String, boolean, String, String,
-	 *             String, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public WikiPage addPage(
-			String externalReferenceCode, long nodeId, String title,
-			String content, String summary, boolean minorEdit, String format,
-			String parentTitle, String redirectTitle,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		_wikiNodeModelResourcePermission.check(
-			getPermissionChecker(), nodeId, ActionKeys.ADD_PAGE);
-
-		return wikiPageLocalService.addPage(
-			externalReferenceCode, getUserId(), nodeId, title,
-			WikiPageConstants.VERSION_DEFAULT, content, summary, minorEdit,
-			format, true, parentTitle, redirectTitle, serviceContext);
-	}
-
 	@Override
 	public WikiPage addPage(
 			String externalReferenceCode, long nodeId, String title,

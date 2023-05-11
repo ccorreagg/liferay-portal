@@ -196,25 +196,6 @@ import org.osgi.service.component.annotations.Reference;
 )
 public class WikiPageLocalServiceImpl extends WikiPageLocalServiceBaseImpl {
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addPage(String,
-	 *             long, long, String, double, String, String, boolean, String,
-	 *             boolean, String, String, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public WikiPage addPage(
-			String externalReferenceCode, long userId, long nodeId,
-			String title, double version, String content, String summary,
-			boolean minorEdit, String format, boolean head, String parentTitle,
-			String redirectTitle, ServiceContext serviceContext)
-		throws PortalException {
-
-		return addPage(
-			null, userId, nodeId, title, version, content, summary, minorEdit,
-			format, head, parentTitle, redirectTitle, serviceContext);
-	}
-
 	@Override
 	public WikiPage addPage(
 			String externalReferenceCode, long userId, long nodeId,

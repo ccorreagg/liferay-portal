@@ -76,19 +76,6 @@ public class CPOptionValueLocalServiceImpl
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return cpOptionValueLocalService.addCPOptionValue(
-			StringPool.BLANK, cpOptionId, nameMap, priority, key,
-			serviceContext);
-	}
-
-	@Indexable(type = IndexableType.REINDEX)
-	@Override
-	public CPOptionValue addCPOptionValue(
-			String externalReferenceCode, long cpOptionId,
-			Map<Locale, String> nameMap, double priority, String key,
-			ServiceContext serviceContext)
-		throws PortalException {
-
 		// Commerce product option value
 
 		User user = _userLocalService.getUser(serviceContext.getUserId());

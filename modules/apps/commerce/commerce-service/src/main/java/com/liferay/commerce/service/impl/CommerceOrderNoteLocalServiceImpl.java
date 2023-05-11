@@ -47,16 +47,6 @@ public class CommerceOrderNoteLocalServiceImpl
 			boolean restricted, ServiceContext serviceContext)
 		throws PortalException {
 
-		return addCommerceOrderNote(
-			null, commerceOrderId, content, restricted, serviceContext);
-	}
-
-	@Override
-	public CommerceOrderNote addCommerceOrderNote(
-			String externalReferenceCode, long commerceOrderId, String content,
-			boolean restricted, ServiceContext serviceContext)
-		throws PortalException {
-
 		CommerceOrder commerceOrder =
 			_commerceOrderPersistence.findByPrimaryKey(commerceOrderId);
 		User user = _userLocalService.getUser(serviceContext.getUserId());

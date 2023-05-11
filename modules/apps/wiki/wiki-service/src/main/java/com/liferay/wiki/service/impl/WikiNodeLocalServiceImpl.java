@@ -102,21 +102,6 @@ public class WikiNodeLocalServiceImpl extends WikiNodeLocalServiceBaseImpl {
 			StringPool.BLANK, serviceContext);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addNode(String,
-	 *             long, String, String, ServiceContext)}
-	 */
-	@Deprecated
-	@Indexable(type = IndexableType.REINDEX)
-	@Override
-	public WikiNode addNode(
-			String externalReferenceCode, long userId, String name,
-			String description, ServiceContext serviceContext)
-		throws PortalException {
-
-		return addNode(null, userId, name, description, serviceContext);
-	}
-
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public WikiNode addNode(

@@ -60,18 +60,6 @@ public class CommerceInventoryWarehouseItemLocalServiceImpl
 			long commerceInventoryWarehouseId, String sku, int quantity)
 		throws PortalException {
 
-		return commerceInventoryWarehouseItemLocalService.
-			addCommerceInventoryWarehouseItem(
-				StringPool.BLANK, userId, commerceInventoryWarehouseId, sku,
-				quantity);
-	}
-
-	@Override
-	public CommerceInventoryWarehouseItem addCommerceInventoryWarehouseItem(
-			String externalReferenceCode, long userId,
-			long commerceInventoryWarehouseId, String sku, int quantity)
-		throws PortalException {
-
 		User user = _userLocalService.getUser(userId);
 
 		if (Validator.isBlank(externalReferenceCode)) {

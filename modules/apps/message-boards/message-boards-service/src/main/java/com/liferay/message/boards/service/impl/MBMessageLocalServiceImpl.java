@@ -278,29 +278,6 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 		return message;
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
-	 *             #addMessage(String, long, String, long, long, long, long,
-	 *             String, String, String, List, boolean, double, boolean,
-	 *             ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public MBMessage addMessage(
-			String externalReferenceCode, long userId, String userName,
-			long groupId, long categoryId, long threadId, long parentMessageId,
-			String subject, String body, String format,
-			List<ObjectValuePair<String, InputStream>> inputStreamOVPs,
-			boolean anonymous, double priority, boolean allowPingbacks,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		return addMessage(
-			null, userId, userName, groupId, categoryId, threadId,
-			parentMessageId, subject, body, format, inputStreamOVPs, anonymous,
-			priority, allowPingbacks, serviceContext);
-	}
-
 	@Override
 	public MBMessage addMessage(
 			String externalReferenceCode, long userId, String userName,

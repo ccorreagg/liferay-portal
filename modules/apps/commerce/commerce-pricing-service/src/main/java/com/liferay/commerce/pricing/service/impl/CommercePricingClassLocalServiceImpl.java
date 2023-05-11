@@ -82,18 +82,6 @@ public class CommercePricingClassLocalServiceImpl
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return addCommercePricingClass(
-			null, userId, titleMap, descriptionMap, serviceContext);
-	}
-
-	@Indexable(type = IndexableType.REINDEX)
-	@Override
-	public CommercePricingClass addCommercePricingClass(
-			String externalReferenceCode, long userId,
-			Map<Locale, String> titleMap, Map<Locale, String> descriptionMap,
-			ServiceContext serviceContext)
-		throws PortalException {
-
 		User user = _userLocalService.getUser(userId);
 
 		_validate(titleMap);

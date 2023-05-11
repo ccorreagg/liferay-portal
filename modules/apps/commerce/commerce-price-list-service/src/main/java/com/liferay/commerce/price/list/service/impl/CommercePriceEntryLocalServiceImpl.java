@@ -193,22 +193,6 @@ public class CommercePriceEntryLocalServiceImpl
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		return addCommercePriceEntry(
-			null, cpInstanceId, commercePriceListId, price, promoPrice,
-			serviceContext);
-	}
-
-	/**
-	 * @deprecated As of Mueller (7.2.x)
-	 */
-	@Deprecated
-	@Override
-	public CommercePriceEntry addCommercePriceEntry(
-			String externalReferenceCode, long cpInstanceId,
-			long commercePriceListId, BigDecimal price, BigDecimal promoPrice,
-			ServiceContext serviceContext)
-		throws PortalException {
-
 		CPInstance cpInstance = _cpInstanceLocalService.getCPInstance(
 			cpInstanceId);
 
@@ -304,18 +288,6 @@ public class CommercePriceEntryLocalServiceImpl
 			user.getUserId(), commercePriceEntry, serviceContext);
 
 		return commercePriceEntry;
-	}
-
-	@Override
-	public CommercePriceEntry addCommercePriceEntry(
-			String externalReferenceCode, long cProductId,
-			String cpInstanceUuid, long commercePriceListId, BigDecimal price,
-			BigDecimal promoPrice, ServiceContext serviceContext)
-		throws PortalException {
-
-		return addCommercePriceEntry(
-			cProductId, cpInstanceUuid, commercePriceListId, null, price,
-			promoPrice, serviceContext);
 	}
 
 	@Indexable(type = IndexableType.REINDEX)
