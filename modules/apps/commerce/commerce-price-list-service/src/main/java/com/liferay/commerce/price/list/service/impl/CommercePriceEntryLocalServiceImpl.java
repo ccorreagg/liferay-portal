@@ -99,33 +99,6 @@ public class CommercePriceEntryLocalServiceImpl
 	extends CommercePriceEntryLocalServiceBaseImpl {
 
 	/**
-	 * @deprecated As of Mueller (7.2.x)
-	 */
-	@Deprecated
-	@Override
-	public CommercePriceEntry addCommercePriceEntry(
-			long cpInstanceId, long commercePriceListId, BigDecimal price,
-			BigDecimal promoPrice, ServiceContext serviceContext)
-		throws PortalException {
-
-		return addCommercePriceEntry(
-			null, cpInstanceId, commercePriceListId, price, promoPrice,
-			serviceContext);
-	}
-
-	@Override
-	public CommercePriceEntry addCommercePriceEntry(
-			long cProductId, String cpInstanceUuid, long commercePriceListId,
-			BigDecimal price, BigDecimal promoPrice,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		return addCommercePriceEntry(
-			cProductId, cpInstanceUuid, commercePriceListId, null, price,
-			promoPrice, serviceContext);
-	}
-
-	/**
 	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
 	 *             #addCommercePriceEntry(String, long, String, long,
 	 *             BigDecimal, BigDecimal, boolean, BigDecimal, BigDecimal,
@@ -206,6 +179,22 @@ public class CommercePriceEntryLocalServiceImpl
 			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
 			expirationDateMonth, expirationDateDay, expirationDateYear,
 			expirationDateHour, expirationDateMinute, neverExpire,
+			serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Mueller (7.2.x)
+	 */
+	@Deprecated
+	@Override
+	public CommercePriceEntry addCommercePriceEntry(
+			String externalReferenceCode, long cpInstanceId,
+			long commercePriceListId, BigDecimal price, BigDecimal promoPrice,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		return addCommercePriceEntry(
+			null, cpInstanceId, commercePriceListId, price, promoPrice,
 			serviceContext);
 	}
 
@@ -315,6 +304,18 @@ public class CommercePriceEntryLocalServiceImpl
 			user.getUserId(), commercePriceEntry, serviceContext);
 
 		return commercePriceEntry;
+	}
+
+	@Override
+	public CommercePriceEntry addCommercePriceEntry(
+			String externalReferenceCode, long cProductId,
+			String cpInstanceUuid, long commercePriceListId, BigDecimal price,
+			BigDecimal promoPrice, ServiceContext serviceContext)
+		throws PortalException {
+
+		return addCommercePriceEntry(
+			cProductId, cpInstanceUuid, commercePriceListId, null, price,
+			promoPrice, serviceContext);
 	}
 
 	@Indexable(type = IndexableType.REINDEX)

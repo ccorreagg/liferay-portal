@@ -58,8 +58,8 @@ public class CommerceDiscountServiceImpl
 
 	@Override
 	public CommerceDiscount addCommerceDiscount(
-			String title, String target, boolean useCouponCode,
-			String couponCode, boolean usePercentage,
+			String externalReferenceCode, String title, String target,
+			boolean useCouponCode, String couponCode, boolean usePercentage,
 			BigDecimal maximumDiscountAmount, BigDecimal level1,
 			BigDecimal level2, BigDecimal level3, BigDecimal level4,
 			String limitationType, int limitationTimes, boolean active,
@@ -78,19 +78,19 @@ public class CommerceDiscountServiceImpl
 			CommerceDiscountActionKeys.ADD_COMMERCE_DISCOUNT);
 
 		return commerceDiscountLocalService.addCommerceDiscount(
-			getUserId(), title, target, useCouponCode, couponCode,
-			usePercentage, maximumDiscountAmount, level1, level2, level3,
-			level4, limitationType, limitationTimes, active, displayDateMonth,
-			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
-			expirationDateMonth, expirationDateDay, expirationDateYear,
-			expirationDateHour, expirationDateMinute, neverExpire,
-			serviceContext);
+			externalReferenceCode, getUserId(), title, target, useCouponCode,
+			couponCode, usePercentage, maximumDiscountAmount, level1, level2,
+			level3, level4, limitationType, limitationTimes, active,
+			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
+			displayDateMinute, expirationDateMonth, expirationDateDay,
+			expirationDateYear, expirationDateHour, expirationDateMinute,
+			neverExpire, serviceContext);
 	}
 
 	@Override
 	public CommerceDiscount addCommerceDiscount(
-			String title, String target, boolean useCouponCode,
-			String couponCode, boolean usePercentage,
+			String externalReferenceCode, String title, String target,
+			boolean useCouponCode, String couponCode, boolean usePercentage,
 			BigDecimal maximumDiscountAmount, String level, BigDecimal level1,
 			BigDecimal level2, BigDecimal level3, BigDecimal level4,
 			String limitationType, int limitationTimes,
@@ -110,13 +110,14 @@ public class CommerceDiscountServiceImpl
 			CommerceDiscountActionKeys.ADD_COMMERCE_DISCOUNT);
 
 		return commerceDiscountLocalService.addCommerceDiscount(
-			getUserId(), title, target, useCouponCode, couponCode,
-			usePercentage, maximumDiscountAmount, level, level1, level2, level3,
-			level4, limitationType, limitationTimes, rulesConjunction, active,
-			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
-			displayDateMinute, expirationDateMonth, expirationDateDay,
-			expirationDateYear, expirationDateHour, expirationDateMinute,
-			neverExpire, serviceContext);
+			externalReferenceCode, getUserId(), title, target, useCouponCode,
+			couponCode, usePercentage, maximumDiscountAmount, level, level1,
+			level2, level3, level4, limitationType, limitationTimes,
+			rulesConjunction, active, displayDateMonth, displayDateDay,
+			displayDateYear, displayDateHour, displayDateMinute,
+			expirationDateMonth, expirationDateDay, expirationDateYear,
+			expirationDateHour, expirationDateMinute, neverExpire,
+			serviceContext);
 	}
 
 	@Override

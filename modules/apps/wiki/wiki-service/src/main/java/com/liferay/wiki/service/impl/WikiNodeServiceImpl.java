@@ -59,7 +59,8 @@ public class WikiNodeServiceImpl extends WikiNodeServiceBaseImpl {
 	@Deprecated
 	@Override
 	public WikiNode addNode(
-			String name, String description, ServiceContext serviceContext)
+			String externalReferenceCode, String name, String description,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		_portletResourcePermission.check(
@@ -67,7 +68,8 @@ public class WikiNodeServiceImpl extends WikiNodeServiceBaseImpl {
 			ActionKeys.ADD_NODE);
 
 		return wikiNodeLocalService.addNode(
-			getUserId(), name, description, serviceContext);
+			externalReferenceCode, getUserId(), name, description,
+			serviceContext);
 	}
 
 	@Override

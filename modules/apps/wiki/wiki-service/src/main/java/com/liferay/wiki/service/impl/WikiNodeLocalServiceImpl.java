@@ -92,7 +92,9 @@ import org.osgi.service.component.annotations.Reference;
 public class WikiNodeLocalServiceImpl extends WikiNodeLocalServiceBaseImpl {
 
 	@Override
-	public WikiNode addDefaultNode(long userId, ServiceContext serviceContext)
+	public WikiNode addDefaultNode(
+			String externalReferenceCode, long userId,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		return addNode(
@@ -108,8 +110,8 @@ public class WikiNodeLocalServiceImpl extends WikiNodeLocalServiceBaseImpl {
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public WikiNode addNode(
-			long userId, String name, String description,
-			ServiceContext serviceContext)
+			String externalReferenceCode, long userId, String name,
+			String description, ServiceContext serviceContext)
 		throws PortalException {
 
 		return addNode(null, userId, name, description, serviceContext);

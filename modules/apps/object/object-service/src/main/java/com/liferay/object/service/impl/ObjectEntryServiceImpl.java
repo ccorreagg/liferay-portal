@@ -90,7 +90,7 @@ public class ObjectEntryServiceImpl extends ObjectEntryServiceBaseImpl {
 
 	@Override
 	public ObjectEntry addObjectEntry(
-			long groupId, long objectDefinitionId,
+			String externalReferenceCode, long groupId, long objectDefinitionId,
 			Map<String, Serializable> values, ServiceContext serviceContext)
 		throws PortalException {
 
@@ -103,7 +103,8 @@ public class ObjectEntryServiceImpl extends ObjectEntryServiceBaseImpl {
 		_validateSubmissionLimit(objectDefinitionId, getUser());
 
 		return objectEntryLocalService.addObjectEntry(
-			getUserId(), groupId, objectDefinitionId, values, serviceContext);
+			externalReferenceCode, getUserId(), groupId, objectDefinitionId,
+			values, serviceContext);
 	}
 
 	@Override

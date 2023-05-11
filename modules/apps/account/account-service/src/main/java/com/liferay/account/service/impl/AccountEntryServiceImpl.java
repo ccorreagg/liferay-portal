@@ -75,9 +75,10 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 
 	@Override
 	public AccountEntry addAccountEntry(
-			long userId, long parentAccountEntryId, String name,
-			String description, String[] domains, String email,
-			byte[] logoBytes, String taxIdNumber, String type, int status,
+			String externalReferenceCode, long userId,
+			long parentAccountEntryId, String name, String description,
+			String[] domains, String email, byte[] logoBytes,
+			String taxIdNumber, String type, int status,
 			ServiceContext serviceContext)
 		throws PortalException {
 
@@ -85,9 +86,9 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 			getPermissionChecker(), AccountActionKeys.ADD_ACCOUNT_ENTRY);
 
 		return accountEntryLocalService.addAccountEntry(
-			userId, parentAccountEntryId, name, description,
-			_getManageableDomains(0L, domains), email, logoBytes, taxIdNumber,
-			type, status, serviceContext);
+			externalReferenceCode, userId, parentAccountEntryId, name,
+			description, _getManageableDomains(0L, domains), email, logoBytes,
+			taxIdNumber, type, status, serviceContext);
 	}
 
 	@Override

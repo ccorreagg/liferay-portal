@@ -61,8 +61,8 @@ public class CommerceOrderServiceImpl extends CommerceOrderServiceBaseImpl {
 
 	@Override
 	public CommerceOrder addCommerceOrder(
-			long groupId, long commerceAccountId, long commerceCurrencyId,
-			long commerceOrderTypeId)
+			String externalReferenceCode, long groupId, long commerceAccountId,
+			long commerceCurrencyId, long commerceOrderTypeId)
 		throws PortalException {
 
 		AccountEntry accountEntry = _getAccountEntry(commerceAccountId);
@@ -74,8 +74,8 @@ public class CommerceOrderServiceImpl extends CommerceOrderServiceBaseImpl {
 		}
 
 		return commerceOrderLocalService.addCommerceOrder(
-			getUserId(), groupId, commerceAccountId, commerceCurrencyId,
-			commerceOrderTypeId);
+			externalReferenceCode, getUserId(), groupId, commerceAccountId,
+			commerceCurrencyId, commerceOrderTypeId);
 	}
 
 	@Override

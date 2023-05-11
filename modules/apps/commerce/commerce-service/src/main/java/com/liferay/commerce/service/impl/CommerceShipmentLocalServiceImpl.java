@@ -98,9 +98,10 @@ public class CommerceShipmentLocalServiceImpl
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public CommerceShipment addCommerceDeliverySubscriptionShipment(
-			long userId, long commerceOrderId, String name, String description,
-			String street1, String street2, String street3, String city,
-			String zip, long regionId, long countryId, String phoneNumber)
+			String externalReferenceCode, long userId, long commerceOrderId,
+			String name, String description, String street1, String street2,
+			String street3, String city, String zip, long regionId,
+			long countryId, String phoneNumber)
 		throws PortalException {
 
 		User user = _userLocalService.getUser(userId);
@@ -113,6 +114,7 @@ public class CommerceShipmentLocalServiceImpl
 		CommerceShipment commerceShipment = commerceShipmentPersistence.create(
 			commerceShipmentId);
 
+		commerceShipment.setExternalReferenceCode(externalReferenceCode);
 		commerceShipment.setGroupId(commerceOrder.getGroupId());
 		commerceShipment.setCompanyId(user.getCompanyId());
 		commerceShipment.setUserId(user.getUserId());
@@ -136,22 +138,6 @@ public class CommerceShipmentLocalServiceImpl
 			commerceAddress.getCommerceAddressId());
 
 		return commerceShipmentPersistence.update(commerceShipment);
-	}
-
-	@Override
-	public CommerceShipment addCommerceShipment(
-			long commerceOrderId, ServiceContext serviceContext)
-		throws PortalException {
-
-		CommerceOrder commerceOrder =
-			_commerceOrderLocalService.getCommerceOrder(commerceOrderId);
-
-		return commerceShipmentLocalService.addCommerceShipment(
-			null, commerceOrder.getGroupId(),
-			commerceOrder.getCommerceAccountId(),
-			commerceOrder.getShippingAddressId(),
-			commerceOrder.getCommerceShippingMethodId(),
-			commerceOrder.getShippingOptionName(), serviceContext);
 	}
 
 	@Indexable(type = IndexableType.REINDEX)
@@ -203,10 +189,27 @@ public class CommerceShipmentLocalServiceImpl
 		return commerceShipmentPersistence.update(commerceShipment);
 	}
 
+	@Override
+	public CommerceShipment addCommerceShipment(
+			String externalReferenceCode, long commerceOrderId,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		CommerceOrder commerceOrder =
+			_commerceOrderLocalService.getCommerceOrder(commerceOrderId);
+
+		return commerceShipmentLocalService.addCommerceShipment(
+			null, commerceOrder.getGroupId(),
+			commerceOrder.getCommerceAccountId(),
+			commerceOrder.getShippingAddressId(),
+			commerceOrder.getCommerceShippingMethodId(),
+			commerceOrder.getShippingOptionName(), serviceContext);
+	}
+
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public CommerceShipment addDeliverySubscriptionCommerceShipment(
-			long userId, long commerceOrderItemId)
+			String externalReferenceCode, long userId, long commerceOrderItemId)
 		throws PortalException {
 
 		long commerceShipmentId = counterLocalService.increment();
@@ -222,6 +225,7 @@ public class CommerceShipmentLocalServiceImpl
 
 		CommerceOrder commerceOrder = commerceOrderItem.getCommerceOrder();
 
+		commerceShipment.setExternalReferenceCode(externalReferenceCode);
 		commerceShipment.setGroupId(commerceOrder.getGroupId());
 
 		commerceShipment.setCompanyId(user.getCompanyId());

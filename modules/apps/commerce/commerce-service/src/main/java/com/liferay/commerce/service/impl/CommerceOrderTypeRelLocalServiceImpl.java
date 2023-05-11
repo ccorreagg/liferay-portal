@@ -59,8 +59,9 @@ public class CommerceOrderTypeRelLocalServiceImpl
 
 	@Override
 	public CommerceOrderTypeRel addCommerceOrderTypeRel(
-			long userId, String className, long classPK,
-			long commerceOrderTypeId, ServiceContext serviceContext)
+			String externalReferenceCode, long userId, String className,
+			long classPK, long commerceOrderTypeId,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		_validate(className, classPK, commerceOrderTypeId);
@@ -71,6 +72,7 @@ public class CommerceOrderTypeRelLocalServiceImpl
 
 		User user = _userLocalService.getUser(userId);
 
+		commerceOrderTypeRel.setExternalReferenceCode(externalReferenceCode);
 		commerceOrderTypeRel.setCompanyId(user.getCompanyId());
 		commerceOrderTypeRel.setUserId(user.getUserId());
 		commerceOrderTypeRel.setUserName(user.getFullName());

@@ -44,6 +44,7 @@ public class NotificationTemplateServiceImpl
 
 	@Override
 	public NotificationTemplate addNotificationTemplate(
+			String externalReferenceCode,
 			NotificationContext notificationContext)
 		throws PortalException {
 
@@ -52,7 +53,7 @@ public class NotificationTemplateServiceImpl
 			NotificationActionKeys.ADD_NOTIFICATION_TEMPLATE);
 
 		return notificationTemplateLocalService.addNotificationTemplate(
-			notificationContext);
+			externalReferenceCode, notificationContext);
 	}
 
 	@Override

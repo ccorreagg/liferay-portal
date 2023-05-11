@@ -131,7 +131,8 @@ public class CommerceCatalogLocalServiceImpl
 	}
 
 	@Override
-	public CommerceCatalog addDefaultCommerceCatalog(long companyId)
+	public CommerceCatalog addDefaultCommerceCatalog(
+			String externalReferenceCode, long companyId)
 		throws PortalException {
 
 		Company company = _companyLocalService.getCompany(companyId);

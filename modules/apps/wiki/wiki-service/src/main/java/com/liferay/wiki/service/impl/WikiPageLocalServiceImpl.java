@@ -204,43 +204,15 @@ public class WikiPageLocalServiceImpl extends WikiPageLocalServiceBaseImpl {
 	@Deprecated
 	@Override
 	public WikiPage addPage(
-			long userId, long nodeId, String title, double version,
-			String content, String summary, boolean minorEdit, String format,
-			boolean head, String parentTitle, String redirectTitle,
-			ServiceContext serviceContext)
+			String externalReferenceCode, long userId, long nodeId,
+			String title, double version, String content, String summary,
+			boolean minorEdit, String format, boolean head, String parentTitle,
+			String redirectTitle, ServiceContext serviceContext)
 		throws PortalException {
 
 		return addPage(
 			null, userId, nodeId, title, version, content, summary, minorEdit,
 			format, head, parentTitle, redirectTitle, serviceContext);
-	}
-
-	@Override
-	public WikiPage addPage(
-			long userId, long nodeId, String title, String content,
-			String summary, boolean minorEdit, ServiceContext serviceContext)
-		throws PortalException {
-
-		double version = WikiPageConstants.VERSION_DEFAULT;
-
-		WikiNode node = _wikiNodePersistence.findByPrimaryKey(nodeId);
-
-		WikiGroupServiceOverriddenConfiguration
-			wikiGroupServiceOverriddenConfiguration =
-				_configurationProvider.getConfiguration(
-					WikiGroupServiceOverriddenConfiguration.class,
-					new GroupServiceSettingsLocator(
-						node.getGroupId(), WikiConstants.SERVICE_NAME));
-
-		String format = wikiGroupServiceOverriddenConfiguration.defaultFormat();
-
-		boolean head = false;
-		String parentTitle = null;
-		String redirectTitle = null;
-
-		return addPage(
-			userId, nodeId, title, version, content, summary, minorEdit, format,
-			head, parentTitle, redirectTitle, serviceContext);
 	}
 
 	@Override
@@ -329,6 +301,35 @@ public class WikiPageLocalServiceImpl extends WikiPageLocalServiceBaseImpl {
 		// Workflow
 
 		return _startWorkflowInstance(userId, page, serviceContext);
+	}
+
+	@Override
+	public WikiPage addPage(
+			String externalReferenceCode, long userId, long nodeId,
+			String title, String content, String summary, boolean minorEdit,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		double version = WikiPageConstants.VERSION_DEFAULT;
+
+		WikiNode node = _wikiNodePersistence.findByPrimaryKey(nodeId);
+
+		WikiGroupServiceOverriddenConfiguration
+			wikiGroupServiceOverriddenConfiguration =
+				_configurationProvider.getConfiguration(
+					WikiGroupServiceOverriddenConfiguration.class,
+					new GroupServiceSettingsLocator(
+						node.getGroupId(), WikiConstants.SERVICE_NAME));
+
+		String format = wikiGroupServiceOverriddenConfiguration.defaultFormat();
+
+		boolean head = false;
+		String parentTitle = null;
+		String redirectTitle = null;
+
+		return addPage(
+			userId, nodeId, title, version, content, summary, minorEdit, format,
+			head, parentTitle, redirectTitle, serviceContext);
 	}
 
 	@Override

@@ -216,8 +216,8 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 
 	@Override
 	public BlogsEntry addEntry(
-			long userId, String title, String content, Date displayDate,
-			ServiceContext serviceContext)
+			String externalReferenceCode, long userId, String title,
+			String content, Date displayDate, ServiceContext serviceContext)
 		throws PortalException {
 
 		return blogsEntryLocalService.addEntry(
@@ -228,8 +228,8 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 
 	@Override
 	public BlogsEntry addEntry(
-			long userId, String title, String content,
-			ServiceContext serviceContext)
+			String externalReferenceCode, long userId, String title,
+			String content, ServiceContext serviceContext)
 		throws PortalException {
 
 		return blogsEntryLocalService.addEntry(
@@ -241,10 +241,11 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public BlogsEntry addEntry(
-			long userId, String title, String subtitle, String description,
-			String content, Date displayDate, boolean allowPingbacks,
-			boolean allowTrackbacks, String[] trackbacks,
-			String coverImageCaption, ImageSelector coverImageImageSelector,
+			String externalReferenceCode, long userId, String title,
+			String subtitle, String description, String content,
+			Date displayDate, boolean allowPingbacks, boolean allowTrackbacks,
+			String[] trackbacks, String coverImageCaption,
+			ImageSelector coverImageImageSelector,
 			ImageSelector smallImageImageSelector,
 			ServiceContext serviceContext)
 		throws PortalException {
@@ -258,12 +259,12 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 
 	@Override
 	public BlogsEntry addEntry(
-			long userId, String title, String subtitle, String description,
-			String content, int displayDateMonth, int displayDateDay,
-			int displayDateYear, int displayDateHour, int displayDateMinute,
-			boolean allowPingbacks, boolean allowTrackbacks,
-			String[] trackbacks, String coverImageCaption,
-			ImageSelector coverImageImageSelector,
+			String externalReferenceCode, long userId, String title,
+			String subtitle, String description, String content,
+			int displayDateMonth, int displayDateDay, int displayDateYear,
+			int displayDateHour, int displayDateMinute, boolean allowPingbacks,
+			boolean allowTrackbacks, String[] trackbacks,
+			String coverImageCaption, ImageSelector coverImageImageSelector,
 			ImageSelector smallImageImageSelector,
 			ServiceContext serviceContext)
 		throws PortalException {

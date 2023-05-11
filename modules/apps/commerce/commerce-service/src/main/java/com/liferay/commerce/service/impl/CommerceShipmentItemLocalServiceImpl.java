@@ -133,8 +133,8 @@ public class CommerceShipmentItemLocalServiceImpl
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public CommerceShipmentItem addDeliverySubscriptionCommerceShipmentItem(
-			long groupId, long userId, long commerceShipmentId,
-			long commerceOrderItemId)
+			String externalReferenceCode, long groupId, long userId,
+			long commerceShipmentId, long commerceOrderItemId)
 		throws PortalException {
 
 		long commerceShipmentItemId = counterLocalService.increment();
@@ -142,6 +142,7 @@ public class CommerceShipmentItemLocalServiceImpl
 		CommerceShipmentItem commerceShipmentItem =
 			commerceShipmentItemPersistence.create(commerceShipmentItemId);
 
+		commerceShipmentItem.setExternalReferenceCode(externalReferenceCode);
 		commerceShipmentItem.setGroupId(groupId);
 
 		User user = _userLocalService.getUser(userId);

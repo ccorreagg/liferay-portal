@@ -190,8 +190,8 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 
 	@Override
 	public MBMessage addDiscussionMessage(
-			long userId, String userName, long groupId, String className,
-			long classPK, int workflowAction)
+			String externalReferenceCode, long userId, String userName,
+			long groupId, String className, long classPK, int workflowAction)
 		throws PortalException {
 
 		long threadId = 0;
@@ -287,9 +287,9 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 	@Deprecated
 	@Override
 	public MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			long threadId, long parentMessageId, String subject, String body,
-			String format,
+			String externalReferenceCode, long userId, String userName,
+			long groupId, long categoryId, long threadId, long parentMessageId,
+			String subject, String body, String format,
 			List<ObjectValuePair<String, InputStream>> inputStreamOVPs,
 			boolean anonymous, double priority, boolean allowPingbacks,
 			ServiceContext serviceContext)
@@ -299,84 +299,6 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 			null, userId, userName, groupId, categoryId, threadId,
 			parentMessageId, subject, body, format, inputStreamOVPs, anonymous,
 			priority, allowPingbacks, serviceContext);
-	}
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
-	 *             #addMessage(String, long, String, long, long, long, long,
-	 *             String, String, String, List, boolean, double, boolean,
-	 *             ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			String subject, String body, ServiceContext serviceContext)
-		throws PortalException {
-
-		List<ObjectValuePair<String, InputStream>> inputStreamOVPs =
-			Collections.emptyList();
-
-		return addMessage(
-			userId, userName, groupId, categoryId, 0, 0, subject, body,
-			MBMessageConstants.DEFAULT_FORMAT, inputStreamOVPs, false, 0.0,
-			false, serviceContext);
-	}
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
-	 *             #addMessage(String, long, String, long, long, long, long,
-	 *             String, String, String, List, boolean, double, boolean,
-	 *             ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			String subject, String body, String format,
-			List<ObjectValuePair<String, InputStream>> inputStreamOVPs,
-			boolean anonymous, double priority, boolean allowPingbacks,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		long threadId = 0;
-		long parentMessageId = MBMessageConstants.DEFAULT_PARENT_MESSAGE_ID;
-
-		return addMessage(
-			userId, userName, groupId, categoryId, threadId, parentMessageId,
-			subject, body, format, inputStreamOVPs, anonymous, priority,
-			allowPingbacks, serviceContext);
-	}
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
-	 *             #addMessage(String, long, String, long, long, long, long,
-	 *             String, String, String, List, boolean, double, boolean,
-	 *             ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			String subject, String body, String format, String fileName,
-			File file, boolean anonymous, double priority,
-			boolean allowPingbacks, ServiceContext serviceContext)
-		throws FileNotFoundException, PortalException {
-
-		List<ObjectValuePair<String, InputStream>> inputStreamOVPs =
-			new ArrayList<>(1);
-
-		InputStream inputStream = new FileInputStream(file);
-
-		ObjectValuePair<String, InputStream> inputStreamOVP =
-			new ObjectValuePair<>(fileName, inputStream);
-
-		inputStreamOVPs.add(inputStreamOVP);
-
-		return addMessage(
-			userId, userName, groupId, categoryId, 0, 0, subject, body, format,
-			inputStreamOVPs, anonymous, priority, allowPingbacks,
-			serviceContext);
 	}
 
 	@Override
@@ -596,6 +518,87 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 		// Workflow
 
 		return _startWorkflowInstance(userId, message, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 *             #addMessage(String, long, String, long, long, long, long,
+	 *             String, String, String, List, boolean, double, boolean,
+	 *             ServiceContext)}
+	 */
+	@Deprecated
+	@Override
+	public MBMessage addMessage(
+			String externalReferenceCode, long userId, String userName,
+			long groupId, long categoryId, String subject, String body,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		List<ObjectValuePair<String, InputStream>> inputStreamOVPs =
+			Collections.emptyList();
+
+		return addMessage(
+			userId, userName, groupId, categoryId, 0, 0, subject, body,
+			MBMessageConstants.DEFAULT_FORMAT, inputStreamOVPs, false, 0.0,
+			false, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 *             #addMessage(String, long, String, long, long, long, long,
+	 *             String, String, String, List, boolean, double, boolean,
+	 *             ServiceContext)}
+	 */
+	@Deprecated
+	@Override
+	public MBMessage addMessage(
+			String externalReferenceCode, long userId, String userName,
+			long groupId, long categoryId, String subject, String body,
+			String format,
+			List<ObjectValuePair<String, InputStream>> inputStreamOVPs,
+			boolean anonymous, double priority, boolean allowPingbacks,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		long threadId = 0;
+		long parentMessageId = MBMessageConstants.DEFAULT_PARENT_MESSAGE_ID;
+
+		return addMessage(
+			userId, userName, groupId, categoryId, threadId, parentMessageId,
+			subject, body, format, inputStreamOVPs, anonymous, priority,
+			allowPingbacks, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 *             #addMessage(String, long, String, long, long, long, long,
+	 *             String, String, String, List, boolean, double, boolean,
+	 *             ServiceContext)}
+	 */
+	@Deprecated
+	@Override
+	public MBMessage addMessage(
+			String externalReferenceCode, long userId, String userName,
+			long groupId, long categoryId, String subject, String body,
+			String format, String fileName, File file, boolean anonymous,
+			double priority, boolean allowPingbacks,
+			ServiceContext serviceContext)
+		throws FileNotFoundException, PortalException {
+
+		List<ObjectValuePair<String, InputStream>> inputStreamOVPs =
+			new ArrayList<>(1);
+
+		InputStream inputStream = new FileInputStream(file);
+
+		ObjectValuePair<String, InputStream> inputStreamOVP =
+			new ObjectValuePair<>(fileName, inputStream);
+
+		inputStreamOVPs.add(inputStreamOVP);
+
+		return addMessage(
+			userId, userName, groupId, categoryId, 0, 0, subject, body, format,
+			inputStreamOVPs, anonymous, priority, allowPingbacks,
+			serviceContext);
 	}
 
 	@Override

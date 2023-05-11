@@ -46,16 +46,16 @@ public class CommerceOrderTypeRelServiceImpl
 
 	@Override
 	public CommerceOrderTypeRel addCommerceOrderTypeRel(
-			String className, long classPK, long commerceOrderTypeId,
-			ServiceContext serviceContext)
+			String externalReferenceCode, String className, long classPK,
+			long commerceOrderTypeId, ServiceContext serviceContext)
 		throws PortalException {
 
 		_commerceOrderTypeModelResourcePermission.check(
 			getPermissionChecker(), commerceOrderTypeId, ActionKeys.UPDATE);
 
 		return commerceOrderTypeRelLocalService.addCommerceOrderTypeRel(
-			getUserId(), className, classPK, commerceOrderTypeId,
-			serviceContext);
+			externalReferenceCode, getUserId(), className, classPK,
+			commerceOrderTypeId, serviceContext);
 	}
 
 	@Override

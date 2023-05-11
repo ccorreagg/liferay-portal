@@ -60,7 +60,8 @@ public class CommerceOrderItemServiceImpl
 
 	@Override
 	public CommerceOrderItem addCommerceOrderItem(
-			long commerceOrderId, long cpInstanceId, String json, int quantity,
+			String externalReferenceCode, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
 			long replacedCPInstanceId, int shippedQuantity,
 			CommerceContext commerceContext, ServiceContext serviceContext)
 		throws PortalException {
@@ -69,14 +70,15 @@ public class CommerceOrderItemServiceImpl
 			getPermissionChecker(), commerceOrderId, ActionKeys.UPDATE);
 
 		return commerceOrderItemLocalService.addCommerceOrderItem(
-			getUserId(), commerceOrderId, cpInstanceId, json, quantity,
-			replacedCPInstanceId, shippedQuantity, commerceContext,
-			serviceContext);
+			externalReferenceCode, getUserId(), commerceOrderId, cpInstanceId,
+			json, quantity, replacedCPInstanceId, shippedQuantity,
+			commerceContext, serviceContext);
 	}
 
 	@Override
 	public CommerceOrderItem addOrUpdateCommerceOrderItem(
-			long commerceOrderId, long cpInstanceId, String json, int quantity,
+			String externalReferenceCode, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
 			long replacedCPInstanceId, int shippedQuantity,
 			CommerceContext commerceContext, ServiceContext serviceContext)
 		throws PortalException {
@@ -97,9 +99,9 @@ public class CommerceOrderItemServiceImpl
 			cpInstance.getCPDefinitionId());
 
 		return commerceOrderItemLocalService.addOrUpdateCommerceOrderItem(
-			getUserId(), commerceOrderId, cpInstanceId, json, quantity,
-			replacedCPInstanceId, shippedQuantity, commerceContext,
-			serviceContext);
+			externalReferenceCode, getUserId(), commerceOrderId, cpInstanceId,
+			json, quantity, replacedCPInstanceId, shippedQuantity,
+			commerceContext, serviceContext);
 	}
 
 	@Override

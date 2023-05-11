@@ -47,8 +47,8 @@ public class CommerceOrderNoteServiceImpl
 
 	@Override
 	public CommerceOrderNote addCommerceOrderNote(
-			long commerceOrderId, String content, boolean restricted,
-			ServiceContext serviceContext)
+			String externalReferenceCode, long commerceOrderId, String content,
+			boolean restricted, ServiceContext serviceContext)
 		throws PortalException {
 
 		String actionId = CommerceOrderActionKeys.MANAGE_COMMERCE_ORDER_NOTES;
@@ -62,7 +62,8 @@ public class CommerceOrderNoteServiceImpl
 			getPermissionChecker(), commerceOrderId, actionId);
 
 		return commerceOrderNoteLocalService.addCommerceOrderNote(
-			commerceOrderId, content, restricted, serviceContext);
+			externalReferenceCode, commerceOrderId, content, restricted,
+			serviceContext);
 	}
 
 	@Override

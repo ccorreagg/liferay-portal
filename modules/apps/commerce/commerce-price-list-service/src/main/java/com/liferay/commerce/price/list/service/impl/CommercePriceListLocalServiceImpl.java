@@ -127,8 +127,9 @@ public class CommercePriceListLocalServiceImpl
 
 	@Override
 	public CommercePriceList addCatalogBaseCommercePriceList(
-			long groupId, long userId, long commerceCurrencyId, String type,
-			String name, ServiceContext serviceContext)
+			String externalReferenceCode, long groupId, long userId,
+			long commerceCurrencyId, String type, String name,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		Date date = new Date();
@@ -155,8 +156,9 @@ public class CommercePriceListLocalServiceImpl
 	@Deprecated
 	@Override
 	public CommercePriceList addCommerceCatalogBasePriceList(
-			long groupId, long userId, long commerceCurrencyId, String type,
-			String name, ServiceContext serviceContext)
+			String externalReferenceCode, long groupId, long userId,
+			long commerceCurrencyId, String type, String name,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		return commercePriceListLocalService.addCatalogBaseCommercePriceList(

@@ -79,11 +79,11 @@ public class CommerceAddressLocalServiceImpl
 	@Deprecated
 	@Override
 	public CommerceAddress addCommerceAddress(
-			String className, long classPK, String name, String description,
-			String street1, String street2, String street3, String city,
-			String zip, long regionId, long countryId, String phoneNumber,
-			boolean defaultBilling, boolean defaultShipping,
-			ServiceContext serviceContext)
+			String externalReferenceCode, String className, long classPK,
+			String name, String description, String street1, String street2,
+			String street3, String city, String zip, long regionId,
+			long countryId, String phoneNumber, boolean defaultBilling,
+			boolean defaultShipping, ServiceContext serviceContext)
 		throws PortalException {
 
 		int type = CommerceAddressConstants.ADDRESS_TYPE_BILLING_AND_SHIPPING;
@@ -103,10 +103,11 @@ public class CommerceAddressLocalServiceImpl
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public CommerceAddress addCommerceAddress(
-			String className, long classPK, String name, String description,
-			String street1, String street2, String street3, String city,
-			String zip, long regionId, long countryId, String phoneNumber,
-			int type, ServiceContext serviceContext)
+			String externalReferenceCode, String className, long classPK,
+			String name, String description, String street1, String street2,
+			String street3, String city, String zip, long regionId,
+			long countryId, String phoneNumber, int type,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		return commerceAddressLocalService.addCommerceAddress(

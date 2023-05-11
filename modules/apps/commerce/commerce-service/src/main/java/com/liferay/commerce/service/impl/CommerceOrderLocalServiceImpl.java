@@ -155,8 +155,8 @@ public class CommerceOrderLocalServiceImpl
 	@Deprecated
 	@Override
 	public CommerceOrder addCommerceOrder(
-			long userId, long groupId, long commerceAccountId,
-			long commerceCurrencyId)
+			String externalReferenceCode, long userId, long groupId,
+			long commerceAccountId, long commerceCurrencyId)
 		throws PortalException {
 
 		return commerceOrderLocalService.addCommerceOrder(
@@ -165,8 +165,9 @@ public class CommerceOrderLocalServiceImpl
 
 	@Override
 	public CommerceOrder addCommerceOrder(
-			long userId, long groupId, long commerceAccountId,
-			long commerceCurrencyId, long commerceOrderTypeId)
+			String externalReferenceCode, long userId, long groupId,
+			long commerceAccountId, long commerceCurrencyId,
+			long commerceOrderTypeId)
 		throws PortalException {
 
 		return commerceOrderLocalService.addCommerceOrder(
@@ -182,18 +183,18 @@ public class CommerceOrderLocalServiceImpl
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public CommerceOrder addCommerceOrder(
-			long userId, long groupId, long billingAddressId,
-			long commerceAccountId, long commerceCurrencyId,
-			long commerceOrderTypeId, long commerceShippingMethodId,
-			long shippingAddressId, String commercePaymentMethodKey,
-			int orderDateMonth, int orderDateDay, int orderDateYear,
-			int orderDateHour, int orderDateMinute, int orderStatus,
-			int paymentStatus, String purchaseOrderNumber,
-			BigDecimal shippingAmount, String shippingOptionName,
-			BigDecimal shippingWithTaxAmount, BigDecimal subtotal,
-			BigDecimal subtotalWithTaxAmount, BigDecimal taxAmount,
-			BigDecimal total, BigDecimal totalWithTaxAmount,
-			ServiceContext serviceContext)
+			String externalReferenceCode, long userId, long groupId,
+			long billingAddressId, long commerceAccountId,
+			long commerceCurrencyId, long commerceOrderTypeId,
+			long commerceShippingMethodId, long shippingAddressId,
+			String commercePaymentMethodKey, int orderDateMonth,
+			int orderDateDay, int orderDateYear, int orderDateHour,
+			int orderDateMinute, int orderStatus, int paymentStatus,
+			String purchaseOrderNumber, BigDecimal shippingAmount,
+			String shippingOptionName, BigDecimal shippingWithTaxAmount,
+			BigDecimal subtotal, BigDecimal subtotalWithTaxAmount,
+			BigDecimal taxAmount, BigDecimal total,
+			BigDecimal totalWithTaxAmount, ServiceContext serviceContext)
 		throws PortalException {
 
 		// Check guest user
@@ -260,6 +261,7 @@ public class CommerceOrderLocalServiceImpl
 		CommerceOrder commerceOrder = commerceOrderPersistence.create(
 			commerceOrderId);
 
+		commerceOrder.setExternalReferenceCode(externalReferenceCode);
 		commerceOrder.setGroupId(groupId);
 		commerceOrder.setCompanyId(user.getCompanyId());
 		commerceOrder.setUserId(userId);

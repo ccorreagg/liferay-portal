@@ -48,19 +48,6 @@ public class CommerceShipmentServiceImpl
 
 	@Override
 	public CommerceShipment addCommerceShipment(
-			long commerceOrderId, ServiceContext serviceContext)
-		throws PortalException {
-
-		_portletResourcePermission.contains(
-			getPermissionChecker(), null,
-			CommerceActionKeys.MANAGE_COMMERCE_SHIPMENTS);
-
-		return commerceShipmentLocalService.addCommerceShipment(
-			commerceOrderId, serviceContext);
-	}
-
-	@Override
-	public CommerceShipment addCommerceShipment(
 			String externalReferenceCode, long groupId, long commerceAccountId,
 			long commerceAddressId, long commerceShippingMethodId,
 			String commerceShippingOptionName, ServiceContext serviceContext)
@@ -74,6 +61,20 @@ public class CommerceShipmentServiceImpl
 			externalReferenceCode, groupId, commerceAccountId,
 			commerceAddressId, commerceShippingMethodId,
 			commerceShippingOptionName, serviceContext);
+	}
+
+	@Override
+	public CommerceShipment addCommerceShipment(
+			String externalReferenceCode, long commerceOrderId,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		_portletResourcePermission.contains(
+			getPermissionChecker(), null,
+			CommerceActionKeys.MANAGE_COMMERCE_SHIPMENTS);
+
+		return commerceShipmentLocalService.addCommerceShipment(
+			externalReferenceCode, commerceOrderId, serviceContext);
 	}
 
 	/**

@@ -104,8 +104,8 @@ public class OAuth2ApplicationLocalServiceImpl
 
 	@Override
 	public OAuth2Application addOAuth2Application(
-			long companyId, long userId, String userName,
-			List<GrantType> allowedGrantTypesList,
+			String externalReferenceCode, long companyId, long userId,
+			String userName, List<GrantType> allowedGrantTypesList,
 			String clientAuthenticationMethod, long clientCredentialUserId,
 			String clientId, int clientProfile, String clientSecret,
 			String description, List<String> featuresList, String homePageURL,
@@ -153,6 +153,7 @@ public class OAuth2ApplicationLocalServiceImpl
 		OAuth2Application oAuth2Application =
 			oAuth2ApplicationPersistence.create(oAuth2ApplicationId);
 
+		oAuth2Application.setExternalReferenceCode(externalReferenceCode);
 		oAuth2Application.setCompanyId(companyId);
 		oAuth2Application.setUserId(userId);
 		oAuth2Application.setUserName(userName);
@@ -199,8 +200,8 @@ public class OAuth2ApplicationLocalServiceImpl
 
 	@Override
 	public OAuth2Application addOAuth2Application(
-			long companyId, long userId, String userName,
-			List<GrantType> allowedGrantTypesList,
+			String externalReferenceCode, long companyId, long userId,
+			String userName, List<GrantType> allowedGrantTypesList,
 			String clientAuthenticationMethod, long clientCredentialUserId,
 			String clientId, int clientProfile, String clientSecret,
 			String description, List<String> featuresList, String homePageURL,
@@ -251,6 +252,7 @@ public class OAuth2ApplicationLocalServiceImpl
 		OAuth2Application oAuth2Application =
 			oAuth2ApplicationPersistence.create(oAuth2ApplicationId);
 
+		oAuth2Application.setExternalReferenceCode(externalReferenceCode);
 		oAuth2Application.setCompanyId(companyId);
 		oAuth2Application.setUserId(userId);
 		oAuth2Application.setUserName(userName);

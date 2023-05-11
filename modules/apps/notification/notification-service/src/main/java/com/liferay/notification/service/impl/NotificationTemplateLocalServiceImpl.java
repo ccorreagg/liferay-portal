@@ -65,69 +65,6 @@ public class NotificationTemplateLocalServiceImpl
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public NotificationTemplate addNotificationTemplate(
-			NotificationContext notificationContext)
-		throws PortalException {
-
-		_validate(notificationContext);
-
-		NotificationTemplate notificationTemplate =
-			notificationContext.getNotificationTemplate();
-
-		notificationTemplate.setNotificationTemplateId(
-			counterLocalService.increment());
-
-		notificationTemplate = notificationTemplatePersistence.update(
-			notificationTemplate);
-
-		_resourceLocalService.addResources(
-			notificationTemplate.getCompanyId(), 0,
-			notificationTemplate.getUserId(),
-			NotificationTemplate.class.getName(),
-			notificationTemplate.getNotificationTemplateId(), false, true,
-			true);
-
-		NotificationRecipient notificationRecipient =
-			notificationContext.getNotificationRecipient();
-
-		notificationRecipient.setNotificationRecipientId(
-			counterLocalService.increment());
-		notificationRecipient.setClassNameId(
-			_portal.getClassNameId(NotificationTemplate.class));
-		notificationRecipient.setClassPK(
-			notificationTemplate.getNotificationTemplateId());
-
-		_notificationRecipientLocalService.updateNotificationRecipient(
-			notificationRecipient);
-
-		for (NotificationRecipientSetting notificationRecipientSetting :
-				notificationContext.getNotificationRecipientSettings()) {
-
-			notificationRecipientSetting.setNotificationRecipientSettingId(
-				counterLocalService.increment());
-			notificationRecipientSetting.setNotificationRecipientId(
-				notificationRecipient.getNotificationRecipientId());
-
-			_notificationRecipientSettingLocalService.
-				updateNotificationRecipientSetting(
-					notificationRecipientSetting);
-		}
-
-		for (long attachmentObjectFieldId :
-				notificationContext.getAttachmentObjectFieldIds()) {
-
-			_notificationTemplateAttachmentLocalService.
-				addNotificationTemplateAttachment(
-					notificationTemplate.getCompanyId(),
-					notificationTemplate.getNotificationTemplateId(),
-					attachmentObjectFieldId);
-		}
-
-		return notificationTemplate;
-	}
-
-	@Indexable(type = IndexableType.REINDEX)
-	@Override
-	public NotificationTemplate addNotificationTemplate(
 			String externalReferenceCode, long userId, String type)
 		throws PortalException {
 
@@ -180,6 +117,71 @@ public class NotificationTemplateLocalServiceImpl
 			LocaleUtil.getDefault(), "to",
 			notificationRecipient.getNotificationRecipientId(), user,
 			externalReferenceCode);
+
+		return notificationTemplate;
+	}
+
+	@Indexable(type = IndexableType.REINDEX)
+	@Override
+	public NotificationTemplate addNotificationTemplate(
+			String externalReferenceCode,
+			NotificationContext notificationContext)
+		throws PortalException {
+
+		_validate(notificationContext);
+
+		NotificationTemplate notificationTemplate =
+			notificationContext.getNotificationTemplate();
+
+		notificationTemplate.setExternalReferenceCode(externalReferenceCode);
+		notificationTemplate.setNotificationTemplateId(
+			counterLocalService.increment());
+
+		notificationTemplate = notificationTemplatePersistence.update(
+			notificationTemplate);
+
+		_resourceLocalService.addResources(
+			notificationTemplate.getCompanyId(), 0,
+			notificationTemplate.getUserId(),
+			NotificationTemplate.class.getName(),
+			notificationTemplate.getNotificationTemplateId(), false, true,
+			true);
+
+		NotificationRecipient notificationRecipient =
+			notificationContext.getNotificationRecipient();
+
+		notificationRecipient.setNotificationRecipientId(
+			counterLocalService.increment());
+		notificationRecipient.setClassNameId(
+			_portal.getClassNameId(NotificationTemplate.class));
+		notificationRecipient.setClassPK(
+			notificationTemplate.getNotificationTemplateId());
+
+		_notificationRecipientLocalService.updateNotificationRecipient(
+			notificationRecipient);
+
+		for (NotificationRecipientSetting notificationRecipientSetting :
+				notificationContext.getNotificationRecipientSettings()) {
+
+			notificationRecipientSetting.setNotificationRecipientSettingId(
+				counterLocalService.increment());
+			notificationRecipientSetting.setNotificationRecipientId(
+				notificationRecipient.getNotificationRecipientId());
+
+			_notificationRecipientSettingLocalService.
+				updateNotificationRecipientSetting(
+					notificationRecipientSetting);
+		}
+
+		for (long attachmentObjectFieldId :
+				notificationContext.getAttachmentObjectFieldIds()) {
+
+			_notificationTemplateAttachmentLocalService.
+				addNotificationTemplateAttachment(
+					notificationTemplate.getCompanyId(),
+					notificationTemplate.getNotificationTemplateId(),
+					attachmentObjectFieldId);
+		}
 
 		return notificationTemplate;
 	}

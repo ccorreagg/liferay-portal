@@ -77,8 +77,9 @@ public class CommercePricingClassLocalServiceImpl
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public CommercePricingClass addCommercePricingClass(
-			long userId, Map<Locale, String> titleMap,
-			Map<Locale, String> descriptionMap, ServiceContext serviceContext)
+			String externalReferenceCode, long userId,
+			Map<Locale, String> titleMap, Map<Locale, String> descriptionMap,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		return addCommercePricingClass(

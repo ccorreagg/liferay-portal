@@ -73,8 +73,8 @@ public class AccountGroupLocalServiceImpl
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public AccountGroup addAccountGroup(
-			long userId, String description, String name,
-			ServiceContext serviceContext)
+			String externalReferenceCode, long userId, String description,
+			String name, ServiceContext serviceContext)
 		throws PortalException {
 
 		_validateName(name);
@@ -86,6 +86,7 @@ public class AccountGroupLocalServiceImpl
 
 		User user = _userLocalService.getUser(userId);
 
+		accountGroup.setExternalReferenceCode(externalReferenceCode);
 		accountGroup.setCompanyId(user.getCompanyId());
 		accountGroup.setUserId(user.getUserId());
 		accountGroup.setUserName(user.getFullName());

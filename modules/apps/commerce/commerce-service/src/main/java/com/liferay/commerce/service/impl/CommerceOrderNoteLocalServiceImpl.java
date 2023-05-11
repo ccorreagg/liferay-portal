@@ -43,8 +43,8 @@ public class CommerceOrderNoteLocalServiceImpl
 
 	@Override
 	public CommerceOrderNote addCommerceOrderNote(
-			long commerceOrderId, String content, boolean restricted,
-			ServiceContext serviceContext)
+			String externalReferenceCode, long commerceOrderId, String content,
+			boolean restricted, ServiceContext serviceContext)
 		throws PortalException {
 
 		return addCommerceOrderNote(

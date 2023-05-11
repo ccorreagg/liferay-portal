@@ -46,27 +46,6 @@ import org.osgi.service.component.annotations.Reference;
 )
 public class CommerceAddressServiceImpl extends CommerceAddressServiceBaseImpl {
 
-	/**
-	 * @deprecated As of Mueller (7.2.x), defaultBilling/Shipping exist on Account Entity. Pass type.
-	 */
-	@Deprecated
-	@Override
-	public CommerceAddress addCommerceAddress(
-			String className, long classPK, String name, String description,
-			String street1, String street2, String street3, String city,
-			String zip, long regionId, long countryId, String phoneNumber,
-			boolean defaultBilling, boolean defaultShipping,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		_checkPermission(className, classPK);
-
-		return commerceAddressLocalService.addCommerceAddress(
-			className, classPK, name, description, street1, street2, street3,
-			city, zip, regionId, countryId, phoneNumber, defaultBilling,
-			defaultShipping, serviceContext);
-	}
-
 	@Override
 	public CommerceAddress addCommerceAddress(
 			String className, long classPK, String name, String description,
@@ -79,6 +58,27 @@ public class CommerceAddressServiceImpl extends CommerceAddressServiceBaseImpl {
 			null, className, classPK, name, description, street1, street2,
 			street3, city, zip, regionId, countryId, phoneNumber, type,
 			serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Mueller (7.2.x), defaultBilling/Shipping exist on Account Entity. Pass type.
+	 */
+	@Deprecated
+	@Override
+	public CommerceAddress addCommerceAddress(
+			String externalReferenceCode, String className, long classPK,
+			String name, String description, String street1, String street2,
+			String street3, String city, String zip, long regionId,
+			long countryId, String phoneNumber, boolean defaultBilling,
+			boolean defaultShipping, ServiceContext serviceContext)
+		throws PortalException {
+
+		_checkPermission(className, classPK);
+
+		return commerceAddressLocalService.addCommerceAddress(
+			externalReferenceCode, className, classPK, name, description,
+			street1, street2, street3, city, zip, regionId, countryId,
+			phoneNumber, defaultBilling, defaultShipping, serviceContext);
 	}
 
 	@Override

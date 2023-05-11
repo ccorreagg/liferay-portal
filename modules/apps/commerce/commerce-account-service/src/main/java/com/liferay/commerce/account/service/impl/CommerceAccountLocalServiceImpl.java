@@ -113,7 +113,9 @@ public class CommerceAccountLocalServiceImpl
 	}
 
 	@Override
-	public CommerceAccount addCommerceAccount(CommerceAccount commerceAccount) {
+	public CommerceAccount addCommerceAccount(
+		String externalReferenceCode, CommerceAccount commerceAccount) {
+
 		throw new UnsupportedOperationException();
 	}
 

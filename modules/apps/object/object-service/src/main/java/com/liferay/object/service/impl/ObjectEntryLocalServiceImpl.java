@@ -218,8 +218,9 @@ public class ObjectEntryLocalServiceImpl
 
 	@Override
 	public ObjectEntry addObjectEntry(
-			long userId, long groupId, long objectDefinitionId,
-			Map<String, Serializable> values, ServiceContext serviceContext)
+			String externalReferenceCode, long userId, long groupId,
+			long objectDefinitionId, Map<String, Serializable> values,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		ObjectDefinition objectDefinition =
@@ -250,6 +251,7 @@ public class ObjectEntryLocalServiceImpl
 
 		_setExternalReferenceCode(objectEntry, values);
 
+		objectEntry.setExternalReferenceCode(externalReferenceCode);
 		objectEntry.setGroupId(groupId);
 		objectEntry.setCompanyId(user.getCompanyId());
 		objectEntry.setUserId(user.getUserId());

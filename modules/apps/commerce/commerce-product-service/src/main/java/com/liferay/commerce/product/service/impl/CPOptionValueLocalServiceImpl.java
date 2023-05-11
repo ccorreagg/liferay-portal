@@ -71,8 +71,9 @@ public class CPOptionValueLocalServiceImpl
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public CPOptionValue addCPOptionValue(
-			long cpOptionId, Map<Locale, String> nameMap, double priority,
-			String key, ServiceContext serviceContext)
+			String externalReferenceCode, long cpOptionId,
+			Map<Locale, String> nameMap, double priority, String key,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		return cpOptionValueLocalService.addCPOptionValue(

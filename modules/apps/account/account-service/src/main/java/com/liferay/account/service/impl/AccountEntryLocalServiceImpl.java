@@ -149,9 +149,10 @@ public class AccountEntryLocalServiceImpl
 
 	@Override
 	public AccountEntry addAccountEntry(
-			long userId, long parentAccountEntryId, String name,
-			String description, String[] domains, String emailAddress,
-			byte[] logoBytes, String taxIdNumber, String type, int status,
+			String externalReferenceCode, long userId,
+			long parentAccountEntryId, String name, String description,
+			String[] domains, String emailAddress, byte[] logoBytes,
+			String taxIdNumber, String type, int status,
 			ServiceContext serviceContext)
 		throws PortalException {
 
@@ -164,6 +165,7 @@ public class AccountEntryLocalServiceImpl
 
 		User user = _userLocalService.getUser(userId);
 
+		accountEntry.setExternalReferenceCode(externalReferenceCode);
 		accountEntry.setCompanyId(user.getCompanyId());
 		accountEntry.setUserId(user.getUserId());
 		accountEntry.setUserName(user.getFullName());

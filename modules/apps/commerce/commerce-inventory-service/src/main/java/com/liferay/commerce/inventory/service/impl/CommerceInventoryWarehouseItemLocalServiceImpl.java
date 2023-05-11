@@ -56,8 +56,8 @@ public class CommerceInventoryWarehouseItemLocalServiceImpl
 
 	@Override
 	public CommerceInventoryWarehouseItem addCommerceInventoryWarehouseItem(
-			long userId, long commerceInventoryWarehouseId, String sku,
-			int quantity)
+			String externalReferenceCode, long userId,
+			long commerceInventoryWarehouseId, String sku, int quantity)
 		throws PortalException {
 
 		return commerceInventoryWarehouseItemLocalService.

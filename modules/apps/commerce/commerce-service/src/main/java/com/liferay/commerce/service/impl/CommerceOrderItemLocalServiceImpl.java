@@ -128,8 +128,9 @@ public class CommerceOrderItemLocalServiceImpl
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public CommerceOrderItem addCommerceOrderItem(
-			long userId, long commerceOrderId, long cpInstanceId, String json,
-			int quantity, long replacedCPInstanceId, int shippedQuantity,
+			String externalReferenceCode, long userId, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
+			long replacedCPInstanceId, int shippedQuantity,
 			CommerceContext commerceContext, ServiceContext serviceContext)
 		throws PortalException {
 
@@ -151,6 +152,7 @@ public class CommerceOrderItemLocalServiceImpl
 			commerceOrder.getGroupId(), user, commerceOrder, cpInstance, 0,
 			json, quantity, shippedQuantity, commerceContext, serviceContext);
 
+		commerceOrderItem.setExternalReferenceCode(externalReferenceCode);
 		commerceOrderItem.setReplacedCPInstanceId(replacedCPInstanceId);
 
 		commerceOrderItem = commerceOrderItemPersistence.update(
@@ -217,9 +219,10 @@ public class CommerceOrderItemLocalServiceImpl
 
 	@Override
 	public CommerceOrderItem addOrUpdateCommerceOrderItem(
-			long userId, long commerceOrderId, long cpInstanceId, int quantity,
-			long replacedCPInstanceId, int shippedQuantity,
-			CommerceContext commerceContext, ServiceContext serviceContext)
+			String externalReferenceCode, long userId, long commerceOrderId,
+			long cpInstanceId, int quantity, long replacedCPInstanceId,
+			int shippedQuantity, CommerceContext commerceContext,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		String cpInstanceOptionValueRelJSONString =
@@ -233,8 +236,9 @@ public class CommerceOrderItemLocalServiceImpl
 
 	@Override
 	public CommerceOrderItem addOrUpdateCommerceOrderItem(
-			long userId, long commerceOrderId, long cpInstanceId, String json,
-			int quantity, long replacedCPInstanceId, int shippedQuantity,
+			String externalReferenceCode, long userId, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
+			long replacedCPInstanceId, int shippedQuantity,
 			CommerceContext commerceContext, ServiceContext serviceContext)
 		throws PortalException {
 

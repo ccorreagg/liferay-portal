@@ -93,24 +93,14 @@ public class CommerceTierPriceEntryLocalServiceImpl
 
 	@Override
 	public CommerceTierPriceEntry addCommerceTierPriceEntry(
-			long commercePriceEntryId, BigDecimal price, BigDecimal promoPrice,
-			boolean bulkPricing, int minQuantity, ServiceContext serviceContext)
+			String externalReferenceCode, long commercePriceEntryId,
+			BigDecimal price, BigDecimal promoPrice, boolean bulkPricing,
+			int minQuantity, ServiceContext serviceContext)
 		throws PortalException {
 
 		return commerceTierPriceEntryLocalService.addCommerceTierPriceEntry(
 			null, commercePriceEntryId, price, promoPrice, bulkPricing,
 			minQuantity, serviceContext);
-	}
-
-	@Override
-	public CommerceTierPriceEntry addCommerceTierPriceEntry(
-			long commercePriceEntryId, BigDecimal price, BigDecimal promoPrice,
-			int minQuantity, ServiceContext serviceContext)
-		throws PortalException {
-
-		return commerceTierPriceEntryLocalService.addCommerceTierPriceEntry(
-			null, commercePriceEntryId, price, promoPrice, minQuantity,
-			serviceContext);
 	}
 
 	@Override
@@ -216,6 +206,18 @@ public class CommerceTierPriceEntryLocalServiceImpl
 
 		return _startWorkflowInstance(
 			user.getUserId(), commerceTierPriceEntry, serviceContext);
+	}
+
+	@Override
+	public CommerceTierPriceEntry addCommerceTierPriceEntry(
+			String externalReferenceCode, long commercePriceEntryId,
+			BigDecimal price, BigDecimal promoPrice, int minQuantity,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		return commerceTierPriceEntryLocalService.addCommerceTierPriceEntry(
+			null, commercePriceEntryId, price, promoPrice, minQuantity,
+			serviceContext);
 	}
 
 	@Override
