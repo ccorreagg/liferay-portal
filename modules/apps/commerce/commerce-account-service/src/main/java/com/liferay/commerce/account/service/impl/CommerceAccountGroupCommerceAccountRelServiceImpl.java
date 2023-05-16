@@ -45,8 +45,8 @@ public class CommerceAccountGroupCommerceAccountRelServiceImpl
 	@Override
 	public CommerceAccountGroupCommerceAccountRel
 			addCommerceAccountGroupCommerceAccountRel(
-				long commerceAccountGroupId, long commerceAccountId,
-				ServiceContext serviceContext)
+				String externalReferenceCode, long commerceAccountGroupId,
+				long commerceAccountId, ServiceContext serviceContext)
 		throws PortalException {
 
 		_commerceAccountGroupModelResourcePermission.check(
@@ -57,7 +57,8 @@ public class CommerceAccountGroupCommerceAccountRelServiceImpl
 
 		return commerceAccountGroupCommerceAccountRelLocalService.
 			addCommerceAccountGroupCommerceAccountRel(
-				commerceAccountGroupId, commerceAccountId, serviceContext);
+				externalReferenceCode, commerceAccountGroupId,
+				commerceAccountId, serviceContext);
 	}
 
 	@Override

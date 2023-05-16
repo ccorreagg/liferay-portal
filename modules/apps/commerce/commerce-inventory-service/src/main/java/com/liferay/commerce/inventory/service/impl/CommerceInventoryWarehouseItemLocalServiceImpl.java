@@ -92,31 +92,6 @@ public class CommerceInventoryWarehouseItemLocalServiceImpl
 	@Override
 	public CommerceInventoryWarehouseItem
 			addOrUpdateCommerceInventoryWarehouseItem(
-				long userId, long commerceInventoryWarehouseId, String sku,
-				int quantity)
-		throws PortalException {
-
-		CommerceInventoryWarehouseItem commerceInventoryWarehouseItem =
-			commerceInventoryWarehouseItemPersistence.fetchByC_S(
-				commerceInventoryWarehouseId, sku);
-
-		if (commerceInventoryWarehouseItem == null) {
-			return commerceInventoryWarehouseItemLocalService.
-				addCommerceInventoryWarehouseItem(
-					userId, commerceInventoryWarehouseId, sku, quantity);
-		}
-
-		return commerceInventoryWarehouseItemLocalService.
-			updateCommerceInventoryWarehouseItem(
-				userId,
-				commerceInventoryWarehouseItem.
-					getCommerceInventoryWarehouseItemId(),
-				quantity, commerceInventoryWarehouseItem.getMvccVersion());
-	}
-
-	@Override
-	public CommerceInventoryWarehouseItem
-			addOrUpdateCommerceInventoryWarehouseItem(
 				String externalReferenceCode, long companyId, long userId,
 				long commerceInventoryWarehouseId, String sku, int quantity)
 		throws PortalException {
@@ -144,6 +119,31 @@ public class CommerceInventoryWarehouseItemLocalServiceImpl
 			addCommerceInventoryWarehouseItem(
 				externalReferenceCode, userId, commerceInventoryWarehouseId,
 				sku, quantity);
+	}
+
+	@Override
+	public CommerceInventoryWarehouseItem
+			addOrUpdateCommerceInventoryWarehouseItem(
+				String externalReferenceCode, long userId,
+				long commerceInventoryWarehouseId, String sku, int quantity)
+		throws PortalException {
+
+		CommerceInventoryWarehouseItem commerceInventoryWarehouseItem =
+			commerceInventoryWarehouseItemPersistence.fetchByC_S(
+				commerceInventoryWarehouseId, sku);
+
+		if (commerceInventoryWarehouseItem == null) {
+			return commerceInventoryWarehouseItemLocalService.
+				addCommerceInventoryWarehouseItem(
+					userId, commerceInventoryWarehouseId, sku, quantity);
+		}
+
+		return commerceInventoryWarehouseItemLocalService.
+			updateCommerceInventoryWarehouseItem(
+				userId,
+				commerceInventoryWarehouseItem.
+					getCommerceInventoryWarehouseItemId(),
+				quantity, commerceInventoryWarehouseItem.getMvccVersion());
 	}
 
 	@Override

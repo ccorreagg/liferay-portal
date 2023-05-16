@@ -43,11 +43,26 @@ import org.osgi.service.component.annotations.Reference;
 public class CommerceAccountGroupCommerceAccountRelLocalServiceImpl
 	extends CommerceAccountGroupCommerceAccountRelLocalServiceBaseImpl {
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x)
+	 */
+	@Deprecated
 	@Override
 	public CommerceAccountGroupCommerceAccountRel
 			addCommerceAccountGroupCommerceAccountRel(
 				long commerceAccountGroupId, long commerceAccountId,
-				ServiceContext serviceContext)
+				String externalReferenceCode, ServiceContext serviceContext)
+		throws PortalException {
+
+		return addCommerceAccountGroupCommerceAccountRel(
+			commerceAccountGroupId, commerceAccountId, serviceContext);
+	}
+
+	@Override
+	public CommerceAccountGroupCommerceAccountRel
+			addCommerceAccountGroupCommerceAccountRel(
+				String externalReferenceCode, long commerceAccountGroupId,
+				long commerceAccountId, ServiceContext serviceContext)
 		throws PortalException {
 
 		try {
@@ -63,21 +78,6 @@ public class CommerceAccountGroupCommerceAccountRelLocalServiceImpl
 			throw new DuplicateCommerceAccountGroupCommerceAccountRelException(
 				duplicateAccountGroupRelException);
 		}
-	}
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x)
-	 */
-	@Deprecated
-	@Override
-	public CommerceAccountGroupCommerceAccountRel
-			addCommerceAccountGroupCommerceAccountRel(
-				long commerceAccountGroupId, long commerceAccountId,
-				String externalReferenceCode, ServiceContext serviceContext)
-		throws PortalException {
-
-		return addCommerceAccountGroupCommerceAccountRel(
-			commerceAccountGroupId, commerceAccountId, serviceContext);
 	}
 
 	@Override
