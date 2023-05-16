@@ -62,15 +62,6 @@ public class CommerceOrderNoteLocalServiceUtil {
 	}
 
 	public static CommerceOrderNote addCommerceOrderNote(
-			long commerceOrderId, String content, boolean restricted,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCommerceOrderNote(
-			commerceOrderId, content, restricted, serviceContext);
-	}
-
-	public static CommerceOrderNote addCommerceOrderNote(
 			String externalReferenceCode, long commerceOrderId, String content,
 			boolean restricted,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)

@@ -60,13 +60,14 @@ public class CommerceOrderTypeRelLocalServiceWrapper
 	@Override
 	public com.liferay.commerce.model.CommerceOrderTypeRel
 			addCommerceOrderTypeRel(
-				long userId, String className, long classPK,
-				long commerceOrderTypeId,
+				String externalReferenceCode, long userId, String className,
+				long classPK, long commerceOrderTypeId,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commerceOrderTypeRelLocalService.addCommerceOrderTypeRel(
-			userId, className, classPK, commerceOrderTypeId, serviceContext);
+			externalReferenceCode, userId, className, classPK,
+			commerceOrderTypeId, serviceContext);
 	}
 
 	/**

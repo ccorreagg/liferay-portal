@@ -164,8 +164,9 @@ public class JournalArticleServiceHttp {
 
 	public static com.liferay.journal.model.JournalArticle
 			addArticleDefaultValues(
-				HttpPrincipal httpPrincipal, long groupId, long classNameId,
-				long classPK, java.util.Map<java.util.Locale, String> titleMap,
+				HttpPrincipal httpPrincipal, String externalReferenceCode,
+				long groupId, long classNameId, long classPK,
+				java.util.Map<java.util.Locale, String> titleMap,
 				java.util.Map<java.util.Locale, String> descriptionMap,
 				String content, long ddmStructureId, String ddmTemplateKey,
 				String layoutUuid, int displayDateMonth, int displayDateDay,
@@ -186,15 +187,15 @@ public class JournalArticleServiceHttp {
 				_addArticleDefaultValuesParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupId, classNameId, classPK, titleMap,
-				descriptionMap, content, ddmStructureId, ddmTemplateKey,
-				layoutUuid, displayDateMonth, displayDateDay, displayDateYear,
-				displayDateHour, displayDateMinute, expirationDateMonth,
-				expirationDateDay, expirationDateYear, expirationDateHour,
-				expirationDateMinute, neverExpire, reviewDateMonth,
-				reviewDateDay, reviewDateYear, reviewDateHour, reviewDateMinute,
-				neverReview, indexable, smallImage, smallImageURL,
-				smallImageFile, serviceContext);
+				methodKey, externalReferenceCode, groupId, classNameId, classPK,
+				titleMap, descriptionMap, content, ddmStructureId,
+				ddmTemplateKey, layoutUuid, displayDateMonth, displayDateDay,
+				displayDateYear, displayDateHour, displayDateMinute,
+				expirationDateMonth, expirationDateDay, expirationDateYear,
+				expirationDateHour, expirationDateMinute, neverExpire,
+				reviewDateMonth, reviewDateDay, reviewDateYear, reviewDateHour,
+				reviewDateMinute, neverReview, indexable, smallImage,
+				smallImageURL, smallImageFile, serviceContext);
 
 			Object returnObj = null;
 
@@ -3140,12 +3141,12 @@ public class JournalArticleServiceHttp {
 	};
 	private static final Class<?>[] _addArticleDefaultValuesParameterTypes2 =
 		new Class[] {
-			long.class, long.class, long.class, java.util.Map.class,
-			java.util.Map.class, String.class, long.class, String.class,
-			String.class, int.class, int.class, int.class, int.class, int.class,
-			int.class, int.class, int.class, int.class, int.class,
-			boolean.class, int.class, int.class, int.class, int.class,
-			int.class, boolean.class, boolean.class, boolean.class,
+			String.class, long.class, long.class, long.class,
+			java.util.Map.class, java.util.Map.class, String.class, long.class,
+			String.class, String.class, int.class, int.class, int.class,
+			int.class, int.class, int.class, int.class, int.class, int.class,
+			int.class, boolean.class, int.class, int.class, int.class,
+			int.class, int.class, boolean.class, boolean.class, boolean.class,
 			String.class, java.io.File.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};

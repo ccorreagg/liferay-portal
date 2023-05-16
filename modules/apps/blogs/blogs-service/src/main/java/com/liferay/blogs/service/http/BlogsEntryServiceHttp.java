@@ -90,10 +90,10 @@ public class BlogsEntryServiceHttp {
 	}
 
 	public static com.liferay.blogs.model.BlogsEntry addEntry(
-			HttpPrincipal httpPrincipal, String title, String subtitle,
-			String description, String content, int displayDateMonth,
-			int displayDateDay, int displayDateYear, int displayDateHour,
-			int displayDateMinute, boolean allowPingbacks,
+			HttpPrincipal httpPrincipal, String externalReferenceCode,
+			String title, String subtitle, String description, String content,
+			int displayDateMonth, int displayDateDay, int displayDateYear,
+			int displayDateHour, int displayDateMinute, boolean allowPingbacks,
 			boolean allowTrackbacks, String[] trackbacks,
 			String coverImageCaption,
 			com.liferay.portal.kernel.servlet.taglib.ui.ImageSelector
@@ -109,8 +109,8 @@ public class BlogsEntryServiceHttp {
 				_addEntryParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, title, subtitle, description, content,
-				displayDateMonth, displayDateDay, displayDateYear,
+				methodKey, externalReferenceCode, title, subtitle, description,
+				content, displayDateMonth, displayDateDay, displayDateYear,
 				displayDateHour, displayDateMinute, allowPingbacks,
 				allowTrackbacks, trackbacks, coverImageCaption,
 				coverImageImageSelector, smallImageImageSelector,
@@ -1341,8 +1341,8 @@ public class BlogsEntryServiceHttp {
 	private static final Class<?>[] _addAttachmentsFolderParameterTypes0 =
 		new Class[] {long.class};
 	private static final Class<?>[] _addEntryParameterTypes1 = new Class[] {
-		String.class, String.class, String.class, String.class, int.class,
-		int.class, int.class, int.class, int.class, boolean.class,
+		String.class, String.class, String.class, String.class, String.class,
+		int.class, int.class, int.class, int.class, int.class, boolean.class,
 		boolean.class, String[].class, String.class,
 		com.liferay.portal.kernel.servlet.taglib.ui.ImageSelector.class,
 		com.liferay.portal.kernel.servlet.taglib.ui.ImageSelector.class,

@@ -63,27 +63,16 @@ public interface WikiPageService extends BaseService {
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.wiki.service.impl.WikiPageServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the wiki page remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link WikiPageServiceUtil} if injection and service tracking are not available.
 	 */
 	public WikiPage addPage(
-			long nodeId, String title, String content, String summary,
-			boolean minorEdit, ServiceContext serviceContext)
-		throws PortalException;
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addPage(String,
-	 long, String, String, String, boolean, String, String,
-	 String, ServiceContext)}
-	 */
-	@Deprecated
-	public WikiPage addPage(
-			long nodeId, String title, String content, String summary,
-			boolean minorEdit, String format, String parentTitle,
+			String externalReferenceCode, long nodeId, String title,
+			double version, String content, String summary, boolean minorEdit,
+			String format, boolean head, String parentTitle,
 			String redirectTitle, ServiceContext serviceContext)
 		throws PortalException;
 
 	public WikiPage addPage(
 			String externalReferenceCode, long nodeId, String title,
-			double version, String content, String summary, boolean minorEdit,
-			String format, boolean head, String parentTitle,
-			String redirectTitle, ServiceContext serviceContext)
+			String content, String summary, boolean minorEdit,
+			ServiceContext serviceContext)
 		throws PortalException;
 
 	public WikiPage addPage(

@@ -60,17 +60,6 @@ public class CommercePricingClassLocalServiceWrapper
 
 	@Override
 	public CommercePricingClass addCommercePricingClass(
-			long userId, java.util.Map<java.util.Locale, String> titleMap,
-			java.util.Map<java.util.Locale, String> descriptionMap,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commercePricingClassLocalService.addCommercePricingClass(
-			userId, titleMap, descriptionMap, serviceContext);
-	}
-
-	@Override
-	public CommercePricingClass addCommercePricingClass(
 			String externalReferenceCode, long userId,
 			java.util.Map<java.util.Locale, String> titleMap,
 			java.util.Map<java.util.Locale, String> descriptionMap,

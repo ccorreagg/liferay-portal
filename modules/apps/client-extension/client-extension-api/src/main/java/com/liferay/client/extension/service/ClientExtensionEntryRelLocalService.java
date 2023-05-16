@@ -86,9 +86,9 @@ public interface ClientExtensionEntryRelLocalService
 		ClientExtensionEntryRel clientExtensionEntryRel);
 
 	public ClientExtensionEntryRel addClientExtensionEntryRel(
-			long userId, long groupId, long classNameId, long classPK,
-			String cetExternalReferenceCode, String type, String typeSettings,
-			ServiceContext serviceContext)
+			String externalReferenceCode, long userId, long groupId,
+			long classNameId, long classPK, String cetExternalReferenceCode,
+			String type, String typeSettings, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**

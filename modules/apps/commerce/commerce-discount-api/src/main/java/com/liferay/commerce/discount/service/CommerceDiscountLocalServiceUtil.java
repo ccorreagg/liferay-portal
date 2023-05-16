@@ -62,57 +62,6 @@ public class CommerceDiscountLocalServiceUtil {
 		return getService().addCommerceDiscount(commerceDiscount);
 	}
 
-	public static CommerceDiscount addCommerceDiscount(
-			long userId, String title, String target, boolean useCouponCode,
-			String couponCode, boolean usePercentage,
-			java.math.BigDecimal maximumDiscountAmount,
-			java.math.BigDecimal level1, java.math.BigDecimal level2,
-			java.math.BigDecimal level3, java.math.BigDecimal level4,
-			String limitationType, int limitationTimes, boolean active,
-			int displayDateMonth, int displayDateDay, int displayDateYear,
-			int displayDateHour, int displayDateMinute, int expirationDateMonth,
-			int expirationDateDay, int expirationDateYear,
-			int expirationDateHour, int expirationDateMinute,
-			boolean neverExpire,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCommerceDiscount(
-			userId, title, target, useCouponCode, couponCode, usePercentage,
-			maximumDiscountAmount, level1, level2, level3, level4,
-			limitationType, limitationTimes, active, displayDateMonth,
-			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
-			expirationDateMonth, expirationDateDay, expirationDateYear,
-			expirationDateHour, expirationDateMinute, neverExpire,
-			serviceContext);
-	}
-
-	public static CommerceDiscount addCommerceDiscount(
-			long userId, String title, String target, boolean useCouponCode,
-			String couponCode, boolean usePercentage,
-			java.math.BigDecimal maximumDiscountAmount, String level,
-			java.math.BigDecimal level1, java.math.BigDecimal level2,
-			java.math.BigDecimal level3, java.math.BigDecimal level4,
-			String limitationType, int limitationTimes,
-			boolean rulesConjunction, boolean active, int displayDateMonth,
-			int displayDateDay, int displayDateYear, int displayDateHour,
-			int displayDateMinute, int expirationDateMonth,
-			int expirationDateDay, int expirationDateYear,
-			int expirationDateHour, int expirationDateMinute,
-			boolean neverExpire,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCommerceDiscount(
-			userId, title, target, useCouponCode, couponCode, usePercentage,
-			maximumDiscountAmount, level, level1, level2, level3, level4,
-			limitationType, limitationTimes, rulesConjunction, active,
-			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
-			displayDateMinute, expirationDateMonth, expirationDateDay,
-			expirationDateYear, expirationDateHour, expirationDateMinute,
-			neverExpire, serviceContext);
-	}
-
 	/**
 	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
 	 #addCommerceDiscount(String, long, String, String, boolean,
@@ -182,6 +131,31 @@ public class CommerceDiscountLocalServiceUtil {
 			displayDateYear, displayDateHour, displayDateMinute,
 			expirationDateMonth, expirationDateDay, expirationDateYear,
 			expirationDateHour, expirationDateMinute, externalReferenceCode,
+			neverExpire, serviceContext);
+	}
+
+	public static CommerceDiscount addCommerceDiscount(
+			String externalReferenceCode, long userId, String title,
+			String target, boolean useCouponCode, String couponCode,
+			boolean usePercentage, java.math.BigDecimal maximumDiscountAmount,
+			java.math.BigDecimal level1, java.math.BigDecimal level2,
+			java.math.BigDecimal level3, java.math.BigDecimal level4,
+			String limitationType, int limitationTimes, boolean active,
+			int displayDateMonth, int displayDateDay, int displayDateYear,
+			int displayDateHour, int displayDateMinute, int expirationDateMonth,
+			int expirationDateDay, int expirationDateYear,
+			int expirationDateHour, int expirationDateMinute,
+			boolean neverExpire,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addCommerceDiscount(
+			externalReferenceCode, userId, title, target, useCouponCode,
+			couponCode, usePercentage, maximumDiscountAmount, level1, level2,
+			level3, level4, limitationType, limitationTimes, active,
+			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
+			displayDateMinute, expirationDateMonth, expirationDateDay,
+			expirationDateYear, expirationDateHour, expirationDateMinute,
 			neverExpire, serviceContext);
 	}
 

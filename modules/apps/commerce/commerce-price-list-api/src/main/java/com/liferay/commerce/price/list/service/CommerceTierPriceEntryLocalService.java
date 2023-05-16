@@ -95,16 +95,6 @@ public interface CommerceTierPriceEntryLocalService
 		CommerceTierPriceEntry commerceTierPriceEntry);
 
 	public CommerceTierPriceEntry addCommerceTierPriceEntry(
-			long commercePriceEntryId, BigDecimal price, BigDecimal promoPrice,
-			boolean bulkPricing, int minQuantity, ServiceContext serviceContext)
-		throws PortalException;
-
-	public CommerceTierPriceEntry addCommerceTierPriceEntry(
-			long commercePriceEntryId, BigDecimal price, BigDecimal promoPrice,
-			int minQuantity, ServiceContext serviceContext)
-		throws PortalException;
-
-	public CommerceTierPriceEntry addCommerceTierPriceEntry(
 			String externalReferenceCode, long commercePriceEntryId,
 			BigDecimal price, BigDecimal promoPrice, boolean bulkPricing,
 			int minQuantity, ServiceContext serviceContext)

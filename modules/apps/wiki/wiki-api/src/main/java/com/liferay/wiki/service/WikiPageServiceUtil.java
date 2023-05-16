@@ -42,34 +42,6 @@ public class WikiPageServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.wiki.service.impl.WikiPageServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static WikiPage addPage(
-			long nodeId, String title, String content, String summary,
-			boolean minorEdit,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addPage(
-			nodeId, title, content, summary, minorEdit, serviceContext);
-	}
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addPage(String,
-	 long, String, String, String, boolean, String, String,
-	 String, ServiceContext)}
-	 */
-	@Deprecated
-	public static WikiPage addPage(
-			long nodeId, String title, String content, String summary,
-			boolean minorEdit, String format, String parentTitle,
-			String redirectTitle,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addPage(
-			nodeId, title, content, summary, minorEdit, format, parentTitle,
-			redirectTitle, serviceContext);
-	}
-
-	public static WikiPage addPage(
 			String externalReferenceCode, long nodeId, String title,
 			double version, String content, String summary, boolean minorEdit,
 			String format, boolean head, String parentTitle,
@@ -80,6 +52,17 @@ public class WikiPageServiceUtil {
 		return getService().addPage(
 			externalReferenceCode, nodeId, title, version, content, summary,
 			minorEdit, format, head, parentTitle, redirectTitle,
+			serviceContext);
+	}
+
+	public static WikiPage addPage(
+			String externalReferenceCode, long nodeId, String title,
+			String content, String summary, boolean minorEdit,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addPage(
+			externalReferenceCode, nodeId, title, content, summary, minorEdit,
 			serviceContext);
 	}
 

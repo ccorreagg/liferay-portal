@@ -75,9 +75,10 @@ public interface CommerceShipmentLocalService
 	@Deprecated
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceShipment addCommerceDeliverySubscriptionShipment(
-			long userId, long commerceOrderId, String name, String description,
-			String street1, String street2, String street3, String city,
-			String zip, long regionId, long countryId, String phoneNumber)
+			String externalReferenceCode, long userId, long commerceOrderId,
+			String name, String description, String street1, String street2,
+			String street3, String city, String zip, long regionId,
+			long countryId, String phoneNumber)
 		throws PortalException;
 
 	/**
@@ -94,10 +95,6 @@ public interface CommerceShipmentLocalService
 	public CommerceShipment addCommerceShipment(
 		CommerceShipment commerceShipment);
 
-	public CommerceShipment addCommerceShipment(
-			long commerceOrderId, ServiceContext serviceContext)
-		throws PortalException;
-
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceShipment addCommerceShipment(
 			String externalReferenceCode, long groupId, long commerceAccountId,
@@ -105,9 +102,14 @@ public interface CommerceShipmentLocalService
 			String commerceShippingOptionName, ServiceContext serviceContext)
 		throws PortalException;
 
+	public CommerceShipment addCommerceShipment(
+			String externalReferenceCode, long commerceOrderId,
+			ServiceContext serviceContext)
+		throws PortalException;
+
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceShipment addDeliverySubscriptionCommerceShipment(
-			long userId, long commerceOrderItemId)
+			String externalReferenceCode, long userId, long commerceOrderItemId)
 		throws PortalException;
 
 	/**

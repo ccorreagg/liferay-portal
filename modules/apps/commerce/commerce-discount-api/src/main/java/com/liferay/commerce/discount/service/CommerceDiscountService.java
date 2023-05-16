@@ -58,8 +58,8 @@ public interface CommerceDiscountService extends BaseService {
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.commerce.discount.service.impl.CommerceDiscountServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the commerce discount remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CommerceDiscountServiceUtil} if injection and service tracking are not available.
 	 */
 	public CommerceDiscount addCommerceDiscount(
-			String title, String target, boolean useCouponCode,
-			String couponCode, boolean usePercentage,
+			String externalReferenceCode, String title, String target,
+			boolean useCouponCode, String couponCode, boolean usePercentage,
 			BigDecimal maximumDiscountAmount, BigDecimal level1,
 			BigDecimal level2, BigDecimal level3, BigDecimal level4,
 			String limitationType, int limitationTimes, boolean active,
@@ -71,8 +71,8 @@ public interface CommerceDiscountService extends BaseService {
 		throws PortalException;
 
 	public CommerceDiscount addCommerceDiscount(
-			String title, String target, boolean useCouponCode,
-			String couponCode, boolean usePercentage,
+			String externalReferenceCode, String title, String target,
+			boolean useCouponCode, String couponCode, boolean usePercentage,
 			BigDecimal maximumDiscountAmount, String level, BigDecimal level1,
 			BigDecimal level2, BigDecimal level3, BigDecimal level4,
 			String limitationType, int limitationTimes,

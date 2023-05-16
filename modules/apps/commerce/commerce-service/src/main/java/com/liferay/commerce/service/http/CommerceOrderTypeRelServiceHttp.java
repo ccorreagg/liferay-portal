@@ -52,8 +52,8 @@ public class CommerceOrderTypeRelServiceHttp {
 
 	public static com.liferay.commerce.model.CommerceOrderTypeRel
 			addCommerceOrderTypeRel(
-				HttpPrincipal httpPrincipal, String className, long classPK,
-				long commerceOrderTypeId,
+				HttpPrincipal httpPrincipal, String externalReferenceCode,
+				String className, long classPK, long commerceOrderTypeId,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -64,8 +64,8 @@ public class CommerceOrderTypeRelServiceHttp {
 				_addCommerceOrderTypeRelParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, className, classPK, commerceOrderTypeId,
-				serviceContext);
+				methodKey, externalReferenceCode, className, classPK,
+				commerceOrderTypeId, serviceContext);
 
 			Object returnObj = null;
 
@@ -398,7 +398,7 @@ public class CommerceOrderTypeRelServiceHttp {
 
 	private static final Class<?>[] _addCommerceOrderTypeRelParameterTypes0 =
 		new Class[] {
-			String.class, long.class, long.class,
+			String.class, String.class, long.class, long.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[] _deleteCommerceOrderTypeRelParameterTypes1 =

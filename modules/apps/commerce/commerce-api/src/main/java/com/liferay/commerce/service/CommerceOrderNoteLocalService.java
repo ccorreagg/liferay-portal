@@ -80,11 +80,6 @@ public interface CommerceOrderNoteLocalService
 		CommerceOrderNote commerceOrderNote);
 
 	public CommerceOrderNote addCommerceOrderNote(
-			long commerceOrderId, String content, boolean restricted,
-			ServiceContext serviceContext)
-		throws PortalException;
-
-	public CommerceOrderNote addCommerceOrderNote(
 			String externalReferenceCode, long commerceOrderId, String content,
 			boolean restricted, ServiceContext serviceContext)
 		throws PortalException;

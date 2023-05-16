@@ -41,26 +41,12 @@ public class WikiNodeLocalServiceWrapper
 
 	@Override
 	public WikiNode addDefaultNode(
-			long userId,
+			String externalReferenceCode, long userId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _wikiNodeLocalService.addDefaultNode(userId, serviceContext);
-	}
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addNode(String,
-	 long, String, String, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public WikiNode addNode(
-			long userId, String name, String description,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _wikiNodeLocalService.addNode(
-			userId, name, description, serviceContext);
+		return _wikiNodeLocalService.addDefaultNode(
+			externalReferenceCode, userId, serviceContext);
 	}
 
 	@Override

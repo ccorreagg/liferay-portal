@@ -55,24 +55,23 @@ public interface CommerceAddressService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.commerce.service.impl.CommerceAddressServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the commerce address remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CommerceAddressServiceUtil} if injection and service tracking are not available.
 	 */
+	public CommerceAddress addCommerceAddress(
+			String className, long classPK, String name, String description,
+			String street1, String street2, String street3, String city,
+			String zip, long regionId, long countryId, String phoneNumber,
+			int type, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * @deprecated As of Mueller (7.2.x), defaultBilling/Shipping exist on Account Entity. Pass type.
 	 */
 	@Deprecated
 	public CommerceAddress addCommerceAddress(
-			String className, long classPK, String name, String description,
-			String street1, String street2, String street3, String city,
-			String zip, long regionId, long countryId, String phoneNumber,
-			boolean defaultBilling, boolean defaultShipping,
-			ServiceContext serviceContext)
-		throws PortalException;
-
-	public CommerceAddress addCommerceAddress(
-			String className, long classPK, String name, String description,
-			String street1, String street2, String street3, String city,
-			String zip, long regionId, long countryId, String phoneNumber,
-			int type, ServiceContext serviceContext)
+			String externalReferenceCode, String className, long classPK,
+			String name, String description, String street1, String street2,
+			String street3, String city, String zip, long regionId,
+			long countryId, String phoneNumber, boolean defaultBilling,
+			boolean defaultShipping, ServiceContext serviceContext)
 		throws PortalException;
 
 	public CommerceAddress addCommerceAddress(

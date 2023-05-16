@@ -62,14 +62,15 @@ public class ClientExtensionEntryRelLocalServiceUtil {
 	}
 
 	public static ClientExtensionEntryRel addClientExtensionEntryRel(
-			long userId, long groupId, long classNameId, long classPK,
-			String cetExternalReferenceCode, String type, String typeSettings,
+			String externalReferenceCode, long userId, long groupId,
+			long classNameId, long classPK, String cetExternalReferenceCode,
+			String type, String typeSettings,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addClientExtensionEntryRel(
-			userId, groupId, classNameId, classPK, cetExternalReferenceCode,
-			type, typeSettings, serviceContext);
+			externalReferenceCode, userId, groupId, classNameId, classPK,
+			cetExternalReferenceCode, type, typeSettings, serviceContext);
 	}
 
 	/**

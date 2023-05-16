@@ -46,13 +46,14 @@ public class CommercePriceListLocalServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.commerce.price.list.service.impl.CommercePriceListLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static CommercePriceList addCatalogBaseCommercePriceList(
-			long groupId, long userId, long commerceCurrencyId, String type,
-			String name,
+			String externalReferenceCode, long groupId, long userId,
+			long commerceCurrencyId, String type, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addCatalogBaseCommercePriceList(
-			groupId, userId, commerceCurrencyId, type, name, serviceContext);
+			externalReferenceCode, groupId, userId, commerceCurrencyId, type,
+			name, serviceContext);
 	}
 
 	/**
@@ -60,13 +61,14 @@ public class CommercePriceListLocalServiceUtil {
 	 */
 	@Deprecated
 	public static CommercePriceList addCommerceCatalogBasePriceList(
-			long groupId, long userId, long commerceCurrencyId, String type,
-			String name,
+			String externalReferenceCode, long groupId, long userId,
+			long commerceCurrencyId, String type, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addCommerceCatalogBasePriceList(
-			groupId, userId, commerceCurrencyId, type, name, serviceContext);
+			externalReferenceCode, groupId, userId, commerceCurrencyId, type,
+			name, serviceContext);
 	}
 
 	/**

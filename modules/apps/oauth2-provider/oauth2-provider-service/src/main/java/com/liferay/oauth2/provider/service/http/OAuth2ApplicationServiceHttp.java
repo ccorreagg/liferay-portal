@@ -52,7 +52,7 @@ public class OAuth2ApplicationServiceHttp {
 
 	public static com.liferay.oauth2.provider.model.OAuth2Application
 			addOAuth2Application(
-				HttpPrincipal httpPrincipal,
+				HttpPrincipal httpPrincipal, String externalReferenceCode,
 				java.util.List<com.liferay.oauth2.provider.constants.GrantType>
 					allowedGrantTypesList,
 				String clientAuthenticationMethod, long clientCredentialUserId,
@@ -72,11 +72,12 @@ public class OAuth2ApplicationServiceHttp {
 				_addOAuth2ApplicationParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, allowedGrantTypesList, clientAuthenticationMethod,
-				clientCredentialUserId, clientId, clientProfile, clientSecret,
-				description, featuresList, homePageURL, iconFileEntryId, jwks,
-				name, privacyPolicyURL, redirectURIsList, rememberDevice,
-				scopeAliasesList, trustedApplication, serviceContext);
+				methodKey, externalReferenceCode, allowedGrantTypesList,
+				clientAuthenticationMethod, clientCredentialUserId, clientId,
+				clientProfile, clientSecret, description, featuresList,
+				homePageURL, iconFileEntryId, jwks, name, privacyPolicyURL,
+				redirectURIsList, rememberDevice, scopeAliasesList,
+				trustedApplication, serviceContext);
 
 			Object returnObj = null;
 
@@ -494,11 +495,11 @@ public class OAuth2ApplicationServiceHttp {
 
 	private static final Class<?>[] _addOAuth2ApplicationParameterTypes0 =
 		new Class[] {
+			String.class, java.util.List.class, String.class, long.class,
+			String.class, int.class, String.class, String.class,
 			java.util.List.class, String.class, long.class, String.class,
-			int.class, String.class, String.class, java.util.List.class,
-			String.class, long.class, String.class, String.class, String.class,
-			java.util.List.class, boolean.class, java.util.List.class,
-			boolean.class,
+			String.class, String.class, java.util.List.class, boolean.class,
+			java.util.List.class, boolean.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[] _deleteOAuth2ApplicationParameterTypes1 =

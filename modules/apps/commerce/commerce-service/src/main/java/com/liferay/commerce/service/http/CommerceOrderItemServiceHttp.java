@@ -52,9 +52,9 @@ public class CommerceOrderItemServiceHttp {
 
 	public static com.liferay.commerce.model.CommerceOrderItem
 			addCommerceOrderItem(
-				HttpPrincipal httpPrincipal, long commerceOrderId,
-				long cpInstanceId, String json, int quantity,
-				long replacedCPInstanceId, int shippedQuantity,
+				HttpPrincipal httpPrincipal, String externalReferenceCode,
+				long commerceOrderId, long cpInstanceId, String json,
+				int quantity, long replacedCPInstanceId, int shippedQuantity,
 				com.liferay.commerce.context.CommerceContext commerceContext,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -65,9 +65,9 @@ public class CommerceOrderItemServiceHttp {
 				_addCommerceOrderItemParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, commerceOrderId, cpInstanceId, json, quantity,
-				replacedCPInstanceId, shippedQuantity, commerceContext,
-				serviceContext);
+				methodKey, externalReferenceCode, commerceOrderId, cpInstanceId,
+				json, quantity, replacedCPInstanceId, shippedQuantity,
+				commerceContext, serviceContext);
 
 			Object returnObj = null;
 
@@ -99,9 +99,9 @@ public class CommerceOrderItemServiceHttp {
 
 	public static com.liferay.commerce.model.CommerceOrderItem
 			addOrUpdateCommerceOrderItem(
-				HttpPrincipal httpPrincipal, long commerceOrderId,
-				long cpInstanceId, String json, int quantity,
-				long replacedCPInstanceId, int shippedQuantity,
+				HttpPrincipal httpPrincipal, String externalReferenceCode,
+				long commerceOrderId, long cpInstanceId, String json,
+				int quantity, long replacedCPInstanceId, int shippedQuantity,
 				com.liferay.commerce.context.CommerceContext commerceContext,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -113,9 +113,9 @@ public class CommerceOrderItemServiceHttp {
 				_addOrUpdateCommerceOrderItemParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, commerceOrderId, cpInstanceId, json, quantity,
-				replacedCPInstanceId, shippedQuantity, commerceContext,
-				serviceContext);
+				methodKey, externalReferenceCode, commerceOrderId, cpInstanceId,
+				json, quantity, replacedCPInstanceId, shippedQuantity,
+				commerceContext, serviceContext);
 
 			Object returnObj = null;
 
@@ -1724,14 +1724,16 @@ public class CommerceOrderItemServiceHttp {
 
 	private static final Class<?>[] _addCommerceOrderItemParameterTypes0 =
 		new Class[] {
-			long.class, long.class, String.class, int.class, long.class,
-			int.class, com.liferay.commerce.context.CommerceContext.class,
+			String.class, long.class, long.class, String.class, int.class,
+			long.class, int.class,
+			com.liferay.commerce.context.CommerceContext.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[]
 		_addOrUpdateCommerceOrderItemParameterTypes1 = new Class[] {
-			long.class, long.class, String.class, int.class, long.class,
-			int.class, com.liferay.commerce.context.CommerceContext.class,
+			String.class, long.class, long.class, String.class, int.class,
+			long.class, int.class,
+			com.liferay.commerce.context.CommerceContext.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[]

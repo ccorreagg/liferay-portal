@@ -44,16 +44,17 @@ public class CommerceShipmentLocalServiceWrapper
 	@Override
 	public com.liferay.commerce.model.CommerceShipment
 			addCommerceDeliverySubscriptionShipment(
-				long userId, long commerceOrderId, String name,
-				String description, String street1, String street2,
+				String externalReferenceCode, long userId, long commerceOrderId,
+				String name, String description, String street1, String street2,
 				String street3, String city, String zip, long regionId,
 				long countryId, String phoneNumber)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commerceShipmentLocalService.
 			addCommerceDeliverySubscriptionShipment(
-				userId, commerceOrderId, name, description, street1, street2,
-				street3, city, zip, regionId, countryId, phoneNumber);
+				externalReferenceCode, userId, commerceOrderId, name,
+				description, street1, street2, street3, city, zip, regionId,
+				countryId, phoneNumber);
 	}
 
 	/**
@@ -76,16 +77,6 @@ public class CommerceShipmentLocalServiceWrapper
 
 	@Override
 	public com.liferay.commerce.model.CommerceShipment addCommerceShipment(
-			long commerceOrderId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commerceShipmentLocalService.addCommerceShipment(
-			commerceOrderId, serviceContext);
-	}
-
-	@Override
-	public com.liferay.commerce.model.CommerceShipment addCommerceShipment(
 			String externalReferenceCode, long groupId, long commerceAccountId,
 			long commerceAddressId, long commerceShippingMethodId,
 			String commerceShippingOptionName,
@@ -99,14 +90,25 @@ public class CommerceShipmentLocalServiceWrapper
 	}
 
 	@Override
+	public com.liferay.commerce.model.CommerceShipment addCommerceShipment(
+			String externalReferenceCode, long commerceOrderId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _commerceShipmentLocalService.addCommerceShipment(
+			externalReferenceCode, commerceOrderId, serviceContext);
+	}
+
+	@Override
 	public com.liferay.commerce.model.CommerceShipment
 			addDeliverySubscriptionCommerceShipment(
-				long userId, long commerceOrderItemId)
+				String externalReferenceCode, long userId,
+				long commerceOrderItemId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commerceShipmentLocalService.
 			addDeliverySubscriptionCommerceShipment(
-				userId, commerceOrderItemId);
+				externalReferenceCode, userId, commerceOrderItemId);
 	}
 
 	/**

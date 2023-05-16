@@ -62,41 +62,44 @@ public class CommerceOrderItemLocalServiceUtil {
 	}
 
 	public static CommerceOrderItem addCommerceOrderItem(
-			long userId, long commerceOrderId, long cpInstanceId, String json,
-			int quantity, long replacedCPInstanceId, int shippedQuantity,
+			String externalReferenceCode, long userId, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
+			long replacedCPInstanceId, int shippedQuantity,
 			com.liferay.commerce.context.CommerceContext commerceContext,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addCommerceOrderItem(
-			userId, commerceOrderId, cpInstanceId, json, quantity,
-			replacedCPInstanceId, shippedQuantity, commerceContext,
+			externalReferenceCode, userId, commerceOrderId, cpInstanceId, json,
+			quantity, replacedCPInstanceId, shippedQuantity, commerceContext,
 			serviceContext);
 	}
 
 	public static CommerceOrderItem addOrUpdateCommerceOrderItem(
-			long userId, long commerceOrderId, long cpInstanceId, int quantity,
+			String externalReferenceCode, long userId, long commerceOrderId,
+			long cpInstanceId, int quantity, long replacedCPInstanceId,
+			int shippedQuantity,
+			com.liferay.commerce.context.CommerceContext commerceContext,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addOrUpdateCommerceOrderItem(
+			externalReferenceCode, userId, commerceOrderId, cpInstanceId,
+			quantity, replacedCPInstanceId, shippedQuantity, commerceContext,
+			serviceContext);
+	}
+
+	public static CommerceOrderItem addOrUpdateCommerceOrderItem(
+			String externalReferenceCode, long userId, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
 			long replacedCPInstanceId, int shippedQuantity,
 			com.liferay.commerce.context.CommerceContext commerceContext,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addOrUpdateCommerceOrderItem(
-			userId, commerceOrderId, cpInstanceId, quantity,
-			replacedCPInstanceId, shippedQuantity, commerceContext,
-			serviceContext);
-	}
-
-	public static CommerceOrderItem addOrUpdateCommerceOrderItem(
-			long userId, long commerceOrderId, long cpInstanceId, String json,
-			int quantity, long replacedCPInstanceId, int shippedQuantity,
-			com.liferay.commerce.context.CommerceContext commerceContext,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addOrUpdateCommerceOrderItem(
-			userId, commerceOrderId, cpInstanceId, json, quantity,
-			replacedCPInstanceId, shippedQuantity, commerceContext,
+			externalReferenceCode, userId, commerceOrderId, cpInstanceId, json,
+			quantity, replacedCPInstanceId, shippedQuantity, commerceContext,
 			serviceContext);
 	}
 

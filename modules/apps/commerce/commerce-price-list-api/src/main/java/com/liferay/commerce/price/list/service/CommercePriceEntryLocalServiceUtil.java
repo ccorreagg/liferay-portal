@@ -63,32 +63,6 @@ public class CommercePriceEntryLocalServiceUtil {
 	}
 
 	/**
-	 * @deprecated As of Mueller (7.2.x)
-	 */
-	@Deprecated
-	public static CommercePriceEntry addCommercePriceEntry(
-			long cpInstanceId, long commercePriceListId,
-			java.math.BigDecimal price, java.math.BigDecimal promoPrice,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCommercePriceEntry(
-			cpInstanceId, commercePriceListId, price, promoPrice,
-			serviceContext);
-	}
-
-	public static CommercePriceEntry addCommercePriceEntry(
-			long cProductId, String cpInstanceUuid, long commercePriceListId,
-			java.math.BigDecimal price, java.math.BigDecimal promoPrice,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCommercePriceEntry(
-			cProductId, cpInstanceUuid, commercePriceListId, price, promoPrice,
-			serviceContext);
-	}
-
-	/**
 	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
 	 #addCommercePriceEntry(String, long, String, long,
 	 BigDecimal, BigDecimal, boolean, BigDecimal, BigDecimal,

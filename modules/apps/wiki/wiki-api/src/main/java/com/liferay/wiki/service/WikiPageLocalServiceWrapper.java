@@ -39,36 +39,6 @@ public class WikiPageLocalServiceWrapper
 		_wikiPageLocalService = wikiPageLocalService;
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addPage(String,
-	 long, long, String, double, String, String, boolean, String,
-	 boolean, String, String, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public WikiPage addPage(
-			long userId, long nodeId, String title, double version,
-			String content, String summary, boolean minorEdit, String format,
-			boolean head, String parentTitle, String redirectTitle,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _wikiPageLocalService.addPage(
-			userId, nodeId, title, version, content, summary, minorEdit, format,
-			head, parentTitle, redirectTitle, serviceContext);
-	}
-
-	@Override
-	public WikiPage addPage(
-			long userId, long nodeId, String title, String content,
-			String summary, boolean minorEdit,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _wikiPageLocalService.addPage(
-			userId, nodeId, title, content, summary, minorEdit, serviceContext);
-	}
-
 	@Override
 	public WikiPage addPage(
 			String externalReferenceCode, long userId, long nodeId,
@@ -82,6 +52,18 @@ public class WikiPageLocalServiceWrapper
 			externalReferenceCode, userId, nodeId, title, version, content,
 			summary, minorEdit, format, head, parentTitle, redirectTitle,
 			serviceContext);
+	}
+
+	@Override
+	public WikiPage addPage(
+			String externalReferenceCode, long userId, long nodeId,
+			String title, String content, String summary, boolean minorEdit,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _wikiPageLocalService.addPage(
+			externalReferenceCode, userId, nodeId, title, content, summary,
+			minorEdit, serviceContext);
 	}
 
 	@Override

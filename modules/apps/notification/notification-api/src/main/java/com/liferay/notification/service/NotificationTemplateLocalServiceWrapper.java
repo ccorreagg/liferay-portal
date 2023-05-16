@@ -37,17 +37,6 @@ public class NotificationTemplateLocalServiceWrapper
 		_notificationTemplateLocalService = notificationTemplateLocalService;
 	}
 
-	@Override
-	public com.liferay.notification.model.NotificationTemplate
-			addNotificationTemplate(
-				com.liferay.notification.context.NotificationContext
-					notificationContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _notificationTemplateLocalService.addNotificationTemplate(
-			notificationContext);
-	}
-
 	/**
 	 * Adds the notification template to the database. Also notifies the appropriate model listeners.
 	 *
@@ -76,6 +65,18 @@ public class NotificationTemplateLocalServiceWrapper
 
 		return _notificationTemplateLocalService.addNotificationTemplate(
 			externalReferenceCode, userId, type);
+	}
+
+	@Override
+	public com.liferay.notification.model.NotificationTemplate
+			addNotificationTemplate(
+				String externalReferenceCode,
+				com.liferay.notification.context.NotificationContext
+					notificationContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _notificationTemplateLocalService.addNotificationTemplate(
+			externalReferenceCode, notificationContext);
 	}
 
 	/**

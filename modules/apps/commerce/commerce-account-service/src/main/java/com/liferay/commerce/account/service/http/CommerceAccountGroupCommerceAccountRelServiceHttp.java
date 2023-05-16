@@ -55,6 +55,7 @@ public class CommerceAccountGroupCommerceAccountRelServiceHttp {
 			CommerceAccountGroupCommerceAccountRel
 					addCommerceAccountGroupCommerceAccountRel(
 						HttpPrincipal httpPrincipal,
+						String externalReferenceCode,
 						long commerceAccountGroupId, long commerceAccountId,
 						com.liferay.portal.kernel.service.ServiceContext
 							serviceContext)
@@ -67,8 +68,8 @@ public class CommerceAccountGroupCommerceAccountRelServiceHttp {
 				_addCommerceAccountGroupCommerceAccountRelParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, commerceAccountGroupId, commerceAccountId,
-				serviceContext);
+				methodKey, externalReferenceCode, commerceAccountGroupId,
+				commerceAccountId, serviceContext);
 
 			Object returnObj = null;
 
@@ -277,7 +278,7 @@ public class CommerceAccountGroupCommerceAccountRelServiceHttp {
 	private static final Class<?>[]
 		_addCommerceAccountGroupCommerceAccountRelParameterTypes0 =
 			new Class[] {
-				long.class, long.class,
+				String.class, long.class, long.class,
 				com.liferay.portal.kernel.service.ServiceContext.class
 			};
 	private static final Class<?>[]

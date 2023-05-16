@@ -60,12 +60,13 @@ public class AccountGroupLocalServiceUtil {
 	}
 
 	public static AccountGroup addAccountGroup(
-			long userId, String description, String name,
+			String externalReferenceCode, long userId, String description,
+			String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addAccountGroup(
-			userId, description, name, serviceContext);
+			externalReferenceCode, userId, description, name, serviceContext);
 	}
 
 	public static AccountGroup checkGuestAccountGroup(long companyId)

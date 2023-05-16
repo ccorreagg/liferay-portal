@@ -51,6 +51,7 @@ public interface NotificationTemplateService extends BaseService {
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.notification.service.impl.NotificationTemplateServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the notification template remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link NotificationTemplateServiceUtil} if injection and service tracking are not available.
 	 */
 	public NotificationTemplate addNotificationTemplate(
+			String externalReferenceCode,
 			NotificationContext notificationContext)
 		throws PortalException;
 

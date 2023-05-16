@@ -39,12 +39,14 @@ public class CommerceOrderNoteServiceWrapper
 
 	@Override
 	public com.liferay.commerce.model.CommerceOrderNote addCommerceOrderNote(
-			long commerceOrderId, String content, boolean restricted,
+			String externalReferenceCode, long commerceOrderId, String content,
+			boolean restricted,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commerceOrderNoteService.addCommerceOrderNote(
-			commerceOrderId, content, restricted, serviceContext);
+			externalReferenceCode, commerceOrderId, content, restricted,
+			serviceContext);
 	}
 
 	@Override

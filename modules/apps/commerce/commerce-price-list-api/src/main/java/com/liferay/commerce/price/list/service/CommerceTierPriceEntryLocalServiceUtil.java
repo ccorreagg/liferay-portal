@@ -63,29 +63,6 @@ public class CommerceTierPriceEntryLocalServiceUtil {
 	}
 
 	public static CommerceTierPriceEntry addCommerceTierPriceEntry(
-			long commercePriceEntryId, java.math.BigDecimal price,
-			java.math.BigDecimal promoPrice, boolean bulkPricing,
-			int minQuantity,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCommerceTierPriceEntry(
-			commercePriceEntryId, price, promoPrice, bulkPricing, minQuantity,
-			serviceContext);
-	}
-
-	public static CommerceTierPriceEntry addCommerceTierPriceEntry(
-			long commercePriceEntryId, java.math.BigDecimal price,
-			java.math.BigDecimal promoPrice, int minQuantity,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCommerceTierPriceEntry(
-			commercePriceEntryId, price, promoPrice, minQuantity,
-			serviceContext);
-	}
-
-	public static CommerceTierPriceEntry addCommerceTierPriceEntry(
 			String externalReferenceCode, long commercePriceEntryId,
 			java.math.BigDecimal price, java.math.BigDecimal promoPrice,
 			boolean bulkPricing, int minQuantity,

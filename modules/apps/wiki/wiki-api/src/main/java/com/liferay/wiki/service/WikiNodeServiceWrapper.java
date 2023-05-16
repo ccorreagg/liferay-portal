@@ -35,20 +35,6 @@ public class WikiNodeServiceWrapper
 		_wikiNodeService = wikiNodeService;
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addNode(String,
-	 String, String, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public WikiNode addNode(
-			String name, String description,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _wikiNodeService.addNode(name, description, serviceContext);
-	}
-
 	@Override
 	public WikiNode addNode(
 			String externalReferenceCode, String name, String description,

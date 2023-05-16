@@ -39,7 +39,8 @@ public class ObjectDefinitionServiceWrapper
 
 	@Override
 	public com.liferay.object.model.ObjectDefinition addCustomObjectDefinition(
-			boolean enableComments, boolean enableLocalization,
+			String externalReferenceCode, boolean enableComments,
+			boolean enableLocalization,
 			java.util.Map<java.util.Locale, String> labelMap, String name,
 			String panelAppOrder, String panelCategoryKey,
 			java.util.Map<java.util.Locale, String> pluralLabelMap,
@@ -48,8 +49,9 @@ public class ObjectDefinitionServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _objectDefinitionService.addCustomObjectDefinition(
-			enableComments, enableLocalization, labelMap, name, panelAppOrder,
-			panelCategoryKey, pluralLabelMap, scope, storageType, objectFields);
+			externalReferenceCode, enableComments, enableLocalization, labelMap,
+			name, panelAppOrder, panelCategoryKey, pluralLabelMap, scope,
+			storageType, objectFields);
 	}
 
 	@Override
@@ -63,7 +65,7 @@ public class ObjectDefinitionServiceWrapper
 
 	@Override
 	public com.liferay.object.model.ObjectDefinition addSystemObjectDefinition(
-			long userId, boolean enableComments,
+			String externalReferenceCode, long userId, boolean enableComments,
 			java.util.Map<java.util.Locale, String> labelMap, String name,
 			String panelAppOrder, String panelCategoryKey,
 			java.util.Map<java.util.Locale, String> pluralLabelMap,
@@ -72,8 +74,9 @@ public class ObjectDefinitionServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _objectDefinitionService.addSystemObjectDefinition(
-			userId, enableComments, labelMap, name, panelAppOrder,
-			panelCategoryKey, pluralLabelMap, scope, objectFields);
+			externalReferenceCode, userId, enableComments, labelMap, name,
+			panelAppOrder, panelCategoryKey, pluralLabelMap, scope,
+			objectFields);
 	}
 
 	@Override

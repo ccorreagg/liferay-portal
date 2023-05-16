@@ -62,9 +62,10 @@ public interface BlogsEntryService extends BaseService {
 	public Folder addAttachmentsFolder(long groupId) throws PortalException;
 
 	public BlogsEntry addEntry(
-			String title, String subtitle, String description, String content,
-			int displayDateMonth, int displayDateDay, int displayDateYear,
-			int displayDateHour, int displayDateMinute, boolean allowPingbacks,
+			String externalReferenceCode, String title, String subtitle,
+			String description, String content, int displayDateMonth,
+			int displayDateDay, int displayDateYear, int displayDateHour,
+			int displayDateMinute, boolean allowPingbacks,
 			boolean allowTrackbacks, String[] trackbacks,
 			String coverImageCaption, ImageSelector coverImageImageSelector,
 			ImageSelector smallImageImageSelector,

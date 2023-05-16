@@ -55,9 +55,10 @@ public class CommerceAccountLocalServiceUtil {
 	}
 
 	public static CommerceAccount addCommerceAccount(
-		CommerceAccount commerceAccount) {
+		String externalReferenceCode, CommerceAccount commerceAccount) {
 
-		return getService().addCommerceAccount(commerceAccount);
+		return getService().addCommerceAccount(
+			externalReferenceCode, commerceAccount);
 	}
 
 	public static CommerceAccount addCommerceAccount(

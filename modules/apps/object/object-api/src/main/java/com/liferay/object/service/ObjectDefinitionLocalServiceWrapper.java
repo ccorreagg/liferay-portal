@@ -39,7 +39,8 @@ public class ObjectDefinitionLocalServiceWrapper
 
 	@Override
 	public com.liferay.object.model.ObjectDefinition addCustomObjectDefinition(
-			long userId, boolean enableComments, boolean enableLocalization,
+			String externalReferenceCode, long userId, boolean enableComments,
+			boolean enableLocalization,
 			java.util.Map<java.util.Locale, String> labelMap, String name,
 			String panelAppOrder, String panelCategoryKey,
 			java.util.Map<java.util.Locale, String> pluralLabelMap,
@@ -48,9 +49,9 @@ public class ObjectDefinitionLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _objectDefinitionLocalService.addCustomObjectDefinition(
-			userId, enableComments, enableLocalization, labelMap, name,
-			panelAppOrder, panelCategoryKey, pluralLabelMap, scope, storageType,
-			objectFields);
+			externalReferenceCode, userId, enableComments, enableLocalization,
+			labelMap, name, panelAppOrder, panelCategoryKey, pluralLabelMap,
+			scope, storageType, objectFields);
 	}
 
 	/**
@@ -83,19 +84,19 @@ public class ObjectDefinitionLocalServiceWrapper
 	@Override
 	public com.liferay.object.model.ObjectDefinition
 			addOrUpdateSystemObjectDefinition(
-				long companyId,
+				String externalReferenceCode, long companyId,
 				com.liferay.object.system.SystemObjectDefinitionManager
 					systemObjectDefinitionManager)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _objectDefinitionLocalService.addOrUpdateSystemObjectDefinition(
-			companyId, systemObjectDefinitionManager);
+			externalReferenceCode, companyId, systemObjectDefinitionManager);
 	}
 
 	@Override
 	public com.liferay.object.model.ObjectDefinition addSystemObjectDefinition(
-			long userId, String className, String dbTableName,
-			boolean enableComments,
+			String externalReferenceCode, long userId, String className,
+			String dbTableName, boolean enableComments,
 			java.util.Map<java.util.Locale, String> labelMap,
 			boolean modifiable, String name, String panelAppOrder,
 			String panelCategoryKey, String pkObjectFieldDBColumnName,
@@ -106,10 +107,11 @@ public class ObjectDefinitionLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _objectDefinitionLocalService.addSystemObjectDefinition(
-			userId, className, dbTableName, enableComments, labelMap,
-			modifiable, name, panelAppOrder, panelCategoryKey,
-			pkObjectFieldDBColumnName, pkObjectFieldName, pluralLabelMap, scope,
-			titleObjectFieldName, version, status, objectFields);
+			externalReferenceCode, userId, className, dbTableName,
+			enableComments, labelMap, modifiable, name, panelAppOrder,
+			panelCategoryKey, pkObjectFieldDBColumnName, pkObjectFieldName,
+			pluralLabelMap, scope, titleObjectFieldName, version, status,
+			objectFields);
 	}
 
 	/**

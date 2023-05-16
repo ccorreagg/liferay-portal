@@ -40,6 +40,7 @@ public class OAuth2ApplicationServiceWrapper
 	@Override
 	public com.liferay.oauth2.provider.model.OAuth2Application
 			addOAuth2Application(
+				String externalReferenceCode,
 				java.util.List<com.liferay.oauth2.provider.constants.GrantType>
 					allowedGrantTypesList,
 				String clientAuthenticationMethod, long clientCredentialUserId,
@@ -54,11 +55,12 @@ public class OAuth2ApplicationServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _oAuth2ApplicationService.addOAuth2Application(
-			allowedGrantTypesList, clientAuthenticationMethod,
-			clientCredentialUserId, clientId, clientProfile, clientSecret,
-			description, featuresList, homePageURL, iconFileEntryId, jwks, name,
-			privacyPolicyURL, redirectURIsList, rememberDevice,
-			scopeAliasesList, trustedApplication, serviceContext);
+			externalReferenceCode, allowedGrantTypesList,
+			clientAuthenticationMethod, clientCredentialUserId, clientId,
+			clientProfile, clientSecret, description, featuresList, homePageURL,
+			iconFileEntryId, jwks, name, privacyPolicyURL, redirectURIsList,
+			rememberDevice, scopeAliasesList, trustedApplication,
+			serviceContext);
 	}
 
 	@Override

@@ -60,35 +60,38 @@ public class CommerceOrderLocalServiceWrapper
 	@Deprecated
 	@Override
 	public com.liferay.commerce.model.CommerceOrder addCommerceOrder(
-			long userId, long groupId, long commerceAccountId,
-			long commerceCurrencyId)
+			String externalReferenceCode, long userId, long groupId,
+			long commerceAccountId, long commerceCurrencyId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commerceOrderLocalService.addCommerceOrder(
-			userId, groupId, commerceAccountId, commerceCurrencyId);
+			externalReferenceCode, userId, groupId, commerceAccountId,
+			commerceCurrencyId);
 	}
 
 	@Override
 	public com.liferay.commerce.model.CommerceOrder addCommerceOrder(
-			long userId, long groupId, long commerceAccountId,
-			long commerceCurrencyId, long commerceOrderTypeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commerceOrderLocalService.addCommerceOrder(
-			userId, groupId, commerceAccountId, commerceCurrencyId,
-			commerceOrderTypeId);
-	}
-
-	@Override
-	public com.liferay.commerce.model.CommerceOrder addCommerceOrder(
-			long userId, long groupId, long billingAddressId,
+			String externalReferenceCode, long userId, long groupId,
 			long commerceAccountId, long commerceCurrencyId,
-			long commerceOrderTypeId, long commerceShippingMethodId,
-			long shippingAddressId, String commercePaymentMethodKey,
-			int orderDateMonth, int orderDateDay, int orderDateYear,
-			int orderDateHour, int orderDateMinute, int orderStatus,
-			int paymentStatus, String purchaseOrderNumber,
-			java.math.BigDecimal shippingAmount, String shippingOptionName,
+			long commerceOrderTypeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _commerceOrderLocalService.addCommerceOrder(
+			externalReferenceCode, userId, groupId, commerceAccountId,
+			commerceCurrencyId, commerceOrderTypeId);
+	}
+
+	@Override
+	public com.liferay.commerce.model.CommerceOrder addCommerceOrder(
+			String externalReferenceCode, long userId, long groupId,
+			long billingAddressId, long commerceAccountId,
+			long commerceCurrencyId, long commerceOrderTypeId,
+			long commerceShippingMethodId, long shippingAddressId,
+			String commercePaymentMethodKey, int orderDateMonth,
+			int orderDateDay, int orderDateYear, int orderDateHour,
+			int orderDateMinute, int orderStatus, int paymentStatus,
+			String purchaseOrderNumber, java.math.BigDecimal shippingAmount,
+			String shippingOptionName,
 			java.math.BigDecimal shippingWithTaxAmount,
 			java.math.BigDecimal subtotal,
 			java.math.BigDecimal subtotalWithTaxAmount,
@@ -98,11 +101,12 @@ public class CommerceOrderLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commerceOrderLocalService.addCommerceOrder(
-			userId, groupId, billingAddressId, commerceAccountId,
-			commerceCurrencyId, commerceOrderTypeId, commerceShippingMethodId,
-			shippingAddressId, commercePaymentMethodKey, orderDateMonth,
-			orderDateDay, orderDateYear, orderDateHour, orderDateMinute,
-			orderStatus, paymentStatus, purchaseOrderNumber, shippingAmount,
+			externalReferenceCode, userId, groupId, billingAddressId,
+			commerceAccountId, commerceCurrencyId, commerceOrderTypeId,
+			commerceShippingMethodId, shippingAddressId,
+			commercePaymentMethodKey, orderDateMonth, orderDateDay,
+			orderDateYear, orderDateHour, orderDateMinute, orderStatus,
+			paymentStatus, purchaseOrderNumber, shippingAmount,
 			shippingOptionName, shippingWithTaxAmount, subtotal,
 			subtotalWithTaxAmount, taxAmount, total, totalWithTaxAmount,
 			serviceContext);

@@ -38,15 +38,6 @@ public class CommerceAccountGroupCommerceAccountRelLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.commerce.account.service.impl.CommerceAccountGroupCommerceAccountRelLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static CommerceAccountGroupCommerceAccountRel
-			addCommerceAccountGroupCommerceAccountRel(
-				long commerceAccountGroupId, long commerceAccountId,
-				com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCommerceAccountGroupCommerceAccountRel(
-			commerceAccountGroupId, commerceAccountId, serviceContext);
-	}
 
 	/**
 	 * @deprecated As of Cavanaugh (7.4.x)
@@ -61,6 +52,18 @@ public class CommerceAccountGroupCommerceAccountRelLocalServiceUtil {
 
 		return getService().addCommerceAccountGroupCommerceAccountRel(
 			commerceAccountGroupId, commerceAccountId, externalReferenceCode,
+			serviceContext);
+	}
+
+	public static CommerceAccountGroupCommerceAccountRel
+			addCommerceAccountGroupCommerceAccountRel(
+				String externalReferenceCode, long commerceAccountGroupId,
+				long commerceAccountId,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addCommerceAccountGroupCommerceAccountRel(
+			externalReferenceCode, commerceAccountGroupId, commerceAccountId,
 			serviceContext);
 	}
 

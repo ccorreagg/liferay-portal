@@ -93,12 +93,6 @@ public interface CommercePricingClassLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	public CommercePricingClass addCommercePricingClass(
-			long userId, Map<Locale, String> titleMap,
-			Map<Locale, String> descriptionMap, ServiceContext serviceContext)
-		throws PortalException;
-
-	@Indexable(type = IndexableType.REINDEX)
-	public CommercePricingClass addCommercePricingClass(
 			String externalReferenceCode, long userId,
 			Map<Locale, String> titleMap, Map<Locale, String> descriptionMap,
 			ServiceContext serviceContext)

@@ -95,21 +95,6 @@ public interface CommercePriceEntryLocalService
 		CommercePriceEntry commercePriceEntry);
 
 	/**
-	 * @deprecated As of Mueller (7.2.x)
-	 */
-	@Deprecated
-	public CommercePriceEntry addCommercePriceEntry(
-			long cpInstanceId, long commercePriceListId, BigDecimal price,
-			BigDecimal promoPrice, ServiceContext serviceContext)
-		throws PortalException;
-
-	public CommercePriceEntry addCommercePriceEntry(
-			long cProductId, String cpInstanceUuid, long commercePriceListId,
-			BigDecimal price, BigDecimal promoPrice,
-			ServiceContext serviceContext)
-		throws PortalException;
-
-	/**
 	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
 	 #addCommercePriceEntry(String, long, String, long,
 	 BigDecimal, BigDecimal, boolean, BigDecimal, BigDecimal,

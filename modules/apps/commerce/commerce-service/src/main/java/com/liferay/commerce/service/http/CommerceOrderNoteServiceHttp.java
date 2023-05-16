@@ -52,8 +52,8 @@ public class CommerceOrderNoteServiceHttp {
 
 	public static com.liferay.commerce.model.CommerceOrderNote
 			addCommerceOrderNote(
-				HttpPrincipal httpPrincipal, long commerceOrderId,
-				String content, boolean restricted,
+				HttpPrincipal httpPrincipal, String externalReferenceCode,
+				long commerceOrderId, String content, boolean restricted,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -63,8 +63,8 @@ public class CommerceOrderNoteServiceHttp {
 				_addCommerceOrderNoteParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, commerceOrderId, content, restricted,
-				serviceContext);
+				methodKey, externalReferenceCode, commerceOrderId, content,
+				restricted, serviceContext);
 
 			Object returnObj = null;
 
@@ -560,7 +560,7 @@ public class CommerceOrderNoteServiceHttp {
 
 	private static final Class<?>[] _addCommerceOrderNoteParameterTypes0 =
 		new Class[] {
-			long.class, String.class, boolean.class,
+			String.class, long.class, String.class, boolean.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[]

@@ -36,25 +36,6 @@ public class CommerceAddressServiceWrapper
 		_commerceAddressService = commerceAddressService;
 	}
 
-	/**
-	 * @deprecated As of Mueller (7.2.x), defaultBilling/Shipping exist on Account Entity. Pass type.
-	 */
-	@Deprecated
-	@Override
-	public com.liferay.commerce.model.CommerceAddress addCommerceAddress(
-			String className, long classPK, String name, String description,
-			String street1, String street2, String street3, String city,
-			String zip, long regionId, long countryId, String phoneNumber,
-			boolean defaultBilling, boolean defaultShipping,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commerceAddressService.addCommerceAddress(
-			className, classPK, name, description, street1, street2, street3,
-			city, zip, regionId, countryId, phoneNumber, defaultBilling,
-			defaultShipping, serviceContext);
-	}
-
 	@Override
 	public com.liferay.commerce.model.CommerceAddress addCommerceAddress(
 			String className, long classPK, String name, String description,
@@ -67,6 +48,26 @@ public class CommerceAddressServiceWrapper
 		return _commerceAddressService.addCommerceAddress(
 			className, classPK, name, description, street1, street2, street3,
 			city, zip, regionId, countryId, phoneNumber, type, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Mueller (7.2.x), defaultBilling/Shipping exist on Account Entity. Pass type.
+	 */
+	@Deprecated
+	@Override
+	public com.liferay.commerce.model.CommerceAddress addCommerceAddress(
+			String externalReferenceCode, String className, long classPK,
+			String name, String description, String street1, String street2,
+			String street3, String city, String zip, long regionId,
+			long countryId, String phoneNumber, boolean defaultBilling,
+			boolean defaultShipping,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _commerceAddressService.addCommerceAddress(
+			externalReferenceCode, className, classPK, name, description,
+			street1, street2, street3, city, zip, regionId, countryId,
+			phoneNumber, defaultBilling, defaultShipping, serviceContext);
 	}
 
 	@Override

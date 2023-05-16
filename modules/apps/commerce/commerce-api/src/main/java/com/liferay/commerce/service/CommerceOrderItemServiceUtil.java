@@ -39,27 +39,31 @@ public class CommerceOrderItemServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.commerce.service.impl.CommerceOrderItemServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static CommerceOrderItem addCommerceOrderItem(
-			long commerceOrderId, long cpInstanceId, String json, int quantity,
+			String externalReferenceCode, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
 			long replacedCPInstanceId, int shippedQuantity,
 			com.liferay.commerce.context.CommerceContext commerceContext,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addCommerceOrderItem(
-			commerceOrderId, cpInstanceId, json, quantity, replacedCPInstanceId,
-			shippedQuantity, commerceContext, serviceContext);
+			externalReferenceCode, commerceOrderId, cpInstanceId, json,
+			quantity, replacedCPInstanceId, shippedQuantity, commerceContext,
+			serviceContext);
 	}
 
 	public static CommerceOrderItem addOrUpdateCommerceOrderItem(
-			long commerceOrderId, long cpInstanceId, String json, int quantity,
+			String externalReferenceCode, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
 			long replacedCPInstanceId, int shippedQuantity,
 			com.liferay.commerce.context.CommerceContext commerceContext,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addOrUpdateCommerceOrderItem(
-			commerceOrderId, cpInstanceId, json, quantity, replacedCPInstanceId,
-			shippedQuantity, commerceContext, serviceContext);
+			externalReferenceCode, commerceOrderId, cpInstanceId, json,
+			quantity, replacedCPInstanceId, shippedQuantity, commerceContext,
+			serviceContext);
 	}
 
 	public static int countSubscriptionCommerceOrderItems(long commerceOrderId)

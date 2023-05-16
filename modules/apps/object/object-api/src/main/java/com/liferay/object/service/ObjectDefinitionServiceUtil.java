@@ -40,17 +40,18 @@ public class ObjectDefinitionServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.object.service.impl.ObjectDefinitionServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static ObjectDefinition addCustomObjectDefinition(
-			boolean enableComments, boolean enableLocalization,
-			Map<java.util.Locale, String> labelMap, String name,
-			String panelAppOrder, String panelCategoryKey,
+			String externalReferenceCode, boolean enableComments,
+			boolean enableLocalization, Map<java.util.Locale, String> labelMap,
+			String name, String panelAppOrder, String panelCategoryKey,
 			Map<java.util.Locale, String> pluralLabelMap, String scope,
 			String storageType,
 			List<com.liferay.object.model.ObjectField> objectFields)
 		throws PortalException {
 
 		return getService().addCustomObjectDefinition(
-			enableComments, enableLocalization, labelMap, name, panelAppOrder,
-			panelCategoryKey, pluralLabelMap, scope, storageType, objectFields);
+			externalReferenceCode, enableComments, enableLocalization, labelMap,
+			name, panelAppOrder, panelCategoryKey, pluralLabelMap, scope,
+			storageType, objectFields);
 	}
 
 	public static ObjectDefinition addObjectDefinition(
@@ -61,7 +62,7 @@ public class ObjectDefinitionServiceUtil {
 	}
 
 	public static ObjectDefinition addSystemObjectDefinition(
-			long userId, boolean enableComments,
+			String externalReferenceCode, long userId, boolean enableComments,
 			Map<java.util.Locale, String> labelMap, String name,
 			String panelAppOrder, String panelCategoryKey,
 			Map<java.util.Locale, String> pluralLabelMap, String scope,
@@ -69,8 +70,9 @@ public class ObjectDefinitionServiceUtil {
 		throws PortalException {
 
 		return getService().addSystemObjectDefinition(
-			userId, enableComments, labelMap, name, panelAppOrder,
-			panelCategoryKey, pluralLabelMap, scope, objectFields);
+			externalReferenceCode, userId, enableComments, labelMap, name,
+			panelAppOrder, panelCategoryKey, pluralLabelMap, scope,
+			objectFields);
 	}
 
 	public static ObjectDefinition deleteObjectDefinition(

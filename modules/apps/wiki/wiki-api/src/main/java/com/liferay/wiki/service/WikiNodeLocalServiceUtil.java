@@ -47,24 +47,12 @@ public class WikiNodeLocalServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.wiki.service.impl.WikiNodeLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static WikiNode addDefaultNode(
-			long userId,
+			String externalReferenceCode, long userId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
-		return getService().addDefaultNode(userId, serviceContext);
-	}
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addNode(String,
-	 long, String, String, ServiceContext)}
-	 */
-	@Deprecated
-	public static WikiNode addNode(
-			long userId, String name, String description,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addNode(userId, name, description, serviceContext);
+		return getService().addDefaultNode(
+			externalReferenceCode, userId, serviceContext);
 	}
 
 	public static WikiNode addNode(

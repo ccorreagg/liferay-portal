@@ -84,10 +84,12 @@ public class CommerceCatalogLocalServiceUtil {
 			catalogDefaultLanguageId, serviceContext);
 	}
 
-	public static CommerceCatalog addDefaultCommerceCatalog(long companyId)
+	public static CommerceCatalog addDefaultCommerceCatalog(
+			String externalReferenceCode, long companyId)
 		throws PortalException {
 
-		return getService().addDefaultCommerceCatalog(companyId);
+		return getService().addDefaultCommerceCatalog(
+			externalReferenceCode, companyId);
 	}
 
 	/**

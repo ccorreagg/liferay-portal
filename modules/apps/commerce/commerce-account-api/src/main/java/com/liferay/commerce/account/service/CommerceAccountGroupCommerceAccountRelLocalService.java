@@ -50,11 +50,6 @@ public interface CommerceAccountGroupCommerceAccountRelLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.commerce.account.service.impl.CommerceAccountGroupCommerceAccountRelLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the commerce account group commerce account rel local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CommerceAccountGroupCommerceAccountRelLocalServiceUtil} if injection and service tracking are not available.
 	 */
-	public CommerceAccountGroupCommerceAccountRel
-			addCommerceAccountGroupCommerceAccountRel(
-				long commerceAccountGroupId, long commerceAccountId,
-				ServiceContext serviceContext)
-		throws PortalException;
 
 	/**
 	 * @deprecated As of Cavanaugh (7.4.x)
@@ -64,6 +59,12 @@ public interface CommerceAccountGroupCommerceAccountRelLocalService
 			addCommerceAccountGroupCommerceAccountRel(
 				long commerceAccountGroupId, long commerceAccountId,
 				String externalReferenceCode, ServiceContext serviceContext)
+		throws PortalException;
+
+	public CommerceAccountGroupCommerceAccountRel
+			addCommerceAccountGroupCommerceAccountRel(
+				String externalReferenceCode, long commerceAccountGroupId,
+				long commerceAccountId, ServiceContext serviceContext)
 		throws PortalException;
 
 	public CommerceAccountGroupCommerceAccountRel

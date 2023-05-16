@@ -85,29 +85,32 @@ public class BlogsEntryLocalServiceWrapper
 
 	@Override
 	public BlogsEntry addEntry(
-			long userId, String title, String content,
-			java.util.Date displayDate,
+			String externalReferenceCode, long userId, String title,
+			String content, java.util.Date displayDate,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _blogsEntryLocalService.addEntry(
-			userId, title, content, displayDate, serviceContext);
+			externalReferenceCode, userId, title, content, displayDate,
+			serviceContext);
 	}
 
 	@Override
 	public BlogsEntry addEntry(
-			long userId, String title, String content,
+			String externalReferenceCode, long userId, String title,
+			String content,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _blogsEntryLocalService.addEntry(
-			userId, title, content, serviceContext);
+			externalReferenceCode, userId, title, content, serviceContext);
 	}
 
 	@Override
 	public BlogsEntry addEntry(
-			long userId, String title, String subtitle, String description,
-			String content, java.util.Date displayDate, boolean allowPingbacks,
+			String externalReferenceCode, long userId, String title,
+			String subtitle, String description, String content,
+			java.util.Date displayDate, boolean allowPingbacks,
 			boolean allowTrackbacks, String[] trackbacks,
 			String coverImageCaption,
 			com.liferay.portal.kernel.servlet.taglib.ui.ImageSelector
@@ -118,18 +121,20 @@ public class BlogsEntryLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _blogsEntryLocalService.addEntry(
-			userId, title, subtitle, description, content, displayDate,
-			allowPingbacks, allowTrackbacks, trackbacks, coverImageCaption,
-			coverImageImageSelector, smallImageImageSelector, serviceContext);
+			externalReferenceCode, userId, title, subtitle, description,
+			content, displayDate, allowPingbacks, allowTrackbacks, trackbacks,
+			coverImageCaption, coverImageImageSelector, smallImageImageSelector,
+			serviceContext);
 	}
 
 	@Override
 	public BlogsEntry addEntry(
-			long userId, String title, String subtitle, String description,
-			String content, int displayDateMonth, int displayDateDay,
-			int displayDateYear, int displayDateHour, int displayDateMinute,
-			boolean allowPingbacks, boolean allowTrackbacks,
-			String[] trackbacks, String coverImageCaption,
+			String externalReferenceCode, long userId, String title,
+			String subtitle, String description, String content,
+			int displayDateMonth, int displayDateDay, int displayDateYear,
+			int displayDateHour, int displayDateMinute, boolean allowPingbacks,
+			boolean allowTrackbacks, String[] trackbacks,
+			String coverImageCaption,
 			com.liferay.portal.kernel.servlet.taglib.ui.ImageSelector
 				coverImageImageSelector,
 			com.liferay.portal.kernel.servlet.taglib.ui.ImageSelector
@@ -138,10 +143,11 @@ public class BlogsEntryLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _blogsEntryLocalService.addEntry(
-			userId, title, subtitle, description, content, displayDateMonth,
-			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
-			allowPingbacks, allowTrackbacks, trackbacks, coverImageCaption,
-			coverImageImageSelector, smallImageImageSelector, serviceContext);
+			externalReferenceCode, userId, title, subtitle, description,
+			content, displayDateMonth, displayDateDay, displayDateYear,
+			displayDateHour, displayDateMinute, allowPingbacks, allowTrackbacks,
+			trackbacks, coverImageCaption, coverImageImageSelector,
+			smallImageImageSelector, serviceContext);
 	}
 
 	@Override

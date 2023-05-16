@@ -57,7 +57,7 @@ public interface OAuth2ApplicationService extends BaseService {
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.oauth2.provider.service.impl.OAuth2ApplicationServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the o auth2 application remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link OAuth2ApplicationServiceUtil} if injection and service tracking are not available.
 	 */
 	public OAuth2Application addOAuth2Application(
-			List<GrantType> allowedGrantTypesList,
+			String externalReferenceCode, List<GrantType> allowedGrantTypesList,
 			String clientAuthenticationMethod, long clientCredentialUserId,
 			String clientId, int clientProfile, String clientSecret,
 			String description, List<String> featuresList, String homePageURL,

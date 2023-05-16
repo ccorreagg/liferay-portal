@@ -75,13 +75,14 @@ public class CommerceShipmentItemLocalServiceWrapper
 	@Override
 	public com.liferay.commerce.model.CommerceShipmentItem
 			addDeliverySubscriptionCommerceShipmentItem(
-				long groupId, long userId, long commerceShipmentId,
-				long commerceOrderItemId)
+				String externalReferenceCode, long groupId, long userId,
+				long commerceShipmentId, long commerceOrderItemId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commerceShipmentItemLocalService.
 			addDeliverySubscriptionCommerceShipmentItem(
-				groupId, userId, commerceShipmentId, commerceOrderItemId);
+				externalReferenceCode, groupId, userId, commerceShipmentId,
+				commerceOrderItemId);
 	}
 
 	@Override

@@ -59,13 +59,15 @@ public interface CommerceOrderItemService extends BaseService {
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.commerce.service.impl.CommerceOrderItemServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the commerce order item remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CommerceOrderItemServiceUtil} if injection and service tracking are not available.
 	 */
 	public CommerceOrderItem addCommerceOrderItem(
-			long commerceOrderId, long cpInstanceId, String json, int quantity,
+			String externalReferenceCode, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
 			long replacedCPInstanceId, int shippedQuantity,
 			CommerceContext commerceContext, ServiceContext serviceContext)
 		throws PortalException;
 
 	public CommerceOrderItem addOrUpdateCommerceOrderItem(
-			long commerceOrderId, long cpInstanceId, String json, int quantity,
+			String externalReferenceCode, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
 			long replacedCPInstanceId, int shippedQuantity,
 			CommerceContext commerceContext, ServiceContext serviceContext)
 		throws PortalException;

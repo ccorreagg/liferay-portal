@@ -226,7 +226,8 @@ public class JournalArticleLocalServiceUtil {
 	}
 
 	public static JournalArticle addArticleDefaultValues(
-			long userId, long groupId, long classNameId, long classPK,
+			String externalReferenceCode, long userId, long groupId,
+			long classNameId, long classPK,
 			Map<java.util.Locale, String> titleMap,
 			Map<java.util.Locale, String> descriptionMap, String content,
 			long ddmStructureId, String ddmTemplateKey, String layoutUuid,
@@ -242,14 +243,15 @@ public class JournalArticleLocalServiceUtil {
 		throws PortalException {
 
 		return getService().addArticleDefaultValues(
-			userId, groupId, classNameId, classPK, titleMap, descriptionMap,
-			content, ddmStructureId, ddmTemplateKey, layoutUuid,
-			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
-			displayDateMinute, expirationDateMonth, expirationDateDay,
-			expirationDateYear, expirationDateHour, expirationDateMinute,
-			neverExpire, reviewDateMonth, reviewDateDay, reviewDateYear,
-			reviewDateHour, reviewDateMinute, neverReview, indexable,
-			smallImage, smallImageURL, smallImageFile, serviceContext);
+			externalReferenceCode, userId, groupId, classNameId, classPK,
+			titleMap, descriptionMap, content, ddmStructureId, ddmTemplateKey,
+			layoutUuid, displayDateMonth, displayDateDay, displayDateYear,
+			displayDateHour, displayDateMinute, expirationDateMonth,
+			expirationDateDay, expirationDateYear, expirationDateHour,
+			expirationDateMinute, neverExpire, reviewDateMonth, reviewDateDay,
+			reviewDateYear, reviewDateHour, reviewDateMinute, neverReview,
+			indexable, smallImage, smallImageURL, smallImageFile,
+			serviceContext);
 	}
 
 	/**

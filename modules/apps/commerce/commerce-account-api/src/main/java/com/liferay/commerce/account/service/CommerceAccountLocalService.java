@@ -66,7 +66,8 @@ public interface CommerceAccountLocalService extends BaseLocalService {
 			ServiceContext serviceContext)
 		throws PortalException;
 
-	public CommerceAccount addCommerceAccount(CommerceAccount commerceAccount);
+	public CommerceAccount addCommerceAccount(
+		String externalReferenceCode, CommerceAccount commerceAccount);
 
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceAccount addCommerceAccount(

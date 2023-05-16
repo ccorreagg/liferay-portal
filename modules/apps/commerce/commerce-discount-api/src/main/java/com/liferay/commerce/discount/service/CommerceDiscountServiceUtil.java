@@ -39,8 +39,8 @@ public class CommerceDiscountServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.commerce.discount.service.impl.CommerceDiscountServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static CommerceDiscount addCommerceDiscount(
-			String title, String target, boolean useCouponCode,
-			String couponCode, boolean usePercentage,
+			String externalReferenceCode, String title, String target,
+			boolean useCouponCode, String couponCode, boolean usePercentage,
 			java.math.BigDecimal maximumDiscountAmount,
 			java.math.BigDecimal level1, java.math.BigDecimal level2,
 			java.math.BigDecimal level3, java.math.BigDecimal level4,
@@ -54,9 +54,9 @@ public class CommerceDiscountServiceUtil {
 		throws PortalException {
 
 		return getService().addCommerceDiscount(
-			title, target, useCouponCode, couponCode, usePercentage,
-			maximumDiscountAmount, level1, level2, level3, level4,
-			limitationType, limitationTimes, active, displayDateMonth,
+			externalReferenceCode, title, target, useCouponCode, couponCode,
+			usePercentage, maximumDiscountAmount, level1, level2, level3,
+			level4, limitationType, limitationTimes, active, displayDateMonth,
 			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
 			expirationDateMonth, expirationDateDay, expirationDateYear,
 			expirationDateHour, expirationDateMinute, neverExpire,
@@ -64,8 +64,8 @@ public class CommerceDiscountServiceUtil {
 	}
 
 	public static CommerceDiscount addCommerceDiscount(
-			String title, String target, boolean useCouponCode,
-			String couponCode, boolean usePercentage,
+			String externalReferenceCode, String title, String target,
+			boolean useCouponCode, String couponCode, boolean usePercentage,
 			java.math.BigDecimal maximumDiscountAmount, String level,
 			java.math.BigDecimal level1, java.math.BigDecimal level2,
 			java.math.BigDecimal level3, java.math.BigDecimal level4,
@@ -80,9 +80,9 @@ public class CommerceDiscountServiceUtil {
 		throws PortalException {
 
 		return getService().addCommerceDiscount(
-			title, target, useCouponCode, couponCode, usePercentage,
-			maximumDiscountAmount, level, level1, level2, level3, level4,
-			limitationType, limitationTimes, rulesConjunction, active,
+			externalReferenceCode, title, target, useCouponCode, couponCode,
+			usePercentage, maximumDiscountAmount, level, level1, level2, level3,
+			level4, limitationType, limitationTimes, rulesConjunction, active,
 			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
 			displayDateMinute, expirationDateMonth, expirationDateDay,
 			expirationDateYear, expirationDateHour, expirationDateMinute,

@@ -52,7 +52,10 @@ public class CommerceShipmentServiceHttp {
 
 	public static com.liferay.commerce.model.CommerceShipment
 			addCommerceShipment(
-				HttpPrincipal httpPrincipal, long commerceOrderId,
+				HttpPrincipal httpPrincipal, String externalReferenceCode,
+				long groupId, long commerceAccountId, long commerceAddressId,
+				long commerceShippingMethodId,
+				String commerceShippingOptionName,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -62,7 +65,9 @@ public class CommerceShipmentServiceHttp {
 				_addCommerceShipmentParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, commerceOrderId, serviceContext);
+				methodKey, externalReferenceCode, groupId, commerceAccountId,
+				commerceAddressId, commerceShippingMethodId,
+				commerceShippingOptionName, serviceContext);
 
 			Object returnObj = null;
 
@@ -95,9 +100,7 @@ public class CommerceShipmentServiceHttp {
 	public static com.liferay.commerce.model.CommerceShipment
 			addCommerceShipment(
 				HttpPrincipal httpPrincipal, String externalReferenceCode,
-				long groupId, long commerceAccountId, long commerceAddressId,
-				long commerceShippingMethodId,
-				String commerceShippingOptionName,
+				long commerceOrderId,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -107,9 +110,8 @@ public class CommerceShipmentServiceHttp {
 				_addCommerceShipmentParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, externalReferenceCode, groupId, commerceAccountId,
-				commerceAddressId, commerceShippingMethodId,
-				commerceShippingOptionName, serviceContext);
+				methodKey, externalReferenceCode, commerceOrderId,
+				serviceContext);
 
 			Object returnObj = null;
 
@@ -1220,12 +1222,13 @@ public class CommerceShipmentServiceHttp {
 
 	private static final Class<?>[] _addCommerceShipmentParameterTypes0 =
 		new Class[] {
-			long.class, com.liferay.portal.kernel.service.ServiceContext.class
+			String.class, long.class, long.class, long.class, long.class,
+			String.class, com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[] _addCommerceShipmentParameterTypes1 =
 		new Class[] {
-			String.class, long.class, long.class, long.class, long.class,
-			String.class, com.liferay.portal.kernel.service.ServiceContext.class
+			String.class, long.class,
+			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[] _deleteCommerceShipmentParameterTypes2 =
 		new Class[] {long.class};

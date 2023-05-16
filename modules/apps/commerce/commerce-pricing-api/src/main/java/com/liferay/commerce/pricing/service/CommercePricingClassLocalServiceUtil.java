@@ -63,16 +63,6 @@ public class CommercePricingClassLocalServiceUtil {
 	}
 
 	public static CommercePricingClass addCommercePricingClass(
-			long userId, Map<java.util.Locale, String> titleMap,
-			Map<java.util.Locale, String> descriptionMap,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCommercePricingClass(
-			userId, titleMap, descriptionMap, serviceContext);
-	}
-
-	public static CommercePricingClass addCommercePricingClass(
 			String externalReferenceCode, long userId,
 			Map<java.util.Locale, String> titleMap,
 			Map<java.util.Locale, String> descriptionMap,

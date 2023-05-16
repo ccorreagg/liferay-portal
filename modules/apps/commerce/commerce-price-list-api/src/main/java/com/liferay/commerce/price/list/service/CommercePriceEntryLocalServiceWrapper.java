@@ -59,34 +59,6 @@ public class CommercePriceEntryLocalServiceWrapper
 	}
 
 	/**
-	 * @deprecated As of Mueller (7.2.x)
-	 */
-	@Deprecated
-	@Override
-	public CommercePriceEntry addCommercePriceEntry(
-			long cpInstanceId, long commercePriceListId,
-			java.math.BigDecimal price, java.math.BigDecimal promoPrice,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commercePriceEntryLocalService.addCommercePriceEntry(
-			cpInstanceId, commercePriceListId, price, promoPrice,
-			serviceContext);
-	}
-
-	@Override
-	public CommercePriceEntry addCommercePriceEntry(
-			long cProductId, String cpInstanceUuid, long commercePriceListId,
-			java.math.BigDecimal price, java.math.BigDecimal promoPrice,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commercePriceEntryLocalService.addCommercePriceEntry(
-			cProductId, cpInstanceUuid, commercePriceListId, price, promoPrice,
-			serviceContext);
-	}
-
-	/**
 	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
 	 #addCommercePriceEntry(String, long, String, long,
 	 BigDecimal, BigDecimal, boolean, BigDecimal, BigDecimal,

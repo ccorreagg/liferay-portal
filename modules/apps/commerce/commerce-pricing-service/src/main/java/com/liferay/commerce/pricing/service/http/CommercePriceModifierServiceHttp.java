@@ -52,8 +52,9 @@ public class CommercePriceModifierServiceHttp {
 
 	public static com.liferay.commerce.pricing.model.CommercePriceModifier
 			addCommercePriceModifier(
-				HttpPrincipal httpPrincipal, long groupId, String title,
-				String target, long commercePriceListId, String modifierType,
+				HttpPrincipal httpPrincipal, String externalReferenceCode,
+				long groupId, String title, String target,
+				long commercePriceListId, String modifierType,
 				java.math.BigDecimal modifierAmount, double priority,
 				boolean active, int displayDateMonth, int displayDateDay,
 				int displayDateYear, int displayDateHour, int displayDateMinute,
@@ -70,9 +71,9 @@ public class CommercePriceModifierServiceHttp {
 				_addCommercePriceModifierParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupId, title, target, commercePriceListId,
-				modifierType, modifierAmount, priority, active,
-				displayDateMonth, displayDateDay, displayDateYear,
+				methodKey, externalReferenceCode, groupId, title, target,
+				commercePriceListId, modifierType, modifierAmount, priority,
+				active, displayDateMonth, displayDateDay, displayDateYear,
 				displayDateHour, displayDateMinute, expirationDateMonth,
 				expirationDateDay, expirationDateYear, expirationDateHour,
 				expirationDateMinute, neverExpire, serviceContext);
@@ -621,10 +622,11 @@ public class CommercePriceModifierServiceHttp {
 
 	private static final Class<?>[] _addCommercePriceModifierParameterTypes0 =
 		new Class[] {
-			long.class, String.class, String.class, long.class, String.class,
-			java.math.BigDecimal.class, double.class, boolean.class, int.class,
+			String.class, long.class, String.class, String.class, long.class,
+			String.class, java.math.BigDecimal.class, double.class,
+			boolean.class, int.class, int.class, int.class, int.class,
 			int.class, int.class, int.class, int.class, int.class, int.class,
-			int.class, int.class, int.class, boolean.class,
+			boolean.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[]

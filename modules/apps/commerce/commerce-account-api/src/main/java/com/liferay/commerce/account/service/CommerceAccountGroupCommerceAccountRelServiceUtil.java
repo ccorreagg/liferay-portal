@@ -40,12 +40,14 @@ public class CommerceAccountGroupCommerceAccountRelServiceUtil {
 	 */
 	public static CommerceAccountGroupCommerceAccountRel
 			addCommerceAccountGroupCommerceAccountRel(
-				long commerceAccountGroupId, long commerceAccountId,
+				String externalReferenceCode, long commerceAccountGroupId,
+				long commerceAccountId,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addCommerceAccountGroupCommerceAccountRel(
-			commerceAccountGroupId, commerceAccountId, serviceContext);
+			externalReferenceCode, commerceAccountGroupId, commerceAccountId,
+			serviceContext);
 	}
 
 	public static void deleteCommerceAccountGroupCommerceAccountRel(

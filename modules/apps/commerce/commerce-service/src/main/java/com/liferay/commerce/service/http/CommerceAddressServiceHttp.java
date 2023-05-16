@@ -54,8 +54,7 @@ public class CommerceAddressServiceHttp {
 			HttpPrincipal httpPrincipal, String className, long classPK,
 			String name, String description, String street1, String street2,
 			String street3, String city, String zip, long regionId,
-			long countryId, String phoneNumber, boolean defaultBilling,
-			boolean defaultShipping,
+			long countryId, String phoneNumber, int type,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -67,7 +66,7 @@ public class CommerceAddressServiceHttp {
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, className, classPK, name, description, street1,
 				street2, street3, city, zip, regionId, countryId, phoneNumber,
-				defaultBilling, defaultShipping, serviceContext);
+				type, serviceContext);
 
 			Object returnObj = null;
 
@@ -98,10 +97,11 @@ public class CommerceAddressServiceHttp {
 	}
 
 	public static com.liferay.commerce.model.CommerceAddress addCommerceAddress(
-			HttpPrincipal httpPrincipal, String className, long classPK,
-			String name, String description, String street1, String street2,
-			String street3, String city, String zip, long regionId,
-			long countryId, String phoneNumber, int type,
+			HttpPrincipal httpPrincipal, String externalReferenceCode,
+			String className, long classPK, String name, String description,
+			String street1, String street2, String street3, String city,
+			String zip, long regionId, long countryId, String phoneNumber,
+			boolean defaultBilling, boolean defaultShipping,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -111,9 +111,10 @@ public class CommerceAddressServiceHttp {
 				_addCommerceAddressParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, className, classPK, name, description, street1,
-				street2, street3, city, zip, regionId, countryId, phoneNumber,
-				type, serviceContext);
+				methodKey, externalReferenceCode, className, classPK, name,
+				description, street1, street2, street3, city, zip, regionId,
+				countryId, phoneNumber, defaultBilling, defaultShipping,
+				serviceContext);
 
 			Object returnObj = null;
 
@@ -1330,14 +1331,15 @@ public class CommerceAddressServiceHttp {
 		new Class[] {
 			String.class, long.class, String.class, String.class, String.class,
 			String.class, String.class, String.class, String.class, long.class,
-			long.class, String.class, boolean.class, boolean.class,
+			long.class, String.class, int.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[] _addCommerceAddressParameterTypes1 =
 		new Class[] {
-			String.class, long.class, String.class, String.class, String.class,
-			String.class, String.class, String.class, String.class, long.class,
-			long.class, String.class, int.class,
+			String.class, String.class, long.class, String.class, String.class,
+			String.class, String.class, String.class, String.class,
+			String.class, long.class, long.class, String.class, boolean.class,
+			boolean.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[] _addCommerceAddressParameterTypes2 =

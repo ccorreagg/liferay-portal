@@ -44,6 +44,7 @@ public class CommerceAccountGroupCommerceAccountRelServiceWrapper
 		com.liferay.commerce.account.model.
 			CommerceAccountGroupCommerceAccountRel
 					addCommerceAccountGroupCommerceAccountRel(
+						String externalReferenceCode,
 						long commerceAccountGroupId, long commerceAccountId,
 						com.liferay.portal.kernel.service.ServiceContext
 							serviceContext)
@@ -51,7 +52,8 @@ public class CommerceAccountGroupCommerceAccountRelServiceWrapper
 
 		return _commerceAccountGroupCommerceAccountRelService.
 			addCommerceAccountGroupCommerceAccountRel(
-				commerceAccountGroupId, commerceAccountId, serviceContext);
+				externalReferenceCode, commerceAccountGroupId,
+				commerceAccountId, serviceContext);
 	}
 
 	@Override

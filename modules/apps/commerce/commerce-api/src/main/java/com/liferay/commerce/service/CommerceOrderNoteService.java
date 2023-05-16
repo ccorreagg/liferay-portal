@@ -53,8 +53,8 @@ public interface CommerceOrderNoteService extends BaseService {
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.commerce.service.impl.CommerceOrderNoteServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the commerce order note remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CommerceOrderNoteServiceUtil} if injection and service tracking are not available.
 	 */
 	public CommerceOrderNote addCommerceOrderNote(
-			long commerceOrderId, String content, boolean restricted,
-			ServiceContext serviceContext)
+			String externalReferenceCode, long commerceOrderId, String content,
+			boolean restricted, ServiceContext serviceContext)
 		throws PortalException;
 
 	public CommerceOrderNote addOrUpdateCommerceOrderNote(

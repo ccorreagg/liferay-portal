@@ -62,13 +62,14 @@ public class CommerceOrderTypeRelLocalServiceUtil {
 	}
 
 	public static CommerceOrderTypeRel addCommerceOrderTypeRel(
-			long userId, String className, long classPK,
-			long commerceOrderTypeId,
+			String externalReferenceCode, long userId, String className,
+			long classPK, long commerceOrderTypeId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addCommerceOrderTypeRel(
-			userId, className, classPK, commerceOrderTypeId, serviceContext);
+			externalReferenceCode, userId, className, classPK,
+			commerceOrderTypeId, serviceContext);
 	}
 
 	/**

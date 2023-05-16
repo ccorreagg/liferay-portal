@@ -91,8 +91,8 @@ public interface CommerceShipmentItemLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceShipmentItem addDeliverySubscriptionCommerceShipmentItem(
-			long groupId, long userId, long commerceShipmentId,
-			long commerceOrderItemId)
+			String externalReferenceCode, long groupId, long userId,
+			long commerceShipmentId, long commerceOrderItemId)
 		throws PortalException;
 
 	public CommerceShipmentItem addOrUpdateCommerceShipmentItem(

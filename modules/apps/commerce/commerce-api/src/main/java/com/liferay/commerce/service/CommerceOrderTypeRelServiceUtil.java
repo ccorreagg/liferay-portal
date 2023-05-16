@@ -40,12 +40,14 @@ public class CommerceOrderTypeRelServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.commerce.service.impl.CommerceOrderTypeRelServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static CommerceOrderTypeRel addCommerceOrderTypeRel(
-			String className, long classPK, long commerceOrderTypeId,
+			String externalReferenceCode, String className, long classPK,
+			long commerceOrderTypeId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addCommerceOrderTypeRel(
-			className, classPK, commerceOrderTypeId, serviceContext);
+			externalReferenceCode, className, classPK, commerceOrderTypeId,
+			serviceContext);
 	}
 
 	public static CommerceOrderTypeRel deleteCommerceOrderTypeRel(

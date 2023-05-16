@@ -44,13 +44,6 @@ public class NotificationTemplateLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.notification.service.impl.NotificationTemplateLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static NotificationTemplate addNotificationTemplate(
-			com.liferay.notification.context.NotificationContext
-				notificationContext)
-		throws PortalException {
-
-		return getService().addNotificationTemplate(notificationContext);
-	}
 
 	/**
 	 * Adds the notification template to the database. Also notifies the appropriate model listeners.
@@ -74,6 +67,16 @@ public class NotificationTemplateLocalServiceUtil {
 
 		return getService().addNotificationTemplate(
 			externalReferenceCode, userId, type);
+	}
+
+	public static NotificationTemplate addNotificationTemplate(
+			String externalReferenceCode,
+			com.liferay.notification.context.NotificationContext
+				notificationContext)
+		throws PortalException {
+
+		return getService().addNotificationTemplate(
+			externalReferenceCode, notificationContext);
 	}
 
 	/**

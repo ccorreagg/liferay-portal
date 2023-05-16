@@ -57,16 +57,6 @@ public class CommerceOrderNoteLocalServiceWrapper
 
 	@Override
 	public com.liferay.commerce.model.CommerceOrderNote addCommerceOrderNote(
-			long commerceOrderId, String content, boolean restricted,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commerceOrderNoteLocalService.addCommerceOrderNote(
-			commerceOrderId, content, restricted, serviceContext);
-	}
-
-	@Override
-	public com.liferay.commerce.model.CommerceOrderNote addCommerceOrderNote(
 			String externalReferenceCode, long commerceOrderId, String content,
 			boolean restricted,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)

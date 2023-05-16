@@ -52,15 +52,17 @@ public class AccountEntryServiceUtil {
 	}
 
 	public static AccountEntry addAccountEntry(
-			long userId, long parentAccountEntryId, String name,
-			String description, String[] domains, String email,
-			byte[] logoBytes, String taxIdNumber, String type, int status,
+			String externalReferenceCode, long userId,
+			long parentAccountEntryId, String name, String description,
+			String[] domains, String email, byte[] logoBytes,
+			String taxIdNumber, String type, int status,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addAccountEntry(
-			userId, parentAccountEntryId, name, description, domains, email,
-			logoBytes, taxIdNumber, type, status, serviceContext);
+			externalReferenceCode, userId, parentAccountEntryId, name,
+			description, domains, email, logoBytes, taxIdNumber, type, status,
+			serviceContext);
 	}
 
 	public static AccountEntry addOrUpdateAccountEntry(

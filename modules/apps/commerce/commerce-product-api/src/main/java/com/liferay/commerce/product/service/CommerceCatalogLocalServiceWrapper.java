@@ -81,11 +81,12 @@ public class CommerceCatalogLocalServiceWrapper
 	}
 
 	@Override
-	public CommerceCatalog addDefaultCommerceCatalog(long companyId)
+	public CommerceCatalog addDefaultCommerceCatalog(
+			String externalReferenceCode, long companyId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commerceCatalogLocalService.addDefaultCommerceCatalog(
-			companyId);
+			externalReferenceCode, companyId);
 	}
 
 	/**

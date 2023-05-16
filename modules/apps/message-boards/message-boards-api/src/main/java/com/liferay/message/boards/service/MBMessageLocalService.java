@@ -82,8 +82,8 @@ public interface MBMessageLocalService
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.message.boards.service.impl.MBMessageLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the message-boards message local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link MBMessageLocalServiceUtil} if injection and service tracking are not available.
 	 */
 	public MBMessage addDiscussionMessage(
-			long userId, String userName, long groupId, String className,
-			long classPK, int workflowAction)
+			String externalReferenceCode, long userId, String userName,
+			long groupId, String className, long classPK, int workflowAction)
 		throws PortalException;
 
 	public MBMessage addDiscussionMessage(
@@ -106,6 +106,15 @@ public interface MBMessageLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public MBMessage addMBMessage(MBMessage mbMessage);
 
+	public MBMessage addMessage(
+			String externalReferenceCode, long userId, String userName,
+			long groupId, long categoryId, long threadId, long parentMessageId,
+			String subject, String body, String format,
+			List<ObjectValuePair<String, InputStream>> inputStreamOVPs,
+			boolean anonymous, double priority, boolean allowPingbacks,
+			ServiceContext serviceContext)
+		throws PortalException;
+
 	/**
 	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
 	 #addMessage(String, long, String, long, long, long, long,
@@ -114,8 +123,21 @@ public interface MBMessageLocalService
 	 */
 	@Deprecated
 	public MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			long threadId, long parentMessageId, String subject, String body,
+			String externalReferenceCode, long userId, String userName,
+			long groupId, long categoryId, String subject, String body,
+			ServiceContext serviceContext)
+		throws PortalException;
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 #addMessage(String, long, String, long, long, long, long,
+	 String, String, String, List, boolean, double, boolean,
+	 ServiceContext)}
+	 */
+	@Deprecated
+	public MBMessage addMessage(
+			String externalReferenceCode, long userId, String userName,
+			long groupId, long categoryId, String subject, String body,
 			String format,
 			List<ObjectValuePair<String, InputStream>> inputStreamOVPs,
 			boolean anonymous, double priority, boolean allowPingbacks,
@@ -130,47 +152,12 @@ public interface MBMessageLocalService
 	 */
 	@Deprecated
 	public MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			String subject, String body, ServiceContext serviceContext)
-		throws PortalException;
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
-	 #addMessage(String, long, String, long, long, long, long,
-	 String, String, String, List, boolean, double, boolean,
-	 ServiceContext)}
-	 */
-	@Deprecated
-	public MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			String subject, String body, String format,
-			List<ObjectValuePair<String, InputStream>> inputStreamOVPs,
-			boolean anonymous, double priority, boolean allowPingbacks,
-			ServiceContext serviceContext)
-		throws PortalException;
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
-	 #addMessage(String, long, String, long, long, long, long,
-	 String, String, String, List, boolean, double, boolean,
-	 ServiceContext)}
-	 */
-	@Deprecated
-	public MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			String subject, String body, String format, String fileName,
-			File file, boolean anonymous, double priority,
-			boolean allowPingbacks, ServiceContext serviceContext)
-		throws FileNotFoundException, PortalException;
-
-	public MBMessage addMessage(
 			String externalReferenceCode, long userId, String userName,
-			long groupId, long categoryId, long threadId, long parentMessageId,
-			String subject, String body, String format,
-			List<ObjectValuePair<String, InputStream>> inputStreamOVPs,
-			boolean anonymous, double priority, boolean allowPingbacks,
+			long groupId, long categoryId, String subject, String body,
+			String format, String fileName, File file, boolean anonymous,
+			double priority, boolean allowPingbacks,
 			ServiceContext serviceContext)
-		throws PortalException;
+		throws FileNotFoundException, PortalException;
 
 	public void addMessageAttachment(
 			long userId, long messageId, String fileName, File file,

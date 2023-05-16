@@ -40,13 +40,13 @@ public class CommerceOrderServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.commerce.service.impl.CommerceOrderServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static CommerceOrder addCommerceOrder(
-			long groupId, long commerceAccountId, long commerceCurrencyId,
-			long commerceOrderTypeId)
+			String externalReferenceCode, long groupId, long commerceAccountId,
+			long commerceCurrencyId, long commerceOrderTypeId)
 		throws PortalException {
 
 		return getService().addCommerceOrder(
-			groupId, commerceAccountId, commerceCurrencyId,
-			commerceOrderTypeId);
+			externalReferenceCode, groupId, commerceAccountId,
+			commerceCurrencyId, commerceOrderTypeId);
 	}
 
 	public static CommerceOrder addOrUpdateCommerceOrder(

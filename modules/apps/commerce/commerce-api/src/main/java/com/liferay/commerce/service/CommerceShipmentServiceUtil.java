@@ -40,15 +40,6 @@ public class CommerceShipmentServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.commerce.service.impl.CommerceShipmentServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static CommerceShipment addCommerceShipment(
-			long commerceOrderId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCommerceShipment(
-			commerceOrderId, serviceContext);
-	}
-
-	public static CommerceShipment addCommerceShipment(
 			String externalReferenceCode, long groupId, long commerceAccountId,
 			long commerceAddressId, long commerceShippingMethodId,
 			String commerceShippingOptionName,
@@ -59,6 +50,15 @@ public class CommerceShipmentServiceUtil {
 			externalReferenceCode, groupId, commerceAccountId,
 			commerceAddressId, commerceShippingMethodId,
 			commerceShippingOptionName, serviceContext);
+	}
+
+	public static CommerceShipment addCommerceShipment(
+			String externalReferenceCode, long commerceOrderId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addCommerceShipment(
+			externalReferenceCode, commerceOrderId, serviceContext);
 	}
 
 	/**

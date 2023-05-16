@@ -78,8 +78,9 @@ public interface CommercePriceListLocalService
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.commerce.price.list.service.impl.CommercePriceListLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the commerce price list local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CommercePriceListLocalServiceUtil} if injection and service tracking are not available.
 	 */
 	public CommercePriceList addCatalogBaseCommercePriceList(
-			long groupId, long userId, long commerceCurrencyId, String type,
-			String name, ServiceContext serviceContext)
+			String externalReferenceCode, long groupId, long userId,
+			long commerceCurrencyId, String type, String name,
+			ServiceContext serviceContext)
 		throws PortalException;
 
 	/**
@@ -87,8 +88,9 @@ public interface CommercePriceListLocalService
 	 */
 	@Deprecated
 	public CommercePriceList addCommerceCatalogBasePriceList(
-			long groupId, long userId, long commerceCurrencyId, String type,
-			String name, ServiceContext serviceContext)
+			String externalReferenceCode, long groupId, long userId,
+			long commerceCurrencyId, String type, String name,
+			ServiceContext serviceContext)
 		throws PortalException;
 
 	/**

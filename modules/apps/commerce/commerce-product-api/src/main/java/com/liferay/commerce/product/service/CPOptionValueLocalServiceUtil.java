@@ -61,16 +61,6 @@ public class CPOptionValueLocalServiceUtil {
 	}
 
 	public static CPOptionValue addCPOptionValue(
-			long cpOptionId, Map<java.util.Locale, String> nameMap,
-			double priority, String key,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCPOptionValue(
-			cpOptionId, nameMap, priority, key, serviceContext);
-	}
-
-	public static CPOptionValue addCPOptionValue(
 			String externalReferenceCode, long cpOptionId,
 			Map<java.util.Locale, String> nameMap, double priority, String key,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)

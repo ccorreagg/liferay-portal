@@ -47,12 +47,13 @@ public class MBMessageLocalServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.message.boards.service.impl.MBMessageLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static MBMessage addDiscussionMessage(
-			long userId, String userName, long groupId, String className,
-			long classPK, int workflowAction)
+			String externalReferenceCode, long userId, String userName,
+			long groupId, String className, long classPK, int workflowAction)
 		throws PortalException {
 
 		return getService().addDiscussionMessage(
-			userId, userName, groupId, className, classPK, workflowAction);
+			externalReferenceCode, userId, userName, groupId, className,
+			classPK, workflowAction);
 	}
 
 	public static MBMessage addDiscussionMessage(
@@ -81,92 +82,6 @@ public class MBMessageLocalServiceUtil {
 		return getService().addMBMessage(mbMessage);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
-	 #addMessage(String, long, String, long, long, long, long,
-	 String, String, String, List, boolean, double, boolean,
-	 ServiceContext)}
-	 */
-	@Deprecated
-	public static MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			long threadId, long parentMessageId, String subject, String body,
-			String format,
-			List
-				<com.liferay.portal.kernel.util.ObjectValuePair
-					<String, InputStream>> inputStreamOVPs,
-			boolean anonymous, double priority, boolean allowPingbacks,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addMessage(
-			userId, userName, groupId, categoryId, threadId, parentMessageId,
-			subject, body, format, inputStreamOVPs, anonymous, priority,
-			allowPingbacks, serviceContext);
-	}
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
-	 #addMessage(String, long, String, long, long, long, long,
-	 String, String, String, List, boolean, double, boolean,
-	 ServiceContext)}
-	 */
-	@Deprecated
-	public static MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			String subject, String body,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addMessage(
-			userId, userName, groupId, categoryId, subject, body,
-			serviceContext);
-	}
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
-	 #addMessage(String, long, String, long, long, long, long,
-	 String, String, String, List, boolean, double, boolean,
-	 ServiceContext)}
-	 */
-	@Deprecated
-	public static MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			String subject, String body, String format,
-			List
-				<com.liferay.portal.kernel.util.ObjectValuePair
-					<String, InputStream>> inputStreamOVPs,
-			boolean anonymous, double priority, boolean allowPingbacks,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addMessage(
-			userId, userName, groupId, categoryId, subject, body, format,
-			inputStreamOVPs, anonymous, priority, allowPingbacks,
-			serviceContext);
-	}
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
-	 #addMessage(String, long, String, long, long, long, long,
-	 String, String, String, List, boolean, double, boolean,
-	 ServiceContext)}
-	 */
-	@Deprecated
-	public static MBMessage addMessage(
-			long userId, String userName, long groupId, long categoryId,
-			String subject, String body, String format, String fileName,
-			java.io.File file, boolean anonymous, double priority,
-			boolean allowPingbacks,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws java.io.FileNotFoundException, PortalException {
-
-		return getService().addMessage(
-			userId, userName, groupId, categoryId, subject, body, format,
-			fileName, file, anonymous, priority, allowPingbacks,
-			serviceContext);
-	}
-
 	public static MBMessage addMessage(
 			String externalReferenceCode, long userId, String userName,
 			long groupId, long categoryId, long threadId, long parentMessageId,
@@ -182,6 +97,69 @@ public class MBMessageLocalServiceUtil {
 			externalReferenceCode, userId, userName, groupId, categoryId,
 			threadId, parentMessageId, subject, body, format, inputStreamOVPs,
 			anonymous, priority, allowPingbacks, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 #addMessage(String, long, String, long, long, long, long,
+	 String, String, String, List, boolean, double, boolean,
+	 ServiceContext)}
+	 */
+	@Deprecated
+	public static MBMessage addMessage(
+			String externalReferenceCode, long userId, String userName,
+			long groupId, long categoryId, String subject, String body,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addMessage(
+			externalReferenceCode, userId, userName, groupId, categoryId,
+			subject, body, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 #addMessage(String, long, String, long, long, long, long,
+	 String, String, String, List, boolean, double, boolean,
+	 ServiceContext)}
+	 */
+	@Deprecated
+	public static MBMessage addMessage(
+			String externalReferenceCode, long userId, String userName,
+			long groupId, long categoryId, String subject, String body,
+			String format,
+			List
+				<com.liferay.portal.kernel.util.ObjectValuePair
+					<String, InputStream>> inputStreamOVPs,
+			boolean anonymous, double priority, boolean allowPingbacks,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addMessage(
+			externalReferenceCode, userId, userName, groupId, categoryId,
+			subject, body, format, inputStreamOVPs, anonymous, priority,
+			allowPingbacks, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 #addMessage(String, long, String, long, long, long, long,
+	 String, String, String, List, boolean, double, boolean,
+	 ServiceContext)}
+	 */
+	@Deprecated
+	public static MBMessage addMessage(
+			String externalReferenceCode, long userId, String userName,
+			long groupId, long categoryId, String subject, String body,
+			String format, String fileName, java.io.File file,
+			boolean anonymous, double priority, boolean allowPingbacks,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws java.io.FileNotFoundException, PortalException {
+
+		return getService().addMessage(
+			externalReferenceCode, userId, userName, groupId, categoryId,
+			subject, body, format, fileName, file, anonymous, priority,
+			allowPingbacks, serviceContext);
 	}
 
 	public static void addMessageAttachment(

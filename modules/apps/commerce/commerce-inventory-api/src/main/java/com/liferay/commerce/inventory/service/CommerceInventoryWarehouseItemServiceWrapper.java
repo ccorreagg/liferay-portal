@@ -42,17 +42,6 @@ public class CommerceInventoryWarehouseItemServiceWrapper
 	@Override
 	public com.liferay.commerce.inventory.model.CommerceInventoryWarehouseItem
 			addCommerceInventoryWarehouseItem(
-				long commerceInventoryWarehouseId, String sku, int quantity)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commerceInventoryWarehouseItemService.
-			addCommerceInventoryWarehouseItem(
-				commerceInventoryWarehouseId, sku, quantity);
-	}
-
-	@Override
-	public com.liferay.commerce.inventory.model.CommerceInventoryWarehouseItem
-			addCommerceInventoryWarehouseItem(
 				String externalReferenceCode, long commerceInventoryWarehouseId,
 				String sku, int quantity)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -66,17 +55,6 @@ public class CommerceInventoryWarehouseItemServiceWrapper
 	@Override
 	public com.liferay.commerce.inventory.model.CommerceInventoryWarehouseItem
 			addOrUpdateCommerceInventoryWarehouseItem(
-				long commerceInventoryWarehouseId, String sku, int quantity)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commerceInventoryWarehouseItemService.
-			addOrUpdateCommerceInventoryWarehouseItem(
-				commerceInventoryWarehouseId, sku, quantity);
-	}
-
-	@Override
-	public com.liferay.commerce.inventory.model.CommerceInventoryWarehouseItem
-			addOrUpdateCommerceInventoryWarehouseItem(
 				String externalReferenceCode, long companyId,
 				long commerceInventoryWarehouseId, String sku, int quantity)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -85,6 +63,19 @@ public class CommerceInventoryWarehouseItemServiceWrapper
 			addOrUpdateCommerceInventoryWarehouseItem(
 				externalReferenceCode, companyId, commerceInventoryWarehouseId,
 				sku, quantity);
+	}
+
+	@Override
+	public com.liferay.commerce.inventory.model.CommerceInventoryWarehouseItem
+			addOrUpdateCommerceInventoryWarehouseItem(
+				String externalReferenceCode, long commerceInventoryWarehouseId,
+				String sku, int quantity)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _commerceInventoryWarehouseItemService.
+			addOrUpdateCommerceInventoryWarehouseItem(
+				externalReferenceCode, commerceInventoryWarehouseId, sku,
+				quantity);
 	}
 
 	@Override

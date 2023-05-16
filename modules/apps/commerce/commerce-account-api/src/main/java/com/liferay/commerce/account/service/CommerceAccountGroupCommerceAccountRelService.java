@@ -55,8 +55,8 @@ public interface CommerceAccountGroupCommerceAccountRelService
 	 */
 	public CommerceAccountGroupCommerceAccountRel
 			addCommerceAccountGroupCommerceAccountRel(
-				long commerceAccountGroupId, long commerceAccountId,
-				ServiceContext serviceContext)
+				String externalReferenceCode, long commerceAccountGroupId,
+				long commerceAccountId, ServiceContext serviceContext)
 		throws PortalException;
 
 	public void deleteCommerceAccountGroupCommerceAccountRel(

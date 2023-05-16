@@ -50,14 +50,16 @@ public class CommerceShipmentLocalServiceUtil {
 	 */
 	@Deprecated
 	public static CommerceShipment addCommerceDeliverySubscriptionShipment(
-			long userId, long commerceOrderId, String name, String description,
-			String street1, String street2, String street3, String city,
-			String zip, long regionId, long countryId, String phoneNumber)
+			String externalReferenceCode, long userId, long commerceOrderId,
+			String name, String description, String street1, String street2,
+			String street3, String city, String zip, long regionId,
+			long countryId, String phoneNumber)
 		throws PortalException {
 
 		return getService().addCommerceDeliverySubscriptionShipment(
-			userId, commerceOrderId, name, description, street1, street2,
-			street3, city, zip, regionId, countryId, phoneNumber);
+			externalReferenceCode, userId, commerceOrderId, name, description,
+			street1, street2, street3, city, zip, regionId, countryId,
+			phoneNumber);
 	}
 
 	/**
@@ -77,15 +79,6 @@ public class CommerceShipmentLocalServiceUtil {
 	}
 
 	public static CommerceShipment addCommerceShipment(
-			long commerceOrderId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addCommerceShipment(
-			commerceOrderId, serviceContext);
-	}
-
-	public static CommerceShipment addCommerceShipment(
 			String externalReferenceCode, long groupId, long commerceAccountId,
 			long commerceAddressId, long commerceShippingMethodId,
 			String commerceShippingOptionName,
@@ -98,12 +91,21 @@ public class CommerceShipmentLocalServiceUtil {
 			commerceShippingOptionName, serviceContext);
 	}
 
+	public static CommerceShipment addCommerceShipment(
+			String externalReferenceCode, long commerceOrderId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addCommerceShipment(
+			externalReferenceCode, commerceOrderId, serviceContext);
+	}
+
 	public static CommerceShipment addDeliverySubscriptionCommerceShipment(
-			long userId, long commerceOrderItemId)
+			String externalReferenceCode, long userId, long commerceOrderItemId)
 		throws PortalException {
 
 		return getService().addDeliverySubscriptionCommerceShipment(
-			userId, commerceOrderItemId);
+			externalReferenceCode, userId, commerceOrderItemId);
 	}
 
 	/**

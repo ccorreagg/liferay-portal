@@ -39,16 +39,6 @@ public class CommerceShipmentServiceWrapper
 
 	@Override
 	public com.liferay.commerce.model.CommerceShipment addCommerceShipment(
-			long commerceOrderId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commerceShipmentService.addCommerceShipment(
-			commerceOrderId, serviceContext);
-	}
-
-	@Override
-	public com.liferay.commerce.model.CommerceShipment addCommerceShipment(
 			String externalReferenceCode, long groupId, long commerceAccountId,
 			long commerceAddressId, long commerceShippingMethodId,
 			String commerceShippingOptionName,
@@ -59,6 +49,16 @@ public class CommerceShipmentServiceWrapper
 			externalReferenceCode, groupId, commerceAccountId,
 			commerceAddressId, commerceShippingMethodId,
 			commerceShippingOptionName, serviceContext);
+	}
+
+	@Override
+	public com.liferay.commerce.model.CommerceShipment addCommerceShipment(
+			String externalReferenceCode, long commerceOrderId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _commerceShipmentService.addCommerceShipment(
+			externalReferenceCode, commerceOrderId, serviceContext);
 	}
 
 	/**

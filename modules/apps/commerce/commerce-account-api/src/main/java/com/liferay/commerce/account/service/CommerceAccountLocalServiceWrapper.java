@@ -54,10 +54,12 @@ public class CommerceAccountLocalServiceWrapper
 	@Override
 	public com.liferay.commerce.account.model.CommerceAccount
 		addCommerceAccount(
+			String externalReferenceCode,
 			com.liferay.commerce.account.model.CommerceAccount
 				commerceAccount) {
 
-		return _commerceAccountLocalService.addCommerceAccount(commerceAccount);
+		return _commerceAccountLocalService.addCommerceAccount(
+			externalReferenceCode, commerceAccount);
 	}
 
 	@Override

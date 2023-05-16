@@ -39,12 +39,14 @@ public class CommerceOrderNoteServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.commerce.service.impl.CommerceOrderNoteServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static CommerceOrderNote addCommerceOrderNote(
-			long commerceOrderId, String content, boolean restricted,
+			String externalReferenceCode, long commerceOrderId, String content,
+			boolean restricted,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().addCommerceOrderNote(
-			commerceOrderId, content, restricted, serviceContext);
+			externalReferenceCode, commerceOrderId, content, restricted,
+			serviceContext);
 	}
 
 	public static CommerceOrderNote addOrUpdateCommerceOrderNote(

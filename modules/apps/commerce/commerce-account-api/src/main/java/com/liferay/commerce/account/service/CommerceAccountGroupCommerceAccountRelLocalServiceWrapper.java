@@ -40,21 +40,6 @@ public class CommerceAccountGroupCommerceAccountRelLocalServiceWrapper
 			commerceAccountGroupCommerceAccountRelLocalService;
 	}
 
-	@Override
-	public
-		com.liferay.commerce.account.model.
-			CommerceAccountGroupCommerceAccountRel
-					addCommerceAccountGroupCommerceAccountRel(
-						long commerceAccountGroupId, long commerceAccountId,
-						com.liferay.portal.kernel.service.ServiceContext
-							serviceContext)
-				throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commerceAccountGroupCommerceAccountRelLocalService.
-			addCommerceAccountGroupCommerceAccountRel(
-				commerceAccountGroupId, commerceAccountId, serviceContext);
-	}
-
 	/**
 	 * @deprecated As of Cavanaugh (7.4.x)
 	 */
@@ -74,6 +59,23 @@ public class CommerceAccountGroupCommerceAccountRelLocalServiceWrapper
 			addCommerceAccountGroupCommerceAccountRel(
 				commerceAccountGroupId, commerceAccountId,
 				externalReferenceCode, serviceContext);
+	}
+
+	@Override
+	public
+		com.liferay.commerce.account.model.
+			CommerceAccountGroupCommerceAccountRel
+					addCommerceAccountGroupCommerceAccountRel(
+						String externalReferenceCode,
+						long commerceAccountGroupId, long commerceAccountId,
+						com.liferay.portal.kernel.service.ServiceContext
+							serviceContext)
+				throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _commerceAccountGroupCommerceAccountRelLocalService.
+			addCommerceAccountGroupCommerceAccountRel(
+				externalReferenceCode, commerceAccountGroupId,
+				commerceAccountId, serviceContext);
 	}
 
 	@Override

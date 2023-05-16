@@ -37,11 +37,13 @@ public class NotificationTemplateServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.notification.service.impl.NotificationTemplateServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static NotificationTemplate addNotificationTemplate(
+			String externalReferenceCode,
 			com.liferay.notification.context.NotificationContext
 				notificationContext)
 		throws PortalException {
 
-		return getService().addNotificationTemplate(notificationContext);
+		return getService().addNotificationTemplate(
+			externalReferenceCode, notificationContext);
 	}
 
 	public static NotificationTemplate deleteNotificationTemplate(

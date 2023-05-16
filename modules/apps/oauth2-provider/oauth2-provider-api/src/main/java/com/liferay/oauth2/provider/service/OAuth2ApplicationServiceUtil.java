@@ -42,6 +42,7 @@ public class OAuth2ApplicationServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.oauth2.provider.service.impl.OAuth2ApplicationServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static OAuth2Application addOAuth2Application(
+			String externalReferenceCode,
 			List<com.liferay.oauth2.provider.constants.GrantType>
 				allowedGrantTypesList,
 			String clientAuthenticationMethod, long clientCredentialUserId,
@@ -55,11 +56,12 @@ public class OAuth2ApplicationServiceUtil {
 		throws PortalException {
 
 		return getService().addOAuth2Application(
-			allowedGrantTypesList, clientAuthenticationMethod,
-			clientCredentialUserId, clientId, clientProfile, clientSecret,
-			description, featuresList, homePageURL, iconFileEntryId, jwks, name,
-			privacyPolicyURL, redirectURIsList, rememberDevice,
-			scopeAliasesList, trustedApplication, serviceContext);
+			externalReferenceCode, allowedGrantTypesList,
+			clientAuthenticationMethod, clientCredentialUserId, clientId,
+			clientProfile, clientSecret, description, featuresList, homePageURL,
+			iconFileEntryId, jwks, name, privacyPolicyURL, redirectURIsList,
+			rememberDevice, scopeAliasesList, trustedApplication,
+			serviceContext);
 	}
 
 	public static OAuth2Application deleteOAuth2Application(

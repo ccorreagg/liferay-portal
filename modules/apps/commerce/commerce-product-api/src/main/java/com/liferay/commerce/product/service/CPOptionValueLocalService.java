@@ -94,12 +94,6 @@ public interface CPOptionValueLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	public CPOptionValue addCPOptionValue(
-			long cpOptionId, Map<Locale, String> nameMap, double priority,
-			String key, ServiceContext serviceContext)
-		throws PortalException;
-
-	@Indexable(type = IndexableType.REINDEX)
-	public CPOptionValue addCPOptionValue(
 			String externalReferenceCode, long cpOptionId,
 			Map<Locale, String> nameMap, double priority, String key,
 			ServiceContext serviceContext)

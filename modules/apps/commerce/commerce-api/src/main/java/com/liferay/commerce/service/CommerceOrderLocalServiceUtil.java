@@ -65,33 +65,36 @@ public class CommerceOrderLocalServiceUtil {
 	 */
 	@Deprecated
 	public static CommerceOrder addCommerceOrder(
-			long userId, long groupId, long commerceAccountId,
-			long commerceCurrencyId)
+			String externalReferenceCode, long userId, long groupId,
+			long commerceAccountId, long commerceCurrencyId)
 		throws PortalException {
 
 		return getService().addCommerceOrder(
-			userId, groupId, commerceAccountId, commerceCurrencyId);
+			externalReferenceCode, userId, groupId, commerceAccountId,
+			commerceCurrencyId);
 	}
 
 	public static CommerceOrder addCommerceOrder(
-			long userId, long groupId, long commerceAccountId,
-			long commerceCurrencyId, long commerceOrderTypeId)
-		throws PortalException {
-
-		return getService().addCommerceOrder(
-			userId, groupId, commerceAccountId, commerceCurrencyId,
-			commerceOrderTypeId);
-	}
-
-	public static CommerceOrder addCommerceOrder(
-			long userId, long groupId, long billingAddressId,
+			String externalReferenceCode, long userId, long groupId,
 			long commerceAccountId, long commerceCurrencyId,
-			long commerceOrderTypeId, long commerceShippingMethodId,
-			long shippingAddressId, String commercePaymentMethodKey,
-			int orderDateMonth, int orderDateDay, int orderDateYear,
-			int orderDateHour, int orderDateMinute, int orderStatus,
-			int paymentStatus, String purchaseOrderNumber,
-			java.math.BigDecimal shippingAmount, String shippingOptionName,
+			long commerceOrderTypeId)
+		throws PortalException {
+
+		return getService().addCommerceOrder(
+			externalReferenceCode, userId, groupId, commerceAccountId,
+			commerceCurrencyId, commerceOrderTypeId);
+	}
+
+	public static CommerceOrder addCommerceOrder(
+			String externalReferenceCode, long userId, long groupId,
+			long billingAddressId, long commerceAccountId,
+			long commerceCurrencyId, long commerceOrderTypeId,
+			long commerceShippingMethodId, long shippingAddressId,
+			String commercePaymentMethodKey, int orderDateMonth,
+			int orderDateDay, int orderDateYear, int orderDateHour,
+			int orderDateMinute, int orderStatus, int paymentStatus,
+			String purchaseOrderNumber, java.math.BigDecimal shippingAmount,
+			String shippingOptionName,
 			java.math.BigDecimal shippingWithTaxAmount,
 			java.math.BigDecimal subtotal,
 			java.math.BigDecimal subtotalWithTaxAmount,
@@ -101,11 +104,12 @@ public class CommerceOrderLocalServiceUtil {
 		throws PortalException {
 
 		return getService().addCommerceOrder(
-			userId, groupId, billingAddressId, commerceAccountId,
-			commerceCurrencyId, commerceOrderTypeId, commerceShippingMethodId,
-			shippingAddressId, commercePaymentMethodKey, orderDateMonth,
-			orderDateDay, orderDateYear, orderDateHour, orderDateMinute,
-			orderStatus, paymentStatus, purchaseOrderNumber, shippingAmount,
+			externalReferenceCode, userId, groupId, billingAddressId,
+			commerceAccountId, commerceCurrencyId, commerceOrderTypeId,
+			commerceShippingMethodId, shippingAddressId,
+			commercePaymentMethodKey, orderDateMonth, orderDateDay,
+			orderDateYear, orderDateHour, orderDateMinute, orderStatus,
+			paymentStatus, purchaseOrderNumber, shippingAmount,
 			shippingOptionName, shippingWithTaxAmount, subtotal,
 			subtotalWithTaxAmount, taxAmount, total, totalWithTaxAmount,
 			serviceContext);

@@ -52,7 +52,7 @@ public class NotificationTemplateServiceHttp {
 
 	public static com.liferay.notification.model.NotificationTemplate
 			addNotificationTemplate(
-				HttpPrincipal httpPrincipal,
+				HttpPrincipal httpPrincipal, String externalReferenceCode,
 				com.liferay.notification.context.NotificationContext
 					notificationContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -64,7 +64,7 @@ public class NotificationTemplateServiceHttp {
 				_addNotificationTemplateParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, notificationContext);
+				methodKey, externalReferenceCode, notificationContext);
 
 			Object returnObj = null;
 
@@ -320,6 +320,7 @@ public class NotificationTemplateServiceHttp {
 
 	private static final Class<?>[] _addNotificationTemplateParameterTypes0 =
 		new Class[] {
+			String.class,
 			com.liferay.notification.context.NotificationContext.class
 		};
 	private static final Class<?>[] _deleteNotificationTemplateParameterTypes1 =

@@ -94,29 +94,30 @@ public interface CommerceOrderLocalService
 	 */
 	@Deprecated
 	public CommerceOrder addCommerceOrder(
-			long userId, long groupId, long commerceAccountId,
-			long commerceCurrencyId)
+			String externalReferenceCode, long userId, long groupId,
+			long commerceAccountId, long commerceCurrencyId)
 		throws PortalException;
 
 	public CommerceOrder addCommerceOrder(
-			long userId, long groupId, long commerceAccountId,
-			long commerceCurrencyId, long commerceOrderTypeId)
+			String externalReferenceCode, long userId, long groupId,
+			long commerceAccountId, long commerceCurrencyId,
+			long commerceOrderTypeId)
 		throws PortalException;
 
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceOrder addCommerceOrder(
-			long userId, long groupId, long billingAddressId,
-			long commerceAccountId, long commerceCurrencyId,
-			long commerceOrderTypeId, long commerceShippingMethodId,
-			long shippingAddressId, String commercePaymentMethodKey,
-			int orderDateMonth, int orderDateDay, int orderDateYear,
-			int orderDateHour, int orderDateMinute, int orderStatus,
-			int paymentStatus, String purchaseOrderNumber,
-			BigDecimal shippingAmount, String shippingOptionName,
-			BigDecimal shippingWithTaxAmount, BigDecimal subtotal,
-			BigDecimal subtotalWithTaxAmount, BigDecimal taxAmount,
-			BigDecimal total, BigDecimal totalWithTaxAmount,
-			ServiceContext serviceContext)
+			String externalReferenceCode, long userId, long groupId,
+			long billingAddressId, long commerceAccountId,
+			long commerceCurrencyId, long commerceOrderTypeId,
+			long commerceShippingMethodId, long shippingAddressId,
+			String commercePaymentMethodKey, int orderDateMonth,
+			int orderDateDay, int orderDateYear, int orderDateHour,
+			int orderDateMinute, int orderStatus, int paymentStatus,
+			String purchaseOrderNumber, BigDecimal shippingAmount,
+			String shippingOptionName, BigDecimal shippingWithTaxAmount,
+			BigDecimal subtotal, BigDecimal subtotalWithTaxAmount,
+			BigDecimal taxAmount, BigDecimal total,
+			BigDecimal totalWithTaxAmount, ServiceContext serviceContext)
 		throws PortalException;
 
 	public CommerceOrder addOrUpdateCommerceOrder(

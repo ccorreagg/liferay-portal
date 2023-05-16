@@ -76,12 +76,13 @@ public class CommerceShipmentItemLocalServiceUtil {
 
 	public static CommerceShipmentItem
 			addDeliverySubscriptionCommerceShipmentItem(
-				long groupId, long userId, long commerceShipmentId,
-				long commerceOrderItemId)
+				String externalReferenceCode, long groupId, long userId,
+				long commerceShipmentId, long commerceOrderItemId)
 		throws PortalException {
 
 		return getService().addDeliverySubscriptionCommerceShipmentItem(
-			groupId, userId, commerceShipmentId, commerceOrderItemId);
+			externalReferenceCode, groupId, userId, commerceShipmentId,
+			commerceOrderItemId);
 	}
 
 	public static CommerceShipmentItem addOrUpdateCommerceShipmentItem(

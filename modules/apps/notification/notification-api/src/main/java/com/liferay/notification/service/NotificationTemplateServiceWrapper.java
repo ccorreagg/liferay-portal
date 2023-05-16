@@ -40,12 +40,13 @@ public class NotificationTemplateServiceWrapper
 	@Override
 	public com.liferay.notification.model.NotificationTemplate
 			addNotificationTemplate(
+				String externalReferenceCode,
 				com.liferay.notification.context.NotificationContext
 					notificationContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _notificationTemplateService.addNotificationTemplate(
-			notificationContext);
+			externalReferenceCode, notificationContext);
 	}
 
 	@Override

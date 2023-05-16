@@ -88,20 +88,23 @@ public interface CommerceOrderItemLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	public CommerceOrderItem addCommerceOrderItem(
-			long userId, long commerceOrderId, long cpInstanceId, String json,
-			int quantity, long replacedCPInstanceId, int shippedQuantity,
-			CommerceContext commerceContext, ServiceContext serviceContext)
-		throws PortalException;
-
-	public CommerceOrderItem addOrUpdateCommerceOrderItem(
-			long userId, long commerceOrderId, long cpInstanceId, int quantity,
+			String externalReferenceCode, long userId, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
 			long replacedCPInstanceId, int shippedQuantity,
 			CommerceContext commerceContext, ServiceContext serviceContext)
 		throws PortalException;
 
 	public CommerceOrderItem addOrUpdateCommerceOrderItem(
-			long userId, long commerceOrderId, long cpInstanceId, String json,
-			int quantity, long replacedCPInstanceId, int shippedQuantity,
+			String externalReferenceCode, long userId, long commerceOrderId,
+			long cpInstanceId, int quantity, long replacedCPInstanceId,
+			int shippedQuantity, CommerceContext commerceContext,
+			ServiceContext serviceContext)
+		throws PortalException;
+
+	public CommerceOrderItem addOrUpdateCommerceOrderItem(
+			String externalReferenceCode, long userId, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
+			long replacedCPInstanceId, int shippedQuantity,
 			CommerceContext commerceContext, ServiceContext serviceContext)
 		throws PortalException;
 

@@ -80,8 +80,9 @@ public interface CommerceOrderTypeRelLocalService
 		CommerceOrderTypeRel commerceOrderTypeRel);
 
 	public CommerceOrderTypeRel addCommerceOrderTypeRel(
-			long userId, String className, long classPK,
-			long commerceOrderTypeId, ServiceContext serviceContext)
+			String externalReferenceCode, long userId, String className,
+			long classPK, long commerceOrderTypeId,
+			ServiceContext serviceContext)
 		throws PortalException;
 
 	/**

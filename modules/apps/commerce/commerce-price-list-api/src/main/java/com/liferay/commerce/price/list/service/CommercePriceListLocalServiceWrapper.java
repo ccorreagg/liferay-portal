@@ -42,13 +42,14 @@ public class CommercePriceListLocalServiceWrapper
 
 	@Override
 	public CommercePriceList addCatalogBaseCommercePriceList(
-			long groupId, long userId, long commerceCurrencyId, String type,
-			String name,
+			String externalReferenceCode, long groupId, long userId,
+			long commerceCurrencyId, String type, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commercePriceListLocalService.addCatalogBaseCommercePriceList(
-			groupId, userId, commerceCurrencyId, type, name, serviceContext);
+			externalReferenceCode, groupId, userId, commerceCurrencyId, type,
+			name, serviceContext);
 	}
 
 	/**
@@ -57,13 +58,14 @@ public class CommercePriceListLocalServiceWrapper
 	@Deprecated
 	@Override
 	public CommercePriceList addCommerceCatalogBasePriceList(
-			long groupId, long userId, long commerceCurrencyId, String type,
-			String name,
+			String externalReferenceCode, long groupId, long userId,
+			long commerceCurrencyId, String type, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commercePriceListLocalService.addCommerceCatalogBasePriceList(
-			groupId, userId, commerceCurrencyId, type, name, serviceContext);
+			externalReferenceCode, groupId, userId, commerceCurrencyId, type,
+			name, serviceContext);
 	}
 
 	/**

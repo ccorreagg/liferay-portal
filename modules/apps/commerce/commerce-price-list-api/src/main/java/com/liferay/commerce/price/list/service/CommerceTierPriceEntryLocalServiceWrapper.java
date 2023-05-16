@@ -61,31 +61,6 @@ public class CommerceTierPriceEntryLocalServiceWrapper
 
 	@Override
 	public CommerceTierPriceEntry addCommerceTierPriceEntry(
-			long commercePriceEntryId, java.math.BigDecimal price,
-			java.math.BigDecimal promoPrice, boolean bulkPricing,
-			int minQuantity,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commerceTierPriceEntryLocalService.addCommerceTierPriceEntry(
-			commercePriceEntryId, price, promoPrice, bulkPricing, minQuantity,
-			serviceContext);
-	}
-
-	@Override
-	public CommerceTierPriceEntry addCommerceTierPriceEntry(
-			long commercePriceEntryId, java.math.BigDecimal price,
-			java.math.BigDecimal promoPrice, int minQuantity,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commerceTierPriceEntryLocalService.addCommerceTierPriceEntry(
-			commercePriceEntryId, price, promoPrice, minQuantity,
-			serviceContext);
-	}
-
-	@Override
-	public CommerceTierPriceEntry addCommerceTierPriceEntry(
 			String externalReferenceCode, long commercePriceEntryId,
 			java.math.BigDecimal price, java.math.BigDecimal promoPrice,
 			boolean bulkPricing, int minQuantity,

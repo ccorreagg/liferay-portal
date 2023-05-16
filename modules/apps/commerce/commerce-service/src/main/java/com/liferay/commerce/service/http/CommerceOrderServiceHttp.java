@@ -51,8 +51,9 @@ import com.liferay.portal.kernel.util.MethodKey;
 public class CommerceOrderServiceHttp {
 
 	public static com.liferay.commerce.model.CommerceOrder addCommerceOrder(
-			HttpPrincipal httpPrincipal, long groupId, long commerceAccountId,
-			long commerceCurrencyId, long commerceOrderTypeId)
+			HttpPrincipal httpPrincipal, String externalReferenceCode,
+			long groupId, long commerceAccountId, long commerceCurrencyId,
+			long commerceOrderTypeId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
@@ -61,8 +62,8 @@ public class CommerceOrderServiceHttp {
 				_addCommerceOrderParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupId, commerceAccountId, commerceCurrencyId,
-				commerceOrderTypeId);
+				methodKey, externalReferenceCode, groupId, commerceAccountId,
+				commerceCurrencyId, commerceOrderTypeId);
 
 			Object returnObj = null;
 
@@ -2623,7 +2624,9 @@ public class CommerceOrderServiceHttp {
 		CommerceOrderServiceHttp.class);
 
 	private static final Class<?>[] _addCommerceOrderParameterTypes0 =
-		new Class[] {long.class, long.class, long.class, long.class};
+		new Class[] {
+			String.class, long.class, long.class, long.class, long.class
+		};
 	private static final Class<?>[] _addOrUpdateCommerceOrderParameterTypes1 =
 		new Class[] {
 			String.class, long.class, long.class, long.class, long.class,

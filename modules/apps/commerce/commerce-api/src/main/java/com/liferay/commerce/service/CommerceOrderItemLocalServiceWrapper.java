@@ -57,46 +57,48 @@ public class CommerceOrderItemLocalServiceWrapper
 
 	@Override
 	public com.liferay.commerce.model.CommerceOrderItem addCommerceOrderItem(
-			long userId, long commerceOrderId, long cpInstanceId, String json,
-			int quantity, long replacedCPInstanceId, int shippedQuantity,
+			String externalReferenceCode, long userId, long commerceOrderId,
+			long cpInstanceId, String json, int quantity,
+			long replacedCPInstanceId, int shippedQuantity,
 			com.liferay.commerce.context.CommerceContext commerceContext,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commerceOrderItemLocalService.addCommerceOrderItem(
-			userId, commerceOrderId, cpInstanceId, json, quantity,
-			replacedCPInstanceId, shippedQuantity, commerceContext,
+			externalReferenceCode, userId, commerceOrderId, cpInstanceId, json,
+			quantity, replacedCPInstanceId, shippedQuantity, commerceContext,
 			serviceContext);
 	}
 
 	@Override
 	public com.liferay.commerce.model.CommerceOrderItem
 			addOrUpdateCommerceOrderItem(
-				long userId, long commerceOrderId, long cpInstanceId,
-				int quantity, long replacedCPInstanceId, int shippedQuantity,
-				com.liferay.commerce.context.CommerceContext commerceContext,
-				com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _commerceOrderItemLocalService.addOrUpdateCommerceOrderItem(
-			userId, commerceOrderId, cpInstanceId, quantity,
-			replacedCPInstanceId, shippedQuantity, commerceContext,
-			serviceContext);
-	}
-
-	@Override
-	public com.liferay.commerce.model.CommerceOrderItem
-			addOrUpdateCommerceOrderItem(
-				long userId, long commerceOrderId, long cpInstanceId,
-				String json, int quantity, long replacedCPInstanceId,
+				String externalReferenceCode, long userId, long commerceOrderId,
+				long cpInstanceId, int quantity, long replacedCPInstanceId,
 				int shippedQuantity,
 				com.liferay.commerce.context.CommerceContext commerceContext,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commerceOrderItemLocalService.addOrUpdateCommerceOrderItem(
-			userId, commerceOrderId, cpInstanceId, json, quantity,
-			replacedCPInstanceId, shippedQuantity, commerceContext,
+			externalReferenceCode, userId, commerceOrderId, cpInstanceId,
+			quantity, replacedCPInstanceId, shippedQuantity, commerceContext,
+			serviceContext);
+	}
+
+	@Override
+	public com.liferay.commerce.model.CommerceOrderItem
+			addOrUpdateCommerceOrderItem(
+				String externalReferenceCode, long userId, long commerceOrderId,
+				long cpInstanceId, String json, int quantity,
+				long replacedCPInstanceId, int shippedQuantity,
+				com.liferay.commerce.context.CommerceContext commerceContext,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _commerceOrderItemLocalService.addOrUpdateCommerceOrderItem(
+			externalReferenceCode, userId, commerceOrderId, cpInstanceId, json,
+			quantity, replacedCPInstanceId, shippedQuantity, commerceContext,
 			serviceContext);
 	}
 

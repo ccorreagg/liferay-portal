@@ -62,14 +62,15 @@ public class ClientExtensionEntryRelLocalServiceWrapper
 
 	@Override
 	public ClientExtensionEntryRel addClientExtensionEntryRel(
-			long userId, long groupId, long classNameId, long classPK,
-			String cetExternalReferenceCode, String type, String typeSettings,
+			String externalReferenceCode, long userId, long groupId,
+			long classNameId, long classPK, String cetExternalReferenceCode,
+			String type, String typeSettings,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _clientExtensionEntryRelLocalService.addClientExtensionEntryRel(
-			userId, groupId, classNameId, classPK, cetExternalReferenceCode,
-			type, typeSettings, serviceContext);
+			externalReferenceCode, userId, groupId, classNameId, classPK,
+			cetExternalReferenceCode, type, typeSettings, serviceContext);
 	}
 
 	/**

@@ -101,7 +101,8 @@ public interface CommerceCatalogLocalService
 			ServiceContext serviceContext)
 		throws PortalException;
 
-	public CommerceCatalog addDefaultCommerceCatalog(long companyId)
+	public CommerceCatalog addDefaultCommerceCatalog(
+			String externalReferenceCode, long companyId)
 		throws PortalException;
 
 	/**

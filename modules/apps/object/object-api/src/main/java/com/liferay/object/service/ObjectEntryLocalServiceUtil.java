@@ -45,15 +45,6 @@ public class ObjectEntryLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.object.service.impl.ObjectEntryLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static ObjectEntry addObjectEntry(
-			long userId, long groupId, long objectDefinitionId,
-			Map<String, Serializable> values,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addObjectEntry(
-			userId, groupId, objectDefinitionId, values, serviceContext);
-	}
 
 	/**
 	 * Adds the object entry to the database. Also notifies the appropriate model listeners.
@@ -67,6 +58,17 @@ public class ObjectEntryLocalServiceUtil {
 	 */
 	public static ObjectEntry addObjectEntry(ObjectEntry objectEntry) {
 		return getService().addObjectEntry(objectEntry);
+	}
+
+	public static ObjectEntry addObjectEntry(
+			String externalReferenceCode, long userId, long groupId,
+			long objectDefinitionId, Map<String, Serializable> values,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addObjectEntry(
+			externalReferenceCode, userId, groupId, objectDefinitionId, values,
+			serviceContext);
 	}
 
 	public static ObjectEntry addObjectEntry(

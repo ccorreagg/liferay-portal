@@ -196,8 +196,8 @@ public class JournalArticleServiceWrapper
 
 	@Override
 	public JournalArticle addArticleDefaultValues(
-			long groupId, long classNameId, long classPK,
-			java.util.Map<java.util.Locale, String> titleMap,
+			String externalReferenceCode, long groupId, long classNameId,
+			long classPK, java.util.Map<java.util.Locale, String> titleMap,
 			java.util.Map<java.util.Locale, String> descriptionMap,
 			String content, long ddmStructureId, String ddmTemplateKey,
 			String layoutUuid, int displayDateMonth, int displayDateDay,
@@ -213,14 +213,14 @@ public class JournalArticleServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _journalArticleService.addArticleDefaultValues(
-			groupId, classNameId, classPK, titleMap, descriptionMap, content,
-			ddmStructureId, ddmTemplateKey, layoutUuid, displayDateMonth,
-			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
-			expirationDateMonth, expirationDateDay, expirationDateYear,
-			expirationDateHour, expirationDateMinute, neverExpire,
-			reviewDateMonth, reviewDateDay, reviewDateYear, reviewDateHour,
-			reviewDateMinute, neverReview, indexable, smallImage, smallImageURL,
-			smallImageFile, serviceContext);
+			externalReferenceCode, groupId, classNameId, classPK, titleMap,
+			descriptionMap, content, ddmStructureId, ddmTemplateKey, layoutUuid,
+			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
+			displayDateMinute, expirationDateMonth, expirationDateDay,
+			expirationDateYear, expirationDateHour, expirationDateMinute,
+			neverExpire, reviewDateMonth, reviewDateDay, reviewDateYear,
+			reviewDateHour, reviewDateMinute, neverReview, indexable,
+			smallImage, smallImageURL, smallImageFile, serviceContext);
 	}
 
 	/**

@@ -47,9 +47,10 @@ public class BlogsEntryServiceUtil {
 	}
 
 	public static BlogsEntry addEntry(
-			String title, String subtitle, String description, String content,
-			int displayDateMonth, int displayDateDay, int displayDateYear,
-			int displayDateHour, int displayDateMinute, boolean allowPingbacks,
+			String externalReferenceCode, String title, String subtitle,
+			String description, String content, int displayDateMonth,
+			int displayDateDay, int displayDateYear, int displayDateHour,
+			int displayDateMinute, boolean allowPingbacks,
 			boolean allowTrackbacks, String[] trackbacks,
 			String coverImageCaption,
 			com.liferay.portal.kernel.servlet.taglib.ui.ImageSelector
@@ -60,10 +61,11 @@ public class BlogsEntryServiceUtil {
 		throws PortalException {
 
 		return getService().addEntry(
-			title, subtitle, description, content, displayDateMonth,
-			displayDateDay, displayDateYear, displayDateHour, displayDateMinute,
-			allowPingbacks, allowTrackbacks, trackbacks, coverImageCaption,
-			coverImageImageSelector, smallImageImageSelector, serviceContext);
+			externalReferenceCode, title, subtitle, description, content,
+			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
+			displayDateMinute, allowPingbacks, allowTrackbacks, trackbacks,
+			coverImageCaption, coverImageImageSelector, smallImageImageSelector,
+			serviceContext);
 	}
 
 	public static BlogsEntry addEntry(

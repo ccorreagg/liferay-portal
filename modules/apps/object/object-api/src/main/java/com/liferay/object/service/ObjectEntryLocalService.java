@@ -71,10 +71,6 @@ public interface ObjectEntryLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.object.service.impl.ObjectEntryLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the object entry local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link ObjectEntryLocalServiceUtil} if injection and service tracking are not available.
 	 */
-	public ObjectEntry addObjectEntry(
-			long userId, long groupId, long objectDefinitionId,
-			Map<String, Serializable> values, ServiceContext serviceContext)
-		throws PortalException;
 
 	/**
 	 * Adds the object entry to the database. Also notifies the appropriate model listeners.
@@ -88,6 +84,12 @@ public interface ObjectEntryLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public ObjectEntry addObjectEntry(ObjectEntry objectEntry);
+
+	public ObjectEntry addObjectEntry(
+			String externalReferenceCode, long userId, long groupId,
+			long objectDefinitionId, Map<String, Serializable> values,
+			ServiceContext serviceContext)
+		throws PortalException;
 
 	public ObjectEntry addObjectEntry(
 			String externalReferenceCode, long userId,

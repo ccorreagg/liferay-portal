@@ -46,35 +46,6 @@ public class WikiPageLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.wiki.service.impl.WikiPageLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addPage(String,
-	 long, long, String, double, String, String, boolean, String,
-	 boolean, String, String, ServiceContext)}
-	 */
-	@Deprecated
-	public static WikiPage addPage(
-			long userId, long nodeId, String title, double version,
-			String content, String summary, boolean minorEdit, String format,
-			boolean head, String parentTitle, String redirectTitle,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addPage(
-			userId, nodeId, title, version, content, summary, minorEdit, format,
-			head, parentTitle, redirectTitle, serviceContext);
-	}
-
-	public static WikiPage addPage(
-			long userId, long nodeId, String title, String content,
-			String summary, boolean minorEdit,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addPage(
-			userId, nodeId, title, content, summary, minorEdit, serviceContext);
-	}
-
 	public static WikiPage addPage(
 			String externalReferenceCode, long userId, long nodeId,
 			String title, double version, String content, String summary,
@@ -87,6 +58,17 @@ public class WikiPageLocalServiceUtil {
 			externalReferenceCode, userId, nodeId, title, version, content,
 			summary, minorEdit, format, head, parentTitle, redirectTitle,
 			serviceContext);
+	}
+
+	public static WikiPage addPage(
+			String externalReferenceCode, long userId, long nodeId,
+			String title, String content, String summary, boolean minorEdit,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addPage(
+			externalReferenceCode, userId, nodeId, title, content, summary,
+			minorEdit, serviceContext);
 	}
 
 	public static com.liferay.portal.kernel.repository.model.FileEntry
