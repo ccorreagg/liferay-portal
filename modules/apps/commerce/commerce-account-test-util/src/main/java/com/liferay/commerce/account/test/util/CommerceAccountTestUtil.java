@@ -95,7 +95,8 @@ public class CommerceAccountTestUtil {
 
 		AccountGroup accountGroup =
 			AccountGroupLocalServiceUtil.addAccountGroup(
-				serviceContext.getUserId(), null, name, serviceContext);
+				externalReferenceCode, serviceContext.getUserId(), null, name,
+				serviceContext);
 
 		accountGroup.setExternalReferenceCode(externalReferenceCode);
 		accountGroup.setDefaultAccountGroup(false);
@@ -138,8 +139,9 @@ public class CommerceAccountTestUtil {
 
 		AccountEntry accountEntry =
 			AccountEntryLocalServiceUtil.addAccountEntry(
-				userId, AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT, name,
-				null, null, email, null, StringPool.BLANK,
+				externalReferenceCode, userId,
+				AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT, name, null,
+				null, email, null, StringPool.BLANK,
 				AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
 				WorkflowConstants.STATUS_APPROVED, serviceContext);
 
@@ -193,7 +195,7 @@ public class CommerceAccountTestUtil {
 
 		AccountEntry accountEntry =
 			AccountEntryLocalServiceUtil.addAccountEntry(
-				userId, AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
+				null, userId, AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
 				user.getFullName(), null, null, user.getEmailAddress(), null,
 				StringPool.BLANK, AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON,
 				WorkflowConstants.STATUS_APPROVED, serviceContext);

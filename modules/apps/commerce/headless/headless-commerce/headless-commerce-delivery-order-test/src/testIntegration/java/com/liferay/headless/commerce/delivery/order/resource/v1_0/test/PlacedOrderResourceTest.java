@@ -65,7 +65,7 @@ public class PlacedOrderResourceTest extends BasePlacedOrderResourceTestCase {
 			_user.getUserId());
 
 		_accountEntry = _accountEntryLocalService.addAccountEntry(
-			_user.getUserId(), 0, RandomTestUtil.randomString(),
+			null, _user.getUserId(), 0, RandomTestUtil.randomString(),
 			RandomTestUtil.randomString(), null,
 			RandomTestUtil.randomString() + "@liferay.com", null,
 			RandomTestUtil.randomString(), "business", 1, _serviceContext);
@@ -176,7 +176,7 @@ public class PlacedOrderResourceTest extends BasePlacedOrderResourceTestCase {
 
 		CommerceOrder commerceOrder =
 			_commerceOrderLocalService.addCommerceOrder(
-				_user.getUserId(), _commerceChannel.getGroupId(),
+				null, _user.getUserId(), _commerceChannel.getGroupId(),
 				placedOrder.getPlacedOrderBillingAddressId(),
 				placedOrder.getAccountId(),
 				_commerceCurrency.getCommerceCurrencyId(),

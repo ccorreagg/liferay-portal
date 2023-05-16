@@ -179,7 +179,7 @@ public class CommerceOrderImporter {
 			User user = _userLocalService.getUser(userId);
 
 			accountEntry = _accountEntryLocalService.addAccountEntry(
-				userId, AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
+				null, userId, AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
 				user.getFullName(), null, null, user.getEmailAddress(), null,
 				StringPool.BLANK, AccountConstants.ACCOUNT_ENTRY_TYPE_PERSON,
 				WorkflowConstants.STATUS_APPROVED, serviceContext);
@@ -191,7 +191,7 @@ public class CommerceOrderImporter {
 
 		CommerceOrder commerceOrder =
 			_commerceOrderLocalService.addCommerceOrder(
-				userId, serviceContext.getScopeGroupId(),
+				null, userId, serviceContext.getScopeGroupId(),
 				accountEntry.getAccountEntryId(), 0, 0);
 
 		// We update the order create date to the one in the dataset
@@ -216,7 +216,7 @@ public class CommerceOrderImporter {
 		CPInstance cpInstance = cpInstances.get(0);
 
 		_commerceOrderItemLocalService.addCommerceOrderItem(
-			userId, commerceOrder.getCommerceOrderId(),
+			null, userId, commerceOrder.getCommerceOrderId(),
 			cpInstance.getCPInstanceId(), StringPool.BLANK, 1, 0, 1,
 			commerceContext, serviceContext);
 	}

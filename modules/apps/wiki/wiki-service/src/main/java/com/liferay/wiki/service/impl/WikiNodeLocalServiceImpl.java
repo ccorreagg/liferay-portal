@@ -98,8 +98,9 @@ public class WikiNodeLocalServiceImpl extends WikiNodeLocalServiceBaseImpl {
 		throws PortalException {
 
 		return addNode(
-			userId, _wikiGroupServiceConfiguration.initialNodeName(),
-			StringPool.BLANK, serviceContext);
+			externalReferenceCode, userId,
+			_wikiGroupServiceConfiguration.initialNodeName(), StringPool.BLANK,
+			serviceContext);
 	}
 
 	@Indexable(type = IndexableType.REINDEX)
@@ -561,7 +562,7 @@ public class WikiNodeLocalServiceImpl extends WikiNodeLocalServiceBaseImpl {
 		serviceContext.setScopeGroupId(groupId);
 
 		WikiNode node = wikiNodeLocalService.addDefaultNode(
-			guestUserId, serviceContext);
+			null, guestUserId, serviceContext);
 
 		return ListUtil.fromArray(node);
 	}

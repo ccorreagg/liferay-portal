@@ -132,7 +132,7 @@ public class CommerceAccountsImporter {
 		// Add Commerce Account
 
 		accountEntry = _accountEntryLocalService.addAccountEntry(
-			serviceContext.getUserId(),
+			null, serviceContext.getUserId(),
 			AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT, name, null, null,
 			email, null, taxId, accountType, WorkflowConstants.STATUS_APPROVED,
 			serviceContext);
@@ -168,10 +168,11 @@ public class CommerceAccountsImporter {
 		// Add Commerce Address
 
 		_commerceAddressLocalService.addCommerceAddress(
-			AccountEntry.class.getName(), accountEntry.getAccountEntryId(),
-			accountEntry.getName(), StringPool.BLANK, street1, StringPool.BLANK,
-			StringPool.BLANK, city, zip, regionId, country.getCountryId(),
-			StringPool.BLANK, true, true, serviceContext);
+			null, AccountEntry.class.getName(),
+			accountEntry.getAccountEntryId(), accountEntry.getName(),
+			StringPool.BLANK, street1, StringPool.BLANK, StringPool.BLANK, city,
+			zip, regionId, country.getCountryId(), StringPool.BLANK, true, true,
+			serviceContext);
 
 		// Add Company Logo
 
@@ -286,6 +287,7 @@ public class CommerceAccountsImporter {
 					if (accountGroup == null) {
 						accountGroup =
 							_accountGroupLocalService.addAccountGroup(
+								externalReferenceCode,
 								serviceContext.getUserId(), null,
 								accountGroupName, serviceContext);
 

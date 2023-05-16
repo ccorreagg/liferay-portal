@@ -276,8 +276,9 @@ public class AccountEntryLocalServiceImpl
 		}
 
 		accountEntry = addAccountEntry(
-			userId, parentAccountEntryId, name, description, domains,
-			emailAddress, logoBytes, taxIdNumber, type, status, serviceContext);
+			externalReferenceCode, userId, parentAccountEntryId, name,
+			description, domains, emailAddress, logoBytes, taxIdNumber, type,
+			status, serviceContext);
 
 		accountEntry.setExternalReferenceCode(externalReferenceCode);
 

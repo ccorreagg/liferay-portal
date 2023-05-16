@@ -58,7 +58,8 @@ public class WishListItemResourceTest extends BaseWishListItemResourceTestCase {
 				_user.getUserId());
 
 		_accountEntry = AccountEntryLocalServiceUtil.addAccountEntry(
-			_user.getUserId(), AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
+			null, _user.getUserId(),
+			AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
 			RandomTestUtil.randomString(), RandomTestUtil.randomString(), null,
 			RandomTestUtil.randomString() + "@liferay.com", null,
 			RandomTestUtil.randomString(),

@@ -80,7 +80,7 @@ public class AdminAccountGroupResourceTest
 		throws Exception {
 
 		AccountEntry accountEntry = _accountEntryLocalService.addAccountEntry(
-			_serviceContext.getUserId(),
+			null, _serviceContext.getUserId(),
 			AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
 			RandomTestUtil.randomString(), null, null,
 			RandomTestUtil.randomString() + "@liferay.com", null, null,
@@ -88,8 +88,8 @@ public class AdminAccountGroupResourceTest
 			WorkflowConstants.STATUS_APPROVED, _serviceContext);
 
 		AccountGroup accountGroup1 = _accountGroupLocalService.addAccountGroup(
-			_serviceContext.getUserId(), null, RandomTestUtil.randomString(),
-			_serviceContext);
+			null, _serviceContext.getUserId(), null,
+			RandomTestUtil.randomString(), _serviceContext);
 
 		accountGroup1.setExternalReferenceCode(null);
 		accountGroup1.setDefaultAccountGroup(false);
@@ -104,8 +104,8 @@ public class AdminAccountGroupResourceTest
 			accountEntry.getAccountEntryId());
 
 		AccountGroup accountGroup2 = _accountGroupLocalService.addAccountGroup(
-			_serviceContext.getUserId(), null, RandomTestUtil.randomString(),
-			_serviceContext);
+			null, _serviceContext.getUserId(), null,
+			RandomTestUtil.randomString(), _serviceContext);
 
 		accountGroup2.setExternalReferenceCode(null);
 		accountGroup2.setDefaultAccountGroup(false);
@@ -149,7 +149,7 @@ public class AdminAccountGroupResourceTest
 	@Test
 	public void testGetAccountIdAccountGroupsPage() throws Exception {
 		AccountEntry accountEntry = _accountEntryLocalService.addAccountEntry(
-			_serviceContext.getUserId(),
+			null, _serviceContext.getUserId(),
 			AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
 			RandomTestUtil.randomString(), null, null,
 			RandomTestUtil.randomString() + "@liferay.com", null, null,
@@ -157,8 +157,8 @@ public class AdminAccountGroupResourceTest
 			WorkflowConstants.STATUS_APPROVED, _serviceContext);
 
 		AccountGroup accountGroup1 = _accountGroupLocalService.addAccountGroup(
-			_serviceContext.getUserId(), null, RandomTestUtil.randomString(),
-			_serviceContext);
+			null, _serviceContext.getUserId(), null,
+			RandomTestUtil.randomString(), _serviceContext);
 
 		accountGroup1.setExternalReferenceCode(null);
 		accountGroup1.setDefaultAccountGroup(false);
@@ -173,8 +173,8 @@ public class AdminAccountGroupResourceTest
 			accountEntry.getAccountEntryId());
 
 		AccountGroup accountGroup2 = _accountGroupLocalService.addAccountGroup(
-			_serviceContext.getUserId(), null, RandomTestUtil.randomString(),
-			_serviceContext);
+			null, _serviceContext.getUserId(), null,
+			RandomTestUtil.randomString(), _serviceContext);
 
 		accountGroup2.setExternalReferenceCode(null);
 		accountGroup2.setDefaultAccountGroup(false);

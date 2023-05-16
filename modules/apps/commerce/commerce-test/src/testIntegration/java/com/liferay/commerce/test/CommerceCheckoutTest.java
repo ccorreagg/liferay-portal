@@ -188,7 +188,7 @@ public class CommerceCheckoutTest {
 
 		CommerceOrder commerceOrder =
 			CommerceOrderLocalServiceUtil.addCommerceOrder(
-				user.getUserId(), _commerceChannel.getGroupId(),
+				null, user.getUserId(), _commerceChannel.getGroupId(),
 				accountEntry.getAccountEntryId(),
 				_commerceCurrency.getCommerceCurrencyId());
 
@@ -238,7 +238,7 @@ public class CommerceCheckoutTest {
 
 			AccountEntry accountEntry =
 				_accountEntryLocalService.addAccountEntry(
-					user1.getUserId(),
+					null, user1.getUserId(),
 					AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
 					RandomTestUtil.randomString(), null, null, null, null,
 					StringPool.BLANK, AccountConstants.ACCOUNT_ENTRY_TYPE_GUEST,
@@ -261,7 +261,7 @@ public class CommerceCheckoutTest {
 
 			CommerceOrder commerceOrder =
 				CommerceOrderLocalServiceUtil.addCommerceOrder(
-					user1.getUserId(), _commerceChannel.getGroupId(),
+					null, user1.getUserId(), _commerceChannel.getGroupId(),
 					accountEntry.getAccountEntryId(),
 					_commerceCurrency.getCommerceCurrencyId());
 
@@ -333,7 +333,7 @@ public class CommerceCheckoutTest {
 
 			CommerceOrder commerceOrder =
 				CommerceOrderLocalServiceUtil.addCommerceOrder(
-					user.getUserId(), _commerceChannel.getGroupId(),
+					null, user.getUserId(), _commerceChannel.getGroupId(),
 					accountEntry.getAccountEntryId(),
 					_commerceCurrency.getCommerceCurrencyId());
 
@@ -389,7 +389,7 @@ public class CommerceCheckoutTest {
 
 		CommerceOrder commerceOrder =
 			CommerceOrderLocalServiceUtil.addCommerceOrder(
-				user.getUserId(), _commerceChannel.getGroupId(),
+				null, user.getUserId(), _commerceChannel.getGroupId(),
 				accountEntry.getAccountEntryId(),
 				_commerceCurrency.getCommerceCurrencyId());
 
@@ -433,7 +433,7 @@ public class CommerceCheckoutTest {
 
 		CommerceOrder commerceOrder =
 			CommerceOrderLocalServiceUtil.addCommerceOrder(
-				user.getUserId(), _commerceChannel.getGroupId(),
+				null, user.getUserId(), _commerceChannel.getGroupId(),
 				accountEntry.getAccountEntryId(),
 				_commerceCurrency.getCommerceCurrencyId());
 
@@ -489,7 +489,7 @@ public class CommerceCheckoutTest {
 
 		CommerceOrder commerceOrder =
 			CommerceOrderLocalServiceUtil.addCommerceOrder(
-				user.getUserId(), _commerceChannel.getGroupId(),
+				null, user.getUserId(), _commerceChannel.getGroupId(),
 				accountEntry.getAccountEntryId(),
 				_commerceCurrency.getCommerceCurrencyId());
 
@@ -541,7 +541,7 @@ public class CommerceCheckoutTest {
 
 		CommerceOrder commerceOrder =
 			CommerceOrderLocalServiceUtil.addCommerceOrder(
-				user.getUserId(), _commerceChannel.getGroupId(),
+				null, user.getUserId(), _commerceChannel.getGroupId(),
 				accountEntry.getAccountEntryId(),
 				_commerceCurrency.getCommerceCurrencyId());
 
@@ -584,7 +584,7 @@ public class CommerceCheckoutTest {
 
 		CommerceOrder commerceOrder =
 			CommerceOrderLocalServiceUtil.addCommerceOrder(
-				user.getUserId(), _commerceChannel.getGroupId(),
+				null, user.getUserId(), _commerceChannel.getGroupId(),
 				accountEntry.getAccountEntryId(),
 				_commerceCurrency.getCommerceCurrencyId());
 
@@ -645,7 +645,7 @@ public class CommerceCheckoutTest {
 
 		CommerceOrder commerceOrder =
 			CommerceOrderLocalServiceUtil.addCommerceOrder(
-				user.getUserId(), _commerceChannel.getGroupId(),
+				null, user.getUserId(), _commerceChannel.getGroupId(),
 				accountEntry.getAccountEntryId(),
 				_commerceCurrency.getCommerceCurrencyId());
 
@@ -832,12 +832,13 @@ public class CommerceCheckoutTest {
 		}
 
 		return CommerceAddressLocalServiceUtil.addCommerceAddress(
-			AccountEntry.class.getName(), commerceOrder.getCommerceAccountId(),
+			null, AccountEntry.class.getName(),
+			commerceOrder.getCommerceAccountId(), RandomTestUtil.randomString(),
 			RandomTestUtil.randomString(), RandomTestUtil.randomString(),
 			RandomTestUtil.randomString(), RandomTestUtil.randomString(),
-			RandomTestUtil.randomString(), RandomTestUtil.randomString(),
-			RandomTestUtil.randomString(), 0, country.getCountryId(),
-			RandomTestUtil.randomString(), addressType, _serviceContext);
+			RandomTestUtil.randomString(), RandomTestUtil.randomString(), 0,
+			country.getCountryId(), RandomTestUtil.randomString(), addressType,
+			_serviceContext);
 	}
 
 	private static Company _company;

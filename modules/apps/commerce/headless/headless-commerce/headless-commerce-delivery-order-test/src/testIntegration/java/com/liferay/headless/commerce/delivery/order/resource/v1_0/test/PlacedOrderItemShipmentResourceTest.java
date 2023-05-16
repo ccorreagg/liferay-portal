@@ -82,7 +82,7 @@ public class PlacedOrderItemShipmentResourceTest
 			_user.getUserId());
 
 		_accountEntry = _accountEntryLocalService.addAccountEntry(
-			_user.getUserId(), 0, RandomTestUtil.randomString(),
+			null, _user.getUserId(), 0, RandomTestUtil.randomString(),
 			RandomTestUtil.randomString(), null,
 			RandomTestUtil.randomString() + "@liferay.com", null,
 			RandomTestUtil.randomString(), "business", 1, _serviceContext);
@@ -122,7 +122,7 @@ public class PlacedOrderItemShipmentResourceTest
 
 		_commerceOrderItem =
 			_commerceOrderItemLocalService.addCommerceOrderItem(
-				_user.getUserId(), _commerceOrder.getCommerceOrderId(),
+				null, _user.getUserId(), _commerceOrder.getCommerceOrderId(),
 				_cpInstance.getCPInstanceId(), null,
 				RandomTestUtil.randomInt(1, 10), 0,
 				RandomTestUtil.randomInt(1, 10),

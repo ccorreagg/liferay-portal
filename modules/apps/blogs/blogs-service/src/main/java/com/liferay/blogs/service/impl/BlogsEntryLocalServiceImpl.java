@@ -221,9 +221,9 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		throws PortalException {
 
 		return blogsEntryLocalService.addEntry(
-			userId, title, StringPool.BLANK, StringPool.BLANK, content,
-			displayDate, true, true, new String[0], StringPool.BLANK, null,
-			null, serviceContext);
+			externalReferenceCode, userId, title, StringPool.BLANK,
+			StringPool.BLANK, content, displayDate, true, true, new String[0],
+			StringPool.BLANK, null, null, serviceContext);
 	}
 
 	@Override
@@ -233,9 +233,9 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 		throws PortalException {
 
 		return blogsEntryLocalService.addEntry(
-			userId, title, StringPool.BLANK, StringPool.BLANK, content,
-			new Date(), true, true, new String[0], StringPool.BLANK, null, null,
-			serviceContext);
+			externalReferenceCode, userId, title, StringPool.BLANK,
+			StringPool.BLANK, content, new Date(), true, true, new String[0],
+			StringPool.BLANK, null, null, serviceContext);
 	}
 
 	@Indexable(type = IndexableType.REINDEX)

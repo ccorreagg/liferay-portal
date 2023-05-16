@@ -58,7 +58,7 @@ public class AccountResourceTest extends BaseAccountResourceTestCase {
 				user.getUserId());
 
 		_accountEntry = _accountEntryLocalService.addAccountEntry(
-			user.getUserId(), 0, RandomTestUtil.randomString(),
+			null, user.getUserId(), 0, RandomTestUtil.randomString(),
 			RandomTestUtil.randomString(), null,
 			RandomTestUtil.randomString() + "@liferay.com", null, null,
 			"business", 1, serviceContext);

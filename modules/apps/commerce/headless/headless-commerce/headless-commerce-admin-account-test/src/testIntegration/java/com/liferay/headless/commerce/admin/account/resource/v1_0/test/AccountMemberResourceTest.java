@@ -49,7 +49,7 @@ public class AccountMemberResourceTest
 			_user.getUserId());
 
 		_accountEntry = AccountEntryLocalServiceUtil.addAccountEntry(
-			_serviceContext.getUserId(),
+			null, _serviceContext.getUserId(),
 			AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
 			RandomTestUtil.randomString(), null, null,
 			RandomTestUtil.randomString() + "@liferay.com", null, null,
