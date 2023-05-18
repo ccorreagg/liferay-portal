@@ -95,18 +95,6 @@ public interface KnowledgeBaseAttachmentResource {
 				String externalReferenceCode)
 		throws Exception;
 
-	public KnowledgeBaseAttachment
-			postSiteKnowledgeBaseArticleByExternalReferenceCodeKnowledgeBaseArticleExternalReferenceCodeKnowledgeBaseAttachmentByExternalReferenceCode(
-				Long siteId, String knowledgeBaseArticleExternalReferenceCode,
-				String externalReferenceCode, MultipartBody multipartBody)
-		throws Exception;
-
-	public KnowledgeBaseAttachment
-			putSiteKnowledgeBaseArticleByExternalReferenceCodeKnowledgeBaseArticleExternalReferenceCodeKnowledgeBaseAttachmentByExternalReferenceCode(
-				Long siteId, String knowledgeBaseArticleExternalReferenceCode,
-				String externalReferenceCode, MultipartBody multipartBody)
-		throws Exception;
-
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {
 	}
