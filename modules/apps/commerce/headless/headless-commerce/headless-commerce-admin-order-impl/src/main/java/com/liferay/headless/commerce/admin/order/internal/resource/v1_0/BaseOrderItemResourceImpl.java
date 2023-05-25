@@ -20,7 +20,6 @@ import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
-import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.search.Sort;
@@ -760,28 +759,6 @@ public abstract class BaseOrderItemResourceImpl
 				orderItemUnsafeConsumer =
 					orderItem -> putOrderItemByExternalReferenceCode(
 						orderItem.getExternalReferenceCode(), orderItem);
-			}
-
-			if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
-				orderItemUnsafeConsumer = orderItem -> {
-					try {
-						OrderItem getOrderItem =
-							getOrderItemByExternalReferenceCode(
-								orderItem.getExternalReferenceCode());
-
-						patchOrderItem(
-							getOrderItem.getId() != null ?
-								getOrderItem.getId() :
-									_parseLong(
-										(String)parameters.get("orderItemId")),
-							orderItem);
-					}
-					catch (NoSuchModelException noSuchModelException) {
-						throw new NotSupportedException(
-							"No valid POST method was found",
-							noSuchModelException);
-					}
-				};
 			}
 		}
 
