@@ -66,7 +66,7 @@ public class KeywordSerDes {
 
 			sb.append("\"actions\": ");
 
-			sb.append(_toJSON(keyword.getActions()));
+			sb.append(String.valueOf(keyword.getActions()));
 		}
 
 		if (keyword.getAssetLibraryKey() != null) {
@@ -298,7 +298,8 @@ public class KeywordSerDes {
 			if (Objects.equals(jsonParserFieldName, "actions")) {
 				if (jsonParserFieldValue != null) {
 					keyword.setActions(
-						(Map)KeywordSerDes.toMap((String)jsonParserFieldValue));
+						KeywordActionsSerDes.toDTO(
+							(String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "assetLibraryKey")) {
