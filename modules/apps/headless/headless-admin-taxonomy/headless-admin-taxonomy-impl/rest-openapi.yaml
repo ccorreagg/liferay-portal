@@ -1,5 +1,12 @@
 components:
     schemas:
+        Action:
+            properties:
+                href:
+                    type: string
+                method:
+                    type: string
+            type: object
         AssetType:
             description:
                 Represents the asset type associated with a `TaxonomyCategory`.
@@ -73,10 +80,17 @@ components:
                 [keywords](https://schema.org/keywords) specification.
             properties:
                 actions:
-                    additionalProperties:
-                        additionalProperties:
-                            type: string
-                        type: object
+                    properties:
+                        delete:
+                            $ref: "#/components/schemas/Action"
+                        get:
+                            $ref: "#/components/schemas/Action"
+                        replace:
+                            $ref: "#/components/schemas/Action"
+                        subscribe:
+                            $ref: "#/components/schemas/Action"
+                        unsubscribe:
+                            $ref: "#/components/schemas/Action"
                     readOnly: true
                     type: object
                 assetLibraryKey:
