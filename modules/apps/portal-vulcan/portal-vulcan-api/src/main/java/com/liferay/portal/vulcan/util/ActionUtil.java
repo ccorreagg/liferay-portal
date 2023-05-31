@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.vulcan.action.ActionInfo;
 import com.liferay.portal.vulcan.graphql.util.GraphQLNamingUtil;
 
 import java.lang.annotation.Annotation;
@@ -158,6 +159,19 @@ public class ActionUtil {
 		return addAction(
 			actionName, clazz, id, methodName, object, null, permissionName,
 			siteId, uriInfo);
+	}
+
+	public static ActionInfo getActionInfo(
+			String actionName, Class<?> clazz, String methodName)
+		throws Exception {
+
+		ActionInfo actionInfo = new ActionInfo();
+
+		actionInfo.setActionName(actionName);
+		actionInfo.setMethodName(
+			_getHttpMethodName(clazz, _getMethod(clazz, methodName)));
+
+		return actionInfo;
 	}
 
 	private static Map<String, String> _addAction(
