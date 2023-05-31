@@ -3187,7 +3187,7 @@ public class ObjectEntryResourceTest {
 			_objectEntry1.getPrimaryKey(), _objectEntry2.getPrimaryKey(),
 			ObjectRelationshipConstants.TYPE_MANY_TO_MANY);
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
 			).put(
@@ -3197,9 +3197,17 @@ public class ObjectEntryResourceTest {
 						_OBJECT_FIELD_NAME_2,
 						String.valueOf(_OBJECT_FIELD_VALUE_2)))
 			),
-			null, _objectRelationship2.getName(), _objectDefinition1);
+			_invokeGetEndpoint(
+				null, _objectRelationship2.getName(), _objectDefinition1));
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
+			JSONCompareMode.STRICT,
+			_invokeGetEndpoint(
+				null, _objectRelationship2.getName(), _objectDefinition1),
+			_invokeGetEndpoint(
+				1, _objectRelationship2.getName(), _objectDefinition1));
+
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
 			).put(
@@ -3223,9 +3231,10 @@ public class ObjectEntryResourceTest {
 							))
 					))
 			),
-			3, _objectRelationship2.getName(), _objectDefinition1);
+			_invokeGetEndpoint(
+				3, _objectRelationship2.getName(), _objectDefinition1));
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
 			).put(
@@ -3265,49 +3274,15 @@ public class ObjectEntryResourceTest {
 							))
 					))
 			),
-			5, _objectRelationship2.getName(), _objectDefinition1);
+			_invokeGetEndpoint(
+				5, _objectRelationship2.getName(), _objectDefinition1));
 
-		_testGetNestedFieldDetailsInRelationships(
-			JSONUtil.put(
-				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
-			).put(
-				_objectRelationship2.getName(),
-				JSONUtil.put(
-					JSONUtil.put(
-						_OBJECT_FIELD_NAME_2,
-						String.valueOf(_OBJECT_FIELD_VALUE_2)
-					).put(
-						_objectRelationship2.getName(),
-						JSONUtil.put(
-							JSONUtil.put(
-								_OBJECT_FIELD_NAME_1,
-								String.valueOf(_OBJECT_FIELD_VALUE_1)
-							).put(
-								_objectRelationship2.getName(),
-								JSONUtil.put(
-									JSONUtil.put(
-										_OBJECT_FIELD_NAME_2,
-										String.valueOf(_OBJECT_FIELD_VALUE_2)
-									).put(
-										_objectRelationship2.getName(),
-										JSONUtil.put(
-											JSONUtil.put(
-												_OBJECT_FIELD_NAME_1,
-												String.valueOf(
-													_OBJECT_FIELD_VALUE_1)
-											).put(
-												_objectRelationship2.getName(),
-												JSONUtil.put(
-													JSONUtil.put(
-														_OBJECT_FIELD_NAME_2,
-														String.valueOf(
-															_OBJECT_FIELD_VALUE_2)))
-											))
-									))
-							))
-					))
-			),
-			6, _objectRelationship2.getName(), _objectDefinition1);
+		_assertEquals(
+			JSONCompareMode.STRICT,
+			_invokeGetEndpoint(
+				5, _objectRelationship2.getName(), _objectDefinition1),
+			_invokeGetEndpoint(
+				6, _objectRelationship2.getName(), _objectDefinition1));
 
 		// Many to one relationship
 
@@ -3321,7 +3296,7 @@ public class ObjectEntryResourceTest {
 		String relationshipFieldNameNestedFieldName = StringUtil.removeLast(
 			relationshipFieldName, "Id");
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
 			).put(
@@ -3329,9 +3304,10 @@ public class ObjectEntryResourceTest {
 				JSONUtil.put(
 					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
 			),
-			null, relationshipFieldName, _objectDefinition2);
+			_invokeGetEndpoint(
+				null, relationshipFieldName, _objectDefinition2));
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
 			).put(
@@ -3339,15 +3315,16 @@ public class ObjectEntryResourceTest {
 				JSONUtil.put(
 					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
 			),
-			null, StringUtil.removeLast(relationshipFieldName, "Id"),
-			_objectDefinition2);
+			_invokeGetEndpoint(
+				null, StringUtil.removeLast(relationshipFieldName, "Id"),
+				_objectDefinition2));
 
 		String relatedObjectDefinitionName = StringUtil.removeFirst(
 			StringUtil.removeLast(
 				_objectDefinition1.getPKObjectFieldName(), "Id"),
 			"c_");
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
 			).put(
@@ -3355,9 +3332,10 @@ public class ObjectEntryResourceTest {
 				JSONUtil.put(
 					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
 			),
-			null, relatedObjectDefinitionName, _objectDefinition2);
+			_invokeGetEndpoint(
+				null, relatedObjectDefinitionName, _objectDefinition2));
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
 			).put(
@@ -3365,10 +3343,12 @@ public class ObjectEntryResourceTest {
 				JSONUtil.put(
 					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
 			),
-			null, RandomTestUtil.randomString() + relatedObjectDefinitionName,
-			_objectDefinition2);
+			_invokeGetEndpoint(
+				null,
+				RandomTestUtil.randomString() + relatedObjectDefinitionName,
+				_objectDefinition2));
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
 			).put(
@@ -3376,9 +3356,10 @@ public class ObjectEntryResourceTest {
 				JSONUtil.put(
 					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
 			),
-			null, _objectRelationship3.getName(), _objectDefinition2);
+			_invokeGetEndpoint(
+				null, _objectRelationship3.getName(), _objectDefinition2));
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
 			).put(
@@ -3386,7 +3367,8 @@ public class ObjectEntryResourceTest {
 				JSONUtil.put(
 					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
 			),
-			null, _objectRelationship3.getName(), _objectDefinition2);
+			_invokeGetEndpoint(
+				null, _objectRelationship3.getName(), _objectDefinition2));
 
 		// One to many relationship
 
@@ -3395,7 +3377,7 @@ public class ObjectEntryResourceTest {
 			_objectEntry1.getPrimaryKey(), _objectEntry2.getPrimaryKey(),
 			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
 			).put(
@@ -3405,9 +3387,17 @@ public class ObjectEntryResourceTest {
 						_OBJECT_FIELD_NAME_2,
 						String.valueOf(_OBJECT_FIELD_VALUE_2)))
 			),
-			null, _objectRelationship1.getName(), _objectDefinition1);
+			_invokeGetEndpoint(
+				null, _objectRelationship1.getName(), _objectDefinition1));
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
+			JSONCompareMode.STRICT,
+			_invokeGetEndpoint(
+				null, _objectRelationship1.getName(), _objectDefinition1),
+			_invokeGetEndpoint(
+				1, _objectRelationship1.getName(), _objectDefinition1));
+
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
 			).put(
@@ -3430,9 +3420,10 @@ public class ObjectEntryResourceTest {
 						)
 					))
 			),
-			3, _objectRelationship1.getName(), _objectDefinition1);
+			_invokeGetEndpoint(
+				3, _objectRelationship1.getName(), _objectDefinition1));
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
 			).put(
@@ -3461,38 +3452,15 @@ public class ObjectEntryResourceTest {
 						)
 					))
 			),
-			5, _objectRelationship1.getName(), _objectDefinition1);
+			_invokeGetEndpoint(
+				5, _objectRelationship1.getName(), _objectDefinition1));
 
-		_testGetNestedFieldDetailsInRelationships(
-			JSONUtil.put(
-				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
-			).put(
-				_objectRelationship1.getName(),
-				JSONUtil.put(
-					JSONUtil.put(
-						_OBJECT_FIELD_NAME_2,
-						String.valueOf(_OBJECT_FIELD_VALUE_2)
-					).put(
-						_objectRelationship1.getName(),
-						JSONUtil.put(
-							_OBJECT_FIELD_NAME_1,
-							String.valueOf(_OBJECT_FIELD_VALUE_1)
-						).put(
-							_objectRelationship1.getName(),
-							JSONUtil.put(
-								JSONUtil.put(
-									_OBJECT_FIELD_NAME_2,
-									String.valueOf(_OBJECT_FIELD_VALUE_2)
-								).put(
-									_objectRelationship1.getName(),
-									JSONUtil.put(
-										_OBJECT_FIELD_NAME_1,
-										String.valueOf(_OBJECT_FIELD_VALUE_1))
-								))
-						)
-					))
-			),
-			6, _objectRelationship1.getName(), _objectDefinition1);
+		_assertEquals(
+			JSONCompareMode.STRICT,
+			_invokeGetEndpoint(
+				5, _objectRelationship1.getName(), _objectDefinition1),
+			_invokeGetEndpoint(
+				6, _objectRelationship1.getName(), _objectDefinition1));
 	}
 
 	@FeatureFlags("LPS-165819")
@@ -3569,7 +3537,7 @@ public class ObjectEntryResourceTest {
 			_objectEntry1.getPrimaryKey(), _userAccountJSONObject.getLong("id"),
 			ObjectRelationshipConstants.TYPE_MANY_TO_MANY);
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
 			).put(
@@ -3579,9 +3547,17 @@ public class ObjectEntryResourceTest {
 						_OBJECT_FIELD_NAME_2,
 						String.valueOf(_OBJECT_FIELD_VALUE_2)))
 			),
-			null, _objectRelationship2.getName(), _objectDefinition1);
+			_invokeGetEndpoint(
+				null, _objectRelationship2.getName(), _objectDefinition1));
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
+			JSONCompareMode.STRICT,
+			_invokeGetEndpoint(
+				null, _objectRelationship2.getName(), _objectDefinition1),
+			_invokeGetEndpoint(
+				1, _objectRelationship2.getName(), _objectDefinition1));
+
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
 			).put(
@@ -3605,9 +3581,10 @@ public class ObjectEntryResourceTest {
 							))
 					))
 			),
-			3, _objectRelationship2.getName(), _objectDefinition1);
+			_invokeGetEndpoint(
+				3, _objectRelationship2.getName(), _objectDefinition1));
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
 			).put(
@@ -3647,49 +3624,15 @@ public class ObjectEntryResourceTest {
 							))
 					))
 			),
-			5, _objectRelationship2.getName(), _objectDefinition1);
+			_invokeGetEndpoint(
+				5, _objectRelationship2.getName(), _objectDefinition1));
 
-		_testGetNestedFieldDetailsInRelationships(
-			JSONUtil.put(
-				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
-			).put(
-				_objectRelationship2.getName(),
-				JSONUtil.put(
-					JSONUtil.put(
-						_OBJECT_FIELD_NAME_2,
-						String.valueOf(_OBJECT_FIELD_VALUE_2)
-					).put(
-						_objectRelationship2.getName(),
-						JSONUtil.put(
-							JSONUtil.put(
-								_OBJECT_FIELD_NAME_1,
-								String.valueOf(_OBJECT_FIELD_VALUE_1)
-							).put(
-								_objectRelationship2.getName(),
-								JSONUtil.put(
-									JSONUtil.put(
-										_OBJECT_FIELD_NAME_2,
-										String.valueOf(_OBJECT_FIELD_VALUE_2)
-									).put(
-										_objectRelationship2.getName(),
-										JSONUtil.put(
-											JSONUtil.put(
-												_OBJECT_FIELD_NAME_1,
-												String.valueOf(
-													_OBJECT_FIELD_VALUE_1)
-											).put(
-												_objectRelationship2.getName(),
-												JSONUtil.put(
-													JSONUtil.put(
-														_OBJECT_FIELD_NAME_2,
-														String.valueOf(
-															_OBJECT_FIELD_VALUE_2)))
-											))
-									))
-							))
-					))
-			),
-			6, _objectRelationship2.getName(), _objectDefinition1);
+		_assertEquals(
+			JSONCompareMode.STRICT,
+			_invokeGetEndpoint(
+				5, _objectRelationship2.getName(), _objectDefinition1),
+			_invokeGetEndpoint(
+				6, _objectRelationship2.getName(), _objectDefinition1));
 
 		// One to many relationship
 
@@ -3698,7 +3641,7 @@ public class ObjectEntryResourceTest {
 			_objectEntry1.getPrimaryKey(), _userAccountJSONObject.getLong("id"),
 			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
 
-		_testGetNestedFieldDetailsInRelationships(
+		_assertEquals(
 			JSONUtil.put(
 				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
 			).put(
@@ -3708,7 +3651,8 @@ public class ObjectEntryResourceTest {
 						_OBJECT_FIELD_NAME_2,
 						String.valueOf(_OBJECT_FIELD_VALUE_2)))
 			),
-			null, _objectRelationship1.getName(), _objectDefinition1);
+			_invokeGetEndpoint(
+				null, _objectRelationship1.getName(), _objectDefinition1));
 	}
 
 	@Test
@@ -5186,6 +5130,21 @@ public class ObjectEntryResourceTest {
 			ContentTypes.TEXT_PLAIN);
 	}
 
+	private void _assertEquals(
+			JSONCompareMode jsonCompareMode, JSONObject jsonObject1,
+			JSONObject jsonObject2)
+		throws Exception {
+
+		JSONAssert.assertEquals(
+			jsonObject1.toString(), jsonObject2.toString(), jsonCompareMode);
+	}
+
+	private void _assertEquals(JSONObject jsonObject1, JSONObject jsonObject2)
+		throws Exception {
+
+		_assertEquals(JSONCompareMode.LENIENT, jsonObject1, jsonObject2);
+	}
+
 	private void _assertFilteredObjectEntries(
 			int expectedObjectEntryCount, String filterString)
 		throws Exception {
@@ -5356,6 +5315,29 @@ public class ObjectEntryResourceTest {
 		}
 	}
 
+	private JSONObject _invokeGetEndpoint(
+			Integer nestedFieldsDepth, String nestedFieldName,
+			ObjectDefinition objectDefinition)
+		throws Exception {
+
+		String endpoint = StringBundler.concat(
+			objectDefinition.getRESTContextPath(), "?nestedFields=",
+			nestedFieldName);
+
+		if (nestedFieldsDepth != null) {
+			endpoint += "&nestedFieldsDepth=" + nestedFieldsDepth;
+		}
+
+		JSONObject jsonObject = HTTPTestUtil.invoke(
+			null, endpoint, Http.Method.GET);
+
+		JSONArray itemsJSONArray = jsonObject.getJSONArray("items");
+
+		Assert.assertEquals(1, itemsJSONArray.length());
+
+		return itemsJSONArray.getJSONObject(0);
+	}
+
 	private void _postObjectEntryWithKeywords(String... keywords)
 		throws Exception {
 
@@ -5396,33 +5378,6 @@ public class ObjectEntryResourceTest {
 			"Filtering is not supported for system objects",
 			jsonObject.getString("title"));
 		Assert.assertEquals("BAD_REQUEST", jsonObject.getString("status"));
-	}
-
-	private void _testGetNestedFieldDetailsInRelationships(
-			JSONObject expectedJSONObject, Integer nestedFieldDepth,
-			String nestedFieldName, ObjectDefinition objectDefinition)
-		throws Exception {
-
-		String endpoint = StringBundler.concat(
-			objectDefinition.getRESTContextPath(), "?nestedFields=",
-			nestedFieldName);
-
-		if (nestedFieldDepth != null) {
-			endpoint += "&nestedFieldsDepth=" + nestedFieldDepth;
-		}
-
-		JSONObject jsonObject = HTTPTestUtil.invoke(
-			null, endpoint, Http.Method.GET);
-
-		JSONArray itemsJSONArray = jsonObject.getJSONArray("items");
-
-		Assert.assertEquals(1, itemsJSONArray.length());
-
-		JSONObject itemJSONObject = itemsJSONArray.getJSONObject(0);
-
-		JSONAssert.assertEquals(
-			expectedJSONObject.toString(), itemJSONObject.toString(),
-			JSONCompareMode.LENIENT);
 	}
 
 	private void
