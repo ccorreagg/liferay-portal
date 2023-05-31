@@ -46,7 +46,6 @@ import com.liferay.portal.kernel.test.util.HTTPTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.MapUtil;
@@ -56,12 +55,10 @@ import com.liferay.portal.test.log.LoggerTestUtil;
 import com.liferay.portal.test.rule.FeatureFlags;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.util.PropsValues;
 
 import java.io.Serializable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -72,6 +69,9 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import org.springframework.http.HttpStatus;
 
@@ -150,54 +150,81 @@ public class SystemObjectRelatedObjectEntriesTest {
 			_objectEntry.getPrimaryKey(), _userAccountJSONObject.getLong("id"),
 			ObjectRelationshipConstants.TYPE_MANY_TO_MANY);
 
-		_testGetSystemObjectRelatedObjectEntries(
-			null, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE}
-			},
-			Type.MANY_TO_MANY);
+		_assertEquals(
+			JSONUtil.put(
+				_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE
+			).put(
+				objectRelationship.getName(),
+				JSONUtil.put(
+					JSONUtil.put(_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE))
+			),
+			_invokeGetEndpoint(null, objectRelationship.getName()));
 
-		_testGetSystemObjectRelatedObjectEntries(
-			1, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE}
-			},
-			Type.MANY_TO_MANY);
+		_assertEquals(
+			JSONCompareMode.STRICT,
+			_invokeGetEndpoint(null, objectRelationship.getName()),
+			_invokeGetEndpoint(1, objectRelationship.getName()));
 
-		_testGetSystemObjectRelatedObjectEntries(
-			2, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE},
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE}
-			},
-			Type.MANY_TO_MANY);
+		_assertEquals(
+			JSONUtil.put(
+				_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE
+			).put(
+				objectRelationship.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE
+					).put(
+						objectRelationship.getName(),
+						JSONUtil.put(
+							JSONUtil.put(
+								_SYSTEM_OBJECT_FIELD_NAME,
+								_SYSTEM_OBJECT_FIELD_VALUE))
+					))
+			),
+			_invokeGetEndpoint(2, objectRelationship.getName()));
 
-		_testGetSystemObjectRelatedObjectEntries(
-			5, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE},
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE},
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE}
-			},
-			Type.MANY_TO_MANY);
+		_assertEquals(
+			JSONUtil.put(
+				_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE
+			).put(
+				objectRelationship.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE
+					).put(
+						objectRelationship.getName(),
+						JSONUtil.put(
+							JSONUtil.put(
+								_SYSTEM_OBJECT_FIELD_NAME,
+								_SYSTEM_OBJECT_FIELD_VALUE
+							).put(
+								objectRelationship.getName(),
+								JSONUtil.put(
+									JSONUtil.put(
+										_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE
+									).put(
+										objectRelationship.getName(),
+										JSONUtil.put(
+											JSONUtil.put(
+												_SYSTEM_OBJECT_FIELD_NAME,
+												_SYSTEM_OBJECT_FIELD_VALUE
+											).put(
+												objectRelationship.getName(),
+												JSONUtil.put(
+													JSONUtil.put(
+														_OBJECT_FIELD_NAME,
+														_OBJECT_FIELD_VALUE))
+											))
+									))
+							))
+					))
+			),
+			_invokeGetEndpoint(5, objectRelationship.getName()));
 
-		_testGetSystemObjectRelatedObjectEntries(
-			6, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE},
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE},
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE}
-			},
-			Type.MANY_TO_MANY);
+		_assertEquals(
+			JSONCompareMode.STRICT,
+			_invokeGetEndpoint(5, objectRelationship.getName()),
+			_invokeGetEndpoint(6, objectRelationship.getName()));
 
 		// Many to many relationship (other side)
 
@@ -206,54 +233,81 @@ public class SystemObjectRelatedObjectEntriesTest {
 			_userAccountJSONObject.getLong("id"), _objectEntry.getPrimaryKey(),
 			ObjectRelationshipConstants.TYPE_MANY_TO_MANY);
 
-		_testGetSystemObjectRelatedObjectEntries(
-			null, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE}
-			},
-			Type.MANY_TO_MANY);
+		_assertEquals(
+			JSONUtil.put(
+				_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE
+			).put(
+				objectRelationship.getName(),
+				JSONUtil.put(
+					JSONUtil.put(_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE))
+			),
+			_invokeGetEndpoint(null, objectRelationship.getName()));
 
-		_testGetSystemObjectRelatedObjectEntries(
-			1, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE}
-			},
-			Type.MANY_TO_MANY);
+		_assertEquals(
+			JSONCompareMode.STRICT,
+			_invokeGetEndpoint(null, objectRelationship.getName()),
+			_invokeGetEndpoint(1, objectRelationship.getName()));
 
-		_testGetSystemObjectRelatedObjectEntries(
-			2, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE},
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE}
-			},
-			Type.MANY_TO_MANY);
+		_assertEquals(
+			JSONUtil.put(
+				_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE
+			).put(
+				objectRelationship.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE
+					).put(
+						objectRelationship.getName(),
+						JSONUtil.put(
+							JSONUtil.put(
+								_SYSTEM_OBJECT_FIELD_NAME,
+								_SYSTEM_OBJECT_FIELD_VALUE))
+					))
+			),
+			_invokeGetEndpoint(2, objectRelationship.getName()));
 
-		_testGetSystemObjectRelatedObjectEntries(
-			5, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE},
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE},
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE}
-			},
-			Type.MANY_TO_MANY);
+		_assertEquals(
+			JSONUtil.put(
+				_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE
+			).put(
+				objectRelationship.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE
+					).put(
+						objectRelationship.getName(),
+						JSONUtil.put(
+							JSONUtil.put(
+								_SYSTEM_OBJECT_FIELD_NAME,
+								_SYSTEM_OBJECT_FIELD_VALUE
+							).put(
+								objectRelationship.getName(),
+								JSONUtil.put(
+									JSONUtil.put(
+										_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE
+									).put(
+										objectRelationship.getName(),
+										JSONUtil.put(
+											JSONUtil.put(
+												_SYSTEM_OBJECT_FIELD_NAME,
+												_SYSTEM_OBJECT_FIELD_VALUE
+											).put(
+												objectRelationship.getName(),
+												JSONUtil.put(
+													JSONUtil.put(
+														_OBJECT_FIELD_NAME,
+														_OBJECT_FIELD_VALUE))
+											))
+									))
+							))
+					))
+			),
+			_invokeGetEndpoint(5, objectRelationship.getName()));
 
-		_testGetSystemObjectRelatedObjectEntries(
-			6, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE},
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE},
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE}
-			},
-			Type.MANY_TO_MANY);
+		_assertEquals(
+			JSONCompareMode.STRICT,
+			_invokeGetEndpoint(5, objectRelationship.getName()),
+			_invokeGetEndpoint(6, objectRelationship.getName()));
 	}
 
 	@Test
@@ -292,30 +346,37 @@ public class SystemObjectRelatedObjectEntriesTest {
 			_userAccountJSONObject.getLong("id"), _objectEntry.getPrimaryKey(),
 			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
 
-		_testGetSystemObjectRelatedObjectEntries(
-			null, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE}
-			},
-			Type.ONE_TO_MANY);
+		_assertEquals(
+			JSONUtil.put(
+				_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE
+			).put(
+				objectRelationship.getName(),
+				JSONUtil.put(
+					JSONUtil.put(_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE))
+			),
+			_invokeGetEndpoint(null, objectRelationship.getName()));
 
-		_testGetSystemObjectRelatedObjectEntries(
-			1, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE}
-			},
-			Type.ONE_TO_MANY);
+		_assertEquals(
+			JSONCompareMode.STRICT,
+			_invokeGetEndpoint(null, objectRelationship.getName()),
+			_invokeGetEndpoint(1, objectRelationship.getName()));
 
-		_testGetSystemObjectRelatedObjectEntries(
-			2, objectRelationship.getName(),
-			new String[][] {
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE},
-				{_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE},
-				{_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE}
-			},
-			Type.ONE_TO_MANY);
+		_assertEquals(
+			JSONUtil.put(
+				_SYSTEM_OBJECT_FIELD_NAME, _SYSTEM_OBJECT_FIELD_VALUE
+			).put(
+				objectRelationship.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME, _OBJECT_FIELD_VALUE
+					).put(
+						objectRelationship.getName(),
+						JSONUtil.put(
+							_SYSTEM_OBJECT_FIELD_NAME,
+							_SYSTEM_OBJECT_FIELD_VALUE)
+					))
+			),
+			_invokeGetEndpoint(2, objectRelationship.getName()));
 	}
 
 	@Test
@@ -555,38 +616,19 @@ public class SystemObjectRelatedObjectEntriesTest {
 		return objectRelationship;
 	}
 
-	private void _assertNestedFieldsInRelationships(
-		int currentDepth, int depth, JSONObject jsonObject,
-		String nestedFieldName, String[][] objectFieldNamesAndObjectFieldValues,
-		Type type) {
+	private void _assertEquals(
+			JSONCompareMode jsonCompareMode, JSONObject jsonObject1,
+			JSONObject jsonObject2)
+		throws Exception {
 
-		if (objectFieldNamesAndObjectFieldValues[currentDepth][0] == null) {
-			Assert.assertNull(jsonObject);
-		}
-		else {
-			Assert.assertEquals(
-				objectFieldNamesAndObjectFieldValues[currentDepth][1],
-				jsonObject.getString(
-					objectFieldNamesAndObjectFieldValues[currentDepth][0]));
-		}
+		JSONAssert.assertEquals(
+			jsonObject1.toString(), jsonObject2.toString(), jsonCompareMode);
+	}
 
-		if ((currentDepth == depth) ||
-			(currentDepth ==
-				PropsValues.OBJECT_NESTED_FIELDS_MAX_QUERY_DEPTH)) {
+	private void _assertEquals(JSONObject jsonObject1, JSONObject jsonObject2)
+		throws Exception {
 
-			Assert.assertEquals(
-				Arrays.toString(objectFieldNamesAndObjectFieldValues),
-				currentDepth + 1, objectFieldNamesAndObjectFieldValues.length);
-			Assert.assertNull(jsonObject.get(nestedFieldName));
-
-			return;
-		}
-
-		_assertNestedFieldsInRelationships(
-			currentDepth + 1, depth,
-			_getRelatedJSONObject(jsonObject, nestedFieldName, type),
-			nestedFieldName, objectFieldNamesAndObjectFieldValues,
-			_getReverseType(type));
+		_assertEquals(JSONCompareMode.LENIENT, jsonObject1, jsonObject2);
 	}
 
 	private void _assertObjectEntryField(
@@ -655,42 +697,8 @@ public class SystemObjectRelatedObjectEntriesTest {
 			Http.Method.GET);
 	}
 
-	private JSONObject _getRelatedJSONObject(
-		JSONObject jsonObject, String nestedFieldName, Type type) {
-
-		if (type == Type.MANY_TO_ONE) {
-			JSONObject nestedJSONObject = jsonObject.getJSONObject(
-				nestedFieldName);
-
-			Assert.assertNotNull(
-				"Missing field " + nestedFieldName, nestedJSONObject);
-
-			return jsonObject.getJSONObject(nestedFieldName);
-		}
-
-		JSONArray jsonArray = jsonObject.getJSONArray(nestedFieldName);
-
-		Assert.assertNotNull("Missing field " + nestedFieldName, jsonArray);
-
-		Assert.assertEquals(1, jsonArray.length());
-
-		return jsonArray.getJSONObject(0);
-	}
-
-	private Type _getReverseType(Type type) {
-		if (type == Type.MANY_TO_ONE) {
-			return Type.ONE_TO_MANY;
-		}
-		else if (type == Type.ONE_TO_MANY) {
-			return Type.MANY_TO_ONE;
-		}
-
-		return Type.MANY_TO_MANY;
-	}
-
-	private void _testGetSystemObjectRelatedObjectEntries(
-			Integer nestedFieldDepth, String nestedFieldName,
-			String[][] objectFieldNamesAndObjectFieldValues, Type type)
+	private JSONObject _invokeGetEndpoint(
+			Integer nestedFieldsDepth, String nestedFieldName)
 		throws Exception {
 
 		JaxRsApplicationDescriptor jaxRsApplicationDescriptor =
@@ -701,16 +709,11 @@ public class SystemObjectRelatedObjectEntriesTest {
 			_userAccountJSONObject.getLong("id"), "?nestedFields=",
 			nestedFieldName);
 
-		if (nestedFieldDepth != null) {
-			endpoint += "&nestedFieldsDepth=" + nestedFieldDepth;
+		if (nestedFieldsDepth != null) {
+			endpoint += "&nestedFieldsDepth=" + nestedFieldsDepth;
 		}
 
-		JSONObject jsonObject = HTTPTestUtil.invoke(
-			null, endpoint, Http.Method.GET);
-
-		_assertNestedFieldsInRelationships(
-			0, GetterUtil.getInteger(nestedFieldDepth, 1), jsonObject,
-			nestedFieldName, objectFieldNamesAndObjectFieldValues, type);
+		return HTTPTestUtil.invoke(null, endpoint, Http.Method.GET);
 	}
 
 	private void _testPostSystemObjectEntryWithInvalidNestedCustomObjectEntries(
@@ -900,11 +903,5 @@ public class SystemObjectRelatedObjectEntriesTest {
 
 	@DeleteAfterTestRun
 	private ObjectField _userSystemObjectField;
-
-	private enum Type {
-
-		MANY_TO_MANY, MANY_TO_ONE, ONE_TO_MANY
-
-	}
 
 }
