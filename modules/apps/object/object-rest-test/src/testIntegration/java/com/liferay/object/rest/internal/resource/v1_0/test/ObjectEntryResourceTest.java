@@ -82,7 +82,6 @@ import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.FileUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.Http;
@@ -98,7 +97,6 @@ import com.liferay.portal.test.rule.FeatureFlags;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
-import com.liferay.portal.util.PropsValues;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.fields.NestedFieldsContext;
 import com.liferay.portal.vulcan.fields.NestedFieldsContextThreadLocal;
@@ -129,6 +127,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 /**
  * @author Luis Miguel Barcos
@@ -3189,50 +3188,126 @@ public class ObjectEntryResourceTest {
 			ObjectRelationshipConstants.TYPE_MANY_TO_MANY);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship2.getName(), null,
-			_objectRelationship2.getName(), _objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.MANY_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship2.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)))
+			),
+			null, _objectRelationship2.getName(), _objectDefinition1);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship2.getName(), 3, _objectRelationship2.getName(),
-			_objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.MANY_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship2.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)
+					).put(
+						_objectRelationship2.getName(),
+						JSONUtil.put(
+							JSONUtil.put(
+								_OBJECT_FIELD_NAME_1,
+								String.valueOf(_OBJECT_FIELD_VALUE_1)
+							).put(
+								_objectRelationship2.getName(),
+								JSONUtil.put(
+									JSONUtil.put(
+										_OBJECT_FIELD_NAME_2,
+										String.valueOf(_OBJECT_FIELD_VALUE_2)))
+							))
+					))
+			),
+			3, _objectRelationship2.getName(), _objectDefinition1);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship2.getName(), 5, _objectRelationship2.getName(),
-			_objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.MANY_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship2.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)
+					).put(
+						_objectRelationship2.getName(),
+						JSONUtil.put(
+							JSONUtil.put(
+								_OBJECT_FIELD_NAME_1,
+								String.valueOf(_OBJECT_FIELD_VALUE_1)
+							).put(
+								_objectRelationship2.getName(),
+								JSONUtil.put(
+									JSONUtil.put(
+										_OBJECT_FIELD_NAME_2,
+										String.valueOf(_OBJECT_FIELD_VALUE_2)
+									).put(
+										_objectRelationship2.getName(),
+										JSONUtil.put(
+											JSONUtil.put(
+												_OBJECT_FIELD_NAME_1,
+												String.valueOf(
+													_OBJECT_FIELD_VALUE_1)
+											).put(
+												_objectRelationship2.getName(),
+												JSONUtil.put(
+													JSONUtil.put(
+														_OBJECT_FIELD_NAME_2,
+														String.valueOf(
+															_OBJECT_FIELD_VALUE_2)))
+											))
+									))
+							))
+					))
+			),
+			5, _objectRelationship2.getName(), _objectDefinition1);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship2.getName(), 6, _objectRelationship2.getName(),
-			_objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.MANY_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship2.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)
+					).put(
+						_objectRelationship2.getName(),
+						JSONUtil.put(
+							JSONUtil.put(
+								_OBJECT_FIELD_NAME_1,
+								String.valueOf(_OBJECT_FIELD_VALUE_1)
+							).put(
+								_objectRelationship2.getName(),
+								JSONUtil.put(
+									JSONUtil.put(
+										_OBJECT_FIELD_NAME_2,
+										String.valueOf(_OBJECT_FIELD_VALUE_2)
+									).put(
+										_objectRelationship2.getName(),
+										JSONUtil.put(
+											JSONUtil.put(
+												_OBJECT_FIELD_NAME_1,
+												String.valueOf(
+													_OBJECT_FIELD_VALUE_1)
+											).put(
+												_objectRelationship2.getName(),
+												JSONUtil.put(
+													JSONUtil.put(
+														_OBJECT_FIELD_NAME_2,
+														String.valueOf(
+															_OBJECT_FIELD_VALUE_2)))
+											))
+									))
+							))
+					))
+			),
+			6, _objectRelationship2.getName(), _objectDefinition1);
 
 		// Many to one relationship
 
@@ -3247,13 +3322,25 @@ public class ObjectEntryResourceTest {
 			relationshipFieldName, "Id");
 
 		_testGetNestedFieldDetailsInRelationships(
-			relationshipFieldNameNestedFieldName, null, relationshipFieldName,
-			_objectDefinition2,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)}
-			},
-			Type.MANY_TO_ONE);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
+			).put(
+				relationshipFieldNameNestedFieldName,
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
+			),
+			null, relationshipFieldName, _objectDefinition2);
+
+		_testGetNestedFieldDetailsInRelationships(
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
+			).put(
+				relationshipFieldNameNestedFieldName,
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
+			),
+			null, StringUtil.removeLast(relationshipFieldName, "Id"),
+			_objectDefinition2);
 
 		String relatedObjectDefinitionName = StringUtil.removeFirst(
 			StringUtil.removeLast(
@@ -3261,51 +3348,45 @@ public class ObjectEntryResourceTest {
 			"c_");
 
 		_testGetNestedFieldDetailsInRelationships(
-			relationshipFieldNameNestedFieldName, null,
-			StringUtil.removeLast(relationshipFieldName, "Id"),
-			_objectDefinition2,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)}
-			},
-			Type.MANY_TO_ONE);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
+			).put(
+				relationshipFieldNameNestedFieldName,
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
+			),
+			null, relatedObjectDefinitionName, _objectDefinition2);
 
 		_testGetNestedFieldDetailsInRelationships(
-			relationshipFieldNameNestedFieldName, null,
-			relatedObjectDefinitionName, _objectDefinition2,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)}
-			},
-			Type.MANY_TO_ONE);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
+			).put(
+				relationshipFieldNameNestedFieldName,
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
+			),
+			null, RandomTestUtil.randomString() + relatedObjectDefinitionName,
+			_objectDefinition2);
 
 		_testGetNestedFieldDetailsInRelationships(
-			relationshipFieldNameNestedFieldName, null,
-			RandomTestUtil.randomString() + relatedObjectDefinitionName,
-			_objectDefinition2,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)}
-			},
-			Type.MANY_TO_ONE);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
+			).put(
+				relationshipFieldNameNestedFieldName,
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
+			),
+			null, _objectRelationship3.getName(), _objectDefinition2);
 
 		_testGetNestedFieldDetailsInRelationships(
-			relationshipFieldNameNestedFieldName, null,
-			_objectRelationship3.getName(), _objectDefinition2,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)}
-			},
-			Type.MANY_TO_ONE);
-
-		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship3.getName(), null,
-			_objectRelationship3.getName(), _objectDefinition2,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)}
-			},
-			Type.MANY_TO_ONE);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
+			).put(
+				_objectRelationship3.getName(),
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1))
+			),
+			null, _objectRelationship3.getName(), _objectDefinition2);
 
 		// One to many relationship
 
@@ -3315,50 +3396,103 @@ public class ObjectEntryResourceTest {
 			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship1.getName(), null,
-			_objectRelationship1.getName(), _objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.ONE_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship1.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)))
+			),
+			null, _objectRelationship1.getName(), _objectDefinition1);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship1.getName(), 3, _objectRelationship1.getName(),
-			_objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.ONE_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship1.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)
+					).put(
+						_objectRelationship1.getName(),
+						JSONUtil.put(
+							_OBJECT_FIELD_NAME_1,
+							String.valueOf(_OBJECT_FIELD_VALUE_1)
+						).put(
+							_objectRelationship1.getName(),
+							JSONUtil.put(
+								JSONUtil.put(
+									_OBJECT_FIELD_NAME_2,
+									String.valueOf(_OBJECT_FIELD_VALUE_2)))
+						)
+					))
+			),
+			3, _objectRelationship1.getName(), _objectDefinition1);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship1.getName(), 5, _objectRelationship1.getName(),
-			_objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.ONE_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship1.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)
+					).put(
+						_objectRelationship1.getName(),
+						JSONUtil.put(
+							_OBJECT_FIELD_NAME_1,
+							String.valueOf(_OBJECT_FIELD_VALUE_1)
+						).put(
+							_objectRelationship1.getName(),
+							JSONUtil.put(
+								JSONUtil.put(
+									_OBJECT_FIELD_NAME_2,
+									String.valueOf(_OBJECT_FIELD_VALUE_2)
+								).put(
+									_objectRelationship1.getName(),
+									JSONUtil.put(
+										_OBJECT_FIELD_NAME_1,
+										String.valueOf(_OBJECT_FIELD_VALUE_1))
+								))
+						)
+					))
+			),
+			5, _objectRelationship1.getName(), _objectDefinition1);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship1.getName(), 6, _objectRelationship1.getName(),
-			_objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.ONE_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship1.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)
+					).put(
+						_objectRelationship1.getName(),
+						JSONUtil.put(
+							_OBJECT_FIELD_NAME_1,
+							String.valueOf(_OBJECT_FIELD_VALUE_1)
+						).put(
+							_objectRelationship1.getName(),
+							JSONUtil.put(
+								JSONUtil.put(
+									_OBJECT_FIELD_NAME_2,
+									String.valueOf(_OBJECT_FIELD_VALUE_2)
+								).put(
+									_objectRelationship1.getName(),
+									JSONUtil.put(
+										_OBJECT_FIELD_NAME_1,
+										String.valueOf(_OBJECT_FIELD_VALUE_1))
+								))
+						)
+					))
+			),
+			6, _objectRelationship1.getName(), _objectDefinition1);
 	}
 
 	@FeatureFlags("LPS-165819")
@@ -3436,50 +3570,126 @@ public class ObjectEntryResourceTest {
 			ObjectRelationshipConstants.TYPE_MANY_TO_MANY);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship2.getName(), null,
-			_objectRelationship2.getName(), _objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.MANY_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship2.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)))
+			),
+			null, _objectRelationship2.getName(), _objectDefinition1);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship2.getName(), 3, _objectRelationship2.getName(),
-			_objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.MANY_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship2.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)
+					).put(
+						_objectRelationship2.getName(),
+						JSONUtil.put(
+							JSONUtil.put(
+								_OBJECT_FIELD_NAME_1,
+								String.valueOf(_OBJECT_FIELD_VALUE_1)
+							).put(
+								_objectRelationship2.getName(),
+								JSONUtil.put(
+									JSONUtil.put(
+										_OBJECT_FIELD_NAME_2,
+										String.valueOf(_OBJECT_FIELD_VALUE_2)))
+							))
+					))
+			),
+			3, _objectRelationship2.getName(), _objectDefinition1);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship2.getName(), 5, _objectRelationship2.getName(),
-			_objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.MANY_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship2.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)
+					).put(
+						_objectRelationship2.getName(),
+						JSONUtil.put(
+							JSONUtil.put(
+								_OBJECT_FIELD_NAME_1,
+								String.valueOf(_OBJECT_FIELD_VALUE_1)
+							).put(
+								_objectRelationship2.getName(),
+								JSONUtil.put(
+									JSONUtil.put(
+										_OBJECT_FIELD_NAME_2,
+										String.valueOf(_OBJECT_FIELD_VALUE_2)
+									).put(
+										_objectRelationship2.getName(),
+										JSONUtil.put(
+											JSONUtil.put(
+												_OBJECT_FIELD_NAME_1,
+												String.valueOf(
+													_OBJECT_FIELD_VALUE_1)
+											).put(
+												_objectRelationship2.getName(),
+												JSONUtil.put(
+													JSONUtil.put(
+														_OBJECT_FIELD_NAME_2,
+														String.valueOf(
+															_OBJECT_FIELD_VALUE_2)))
+											))
+									))
+							))
+					))
+			),
+			5, _objectRelationship2.getName(), _objectDefinition1);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship2.getName(), 6, _objectRelationship2.getName(),
-			_objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)},
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.MANY_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship2.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)
+					).put(
+						_objectRelationship2.getName(),
+						JSONUtil.put(
+							JSONUtil.put(
+								_OBJECT_FIELD_NAME_1,
+								String.valueOf(_OBJECT_FIELD_VALUE_1)
+							).put(
+								_objectRelationship2.getName(),
+								JSONUtil.put(
+									JSONUtil.put(
+										_OBJECT_FIELD_NAME_2,
+										String.valueOf(_OBJECT_FIELD_VALUE_2)
+									).put(
+										_objectRelationship2.getName(),
+										JSONUtil.put(
+											JSONUtil.put(
+												_OBJECT_FIELD_NAME_1,
+												String.valueOf(
+													_OBJECT_FIELD_VALUE_1)
+											).put(
+												_objectRelationship2.getName(),
+												JSONUtil.put(
+													JSONUtil.put(
+														_OBJECT_FIELD_NAME_2,
+														String.valueOf(
+															_OBJECT_FIELD_VALUE_2)))
+											))
+									))
+							))
+					))
+			),
+			6, _objectRelationship2.getName(), _objectDefinition1);
 
 		// One to many relationship
 
@@ -3489,13 +3699,16 @@ public class ObjectEntryResourceTest {
 			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
 
 		_testGetNestedFieldDetailsInRelationships(
-			_objectRelationship1.getName(), null,
-			_objectRelationship1.getName(), _objectDefinition1,
-			new String[][] {
-				{_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)},
-				{_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)}
-			},
-			Type.ONE_TO_MANY);
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, String.valueOf(_OBJECT_FIELD_VALUE_1)
+			).put(
+				_objectRelationship1.getName(),
+				JSONUtil.put(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2,
+						String.valueOf(_OBJECT_FIELD_VALUE_2)))
+			),
+			null, _objectRelationship1.getName(), _objectDefinition1);
 	}
 
 	@Test
@@ -5044,40 +5257,6 @@ public class ObjectEntryResourceTest {
 			nestedFieldNames, objectFieldNamesAndObjectFieldValues, types);
 	}*/
 
-	private void _assertNestedFieldsInRelationships(
-		int currentDepth, int depth, JSONObject jsonObject,
-		String nestedFieldName, String[][] objectFieldNamesAndObjectFieldValues,
-		Type type) {
-
-		if (objectFieldNamesAndObjectFieldValues[currentDepth][0] == null) {
-			Assert.assertNull(jsonObject);
-		}
-		else {
-			Assert.assertEquals(
-				objectFieldNamesAndObjectFieldValues[currentDepth][1],
-				jsonObject.getString(
-					objectFieldNamesAndObjectFieldValues[currentDepth][0]));
-		}
-
-		if ((currentDepth == depth) ||
-			(currentDepth ==
-				PropsValues.OBJECT_NESTED_FIELDS_MAX_QUERY_DEPTH)) {
-
-			Assert.assertEquals(
-				Arrays.toString(objectFieldNamesAndObjectFieldValues),
-				currentDepth + 1, objectFieldNamesAndObjectFieldValues.length);
-			Assert.assertNull(jsonObject.get(nestedFieldName));
-
-			return;
-		}
-
-		_assertNestedFieldsInRelationships(
-			currentDepth + 1, depth,
-			_getRelatedJSONObject(jsonObject, nestedFieldName, type),
-			nestedFieldName, objectFieldNamesAndObjectFieldValues,
-			_getReverseType(type));
-	}
-
 	private void _assertObjectEntryField(
 		JSONObject objectEntryJSONObject, String objectFieldName,
 		String objectFieldValue) {
@@ -5177,39 +5356,6 @@ public class ObjectEntryResourceTest {
 		}
 	}
 
-	private JSONObject _getRelatedJSONObject(
-		JSONObject jsonObject, String nestedFieldName, Type type) {
-
-		if (type == Type.MANY_TO_ONE) {
-			JSONObject nestedJSONObject = jsonObject.getJSONObject(
-				nestedFieldName);
-
-			Assert.assertNotNull(
-				"Missing field " + nestedFieldName, nestedJSONObject);
-
-			return jsonObject.getJSONObject(nestedFieldName);
-		}
-
-		JSONArray jsonArray = jsonObject.getJSONArray(nestedFieldName);
-
-		Assert.assertNotNull("Missing field " + nestedFieldName, jsonArray);
-
-		Assert.assertEquals(1, jsonArray.length());
-
-		return jsonArray.getJSONObject(0);
-	}
-
-	private Type _getReverseType(Type type) {
-		if (type == Type.MANY_TO_ONE) {
-			return Type.ONE_TO_MANY;
-		}
-		else if (type == Type.ONE_TO_MANY) {
-			return Type.MANY_TO_ONE;
-		}
-
-		return Type.MANY_TO_MANY;
-	}
-
 	private void _postObjectEntryWithKeywords(String... keywords)
 		throws Exception {
 
@@ -5253,9 +5399,8 @@ public class ObjectEntryResourceTest {
 	}
 
 	private void _testGetNestedFieldDetailsInRelationships(
-			String expectedFieldName, Integer nestedFieldDepth,
-			String nestedFieldName, ObjectDefinition objectDefinition,
-			String[][] objectFieldNamesAndObjectFieldValues, Type type)
+			JSONObject expectedJSONObject, Integer nestedFieldDepth,
+			String nestedFieldName, ObjectDefinition objectDefinition)
 		throws Exception {
 
 		String endpoint = StringBundler.concat(
@@ -5275,9 +5420,9 @@ public class ObjectEntryResourceTest {
 
 		JSONObject itemJSONObject = itemsJSONArray.getJSONObject(0);
 
-		_assertNestedFieldsInRelationships(
-			0, GetterUtil.getInteger(nestedFieldDepth, 1), itemJSONObject,
-			expectedFieldName, objectFieldNamesAndObjectFieldValues, type);
+		JSONAssert.assertEquals(
+			expectedJSONObject.toString(), itemJSONObject.toString(),
+			JSONCompareMode.LENIENT);
 	}
 
 	private void
@@ -5450,11 +5595,5 @@ public class ObjectEntryResourceTest {
 
 	@DeleteAfterTestRun
 	private ObjectField _userSystemObjectField;
-
-	private enum Type {
-
-		MANY_TO_MANY, MANY_TO_ONE, ONE_TO_MANY
-
-	}
 
 }
