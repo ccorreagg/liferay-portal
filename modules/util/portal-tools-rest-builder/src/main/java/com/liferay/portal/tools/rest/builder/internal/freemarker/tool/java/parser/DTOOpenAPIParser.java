@@ -65,7 +65,7 @@ public class DTOOpenAPIParser {
 
 	public static Map<String, String> getProperties(
 		ConfigYAML configYAML, boolean excludeReadOnly, OpenAPIYAML openAPIYAML,
-		Schema schema) {
+		Schema schema, String schemaName) {
 
 		Map<String, String> javaDataTypeMap =
 			OpenAPIParserUtil.getJavaDataTypeMap(configYAML, openAPIYAML);
@@ -86,16 +86,18 @@ public class DTOOpenAPIParser {
 				_getPropertyName(propertySchema, propertySchemaName),
 				_getPropertyType(
 					javaDataTypeMap, openAPIYAML, propertySchema,
-					propertySchemaName));
+					propertySchemaName, schemaName));
 		}
 
 		return properties;
 	}
 
 	public static Map<String, String> getProperties(
-		ConfigYAML configYAML, OpenAPIYAML openAPIYAML, Schema schema) {
+		ConfigYAML configYAML, OpenAPIYAML openAPIYAML, Schema schema,
+		String schemaName) {
 
-		return getProperties(configYAML, false, openAPIYAML, schema);
+		return getProperties(
+			configYAML, false, openAPIYAML, schema, schemaName);
 	}
 
 	public static Map<String, String> getProperties(
@@ -105,7 +107,7 @@ public class DTOOpenAPIParser {
 
 		Schema schema = schemas.get(schemaName);
 
-		return getProperties(configYAML, openAPIYAML, schema);
+		return getProperties(configYAML, openAPIYAML, schema, schemaName);
 	}
 
 	public static Schema getPropertySchema(String propertyName, Schema schema) {
@@ -219,7 +221,7 @@ public class DTOOpenAPIParser {
 
 	private static String _getPropertyType(
 		Map<String, String> javaDataTypeMap, OpenAPIYAML openAPIYAML,
-		Schema propertySchema, String propertySchemaName) {
+		Schema propertySchema, String propertySchemaName, String schemaName) {
 
 		List<String> enumValues = propertySchema.getEnumValues();
 
@@ -253,6 +255,9 @@ public class DTOOpenAPIParser {
 
 			if (javaDataTypeMap.containsKey(name)) {
 				return name;
+			}
+			else if (javaDataTypeMap.containsKey(schemaName + name)) {
+				return schemaName + name;
 			}
 		}
 

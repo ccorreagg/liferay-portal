@@ -177,6 +177,8 @@ public class OpenAPIUtil {
 
 		queue.add(components.getSchemas());
 
+		Map<Map<String, Schema>, String> parentsMap = new HashMap<>();
+
 		Map<String, Schema> map = null;
 
 		while ((map = queue.poll()) != null) {
@@ -205,6 +207,10 @@ public class OpenAPIUtil {
 				String schemaName = StringUtil.upperCaseFirstLetter(
 					entry.getKey());
 
+				if (StringUtil.equals(schemaName, "Actions")) {
+					schemaName = parentsMap.get(map) + schemaName;
+				}
+
 				if (items != null) {
 					schemaName = formatSingular(schemaName);
 				}
@@ -232,6 +238,8 @@ public class OpenAPIUtil {
 				}
 
 				queue.add(propertySchemas);
+
+				parentsMap.put(propertySchemas, entry.getKey());
 			}
 		}
 

@@ -16,6 +16,7 @@ package com.liferay.portal.tools.rest.builder.internal.freemarker.tool;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
@@ -129,6 +130,29 @@ public class FreeMarkerTool {
 		}
 
 		return false;
+	}
+
+	public String getActionKey(String propertyName) {
+		if (StringUtil.equals(propertyName, "delete")) {
+			return ActionKeys.DELETE;
+		}
+		else if (StringUtil.equals(propertyName, "get")) {
+			return ActionKeys.VIEW;
+		}
+		else if (StringUtil.equals(propertyName, "update") ||
+				 StringUtil.equals(propertyName, "replace")) {
+
+			return ActionKeys.UPDATE;
+		}
+
+		return null;
+	}
+
+	public String getActionResourceName(
+		List<JavaMethodSignature> javaMethodSignatures, String propertyName) {
+
+		return ResourceOpenAPIParser.getActionResourceName(
+			javaMethodSignatures, propertyName);
 	}
 
 	public Map<String, Schema> getAllSchemas(
@@ -295,9 +319,11 @@ public class FreeMarkerTool {
 	}
 
 	public Map<String, String> getDTOProperties(
-		ConfigYAML configYAML, OpenAPIYAML openAPIYAML, Schema schema) {
+		ConfigYAML configYAML, OpenAPIYAML openAPIYAML, Schema schema,
+		String schemaName) {
 
-		return DTOOpenAPIParser.getProperties(configYAML, openAPIYAML, schema);
+		return DTOOpenAPIParser.getProperties(
+			configYAML, openAPIYAML, schema, schemaName);
 	}
 
 	public Map<String, String> getDTOProperties(
@@ -817,10 +843,11 @@ public class FreeMarkerTool {
 	}
 
 	public Map<String, String> getWritableDTOProperties(
-		ConfigYAML configYAML, OpenAPIYAML openAPIYAML, Schema schema) {
+		ConfigYAML configYAML, OpenAPIYAML openAPIYAML, Schema schema,
+		String schemaName) {
 
 		return DTOOpenAPIParser.getProperties(
-			configYAML, true, openAPIYAML, schema);
+			configYAML, true, openAPIYAML, schema, schemaName);
 	}
 
 	public boolean hasHTTPMethod(
