@@ -58,7 +58,7 @@ public class ${schemaName}SerDes {
 
 		<#assign
 			enumSchemas = freeMarkerTool.getDTOEnumSchemas(openAPIYAML, schema)
-			properties = freeMarkerTool.getDTOProperties(configYAML, openAPIYAML, schema)
+			properties = freeMarkerTool.getDTOProperties(configYAML, openAPIYAML, schema, schemaName)
 		/>
 
 		<#list properties?keys as propertyName>
