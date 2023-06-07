@@ -72,17 +72,18 @@ public class Keyword implements Serializable {
 
 	@Schema
 	@Valid
-	public KeywordActions getActions() {
+	public Map<String, Map<String, String>> getActions() {
 		return actions;
 	}
 
-	public void setActions(KeywordActions actions) {
+	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
 	}
 
 	@JsonIgnore
 	public void setActions(
-		UnsafeSupplier<KeywordActions, Exception> actionsUnsafeSupplier) {
+		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
+			actionsUnsafeSupplier) {
 
 		try {
 			actions = actionsUnsafeSupplier.get();
@@ -97,7 +98,7 @@ public class Keyword implements Serializable {
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	protected KeywordActions actions;
+	protected Map<String, Map<String, String>> actions;
 
 	@Schema
 	public String getAssetLibraryKey() {
@@ -396,7 +397,7 @@ public class Keyword implements Serializable {
 
 			sb.append("\"actions\": ");
 
-			sb.append(String.valueOf(actions));
+			sb.append(_toJSON(actions));
 		}
 
 		if (assetLibraryKey != null) {

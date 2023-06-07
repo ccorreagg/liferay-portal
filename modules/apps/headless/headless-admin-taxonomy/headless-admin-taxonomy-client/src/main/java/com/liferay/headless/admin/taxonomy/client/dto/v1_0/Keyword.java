@@ -20,6 +20,7 @@ import com.liferay.headless.admin.taxonomy.client.serdes.v1_0.KeywordSerDes;
 import java.io.Serializable;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.annotation.Generated;
@@ -35,16 +36,17 @@ public class Keyword implements Cloneable, Serializable {
 		return KeywordSerDes.toDTO(json);
 	}
 
-	public KeywordActions getActions() {
+	public Map<String, Map<String, String>> getActions() {
 		return actions;
 	}
 
-	public void setActions(KeywordActions actions) {
+	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
 	}
 
 	public void setActions(
-		UnsafeSupplier<KeywordActions, Exception> actionsUnsafeSupplier) {
+		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
+			actionsUnsafeSupplier) {
 
 		try {
 			actions = actionsUnsafeSupplier.get();
@@ -54,7 +56,7 @@ public class Keyword implements Cloneable, Serializable {
 		}
 	}
 
-	protected KeywordActions actions;
+	protected Map<String, Map<String, String>> actions;
 
 	public String getAssetLibraryKey() {
 		return assetLibraryKey;
