@@ -319,11 +319,9 @@ public class FreeMarkerTool {
 	}
 
 	public Map<String, String> getDTOProperties(
-		ConfigYAML configYAML, OpenAPIYAML openAPIYAML, Schema schema,
-		String schemaName) {
+		ConfigYAML configYAML, OpenAPIYAML openAPIYAML, Schema schema) {
 
-		return DTOOpenAPIParser.getProperties(
-			configYAML, openAPIYAML, schema, schemaName);
+		return DTOOpenAPIParser.getProperties(configYAML, openAPIYAML, schema);
 	}
 
 	public Map<String, String> getDTOProperties(
@@ -843,11 +841,10 @@ public class FreeMarkerTool {
 	}
 
 	public Map<String, String> getWritableDTOProperties(
-		ConfigYAML configYAML, OpenAPIYAML openAPIYAML, Schema schema,
-		String schemaName) {
+		ConfigYAML configYAML, OpenAPIYAML openAPIYAML, Schema schema) {
 
 		return DTOOpenAPIParser.getProperties(
-			configYAML, true, openAPIYAML, schema, schemaName);
+			configYAML, true, openAPIYAML, schema);
 	}
 
 	public boolean hasHTTPMethod(

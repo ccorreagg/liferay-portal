@@ -370,7 +370,7 @@ public abstract class Base${schemaName}ResourceImpl
 					</#list>
 				);
 
-				<#assign properties = freeMarkerTool.getWritableDTOProperties(configYAML, openAPIYAML, schema, schemaName) />
+				<#assign properties = freeMarkerTool.getWritableDTOProperties(configYAML, openAPIYAML, schema) />
 
 				<#list properties?keys as propertyName>
 					<#if !freeMarkerTool.isDTOSchemaProperty(openAPIYAML, propertyName, schema) && !stringUtil.equals(propertyName, "id")>
@@ -417,7 +417,7 @@ public abstract class Base${schemaName}ResourceImpl
 
 	<#if generateBatch>
 		<#assign
-			properties = freeMarkerTool.getDTOProperties(configYAML, openAPIYAML, schema, schemaName)
+			properties = freeMarkerTool.getDTOProperties(configYAML, openAPIYAML, schema)
 
 			createStrategies = freeMarkerTool.getVulcanBatchImplementationCreateStrategies(javaMethodSignatures, properties)
 			updateStrategies = freeMarkerTool.getVulcanBatchImplementationUpdateStrategies(javaMethodSignatures)
