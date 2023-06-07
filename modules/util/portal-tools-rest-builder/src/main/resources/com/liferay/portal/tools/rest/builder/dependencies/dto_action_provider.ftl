@@ -1,15 +1,13 @@
 package ${configYAML.apiPackagePath}.internal.dto.${escapedVersion}.action;
 
-import ${configYAML.apiPackagePath}.dto.${escapedVersion}.Action;
-import ${configYAML.apiPackagePath}.dto.${escapedVersion}.${schemaName}Actions;
+import ${configYAML.apiPackagePath}.internal.dto.${escapedVersion}.action.metadata.${schemaName}DTOActionMetadataProvider;
 import ${configYAML.apiPackagePath}.internal.resource.${escapedVersion}.${schemaName}ResourceImpl;
 import com.liferay.oauth2.provider.scope.ScopeChecker;
 import com.liferay.portal.vulcan.action.ActionInfo;
 import com.liferay.portal.vulcan.action.DTOActionProvider;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Generated;
@@ -31,52 +29,39 @@ import org.osgi.service.component.annotations.Reference;
 	service = DTOActionProvider.class
 )
 @Generated("")
-public class ${schemaName}DTOActionProvider implements DTOActionProvider<${schemaName}Actions> {
-
-	<#assign
-		actionsSchema = allSchemas[schemaName + "Actions"]
-		actionsProperties = freeMarkerTool.getDTOProperties(configYAML, openAPIYAML, actionsSchema, schemaName)
-	/>
+public class ${schemaName}DTOActionProvider implements DTOActionProvider {
 
 	@Override
-	public List<ActionInfo> getIndividualActionInfoList() throws Exception {
+	public Map<String, Map<String, String>> getActions(long groupId, long primaryKey, UriInfo uriInfo, long userId) {
+
+		Map<String, Map<String, String>> actions = new HashMap<>();
+
 		${schemaName}DTOActionMetadataProvider ${schemaVarName}DTOActionMetadataProvider = new ${schemaName}DTOActionMetadataProvider();
 
-		List<ActionInfo> actionInfoList = new ArrayList<>();
+		for (String actionName : ${schemaVarName}DTOActionMetadataProvider.getActionNames()) {
+			ActionInfo actionInfo = ${schemaVarName}DTOActionMetadataProvider.getActionInfo(actionName);
 
-		<#list actionsProperties?keys as propertyName>
-			actionInfoList.add(ActionUtil.getActionInfo("${propertyName}", ${schemaName}ResourceImpl.class, ${schemaVarName}DTOActionMetadataProvider.get${propertyName?cap_first}ResourceMethodName()));
-		</#list>
+			if (actionInfo == null || actionInfo.getActionKey() == null || actionInfo.getResourceMethodName() == null) {
+				continue;
+			}
 
-		return actionInfoList;
-	}
-
-	@Override
-	public ${schemaName}Actions getActions(long groupId, long primaryKey, UriInfo uriInfo, long userId) {
-		${schemaName}DTOActionMetadataProvider ${schemaVarName}DTOActionMetadataProvider = new ${schemaName}DTOActionMetadataProvider();
-
-		${schemaName}Actions ${schemaVarName}actions = new ${schemaName}Actions();
-
-		<#list actionsProperties?keys as propertyName>
-			${schemaVarName}actions.set${propertyName?cap_first}(_getAction(${schemaVarName}DTOActionMetadataProvider.get${propertyName?cap_first}ActionKey(), groupId, primaryKey, ${schemaVarName}DTOActionMetadataProvider.get${propertyName?cap_first}ResourceMethodName(), uriInfo, userId));
-		</#list>
-
-		return ${schemaVarName}actions;
-	}
-
-	private Action _getAction(String actionKey, long groupId, long primaryKey, String resourceMethodName, UriInfo uriInfo, long userId) {
-		${schemaName}DTOActionMetadataProvider ${schemaVarName}DTOActionMetadataProvider = new ${schemaName}DTOActionMetadataProvider();
-
-		final Map<String, String> actionMap = ActionUtil.addAction(actionKey, ${schemaName}ResourceImpl.class, primaryKey, resourceMethodName, _scopeChecker, userId, ${schemaVarName}DTOActionMetadataProvider.getPermissionName(), groupId, uriInfo);
-
-		if (actionMap == null) {
-			return null;
+			actions.put(actionName, ActionUtil.addAction(actionInfo.getActionKey(), ${schemaName}ResourceImpl.class, primaryKey, actionInfo.getResourceMethodName(), _scopeChecker,userId, ${schemaVarName}DTOActionMetadataProvider.getPermissionName(),groupId, uriInfo));
 		}
 
-		return new Action() {{
-			setHref(actionMap.get("href"));
-			setMethod(actionMap.get("method"));
-		}};
+		return actions;
+	}
+
+	@Override
+	public Map<String, ActionInfo> getActionInfoMap() throws Exception {
+		Map<String, ActionInfo> actionInfoMap = new HashMap<>();
+
+		${schemaName}DTOActionMetadataProvider ${schemaVarName}DTOActionMetadataProvider = new ${schemaName}DTOActionMetadataProvider();
+
+		for (String actionName : ${schemaVarName}DTOActionMetadataProvider.getActionNames()) {
+			actionInfoMap.put(actionName, ${schemaVarName}DTOActionMetadataProvider.getActionInfo(actionName));
+		}
+
+		return actionInfoMap;
 	}
 
 	@Reference

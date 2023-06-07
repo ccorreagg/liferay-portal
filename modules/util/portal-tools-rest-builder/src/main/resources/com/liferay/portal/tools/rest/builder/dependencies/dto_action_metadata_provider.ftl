@@ -1,4 +1,4 @@
-package ${configYAML.apiPackagePath}.internal.dto.${escapedVersion}.action;
+package ${configYAML.apiPackagePath}.internal.dto.${escapedVersion}.action.metadata;
 
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 

@@ -331,9 +331,7 @@ public class RESTBuilder {
 					schemaName,
 					_getRelatedSchemaNames(allSchemas, javaMethodSignatures));
 
-				if (ConfigUtil.isVersionCompatible(_configYAML, 3) &&
-					allSchemas.containsKey(schemaName + "Actions")) {
-
+				if (ConfigUtil.isVersionCompatible(_configYAML, 3)) {
 					_createBaseDTOActionMetadataProviderFile(
 						context, escapedVersion, schemaName);
 					_createDTOActionMetadataProviderFile(
@@ -526,8 +524,8 @@ public class RESTBuilder {
 			StringBundler.concat(
 				_configYAML.getImplDir(), "/",
 				StringUtil.replace(_configYAML.getApiPackagePath(), '.', '/'),
-				"/internal/dto/", escapedVersion, "/action/Base", schemaName,
-				"DTOActionMetadataProvider.java"));
+				"/internal/dto/", escapedVersion, "/action/metadata/Base",
+				schemaName, "DTOActionMetadataProvider.java"));
 
 		_files.add(file);
 
@@ -817,8 +815,8 @@ public class RESTBuilder {
 			StringBundler.concat(
 				_configYAML.getImplDir(), "/",
 				StringUtil.replace(_configYAML.getApiPackagePath(), '.', '/'),
-				"/internal/dto/", escapedVersion, "/action/", schemaName,
-				"DTOActionMetadataProvider.java"));
+				"/internal/dto/", escapedVersion, "/action/metadata/",
+				schemaName, "DTOActionMetadataProvider.java"));
 
 		_files.add(file);
 

@@ -1,6 +1,11 @@
-package ${configYAML.apiPackagePath}.internal.dto.${escapedVersion}.action;
+package ${configYAML.apiPackagePath}.internal.dto.${escapedVersion}.action.metadata;
 
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.vulcan.action.ActionInfo;
+
+import java.util.Set;
 
 /**
  * @author ${configYAML.author}
@@ -8,32 +13,55 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
  */
 public abstract class Base${schemaName}DTOActionMetadataProvider {
 	<#assign
-		actionsSchema = allSchemas[schemaName + "Actions"]
-		actionsProperties = freeMarkerTool.getDTOProperties(configYAML, openAPIYAML, actionsSchema, schemaName)
+		actionPropertyNames = ["delete", "get", "replace"]
 		javaMethodSignatures = freeMarkerTool.getResourceJavaMethodSignatures(configYAML, openAPIYAML, schemaName)
 	/>
 
-	<#list actionsProperties?keys as propertyName>
-		<#assign actionKey = freeMarkerTool.getActionKey(propertyName)!"" />
+	<#list actionPropertyNames as actionPropertyName>
+		<#assign actionKey = freeMarkerTool.getActionKey(actionPropertyName)!"" />
 
-		<#if actionKey?has_content>
-			protected String get${propertyName?cap_first}ActionKey() {
-				return ActionKeys.${actionKey!};
-			}
-		<#else>
-			protected abstract String get${propertyName?cap_first}ActionKey();
-		</#if>
+		protected String get${actionPropertyName?cap_first}ActionKey() {
+			return ActionKeys.${actionKey!};
+		}
 
-		<#assign actionResourceName = freeMarkerTool.getActionResourceName(javaMethodSignatures, propertyName)!"" />
+		<#assign actionResourceName = freeMarkerTool.getActionResourceName(javaMethodSignatures, actionPropertyName)!"" />
 
 		<#if actionResourceName?has_content>
-			protected String get${propertyName?cap_first}ResourceMethodName() {
+			protected String get${actionPropertyName?cap_first}ResourceMethodName() {
 				return "${actionResourceName!}";
 			}
 		<#else>
-			protected abstract String get${propertyName?cap_first}ResourceMethodName();
+			protected abstract String get${actionPropertyName?cap_first}ResourceMethodName();
 		</#if>
 	</#list>
 
-	protected abstract String getPermissionName();
+	public String getPermissionName() {
+		return null;
+	}
+
+	public Set<String> getActionNames() {
+		return SetUtil.fromArray(
+			<#if actionPropertyNames?has_content>
+				"${actionPropertyNames?join("\", \"")}"
+			</#if>
+		);
+	}
+
+	public ActionInfo getActionInfo(String actionName) {
+		ActionInfo actionInfo = null;
+
+		<#list actionPropertyNames as actionPropertyName>
+
+			if (StringUtil.equals(actionName, "${actionPropertyName}")) {
+				actionInfo = new ActionInfo();
+
+				actionInfo.setActionKey(get${actionPropertyName?cap_first}ActionKey());
+				actionInfo.setResourceMethodName(get${actionPropertyName?cap_first}ResourceMethodName());
+			}
+
+			<#sep>else </#sep>
+		</#list>
+
+		return actionInfo;
+	}
 }
