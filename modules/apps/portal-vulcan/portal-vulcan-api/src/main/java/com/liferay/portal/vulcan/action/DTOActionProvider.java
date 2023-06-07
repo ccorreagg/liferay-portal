@@ -14,18 +14,18 @@
 
 package com.liferay.portal.vulcan.action;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
 /**
  * @author Carlos Correa
  */
-public interface DTOActionProvider<U> {
+public interface DTOActionProvider {
 
-	public U getActions(
+	public Map<String, ActionInfo> getActionInfoMap() throws Exception;
+
+	public Map<String, Map<String, String>> getActions(
 		long groupId, long primaryKey, UriInfo uriInfo, long userId);
-
-	public List<ActionInfo> getIndividualActionInfoList() throws Exception;
 
 }

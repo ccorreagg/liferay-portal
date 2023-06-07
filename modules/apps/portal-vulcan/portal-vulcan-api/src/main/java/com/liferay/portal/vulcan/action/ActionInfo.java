@@ -19,23 +19,23 @@ package com.liferay.portal.vulcan.action;
  */
 public class ActionInfo {
 
-	public String getActionName() {
-		return _actionName;
+	public String getActionKey() {
+		return _actionKey;
 	}
 
-	public String getMethodName() {
-		return _methodName;
+	public String getResourceMethodName() {
+		return _resourceMethodName;
 	}
 
-	public void setActionName(String actionName) {
-		_actionName = actionName;
+	public void setActionKey(String actionKey) {
+		_actionKey = actionKey;
 	}
 
-	public void setMethodName(String methodName) {
-		_methodName = methodName;
+	public void setResourceMethodName(String resourceMethodName) {
+		_resourceMethodName = resourceMethodName;
 	}
 
-	private String _actionName;
-	private String _methodName;
+	private String _actionKey;
+	private String _resourceMethodName;
 
 }
