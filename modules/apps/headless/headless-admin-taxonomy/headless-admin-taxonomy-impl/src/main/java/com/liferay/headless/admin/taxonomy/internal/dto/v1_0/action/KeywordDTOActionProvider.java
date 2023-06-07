@@ -14,6 +14,7 @@
 
 package com.liferay.headless.admin.taxonomy.internal.dto.v1_0.action;
 
+import com.liferay.headless.admin.taxonomy.internal.dto.v1_0.action.metadata.KeywordDTOActionMetadataProvider;
 import com.liferay.headless.admin.taxonomy.internal.resource.v1_0.KeywordResourceImpl;
 import com.liferay.oauth2.provider.scope.ScopeChecker;
 import com.liferay.portal.vulcan.action.ActionInfo;
@@ -41,43 +42,7 @@ import org.osgi.service.component.annotations.Reference;
 	service = DTOActionProvider.class
 )
 @Generated("")
-public class KeywordDTOActionProvider
-	implements DTOActionProvider {
-
-//	@Override
-//	public List<ActionInfo> getIndividualActionInfoList() throws Exception {
-//		KeywordDTOActionMetadataProvider keywordDTOActionMetadataProvider =
-//			new KeywordDTOActionMetadataProvider();
-//
-//		List<ActionInfo> actionInfoList = new ArrayList<>();
-//
-//		actionInfoList.add(
-//			ActionUtil.getActionInfo(
-//				"delete", KeywordResourceImpl.class,
-//				keywordDTOActionMetadataProvider.
-//					getDeleteResourceMethodName()));
-//		actionInfoList.add(
-//			ActionUtil.getActionInfo(
-//				"get", KeywordResourceImpl.class,
-//				keywordDTOActionMetadataProvider.getGetResourceMethodName()));
-//		actionInfoList.add(
-//			ActionUtil.getActionInfo(
-//				"replace", KeywordResourceImpl.class,
-//				keywordDTOActionMetadataProvider.
-//					getReplaceResourceMethodName()));
-//		actionInfoList.add(
-//			ActionUtil.getActionInfo(
-//				"subscribe", KeywordResourceImpl.class,
-//				keywordDTOActionMetadataProvider.
-//					getSubscribeResourceMethodName()));
-//		actionInfoList.add(
-//			ActionUtil.getActionInfo(
-//				"unsubscribe", KeywordResourceImpl.class,
-//				keywordDTOActionMetadataProvider.
-//					getUnsubscribeResourceMethodName()));
-//
-//		return actionInfoList;
-//	}
+public class KeywordDTOActionProvider implements DTOActionProvider {
 
 	@Override
 	public Map<String, Map<String, String>> getActions(
@@ -88,18 +53,47 @@ public class KeywordDTOActionProvider
 		KeywordDTOActionMetadataProvider keywordDTOActionMetadataProvider =
 			new KeywordDTOActionMetadataProvider();
 
-		for (String actionName : keywordDTOActionMetadataProvider.getActionNames()) {
+		for (String actionName :
+				keywordDTOActionMetadataProvider.getActionNames()) {
+
 			ActionInfo actionInfo =
 				keywordDTOActionMetadataProvider.getActionInfo(actionName);
 
-			actions.put(actionName, ActionUtil.addAction(
-				actionInfo.getActionKey(), KeywordResourceImpl.class,
-				primaryKey, actionInfo.getResourceMethodName(), _scopeChecker,
-				userId, keywordDTOActionMetadataProvider.getPermissionName(),
-				groupId, uriInfo));
+			if ((actionInfo == null) || (actionInfo.getActionKey() == null) ||
+				(actionInfo.getResourceMethodName() == null)) {
+
+				continue;
+			}
+
+			actions.put(
+				actionName,
+				ActionUtil.addAction(
+					actionInfo.getActionKey(), KeywordResourceImpl.class,
+					primaryKey, actionInfo.getResourceMethodName(),
+					_scopeChecker, userId,
+					keywordDTOActionMetadataProvider.getPermissionName(),
+					groupId, uriInfo));
 		}
 
 		return actions;
+	}
+
+	@Override
+	public Map<String, ActionInfo> getActionInfoMap() throws Exception {
+		Map<String, ActionInfo> actionInfoMap = new HashMap<>();
+
+		KeywordDTOActionMetadataProvider keywordDTOActionMetadataProvider =
+			new KeywordDTOActionMetadataProvider();
+
+		for (String actionName :
+				keywordDTOActionMetadataProvider.getActionNames()) {
+
+			actionInfoMap.put(
+				actionName,
+				keywordDTOActionMetadataProvider.getActionInfo(actionName));
+		}
+
+		return actionInfoMap;
 	}
 
 	@Reference

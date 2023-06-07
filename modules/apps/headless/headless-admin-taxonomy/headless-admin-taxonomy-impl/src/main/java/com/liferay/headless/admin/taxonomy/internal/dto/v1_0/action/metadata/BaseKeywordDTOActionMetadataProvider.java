@@ -51,7 +51,9 @@ public abstract class BaseKeywordDTOActionMetadataProvider {
 		return "putKeyword";
 	}
 
-	public abstract String getPermissionName();
+	public String getPermissionName() {
+		return null;
+	}
 
 	public Set<String> getActionNames() {
 		return SetUtil.fromArray("delete", "get", "replace");
@@ -77,11 +79,6 @@ public abstract class BaseKeywordDTOActionMetadataProvider {
 
 			actionInfo.setActionKey(getReplaceActionKey());
 			actionInfo.setResourceMethodName(getReplaceResourceMethodName());
-		}
-
-		if (actionInfo == null) {
-			throw new IllegalStateException(
-				"No action defined for the name " + actionName);
 		}
 
 		return actionInfo;
