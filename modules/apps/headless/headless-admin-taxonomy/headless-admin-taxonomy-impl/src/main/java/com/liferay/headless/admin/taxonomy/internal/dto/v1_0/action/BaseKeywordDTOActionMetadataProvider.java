@@ -15,6 +15,11 @@
 package com.liferay.headless.admin.taxonomy.internal.dto.v1_0.action;
 
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.vulcan.action.ActionInfo;
+
+import java.util.Set;
 
 /**
  * @author Javier Gamarra
@@ -46,14 +51,29 @@ public abstract class BaseKeywordDTOActionMetadataProvider {
 		return "putKeyword";
 	}
 
-	protected abstract String getSubscribeActionKey();
-
-	protected abstract String getSubscribeResourceMethodName();
-
-	protected abstract String getUnsubscribeActionKey();
-
-	protected abstract String getUnsubscribeResourceMethodName();
-
 	protected abstract String getPermissionName();
+
+	public Set<String> getActionNames() {
+		return SetUtil.fromArray("delete", "get", "replace");
+	}
+
+	public ActionInfo getActionInfo(String actionName) {
+		ActionInfo actionInfo = new ActionInfo();
+
+		if (StringUtil.equals(actionName, "delete")) {
+			actionInfo.setActionKey(getDeleteActionKey());
+			actionInfo.setResourceMethodName(getDeleteResourceMethodName());
+		}
+		else if (StringUtil.equals(actionName, "get")) {
+			actionInfo.setActionKey(getGetActionKey());
+			actionInfo.setResourceMethodName(getGetResourceMethodName());
+		}
+		else if (StringUtil.equals(actionName, "replace")) {
+			actionInfo.setActionKey(getReplaceActionKey());
+			actionInfo.setResourceMethodName(getReplaceResourceMethodName());
+		}
+
+		throw new IllegalStateException("No action defined for the name " + actionName);
+	}
 
 }

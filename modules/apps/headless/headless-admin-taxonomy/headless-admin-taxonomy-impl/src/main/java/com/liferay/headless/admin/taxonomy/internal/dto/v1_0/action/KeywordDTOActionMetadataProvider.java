@@ -43,24 +43,24 @@ public class KeywordDTOActionMetadataProvider
 		return ActionKeys.MANAGE_TAG;
 	}
 
-	@Override
-	protected String getSubscribeActionKey() {
-		return ActionKeys.SUBSCRIBE;
-	}
-
-	@Override
-	protected String getSubscribeResourceMethodName() {
-		return "putKeywordSubscribe";
-	}
-
-	@Override
-	protected String getUnsubscribeActionKey() {
-		return ActionKeys.SUBSCRIBE;
-	}
-
-	@Override
-	protected String getUnsubscribeResourceMethodName() {
-		return "putKeywordUnsubscribe";
-	}
+//	@Override
+//	protected String getSubscribeActionKey() {
+//		return ActionKeys.SUBSCRIBE;
+//	}
+//
+//	@Override
+//	protected String getSubscribeResourceMethodName() {
+//		return "putKeywordSubscribe";
+//	}
+//
+//	@Override
+//	protected String getUnsubscribeActionKey() {
+//		return ActionKeys.SUBSCRIBE;
+//	}
+//
+//	@Override
+//	protected String getUnsubscribeResourceMethodName() {
+//		return "putKeywordUnsubscribe";
+//	}
 
 }

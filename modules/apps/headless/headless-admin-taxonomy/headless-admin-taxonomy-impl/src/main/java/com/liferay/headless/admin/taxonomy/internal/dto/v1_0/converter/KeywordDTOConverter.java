@@ -108,7 +108,7 @@ public class KeywordDTOConverter implements DTOConverter<AssetTag, Keyword> {
 	@Reference(
 		target = "(dto.class.name=com.liferay.headless.admin.taxonomy.dto.v1_0.Keyword)"
 	)
-	private DTOActionProvider<KeywordActions> _dtoActionProvider;
+	private DTOActionProvider _dtoActionProvider;
 
 	@Reference
 	private GroupLocalService _groupLocalService;
