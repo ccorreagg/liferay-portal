@@ -1737,8 +1737,9 @@ public abstract class BaseKeywordResourceTestCase {
 				getAdditionalAssertFieldNames()) {
 
 			if (Objects.equals("actions", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(
-						keyword1.getActions(), keyword2.getActions())) {
+				if (!equals(
+						(Map)keyword1.getActions(),
+						(Map)keyword2.getActions())) {
 
 					return false;
 				}
