@@ -17,12 +17,14 @@ package com.liferay.headless.builder.internal.generator.publisher;
 import com.liferay.headless.builder.internal.generator.application.ApiApplication;
 import com.liferay.headless.builder.internal.generator.jaxrs.application.HeadlessBuilderApplication;
 import com.liferay.headless.builder.internal.generator.resource.BaseHeadlessBuilderResource;
+import com.liferay.headless.builder.internal.generator.resource.BaseOpenAPIResource;
 import com.liferay.headless.builder.internal.generator.resource.HeadlessBuilderResource;
+import com.liferay.headless.builder.internal.generator.resource.OpenAPIResource;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.Portal;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +132,7 @@ public class ApplicationPublisherImpl implements ApplicationPublisher {
 		_registerHeadlessBuilderApplicationServices(
 			ApiApplication apiApplication) {
 
-		return Collections.singletonList(
+		return Arrays.asList(
 			_bundleContext.registerService(
 				BaseHeadlessBuilderResource.class,
 				new PrototypeServiceFactory<BaseHeadlessBuilderResource>() {
@@ -151,6 +153,38 @@ public class ApplicationPublisherImpl implements ApplicationPublisher {
 						ServiceRegistration<BaseHeadlessBuilderResource>
 							serviceRegistration,
 						BaseHeadlessBuilderResource objectEntryResource) {
+					}
+
+				},
+				HashMapDictionaryBuilder.<String, Object>put(
+					"api.version", "v1.0"
+				).put(
+					"osgi.jaxrs.application.select",
+					"(osgi.jaxrs.name=" + apiApplication.getOsgiJaxRsName() +
+						")"
+				).put(
+					"osgi.jaxrs.resource", "true"
+				).build()),
+			_bundleContext.registerService(
+				BaseOpenAPIResource.class,
+				new PrototypeServiceFactory<BaseOpenAPIResource>() {
+
+					@Override
+					public BaseOpenAPIResource getService(
+						Bundle bundle,
+						ServiceRegistration<BaseOpenAPIResource>
+							serviceRegistration) {
+
+						return new OpenAPIResource(
+							_openAPIResource, _portal, _serviceTracker);
+					}
+
+					@Override
+					public void ungetService(
+						Bundle bundle,
+						ServiceRegistration<BaseOpenAPIResource>
+							serviceRegistration,
+						BaseOpenAPIResource openAPIResource) {
 					}
 
 				},
@@ -213,6 +247,9 @@ public class ApplicationPublisherImpl implements ApplicationPublisher {
 			 <ServiceRegistration<Application>, List<ServiceRegistration<?>>>>
 				_headlessBuilderApplicationServiceRegistrationMap =
 					new HashMap<>();
+
+	@Reference
+	private com.liferay.portal.vulcan.resource.OpenAPIResource _openAPIResource;
 
 	@Reference
 	private Portal _portal;

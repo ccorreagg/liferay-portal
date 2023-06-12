@@ -14,13 +14,19 @@
 
 package com.liferay.headless.builder.internal.generator.consumer.object.model;
 
+import java.util.List;
+
 /**
- * @author Luis Miguel Barcos
+ * @author Carlos Correa
  */
-public interface ObjectModel {
+public interface ApiSchemaModel extends ObjectModel {
 
-	public long getCompanyId();
+	public List<ApiPropertyModel> getApiPropertyModels();
 
-	public String getExternalReferenceCode();
+	public String getDescription();
+
+	public String getMainObjectDefinitionERC();
+
+	public String getName();
 
 }

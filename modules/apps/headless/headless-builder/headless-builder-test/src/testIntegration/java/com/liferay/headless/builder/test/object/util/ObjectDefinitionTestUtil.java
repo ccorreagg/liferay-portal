@@ -18,6 +18,7 @@ import com.liferay.object.constants.ObjectDefinitionConstants;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectField;
 import com.liferay.object.service.ObjectDefinitionLocalServiceUtil;
+import com.liferay.object.service.ObjectFieldLocalServiceUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
@@ -41,6 +42,16 @@ public class ObjectDefinitionTestUtil {
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
 				ObjectDefinitionConstants.SCOPE_COMPANY,
 				ObjectDefinitionConstants.STORAGE_TYPE_DEFAULT, objectFields);
+
+		for (ObjectField objectField : objectFields) {
+			ObjectField updatedObjectField =
+				ObjectFieldLocalServiceUtil.getObjectField(
+					objectDefinition.getObjectDefinitionId(),
+					objectField.getName());
+
+			objectField.setExternalReferenceCode(
+				updatedObjectField.getExternalReferenceCode());
+		}
 
 		ObjectDefinitionLocalServiceUtil.updateExternalReferenceCode(
 			objectDefinition.getObjectDefinitionId(), externalReferenceCode);

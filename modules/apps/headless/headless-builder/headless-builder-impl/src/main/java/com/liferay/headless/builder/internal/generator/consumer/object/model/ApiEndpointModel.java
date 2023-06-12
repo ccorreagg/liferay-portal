@@ -15,12 +15,18 @@
 package com.liferay.headless.builder.internal.generator.consumer.object.model;
 
 /**
- * @author Luis Miguel Barcos
+ * @author Carlos Correa
  */
-public interface ObjectModel {
+public interface ApiEndpointModel extends ObjectModel {
 
-	public long getCompanyId();
+	public String getMethod();
 
-	public String getExternalReferenceCode();
+	public String getPath();
+
+	public String getRequestSchemaERC();
+
+	public String getResponseSchemaERC();
+
+	public String getScope();
 
 }

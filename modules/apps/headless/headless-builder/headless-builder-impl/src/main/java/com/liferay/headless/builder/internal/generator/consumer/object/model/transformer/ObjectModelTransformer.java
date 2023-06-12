@@ -12,15 +12,16 @@
  * details.
  */
 
-package com.liferay.headless.builder.internal.generator.consumer.object.model;
+package com.liferay.headless.builder.internal.generator.consumer.object.model.transformer;
+
+import com.liferay.headless.builder.internal.generator.consumer.object.model.ObjectModel;
+import com.liferay.object.rest.dto.v1_0.ObjectEntry;
 
 /**
- * @author Luis Miguel Barcos
+ * @author Carlos Correa
  */
-public interface ObjectModel {
+public interface ObjectModelTransformer<V extends ObjectModel> {
 
-	public long getCompanyId();
-
-	public String getExternalReferenceCode();
+	public V toModel(long companyId, ObjectEntry objectEntry) throws Exception;
 
 }

@@ -34,6 +34,14 @@ public class Operation {
 		return _builder._path;
 	}
 
+	public Schema getRequestSchema() {
+		return _builder._requestSchema;
+	}
+
+	public Schema getResponseSchema() {
+		return _builder._responseSchema;
+	}
+
 	public Scope getScope() {
 		return _builder._scope;
 	}
@@ -45,17 +53,7 @@ public class Operation {
 		}
 
 		public Builder setMethod(String method) {
-			if (StringUtil.toUpperCase(
-					method
-				).equals(
-					"GET"
-				)) {
-
-				_method = Http.Method.GET;
-			}
-			else {
-				throw new UnsupportedOperationException("Scope not supported");
-			}
+			_method = Http.Method.valueOf(StringUtil.toUpperCase(method));
 
 			return this;
 		}
@@ -66,31 +64,35 @@ public class Operation {
 			return this;
 		}
 
-		public Builder setScope(String scope) {
-			String lowerCase = StringUtil.toLowerCase(scope);
+		public Builder setRequestSchema(Schema requestSchema) {
+			_requestSchema = requestSchema;
 
-			if (lowerCase.equals("instance")) {
-				_scope = Scope.INSTANCE;
-			}
-			else if (lowerCase.equals("site")) {
-				_scope = Scope.SITE;
-			}
-			else {
-				throw new UnsupportedOperationException("Scope not supported");
-			}
+			return this;
+		}
+
+		public Builder setResponseSchema(Schema responseSchema) {
+			_responseSchema = responseSchema;
+
+			return this;
+		}
+
+		public Builder setScope(String scope) {
+			_scope = Scope.valueOf(StringUtil.toUpperCase(scope));
 
 			return this;
 		}
 
 		private Http.Method _method;
 		private String _path;
+		private Schema _requestSchema;
+		private Schema _responseSchema;
 		private Scope _scope;
 
 	}
 
 	public enum Scope {
 
-		INSTANCE, SITE
+		COMPANY, GROUP
 
 	}
 

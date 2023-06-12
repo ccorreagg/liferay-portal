@@ -29,12 +29,28 @@ public class ApiApplication {
 		return _builder._companyId;
 	}
 
+	public String getDescription() {
+		return _builder._description;
+	}
+
 	public List<Operation> getOperations() {
 		return _builder._operations;
 	}
 
 	public String getOsgiJaxRsName() {
 		return _builder._osgiJaxRsName;
+	}
+
+	public List<Schema> getSchemas() {
+		return _builder._schemas;
+	}
+
+	public String getTitle() {
+		return _builder._title;
+	}
+
+	public String getVersion() {
+		return _builder._version;
 	}
 
 	// TODO Implements a Builder that requires required fields.
@@ -57,6 +73,12 @@ public class ApiApplication {
 			return this;
 		}
 
+		public Builder setDescription(String description) {
+			_description = description;
+
+			return this;
+		}
+
 		public Builder setOperations(List<Operation> operations) {
 			_operations = operations;
 
@@ -69,10 +91,32 @@ public class ApiApplication {
 			return this;
 		}
 
+		public Builder setSchemas(List<Schema> schemas) {
+			_schemas = schemas;
+
+			return this;
+		}
+
+		public Builder setTitle(String title) {
+			_title = title;
+
+			return this;
+		}
+
+		public Builder setVersion(String version) {
+			_version = version;
+
+			return this;
+		}
+
 		private String _baseURL;
 		private long _companyId;
+		private String _description;
 		private List<Operation> _operations;
 		private String _osgiJaxRsName;
+		private List<Schema> _schemas;
+		private String _title;
+		private String _version;
 
 	}
 

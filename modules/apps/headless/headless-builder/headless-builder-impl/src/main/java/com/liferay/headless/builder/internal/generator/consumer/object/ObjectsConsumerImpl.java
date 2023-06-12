@@ -16,12 +16,17 @@ package com.liferay.headless.builder.internal.generator.consumer.object;
 
 import com.liferay.headless.builder.internal.generator.application.ApiApplication;
 import com.liferay.headless.builder.internal.generator.application.Operation;
+import com.liferay.headless.builder.internal.generator.application.Property;
+import com.liferay.headless.builder.internal.generator.application.Schema;
 import com.liferay.headless.builder.internal.generator.consumer.Consumer;
-import com.liferay.headless.builder.internal.generator.consumer.object.model.ApiApplicationObjectModel;
-import com.liferay.headless.builder.internal.generator.consumer.object.model.ApiEndpointsObjectModel;
+import com.liferay.headless.builder.internal.generator.consumer.object.model.ApiApplicationModel;
+import com.liferay.headless.builder.internal.generator.consumer.object.model.ApiEndpointModel;
+import com.liferay.headless.builder.internal.generator.consumer.object.model.ApiSchemaModel;
 import com.liferay.headless.builder.internal.generator.consumer.object.model.ObjectModelsFactory;
+import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
@@ -37,48 +42,99 @@ public class ObjectsConsumerImpl implements Consumer<String> {
 	public ApiApplication getApiApplication(String apiApplicationERC)
 		throws Exception {
 
-		ApiApplicationObjectModel apiApplicationObjectModel =
+		ApiApplicationModel apiApplicationModel =
 			_objectModelsFactory.getObjectModel(
-				apiApplicationERC, ApiApplicationObjectModel.class);
+				apiApplicationERC, ApiApplicationModel.class);
 
 		ApiApplication.Builder builder = new ApiApplication.Builder();
 
+		List<Schema> schemas = _getSchemas(apiApplicationERC);
+
 		return builder.setBaseURL(
-			apiApplicationObjectModel.getBaseURL()
+			apiApplicationModel.getBaseURL()
 		).setCompanyId(
-			apiApplicationObjectModel.getCompanyId()
+			apiApplicationModel.getCompanyId()
+		).setDescription(
+			apiApplicationModel.getDescription()
 		).setOsgiJaxRsName(
-			apiApplicationObjectModel.getOsgiJaxRsName()
+			apiApplicationModel.getOsgiJaxRsName()
 		).setOperations(
-			_getOperations(apiApplicationERC)
+			_getOperations(apiApplicationERC, schemas)
+		).setSchemas(
+			schemas
+		).setTitle(
+			apiApplicationModel.getTitle()
+		).setVersion(
+			apiApplicationModel.getVersion()
 		).build();
 	}
 
-	private List<Operation> _getOperations(String apiApplicationERC)
+	private List<Operation> _getOperations(
+			String apiApplicationERC, List<Schema> schemas)
 		throws Exception {
 
-		ApiEndpointsObjectModel apiEndpointsObjectModel =
-			_objectModelsFactory.getObjectModel(
-				apiApplicationERC, ApiEndpointsObjectModel.class);
+		return TransformUtil.transform(
+			_objectModelsFactory.getObjectModels(
+				apiApplicationERC, ApiEndpointModel.class),
+			apiEndpointModel -> new Operation.Builder(
+			).setMethod(
+				apiEndpointModel.getMethod()
+			).setPath(
+				apiEndpointModel.getPath()
+			).setRequestSchema(
+				_getSchema(apiEndpointModel.getRequestSchemaERC(), schemas)
+			).setResponseSchema(
+				_getSchema(apiEndpointModel.getResponseSchemaERC(), schemas)
+			).setScope(
+				apiEndpointModel.getScope()
+			).build());
+	}
 
-		List<Operation> operations = new ArrayList<>();
+	private Schema _getSchema(
+		String externalReferenceCode, List<Schema> schemas) {
 
-		Operation.Builder operationBuilder = new Operation.Builder();
-
-		for (ApiEndpointsObjectModel.ApiEndpoint apiEndpoint :
-				apiEndpointsObjectModel.getApiEndpoints()) {
-
-			operations.add(
-				operationBuilder.setMethod(
-					apiEndpoint.getMethod()
-				).setPath(
-					apiEndpoint.getPath()
-				).setScope(
-					apiEndpoint.getScope()
-				).build());
+		if (Validator.isBlank(externalReferenceCode)) {
+			return null;
 		}
 
-		return operations;
+		for (Schema schema : schemas) {
+			if (StringUtil.equals(
+					schema.getExternalReferenceCode(), externalReferenceCode)) {
+
+				return schema;
+			}
+		}
+
+		throw new IllegalStateException(
+			"The schema with external reference code " + externalReferenceCode +
+				" is not defined");
+	}
+
+	private List<Schema> _getSchemas(String apiApplicationERC)
+		throws Exception {
+
+		return TransformUtil.transform(
+			_objectModelsFactory.getObjectModels(
+				apiApplicationERC, ApiSchemaModel.class),
+			apiSchemaModel -> new Schema.Builder(
+			).setDescription(
+				apiSchemaModel.getDescription()
+			).setExternalReferenceCode(
+				apiSchemaModel.getExternalReferenceCode()
+			).setName(
+				apiSchemaModel.getName()
+			).setProperties(
+				TransformUtil.transform(
+					apiSchemaModel.getApiPropertyModels(),
+					apiSchemaProperty -> new Property.Builder(
+					).setDescription(
+						apiSchemaProperty.getDescription()
+					).setName(
+						apiSchemaProperty.getName()
+					).setType(
+						apiSchemaProperty.getType()
+					).build())
+			).build());
 	}
 
 	@Reference
