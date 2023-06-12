@@ -104,7 +104,7 @@ public class ApiEndpointsObjectModel extends ObjectModel {
 	private static final String _APPLICATION_ENDPOINT_OBJECT_RELATIONSHIP_NAME =
 		"applicationEndpoints";
 
-	private static final String _HTTP_METHOD_PROPERTY_NAME = "hTTPMethod";
+	private static final String _HTTP_METHOD_PROPERTY_NAME = "httpMethod";
 
 	private static final String _OBJECT_DEFINITION_ERC = "MSOD_API_ENDPOINT";
 

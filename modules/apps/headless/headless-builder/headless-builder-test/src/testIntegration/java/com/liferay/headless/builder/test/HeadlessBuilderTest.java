@@ -557,7 +557,7 @@ public class HeadlessBuilderTest {
 
 	private static final String _API_APPLICATION_TITLE = "title";
 
-	private static final String _API_ENDPOINT_HTTP_METHOD = "hTTPMethod";
+	private static final String _API_ENDPOINT_HTTP_METHOD = "httpMethod";
 
 	private static final String _API_ENDPOINT_PATH = "path";
 
