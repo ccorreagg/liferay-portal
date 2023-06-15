@@ -19,16 +19,17 @@ import com.liferay.headless.builder.internal.generator.application.Operation;
 import com.liferay.headless.builder.internal.generator.application.Property;
 import com.liferay.headless.builder.internal.generator.application.Schema;
 import com.liferay.headless.builder.internal.generator.consumer.Consumer;
-import com.liferay.petra.string.CharPool;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
-import com.liferay.portal.kernel.util.CamelCaseUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.TextFormatter;
 import com.liferay.portal.vulcan.openapi.OpenAPIContext;
 import com.liferay.portal.vulcan.openapi.contributor.OpenAPIContributor;
+import com.liferay.portal.vulcan.pagination.Page;
+import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -106,7 +107,7 @@ public class HeadlessBuilderApplicationOpenApiContributor
 		}
 
 		for (Schema schema : apiApplication.getSchemas()) {
-			schemas.put(schema.getName(), _toOpenAPISchema(schema));
+			schemas.putAll(_toOpenAPISchemas(schema));
 		}
 
 		Paths oldPaths = openAPI.getPaths();
@@ -155,12 +156,10 @@ public class HeadlessBuilderApplicationOpenApiContributor
 	private String _getOperationId(Operation operation) {
 		Http.Method method = operation.getMethod();
 
-		String path = StringUtil.removeChar(
-			operation.getPath(), CharPool.SLASH);
+		Schema responseSchema = operation.getResponseSchema();
 
-		path = StringUtil.upperCaseFirstLetter(CamelCaseUtil.toCamelCase(path));
-
-		return StringUtil.toLowerCase(method.name()) + path;
+		return StringUtil.toLowerCase(method.name()) +
+			TextFormatter.formatPlural(responseSchema.getName()) + "Page";
 	}
 
 	private PathItem _toOpenAPIPathItem(Operation operation) {
@@ -179,7 +178,7 @@ public class HeadlessBuilderApplicationOpenApiContributor
 					setSchema(
 						new io.swagger.v3.oas.models.media.Schema() {
 							{
-								set$ref(responseSchema.getName());
+								set$ref("Page" + responseSchema.getName());
 							}
 						});
 				}
@@ -218,8 +217,8 @@ public class HeadlessBuilderApplicationOpenApiContributor
 		};
 	}
 
-	private io.swagger.v3.oas.models.media.Schema _toOpenAPISchema(
-		Schema schema) {
+	private Map<String, io.swagger.v3.oas.models.media.Schema>
+		_toOpenAPISchemas(Schema schema) {
 
 		Map<String, io.swagger.v3.oas.models.media.Schema> properties =
 			new TreeMap<>();
@@ -242,13 +241,33 @@ public class HeadlessBuilderApplicationOpenApiContributor
 			}
 		}
 
-		return new ObjectSchema() {
-			{
-				setDescription(schema.getDescription());
-				setName(schema.getName());
-				setProperties(properties);
-			}
-		};
+		Map<String, io.swagger.v3.oas.models.media.Schema> schemas =
+			_openAPIResource.getSchemas(Page.class);
+
+		schemas.put(
+			schema.getName(),
+			new ObjectSchema() {
+				{
+					setDescription(schema.getDescription());
+					setName(schema.getName());
+					setProperties(properties);
+				}
+			});
+
+		io.swagger.v3.oas.models.media.Schema pageSchema = schemas.remove(
+			"Page");
+
+		Map<String, io.swagger.v3.oas.models.media.Schema> pageProperties =
+			pageSchema.getProperties();
+
+		io.swagger.v3.oas.models.media.Schema itemsSchema = pageProperties.get(
+			"items");
+
+		itemsSchema.set$ref(schema.getName());
+
+		schemas.put("Page" + schema.getName(), pageSchema);
+
+		return schemas;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -256,5 +275,8 @@ public class HeadlessBuilderApplicationOpenApiContributor
 
 	@Reference
 	private Consumer<String> _consumer;
+
+	@Reference
+	private OpenAPIResource _openAPIResource;
 
 }

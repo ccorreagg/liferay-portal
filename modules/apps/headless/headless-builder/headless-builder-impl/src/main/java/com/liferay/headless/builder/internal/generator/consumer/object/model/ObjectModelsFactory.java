@@ -174,13 +174,13 @@ public class ObjectModelsFactory {
 	}
 
 	private static final String _API_SCHEMAS_OBJECT_RELATIONSHIP_NAME =
-		"apiApplicationAPISchemas";
+		"apiApplicationToAPISchemas";
 
 	private static final String _APPLICATION_ENDPOINT_OBJECT_RELATIONSHIP_NAME =
-		"apiApplicationAPIEndpoints";
+		"apiApplicationToAPIEndpoints";
 
 	private static final String _SCHEMAS_PROPERTIES_OBJECT_RELATIONSHIP_NAME =
-		"apiSchemasAPIProperties";
+		"apiSchemaToAPIProperties";
 
 	private final ObjectModelTransformer _apiApplicationModelTransformer =
 		new ApiApplicationModelTransformer();

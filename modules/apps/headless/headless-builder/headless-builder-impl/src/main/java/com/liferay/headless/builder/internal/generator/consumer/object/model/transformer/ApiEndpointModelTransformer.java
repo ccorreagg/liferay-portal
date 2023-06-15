@@ -58,13 +58,13 @@ public class ApiEndpointModelTransformer
 			@Override
 			public String getRequestSchemaERC() {
 				return (String)properties.get(
-					"r_requestAPISchemaAPIEndpoints_c_apiSchemaERC");
+					"r_requestAPISchemaToAPIEndpoints_c_apiSchemaERC");
 			}
 
 			@Override
 			public String getResponseSchemaERC() {
 				return (String)properties.get(
-					"r_responseAPISchemaAPIEndpoints_c_apiSchemaERC");
+					"r_responseAPISchemaToAPIEndpoints_c_apiSchemaERC");
 			}
 
 			@Override

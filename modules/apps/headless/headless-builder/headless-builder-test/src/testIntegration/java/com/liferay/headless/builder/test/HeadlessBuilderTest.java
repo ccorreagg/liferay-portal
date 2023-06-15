@@ -172,7 +172,7 @@ public class HeadlessBuilderTest {
 		_applicationEndpointsObjectRelationship =
 			ObjectRelationshipLocalServiceUtil.getObjectRelationship(
 				_apiApplicationObjectDefinition.getObjectDefinitionId(),
-				"apiApplicationAPIEndpoints");
+				"apiApplicationToAPIEndpoints");
 		//			ObjectRelationshipTestUtil.addObjectRelationship(
 		//				_apiApplicationObjectDefinition, "applicationEndpoints",
 		//				_apiEndpointObjectDefinition, TestPropsValues.getUserId(),
@@ -181,15 +181,15 @@ public class HeadlessBuilderTest {
 		_applicationSchemasObjectRelationship =
 			ObjectRelationshipLocalServiceUtil.getObjectRelationship(
 				_apiApplicationObjectDefinition.getObjectDefinitionId(),
-				"apiApplicationAPISchemas");
+				"apiApplicationToAPISchemas");
 		_schemasPropertiesObjectRelationship =
 			ObjectRelationshipLocalServiceUtil.getObjectRelationship(
 				_apiSchemaObjectDefinition.getObjectDefinitionId(),
-				"apiSchemasAPIProperties");
+				"apiSchemaToAPIProperties");
 		_responseSchemaEndpointsObjectRelationship =
 			ObjectRelationshipLocalServiceUtil.getObjectRelationship(
 				_apiSchemaObjectDefinition.getObjectDefinitionId(),
-				"responseAPISchemaAPIEndpoints");
+				"responseAPISchemaToAPIEndpoints");
 		Bundle bundle = FrameworkUtil.getBundle(HeadlessBuilderTest.class);
 		BundleContext bundleContext = bundle.getBundleContext();
 		_infoItemFieldValuesProviderServiceRegistration =

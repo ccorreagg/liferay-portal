@@ -42,7 +42,7 @@ public class ApiSchemaModelTransformer
 			public List<ApiPropertyModel> getApiPropertyModels() {
 				return TransformUtil.transform(
 					(List<ObjectEntry>)properties.get(
-						"apiSchemasAPIProperties"),
+						"apiSchemaToAPIProperties"),
 					objectEntry1 -> {
 						Map<String, Object> propertyProperties =
 							objectEntry1.getProperties();
