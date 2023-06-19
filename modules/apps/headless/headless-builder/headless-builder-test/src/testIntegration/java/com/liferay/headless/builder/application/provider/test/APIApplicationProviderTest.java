@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -74,6 +75,15 @@ public class APIApplicationProviderTest {
 				completableFuture.join();
 			}
 		}
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		HTTPTestUtil.invoke(
+			null,
+			"headless-builder/applications/by-external-reference-code" +
+				"/APPLICATION",
+			Http.Method.DELETE);
 	}
 
 	@Test
@@ -121,6 +131,8 @@ public class APIApplicationProviderTest {
 				"applicationStatus", "published"
 			).put(
 				"baseURL", "test"
+			).put(
+				"externalReferenceCode", "APPLICATION"
 			).put(
 				"title", "title"
 			).toString(),
