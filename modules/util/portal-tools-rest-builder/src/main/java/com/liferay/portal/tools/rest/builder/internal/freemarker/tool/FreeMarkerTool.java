@@ -132,7 +132,7 @@ public class FreeMarkerTool {
 		return false;
 	}
 
-	public String getActionKey(String propertyName) {
+	public String getActionName(String propertyName) {
 		if (StringUtil.equals(propertyName, "delete")) {
 			return ActionKeys.DELETE;
 		}

@@ -20,7 +20,7 @@ public abstract class Base${schemaName}DTOActionMetadataProvider {
 
 	public Base${schemaName}DTOActionMetadataProvider() {
 		<#list actionPropertyNames as actionPropertyName>
-			_actionInfoMap.put("${actionPropertyName}", new ActionInfo(get${actionPropertyName?cap_first}ActionKey(), ${schemaName}ResourceImpl.class, get${actionPropertyName?cap_first}ResourceMethodName()));
+			_actionInfoMap.put("${actionPropertyName}", new ActionInfo(get${actionPropertyName?cap_first}ActionName(), ${schemaName}ResourceImpl.class, get${actionPropertyName?cap_first}ResourceMethodName()));
 		</#list>
 	}
 
@@ -35,9 +35,9 @@ public abstract class Base${schemaName}DTOActionMetadataProvider {
 	public abstract String getPermissionName();
 
 	<#list actionPropertyNames as actionPropertyName>
-		<#assign actionKey = freeMarkerTool.getActionKey(actionPropertyName)!"" />
+		<#assign actionKey = freeMarkerTool.getActionName(actionPropertyName)!"" />
 
-		protected String get${actionPropertyName?cap_first}ActionKey() {
+		protected String get${actionPropertyName?cap_first}ActionName() {
 			return ActionKeys.${actionKey!};
 		}
 
