@@ -173,7 +173,8 @@ public class APIApplicationProviderTest {
 
 		Assert.assertEquals("description", property.getDescription());
 		Assert.assertEquals("name", property.getName());
-		Assert.assertEquals("Picklist", property.getType());
+		Assert.assertEquals(
+			APIApplication.Property.Type.PICKLIST, property.getType());
 	}
 
 	@Inject
