@@ -22,7 +22,7 @@ import com.liferay.object.constants.ObjectFieldConstants;
 import com.liferay.object.field.util.ObjectFieldUtil;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectField;
-import com.liferay.object.service.ObjectDefinitionLocalServiceUtil;
+import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.HTTPTestUtil;
@@ -34,8 +34,8 @@ import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.vulcan.openapi.OpenAPIContext;
 import com.liferay.portal.vulcan.openapi.contributor.OpenAPIContributor;
-
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
+
 import io.swagger.v3.oas.models.OpenAPI;
 
 import java.util.Arrays;
@@ -88,37 +88,26 @@ public class APIApplicationOpenAPIContributorTest {
 
 		_objectDefinition = _publishObjectDefinition(
 			Arrays.asList(
-				ObjectFieldUtil.createObjectField(
-					ObjectFieldConstants.BUSINESS_TYPE_DECIMAL, ObjectFieldConstants.DB_TYPE_DOUBLE, RandomTestUtil.randomString(), "decimalField", false),
-				ObjectFieldUtil.createObjectField(
-					ObjectFieldConstants.BUSINESS_TYPE_INTEGER, ObjectFieldConstants.DB_TYPE_INTEGER, RandomTestUtil.randomString(), "integerField", false),
-				ObjectFieldUtil.createObjectField(
-					ObjectFieldConstants.BUSINESS_TYPE_LONG_INTEGER, ObjectFieldConstants.DB_TYPE_LONG, RandomTestUtil.randomString(), "longIntegerField", false),
-				ObjectFieldUtil.createObjectField(
-					ObjectFieldConstants.BUSINESS_TYPE_PRECISION_DECIMAL, ObjectFieldConstants.DB_TYPE_BIG_DECIMAL, RandomTestUtil.randomString(), "precisionDecimal", false),
-				ObjectFieldUtil.createObjectField(
-					ObjectFieldConstants.BUSINESS_TYPE_TEXT, ObjectFieldConstants.DB_TYPE_STRING, RandomTestUtil.randomString(), "textField", false)));
-	}
-
-
-	private ObjectDefinition _publishObjectDefinition(
-		List<ObjectField> objectFields)
-		throws Exception {
-
-		long userId = TestPropsValues.getUserId();
-
-		ObjectDefinition objectDefinition =
-			_objectDefinitionLocalServiceUtil.addCustomObjectDefinition(
-				userId, false, false,
-				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
-				"A" + RandomTestUtil.randomString(), null, null,
-				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
-				ObjectDefinitionConstants.SCOPE_COMPANY,
-				ObjectDefinitionConstants.STORAGE_TYPE_DEFAULT,
-				objectFields);
-
-		return _objectDefinitionLocalServiceUtil.publishCustomObjectDefinition(
-			userId, objectDefinition.getObjectDefinitionId());
+				_createObjectField(
+					ObjectFieldConstants.BUSINESS_TYPE_DECIMAL,
+					ObjectFieldConstants.DB_TYPE_DOUBLE, "DECIMAL_FIELD",
+					"decimalField", false),
+				_createObjectField(
+					ObjectFieldConstants.BUSINESS_TYPE_INTEGER,
+					ObjectFieldConstants.DB_TYPE_INTEGER, "INTEGER_FIELD",
+					"integerField", false),
+				_createObjectField(
+					ObjectFieldConstants.BUSINESS_TYPE_LONG_INTEGER,
+					ObjectFieldConstants.DB_TYPE_LONG, "LONG_INTEGER_FIELD",
+					"longIntegerField", false),
+				_createObjectField(
+					ObjectFieldConstants.BUSINESS_TYPE_PRECISION_DECIMAL,
+					ObjectFieldConstants.DB_TYPE_BIG_DECIMAL,
+					"PRECISION_DECIMAL_FIELD", "precisionDecimalField", false),
+				_createObjectField(
+					ObjectFieldConstants.BUSINESS_TYPE_TEXT,
+					ObjectFieldConstants.DB_TYPE_STRING, "TEXT_FIELD",
+					"textField", false)));
 	}
 
 	@After
@@ -156,46 +145,48 @@ public class APIApplicationOpenAPIContributorTest {
 						"apiSchemaToAPIProperties",
 						JSONUtil.putAll(
 							JSONUtil.put(
-								"description", "decimalFieldDescription"
+								"description", "decimalProperty description"
 							).put(
-								"name", "decimalFieldName"
+								"name", "decimalProperty"
 							).put(
-								"objectFieldERC", "decimalField"
+								"objectFieldERC", "DECIMAL_FIELD"
 							),
 							JSONUtil.put(
-								"description", "textFieldDescription"
+								"description", "integerProperty description"
 							).put(
-								"name", "textFieldName"
+								"name", "integerProperty"
 							).put(
-								"objectFieldERC", "textField"
+								"objectFieldERC", "INTEGER_FIELD"
 							),
 							JSONUtil.put(
-								"description", "textFieldDescription"
+								"description", "longIntegerProperty description"
 							).put(
-								"name", "textFieldName"
+								"name", "longIntegerProperty"
 							).put(
-								"objectFieldERC", "textField"
+								"objectFieldERC", "LONG_INTEGER_FIELD"
 							),
 							JSONUtil.put(
-								"description", "textFieldDescription"
+								"description",
+								"precisionDecimalProperty description"
 							).put(
-								"name", "textFieldName"
+								"name", "precisionDecimalProperty"
 							).put(
-								"objectFieldERC", "textField"
+								"objectFieldERC", "PRECISION_DECIMAL_FIELD"
 							),
 							JSONUtil.put(
-								"description", "textFieldDescription"
+								"description", "textProperty description"
 							).put(
-								"name", "textFieldName"
+								"name", "textProperty"
 							).put(
-								"objectFieldERC", "textField"
+								"objectFieldERC", "TEXT_FIELD"
 							))
 					).put(
 						"description", "description"
 					).put(
 						"externalReferenceCode", "SCHEMA"
 					).put(
-						"mainObjectDefinitionERC", _objectDefinition.getExternalReferenceCode()
+						"mainObjectDefinitionERC",
+						_objectDefinition.getExternalReferenceCode()
 					).put(
 						"name", "name"
 					))
@@ -233,6 +224,38 @@ public class APIApplicationOpenAPIContributorTest {
 		System.out.println(openAPI);
 	}
 
+	private ObjectField _createObjectField(
+		String businessType, String dbType, String externalReferenceCode,
+		String name, boolean required) {
+
+		ObjectField objectField = ObjectFieldUtil.createObjectField(
+			businessType, dbType, RandomTestUtil.randomString(), name,
+			required);
+
+		objectField.setExternalReferenceCode(externalReferenceCode);
+
+		return objectField;
+	}
+
+	private ObjectDefinition _publishObjectDefinition(
+			List<ObjectField> objectFields)
+		throws Exception {
+
+		long userId = TestPropsValues.getUserId();
+
+		ObjectDefinition objectDefinition =
+			_objectDefinitionLocalService.addCustomObjectDefinition(
+				userId, false, false,
+				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
+				"A" + RandomTestUtil.randomString(), null, null,
+				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
+				ObjectDefinitionConstants.SCOPE_COMPANY,
+				ObjectDefinitionConstants.STORAGE_TYPE_DEFAULT, objectFields);
+
+		return _objectDefinitionLocalService.publishCustomObjectDefinition(
+			userId, objectDefinition.getObjectDefinitionId());
+	}
+
 	@Inject(
 		filter = "component.name=com.liferay.headless.builder.internal.application.openapi.contributor.APIApplicationOpenApiContributor"
 	)
@@ -247,6 +270,6 @@ public class APIApplicationOpenAPIContributorTest {
 	private ObjectDefinition _objectDefinition;
 
 	@Inject
-	private ObjectDefinitionLocalServiceUtil _objectDefinitionLocalServiceUtil;
+	private ObjectDefinitionLocalService _objectDefinitionLocalService;
 
 }
