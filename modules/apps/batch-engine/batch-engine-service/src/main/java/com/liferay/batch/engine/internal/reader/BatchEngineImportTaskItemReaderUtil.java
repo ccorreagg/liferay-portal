@@ -25,6 +25,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -46,6 +47,8 @@ public class BatchEngineImportTaskItemReaderUtil {
 		throws ReflectiveOperationException {
 
 		T item = itemClass.newInstance();
+
+		Map<String, Serializable> extendedProperties = new HashMap<>();
 
 		for (Map.Entry<String, Object> entry : fieldNameValueMap.entrySet()) {
 			String name = entry.getKey();
@@ -86,15 +89,19 @@ public class BatchEngineImportTaskItemReaderUtil {
 			}
 
 			if (field == null) {
-				throw new NoSuchFieldException(entry.getKey());
+				extendedProperties.put(
+					entry.getKey(), (Serializable)entry.getValue());
 			}
+			else {
+				field.setAccessible(true);
 
-			field.setAccessible(true);
+				Map<String, Object> map = (Map)field.get(item);
 
-			Map<String, Object> map = (Map)field.get(item);
-
-			map.put(entry.getKey(), entry.getValue());
+				map.put(entry.getKey(), entry.getValue());
+			}
 		}
+
+		_setExtendedProperties(extendedProperties, item);
 
 		return item;
 	}
@@ -129,6 +136,23 @@ public class BatchEngineImportTaskItemReaderUtil {
 		}
 
 		return targetFieldNameValueMap;
+	}
+
+	private static void _setExtendedProperties(
+			Map<String, Serializable> extendedProperties, Object item)
+		throws ReflectiveOperationException {
+
+		if (item instanceof EntityExtensionSupport) {
+			EntityExtensionSupport entityExtensionSupport =
+				(EntityExtensionSupport)item;
+
+			entityExtensionSupport.setExtendedProperties(extendedProperties);
+		}
+		else if (!extendedProperties.isEmpty()) {
+			throw new NoSuchFieldException(
+				extendedProperties.keySet(
+				).toString());
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
