@@ -17,13 +17,11 @@ package com.liferay.batch.engine.action;
 import com.liferay.batch.engine.model.BatchEngineImportTask;
 
 /**
- * @author Matija Petanjek
+ * @author Carlos Correa
  */
-public interface ImportTaskPostAction {
+public interface ImportTaskPreAction {
 
-	public void run(
-			BatchEngineImportTask batchEngineImportTask, Object item,
-			Object persistedItem)
+	public void run(BatchEngineImportTask batchEngineImportTask, Object item)
 		throws Exception;
 
 }

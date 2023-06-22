@@ -14,27 +14,31 @@
 
 package com.liferay.batch.engine.internal.action;
 
-import com.liferay.batch.engine.action.ImportTaskPostAction;
+import com.liferay.batch.engine.BatchEngineTaskOperation;
+import com.liferay.batch.engine.action.ImportTaskPreAction;
 import com.liferay.batch.engine.model.BatchEngineImportTask;
+import com.liferay.portal.kernel.util.MapUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 import com.liferay.portal.vulcan.extension.EntityExtensionHandler;
 import com.liferay.portal.vulcan.extension.ExtensionProviderRegistry;
 import com.liferay.portal.vulcan.extension.util.ExtensionUtil;
 
+import java.io.Serializable;
+
+import java.util.Map;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author Matija Petanjek
+ * @author Carlos Correa
  */
-@Component(service = ImportTaskPostAction.class)
-public class ExtendedObjectImportTaskPostAction
-	implements ImportTaskPostAction {
+@Component(service = ImportTaskPreAction.class)
+public class ExtendedObjectImportTaskPreAction implements ImportTaskPreAction {
 
 	@Override
-	public void run(
-			BatchEngineImportTask batchEngineImportTask, Object item,
-			Object persistedItem)
+	public void run(BatchEngineImportTask batchEngineImportTask, Object item)
 		throws Exception {
 
 		if (!(item instanceof EntityExtensionSupport)) {
@@ -54,10 +58,44 @@ public class ExtendedObjectImportTaskPostAction
 		EntityExtensionSupport entityExtensionSupport =
 			(EntityExtensionSupport)item;
 
-		entityExtensionHandler.setExtendedProperties(
+		entityExtensionHandler.validate(
 			batchEngineImportTask.getCompanyId(),
-			batchEngineImportTask.getUserId(), persistedItem,
-			entityExtensionSupport.getExtendedProperties());
+			entityExtensionSupport.getExtendedProperties(),
+			_isPartialUpdate(batchEngineImportTask));
+	}
+
+	private boolean _isPartialUpdate(
+		BatchEngineImportTask batchEngineImportTask) {
+
+		Map<String, Serializable> parameters =
+			batchEngineImportTask.getParameters();
+
+		if (parameters == null) {
+			return false;
+		}
+
+		String createStrategy = MapUtil.getString(parameters, "createStrategy");
+
+		String updateStrategy = MapUtil.getString(parameters, "updateStrategy");
+
+		BatchEngineTaskOperation batchEngineTaskOperation =
+			BatchEngineTaskOperation.valueOf(
+				batchEngineImportTask.getOperation());
+
+		if ((batchEngineTaskOperation == BatchEngineTaskOperation.CREATE) &&
+			StringUtil.equals(createStrategy, "UPSERT") &&
+			StringUtil.equals(updateStrategy, "PARTIAL_UPDATE")) {
+
+			return true;
+		}
+
+		if ((batchEngineTaskOperation == BatchEngineTaskOperation.UPDATE) &&
+			StringUtil.equals(updateStrategy, "PARTIAL_UPDATE")) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 	@Reference
