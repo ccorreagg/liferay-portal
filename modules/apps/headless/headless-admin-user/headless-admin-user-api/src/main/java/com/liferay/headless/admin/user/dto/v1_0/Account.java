@@ -14,7 +14,6 @@
 
 package com.liferay.headless.admin.user.dto.v1_0;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ObjectMapperUtil;
@@ -60,7 +60,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 	requiredProperties = {"name"}
 )
 @XmlRootElement(name = "Account")
-public class Account implements Serializable {
+public class Account implements EntityExtensionSupport, Serializable {
 
 	public static Account toDTO(String json) {
 		return ObjectMapperUtil.readValue(Account.class, json);
@@ -683,13 +683,17 @@ public class Account implements Serializable {
 	)
 	public String xClassName;
 
-	public Map<String, Object> getExtendedProperties() {
-		return extendedProperties;
+	@Override
+	public void setExtendedProperties(Map<String, Serializable> extendedProperties) {
+		_extendedProperties = extendedProperties;
 	}
 
-	@JsonAnySetter
-	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
-	protected Map<String, Object> extendedProperties = new HashMap<>();
+	@Override
+	public Map<String, Serializable> getExtendedProperties() {
+		return _extendedProperties;
+	}
+
+	private Map<String, Serializable> _extendedProperties = new HashMap<>();
 
 	@GraphQLName("Type")
 	public static enum Type {
