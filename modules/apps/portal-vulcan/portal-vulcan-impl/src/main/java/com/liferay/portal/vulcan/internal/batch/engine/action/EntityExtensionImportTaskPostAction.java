@@ -16,13 +16,16 @@ package com.liferay.portal.vulcan.internal.batch.engine.action;
 
 import com.liferay.batch.engine.action.ImportTaskPostAction;
 import com.liferay.batch.engine.model.BatchEngineImportTask;
-import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 import com.liferay.portal.vulcan.extension.EntityExtensionHandler;
+import com.liferay.portal.vulcan.extension.EntityExtensionThreadLocal;
 import com.liferay.portal.vulcan.extension.ExtensionProviderRegistry;
 import com.liferay.portal.vulcan.extension.util.ExtensionUtil;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @author Matija Petanjek
@@ -37,7 +40,10 @@ public class EntityExtensionImportTaskPostAction
 			Object persistedItem)
 		throws Exception {
 
-		if (!(item instanceof EntityExtensionSupport)) {
+		Map<String, Serializable> extendedProperties =
+			EntityExtensionThreadLocal.getExtendedProperties(item);
+
+		if (extendedProperties == null) {
 			return;
 		}
 
@@ -51,13 +57,10 @@ public class EntityExtensionImportTaskPostAction
 			return;
 		}
 
-		EntityExtensionSupport entityExtensionSupport =
-			(EntityExtensionSupport)item;
-
 		entityExtensionHandler.setExtendedProperties(
 			batchEngineImportTask.getCompanyId(),
 			batchEngineImportTask.getUserId(), persistedItem,
-			entityExtensionSupport.getExtendedProperties());
+			extendedProperties);
 	}
 
 	@Reference

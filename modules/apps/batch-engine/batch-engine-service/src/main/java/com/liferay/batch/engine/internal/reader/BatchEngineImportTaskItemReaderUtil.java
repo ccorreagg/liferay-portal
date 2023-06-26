@@ -24,8 +24,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
+import com.liferay.portal.vulcan.extension.EntityExtensionThreadLocal;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -101,7 +102,10 @@ public class BatchEngineImportTaskItemReaderUtil {
 			}
 		}
 
-		_setExtendedProperties(extendedProperties, item);
+		if (MapUtil.isNotEmpty(extendedProperties)) {
+			EntityExtensionThreadLocal.setExtendedProperties(
+				extendedProperties, item);
+		}
 
 		return item;
 	}
@@ -136,23 +140,6 @@ public class BatchEngineImportTaskItemReaderUtil {
 		}
 
 		return targetFieldNameValueMap;
-	}
-
-	private static void _setExtendedProperties(
-			Map<String, Serializable> extendedProperties, Object item)
-		throws ReflectiveOperationException {
-
-		if (item instanceof EntityExtensionSupport) {
-			EntityExtensionSupport entityExtensionSupport =
-				(EntityExtensionSupport)item;
-
-			entityExtensionSupport.setExtendedProperties(extendedProperties);
-		}
-		else if (!extendedProperties.isEmpty()) {
-			throw new NoSuchFieldException(
-				extendedProperties.keySet(
-				).toString());
-		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

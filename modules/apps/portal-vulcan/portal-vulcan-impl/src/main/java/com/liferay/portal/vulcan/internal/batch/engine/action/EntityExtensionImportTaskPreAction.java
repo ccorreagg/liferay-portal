@@ -19,8 +19,8 @@ import com.liferay.batch.engine.action.ImportTaskPreAction;
 import com.liferay.batch.engine.model.BatchEngineImportTask;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 import com.liferay.portal.vulcan.extension.EntityExtensionHandler;
+import com.liferay.portal.vulcan.extension.EntityExtensionThreadLocal;
 import com.liferay.portal.vulcan.extension.ExtensionProviderRegistry;
 import com.liferay.portal.vulcan.extension.util.ExtensionUtil;
 
@@ -41,7 +41,10 @@ public class EntityExtensionImportTaskPreAction implements ImportTaskPreAction {
 	public void run(BatchEngineImportTask batchEngineImportTask, Object item)
 		throws Exception {
 
-		if (!(item instanceof EntityExtensionSupport)) {
+		Map<String, Serializable> extendedProperties =
+			EntityExtensionThreadLocal.getExtendedProperties(item);
+
+		if (extendedProperties == null) {
 			return;
 		}
 
@@ -55,12 +58,9 @@ public class EntityExtensionImportTaskPreAction implements ImportTaskPreAction {
 			return;
 		}
 
-		EntityExtensionSupport entityExtensionSupport =
-			(EntityExtensionSupport)item;
-
 		entityExtensionHandler.validate(
 			batchEngineImportTask.getCompanyId(),
-			entityExtensionSupport.getExtendedProperties(),
+			extendedProperties,
 			_isPartialUpdate(batchEngineImportTask));
 	}
 
