@@ -15,7 +15,7 @@
 package com.liferay.portal.vulcan.internal.jaxrs.exception.mapper;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.vulcan.jaxrs.exception.mapper.BaseExceptionMapper;
@@ -29,19 +29,20 @@ import javax.ws.rs.core.Response;
  * Converts any {@code UnrecognizedPropertyException} to a {@code 400} error.
  *
  * @author Alejandro Hernández
+ * @author Carlos Correa
  * @review
  */
-public class UnrecognizedPropertyExceptionMapper
-	extends BaseExceptionMapper<UnrecognizedPropertyException> {
+public class PropertyBindingExceptionMapper
+	extends BaseExceptionMapper<PropertyBindingException> {
 
 	@Override
 	protected Problem getProblem(
-		UnrecognizedPropertyException unrecognizedPropertyException) {
+		PropertyBindingException propertyBindingException) {
 
 		StringBundler sb = new StringBundler();
 
 		List<JsonMappingException.Reference> references =
-			unrecognizedPropertyException.getPath();
+			propertyBindingException.getPath();
 
 		for (int i = 0; i < references.size(); i++) {
 			JsonMappingException.Reference reference = references.get(i);

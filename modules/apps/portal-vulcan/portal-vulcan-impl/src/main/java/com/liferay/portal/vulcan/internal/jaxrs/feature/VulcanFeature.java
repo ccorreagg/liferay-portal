@@ -59,7 +59,7 @@ import com.liferay.portal.vulcan.internal.jaxrs.exception.mapper.JsonParseExcept
 import com.liferay.portal.vulcan.internal.jaxrs.exception.mapper.NoSuchModelExceptionMapper;
 import com.liferay.portal.vulcan.internal.jaxrs.exception.mapper.NotAcceptableExceptionMapper;
 import com.liferay.portal.vulcan.internal.jaxrs.exception.mapper.PrincipalExceptionMapper;
-import com.liferay.portal.vulcan.internal.jaxrs.exception.mapper.UnrecognizedPropertyExceptionMapper;
+import com.liferay.portal.vulcan.internal.jaxrs.exception.mapper.PropertyBindingExceptionMapper;
 import com.liferay.portal.vulcan.internal.jaxrs.exception.mapper.ValidationExceptionMapper;
 import com.liferay.portal.vulcan.internal.jaxrs.exception.mapper.WebApplicationExceptionMapper;
 import com.liferay.portal.vulcan.internal.jaxrs.message.body.JSONMessageBodyReader;
@@ -135,7 +135,7 @@ public class VulcanFeature implements Feature {
 		featureContext.register(RestrictFieldsQueryParamContextProvider.class);
 		featureContext.register(StatusDynamicFeature.class);
 		featureContext.register(TransactionContainerRequestFilter.class);
-		featureContext.register(UnrecognizedPropertyExceptionMapper.class);
+		featureContext.register(PropertyBindingExceptionMapper.class);
 		featureContext.register(ValidationExceptionMapper.class);
 		featureContext.register(WebApplicationExceptionMapper.class);
 		featureContext.register(XMLMessageBodyReader.class);
