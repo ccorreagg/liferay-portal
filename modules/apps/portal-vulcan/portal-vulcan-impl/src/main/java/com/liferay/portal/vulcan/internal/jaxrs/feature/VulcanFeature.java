@@ -132,10 +132,10 @@ public class VulcanFeature implements Feature {
 		featureContext.register(PageEntityExtensionWriterInterceptor.class);
 		featureContext.register(PaginationContextProvider.class);
 		featureContext.register(PrincipalExceptionMapper.class);
+		featureContext.register(PropertyBindingExceptionMapper.class);
 		featureContext.register(RestrictFieldsQueryParamContextProvider.class);
 		featureContext.register(StatusDynamicFeature.class);
 		featureContext.register(TransactionContainerRequestFilter.class);
-		featureContext.register(PropertyBindingExceptionMapper.class);
 		featureContext.register(ValidationExceptionMapper.class);
 		featureContext.register(WebApplicationExceptionMapper.class);
 		featureContext.register(XMLMessageBodyReader.class);
