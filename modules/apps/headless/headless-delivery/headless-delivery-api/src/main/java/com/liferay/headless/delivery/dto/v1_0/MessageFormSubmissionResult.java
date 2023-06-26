@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ObjectMapperUtil;
@@ -30,7 +29,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -53,8 +51,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 )
 @JsonFilter("Liferay.Vulcan")
 @XmlRootElement(name = "MessageFormSubmissionResult")
-public class MessageFormSubmissionResult
-	implements EntityExtensionSupport, Serializable {
+public class MessageFormSubmissionResult implements Serializable {
 
 	public static MessageFormSubmissionResult toDTO(String json) {
 		return ObjectMapperUtil.readValue(
@@ -94,21 +91,6 @@ public class MessageFormSubmissionResult
 	@GraphQLField(description = "The localized submission of message type.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentInlineValue message;
-
-	@JsonIgnore
-	@Override
-	public void setExtendedProperties(
-		Map<String, Serializable> extendedProperties) {
-
-		_extendedProperties = extendedProperties;
-	}
-
-	@Override
-	public Map<String, Serializable> getExtendedProperties() {
-		return _extendedProperties;
-	}
-
-	private Map<String, Serializable> _extendedProperties = new HashMap<>();
 
 	@Override
 	public boolean equals(Object object) {

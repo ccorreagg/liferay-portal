@@ -24,7 +24,6 @@ import com.liferay.headless.delivery.dto.v1_0.Creator;
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ObjectMapperUtil;
@@ -57,7 +56,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @GraphQLName("ObjectEntry")
 @JsonFilter("Liferay.Vulcan")
 @XmlRootElement(name = "ObjectEntry")
-public class ObjectEntry implements EntityExtensionSupport, Serializable {
+public class ObjectEntry implements Serializable {
 
 	public static ObjectEntry toDTO(String json) {
 		return ObjectMapperUtil.readValue(ObjectEntry.class, json);
@@ -453,21 +452,6 @@ public class ObjectEntry implements EntityExtensionSupport, Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Long[] taxonomyCategoryIds;
-
-	@JsonIgnore
-	@Override
-	public void setExtendedProperties(
-		Map<String, Serializable> extendedProperties) {
-
-		_extendedProperties = extendedProperties;
-	}
-
-	@Override
-	public Map<String, Serializable> getExtendedProperties() {
-		return _extendedProperties;
-	}
-
-	private Map<String, Serializable> _extendedProperties = new HashMap<>();
 
 	@Override
 	public boolean equals(Object object) {

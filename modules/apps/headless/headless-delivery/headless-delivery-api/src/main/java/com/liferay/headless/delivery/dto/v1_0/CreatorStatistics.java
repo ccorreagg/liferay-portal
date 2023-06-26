@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ObjectMapperUtil;
@@ -34,7 +33,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -54,7 +52,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 )
 @JsonFilter("Liferay.Vulcan")
 @XmlRootElement(name = "CreatorStatistics")
-public class CreatorStatistics implements EntityExtensionSupport, Serializable {
+public class CreatorStatistics implements Serializable {
 
 	public static CreatorStatistics toDTO(String json) {
 		return ObjectMapperUtil.readValue(CreatorStatistics.class, json);
@@ -173,21 +171,6 @@ public class CreatorStatistics implements EntityExtensionSupport, Serializable {
 	@GraphQLField(description = "The rank of the author.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String rank;
-
-	@JsonIgnore
-	@Override
-	public void setExtendedProperties(
-		Map<String, Serializable> extendedProperties) {
-
-		_extendedProperties = extendedProperties;
-	}
-
-	@Override
-	public Map<String, Serializable> getExtendedProperties() {
-		return _extendedProperties;
-	}
-
-	private Map<String, Serializable> _extendedProperties = new HashMap<>();
 
 	@Override
 	public boolean equals(Object object) {

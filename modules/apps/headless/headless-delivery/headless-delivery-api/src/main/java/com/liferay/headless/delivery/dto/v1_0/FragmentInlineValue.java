@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ObjectMapperUtil;
@@ -30,7 +29,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -53,8 +51,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 )
 @JsonFilter("Liferay.Vulcan")
 @XmlRootElement(name = "FragmentInlineValue")
-public class FragmentInlineValue
-	implements EntityExtensionSupport, Serializable {
+public class FragmentInlineValue implements Serializable {
 
 	public static FragmentInlineValue toDTO(String json) {
 		return ObjectMapperUtil.readValue(FragmentInlineValue.class, json);
@@ -122,21 +119,6 @@ public class FragmentInlineValue
 	@GraphQLField(description = "The localized fragment's inline values.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> value_i18n;
-
-	@JsonIgnore
-	@Override
-	public void setExtendedProperties(
-		Map<String, Serializable> extendedProperties) {
-
-		_extendedProperties = extendedProperties;
-	}
-
-	@Override
-	public Map<String, Serializable> getExtendedProperties() {
-		return _extendedProperties;
-	}
-
-	private Map<String, Serializable> _extendedProperties = new HashMap<>();
 
 	@Override
 	public boolean equals(Object object) {

@@ -22,7 +22,6 @@ import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ObjectMapperUtil;
@@ -31,7 +30,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -51,7 +49,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @GraphQLName("CustomValue")
 @JsonFilter("Liferay.Vulcan")
 @XmlRootElement(name = "CustomValue")
-public class CustomValue implements EntityExtensionSupport, Serializable {
+public class CustomValue implements Serializable {
 
 	public static CustomValue toDTO(String json) {
 		return ObjectMapperUtil.readValue(CustomValue.class, json);
@@ -144,21 +142,6 @@ public class CustomValue implements EntityExtensionSupport, Serializable {
 	@GraphQLField(description = "A point determined by latitude and longitude.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Geo geo;
-
-	@JsonIgnore
-	@Override
-	public void setExtendedProperties(
-		Map<String, Serializable> extendedProperties) {
-
-		_extendedProperties = extendedProperties;
-	}
-
-	@Override
-	public Map<String, Serializable> getExtendedProperties() {
-		return _extendedProperties;
-	}
-
-	private Map<String, Serializable> _extendedProperties = new HashMap<>();
 
 	@Override
 	public boolean equals(Object object) {
