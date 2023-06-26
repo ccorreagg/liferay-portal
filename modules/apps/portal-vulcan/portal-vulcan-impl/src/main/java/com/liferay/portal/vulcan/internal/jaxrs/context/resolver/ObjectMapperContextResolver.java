@@ -15,6 +15,7 @@
 package com.liferay.portal.vulcan.internal.jaxrs.context.resolver;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -45,6 +46,7 @@ public class ObjectMapperContextResolver
 
 	private static final ObjectMapper _objectMapper = new ObjectMapper() {
 		{
+			configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
 			configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
 			enable(SerializationFeature.INDENT_OUTPUT);
 			registerModule(
