@@ -24,6 +24,7 @@ import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ObjectMapperUtil;
@@ -115,7 +116,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 	)
 </#if>
 @XmlRootElement(name = "${schemaName}")
-public class ${schemaName} <#if dtoParentClassName?has_content>extends ${dtoParentClassName}</#if> implements Serializable {
+public class ${schemaName} <#if dtoParentClassName?has_content>extends ${dtoParentClassName}</#if> implements <#if freeMarkerTool.isVersionCompatible(configYAML, 3)>EntityExtensionSupport, </#if>Serializable
+{
 
 	public static ${schemaName} toDTO(String json) {
 		return ObjectMapperUtil.readValue(${schemaName}.class, json);
@@ -260,6 +262,21 @@ public class ${schemaName} <#if dtoParentClassName?has_content>extends ${dtoPare
 		</#if>
 		protected ${propertyType} ${propertyName}<#if propertySchema.jsonMap> = new HashMap<>()</#if>;
 	</#list>
+
+	<#if freeMarkerTool.isVersionCompatible(configYAML, 3)>
+		@JsonIgnore
+		@Override
+		public void setExtendedProperties(Map<String, Serializable> extendedProperties) {
+			_extendedProperties = extendedProperties;
+		}
+
+		@Override
+		public Map<String, Serializable> getExtendedProperties() {
+			return _extendedProperties;
+		}
+
+		private Map<String, Serializable> _extendedProperties = new HashMap<>();
+	</#if>
 
 	@Override
 	public boolean equals(Object object) {
