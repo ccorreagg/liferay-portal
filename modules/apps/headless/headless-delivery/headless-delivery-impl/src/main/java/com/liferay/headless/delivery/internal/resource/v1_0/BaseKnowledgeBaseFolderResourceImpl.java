@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.dto.v1_0.KnowledgeBaseFolder;
 import com.liferay.headless.delivery.resource.v1_0.KnowledgeBaseFolderResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -1157,15 +1156,15 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<KnowledgeBaseFolder, Exception>
-			knowledgeBaseFolderUnsafeConsumer = null;
+		UnsafeFunction<KnowledgeBaseFolder, KnowledgeBaseFolder, Exception>
+			knowledgeBaseFolderUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
-				knowledgeBaseFolderUnsafeConsumer =
+				knowledgeBaseFolderUnsafeFunction =
 					knowledgeBaseFolder -> postSiteKnowledgeBaseFolder(
 						(Long)parameters.get("siteId"), knowledgeBaseFolder);
 			}
@@ -1180,7 +1179,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				knowledgeBaseFolderUnsafeConsumer = knowledgeBaseFolder ->
+				knowledgeBaseFolderUnsafeFunction = knowledgeBaseFolder ->
 					putSiteKnowledgeBaseFolderByExternalReferenceCode(
 						knowledgeBaseFolder.getSiteId() != null ?
 							knowledgeBaseFolder.getSiteId() :
@@ -1190,7 +1189,9 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				knowledgeBaseFolderUnsafeConsumer = knowledgeBaseFolder -> {
+				knowledgeBaseFolderUnsafeFunction = knowledgeBaseFolder -> {
+					KnowledgeBaseFolder persistedKnowledgeBaseFolder = null;
+
 					try {
 						KnowledgeBaseFolder getKnowledgeBaseFolder =
 							getSiteKnowledgeBaseFolderByExternalReferenceCode(
@@ -1199,7 +1200,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 										(Long)parameters.get("siteId"),
 								knowledgeBaseFolder.getExternalReferenceCode());
 
-						patchKnowledgeBaseFolder(
+						persistedKnowledgeBaseFolder = patchKnowledgeBaseFolder(
 							getKnowledgeBaseFolder.getId() != null ?
 								getKnowledgeBaseFolder.getId() :
 									_parseLong(
@@ -1209,20 +1210,23 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 					}
 					catch (NoSuchModelException noSuchModelException) {
 						if (parameters.containsKey("siteId")) {
-							postSiteKnowledgeBaseFolder(
-								(Long)parameters.get("siteId"),
-								knowledgeBaseFolder);
+							persistedKnowledgeBaseFolder =
+								postSiteKnowledgeBaseFolder(
+									(Long)parameters.get("siteId"),
+									knowledgeBaseFolder);
 						}
 						else {
 							throw new NotSupportedException(
 								"One of the following parameters must be specified: [siteId]");
 						}
 					}
+
+					return persistedKnowledgeBaseFolder;
 				};
 			}
 		}
 
-		if (knowledgeBaseFolderUnsafeConsumer == null) {
+		if (knowledgeBaseFolderUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for KnowledgeBaseFolder");
@@ -1230,13 +1234,13 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				knowledgeBaseFolders, knowledgeBaseFolderUnsafeConsumer);
+				knowledgeBaseFolders, knowledgeBaseFolderUnsafeFunction);
 		}
 		else {
 			for (KnowledgeBaseFolder knowledgeBaseFolder :
 					knowledgeBaseFolders) {
 
-				knowledgeBaseFolderUnsafeConsumer.accept(knowledgeBaseFolder);
+				knowledgeBaseFolderUnsafeFunction.apply(knowledgeBaseFolder);
 			}
 		}
 	}
@@ -1323,14 +1327,14 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<KnowledgeBaseFolder, Exception>
-			knowledgeBaseFolderUnsafeConsumer = null;
+		UnsafeFunction<KnowledgeBaseFolder, KnowledgeBaseFolder, Exception>
+			knowledgeBaseFolderUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			knowledgeBaseFolderUnsafeConsumer =
+			knowledgeBaseFolderUnsafeFunction =
 				knowledgeBaseFolder -> patchKnowledgeBaseFolder(
 					knowledgeBaseFolder.getId() != null ?
 						knowledgeBaseFolder.getId() :
@@ -1341,7 +1345,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			knowledgeBaseFolderUnsafeConsumer =
+			knowledgeBaseFolderUnsafeFunction =
 				knowledgeBaseFolder -> putKnowledgeBaseFolder(
 					knowledgeBaseFolder.getId() != null ?
 						knowledgeBaseFolder.getId() :
@@ -1351,7 +1355,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 					knowledgeBaseFolder);
 		}
 
-		if (knowledgeBaseFolderUnsafeConsumer == null) {
+		if (knowledgeBaseFolderUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for KnowledgeBaseFolder");
@@ -1359,13 +1363,13 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				knowledgeBaseFolders, knowledgeBaseFolderUnsafeConsumer);
+				knowledgeBaseFolders, knowledgeBaseFolderUnsafeFunction);
 		}
 		else {
 			for (KnowledgeBaseFolder knowledgeBaseFolder :
 					knowledgeBaseFolders) {
 
-				knowledgeBaseFolderUnsafeConsumer.accept(knowledgeBaseFolder);
+				knowledgeBaseFolderUnsafeFunction.apply(knowledgeBaseFolder);
 			}
 		}
 	}
@@ -1548,8 +1552,9 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<KnowledgeBaseFolder>,
-			 UnsafeConsumer<KnowledgeBaseFolder, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <KnowledgeBaseFolder, KnowledgeBaseFolder, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1811,8 +1816,8 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<KnowledgeBaseFolder>,
-		 UnsafeConsumer<KnowledgeBaseFolder, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<KnowledgeBaseFolder, KnowledgeBaseFolder, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

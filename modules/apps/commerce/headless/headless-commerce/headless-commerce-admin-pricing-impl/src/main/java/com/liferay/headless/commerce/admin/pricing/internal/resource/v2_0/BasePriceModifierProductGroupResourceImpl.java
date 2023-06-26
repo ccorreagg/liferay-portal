@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.pricing.internal.resource.v2_0;
 import com.liferay.headless.commerce.admin.pricing.dto.v2_0.PriceModifierProductGroup;
 import com.liferay.headless.commerce.admin.pricing.resource.v2_0.PriceModifierProductGroupResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -492,8 +491,10 @@ public abstract class BasePriceModifierProductGroupResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<PriceModifierProductGroup>,
-			 UnsafeConsumer<PriceModifierProductGroup, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <PriceModifierProductGroup, PriceModifierProductGroup,
+				  Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -750,8 +751,9 @@ public abstract class BasePriceModifierProductGroupResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<PriceModifierProductGroup>,
-		 UnsafeConsumer<PriceModifierProductGroup, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction
+			 <PriceModifierProductGroup, PriceModifierProductGroup, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -17,7 +17,6 @@ package com.liferay.headless.admin.list.type.internal.resource.v1_0;
 import com.liferay.headless.admin.list.type.dto.v1_0.ListTypeDefinition;
 import com.liferay.headless.admin.list.type.resource.v1_0.ListTypeDefinitionResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -603,14 +602,14 @@ public abstract class BaseListTypeDefinitionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ListTypeDefinition, Exception>
-			listTypeDefinitionUnsafeConsumer = null;
+		UnsafeFunction<ListTypeDefinition, ListTypeDefinition, Exception>
+			listTypeDefinitionUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			listTypeDefinitionUnsafeConsumer =
+			listTypeDefinitionUnsafeFunction =
 				listTypeDefinition -> postListTypeDefinition(
 					listTypeDefinition);
 		}
@@ -620,20 +619,22 @@ public abstract class BaseListTypeDefinitionResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				listTypeDefinitionUnsafeConsumer = listTypeDefinition ->
+				listTypeDefinitionUnsafeFunction = listTypeDefinition ->
 					putListTypeDefinitionByExternalReferenceCode(
 						listTypeDefinition.getExternalReferenceCode(),
 						listTypeDefinition);
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				listTypeDefinitionUnsafeConsumer = listTypeDefinition -> {
+				listTypeDefinitionUnsafeFunction = listTypeDefinition -> {
+					ListTypeDefinition persistedListTypeDefinition = null;
+
 					try {
 						ListTypeDefinition getListTypeDefinition =
 							getListTypeDefinitionByExternalReferenceCode(
 								listTypeDefinition.getExternalReferenceCode());
 
-						patchListTypeDefinition(
+						persistedListTypeDefinition = patchListTypeDefinition(
 							getListTypeDefinition.getId() != null ?
 								getListTypeDefinition.getId() :
 									_parseLong(
@@ -642,13 +643,16 @@ public abstract class BaseListTypeDefinitionResourceImpl
 							listTypeDefinition);
 					}
 					catch (NoSuchModelException noSuchModelException) {
-						postListTypeDefinition(listTypeDefinition);
+						persistedListTypeDefinition = postListTypeDefinition(
+							listTypeDefinition);
 					}
+
+					return persistedListTypeDefinition;
 				};
 			}
 		}
 
-		if (listTypeDefinitionUnsafeConsumer == null) {
+		if (listTypeDefinitionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ListTypeDefinition");
@@ -656,11 +660,11 @@ public abstract class BaseListTypeDefinitionResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				listTypeDefinitions, listTypeDefinitionUnsafeConsumer);
+				listTypeDefinitions, listTypeDefinitionUnsafeFunction);
 		}
 		else {
 			for (ListTypeDefinition listTypeDefinition : listTypeDefinitions) {
-				listTypeDefinitionUnsafeConsumer.accept(listTypeDefinition);
+				listTypeDefinitionUnsafeFunction.apply(listTypeDefinition);
 			}
 		}
 	}
@@ -741,14 +745,14 @@ public abstract class BaseListTypeDefinitionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ListTypeDefinition, Exception>
-			listTypeDefinitionUnsafeConsumer = null;
+		UnsafeFunction<ListTypeDefinition, ListTypeDefinition, Exception>
+			listTypeDefinitionUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			listTypeDefinitionUnsafeConsumer =
+			listTypeDefinitionUnsafeFunction =
 				listTypeDefinition -> patchListTypeDefinition(
 					listTypeDefinition.getId() != null ?
 						listTypeDefinition.getId() :
@@ -758,7 +762,7 @@ public abstract class BaseListTypeDefinitionResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			listTypeDefinitionUnsafeConsumer =
+			listTypeDefinitionUnsafeFunction =
 				listTypeDefinition -> putListTypeDefinition(
 					listTypeDefinition.getId() != null ?
 						listTypeDefinition.getId() :
@@ -767,7 +771,7 @@ public abstract class BaseListTypeDefinitionResourceImpl
 					listTypeDefinition);
 		}
 
-		if (listTypeDefinitionUnsafeConsumer == null) {
+		if (listTypeDefinitionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ListTypeDefinition");
@@ -775,11 +779,11 @@ public abstract class BaseListTypeDefinitionResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				listTypeDefinitions, listTypeDefinitionUnsafeConsumer);
+				listTypeDefinitions, listTypeDefinitionUnsafeFunction);
 		}
 		else {
 			for (ListTypeDefinition listTypeDefinition : listTypeDefinitions) {
-				listTypeDefinitionUnsafeConsumer.accept(listTypeDefinition);
+				listTypeDefinitionUnsafeFunction.apply(listTypeDefinition);
 			}
 		}
 	}
@@ -799,8 +803,8 @@ public abstract class BaseListTypeDefinitionResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<ListTypeDefinition>,
-			 UnsafeConsumer<ListTypeDefinition, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<ListTypeDefinition, ListTypeDefinition, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1062,8 +1066,8 @@ public abstract class BaseListTypeDefinitionResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<ListTypeDefinition>,
-		 UnsafeConsumer<ListTypeDefinition, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<ListTypeDefinition, ListTypeDefinition, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

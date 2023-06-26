@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.site.setting.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.site.setting.dto.v1_0.AvailabilityEstimate;
 import com.liferay.headless.commerce.admin.site.setting.resource.v1_0.AvailabilityEstimateResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -454,14 +453,14 @@ public abstract class BaseAvailabilityEstimateResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<AvailabilityEstimate, Exception>
-			availabilityEstimateUnsafeConsumer = null;
+		UnsafeFunction<AvailabilityEstimate, AvailabilityEstimate, Exception>
+			availabilityEstimateUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			availabilityEstimateUnsafeConsumer =
+			availabilityEstimateUnsafeFunction =
 				availabilityEstimate -> putAvailabilityEstimate(
 					availabilityEstimate.getId() != null ?
 						availabilityEstimate.getId() :
@@ -471,7 +470,7 @@ public abstract class BaseAvailabilityEstimateResourceImpl
 					availabilityEstimate);
 		}
 
-		if (availabilityEstimateUnsafeConsumer == null) {
+		if (availabilityEstimateUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for AvailabilityEstimate");
@@ -479,13 +478,13 @@ public abstract class BaseAvailabilityEstimateResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				availabilityEstimates, availabilityEstimateUnsafeConsumer);
+				availabilityEstimates, availabilityEstimateUnsafeFunction);
 		}
 		else {
 			for (AvailabilityEstimate availabilityEstimate :
 					availabilityEstimates) {
 
-				availabilityEstimateUnsafeConsumer.accept(availabilityEstimate);
+				availabilityEstimateUnsafeFunction.apply(availabilityEstimate);
 			}
 		}
 	}
@@ -505,8 +504,9 @@ public abstract class BaseAvailabilityEstimateResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<AvailabilityEstimate>,
-			 UnsafeConsumer<AvailabilityEstimate, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <AvailabilityEstimate, AvailabilityEstimate, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -763,8 +763,8 @@ public abstract class BaseAvailabilityEstimateResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<AvailabilityEstimate>,
-		 UnsafeConsumer<AvailabilityEstimate, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<AvailabilityEstimate, AvailabilityEstimate, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

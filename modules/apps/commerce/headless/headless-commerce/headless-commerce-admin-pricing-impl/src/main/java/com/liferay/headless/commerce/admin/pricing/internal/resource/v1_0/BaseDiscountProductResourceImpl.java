@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.pricing.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.pricing.dto.v1_0.DiscountProduct;
 import com.liferay.headless.commerce.admin.pricing.resource.v1_0.DiscountProductResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -453,8 +452,8 @@ public abstract class BaseDiscountProductResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<DiscountProduct>,
-			 UnsafeConsumer<DiscountProduct, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<DiscountProduct, DiscountProduct, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -711,7 +710,7 @@ public abstract class BaseDiscountProductResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<DiscountProduct>,
-		 UnsafeConsumer<DiscountProduct, Exception>, Exception>
+		 UnsafeFunction<DiscountProduct, DiscountProduct, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

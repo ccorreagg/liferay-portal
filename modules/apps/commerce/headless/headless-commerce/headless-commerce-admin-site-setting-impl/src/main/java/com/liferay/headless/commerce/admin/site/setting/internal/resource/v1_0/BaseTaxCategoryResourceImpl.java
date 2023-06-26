@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.site.setting.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.site.setting.dto.v1_0.TaxCategory;
 import com.liferay.headless.commerce.admin.site.setting.resource.v1_0.TaxCategoryResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -418,19 +417,20 @@ public abstract class BaseTaxCategoryResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<TaxCategory, Exception> taxCategoryUnsafeConsumer = null;
+		UnsafeFunction<TaxCategory, TaxCategory, Exception>
+			taxCategoryUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			taxCategoryUnsafeConsumer = taxCategory -> putTaxCategory(
+			taxCategoryUnsafeFunction = taxCategory -> putTaxCategory(
 				taxCategory.getId() != null ? taxCategory.getId() :
 					_parseLong((String)parameters.get("taxCategoryId")),
 				taxCategory);
 		}
 
-		if (taxCategoryUnsafeConsumer == null) {
+		if (taxCategoryUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for TaxCategory");
@@ -438,11 +438,11 @@ public abstract class BaseTaxCategoryResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				taxCategories, taxCategoryUnsafeConsumer);
+				taxCategories, taxCategoryUnsafeFunction);
 		}
 		else {
 			for (TaxCategory taxCategory : taxCategories) {
-				taxCategoryUnsafeConsumer.accept(taxCategory);
+				taxCategoryUnsafeFunction.apply(taxCategory);
 			}
 		}
 	}
@@ -461,8 +461,9 @@ public abstract class BaseTaxCategoryResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<TaxCategory>, UnsafeConsumer<TaxCategory, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<TaxCategory>,
+			 UnsafeFunction<TaxCategory, TaxCategory, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -718,8 +719,9 @@ public abstract class BaseTaxCategoryResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<TaxCategory>, UnsafeConsumer<TaxCategory, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<TaxCategory>,
+		 UnsafeFunction<TaxCategory, TaxCategory, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

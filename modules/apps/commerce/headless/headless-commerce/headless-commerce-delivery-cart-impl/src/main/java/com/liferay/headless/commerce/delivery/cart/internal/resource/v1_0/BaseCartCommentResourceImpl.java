@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.delivery.cart.internal.resource.v1_0;
 import com.liferay.headless.commerce.delivery.cart.dto.v1_0.CartComment;
 import com.liferay.headless.commerce.delivery.cart.resource.v1_0.CartCommentResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -459,26 +458,27 @@ public abstract class BaseCartCommentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<CartComment, Exception> cartCommentUnsafeConsumer = null;
+		UnsafeFunction<CartComment, CartComment, Exception>
+			cartCommentUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			cartCommentUnsafeConsumer = cartComment -> patchCartComment(
+			cartCommentUnsafeFunction = cartComment -> patchCartComment(
 				cartComment.getId() != null ? cartComment.getId() :
 					_parseLong((String)parameters.get("cartCommentId")),
 				cartComment);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			cartCommentUnsafeConsumer = cartComment -> putCartComment(
+			cartCommentUnsafeFunction = cartComment -> putCartComment(
 				cartComment.getId() != null ? cartComment.getId() :
 					_parseLong((String)parameters.get("cartCommentId")),
 				cartComment);
 		}
 
-		if (cartCommentUnsafeConsumer == null) {
+		if (cartCommentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for CartComment");
@@ -486,11 +486,11 @@ public abstract class BaseCartCommentResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				cartComments, cartCommentUnsafeConsumer);
+				cartComments, cartCommentUnsafeFunction);
 		}
 		else {
 			for (CartComment cartComment : cartComments) {
-				cartCommentUnsafeConsumer.accept(cartComment);
+				cartCommentUnsafeFunction.apply(cartComment);
 			}
 		}
 	}
@@ -509,8 +509,9 @@ public abstract class BaseCartCommentResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<CartComment>, UnsafeConsumer<CartComment, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<CartComment>,
+			 UnsafeFunction<CartComment, CartComment, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -770,8 +771,9 @@ public abstract class BaseCartCommentResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<CartComment>, UnsafeConsumer<CartComment, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<CartComment>,
+		 UnsafeFunction<CartComment, CartComment, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

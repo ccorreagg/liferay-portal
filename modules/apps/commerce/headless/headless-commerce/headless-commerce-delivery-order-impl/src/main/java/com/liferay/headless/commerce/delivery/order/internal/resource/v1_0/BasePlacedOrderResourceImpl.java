@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.delivery.order.internal.resource.v1_0;
 import com.liferay.headless.commerce.delivery.order.dto.v1_0.PlacedOrder;
 import com.liferay.headless.commerce.delivery.order.resource.v1_0.PlacedOrderResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringPool;
@@ -295,8 +294,9 @@ public abstract class BasePlacedOrderResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<PlacedOrder>, UnsafeConsumer<PlacedOrder, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<PlacedOrder>,
+			 UnsafeFunction<PlacedOrder, PlacedOrder, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -552,8 +552,9 @@ public abstract class BasePlacedOrderResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<PlacedOrder>, UnsafeConsumer<PlacedOrder, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<PlacedOrder>,
+		 UnsafeFunction<PlacedOrder, PlacedOrder, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

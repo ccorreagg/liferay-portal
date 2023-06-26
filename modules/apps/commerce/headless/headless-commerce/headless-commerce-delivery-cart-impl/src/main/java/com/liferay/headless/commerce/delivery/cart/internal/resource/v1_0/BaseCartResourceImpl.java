@@ -18,7 +18,6 @@ import com.liferay.headless.commerce.delivery.cart.dto.v1_0.Cart;
 import com.liferay.headless.commerce.delivery.cart.dto.v1_0.CouponCode;
 import com.liferay.headless.commerce.delivery.cart.resource.v1_0.CartResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringPool;
@@ -638,37 +637,37 @@ public abstract class BaseCartResourceImpl
 			Collection<Cart> carts, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Cart, Exception> cartUnsafeConsumer = null;
+		UnsafeFunction<Cart, Cart, Exception> cartUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			cartUnsafeConsumer = cart -> patchCart(
+			cartUnsafeFunction = cart -> patchCart(
 				cart.getId() != null ? cart.getId() :
 					_parseLong((String)parameters.get("cartId")),
 				cart);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			cartUnsafeConsumer = cart -> putCart(
+			cartUnsafeFunction = cart -> putCart(
 				cart.getId() != null ? cart.getId() :
 					_parseLong((String)parameters.get("cartId")),
 				cart);
 		}
 
-		if (cartUnsafeConsumer == null) {
+		if (cartUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Cart");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(carts, cartUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(carts, cartUnsafeFunction);
 		}
 		else {
 			for (Cart cart : carts) {
-				cartUnsafeConsumer.accept(cart);
+				cartUnsafeFunction.apply(cart);
 			}
 		}
 	}
@@ -687,7 +686,7 @@ public abstract class BaseCartResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Cart>, UnsafeConsumer<Cart, Exception>, Exception>
+			<Collection<Cart>, UnsafeFunction<Cart, Cart, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -947,7 +946,7 @@ public abstract class BaseCartResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Cart>, UnsafeConsumer<Cart, Exception>, Exception>
+		<Collection<Cart>, UnsafeFunction<Cart, Cart, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

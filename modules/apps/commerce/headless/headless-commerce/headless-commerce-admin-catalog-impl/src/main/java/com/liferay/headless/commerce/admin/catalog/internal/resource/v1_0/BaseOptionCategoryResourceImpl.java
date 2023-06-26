@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.OptionCategory;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.OptionCategoryResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -414,18 +413,18 @@ public abstract class BaseOptionCategoryResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OptionCategory, Exception> optionCategoryUnsafeConsumer =
-			null;
+		UnsafeFunction<OptionCategory, OptionCategory, Exception>
+			optionCategoryUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			optionCategoryUnsafeConsumer = optionCategory -> postOptionCategory(
+			optionCategoryUnsafeFunction = optionCategory -> postOptionCategory(
 				optionCategory);
 		}
 
-		if (optionCategoryUnsafeConsumer == null) {
+		if (optionCategoryUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for OptionCategory");
@@ -433,11 +432,11 @@ public abstract class BaseOptionCategoryResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				optionCategories, optionCategoryUnsafeConsumer);
+				optionCategories, optionCategoryUnsafeFunction);
 		}
 		else {
 			for (OptionCategory optionCategory : optionCategories) {
-				optionCategoryUnsafeConsumer.accept(optionCategory);
+				optionCategoryUnsafeFunction.apply(optionCategory);
 			}
 		}
 	}
@@ -517,21 +516,21 @@ public abstract class BaseOptionCategoryResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OptionCategory, Exception> optionCategoryUnsafeConsumer =
-			null;
+		UnsafeFunction<OptionCategory, OptionCategory, Exception>
+			optionCategoryUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			optionCategoryUnsafeConsumer =
+			optionCategoryUnsafeFunction =
 				optionCategory -> patchOptionCategory(
 					optionCategory.getId() != null ? optionCategory.getId() :
 						_parseLong((String)parameters.get("optionCategoryId")),
 					optionCategory);
 		}
 
-		if (optionCategoryUnsafeConsumer == null) {
+		if (optionCategoryUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for OptionCategory");
@@ -539,11 +538,11 @@ public abstract class BaseOptionCategoryResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				optionCategories, optionCategoryUnsafeConsumer);
+				optionCategories, optionCategoryUnsafeFunction);
 		}
 		else {
 			for (OptionCategory optionCategory : optionCategories) {
-				optionCategoryUnsafeConsumer.accept(optionCategory);
+				optionCategoryUnsafeFunction.apply(optionCategory);
 			}
 		}
 	}
@@ -563,8 +562,8 @@ public abstract class BaseOptionCategoryResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<OptionCategory>,
-			 UnsafeConsumer<OptionCategory, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<OptionCategory, OptionCategory, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -820,8 +819,9 @@ public abstract class BaseOptionCategoryResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<OptionCategory>, UnsafeConsumer<OptionCategory, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<OptionCategory>,
+		 UnsafeFunction<OptionCategory, OptionCategory, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -17,7 +17,6 @@ package com.liferay.object.admin.rest.internal.resource.v1_0;
 import com.liferay.object.admin.rest.dto.v1_0.ObjectLayout;
 import com.liferay.object.admin.rest.resource.v1_0.ObjectLayoutResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -557,15 +556,15 @@ public abstract class BaseObjectLayoutResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectLayout, Exception> objectLayoutUnsafeConsumer =
-			null;
+		UnsafeFunction<ObjectLayout, ObjectLayout, Exception>
+			objectLayoutUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("objectDefinitionId")) {
-				objectLayoutUnsafeConsumer =
+				objectLayoutUnsafeFunction =
 					objectLayout -> postObjectDefinitionObjectLayout(
 						_parseLong(
 							(String)parameters.get("objectDefinitionId")),
@@ -577,7 +576,7 @@ public abstract class BaseObjectLayoutResourceImpl
 			}
 		}
 
-		if (objectLayoutUnsafeConsumer == null) {
+		if (objectLayoutUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ObjectLayout");
@@ -585,11 +584,11 @@ public abstract class BaseObjectLayoutResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectLayouts, objectLayoutUnsafeConsumer);
+				objectLayouts, objectLayoutUnsafeFunction);
 		}
 		else {
 			for (ObjectLayout objectLayout : objectLayouts) {
-				objectLayoutUnsafeConsumer.accept(objectLayout);
+				objectLayoutUnsafeFunction.apply(objectLayout);
 			}
 		}
 	}
@@ -677,20 +676,20 @@ public abstract class BaseObjectLayoutResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectLayout, Exception> objectLayoutUnsafeConsumer =
-			null;
+		UnsafeFunction<ObjectLayout, ObjectLayout, Exception>
+			objectLayoutUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			objectLayoutUnsafeConsumer = objectLayout -> putObjectLayout(
+			objectLayoutUnsafeFunction = objectLayout -> putObjectLayout(
 				objectLayout.getId() != null ? objectLayout.getId() :
 					_parseLong((String)parameters.get("objectLayoutId")),
 				objectLayout);
 		}
 
-		if (objectLayoutUnsafeConsumer == null) {
+		if (objectLayoutUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ObjectLayout");
@@ -698,11 +697,11 @@ public abstract class BaseObjectLayoutResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectLayouts, objectLayoutUnsafeConsumer);
+				objectLayouts, objectLayoutUnsafeFunction);
 		}
 		else {
 			for (ObjectLayout objectLayout : objectLayouts) {
-				objectLayoutUnsafeConsumer.accept(objectLayout);
+				objectLayoutUnsafeFunction.apply(objectLayout);
 			}
 		}
 	}
@@ -721,8 +720,9 @@ public abstract class BaseObjectLayoutResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<ObjectLayout>, UnsafeConsumer<ObjectLayout, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<ObjectLayout>,
+			 UnsafeFunction<ObjectLayout, ObjectLayout, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -978,8 +978,9 @@ public abstract class BaseObjectLayoutResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<ObjectLayout>, UnsafeConsumer<ObjectLayout, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<ObjectLayout>,
+		 UnsafeFunction<ObjectLayout, ObjectLayout, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

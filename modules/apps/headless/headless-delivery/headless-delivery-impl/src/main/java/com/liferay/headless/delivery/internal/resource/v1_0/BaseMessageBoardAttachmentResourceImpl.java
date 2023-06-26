@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.dto.v1_0.MessageBoardAttachment;
 import com.liferay.headless.delivery.resource.v1_0.MessageBoardAttachmentResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -800,22 +799,23 @@ public abstract class BaseMessageBoardAttachmentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<MessageBoardAttachment, Exception>
-			messageBoardAttachmentUnsafeConsumer = null;
+		UnsafeFunction
+			<MessageBoardAttachment, MessageBoardAttachment, Exception>
+				messageBoardAttachmentUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("messageBoardMessageId")) {
-				messageBoardAttachmentUnsafeConsumer = messageBoardAttachment ->
+				messageBoardAttachmentUnsafeFunction = messageBoardAttachment ->
 					postMessageBoardMessageMessageBoardAttachment(
 						_parseLong(
 							(String)parameters.get("messageBoardMessageId")),
 						(MultipartBody)parameters.get("multipartBody"));
 			}
 			else if (parameters.containsKey("messageBoardThreadId")) {
-				messageBoardAttachmentUnsafeConsumer = messageBoardAttachment ->
+				messageBoardAttachmentUnsafeFunction = messageBoardAttachment ->
 					postMessageBoardThreadMessageBoardAttachment(
 						_parseLong(
 							(String)parameters.get("messageBoardThreadId")),
@@ -827,7 +827,7 @@ public abstract class BaseMessageBoardAttachmentResourceImpl
 			}
 		}
 
-		if (messageBoardAttachmentUnsafeConsumer == null) {
+		if (messageBoardAttachmentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for MessageBoardAttachment");
@@ -835,13 +835,13 @@ public abstract class BaseMessageBoardAttachmentResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				messageBoardAttachments, messageBoardAttachmentUnsafeConsumer);
+				messageBoardAttachments, messageBoardAttachmentUnsafeFunction);
 		}
 		else {
 			for (MessageBoardAttachment messageBoardAttachment :
 					messageBoardAttachments) {
 
-				messageBoardAttachmentUnsafeConsumer.accept(
+				messageBoardAttachmentUnsafeFunction.apply(
 					messageBoardAttachment);
 			}
 		}
@@ -954,8 +954,9 @@ public abstract class BaseMessageBoardAttachmentResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<MessageBoardAttachment>,
-			 UnsafeConsumer<MessageBoardAttachment, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <MessageBoardAttachment, MessageBoardAttachment, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1212,8 +1213,9 @@ public abstract class BaseMessageBoardAttachmentResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<MessageBoardAttachment>,
-		 UnsafeConsumer<MessageBoardAttachment, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction
+			 <MessageBoardAttachment, MessageBoardAttachment, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.delivery.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.delivery.catalog.dto.v1_0.Channel;
 import com.liferay.headless.commerce.delivery.catalog.resource.v1_0.ChannelResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -294,8 +293,8 @@ public abstract class BaseChannelResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Channel>, UnsafeConsumer<Channel, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			<Collection<Channel>, UnsafeFunction<Channel, Channel, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -551,8 +550,8 @@ public abstract class BaseChannelResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Channel>, UnsafeConsumer<Channel, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Channel>, UnsafeFunction<Channel, Channel, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

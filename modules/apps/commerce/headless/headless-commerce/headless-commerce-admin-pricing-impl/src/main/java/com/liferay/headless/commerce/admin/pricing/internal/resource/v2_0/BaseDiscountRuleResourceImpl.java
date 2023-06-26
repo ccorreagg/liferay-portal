@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.pricing.internal.resource.v2_0;
 import com.liferay.headless.commerce.admin.pricing.dto.v2_0.DiscountRule;
 import com.liferay.headless.commerce.admin.pricing.resource.v2_0.DiscountRuleResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -503,20 +502,20 @@ public abstract class BaseDiscountRuleResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<DiscountRule, Exception> discountRuleUnsafeConsumer =
-			null;
+		UnsafeFunction<DiscountRule, DiscountRule, Exception>
+			discountRuleUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			discountRuleUnsafeConsumer = discountRule -> patchDiscountRule(
+			discountRuleUnsafeFunction = discountRule -> patchDiscountRule(
 				discountRule.getId() != null ? discountRule.getId() :
 					_parseLong((String)parameters.get("discountRuleId")),
 				discountRule);
 		}
 
-		if (discountRuleUnsafeConsumer == null) {
+		if (discountRuleUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for DiscountRule");
@@ -524,11 +523,11 @@ public abstract class BaseDiscountRuleResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				discountRules, discountRuleUnsafeConsumer);
+				discountRules, discountRuleUnsafeFunction);
 		}
 		else {
 			for (DiscountRule discountRule : discountRules) {
-				discountRuleUnsafeConsumer.accept(discountRule);
+				discountRuleUnsafeFunction.apply(discountRule);
 			}
 		}
 	}
@@ -547,8 +546,9 @@ public abstract class BaseDiscountRuleResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<DiscountRule>, UnsafeConsumer<DiscountRule, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<DiscountRule>,
+			 UnsafeFunction<DiscountRule, DiscountRule, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -804,8 +804,9 @@ public abstract class BaseDiscountRuleResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<DiscountRule>, UnsafeConsumer<DiscountRule, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<DiscountRule>,
+		 UnsafeFunction<DiscountRule, DiscountRule, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

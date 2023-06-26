@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.site.setting.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.site.setting.dto.v1_0.MeasurementUnit;
 import com.liferay.headless.commerce.admin.site.setting.resource.v1_0.MeasurementUnitResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -655,18 +654,18 @@ public abstract class BaseMeasurementUnitResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<MeasurementUnit, Exception>
-			measurementUnitUnsafeConsumer = null;
+		UnsafeFunction<MeasurementUnit, MeasurementUnit, Exception>
+			measurementUnitUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			measurementUnitUnsafeConsumer =
+			measurementUnitUnsafeFunction =
 				measurementUnit -> postMeasurementUnit(measurementUnit);
 		}
 
-		if (measurementUnitUnsafeConsumer == null) {
+		if (measurementUnitUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for MeasurementUnit");
@@ -674,11 +673,11 @@ public abstract class BaseMeasurementUnitResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				measurementUnits, measurementUnitUnsafeConsumer);
+				measurementUnits, measurementUnitUnsafeFunction);
 		}
 		else {
 			for (MeasurementUnit measurementUnit : measurementUnits) {
-				measurementUnitUnsafeConsumer.accept(measurementUnit);
+				measurementUnitUnsafeFunction.apply(measurementUnit);
 			}
 		}
 	}
@@ -758,21 +757,21 @@ public abstract class BaseMeasurementUnitResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<MeasurementUnit, Exception>
-			measurementUnitUnsafeConsumer = null;
+		UnsafeFunction<MeasurementUnit, MeasurementUnit, Exception>
+			measurementUnitUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			measurementUnitUnsafeConsumer =
+			measurementUnitUnsafeFunction =
 				measurementUnit -> patchMeasurementUnit(
 					measurementUnit.getId() != null ? measurementUnit.getId() :
 						_parseLong((String)parameters.get("measurementUnitId")),
 					measurementUnit);
 		}
 
-		if (measurementUnitUnsafeConsumer == null) {
+		if (measurementUnitUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for MeasurementUnit");
@@ -780,11 +779,11 @@ public abstract class BaseMeasurementUnitResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				measurementUnits, measurementUnitUnsafeConsumer);
+				measurementUnits, measurementUnitUnsafeFunction);
 		}
 		else {
 			for (MeasurementUnit measurementUnit : measurementUnits) {
-				measurementUnitUnsafeConsumer.accept(measurementUnit);
+				measurementUnitUnsafeFunction.apply(measurementUnit);
 			}
 		}
 	}
@@ -804,8 +803,8 @@ public abstract class BaseMeasurementUnitResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<MeasurementUnit>,
-			 UnsafeConsumer<MeasurementUnit, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<MeasurementUnit, MeasurementUnit, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1062,7 +1061,7 @@ public abstract class BaseMeasurementUnitResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<MeasurementUnit>,
-		 UnsafeConsumer<MeasurementUnit, Exception>, Exception>
+		 UnsafeFunction<MeasurementUnit, MeasurementUnit, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

@@ -17,7 +17,6 @@ package com.liferay.data.engine.rest.internal.resource.v2_0;
 import com.liferay.data.engine.rest.dto.v2_0.DataListView;
 import com.liferay.data.engine.rest.resource.v2_0.DataListViewResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -512,15 +511,15 @@ public abstract class BaseDataListViewResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<DataListView, Exception> dataListViewUnsafeConsumer =
-			null;
+		UnsafeFunction<DataListView, DataListView, Exception>
+			dataListViewUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("dataDefinitionId")) {
-				dataListViewUnsafeConsumer =
+				dataListViewUnsafeFunction =
 					dataListView -> postDataDefinitionDataListView(
 						_parseLong((String)parameters.get("dataDefinitionId")),
 						dataListView);
@@ -531,7 +530,7 @@ public abstract class BaseDataListViewResourceImpl
 			}
 		}
 
-		if (dataListViewUnsafeConsumer == null) {
+		if (dataListViewUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for DataListView");
@@ -539,11 +538,11 @@ public abstract class BaseDataListViewResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				dataListViews, dataListViewUnsafeConsumer);
+				dataListViews, dataListViewUnsafeFunction);
 		}
 		else {
 			for (DataListView dataListView : dataListViews) {
-				dataListViewUnsafeConsumer.accept(dataListView);
+				dataListViewUnsafeFunction.apply(dataListView);
 			}
 		}
 	}
@@ -631,20 +630,20 @@ public abstract class BaseDataListViewResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<DataListView, Exception> dataListViewUnsafeConsumer =
-			null;
+		UnsafeFunction<DataListView, DataListView, Exception>
+			dataListViewUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			dataListViewUnsafeConsumer = dataListView -> putDataListView(
+			dataListViewUnsafeFunction = dataListView -> putDataListView(
 				dataListView.getId() != null ? dataListView.getId() :
 					_parseLong((String)parameters.get("dataListViewId")),
 				dataListView);
 		}
 
-		if (dataListViewUnsafeConsumer == null) {
+		if (dataListViewUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for DataListView");
@@ -652,11 +651,11 @@ public abstract class BaseDataListViewResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				dataListViews, dataListViewUnsafeConsumer);
+				dataListViews, dataListViewUnsafeFunction);
 		}
 		else {
 			for (DataListView dataListView : dataListViews) {
-				dataListViewUnsafeConsumer.accept(dataListView);
+				dataListViewUnsafeFunction.apply(dataListView);
 			}
 		}
 	}
@@ -675,8 +674,9 @@ public abstract class BaseDataListViewResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<DataListView>, UnsafeConsumer<DataListView, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<DataListView>,
+			 UnsafeFunction<DataListView, DataListView, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -932,8 +932,9 @@ public abstract class BaseDataListViewResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<DataListView>, UnsafeConsumer<DataListView, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<DataListView>,
+		 UnsafeFunction<DataListView, DataListView, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

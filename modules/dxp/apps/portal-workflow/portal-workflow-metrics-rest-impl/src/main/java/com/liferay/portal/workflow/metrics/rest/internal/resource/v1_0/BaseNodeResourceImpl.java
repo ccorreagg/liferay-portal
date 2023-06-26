@@ -15,7 +15,6 @@
 package com.liferay.portal.workflow.metrics.rest.internal.resource.v1_0;
 
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -303,14 +302,14 @@ public abstract class BaseNodeResourceImpl
 			Collection<Node> nodes, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Node, Exception> nodeUnsafeConsumer = null;
+		UnsafeFunction<Node, Node, Exception> nodeUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("processId")) {
-				nodeUnsafeConsumer = node -> postProcessNode(
+				nodeUnsafeFunction = node -> postProcessNode(
 					_parseLong((String)parameters.get("processId")), node);
 			}
 			else {
@@ -319,18 +318,18 @@ public abstract class BaseNodeResourceImpl
 			}
 		}
 
-		if (nodeUnsafeConsumer == null) {
+		if (nodeUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Node");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(nodes, nodeUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(nodes, nodeUnsafeFunction);
 		}
 		else {
 			for (Node node : nodes) {
-				nodeUnsafeConsumer.accept(node);
+				nodeUnsafeFunction.apply(node);
 			}
 		}
 	}
@@ -432,7 +431,7 @@ public abstract class BaseNodeResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Node>, UnsafeConsumer<Node, Exception>, Exception>
+			<Collection<Node>, UnsafeFunction<Node, Node, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -689,7 +688,7 @@ public abstract class BaseNodeResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Node>, UnsafeConsumer<Node, Exception>, Exception>
+		<Collection<Node>, UnsafeFunction<Node, Node, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

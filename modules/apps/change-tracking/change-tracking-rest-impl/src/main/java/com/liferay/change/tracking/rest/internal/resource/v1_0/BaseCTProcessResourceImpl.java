@@ -17,7 +17,6 @@ package com.liferay.change.tracking.rest.internal.resource.v1_0;
 import com.liferay.change.tracking.rest.dto.v1_0.CTProcess;
 import com.liferay.change.tracking.rest.resource.v1_0.CTProcessResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -385,8 +384,9 @@ public abstract class BaseCTProcessResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<CTProcess>, UnsafeConsumer<CTProcess, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<CTProcess>,
+			 UnsafeFunction<CTProcess, CTProcess, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -642,8 +642,8 @@ public abstract class BaseCTProcessResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<CTProcess>, UnsafeConsumer<CTProcess, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<CTProcess>, UnsafeFunction<CTProcess, CTProcess, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.dto.v1_0.WikiNode;
 import com.liferay.headless.delivery.resource.v1_0.WikiNodeResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -997,14 +996,15 @@ public abstract class BaseWikiNodeResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<WikiNode, Exception> wikiNodeUnsafeConsumer = null;
+		UnsafeFunction<WikiNode, WikiNode, Exception> wikiNodeUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
-				wikiNodeUnsafeConsumer = wikiNode -> postSiteWikiNode(
+				wikiNodeUnsafeFunction = wikiNode -> postSiteWikiNode(
 					(Long)parameters.get("siteId"), wikiNode);
 			}
 			else {
@@ -1018,7 +1018,7 @@ public abstract class BaseWikiNodeResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				wikiNodeUnsafeConsumer =
+				wikiNodeUnsafeFunction =
 					wikiNode -> putSiteWikiNodeByExternalReferenceCode(
 						wikiNode.getSiteId() != null ? wikiNode.getSiteId() :
 							(Long)parameters.get("siteId"),
@@ -1026,7 +1026,7 @@ public abstract class BaseWikiNodeResourceImpl
 			}
 		}
 
-		if (wikiNodeUnsafeConsumer == null) {
+		if (wikiNodeUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for WikiNode");
@@ -1034,11 +1034,11 @@ public abstract class BaseWikiNodeResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				wikiNodes, wikiNodeUnsafeConsumer);
+				wikiNodes, wikiNodeUnsafeFunction);
 		}
 		else {
 			for (WikiNode wikiNode : wikiNodes) {
-				wikiNodeUnsafeConsumer.accept(wikiNode);
+				wikiNodeUnsafeFunction.apply(wikiNode);
 			}
 		}
 	}
@@ -1126,19 +1126,20 @@ public abstract class BaseWikiNodeResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<WikiNode, Exception> wikiNodeUnsafeConsumer = null;
+		UnsafeFunction<WikiNode, WikiNode, Exception> wikiNodeUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			wikiNodeUnsafeConsumer = wikiNode -> putWikiNode(
+			wikiNodeUnsafeFunction = wikiNode -> putWikiNode(
 				wikiNode.getId() != null ? wikiNode.getId() :
 					_parseLong((String)parameters.get("wikiNodeId")),
 				wikiNode);
 		}
 
-		if (wikiNodeUnsafeConsumer == null) {
+		if (wikiNodeUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for WikiNode");
@@ -1146,11 +1147,11 @@ public abstract class BaseWikiNodeResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				wikiNodes, wikiNodeUnsafeConsumer);
+				wikiNodes, wikiNodeUnsafeFunction);
 		}
 		else {
 			for (WikiNode wikiNode : wikiNodes) {
-				wikiNodeUnsafeConsumer.accept(wikiNode);
+				wikiNodeUnsafeFunction.apply(wikiNode);
 			}
 		}
 	}
@@ -1332,8 +1333,9 @@ public abstract class BaseWikiNodeResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<WikiNode>, UnsafeConsumer<WikiNode, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<WikiNode>,
+			 UnsafeFunction<WikiNode, WikiNode, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1589,8 +1591,8 @@ public abstract class BaseWikiNodeResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<WikiNode>, UnsafeConsumer<WikiNode, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<WikiNode>, UnsafeFunction<WikiNode, WikiNode, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

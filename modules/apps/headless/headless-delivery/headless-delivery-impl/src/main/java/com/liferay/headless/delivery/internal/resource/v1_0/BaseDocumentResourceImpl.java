@@ -19,7 +19,6 @@ import com.liferay.headless.delivery.dto.v1_0.Document;
 import com.liferay.headless.delivery.dto.v1_0.Rating;
 import com.liferay.headless.delivery.resource.v1_0.DocumentResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringPool;
@@ -2051,24 +2050,25 @@ public abstract class BaseDocumentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Document, Exception> documentUnsafeConsumer = null;
+		UnsafeFunction<Document, Document, Exception> documentUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("documentFolderId")) {
-				documentUnsafeConsumer = document -> postDocumentFolderDocument(
+				documentUnsafeFunction = document -> postDocumentFolderDocument(
 					_parseLong((String)parameters.get("documentFolderId")),
 					(MultipartBody)parameters.get("multipartBody"));
 			}
 			else if (parameters.containsKey("assetLibraryId")) {
-				documentUnsafeConsumer = document -> postAssetLibraryDocument(
+				documentUnsafeFunction = document -> postAssetLibraryDocument(
 					(Long)parameters.get("assetLibraryId"),
 					(MultipartBody)parameters.get("multipartBody"));
 			}
 			else if (parameters.containsKey("siteId")) {
-				documentUnsafeConsumer = document -> postSiteDocument(
+				documentUnsafeFunction = document -> postSiteDocument(
 					(Long)parameters.get("siteId"),
 					(MultipartBody)parameters.get("multipartBody"));
 			}
@@ -2083,7 +2083,7 @@ public abstract class BaseDocumentResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				documentUnsafeConsumer =
+				documentUnsafeFunction =
 					document -> putSiteDocumentByExternalReferenceCode(
 						document.getSiteId() != null ? document.getSiteId() :
 							(Long)parameters.get("siteId"),
@@ -2091,7 +2091,9 @@ public abstract class BaseDocumentResourceImpl
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				documentUnsafeConsumer = document -> {
+				documentUnsafeFunction = document -> {
+					Document persistedDocument = null;
+
 					try {
 						Document getDocument =
 							getSiteDocumentByExternalReferenceCode(
@@ -2100,7 +2102,7 @@ public abstract class BaseDocumentResourceImpl
 										(Long)parameters.get("siteId"),
 								document.getExternalReferenceCode());
 
-						patchDocument(
+						persistedDocument = patchDocument(
 							getDocument.getId() != null ? getDocument.getId() :
 								_parseLong(
 									(String)parameters.get("documentId")),
@@ -2108,18 +2110,18 @@ public abstract class BaseDocumentResourceImpl
 					}
 					catch (NoSuchModelException noSuchModelException) {
 						if (parameters.containsKey("documentFolderId")) {
-							postDocumentFolderDocument(
+							persistedDocument = postDocumentFolderDocument(
 								_parseLong(
 									(String)parameters.get("documentFolderId")),
 								(MultipartBody)parameters.get("multipartBody"));
 						}
 						else if (parameters.containsKey("assetLibraryId")) {
-							postAssetLibraryDocument(
+							persistedDocument = postAssetLibraryDocument(
 								(Long)parameters.get("assetLibraryId"),
 								(MultipartBody)parameters.get("multipartBody"));
 						}
 						else if (parameters.containsKey("siteId")) {
-							postSiteDocument(
+							persistedDocument = postSiteDocument(
 								(Long)parameters.get("siteId"),
 								(MultipartBody)parameters.get("multipartBody"));
 						}
@@ -2128,11 +2130,13 @@ public abstract class BaseDocumentResourceImpl
 								"One of the following parameters must be specified: [documentFolderId, assetLibraryId, siteId, documentFolderId, assetLibraryId]");
 						}
 					}
+
+					return persistedDocument;
 				};
 			}
 		}
 
-		if (documentUnsafeConsumer == null) {
+		if (documentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Document");
@@ -2140,11 +2144,11 @@ public abstract class BaseDocumentResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				documents, documentUnsafeConsumer);
+				documents, documentUnsafeFunction);
 		}
 		else {
 			for (Document document : documents) {
-				documentUnsafeConsumer.accept(document);
+				documentUnsafeFunction.apply(document);
 			}
 		}
 	}
@@ -2245,26 +2249,27 @@ public abstract class BaseDocumentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Document, Exception> documentUnsafeConsumer = null;
+		UnsafeFunction<Document, Document, Exception> documentUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			documentUnsafeConsumer = document -> patchDocument(
+			documentUnsafeFunction = document -> patchDocument(
 				document.getId() != null ? document.getId() :
 					_parseLong((String)parameters.get("documentId")),
 				null);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			documentUnsafeConsumer = document -> putDocument(
+			documentUnsafeFunction = document -> putDocument(
 				document.getId() != null ? document.getId() :
 					_parseLong((String)parameters.get("documentId")),
 				null);
 		}
 
-		if (documentUnsafeConsumer == null) {
+		if (documentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Document");
@@ -2272,11 +2277,11 @@ public abstract class BaseDocumentResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				documents, documentUnsafeConsumer);
+				documents, documentUnsafeFunction);
 		}
 		else {
 			for (Document document : documents) {
-				documentUnsafeConsumer.accept(document);
+				documentUnsafeFunction.apply(document);
 			}
 		}
 	}
@@ -2466,8 +2471,9 @@ public abstract class BaseDocumentResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Document>, UnsafeConsumer<Document, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<Document>,
+			 UnsafeFunction<Document, Document, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -2723,8 +2729,8 @@ public abstract class BaseDocumentResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Document>, UnsafeConsumer<Document, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Document>, UnsafeFunction<Document, Document, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.channel.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.channel.dto.v1_0.ShippingMethod;
 import com.liferay.headless.commerce.admin.channel.resource.v1_0.ShippingMethodResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -304,8 +303,8 @@ public abstract class BaseShippingMethodResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<ShippingMethod>,
-			 UnsafeConsumer<ShippingMethod, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<ShippingMethod, ShippingMethod, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -561,8 +560,9 @@ public abstract class BaseShippingMethodResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<ShippingMethod>, UnsafeConsumer<ShippingMethod, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<ShippingMethod>,
+		 UnsafeFunction<ShippingMethod, ShippingMethod, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

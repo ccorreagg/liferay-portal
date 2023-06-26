@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.order.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.order.dto.v1_0.OrderType;
 import com.liferay.headless.commerce.admin.order.resource.v1_0.OrderTypeResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -561,16 +560,17 @@ public abstract class BaseOrderTypeResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OrderType, Exception> orderTypeUnsafeConsumer = null;
+		UnsafeFunction<OrderType, OrderType, Exception>
+			orderTypeUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			orderTypeUnsafeConsumer = orderType -> postOrderType(orderType);
+			orderTypeUnsafeFunction = orderType -> postOrderType(orderType);
 		}
 
-		if (orderTypeUnsafeConsumer == null) {
+		if (orderTypeUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for OrderType");
@@ -578,11 +578,11 @@ public abstract class BaseOrderTypeResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				orderTypes, orderTypeUnsafeConsumer);
+				orderTypes, orderTypeUnsafeFunction);
 		}
 		else {
 			for (OrderType orderType : orderTypes) {
-				orderTypeUnsafeConsumer.accept(orderType);
+				orderTypeUnsafeFunction.apply(orderType);
 			}
 		}
 	}
@@ -662,19 +662,20 @@ public abstract class BaseOrderTypeResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OrderType, Exception> orderTypeUnsafeConsumer = null;
+		UnsafeFunction<OrderType, OrderType, Exception>
+			orderTypeUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			orderTypeUnsafeConsumer = orderType -> patchOrderType(
+			orderTypeUnsafeFunction = orderType -> patchOrderType(
 				orderType.getId() != null ? orderType.getId() :
 					_parseLong((String)parameters.get("orderTypeId")),
 				orderType);
 		}
 
-		if (orderTypeUnsafeConsumer == null) {
+		if (orderTypeUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for OrderType");
@@ -682,11 +683,11 @@ public abstract class BaseOrderTypeResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				orderTypes, orderTypeUnsafeConsumer);
+				orderTypes, orderTypeUnsafeFunction);
 		}
 		else {
 			for (OrderType orderType : orderTypes) {
-				orderTypeUnsafeConsumer.accept(orderType);
+				orderTypeUnsafeFunction.apply(orderType);
 			}
 		}
 	}
@@ -705,8 +706,9 @@ public abstract class BaseOrderTypeResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<OrderType>, UnsafeConsumer<OrderType, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<OrderType>,
+			 UnsafeFunction<OrderType, OrderType, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -962,8 +964,8 @@ public abstract class BaseOrderTypeResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<OrderType>, UnsafeConsumer<OrderType, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<OrderType>, UnsafeFunction<OrderType, OrderType, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

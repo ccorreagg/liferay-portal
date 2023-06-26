@@ -17,7 +17,6 @@ package com.liferay.headless.admin.user.internal.resource.v1_0;
 import com.liferay.headless.admin.user.dto.v1_0.UserAccount;
 import com.liferay.headless.admin.user.resource.v1_0.UserAccountResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -1725,17 +1724,18 @@ public abstract class BaseUserAccountResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<UserAccount, Exception> userAccountUnsafeConsumer = null;
+		UnsafeFunction<UserAccount, UserAccount, Exception>
+			userAccountUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			userAccountUnsafeConsumer = userAccount -> postUserAccount(
+			userAccountUnsafeFunction = userAccount -> postUserAccount(
 				userAccount);
 
 			if (parameters.containsKey("accountId")) {
-				userAccountUnsafeConsumer =
+				userAccountUnsafeFunction =
 					userAccount -> postAccountUserAccount(
 						_parseLong((String)parameters.get("accountId")),
 						userAccount);
@@ -1747,19 +1747,21 @@ public abstract class BaseUserAccountResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				userAccountUnsafeConsumer =
+				userAccountUnsafeFunction =
 					userAccount -> putUserAccountByExternalReferenceCode(
 						userAccount.getExternalReferenceCode(), userAccount);
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				userAccountUnsafeConsumer = userAccount -> {
+				userAccountUnsafeFunction = userAccount -> {
+					UserAccount persistedUserAccount = null;
+
 					try {
 						UserAccount getUserAccount =
 							getUserAccountByExternalReferenceCode(
 								userAccount.getExternalReferenceCode());
 
-						patchUserAccount(
+						persistedUserAccount = patchUserAccount(
 							getUserAccount.getId() != null ?
 								getUserAccount.getId() :
 									_parseLong(
@@ -1769,19 +1771,21 @@ public abstract class BaseUserAccountResourceImpl
 					}
 					catch (NoSuchModelException noSuchModelException) {
 						if (parameters.containsKey("accountId")) {
-							postAccountUserAccount(
+							persistedUserAccount = postAccountUserAccount(
 								_parseLong((String)parameters.get("accountId")),
 								userAccount);
 						}
 						else {
-							postUserAccount(userAccount);
+							persistedUserAccount = postUserAccount(userAccount);
 						}
 					}
+
+					return persistedUserAccount;
 				};
 			}
 		}
 
-		if (userAccountUnsafeConsumer == null) {
+		if (userAccountUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for UserAccount");
@@ -1789,11 +1793,11 @@ public abstract class BaseUserAccountResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				userAccounts, userAccountUnsafeConsumer);
+				userAccounts, userAccountUnsafeFunction);
 		}
 		else {
 			for (UserAccount userAccount : userAccounts) {
-				userAccountUnsafeConsumer.accept(userAccount);
+				userAccountUnsafeFunction.apply(userAccount);
 			}
 		}
 	}
@@ -1890,26 +1894,27 @@ public abstract class BaseUserAccountResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<UserAccount, Exception> userAccountUnsafeConsumer = null;
+		UnsafeFunction<UserAccount, UserAccount, Exception>
+			userAccountUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			userAccountUnsafeConsumer = userAccount -> patchUserAccount(
+			userAccountUnsafeFunction = userAccount -> patchUserAccount(
 				userAccount.getId() != null ? userAccount.getId() :
 					_parseLong((String)parameters.get("userAccountId")),
 				userAccount);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			userAccountUnsafeConsumer = userAccount -> putUserAccount(
+			userAccountUnsafeFunction = userAccount -> putUserAccount(
 				userAccount.getId() != null ? userAccount.getId() :
 					_parseLong((String)parameters.get("userAccountId")),
 				userAccount);
 		}
 
-		if (userAccountUnsafeConsumer == null) {
+		if (userAccountUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for UserAccount");
@@ -1917,11 +1922,11 @@ public abstract class BaseUserAccountResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				userAccounts, userAccountUnsafeConsumer);
+				userAccounts, userAccountUnsafeFunction);
 		}
 		else {
 			for (UserAccount userAccount : userAccounts) {
-				userAccountUnsafeConsumer.accept(userAccount);
+				userAccountUnsafeFunction.apply(userAccount);
 			}
 		}
 	}
@@ -1940,8 +1945,9 @@ public abstract class BaseUserAccountResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<UserAccount>, UnsafeConsumer<UserAccount, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<UserAccount>,
+			 UnsafeFunction<UserAccount, UserAccount, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -2201,8 +2207,9 @@ public abstract class BaseUserAccountResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<UserAccount>, UnsafeConsumer<UserAccount, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<UserAccount>,
+		 UnsafeFunction<UserAccount, UserAccount, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

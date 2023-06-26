@@ -17,7 +17,6 @@ package com.liferay.headless.form.internal.resource.v1_0;
 import com.liferay.headless.form.dto.v1_0.FormStructure;
 import com.liferay.headless.form.resource.v1_0.FormStructureResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -331,7 +330,7 @@ public abstract class BaseFormStructureResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<FormStructure>,
-			 UnsafeConsumer<FormStructure, Exception>, Exception>
+			 UnsafeFunction<FormStructure, FormStructure, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -588,8 +587,9 @@ public abstract class BaseFormStructureResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<FormStructure>, UnsafeConsumer<FormStructure, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<FormStructure>,
+		 UnsafeFunction<FormStructure, FormStructure, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

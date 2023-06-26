@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.Pin;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.PinResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -437,30 +436,30 @@ public abstract class BasePinResourceImpl
 			Collection<Pin> pins, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Pin, Exception> pinUnsafeConsumer = null;
+		UnsafeFunction<Pin, Pin, Exception> pinUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			pinUnsafeConsumer = pin -> patchPin(
+			pinUnsafeFunction = pin -> patchPin(
 				pin.getId() != null ? pin.getId() :
 					_parseLong((String)parameters.get("pinId")),
 				pin);
 		}
 
-		if (pinUnsafeConsumer == null) {
+		if (pinUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Pin");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(pins, pinUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(pins, pinUnsafeFunction);
 		}
 		else {
 			for (Pin pin : pins) {
-				pinUnsafeConsumer.accept(pin);
+				pinUnsafeFunction.apply(pin);
 			}
 		}
 	}
@@ -479,7 +478,7 @@ public abstract class BasePinResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Pin>, UnsafeConsumer<Pin, Exception>, Exception>
+			<Collection<Pin>, UnsafeFunction<Pin, Pin, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -736,7 +735,7 @@ public abstract class BasePinResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Pin>, UnsafeConsumer<Pin, Exception>, Exception>
+		<Collection<Pin>, UnsafeFunction<Pin, Pin, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

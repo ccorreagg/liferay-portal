@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.machine.learning.internal.resource.v1_0;
 import com.liferay.headless.commerce.machine.learning.dto.v1_0.AccountCategoryForecast;
 import com.liferay.headless.commerce.machine.learning.resource.v1_0.AccountCategoryForecastResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -248,8 +247,9 @@ public abstract class BaseAccountCategoryForecastResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<AccountCategoryForecast>,
-			 UnsafeConsumer<AccountCategoryForecast, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <AccountCategoryForecast, AccountCategoryForecast, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -506,8 +506,9 @@ public abstract class BaseAccountCategoryForecastResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<AccountCategoryForecast>,
-		 UnsafeConsumer<AccountCategoryForecast, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction
+			 <AccountCategoryForecast, AccountCategoryForecast, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

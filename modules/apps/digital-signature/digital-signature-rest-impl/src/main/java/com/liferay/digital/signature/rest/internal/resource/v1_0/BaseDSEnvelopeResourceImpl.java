@@ -17,7 +17,6 @@ package com.liferay.digital.signature.rest.internal.resource.v1_0;
 import com.liferay.digital.signature.rest.dto.v1_0.DSEnvelope;
 import com.liferay.digital.signature.rest.resource.v1_0.DSEnvelopeResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -317,14 +316,15 @@ public abstract class BaseDSEnvelopeResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<DSEnvelope, Exception> dsEnvelopeUnsafeConsumer = null;
+		UnsafeFunction<DSEnvelope, DSEnvelope, Exception>
+			dsEnvelopeUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
-				dsEnvelopeUnsafeConsumer = dsEnvelope -> postSiteDSEnvelope(
+				dsEnvelopeUnsafeFunction = dsEnvelope -> postSiteDSEnvelope(
 					(Long)parameters.get("siteId"), dsEnvelope);
 			}
 			else {
@@ -333,7 +333,7 @@ public abstract class BaseDSEnvelopeResourceImpl
 			}
 		}
 
-		if (dsEnvelopeUnsafeConsumer == null) {
+		if (dsEnvelopeUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for DsEnvelope");
@@ -341,11 +341,11 @@ public abstract class BaseDSEnvelopeResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				dsEnvelopes, dsEnvelopeUnsafeConsumer);
+				dsEnvelopes, dsEnvelopeUnsafeFunction);
 		}
 		else {
 			for (DSEnvelope dsEnvelope : dsEnvelopes) {
-				dsEnvelopeUnsafeConsumer.accept(dsEnvelope);
+				dsEnvelopeUnsafeFunction.apply(dsEnvelope);
 			}
 		}
 	}
@@ -441,8 +441,9 @@ public abstract class BaseDSEnvelopeResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<DSEnvelope>, UnsafeConsumer<DSEnvelope, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<DSEnvelope>,
+			 UnsafeFunction<DSEnvelope, DSEnvelope, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -698,8 +699,9 @@ public abstract class BaseDSEnvelopeResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<DSEnvelope>, UnsafeConsumer<DSEnvelope, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<DSEnvelope>,
+		 UnsafeFunction<DSEnvelope, DSEnvelope, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

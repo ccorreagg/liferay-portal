@@ -19,7 +19,6 @@ import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.dto.v1_0.Rating;
 import com.liferay.headless.delivery.resource.v1_0.BlogPostingResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringPool;
@@ -1284,14 +1283,15 @@ public abstract class BaseBlogPostingResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<BlogPosting, Exception> blogPostingUnsafeConsumer = null;
+		UnsafeFunction<BlogPosting, BlogPosting, Exception>
+			blogPostingUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
-				blogPostingUnsafeConsumer = blogPosting -> postSiteBlogPosting(
+				blogPostingUnsafeFunction = blogPosting -> postSiteBlogPosting(
 					(Long)parameters.get("siteId"), blogPosting);
 			}
 			else {
@@ -1305,7 +1305,7 @@ public abstract class BaseBlogPostingResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				blogPostingUnsafeConsumer =
+				blogPostingUnsafeFunction =
 					blogPosting -> putSiteBlogPostingByExternalReferenceCode(
 						blogPosting.getSiteId() != null ?
 							blogPosting.getSiteId() :
@@ -1314,7 +1314,9 @@ public abstract class BaseBlogPostingResourceImpl
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				blogPostingUnsafeConsumer = blogPosting -> {
+				blogPostingUnsafeFunction = blogPosting -> {
+					BlogPosting persistedBlogPosting = null;
+
 					try {
 						BlogPosting getBlogPosting =
 							getSiteBlogPostingByExternalReferenceCode(
@@ -1323,7 +1325,7 @@ public abstract class BaseBlogPostingResourceImpl
 										(Long)parameters.get("siteId"),
 								blogPosting.getExternalReferenceCode());
 
-						patchBlogPosting(
+						persistedBlogPosting = patchBlogPosting(
 							getBlogPosting.getId() != null ?
 								getBlogPosting.getId() :
 									_parseLong(
@@ -1333,7 +1335,7 @@ public abstract class BaseBlogPostingResourceImpl
 					}
 					catch (NoSuchModelException noSuchModelException) {
 						if (parameters.containsKey("siteId")) {
-							postSiteBlogPosting(
+							persistedBlogPosting = postSiteBlogPosting(
 								(Long)parameters.get("siteId"), blogPosting);
 						}
 						else {
@@ -1341,11 +1343,13 @@ public abstract class BaseBlogPostingResourceImpl
 								"One of the following parameters must be specified: [siteId]");
 						}
 					}
+
+					return persistedBlogPosting;
 				};
 			}
 		}
 
-		if (blogPostingUnsafeConsumer == null) {
+		if (blogPostingUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for BlogPosting");
@@ -1353,11 +1357,11 @@ public abstract class BaseBlogPostingResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				blogPostings, blogPostingUnsafeConsumer);
+				blogPostings, blogPostingUnsafeFunction);
 		}
 		else {
 			for (BlogPosting blogPosting : blogPostings) {
-				blogPostingUnsafeConsumer.accept(blogPosting);
+				blogPostingUnsafeFunction.apply(blogPosting);
 			}
 		}
 	}
@@ -1445,26 +1449,27 @@ public abstract class BaseBlogPostingResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<BlogPosting, Exception> blogPostingUnsafeConsumer = null;
+		UnsafeFunction<BlogPosting, BlogPosting, Exception>
+			blogPostingUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			blogPostingUnsafeConsumer = blogPosting -> patchBlogPosting(
+			blogPostingUnsafeFunction = blogPosting -> patchBlogPosting(
 				blogPosting.getId() != null ? blogPosting.getId() :
 					_parseLong((String)parameters.get("blogPostingId")),
 				blogPosting);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			blogPostingUnsafeConsumer = blogPosting -> putBlogPosting(
+			blogPostingUnsafeFunction = blogPosting -> putBlogPosting(
 				blogPosting.getId() != null ? blogPosting.getId() :
 					_parseLong((String)parameters.get("blogPostingId")),
 				blogPosting);
 		}
 
-		if (blogPostingUnsafeConsumer == null) {
+		if (blogPostingUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for BlogPosting");
@@ -1472,11 +1477,11 @@ public abstract class BaseBlogPostingResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				blogPostings, blogPostingUnsafeConsumer);
+				blogPostings, blogPostingUnsafeFunction);
 		}
 		else {
 			for (BlogPosting blogPosting : blogPostings) {
-				blogPostingUnsafeConsumer.accept(blogPosting);
+				blogPostingUnsafeFunction.apply(blogPosting);
 			}
 		}
 	}
@@ -1658,8 +1663,9 @@ public abstract class BaseBlogPostingResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<BlogPosting>, UnsafeConsumer<BlogPosting, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<BlogPosting>,
+			 UnsafeFunction<BlogPosting, BlogPosting, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1919,8 +1925,9 @@ public abstract class BaseBlogPostingResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<BlogPosting>, UnsafeConsumer<BlogPosting, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<BlogPosting>,
+		 UnsafeFunction<BlogPosting, BlogPosting, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

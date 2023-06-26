@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.dto.v1_0.SitePage;
 import com.liferay.headless.delivery.resource.v1_0.SitePageResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringPool;
@@ -626,14 +625,15 @@ public abstract class BaseSitePageResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<SitePage, Exception> sitePageUnsafeConsumer = null;
+		UnsafeFunction<SitePage, SitePage, Exception> sitePageUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
-				sitePageUnsafeConsumer = sitePage -> postSiteSitePage(
+				sitePageUnsafeFunction = sitePage -> postSiteSitePage(
 					(Long)parameters.get("siteId"), sitePage);
 			}
 			else {
@@ -642,7 +642,7 @@ public abstract class BaseSitePageResourceImpl
 			}
 		}
 
-		if (sitePageUnsafeConsumer == null) {
+		if (sitePageUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for SitePage");
@@ -650,11 +650,11 @@ public abstract class BaseSitePageResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				sitePages, sitePageUnsafeConsumer);
+				sitePages, sitePageUnsafeFunction);
 		}
 		else {
 			for (SitePage sitePage : sitePages) {
-				sitePageUnsafeConsumer.accept(sitePage);
+				sitePageUnsafeFunction.apply(sitePage);
 			}
 		}
 	}
@@ -751,8 +751,9 @@ public abstract class BaseSitePageResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<SitePage>, UnsafeConsumer<SitePage, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<SitePage>,
+			 UnsafeFunction<SitePage, SitePage, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1008,8 +1009,8 @@ public abstract class BaseSitePageResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<SitePage>, UnsafeConsumer<SitePage, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<SitePage>, UnsafeFunction<SitePage, SitePage, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -18,7 +18,6 @@ import com.liferay.headless.commerce.admin.account.dto.v1_0.AdminAccountGroup;
 import com.liferay.headless.commerce.admin.account.dto.v1_0.User;
 import com.liferay.headless.commerce.admin.account.resource.v1_0.AdminAccountGroupResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -531,8 +530,8 @@ public abstract class BaseAdminAccountGroupResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<AdminAccountGroup>,
-			 UnsafeConsumer<AdminAccountGroup, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<AdminAccountGroup, AdminAccountGroup, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -789,8 +788,8 @@ public abstract class BaseAdminAccountGroupResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<AdminAccountGroup>,
-		 UnsafeConsumer<AdminAccountGroup, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<AdminAccountGroup, AdminAccountGroup, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

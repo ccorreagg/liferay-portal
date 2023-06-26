@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.LowStockAction;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.LowStockActionResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -257,8 +256,8 @@ public abstract class BaseLowStockActionResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<LowStockAction>,
-			 UnsafeConsumer<LowStockAction, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<LowStockAction, LowStockAction, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -514,8 +513,9 @@ public abstract class BaseLowStockActionResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<LowStockAction>, UnsafeConsumer<LowStockAction, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<LowStockAction>,
+		 UnsafeFunction<LowStockAction, LowStockAction, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

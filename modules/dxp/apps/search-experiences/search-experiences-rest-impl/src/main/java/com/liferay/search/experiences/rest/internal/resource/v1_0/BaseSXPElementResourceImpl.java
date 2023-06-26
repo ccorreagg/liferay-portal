@@ -15,7 +15,6 @@
 package com.liferay.search.experiences.rest.internal.resource.v1_0;
 
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -582,13 +581,14 @@ public abstract class BaseSXPElementResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<SXPElement, Exception> sxpElementUnsafeConsumer = null;
+		UnsafeFunction<SXPElement, SXPElement, Exception>
+			sxpElementUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			sxpElementUnsafeConsumer = sxpElement -> postSXPElement(sxpElement);
+			sxpElementUnsafeFunction = sxpElement -> postSXPElement(sxpElement);
 		}
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "UPSERT")) {
@@ -596,13 +596,15 @@ public abstract class BaseSXPElementResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				sxpElementUnsafeConsumer = sxpElement -> {
+				sxpElementUnsafeFunction = sxpElement -> {
+					SXPElement persistedSXPElement = null;
+
 					try {
 						SXPElement getSXPElement =
 							getSXPElementByExternalReferenceCode(
 								sxpElement.getExternalReferenceCode());
 
-						patchSXPElement(
+						persistedSXPElement = patchSXPElement(
 							getSXPElement.getId() != null ?
 								getSXPElement.getId() :
 									_parseLong(
@@ -610,13 +612,15 @@ public abstract class BaseSXPElementResourceImpl
 							sxpElement);
 					}
 					catch (NoSuchModelException noSuchModelException) {
-						postSXPElement(sxpElement);
+						persistedSXPElement = postSXPElement(sxpElement);
 					}
+
+					return persistedSXPElement;
 				};
 			}
 		}
 
-		if (sxpElementUnsafeConsumer == null) {
+		if (sxpElementUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for SxpElement");
@@ -624,11 +628,11 @@ public abstract class BaseSXPElementResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				sxpElements, sxpElementUnsafeConsumer);
+				sxpElements, sxpElementUnsafeFunction);
 		}
 		else {
 			for (SXPElement sxpElement : sxpElements) {
-				sxpElementUnsafeConsumer.accept(sxpElement);
+				sxpElementUnsafeFunction.apply(sxpElement);
 			}
 		}
 	}
@@ -708,19 +712,20 @@ public abstract class BaseSXPElementResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<SXPElement, Exception> sxpElementUnsafeConsumer = null;
+		UnsafeFunction<SXPElement, SXPElement, Exception>
+			sxpElementUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			sxpElementUnsafeConsumer = sxpElement -> patchSXPElement(
+			sxpElementUnsafeFunction = sxpElement -> patchSXPElement(
 				sxpElement.getId() != null ? sxpElement.getId() :
 					_parseLong((String)parameters.get("sxpElementId")),
 				sxpElement);
 		}
 
-		if (sxpElementUnsafeConsumer == null) {
+		if (sxpElementUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for SxpElement");
@@ -728,11 +733,11 @@ public abstract class BaseSXPElementResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				sxpElements, sxpElementUnsafeConsumer);
+				sxpElements, sxpElementUnsafeFunction);
 		}
 		else {
 			for (SXPElement sxpElement : sxpElements) {
-				sxpElementUnsafeConsumer.accept(sxpElement);
+				sxpElementUnsafeFunction.apply(sxpElement);
 			}
 		}
 	}
@@ -751,8 +756,9 @@ public abstract class BaseSXPElementResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<SXPElement>, UnsafeConsumer<SXPElement, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<SXPElement>,
+			 UnsafeFunction<SXPElement, SXPElement, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1008,8 +1014,9 @@ public abstract class BaseSXPElementResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<SXPElement>, UnsafeConsumer<SXPElement, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<SXPElement>,
+		 UnsafeFunction<SXPElement, SXPElement, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

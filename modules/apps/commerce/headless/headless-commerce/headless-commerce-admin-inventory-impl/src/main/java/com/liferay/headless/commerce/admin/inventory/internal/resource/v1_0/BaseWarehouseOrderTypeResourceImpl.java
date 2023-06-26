@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.inventory.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.inventory.dto.v1_0.WarehouseOrderType;
 import com.liferay.headless.commerce.admin.inventory.resource.v1_0.WarehouseOrderTypeResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -470,8 +469,8 @@ public abstract class BaseWarehouseOrderTypeResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<WarehouseOrderType>,
-			 UnsafeConsumer<WarehouseOrderType, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<WarehouseOrderType, WarehouseOrderType, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -728,8 +727,8 @@ public abstract class BaseWarehouseOrderTypeResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<WarehouseOrderType>,
-		 UnsafeConsumer<WarehouseOrderType, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<WarehouseOrderType, WarehouseOrderType, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -15,7 +15,6 @@
 package com.liferay.portal.workflow.metrics.rest.internal.resource.v1_0;
 
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -451,14 +450,14 @@ public abstract class BaseTaskResourceImpl
 			Collection<Task> tasks, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Task, Exception> taskUnsafeConsumer = null;
+		UnsafeFunction<Task, Task, Exception> taskUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("processId")) {
-				taskUnsafeConsumer = task -> postProcessTask(
+				taskUnsafeFunction = task -> postProcessTask(
 					_parseLong((String)parameters.get("processId")), task);
 			}
 			else {
@@ -467,18 +466,18 @@ public abstract class BaseTaskResourceImpl
 			}
 		}
 
-		if (taskUnsafeConsumer == null) {
+		if (taskUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Task");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(tasks, taskUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(tasks, taskUnsafeFunction);
 		}
 		else {
 			for (Task task : tasks) {
-				taskUnsafeConsumer.accept(task);
+				taskUnsafeFunction.apply(task);
 			}
 		}
 	}
@@ -580,7 +579,7 @@ public abstract class BaseTaskResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Task>, UnsafeConsumer<Task, Exception>, Exception>
+			<Collection<Task>, UnsafeFunction<Task, Task, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -837,7 +836,7 @@ public abstract class BaseTaskResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Task>, UnsafeConsumer<Task, Exception>, Exception>
+		<Collection<Task>, UnsafeFunction<Task, Task, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

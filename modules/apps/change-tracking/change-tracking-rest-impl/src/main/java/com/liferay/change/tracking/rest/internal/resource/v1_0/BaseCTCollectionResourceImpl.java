@@ -17,7 +17,6 @@ package com.liferay.change.tracking.rest.internal.resource.v1_0;
 import com.liferay.change.tracking.rest.dto.v1_0.CTCollection;
 import com.liferay.change.tracking.rest.resource.v1_0.CTCollectionResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -611,18 +610,18 @@ public abstract class BaseCTCollectionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<CTCollection, Exception> ctCollectionUnsafeConsumer =
-			null;
+		UnsafeFunction<CTCollection, CTCollection, Exception>
+			ctCollectionUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			ctCollectionUnsafeConsumer = ctCollection -> postCTCollection(
+			ctCollectionUnsafeFunction = ctCollection -> postCTCollection(
 				ctCollection);
 		}
 
-		if (ctCollectionUnsafeConsumer == null) {
+		if (ctCollectionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for CtCollection");
@@ -630,11 +629,11 @@ public abstract class BaseCTCollectionResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				ctCollections, ctCollectionUnsafeConsumer);
+				ctCollections, ctCollectionUnsafeFunction);
 		}
 		else {
 			for (CTCollection ctCollection : ctCollections) {
-				ctCollectionUnsafeConsumer.accept(ctCollection);
+				ctCollectionUnsafeFunction.apply(ctCollection);
 			}
 		}
 	}
@@ -715,27 +714,27 @@ public abstract class BaseCTCollectionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<CTCollection, Exception> ctCollectionUnsafeConsumer =
-			null;
+		UnsafeFunction<CTCollection, CTCollection, Exception>
+			ctCollectionUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			ctCollectionUnsafeConsumer = ctCollection -> patchCTCollection(
+			ctCollectionUnsafeFunction = ctCollection -> patchCTCollection(
 				ctCollection.getId() != null ? ctCollection.getId() :
 					_parseLong((String)parameters.get("ctCollectionId")),
 				ctCollection);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			ctCollectionUnsafeConsumer = ctCollection -> putCTCollection(
+			ctCollectionUnsafeFunction = ctCollection -> putCTCollection(
 				ctCollection.getId() != null ? ctCollection.getId() :
 					_parseLong((String)parameters.get("ctCollectionId")),
 				ctCollection);
 		}
 
-		if (ctCollectionUnsafeConsumer == null) {
+		if (ctCollectionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for CtCollection");
@@ -743,11 +742,11 @@ public abstract class BaseCTCollectionResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				ctCollections, ctCollectionUnsafeConsumer);
+				ctCollections, ctCollectionUnsafeFunction);
 		}
 		else {
 			for (CTCollection ctCollection : ctCollections) {
-				ctCollectionUnsafeConsumer.accept(ctCollection);
+				ctCollectionUnsafeFunction.apply(ctCollection);
 			}
 		}
 	}
@@ -766,8 +765,9 @@ public abstract class BaseCTCollectionResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<CTCollection>, UnsafeConsumer<CTCollection, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<CTCollection>,
+			 UnsafeFunction<CTCollection, CTCollection, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1027,8 +1027,9 @@ public abstract class BaseCTCollectionResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<CTCollection>, UnsafeConsumer<CTCollection, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<CTCollection>,
+		 UnsafeFunction<CTCollection, CTCollection, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

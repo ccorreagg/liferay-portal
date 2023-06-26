@@ -18,7 +18,6 @@ import com.liferay.data.engine.rest.dto.v2_0.DataLayout;
 import com.liferay.data.engine.rest.dto.v2_0.DataLayoutRenderingContext;
 import com.liferay.data.engine.rest.resource.v2_0.DataLayoutResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -593,14 +592,15 @@ public abstract class BaseDataLayoutResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<DataLayout, Exception> dataLayoutUnsafeConsumer = null;
+		UnsafeFunction<DataLayout, DataLayout, Exception>
+			dataLayoutUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("dataDefinitionId")) {
-				dataLayoutUnsafeConsumer =
+				dataLayoutUnsafeFunction =
 					dataLayout -> postDataDefinitionDataLayout(
 						_parseLong((String)parameters.get("dataDefinitionId")),
 						dataLayout);
@@ -611,7 +611,7 @@ public abstract class BaseDataLayoutResourceImpl
 			}
 		}
 
-		if (dataLayoutUnsafeConsumer == null) {
+		if (dataLayoutUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for DataLayout");
@@ -619,11 +619,11 @@ public abstract class BaseDataLayoutResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				dataLayouts, dataLayoutUnsafeConsumer);
+				dataLayouts, dataLayoutUnsafeFunction);
 		}
 		else {
 			for (DataLayout dataLayout : dataLayouts) {
-				dataLayoutUnsafeConsumer.accept(dataLayout);
+				dataLayoutUnsafeFunction.apply(dataLayout);
 			}
 		}
 	}
@@ -711,19 +711,20 @@ public abstract class BaseDataLayoutResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<DataLayout, Exception> dataLayoutUnsafeConsumer = null;
+		UnsafeFunction<DataLayout, DataLayout, Exception>
+			dataLayoutUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			dataLayoutUnsafeConsumer = dataLayout -> putDataLayout(
+			dataLayoutUnsafeFunction = dataLayout -> putDataLayout(
 				dataLayout.getId() != null ? dataLayout.getId() :
 					_parseLong((String)parameters.get("dataLayoutId")),
 				dataLayout);
 		}
 
-		if (dataLayoutUnsafeConsumer == null) {
+		if (dataLayoutUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for DataLayout");
@@ -731,11 +732,11 @@ public abstract class BaseDataLayoutResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				dataLayouts, dataLayoutUnsafeConsumer);
+				dataLayouts, dataLayoutUnsafeFunction);
 		}
 		else {
 			for (DataLayout dataLayout : dataLayouts) {
-				dataLayoutUnsafeConsumer.accept(dataLayout);
+				dataLayoutUnsafeFunction.apply(dataLayout);
 			}
 		}
 	}
@@ -754,8 +755,9 @@ public abstract class BaseDataLayoutResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<DataLayout>, UnsafeConsumer<DataLayout, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<DataLayout>,
+			 UnsafeFunction<DataLayout, DataLayout, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1011,8 +1013,9 @@ public abstract class BaseDataLayoutResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<DataLayout>, UnsafeConsumer<DataLayout, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<DataLayout>,
+		 UnsafeFunction<DataLayout, DataLayout, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

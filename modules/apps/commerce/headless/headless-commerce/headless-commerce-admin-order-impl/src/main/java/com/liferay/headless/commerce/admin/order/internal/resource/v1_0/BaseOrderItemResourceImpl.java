@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.order.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.order.dto.v1_0.OrderItem;
 import com.liferay.headless.commerce.admin.order.resource.v1_0.OrderItemResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -747,7 +746,8 @@ public abstract class BaseOrderItemResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OrderItem, Exception> orderItemUnsafeConsumer = null;
+		UnsafeFunction<OrderItem, OrderItem, Exception>
+			orderItemUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
@@ -757,13 +757,13 @@ public abstract class BaseOrderItemResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				orderItemUnsafeConsumer =
+				orderItemUnsafeFunction =
 					orderItem -> putOrderItemByExternalReferenceCode(
 						orderItem.getExternalReferenceCode(), orderItem);
 			}
 		}
 
-		if (orderItemUnsafeConsumer == null) {
+		if (orderItemUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for OrderItem");
@@ -771,11 +771,11 @@ public abstract class BaseOrderItemResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				orderItems, orderItemUnsafeConsumer);
+				orderItems, orderItemUnsafeFunction);
 		}
 		else {
 			for (OrderItem orderItem : orderItems) {
-				orderItemUnsafeConsumer.accept(orderItem);
+				orderItemUnsafeFunction.apply(orderItem);
 			}
 		}
 	}
@@ -855,26 +855,27 @@ public abstract class BaseOrderItemResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OrderItem, Exception> orderItemUnsafeConsumer = null;
+		UnsafeFunction<OrderItem, OrderItem, Exception>
+			orderItemUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			orderItemUnsafeConsumer = orderItem -> patchOrderItem(
+			orderItemUnsafeFunction = orderItem -> patchOrderItem(
 				orderItem.getId() != null ? orderItem.getId() :
 					_parseLong((String)parameters.get("orderItemId")),
 				orderItem);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			orderItemUnsafeConsumer = orderItem -> putOrderItem(
+			orderItemUnsafeFunction = orderItem -> putOrderItem(
 				orderItem.getId() != null ? orderItem.getId() :
 					_parseLong((String)parameters.get("orderItemId")),
 				orderItem);
 		}
 
-		if (orderItemUnsafeConsumer == null) {
+		if (orderItemUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for OrderItem");
@@ -882,11 +883,11 @@ public abstract class BaseOrderItemResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				orderItems, orderItemUnsafeConsumer);
+				orderItems, orderItemUnsafeFunction);
 		}
 		else {
 			for (OrderItem orderItem : orderItems) {
-				orderItemUnsafeConsumer.accept(orderItem);
+				orderItemUnsafeFunction.apply(orderItem);
 			}
 		}
 	}
@@ -905,8 +906,9 @@ public abstract class BaseOrderItemResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<OrderItem>, UnsafeConsumer<OrderItem, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<OrderItem>,
+			 UnsafeFunction<OrderItem, OrderItem, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1162,8 +1164,8 @@ public abstract class BaseOrderItemResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<OrderItem>, UnsafeConsumer<OrderItem, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<OrderItem>, UnsafeFunction<OrderItem, OrderItem, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

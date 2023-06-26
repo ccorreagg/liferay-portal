@@ -17,7 +17,6 @@ package com.liferay.object.admin.rest.internal.resource.v1_0;
 import com.liferay.object.admin.rest.dto.v1_0.ObjectValidationRule;
 import com.liferay.object.admin.rest.resource.v1_0.ObjectValidationRuleResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -688,15 +687,15 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectValidationRule, Exception>
-			objectValidationRuleUnsafeConsumer = null;
+		UnsafeFunction<ObjectValidationRule, ObjectValidationRule, Exception>
+			objectValidationRuleUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("objectDefinitionId")) {
-				objectValidationRuleUnsafeConsumer = objectValidationRule ->
+				objectValidationRuleUnsafeFunction = objectValidationRule ->
 					postObjectDefinitionObjectValidationRule(
 						_parseLong(
 							(String)parameters.get("objectDefinitionId")),
@@ -708,7 +707,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			}
 		}
 
-		if (objectValidationRuleUnsafeConsumer == null) {
+		if (objectValidationRuleUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ObjectValidationRule");
@@ -716,13 +715,13 @@ public abstract class BaseObjectValidationRuleResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectValidationRules, objectValidationRuleUnsafeConsumer);
+				objectValidationRules, objectValidationRuleUnsafeFunction);
 		}
 		else {
 			for (ObjectValidationRule objectValidationRule :
 					objectValidationRules) {
 
-				objectValidationRuleUnsafeConsumer.accept(objectValidationRule);
+				objectValidationRuleUnsafeFunction.apply(objectValidationRule);
 			}
 		}
 	}
@@ -812,14 +811,14 @@ public abstract class BaseObjectValidationRuleResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectValidationRule, Exception>
-			objectValidationRuleUnsafeConsumer = null;
+		UnsafeFunction<ObjectValidationRule, ObjectValidationRule, Exception>
+			objectValidationRuleUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			objectValidationRuleUnsafeConsumer =
+			objectValidationRuleUnsafeFunction =
 				objectValidationRule -> patchObjectValidationRule(
 					objectValidationRule.getId() != null ?
 						objectValidationRule.getId() :
@@ -830,7 +829,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			objectValidationRuleUnsafeConsumer =
+			objectValidationRuleUnsafeFunction =
 				objectValidationRule -> putObjectValidationRule(
 					objectValidationRule.getId() != null ?
 						objectValidationRule.getId() :
@@ -840,7 +839,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 					objectValidationRule);
 		}
 
-		if (objectValidationRuleUnsafeConsumer == null) {
+		if (objectValidationRuleUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ObjectValidationRule");
@@ -848,13 +847,13 @@ public abstract class BaseObjectValidationRuleResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectValidationRules, objectValidationRuleUnsafeConsumer);
+				objectValidationRules, objectValidationRuleUnsafeFunction);
 		}
 		else {
 			for (ObjectValidationRule objectValidationRule :
 					objectValidationRules) {
 
-				objectValidationRuleUnsafeConsumer.accept(objectValidationRule);
+				objectValidationRuleUnsafeFunction.apply(objectValidationRule);
 			}
 		}
 	}
@@ -874,8 +873,9 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<ObjectValidationRule>,
-			 UnsafeConsumer<ObjectValidationRule, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <ObjectValidationRule, ObjectValidationRule, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1137,8 +1137,8 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<ObjectValidationRule>,
-		 UnsafeConsumer<ObjectValidationRule, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<ObjectValidationRule, ObjectValidationRule, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.order.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.order.dto.v1_0.OrderRule;
 import com.liferay.headless.commerce.admin.order.resource.v1_0.OrderRuleResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -499,16 +498,17 @@ public abstract class BaseOrderRuleResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OrderRule, Exception> orderRuleUnsafeConsumer = null;
+		UnsafeFunction<OrderRule, OrderRule, Exception>
+			orderRuleUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			orderRuleUnsafeConsumer = orderRule -> postOrderRule(orderRule);
+			orderRuleUnsafeFunction = orderRule -> postOrderRule(orderRule);
 		}
 
-		if (orderRuleUnsafeConsumer == null) {
+		if (orderRuleUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for OrderRule");
@@ -516,11 +516,11 @@ public abstract class BaseOrderRuleResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				orderRules, orderRuleUnsafeConsumer);
+				orderRules, orderRuleUnsafeFunction);
 		}
 		else {
 			for (OrderRule orderRule : orderRules) {
-				orderRuleUnsafeConsumer.accept(orderRule);
+				orderRuleUnsafeFunction.apply(orderRule);
 			}
 		}
 	}
@@ -600,19 +600,20 @@ public abstract class BaseOrderRuleResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OrderRule, Exception> orderRuleUnsafeConsumer = null;
+		UnsafeFunction<OrderRule, OrderRule, Exception>
+			orderRuleUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			orderRuleUnsafeConsumer = orderRule -> patchOrderRule(
+			orderRuleUnsafeFunction = orderRule -> patchOrderRule(
 				orderRule.getId() != null ? orderRule.getId() :
 					_parseLong((String)parameters.get("orderRuleId")),
 				orderRule);
 		}
 
-		if (orderRuleUnsafeConsumer == null) {
+		if (orderRuleUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for OrderRule");
@@ -620,11 +621,11 @@ public abstract class BaseOrderRuleResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				orderRules, orderRuleUnsafeConsumer);
+				orderRules, orderRuleUnsafeFunction);
 		}
 		else {
 			for (OrderRule orderRule : orderRules) {
-				orderRuleUnsafeConsumer.accept(orderRule);
+				orderRuleUnsafeFunction.apply(orderRule);
 			}
 		}
 	}
@@ -643,8 +644,9 @@ public abstract class BaseOrderRuleResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<OrderRule>, UnsafeConsumer<OrderRule, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<OrderRule>,
+			 UnsafeFunction<OrderRule, OrderRule, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -900,8 +902,8 @@ public abstract class BaseOrderRuleResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<OrderRule>, UnsafeConsumer<OrderRule, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<OrderRule>, UnsafeFunction<OrderRule, OrderRule, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

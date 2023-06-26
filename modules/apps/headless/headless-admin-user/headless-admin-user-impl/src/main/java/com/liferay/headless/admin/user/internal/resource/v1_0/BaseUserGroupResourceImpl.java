@@ -17,7 +17,6 @@ package com.liferay.headless.admin.user.internal.resource.v1_0;
 import com.liferay.headless.admin.user.dto.v1_0.UserGroup;
 import com.liferay.headless.admin.user.resource.v1_0.UserGroupResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -742,13 +741,14 @@ public abstract class BaseUserGroupResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<UserGroup, Exception> userGroupUnsafeConsumer = null;
+		UnsafeFunction<UserGroup, UserGroup, Exception>
+			userGroupUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			userGroupUnsafeConsumer = userGroup -> postUserGroup(userGroup);
+			userGroupUnsafeFunction = userGroup -> postUserGroup(userGroup);
 		}
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "UPSERT")) {
@@ -756,19 +756,21 @@ public abstract class BaseUserGroupResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				userGroupUnsafeConsumer =
+				userGroupUnsafeFunction =
 					userGroup -> putUserGroupByExternalReferenceCode(
 						userGroup.getExternalReferenceCode(), userGroup);
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				userGroupUnsafeConsumer = userGroup -> {
+				userGroupUnsafeFunction = userGroup -> {
+					UserGroup persistedUserGroup = null;
+
 					try {
 						UserGroup getUserGroup =
 							getUserGroupByExternalReferenceCode(
 								userGroup.getExternalReferenceCode());
 
-						patchUserGroup(
+						persistedUserGroup = patchUserGroup(
 							getUserGroup.getId() != null ?
 								getUserGroup.getId() :
 									_parseLong(
@@ -776,13 +778,15 @@ public abstract class BaseUserGroupResourceImpl
 							userGroup);
 					}
 					catch (NoSuchModelException noSuchModelException) {
-						postUserGroup(userGroup);
+						persistedUserGroup = postUserGroup(userGroup);
 					}
+
+					return persistedUserGroup;
 				};
 			}
 		}
 
-		if (userGroupUnsafeConsumer == null) {
+		if (userGroupUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for UserGroup");
@@ -790,11 +794,11 @@ public abstract class BaseUserGroupResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				userGroups, userGroupUnsafeConsumer);
+				userGroups, userGroupUnsafeFunction);
 		}
 		else {
 			for (UserGroup userGroup : userGroups) {
-				userGroupUnsafeConsumer.accept(userGroup);
+				userGroupUnsafeFunction.apply(userGroup);
 			}
 		}
 	}
@@ -874,26 +878,27 @@ public abstract class BaseUserGroupResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<UserGroup, Exception> userGroupUnsafeConsumer = null;
+		UnsafeFunction<UserGroup, UserGroup, Exception>
+			userGroupUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			userGroupUnsafeConsumer = userGroup -> patchUserGroup(
+			userGroupUnsafeFunction = userGroup -> patchUserGroup(
 				userGroup.getId() != null ? userGroup.getId() :
 					_parseLong((String)parameters.get("userGroupId")),
 				userGroup);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			userGroupUnsafeConsumer = userGroup -> putUserGroup(
+			userGroupUnsafeFunction = userGroup -> putUserGroup(
 				userGroup.getId() != null ? userGroup.getId() :
 					_parseLong((String)parameters.get("userGroupId")),
 				userGroup);
 		}
 
-		if (userGroupUnsafeConsumer == null) {
+		if (userGroupUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for UserGroup");
@@ -901,11 +906,11 @@ public abstract class BaseUserGroupResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				userGroups, userGroupUnsafeConsumer);
+				userGroups, userGroupUnsafeFunction);
 		}
 		else {
 			for (UserGroup userGroup : userGroups) {
-				userGroupUnsafeConsumer.accept(userGroup);
+				userGroupUnsafeFunction.apply(userGroup);
 			}
 		}
 	}
@@ -924,8 +929,9 @@ public abstract class BaseUserGroupResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<UserGroup>, UnsafeConsumer<UserGroup, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<UserGroup>,
+			 UnsafeFunction<UserGroup, UserGroup, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1185,8 +1191,8 @@ public abstract class BaseUserGroupResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<UserGroup>, UnsafeConsumer<UserGroup, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<UserGroup>, UnsafeFunction<UserGroup, UserGroup, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -19,7 +19,6 @@ import com.liferay.headless.delivery.dto.v1_0.KnowledgeBaseArticle;
 import com.liferay.headless.delivery.dto.v1_0.Rating;
 import com.liferay.headless.delivery.resource.v1_0.KnowledgeBaseArticleResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -1845,22 +1844,22 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<KnowledgeBaseArticle, Exception>
-			knowledgeBaseArticleUnsafeConsumer = null;
+		UnsafeFunction<KnowledgeBaseArticle, KnowledgeBaseArticle, Exception>
+			knowledgeBaseArticleUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("knowledgeBaseFolderId")) {
-				knowledgeBaseArticleUnsafeConsumer = knowledgeBaseArticle ->
+				knowledgeBaseArticleUnsafeFunction = knowledgeBaseArticle ->
 					postKnowledgeBaseFolderKnowledgeBaseArticle(
 						_parseLong(
 							(String)parameters.get("knowledgeBaseFolderId")),
 						knowledgeBaseArticle);
 			}
 			else if (parameters.containsKey("siteId")) {
-				knowledgeBaseArticleUnsafeConsumer =
+				knowledgeBaseArticleUnsafeFunction =
 					knowledgeBaseArticle -> postSiteKnowledgeBaseArticle(
 						(Long)parameters.get("siteId"), knowledgeBaseArticle);
 			}
@@ -1875,7 +1874,7 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				knowledgeBaseArticleUnsafeConsumer = knowledgeBaseArticle ->
+				knowledgeBaseArticleUnsafeFunction = knowledgeBaseArticle ->
 					putSiteKnowledgeBaseArticleByExternalReferenceCode(
 						knowledgeBaseArticle.getSiteId() != null ?
 							knowledgeBaseArticle.getSiteId() :
@@ -1885,7 +1884,9 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				knowledgeBaseArticleUnsafeConsumer = knowledgeBaseArticle -> {
+				knowledgeBaseArticleUnsafeFunction = knowledgeBaseArticle -> {
+					KnowledgeBaseArticle persistedKnowledgeBaseArticle = null;
+
 					try {
 						KnowledgeBaseArticle getKnowledgeBaseArticle =
 							getSiteKnowledgeBaseArticleByExternalReferenceCode(
@@ -1895,37 +1896,42 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 								knowledgeBaseArticle.
 									getExternalReferenceCode());
 
-						patchKnowledgeBaseArticle(
-							getKnowledgeBaseArticle.getId() != null ?
-								getKnowledgeBaseArticle.getId() :
-									_parseLong(
-										(String)parameters.get(
-											"knowledgeBaseArticleId")),
-							knowledgeBaseArticle);
+						persistedKnowledgeBaseArticle =
+							patchKnowledgeBaseArticle(
+								getKnowledgeBaseArticle.getId() != null ?
+									getKnowledgeBaseArticle.getId() :
+										_parseLong(
+											(String)parameters.get(
+												"knowledgeBaseArticleId")),
+								knowledgeBaseArticle);
 					}
 					catch (NoSuchModelException noSuchModelException) {
 						if (parameters.containsKey("knowledgeBaseFolderId")) {
-							postKnowledgeBaseFolderKnowledgeBaseArticle(
-								_parseLong(
-									(String)parameters.get(
-										"knowledgeBaseFolderId")),
-								knowledgeBaseArticle);
+							persistedKnowledgeBaseArticle =
+								postKnowledgeBaseFolderKnowledgeBaseArticle(
+									_parseLong(
+										(String)parameters.get(
+											"knowledgeBaseFolderId")),
+									knowledgeBaseArticle);
 						}
 						else if (parameters.containsKey("siteId")) {
-							postSiteKnowledgeBaseArticle(
-								(Long)parameters.get("siteId"),
-								knowledgeBaseArticle);
+							persistedKnowledgeBaseArticle =
+								postSiteKnowledgeBaseArticle(
+									(Long)parameters.get("siteId"),
+									knowledgeBaseArticle);
 						}
 						else {
 							throw new NotSupportedException(
 								"One of the following parameters must be specified: [knowledgeBaseFolderId, siteId, knowledgeBaseFolderId]");
 						}
 					}
+
+					return persistedKnowledgeBaseArticle;
 				};
 			}
 		}
 
-		if (knowledgeBaseArticleUnsafeConsumer == null) {
+		if (knowledgeBaseArticleUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for KnowledgeBaseArticle");
@@ -1933,13 +1939,13 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				knowledgeBaseArticles, knowledgeBaseArticleUnsafeConsumer);
+				knowledgeBaseArticles, knowledgeBaseArticleUnsafeFunction);
 		}
 		else {
 			for (KnowledgeBaseArticle knowledgeBaseArticle :
 					knowledgeBaseArticles) {
 
-				knowledgeBaseArticleUnsafeConsumer.accept(knowledgeBaseArticle);
+				knowledgeBaseArticleUnsafeFunction.apply(knowledgeBaseArticle);
 			}
 		}
 	}
@@ -2036,14 +2042,14 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<KnowledgeBaseArticle, Exception>
-			knowledgeBaseArticleUnsafeConsumer = null;
+		UnsafeFunction<KnowledgeBaseArticle, KnowledgeBaseArticle, Exception>
+			knowledgeBaseArticleUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			knowledgeBaseArticleUnsafeConsumer =
+			knowledgeBaseArticleUnsafeFunction =
 				knowledgeBaseArticle -> patchKnowledgeBaseArticle(
 					knowledgeBaseArticle.getId() != null ?
 						knowledgeBaseArticle.getId() :
@@ -2054,7 +2060,7 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			knowledgeBaseArticleUnsafeConsumer =
+			knowledgeBaseArticleUnsafeFunction =
 				knowledgeBaseArticle -> putKnowledgeBaseArticle(
 					knowledgeBaseArticle.getId() != null ?
 						knowledgeBaseArticle.getId() :
@@ -2064,7 +2070,7 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 					knowledgeBaseArticle);
 		}
 
-		if (knowledgeBaseArticleUnsafeConsumer == null) {
+		if (knowledgeBaseArticleUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for KnowledgeBaseArticle");
@@ -2072,13 +2078,13 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				knowledgeBaseArticles, knowledgeBaseArticleUnsafeConsumer);
+				knowledgeBaseArticles, knowledgeBaseArticleUnsafeFunction);
 		}
 		else {
 			for (KnowledgeBaseArticle knowledgeBaseArticle :
 					knowledgeBaseArticles) {
 
-				knowledgeBaseArticleUnsafeConsumer.accept(knowledgeBaseArticle);
+				knowledgeBaseArticleUnsafeFunction.apply(knowledgeBaseArticle);
 			}
 		}
 	}
@@ -2269,8 +2275,9 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<KnowledgeBaseArticle>,
-			 UnsafeConsumer<KnowledgeBaseArticle, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <KnowledgeBaseArticle, KnowledgeBaseArticle, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -2532,8 +2539,8 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<KnowledgeBaseArticle>,
-		 UnsafeConsumer<KnowledgeBaseArticle, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<KnowledgeBaseArticle, KnowledgeBaseArticle, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

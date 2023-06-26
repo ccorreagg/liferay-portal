@@ -17,7 +17,6 @@ package com.liferay.headless.admin.taxonomy.internal.resource.v1_0;
 import com.liferay.headless.admin.taxonomy.dto.v1_0.TaxonomyVocabulary;
 import com.liferay.headless.admin.taxonomy.resource.v1_0.TaxonomyVocabularyResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -1569,21 +1568,21 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<TaxonomyVocabulary, Exception>
-			taxonomyVocabularyUnsafeConsumer = null;
+		UnsafeFunction<TaxonomyVocabulary, TaxonomyVocabulary, Exception>
+			taxonomyVocabularyUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("assetLibraryId")) {
-				taxonomyVocabularyUnsafeConsumer =
+				taxonomyVocabularyUnsafeFunction =
 					taxonomyVocabulary -> postAssetLibraryTaxonomyVocabulary(
 						(Long)parameters.get("assetLibraryId"),
 						taxonomyVocabulary);
 			}
 			else if (parameters.containsKey("siteId")) {
-				taxonomyVocabularyUnsafeConsumer =
+				taxonomyVocabularyUnsafeFunction =
 					taxonomyVocabulary -> postSiteTaxonomyVocabulary(
 						(Long)parameters.get("siteId"), taxonomyVocabulary);
 			}
@@ -1598,7 +1597,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				taxonomyVocabularyUnsafeConsumer = taxonomyVocabulary ->
+				taxonomyVocabularyUnsafeFunction = taxonomyVocabulary ->
 					putSiteTaxonomyVocabularyByExternalReferenceCode(
 						taxonomyVocabulary.getSiteId() != null ?
 							taxonomyVocabulary.getSiteId() :
@@ -1608,7 +1607,9 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				taxonomyVocabularyUnsafeConsumer = taxonomyVocabulary -> {
+				taxonomyVocabularyUnsafeFunction = taxonomyVocabulary -> {
+					TaxonomyVocabulary persistedTaxonomyVocabulary = null;
+
 					try {
 						TaxonomyVocabulary getTaxonomyVocabulary =
 							getSiteTaxonomyVocabularyByExternalReferenceCode(
@@ -1617,7 +1618,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 										(Long)parameters.get("siteId"),
 								taxonomyVocabulary.getExternalReferenceCode());
 
-						patchTaxonomyVocabulary(
+						persistedTaxonomyVocabulary = patchTaxonomyVocabulary(
 							getTaxonomyVocabulary.getId() != null ?
 								getTaxonomyVocabulary.getId() :
 									_parseLong(
@@ -1627,25 +1628,29 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 					}
 					catch (NoSuchModelException noSuchModelException) {
 						if (parameters.containsKey("assetLibraryId")) {
-							postAssetLibraryTaxonomyVocabulary(
-								(Long)parameters.get("assetLibraryId"),
-								taxonomyVocabulary);
+							persistedTaxonomyVocabulary =
+								postAssetLibraryTaxonomyVocabulary(
+									(Long)parameters.get("assetLibraryId"),
+									taxonomyVocabulary);
 						}
 						else if (parameters.containsKey("siteId")) {
-							postSiteTaxonomyVocabulary(
-								(Long)parameters.get("siteId"),
-								taxonomyVocabulary);
+							persistedTaxonomyVocabulary =
+								postSiteTaxonomyVocabulary(
+									(Long)parameters.get("siteId"),
+									taxonomyVocabulary);
 						}
 						else {
 							throw new NotSupportedException(
 								"One of the following parameters must be specified: [assetLibraryId, siteId, assetLibraryId]");
 						}
 					}
+
+					return persistedTaxonomyVocabulary;
 				};
 			}
 		}
 
-		if (taxonomyVocabularyUnsafeConsumer == null) {
+		if (taxonomyVocabularyUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for TaxonomyVocabulary");
@@ -1653,11 +1658,11 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				taxonomyVocabularies, taxonomyVocabularyUnsafeConsumer);
+				taxonomyVocabularies, taxonomyVocabularyUnsafeFunction);
 		}
 		else {
 			for (TaxonomyVocabulary taxonomyVocabulary : taxonomyVocabularies) {
-				taxonomyVocabularyUnsafeConsumer.accept(taxonomyVocabulary);
+				taxonomyVocabularyUnsafeFunction.apply(taxonomyVocabulary);
 			}
 		}
 	}
@@ -1750,14 +1755,14 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<TaxonomyVocabulary, Exception>
-			taxonomyVocabularyUnsafeConsumer = null;
+		UnsafeFunction<TaxonomyVocabulary, TaxonomyVocabulary, Exception>
+			taxonomyVocabularyUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			taxonomyVocabularyUnsafeConsumer =
+			taxonomyVocabularyUnsafeFunction =
 				taxonomyVocabulary -> patchTaxonomyVocabulary(
 					taxonomyVocabulary.getId() != null ?
 						taxonomyVocabulary.getId() :
@@ -1767,7 +1772,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			taxonomyVocabularyUnsafeConsumer =
+			taxonomyVocabularyUnsafeFunction =
 				taxonomyVocabulary -> putTaxonomyVocabulary(
 					taxonomyVocabulary.getId() != null ?
 						taxonomyVocabulary.getId() :
@@ -1776,7 +1781,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 					taxonomyVocabulary);
 		}
 
-		if (taxonomyVocabularyUnsafeConsumer == null) {
+		if (taxonomyVocabularyUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for TaxonomyVocabulary");
@@ -1784,11 +1789,11 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				taxonomyVocabularies, taxonomyVocabularyUnsafeConsumer);
+				taxonomyVocabularies, taxonomyVocabularyUnsafeFunction);
 		}
 		else {
 			for (TaxonomyVocabulary taxonomyVocabulary : taxonomyVocabularies) {
-				taxonomyVocabularyUnsafeConsumer.accept(taxonomyVocabulary);
+				taxonomyVocabularyUnsafeFunction.apply(taxonomyVocabulary);
 			}
 		}
 	}
@@ -1971,8 +1976,8 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<TaxonomyVocabulary>,
-			 UnsafeConsumer<TaxonomyVocabulary, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<TaxonomyVocabulary, TaxonomyVocabulary, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -2234,8 +2239,8 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<TaxonomyVocabulary>,
-		 UnsafeConsumer<TaxonomyVocabulary, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<TaxonomyVocabulary, TaxonomyVocabulary, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

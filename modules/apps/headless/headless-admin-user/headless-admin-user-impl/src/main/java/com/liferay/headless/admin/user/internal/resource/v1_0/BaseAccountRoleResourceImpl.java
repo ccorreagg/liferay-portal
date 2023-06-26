@@ -17,7 +17,6 @@ package com.liferay.headless.admin.user.internal.resource.v1_0;
 import com.liferay.headless.admin.user.dto.v1_0.AccountRole;
 import com.liferay.headless.admin.user.resource.v1_0.AccountRoleResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -802,14 +801,15 @@ public abstract class BaseAccountRoleResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<AccountRole, Exception> accountRoleUnsafeConsumer = null;
+		UnsafeFunction<AccountRole, AccountRole, Exception>
+			accountRoleUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("accountId")) {
-				accountRoleUnsafeConsumer =
+				accountRoleUnsafeFunction =
 					accountRole -> postAccountAccountRole(
 						_parseLong((String)parameters.get("accountId")),
 						accountRole);
@@ -820,7 +820,7 @@ public abstract class BaseAccountRoleResourceImpl
 			}
 		}
 
-		if (accountRoleUnsafeConsumer == null) {
+		if (accountRoleUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for AccountRole");
@@ -828,11 +828,11 @@ public abstract class BaseAccountRoleResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				accountRoles, accountRoleUnsafeConsumer);
+				accountRoles, accountRoleUnsafeFunction);
 		}
 		else {
 			for (AccountRole accountRole : accountRoles) {
-				accountRoleUnsafeConsumer.accept(accountRole);
+				accountRoleUnsafeFunction.apply(accountRole);
 			}
 		}
 	}
@@ -937,8 +937,9 @@ public abstract class BaseAccountRoleResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<AccountRole>, UnsafeConsumer<AccountRole, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<AccountRole>,
+			 UnsafeFunction<AccountRole, AccountRole, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1194,8 +1195,9 @@ public abstract class BaseAccountRoleResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<AccountRole>, UnsafeConsumer<AccountRole, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<AccountRole>,
+		 UnsafeFunction<AccountRole, AccountRole, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

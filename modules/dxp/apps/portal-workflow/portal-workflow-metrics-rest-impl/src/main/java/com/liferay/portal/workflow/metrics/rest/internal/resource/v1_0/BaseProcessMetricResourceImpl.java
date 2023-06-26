@@ -15,7 +15,6 @@
 package com.liferay.portal.workflow.metrics.rest.internal.resource.v1_0;
 
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -348,7 +347,7 @@ public abstract class BaseProcessMetricResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<ProcessMetric>,
-			 UnsafeConsumer<ProcessMetric, Exception>, Exception>
+			 UnsafeFunction<ProcessMetric, ProcessMetric, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -605,8 +604,9 @@ public abstract class BaseProcessMetricResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<ProcessMetric>, UnsafeConsumer<ProcessMetric, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<ProcessMetric>,
+		 UnsafeFunction<ProcessMetric, ProcessMetric, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

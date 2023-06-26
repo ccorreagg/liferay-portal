@@ -17,7 +17,6 @@ package com.liferay.headless.admin.user.internal.resource.v1_0;
 import com.liferay.headless.admin.user.dto.v1_0.Account;
 import com.liferay.headless.admin.user.resource.v1_0.AccountResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -1064,13 +1063,14 @@ public abstract class BaseAccountResourceImpl
 			Collection<Account> accounts, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Account, Exception> accountUnsafeConsumer = null;
+		UnsafeFunction<Account, Account, Exception> accountUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			accountUnsafeConsumer = account -> postAccount(account);
+			accountUnsafeFunction = account -> postAccount(account);
 		}
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "UPSERT")) {
@@ -1078,41 +1078,45 @@ public abstract class BaseAccountResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				accountUnsafeConsumer =
+				accountUnsafeFunction =
 					account -> putAccountByExternalReferenceCode(
 						account.getExternalReferenceCode(), account);
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				accountUnsafeConsumer = account -> {
+				accountUnsafeFunction = account -> {
+					Account persistedAccount = null;
+
 					try {
 						Account getAccount = getAccountByExternalReferenceCode(
 							account.getExternalReferenceCode());
 
-						patchAccount(
+						persistedAccount = patchAccount(
 							getAccount.getId() != null ? getAccount.getId() :
 								_parseLong((String)parameters.get("accountId")),
 							account);
 					}
 					catch (NoSuchModelException noSuchModelException) {
-						postAccount(account);
+						persistedAccount = postAccount(account);
 					}
+
+					return persistedAccount;
 				};
 			}
 		}
 
-		if (accountUnsafeConsumer == null) {
+		if (accountUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Account");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(accounts, accountUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(accounts, accountUnsafeFunction);
 		}
 		else {
 			for (Account account : accounts) {
-				accountUnsafeConsumer.accept(account);
+				accountUnsafeFunction.apply(account);
 			}
 		}
 	}
@@ -1197,37 +1201,38 @@ public abstract class BaseAccountResourceImpl
 			Collection<Account> accounts, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Account, Exception> accountUnsafeConsumer = null;
+		UnsafeFunction<Account, Account, Exception> accountUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			accountUnsafeConsumer = account -> patchAccount(
+			accountUnsafeFunction = account -> patchAccount(
 				account.getId() != null ? account.getId() :
 					_parseLong((String)parameters.get("accountId")),
 				account);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			accountUnsafeConsumer = account -> putAccount(
+			accountUnsafeFunction = account -> putAccount(
 				account.getId() != null ? account.getId() :
 					_parseLong((String)parameters.get("accountId")),
 				account);
 		}
 
-		if (accountUnsafeConsumer == null) {
+		if (accountUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Account");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(accounts, accountUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(accounts, accountUnsafeFunction);
 		}
 		else {
 			for (Account account : accounts) {
-				accountUnsafeConsumer.accept(account);
+				accountUnsafeFunction.apply(account);
 			}
 		}
 	}
@@ -1246,8 +1251,8 @@ public abstract class BaseAccountResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Account>, UnsafeConsumer<Account, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			<Collection<Account>, UnsafeFunction<Account, Account, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1506,8 +1511,8 @@ public abstract class BaseAccountResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Account>, UnsafeConsumer<Account, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Account>, UnsafeFunction<Account, Account, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -15,7 +15,6 @@
 package com.liferay.segments.asah.rest.internal.resource.v1_0;
 
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -170,14 +169,14 @@ public abstract class BaseStatusResourceImpl
 			Collection<Status> statuses, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Status, Exception> statusUnsafeConsumer = null;
+		UnsafeFunction<Status, Status, Exception> statusUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("experimentId")) {
-				statusUnsafeConsumer = status -> postExperimentStatus(
+				statusUnsafeFunction = status -> postExperimentStatus(
 					_parseLong((String)parameters.get("experimentId")), status);
 			}
 			else {
@@ -186,18 +185,18 @@ public abstract class BaseStatusResourceImpl
 			}
 		}
 
-		if (statusUnsafeConsumer == null) {
+		if (statusUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Status");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(statuses, statusUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(statuses, statusUnsafeFunction);
 		}
 		else {
 			for (Status status : statuses) {
-				statusUnsafeConsumer.accept(status);
+				statusUnsafeFunction.apply(status);
 			}
 		}
 	}
@@ -293,8 +292,8 @@ public abstract class BaseStatusResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Status>, UnsafeConsumer<Status, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			<Collection<Status>, UnsafeFunction<Status, Status, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -550,8 +549,8 @@ public abstract class BaseStatusResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Status>, UnsafeConsumer<Status, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Status>, UnsafeFunction<Status, Status, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

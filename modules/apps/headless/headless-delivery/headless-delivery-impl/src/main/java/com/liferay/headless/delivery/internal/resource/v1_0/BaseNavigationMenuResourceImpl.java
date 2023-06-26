@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.dto.v1_0.NavigationMenu;
 import com.liferay.headless.delivery.resource.v1_0.NavigationMenuResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -783,15 +782,15 @@ public abstract class BaseNavigationMenuResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<NavigationMenu, Exception> navigationMenuUnsafeConsumer =
-			null;
+		UnsafeFunction<NavigationMenu, NavigationMenu, Exception>
+			navigationMenuUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
-				navigationMenuUnsafeConsumer =
+				navigationMenuUnsafeFunction =
 					navigationMenu -> postSiteNavigationMenu(
 						(Long)parameters.get("siteId"), navigationMenu);
 			}
@@ -801,7 +800,7 @@ public abstract class BaseNavigationMenuResourceImpl
 			}
 		}
 
-		if (navigationMenuUnsafeConsumer == null) {
+		if (navigationMenuUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for NavigationMenu");
@@ -809,11 +808,11 @@ public abstract class BaseNavigationMenuResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				navigationMenus, navigationMenuUnsafeConsumer);
+				navigationMenus, navigationMenuUnsafeFunction);
 		}
 		else {
 			for (NavigationMenu navigationMenu : navigationMenus) {
-				navigationMenuUnsafeConsumer.accept(navigationMenu);
+				navigationMenuUnsafeFunction.apply(navigationMenu);
 			}
 		}
 	}
@@ -900,20 +899,20 @@ public abstract class BaseNavigationMenuResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<NavigationMenu, Exception> navigationMenuUnsafeConsumer =
-			null;
+		UnsafeFunction<NavigationMenu, NavigationMenu, Exception>
+			navigationMenuUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			navigationMenuUnsafeConsumer = navigationMenu -> putNavigationMenu(
+			navigationMenuUnsafeFunction = navigationMenu -> putNavigationMenu(
 				navigationMenu.getId() != null ? navigationMenu.getId() :
 					_parseLong((String)parameters.get("navigationMenuId")),
 				navigationMenu);
 		}
 
-		if (navigationMenuUnsafeConsumer == null) {
+		if (navigationMenuUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for NavigationMenu");
@@ -921,11 +920,11 @@ public abstract class BaseNavigationMenuResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				navigationMenus, navigationMenuUnsafeConsumer);
+				navigationMenus, navigationMenuUnsafeFunction);
 		}
 		else {
 			for (NavigationMenu navigationMenu : navigationMenus) {
-				navigationMenuUnsafeConsumer.accept(navigationMenu);
+				navigationMenuUnsafeFunction.apply(navigationMenu);
 			}
 		}
 	}
@@ -1108,8 +1107,8 @@ public abstract class BaseNavigationMenuResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<NavigationMenu>,
-			 UnsafeConsumer<NavigationMenu, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<NavigationMenu, NavigationMenu, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1365,8 +1364,9 @@ public abstract class BaseNavigationMenuResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<NavigationMenu>, UnsafeConsumer<NavigationMenu, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<NavigationMenu>,
+		 UnsafeFunction<NavigationMenu, NavigationMenu, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

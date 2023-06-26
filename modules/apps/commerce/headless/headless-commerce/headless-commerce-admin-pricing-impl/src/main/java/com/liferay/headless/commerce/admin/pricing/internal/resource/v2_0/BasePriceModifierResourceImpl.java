@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.pricing.internal.resource.v2_0;
 import com.liferay.headless.commerce.admin.pricing.dto.v2_0.PriceModifier;
 import com.liferay.headless.commerce.admin.pricing.resource.v2_0.PriceModifierResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -627,20 +626,20 @@ public abstract class BasePriceModifierResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<PriceModifier, Exception> priceModifierUnsafeConsumer =
-			null;
+		UnsafeFunction<PriceModifier, PriceModifier, Exception>
+			priceModifierUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			priceModifierUnsafeConsumer = priceModifier -> patchPriceModifier(
+			priceModifierUnsafeFunction = priceModifier -> patchPriceModifier(
 				priceModifier.getId() != null ? priceModifier.getId() :
 					_parseLong((String)parameters.get("priceModifierId")),
 				priceModifier);
 		}
 
-		if (priceModifierUnsafeConsumer == null) {
+		if (priceModifierUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for PriceModifier");
@@ -648,11 +647,11 @@ public abstract class BasePriceModifierResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				priceModifiers, priceModifierUnsafeConsumer);
+				priceModifiers, priceModifierUnsafeFunction);
 		}
 		else {
 			for (PriceModifier priceModifier : priceModifiers) {
-				priceModifierUnsafeConsumer.accept(priceModifier);
+				priceModifierUnsafeFunction.apply(priceModifier);
 			}
 		}
 	}
@@ -672,7 +671,7 @@ public abstract class BasePriceModifierResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<PriceModifier>,
-			 UnsafeConsumer<PriceModifier, Exception>, Exception>
+			 UnsafeFunction<PriceModifier, PriceModifier, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -929,8 +928,9 @@ public abstract class BasePriceModifierResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<PriceModifier>, UnsafeConsumer<PriceModifier, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<PriceModifier>,
+		 UnsafeFunction<PriceModifier, PriceModifier, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

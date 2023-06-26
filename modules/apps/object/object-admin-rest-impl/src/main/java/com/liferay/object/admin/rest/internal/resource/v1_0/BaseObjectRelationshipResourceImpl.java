@@ -17,7 +17,6 @@ package com.liferay.object.admin.rest.internal.resource.v1_0;
 import com.liferay.object.admin.rest.dto.v1_0.ObjectRelationship;
 import com.liferay.object.admin.rest.resource.v1_0.ObjectRelationshipResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -599,15 +598,15 @@ public abstract class BaseObjectRelationshipResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectRelationship, Exception>
-			objectRelationshipUnsafeConsumer = null;
+		UnsafeFunction<ObjectRelationship, ObjectRelationship, Exception>
+			objectRelationshipUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("objectDefinitionId")) {
-				objectRelationshipUnsafeConsumer =
+				objectRelationshipUnsafeFunction =
 					objectRelationship ->
 						postObjectDefinitionObjectRelationship(
 							_parseLong(
@@ -620,7 +619,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 			}
 		}
 
-		if (objectRelationshipUnsafeConsumer == null) {
+		if (objectRelationshipUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ObjectRelationship");
@@ -628,11 +627,11 @@ public abstract class BaseObjectRelationshipResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectRelationships, objectRelationshipUnsafeConsumer);
+				objectRelationships, objectRelationshipUnsafeFunction);
 		}
 		else {
 			for (ObjectRelationship objectRelationship : objectRelationships) {
-				objectRelationshipUnsafeConsumer.accept(objectRelationship);
+				objectRelationshipUnsafeFunction.apply(objectRelationship);
 			}
 		}
 	}
@@ -720,14 +719,14 @@ public abstract class BaseObjectRelationshipResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectRelationship, Exception>
-			objectRelationshipUnsafeConsumer = null;
+		UnsafeFunction<ObjectRelationship, ObjectRelationship, Exception>
+			objectRelationshipUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			objectRelationshipUnsafeConsumer =
+			objectRelationshipUnsafeFunction =
 				objectRelationship -> putObjectRelationship(
 					objectRelationship.getId() != null ?
 						objectRelationship.getId() :
@@ -736,7 +735,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 					objectRelationship);
 		}
 
-		if (objectRelationshipUnsafeConsumer == null) {
+		if (objectRelationshipUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ObjectRelationship");
@@ -744,11 +743,11 @@ public abstract class BaseObjectRelationshipResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectRelationships, objectRelationshipUnsafeConsumer);
+				objectRelationships, objectRelationshipUnsafeFunction);
 		}
 		else {
 			for (ObjectRelationship objectRelationship : objectRelationships) {
-				objectRelationshipUnsafeConsumer.accept(objectRelationship);
+				objectRelationshipUnsafeFunction.apply(objectRelationship);
 			}
 		}
 	}
@@ -768,8 +767,8 @@ public abstract class BaseObjectRelationshipResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<ObjectRelationship>,
-			 UnsafeConsumer<ObjectRelationship, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<ObjectRelationship, ObjectRelationship, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1026,8 +1025,8 @@ public abstract class BaseObjectRelationshipResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<ObjectRelationship>,
-		 UnsafeConsumer<ObjectRelationship, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<ObjectRelationship, ObjectRelationship, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

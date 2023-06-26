@@ -17,7 +17,6 @@ package com.liferay.headless.user.notification.internal.resource.v1_0;
 import com.liferay.headless.user.notification.dto.v1_0.UserNotification;
 import com.liferay.headless.user.notification.resource.v1_0.UserNotificationResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -428,8 +427,8 @@ public abstract class BaseUserNotificationResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<UserNotification>,
-			 UnsafeConsumer<UserNotification, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<UserNotification, UserNotification, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -686,8 +685,8 @@ public abstract class BaseUserNotificationResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<UserNotification>,
-		 UnsafeConsumer<UserNotification, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<UserNotification, UserNotification, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

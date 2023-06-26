@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.pricing.internal.resource.v2_0;
 import com.liferay.headless.commerce.admin.pricing.dto.v2_0.PriceList;
 import com.liferay.headless.commerce.admin.pricing.resource.v2_0.PriceListResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -499,16 +498,17 @@ public abstract class BasePriceListResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<PriceList, Exception> priceListUnsafeConsumer = null;
+		UnsafeFunction<PriceList, PriceList, Exception>
+			priceListUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			priceListUnsafeConsumer = priceList -> postPriceList(priceList);
+			priceListUnsafeFunction = priceList -> postPriceList(priceList);
 		}
 
-		if (priceListUnsafeConsumer == null) {
+		if (priceListUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for PriceList");
@@ -516,11 +516,11 @@ public abstract class BasePriceListResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				priceLists, priceListUnsafeConsumer);
+				priceLists, priceListUnsafeFunction);
 		}
 		else {
 			for (PriceList priceList : priceLists) {
-				priceListUnsafeConsumer.accept(priceList);
+				priceListUnsafeFunction.apply(priceList);
 			}
 		}
 	}
@@ -600,19 +600,20 @@ public abstract class BasePriceListResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<PriceList, Exception> priceListUnsafeConsumer = null;
+		UnsafeFunction<PriceList, PriceList, Exception>
+			priceListUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			priceListUnsafeConsumer = priceList -> patchPriceList(
+			priceListUnsafeFunction = priceList -> patchPriceList(
 				priceList.getId() != null ? priceList.getId() :
 					_parseLong((String)parameters.get("priceListId")),
 				priceList);
 		}
 
-		if (priceListUnsafeConsumer == null) {
+		if (priceListUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for PriceList");
@@ -620,11 +621,11 @@ public abstract class BasePriceListResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				priceLists, priceListUnsafeConsumer);
+				priceLists, priceListUnsafeFunction);
 		}
 		else {
 			for (PriceList priceList : priceLists) {
-				priceListUnsafeConsumer.accept(priceList);
+				priceListUnsafeFunction.apply(priceList);
 			}
 		}
 	}
@@ -643,8 +644,9 @@ public abstract class BasePriceListResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<PriceList>, UnsafeConsumer<PriceList, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<PriceList>,
+			 UnsafeFunction<PriceList, PriceList, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -900,8 +902,8 @@ public abstract class BasePriceListResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<PriceList>, UnsafeConsumer<PriceList, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<PriceList>, UnsafeFunction<PriceList, PriceList, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -17,7 +17,6 @@ package com.liferay.object.rest.internal.resource.v1_0;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
 import com.liferay.object.rest.resource.v1_0.ObjectEntryResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -1216,13 +1215,14 @@ public abstract class BaseObjectEntryResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectEntry, Exception> objectEntryUnsafeConsumer = null;
+		UnsafeFunction<ObjectEntry, ObjectEntry, Exception>
+			objectEntryUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			objectEntryUnsafeConsumer = objectEntry -> postObjectEntry(
+			objectEntryUnsafeFunction = objectEntry -> postObjectEntry(
 				objectEntry);
 		}
 
@@ -1231,13 +1231,13 @@ public abstract class BaseObjectEntryResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				objectEntryUnsafeConsumer =
+				objectEntryUnsafeFunction =
 					objectEntry -> putByExternalReferenceCode(
 						objectEntry.getExternalReferenceCode(), objectEntry);
 			}
 		}
 
-		if (objectEntryUnsafeConsumer == null) {
+		if (objectEntryUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ObjectEntry");
@@ -1245,11 +1245,11 @@ public abstract class BaseObjectEntryResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectEntries, objectEntryUnsafeConsumer);
+				objectEntries, objectEntryUnsafeFunction);
 		}
 		else {
 			for (ObjectEntry objectEntry : objectEntries) {
-				objectEntryUnsafeConsumer.accept(objectEntry);
+				objectEntryUnsafeFunction.apply(objectEntry);
 			}
 		}
 	}
@@ -1331,26 +1331,27 @@ public abstract class BaseObjectEntryResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectEntry, Exception> objectEntryUnsafeConsumer = null;
+		UnsafeFunction<ObjectEntry, ObjectEntry, Exception>
+			objectEntryUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			objectEntryUnsafeConsumer = objectEntry -> patchObjectEntry(
+			objectEntryUnsafeFunction = objectEntry -> patchObjectEntry(
 				objectEntry.getId() != null ? objectEntry.getId() :
 					_parseLong((String)parameters.get("objectEntryId")),
 				objectEntry);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			objectEntryUnsafeConsumer = objectEntry -> putObjectEntry(
+			objectEntryUnsafeFunction = objectEntry -> putObjectEntry(
 				objectEntry.getId() != null ? objectEntry.getId() :
 					_parseLong((String)parameters.get("objectEntryId")),
 				objectEntry);
 		}
 
-		if (objectEntryUnsafeConsumer == null) {
+		if (objectEntryUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ObjectEntry");
@@ -1358,11 +1359,11 @@ public abstract class BaseObjectEntryResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectEntries, objectEntryUnsafeConsumer);
+				objectEntries, objectEntryUnsafeFunction);
 		}
 		else {
 			for (ObjectEntry objectEntry : objectEntries) {
-				objectEntryUnsafeConsumer.accept(objectEntry);
+				objectEntryUnsafeFunction.apply(objectEntry);
 			}
 		}
 	}
@@ -1552,8 +1553,9 @@ public abstract class BaseObjectEntryResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<ObjectEntry>, UnsafeConsumer<ObjectEntry, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<ObjectEntry>,
+			 UnsafeFunction<ObjectEntry, ObjectEntry, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1813,8 +1815,9 @@ public abstract class BaseObjectEntryResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<ObjectEntry>, UnsafeConsumer<ObjectEntry, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<ObjectEntry>,
+		 UnsafeFunction<ObjectEntry, ObjectEntry, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

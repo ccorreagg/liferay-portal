@@ -15,7 +15,6 @@
 package com.liferay.search.experiences.rest.internal.resource.v1_0;
 
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -567,14 +566,14 @@ public abstract class BaseSXPBlueprintResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<SXPBlueprint, Exception> sxpBlueprintUnsafeConsumer =
-			null;
+		UnsafeFunction<SXPBlueprint, SXPBlueprint, Exception>
+			sxpBlueprintUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			sxpBlueprintUnsafeConsumer = sxpBlueprint -> postSXPBlueprint(
+			sxpBlueprintUnsafeFunction = sxpBlueprint -> postSXPBlueprint(
 				sxpBlueprint);
 		}
 
@@ -583,13 +582,15 @@ public abstract class BaseSXPBlueprintResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				sxpBlueprintUnsafeConsumer = sxpBlueprint -> {
+				sxpBlueprintUnsafeFunction = sxpBlueprint -> {
+					SXPBlueprint persistedSXPBlueprint = null;
+
 					try {
 						SXPBlueprint getSXPBlueprint =
 							getSXPBlueprintByExternalReferenceCode(
 								sxpBlueprint.getExternalReferenceCode());
 
-						patchSXPBlueprint(
+						persistedSXPBlueprint = patchSXPBlueprint(
 							getSXPBlueprint.getId() != null ?
 								getSXPBlueprint.getId() :
 									_parseLong(
@@ -598,13 +599,15 @@ public abstract class BaseSXPBlueprintResourceImpl
 							sxpBlueprint);
 					}
 					catch (NoSuchModelException noSuchModelException) {
-						postSXPBlueprint(sxpBlueprint);
+						persistedSXPBlueprint = postSXPBlueprint(sxpBlueprint);
 					}
+
+					return persistedSXPBlueprint;
 				};
 			}
 		}
 
-		if (sxpBlueprintUnsafeConsumer == null) {
+		if (sxpBlueprintUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for SxpBlueprint");
@@ -612,11 +615,11 @@ public abstract class BaseSXPBlueprintResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				sxpBlueprints, sxpBlueprintUnsafeConsumer);
+				sxpBlueprints, sxpBlueprintUnsafeFunction);
 		}
 		else {
 			for (SXPBlueprint sxpBlueprint : sxpBlueprints) {
-				sxpBlueprintUnsafeConsumer.accept(sxpBlueprint);
+				sxpBlueprintUnsafeFunction.apply(sxpBlueprint);
 			}
 		}
 	}
@@ -696,20 +699,20 @@ public abstract class BaseSXPBlueprintResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<SXPBlueprint, Exception> sxpBlueprintUnsafeConsumer =
-			null;
+		UnsafeFunction<SXPBlueprint, SXPBlueprint, Exception>
+			sxpBlueprintUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			sxpBlueprintUnsafeConsumer = sxpBlueprint -> patchSXPBlueprint(
+			sxpBlueprintUnsafeFunction = sxpBlueprint -> patchSXPBlueprint(
 				sxpBlueprint.getId() != null ? sxpBlueprint.getId() :
 					_parseLong((String)parameters.get("sxpBlueprintId")),
 				sxpBlueprint);
 		}
 
-		if (sxpBlueprintUnsafeConsumer == null) {
+		if (sxpBlueprintUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for SxpBlueprint");
@@ -717,11 +720,11 @@ public abstract class BaseSXPBlueprintResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				sxpBlueprints, sxpBlueprintUnsafeConsumer);
+				sxpBlueprints, sxpBlueprintUnsafeFunction);
 		}
 		else {
 			for (SXPBlueprint sxpBlueprint : sxpBlueprints) {
-				sxpBlueprintUnsafeConsumer.accept(sxpBlueprint);
+				sxpBlueprintUnsafeFunction.apply(sxpBlueprint);
 			}
 		}
 	}
@@ -740,8 +743,9 @@ public abstract class BaseSXPBlueprintResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<SXPBlueprint>, UnsafeConsumer<SXPBlueprint, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<SXPBlueprint>,
+			 UnsafeFunction<SXPBlueprint, SXPBlueprint, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -997,8 +1001,9 @@ public abstract class BaseSXPBlueprintResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<SXPBlueprint>, UnsafeConsumer<SXPBlueprint, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<SXPBlueprint>,
+		 UnsafeFunction<SXPBlueprint, SXPBlueprint, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

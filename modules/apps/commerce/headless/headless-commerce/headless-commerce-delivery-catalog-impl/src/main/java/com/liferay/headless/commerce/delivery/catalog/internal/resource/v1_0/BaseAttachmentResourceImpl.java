@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.delivery.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.delivery.catalog.dto.v1_0.Attachment;
 import com.liferay.headless.commerce.delivery.catalog.resource.v1_0.AttachmentResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -280,8 +279,9 @@ public abstract class BaseAttachmentResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Attachment>, UnsafeConsumer<Attachment, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<Attachment>,
+			 UnsafeFunction<Attachment, Attachment, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -537,8 +537,9 @@ public abstract class BaseAttachmentResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Attachment>, UnsafeConsumer<Attachment, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<Attachment>,
+		 UnsafeFunction<Attachment, Attachment, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

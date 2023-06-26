@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.dto.v1_0.WikiPageAttachment;
 import com.liferay.headless.delivery.resource.v1_0.WikiPageAttachmentResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -541,15 +540,15 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<WikiPageAttachment, Exception>
-			wikiPageAttachmentUnsafeConsumer = null;
+		UnsafeFunction<WikiPageAttachment, WikiPageAttachment, Exception>
+			wikiPageAttachmentUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("wikiPageId")) {
-				wikiPageAttachmentUnsafeConsumer =
+				wikiPageAttachmentUnsafeFunction =
 					wikiPageAttachment -> postWikiPageWikiPageAttachment(
 						_parseLong((String)parameters.get("wikiPageId")),
 						(MultipartBody)parameters.get("multipartBody"));
@@ -560,7 +559,7 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 			}
 		}
 
-		if (wikiPageAttachmentUnsafeConsumer == null) {
+		if (wikiPageAttachmentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for WikiPageAttachment");
@@ -568,11 +567,11 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				wikiPageAttachments, wikiPageAttachmentUnsafeConsumer);
+				wikiPageAttachments, wikiPageAttachmentUnsafeFunction);
 		}
 		else {
 			for (WikiPageAttachment wikiPageAttachment : wikiPageAttachments) {
-				wikiPageAttachmentUnsafeConsumer.accept(wikiPageAttachment);
+				wikiPageAttachmentUnsafeFunction.apply(wikiPageAttachment);
 			}
 		}
 	}
@@ -678,8 +677,8 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<WikiPageAttachment>,
-			 UnsafeConsumer<WikiPageAttachment, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<WikiPageAttachment, WikiPageAttachment, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -936,8 +935,8 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<WikiPageAttachment>,
-		 UnsafeConsumer<WikiPageAttachment, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<WikiPageAttachment, WikiPageAttachment, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

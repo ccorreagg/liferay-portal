@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.pricing.internal.resource.v2_0;
 import com.liferay.headless.commerce.admin.pricing.dto.v2_0.Discount;
 import com.liferay.headless.commerce.admin.pricing.resource.v2_0.DiscountResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -499,16 +498,17 @@ public abstract class BaseDiscountResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Discount, Exception> discountUnsafeConsumer = null;
+		UnsafeFunction<Discount, Discount, Exception> discountUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			discountUnsafeConsumer = discount -> postDiscount(discount);
+			discountUnsafeFunction = discount -> postDiscount(discount);
 		}
 
-		if (discountUnsafeConsumer == null) {
+		if (discountUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Discount");
@@ -516,11 +516,11 @@ public abstract class BaseDiscountResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				discounts, discountUnsafeConsumer);
+				discounts, discountUnsafeFunction);
 		}
 		else {
 			for (Discount discount : discounts) {
-				discountUnsafeConsumer.accept(discount);
+				discountUnsafeFunction.apply(discount);
 			}
 		}
 	}
@@ -600,19 +600,20 @@ public abstract class BaseDiscountResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Discount, Exception> discountUnsafeConsumer = null;
+		UnsafeFunction<Discount, Discount, Exception> discountUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			discountUnsafeConsumer = discount -> patchDiscount(
+			discountUnsafeFunction = discount -> patchDiscount(
 				discount.getId() != null ? discount.getId() :
 					_parseLong((String)parameters.get("discountId")),
 				discount);
 		}
 
-		if (discountUnsafeConsumer == null) {
+		if (discountUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Discount");
@@ -620,11 +621,11 @@ public abstract class BaseDiscountResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				discounts, discountUnsafeConsumer);
+				discounts, discountUnsafeFunction);
 		}
 		else {
 			for (Discount discount : discounts) {
-				discountUnsafeConsumer.accept(discount);
+				discountUnsafeFunction.apply(discount);
 			}
 		}
 	}
@@ -643,8 +644,9 @@ public abstract class BaseDiscountResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Discount>, UnsafeConsumer<Discount, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<Discount>,
+			 UnsafeFunction<Discount, Discount, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -900,8 +902,8 @@ public abstract class BaseDiscountResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Discount>, UnsafeConsumer<Discount, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Discount>, UnsafeFunction<Discount, Discount, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

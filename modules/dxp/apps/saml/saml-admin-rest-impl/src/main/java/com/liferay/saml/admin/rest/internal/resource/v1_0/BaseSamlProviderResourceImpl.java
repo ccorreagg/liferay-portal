@@ -15,7 +15,6 @@
 package com.liferay.saml.admin.rest.internal.resource.v1_0;
 
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -193,18 +192,18 @@ public abstract class BaseSamlProviderResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<SamlProvider, Exception> samlProviderUnsafeConsumer =
-			null;
+		UnsafeFunction<SamlProvider, SamlProvider, Exception>
+			samlProviderUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			samlProviderUnsafeConsumer = samlProvider -> postSamlProvider(
+			samlProviderUnsafeFunction = samlProvider -> postSamlProvider(
 				samlProvider);
 		}
 
-		if (samlProviderUnsafeConsumer == null) {
+		if (samlProviderUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for SamlProvider");
@@ -212,11 +211,11 @@ public abstract class BaseSamlProviderResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				samlProviders, samlProviderUnsafeConsumer);
+				samlProviders, samlProviderUnsafeFunction);
 		}
 		else {
 			for (SamlProvider samlProvider : samlProviders) {
-				samlProviderUnsafeConsumer.accept(samlProvider);
+				samlProviderUnsafeFunction.apply(samlProvider);
 			}
 		}
 	}
@@ -296,18 +295,18 @@ public abstract class BaseSamlProviderResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<SamlProvider, Exception> samlProviderUnsafeConsumer =
-			null;
+		UnsafeFunction<SamlProvider, SamlProvider, Exception>
+			samlProviderUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			samlProviderUnsafeConsumer = samlProvider -> patchSamlProvider(
+			samlProviderUnsafeFunction = samlProvider -> patchSamlProvider(
 				samlProvider);
 		}
 
-		if (samlProviderUnsafeConsumer == null) {
+		if (samlProviderUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for SamlProvider");
@@ -315,11 +314,11 @@ public abstract class BaseSamlProviderResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				samlProviders, samlProviderUnsafeConsumer);
+				samlProviders, samlProviderUnsafeFunction);
 		}
 		else {
 			for (SamlProvider samlProvider : samlProviders) {
-				samlProviderUnsafeConsumer.accept(samlProvider);
+				samlProviderUnsafeFunction.apply(samlProvider);
 			}
 		}
 	}
@@ -330,8 +329,9 @@ public abstract class BaseSamlProviderResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<SamlProvider>, UnsafeConsumer<SamlProvider, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<SamlProvider>,
+			 UnsafeFunction<SamlProvider, SamlProvider, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -587,8 +587,9 @@ public abstract class BaseSamlProviderResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<SamlProvider>, UnsafeConsumer<SamlProvider, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<SamlProvider>,
+		 UnsafeFunction<SamlProvider, SamlProvider, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

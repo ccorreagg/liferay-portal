@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.OptionValue;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.OptionValueResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -617,19 +616,20 @@ public abstract class BaseOptionValueResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OptionValue, Exception> optionValueUnsafeConsumer = null;
+		UnsafeFunction<OptionValue, OptionValue, Exception>
+			optionValueUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			optionValueUnsafeConsumer = optionValue -> patchOptionValue(
+			optionValueUnsafeFunction = optionValue -> patchOptionValue(
 				optionValue.getId() != null ? optionValue.getId() :
 					_parseLong((String)parameters.get("optionValueId")),
 				optionValue);
 		}
 
-		if (optionValueUnsafeConsumer == null) {
+		if (optionValueUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for OptionValue");
@@ -637,11 +637,11 @@ public abstract class BaseOptionValueResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				optionValues, optionValueUnsafeConsumer);
+				optionValues, optionValueUnsafeFunction);
 		}
 		else {
 			for (OptionValue optionValue : optionValues) {
-				optionValueUnsafeConsumer.accept(optionValue);
+				optionValueUnsafeFunction.apply(optionValue);
 			}
 		}
 	}
@@ -660,8 +660,9 @@ public abstract class BaseOptionValueResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<OptionValue>, UnsafeConsumer<OptionValue, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<OptionValue>,
+			 UnsafeFunction<OptionValue, OptionValue, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -917,8 +918,9 @@ public abstract class BaseOptionValueResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<OptionValue>, UnsafeConsumer<OptionValue, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<OptionValue>,
+		 UnsafeFunction<OptionValue, OptionValue, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

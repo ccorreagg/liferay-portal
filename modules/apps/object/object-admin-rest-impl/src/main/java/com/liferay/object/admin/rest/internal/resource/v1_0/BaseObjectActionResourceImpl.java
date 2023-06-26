@@ -17,7 +17,6 @@ package com.liferay.object.admin.rest.internal.resource.v1_0;
 import com.liferay.object.admin.rest.dto.v1_0.ObjectAction;
 import com.liferay.object.admin.rest.resource.v1_0.ObjectActionResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -638,15 +637,15 @@ public abstract class BaseObjectActionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectAction, Exception> objectActionUnsafeConsumer =
-			null;
+		UnsafeFunction<ObjectAction, ObjectAction, Exception>
+			objectActionUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("objectDefinitionId")) {
-				objectActionUnsafeConsumer =
+				objectActionUnsafeFunction =
 					objectAction -> postObjectDefinitionObjectAction(
 						_parseLong(
 							(String)parameters.get("objectDefinitionId")),
@@ -658,7 +657,7 @@ public abstract class BaseObjectActionResourceImpl
 			}
 		}
 
-		if (objectActionUnsafeConsumer == null) {
+		if (objectActionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ObjectAction");
@@ -666,11 +665,11 @@ public abstract class BaseObjectActionResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectActions, objectActionUnsafeConsumer);
+				objectActions, objectActionUnsafeFunction);
 		}
 		else {
 			for (ObjectAction objectAction : objectActions) {
-				objectActionUnsafeConsumer.accept(objectAction);
+				objectActionUnsafeFunction.apply(objectAction);
 			}
 		}
 	}
@@ -758,27 +757,27 @@ public abstract class BaseObjectActionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectAction, Exception> objectActionUnsafeConsumer =
-			null;
+		UnsafeFunction<ObjectAction, ObjectAction, Exception>
+			objectActionUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			objectActionUnsafeConsumer = objectAction -> patchObjectAction(
+			objectActionUnsafeFunction = objectAction -> patchObjectAction(
 				objectAction.getId() != null ? objectAction.getId() :
 					_parseLong((String)parameters.get("objectActionId")),
 				objectAction);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			objectActionUnsafeConsumer = objectAction -> putObjectAction(
+			objectActionUnsafeFunction = objectAction -> putObjectAction(
 				objectAction.getId() != null ? objectAction.getId() :
 					_parseLong((String)parameters.get("objectActionId")),
 				objectAction);
 		}
 
-		if (objectActionUnsafeConsumer == null) {
+		if (objectActionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ObjectAction");
@@ -786,11 +785,11 @@ public abstract class BaseObjectActionResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectActions, objectActionUnsafeConsumer);
+				objectActions, objectActionUnsafeFunction);
 		}
 		else {
 			for (ObjectAction objectAction : objectActions) {
-				objectActionUnsafeConsumer.accept(objectAction);
+				objectActionUnsafeFunction.apply(objectAction);
 			}
 		}
 	}
@@ -809,8 +808,9 @@ public abstract class BaseObjectActionResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<ObjectAction>, UnsafeConsumer<ObjectAction, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<ObjectAction>,
+			 UnsafeFunction<ObjectAction, ObjectAction, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1070,8 +1070,9 @@ public abstract class BaseObjectActionResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<ObjectAction>, UnsafeConsumer<ObjectAction, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<ObjectAction>,
+		 UnsafeFunction<ObjectAction, ObjectAction, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

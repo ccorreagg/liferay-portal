@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.ProductSpecification;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.ProductSpecificationResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -440,14 +439,14 @@ public abstract class BaseProductSpecificationResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ProductSpecification, Exception>
-			productSpecificationUnsafeConsumer = null;
+		UnsafeFunction<ProductSpecification, ProductSpecification, Exception>
+			productSpecificationUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			productSpecificationUnsafeConsumer =
+			productSpecificationUnsafeFunction =
 				productSpecification -> patchProductSpecification(
 					productSpecification.getId() != null ?
 						productSpecification.getId() :
@@ -457,7 +456,7 @@ public abstract class BaseProductSpecificationResourceImpl
 					productSpecification);
 		}
 
-		if (productSpecificationUnsafeConsumer == null) {
+		if (productSpecificationUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ProductSpecification");
@@ -465,13 +464,13 @@ public abstract class BaseProductSpecificationResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				productSpecifications, productSpecificationUnsafeConsumer);
+				productSpecifications, productSpecificationUnsafeFunction);
 		}
 		else {
 			for (ProductSpecification productSpecification :
 					productSpecifications) {
 
-				productSpecificationUnsafeConsumer.accept(productSpecification);
+				productSpecificationUnsafeFunction.apply(productSpecification);
 			}
 		}
 	}
@@ -491,8 +490,9 @@ public abstract class BaseProductSpecificationResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<ProductSpecification>,
-			 UnsafeConsumer<ProductSpecification, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <ProductSpecification, ProductSpecification, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -749,8 +749,8 @@ public abstract class BaseProductSpecificationResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<ProductSpecification>,
-		 UnsafeConsumer<ProductSpecification, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<ProductSpecification, ProductSpecification, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

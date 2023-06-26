@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.dto.v1_0.MessageBoardSection;
 import com.liferay.headless.delivery.resource.v1_0.MessageBoardSectionResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -1136,15 +1135,15 @@ public abstract class BaseMessageBoardSectionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<MessageBoardSection, Exception>
-			messageBoardSectionUnsafeConsumer = null;
+		UnsafeFunction<MessageBoardSection, MessageBoardSection, Exception>
+			messageBoardSectionUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
-				messageBoardSectionUnsafeConsumer =
+				messageBoardSectionUnsafeFunction =
 					messageBoardSection -> postSiteMessageBoardSection(
 						(Long)parameters.get("siteId"), messageBoardSection);
 			}
@@ -1154,7 +1153,7 @@ public abstract class BaseMessageBoardSectionResourceImpl
 			}
 		}
 
-		if (messageBoardSectionUnsafeConsumer == null) {
+		if (messageBoardSectionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for MessageBoardSection");
@@ -1162,13 +1161,13 @@ public abstract class BaseMessageBoardSectionResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				messageBoardSections, messageBoardSectionUnsafeConsumer);
+				messageBoardSections, messageBoardSectionUnsafeFunction);
 		}
 		else {
 			for (MessageBoardSection messageBoardSection :
 					messageBoardSections) {
 
-				messageBoardSectionUnsafeConsumer.accept(messageBoardSection);
+				messageBoardSectionUnsafeFunction.apply(messageBoardSection);
 			}
 		}
 	}
@@ -1257,14 +1256,14 @@ public abstract class BaseMessageBoardSectionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<MessageBoardSection, Exception>
-			messageBoardSectionUnsafeConsumer = null;
+		UnsafeFunction<MessageBoardSection, MessageBoardSection, Exception>
+			messageBoardSectionUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			messageBoardSectionUnsafeConsumer =
+			messageBoardSectionUnsafeFunction =
 				messageBoardSection -> patchMessageBoardSection(
 					messageBoardSection.getId() != null ?
 						messageBoardSection.getId() :
@@ -1275,7 +1274,7 @@ public abstract class BaseMessageBoardSectionResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			messageBoardSectionUnsafeConsumer =
+			messageBoardSectionUnsafeFunction =
 				messageBoardSection -> putMessageBoardSection(
 					messageBoardSection.getId() != null ?
 						messageBoardSection.getId() :
@@ -1285,7 +1284,7 @@ public abstract class BaseMessageBoardSectionResourceImpl
 					messageBoardSection);
 		}
 
-		if (messageBoardSectionUnsafeConsumer == null) {
+		if (messageBoardSectionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for MessageBoardSection");
@@ -1293,13 +1292,13 @@ public abstract class BaseMessageBoardSectionResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				messageBoardSections, messageBoardSectionUnsafeConsumer);
+				messageBoardSections, messageBoardSectionUnsafeFunction);
 		}
 		else {
 			for (MessageBoardSection messageBoardSection :
 					messageBoardSections) {
 
-				messageBoardSectionUnsafeConsumer.accept(messageBoardSection);
+				messageBoardSectionUnsafeFunction.apply(messageBoardSection);
 			}
 		}
 	}
@@ -1490,8 +1489,9 @@ public abstract class BaseMessageBoardSectionResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<MessageBoardSection>,
-			 UnsafeConsumer<MessageBoardSection, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <MessageBoardSection, MessageBoardSection, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1753,8 +1753,8 @@ public abstract class BaseMessageBoardSectionResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<MessageBoardSection>,
-		 UnsafeConsumer<MessageBoardSection, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<MessageBoardSection, MessageBoardSection, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

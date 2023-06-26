@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.shipment.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.shipment.dto.v1_0.ShipmentItem;
 import com.liferay.headless.commerce.admin.shipment.resource.v1_0.ShipmentItemResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -542,20 +541,20 @@ public abstract class BaseShipmentItemResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ShipmentItem, Exception> shipmentItemUnsafeConsumer =
-			null;
+		UnsafeFunction<ShipmentItem, ShipmentItem, Exception>
+			shipmentItemUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			shipmentItemUnsafeConsumer = shipmentItem -> patchShipmentItem(
+			shipmentItemUnsafeFunction = shipmentItem -> patchShipmentItem(
 				shipmentItem.getId() != null ? shipmentItem.getId() :
 					_parseLong((String)parameters.get("shipmentItemId")),
 				shipmentItem);
 		}
 
-		if (shipmentItemUnsafeConsumer == null) {
+		if (shipmentItemUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ShipmentItem");
@@ -563,11 +562,11 @@ public abstract class BaseShipmentItemResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				shipmentItems, shipmentItemUnsafeConsumer);
+				shipmentItems, shipmentItemUnsafeFunction);
 		}
 		else {
 			for (ShipmentItem shipmentItem : shipmentItems) {
-				shipmentItemUnsafeConsumer.accept(shipmentItem);
+				shipmentItemUnsafeFunction.apply(shipmentItem);
 			}
 		}
 	}
@@ -586,8 +585,9 @@ public abstract class BaseShipmentItemResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<ShipmentItem>, UnsafeConsumer<ShipmentItem, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<ShipmentItem>,
+			 UnsafeFunction<ShipmentItem, ShipmentItem, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -843,8 +843,9 @@ public abstract class BaseShipmentItemResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<ShipmentItem>, UnsafeConsumer<ShipmentItem, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<ShipmentItem>,
+		 UnsafeFunction<ShipmentItem, ShipmentItem, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

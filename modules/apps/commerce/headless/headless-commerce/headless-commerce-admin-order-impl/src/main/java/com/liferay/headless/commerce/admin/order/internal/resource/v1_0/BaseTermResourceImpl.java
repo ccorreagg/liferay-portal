@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.order.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.order.dto.v1_0.Term;
 import com.liferay.headless.commerce.admin.order.resource.v1_0.TermResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -492,27 +491,27 @@ public abstract class BaseTermResourceImpl
 			Collection<Term> terms, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Term, Exception> termUnsafeConsumer = null;
+		UnsafeFunction<Term, Term, Exception> termUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			termUnsafeConsumer = term -> postTerm(term);
+			termUnsafeFunction = term -> postTerm(term);
 		}
 
-		if (termUnsafeConsumer == null) {
+		if (termUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Term");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(terms, termUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(terms, termUnsafeFunction);
 		}
 		else {
 			for (Term term : terms) {
-				termUnsafeConsumer.accept(term);
+				termUnsafeFunction.apply(term);
 			}
 		}
 	}
@@ -590,30 +589,30 @@ public abstract class BaseTermResourceImpl
 			Collection<Term> terms, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Term, Exception> termUnsafeConsumer = null;
+		UnsafeFunction<Term, Term, Exception> termUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			termUnsafeConsumer = term -> patchTerm(
+			termUnsafeFunction = term -> patchTerm(
 				term.getId() != null ? term.getId() :
 					_parseLong((String)parameters.get("termId")),
 				term);
 		}
 
-		if (termUnsafeConsumer == null) {
+		if (termUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Term");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(terms, termUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(terms, termUnsafeFunction);
 		}
 		else {
 			for (Term term : terms) {
-				termUnsafeConsumer.accept(term);
+				termUnsafeFunction.apply(term);
 			}
 		}
 	}
@@ -632,7 +631,7 @@ public abstract class BaseTermResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Term>, UnsafeConsumer<Term, Exception>, Exception>
+			<Collection<Term>, UnsafeFunction<Term, Term, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -889,7 +888,7 @@ public abstract class BaseTermResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Term>, UnsafeConsumer<Term, Exception>, Exception>
+		<Collection<Term>, UnsafeFunction<Term, Term, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

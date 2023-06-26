@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.vulcan.dto.extension.EntityExtensionSupport;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ObjectMapperUtil;
@@ -31,6 +32,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -50,7 +52,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @GraphQLName("SkuSubscriptionConfiguration")
 @JsonFilter("Liferay.Vulcan")
 @XmlRootElement(name = "SkuSubscriptionConfiguration")
-public class SkuSubscriptionConfiguration implements Serializable {
+public class SkuSubscriptionConfiguration
+	implements EntityExtensionSupport, Serializable {
 
 	public static SkuSubscriptionConfiguration toDTO(String json) {
 		return ObjectMapperUtil.readValue(
@@ -420,6 +423,21 @@ public class SkuSubscriptionConfiguration implements Serializable {
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> subscriptionTypeSettings;
+
+	@JsonIgnore
+	@Override
+	public void setExtendedProperties(
+		Map<String, Serializable> extendedProperties) {
+
+		_extendedProperties = extendedProperties;
+	}
+
+	@Override
+	public Map<String, Serializable> getExtendedProperties() {
+		return _extendedProperties;
+	}
+
+	private Map<String, Serializable> _extendedProperties = new HashMap<>();
 
 	@Override
 	public boolean equals(Object object) {

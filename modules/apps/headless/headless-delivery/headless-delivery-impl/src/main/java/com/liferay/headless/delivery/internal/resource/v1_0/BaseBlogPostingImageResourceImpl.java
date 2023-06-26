@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.BlogPostingImage;
 import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.resource.v1_0.BlogPostingImageResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -473,15 +472,15 @@ public abstract class BaseBlogPostingImageResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<BlogPostingImage, Exception>
-			blogPostingImageUnsafeConsumer = null;
+		UnsafeFunction<BlogPostingImage, BlogPostingImage, Exception>
+			blogPostingImageUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
-				blogPostingImageUnsafeConsumer =
+				blogPostingImageUnsafeFunction =
 					blogPostingImage -> postSiteBlogPostingImage(
 						(Long)parameters.get("siteId"),
 						(MultipartBody)parameters.get("multipartBody"));
@@ -492,7 +491,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 			}
 		}
 
-		if (blogPostingImageUnsafeConsumer == null) {
+		if (blogPostingImageUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for BlogPostingImage");
@@ -500,11 +499,11 @@ public abstract class BaseBlogPostingImageResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				blogPostingImages, blogPostingImageUnsafeConsumer);
+				blogPostingImages, blogPostingImageUnsafeFunction);
 		}
 		else {
 			for (BlogPostingImage blogPostingImage : blogPostingImages) {
-				blogPostingImageUnsafeConsumer.accept(blogPostingImage);
+				blogPostingImageUnsafeFunction.apply(blogPostingImage);
 			}
 		}
 	}
@@ -603,8 +602,8 @@ public abstract class BaseBlogPostingImageResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<BlogPostingImage>,
-			 UnsafeConsumer<BlogPostingImage, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<BlogPostingImage, BlogPostingImage, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -861,8 +860,8 @@ public abstract class BaseBlogPostingImageResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<BlogPostingImage>,
-		 UnsafeConsumer<BlogPostingImage, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<BlogPostingImage, BlogPostingImage, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

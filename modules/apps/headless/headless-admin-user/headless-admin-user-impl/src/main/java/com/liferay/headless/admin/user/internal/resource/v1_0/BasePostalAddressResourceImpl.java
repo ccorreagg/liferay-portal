@@ -17,7 +17,6 @@ package com.liferay.headless.admin.user.internal.resource.v1_0;
 import com.liferay.headless.admin.user.dto.v1_0.PostalAddress;
 import com.liferay.headless.admin.user.resource.v1_0.PostalAddressResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -554,7 +553,7 @@ public abstract class BasePostalAddressResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<PostalAddress>,
-			 UnsafeConsumer<PostalAddress, Exception>, Exception>
+			 UnsafeFunction<PostalAddress, PostalAddress, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -811,8 +810,9 @@ public abstract class BasePostalAddressResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<PostalAddress>, UnsafeConsumer<PostalAddress, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<PostalAddress>,
+		 UnsafeFunction<PostalAddress, PostalAddress, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

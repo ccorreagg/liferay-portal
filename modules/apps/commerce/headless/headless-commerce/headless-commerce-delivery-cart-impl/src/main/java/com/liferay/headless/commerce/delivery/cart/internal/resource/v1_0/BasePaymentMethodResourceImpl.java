@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.delivery.cart.internal.resource.v1_0;
 import com.liferay.headless.commerce.delivery.cart.dto.v1_0.PaymentMethod;
 import com.liferay.headless.commerce.delivery.cart.resource.v1_0.PaymentMethodResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -295,7 +294,7 @@ public abstract class BasePaymentMethodResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<PaymentMethod>,
-			 UnsafeConsumer<PaymentMethod, Exception>, Exception>
+			 UnsafeFunction<PaymentMethod, PaymentMethod, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -552,8 +551,9 @@ public abstract class BasePaymentMethodResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<PaymentMethod>, UnsafeConsumer<PaymentMethod, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<PaymentMethod>,
+		 UnsafeFunction<PaymentMethod, PaymentMethod, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

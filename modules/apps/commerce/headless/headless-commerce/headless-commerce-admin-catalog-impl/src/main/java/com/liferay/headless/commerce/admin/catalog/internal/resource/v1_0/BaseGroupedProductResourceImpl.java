@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.GroupedProduct;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.GroupedProductResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -431,21 +430,21 @@ public abstract class BaseGroupedProductResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<GroupedProduct, Exception> groupedProductUnsafeConsumer =
-			null;
+		UnsafeFunction<GroupedProduct, GroupedProduct, Exception>
+			groupedProductUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			groupedProductUnsafeConsumer =
+			groupedProductUnsafeFunction =
 				groupedProduct -> patchGroupedProduct(
 					groupedProduct.getId() != null ? groupedProduct.getId() :
 						_parseLong((String)parameters.get("groupedProductId")),
 					groupedProduct);
 		}
 
-		if (groupedProductUnsafeConsumer == null) {
+		if (groupedProductUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for GroupedProduct");
@@ -453,11 +452,11 @@ public abstract class BaseGroupedProductResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				groupedProducts, groupedProductUnsafeConsumer);
+				groupedProducts, groupedProductUnsafeFunction);
 		}
 		else {
 			for (GroupedProduct groupedProduct : groupedProducts) {
-				groupedProductUnsafeConsumer.accept(groupedProduct);
+				groupedProductUnsafeFunction.apply(groupedProduct);
 			}
 		}
 	}
@@ -477,8 +476,8 @@ public abstract class BaseGroupedProductResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<GroupedProduct>,
-			 UnsafeConsumer<GroupedProduct, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<GroupedProduct, GroupedProduct, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -734,8 +733,9 @@ public abstract class BaseGroupedProductResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<GroupedProduct>, UnsafeConsumer<GroupedProduct, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<GroupedProduct>,
+		 UnsafeFunction<GroupedProduct, GroupedProduct, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

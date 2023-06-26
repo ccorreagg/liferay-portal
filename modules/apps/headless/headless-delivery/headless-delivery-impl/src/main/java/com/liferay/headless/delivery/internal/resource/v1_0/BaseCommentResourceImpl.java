@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.Comment;
 import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.resource.v1_0.CommentResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -1820,23 +1819,24 @@ public abstract class BaseCommentResourceImpl
 			Collection<Comment> comments, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Comment, Exception> commentUnsafeConsumer = null;
+		UnsafeFunction<Comment, Comment, Exception> commentUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("blogPostingId")) {
-				commentUnsafeConsumer = comment -> postBlogPostingComment(
+				commentUnsafeFunction = comment -> postBlogPostingComment(
 					_parseLong((String)parameters.get("blogPostingId")),
 					comment);
 			}
 			else if (parameters.containsKey("documentId")) {
-				commentUnsafeConsumer = comment -> postDocumentComment(
+				commentUnsafeFunction = comment -> postDocumentComment(
 					_parseLong((String)parameters.get("documentId")), comment);
 			}
 			else if (parameters.containsKey("structuredContentId")) {
-				commentUnsafeConsumer = comment -> postStructuredContentComment(
+				commentUnsafeFunction = comment -> postStructuredContentComment(
 					_parseLong((String)parameters.get("structuredContentId")),
 					comment);
 			}
@@ -1846,18 +1846,18 @@ public abstract class BaseCommentResourceImpl
 			}
 		}
 
-		if (commentUnsafeConsumer == null) {
+		if (commentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Comment");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(comments, commentUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(comments, commentUnsafeFunction);
 		}
 		else {
 			for (Comment comment : comments) {
-				commentUnsafeConsumer.accept(comment);
+				commentUnsafeFunction.apply(comment);
 			}
 		}
 	}
@@ -1953,30 +1953,31 @@ public abstract class BaseCommentResourceImpl
 			Collection<Comment> comments, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Comment, Exception> commentUnsafeConsumer = null;
+		UnsafeFunction<Comment, Comment, Exception> commentUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			commentUnsafeConsumer = comment -> putComment(
+			commentUnsafeFunction = comment -> putComment(
 				comment.getId() != null ? comment.getId() :
 					_parseLong((String)parameters.get("commentId")),
 				comment);
 		}
 
-		if (commentUnsafeConsumer == null) {
+		if (commentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Comment");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(comments, commentUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(comments, commentUnsafeFunction);
 		}
 		else {
 			for (Comment comment : comments) {
-				commentUnsafeConsumer.accept(comment);
+				commentUnsafeFunction.apply(comment);
 			}
 		}
 	}
@@ -1995,8 +1996,8 @@ public abstract class BaseCommentResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Comment>, UnsafeConsumer<Comment, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			<Collection<Comment>, UnsafeFunction<Comment, Comment, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -2252,8 +2253,8 @@ public abstract class BaseCommentResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Comment>, UnsafeConsumer<Comment, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Comment>, UnsafeFunction<Comment, Comment, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

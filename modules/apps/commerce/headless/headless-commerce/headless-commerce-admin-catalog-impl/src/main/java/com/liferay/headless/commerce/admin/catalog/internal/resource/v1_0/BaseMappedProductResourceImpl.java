@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.MappedProduct;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.MappedProductResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -540,20 +539,20 @@ public abstract class BaseMappedProductResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<MappedProduct, Exception> mappedProductUnsafeConsumer =
-			null;
+		UnsafeFunction<MappedProduct, MappedProduct, Exception>
+			mappedProductUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			mappedProductUnsafeConsumer = mappedProduct -> patchMappedProduct(
+			mappedProductUnsafeFunction = mappedProduct -> patchMappedProduct(
 				mappedProduct.getId() != null ? mappedProduct.getId() :
 					_parseLong((String)parameters.get("mappedProductId")),
 				mappedProduct);
 		}
 
-		if (mappedProductUnsafeConsumer == null) {
+		if (mappedProductUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for MappedProduct");
@@ -561,11 +560,11 @@ public abstract class BaseMappedProductResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				mappedProducts, mappedProductUnsafeConsumer);
+				mappedProducts, mappedProductUnsafeFunction);
 		}
 		else {
 			for (MappedProduct mappedProduct : mappedProducts) {
-				mappedProductUnsafeConsumer.accept(mappedProduct);
+				mappedProductUnsafeFunction.apply(mappedProduct);
 			}
 		}
 	}
@@ -585,7 +584,7 @@ public abstract class BaseMappedProductResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<MappedProduct>,
-			 UnsafeConsumer<MappedProduct, Exception>, Exception>
+			 UnsafeFunction<MappedProduct, MappedProduct, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -842,8 +841,9 @@ public abstract class BaseMappedProductResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<MappedProduct>, UnsafeConsumer<MappedProduct, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<MappedProduct>,
+		 UnsafeFunction<MappedProduct, MappedProduct, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

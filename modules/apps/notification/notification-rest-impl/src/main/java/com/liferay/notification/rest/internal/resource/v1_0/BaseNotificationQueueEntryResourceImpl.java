@@ -17,7 +17,6 @@ package com.liferay.notification.rest.internal.resource.v1_0;
 import com.liferay.notification.rest.dto.v1_0.NotificationQueueEntry;
 import com.liferay.notification.rest.resource.v1_0.NotificationQueueEntryResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -441,19 +440,20 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<NotificationQueueEntry, Exception>
-			notificationQueueEntryUnsafeConsumer = null;
+		UnsafeFunction
+			<NotificationQueueEntry, NotificationQueueEntry, Exception>
+				notificationQueueEntryUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			notificationQueueEntryUnsafeConsumer =
+			notificationQueueEntryUnsafeFunction =
 				notificationQueueEntry -> postNotificationQueueEntry(
 					notificationQueueEntry);
 		}
 
-		if (notificationQueueEntryUnsafeConsumer == null) {
+		if (notificationQueueEntryUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for NotificationQueueEntry");
@@ -461,13 +461,13 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				notificationQueueEntries, notificationQueueEntryUnsafeConsumer);
+				notificationQueueEntries, notificationQueueEntryUnsafeFunction);
 		}
 		else {
 			for (NotificationQueueEntry notificationQueueEntry :
 					notificationQueueEntries) {
 
-				notificationQueueEntryUnsafeConsumer.accept(
+				notificationQueueEntryUnsafeFunction.apply(
 					notificationQueueEntry);
 			}
 		}
@@ -562,8 +562,9 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<NotificationQueueEntry>,
-			 UnsafeConsumer<NotificationQueueEntry, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <NotificationQueueEntry, NotificationQueueEntry, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -820,8 +821,9 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<NotificationQueueEntry>,
-		 UnsafeConsumer<NotificationQueueEntry, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction
+			 <NotificationQueueEntry, NotificationQueueEntry, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

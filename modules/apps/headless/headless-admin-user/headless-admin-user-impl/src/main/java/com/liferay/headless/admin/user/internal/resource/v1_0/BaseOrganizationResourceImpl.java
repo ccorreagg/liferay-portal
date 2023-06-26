@@ -18,7 +18,6 @@ import com.liferay.headless.admin.user.dto.v1_0.Organization;
 import com.liferay.headless.admin.user.dto.v1_0.UserAccount;
 import com.liferay.headless.admin.user.resource.v1_0.OrganizationResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -1341,14 +1340,14 @@ public abstract class BaseOrganizationResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Organization, Exception> organizationUnsafeConsumer =
-			null;
+		UnsafeFunction<Organization, Organization, Exception>
+			organizationUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			organizationUnsafeConsumer = organization -> postOrganization(
+			organizationUnsafeFunction = organization -> postOrganization(
 				organization);
 		}
 
@@ -1357,32 +1356,36 @@ public abstract class BaseOrganizationResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				organizationUnsafeConsumer =
+				organizationUnsafeFunction =
 					organization -> putOrganizationByExternalReferenceCode(
 						organization.getExternalReferenceCode(), organization);
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				organizationUnsafeConsumer = organization -> {
+				organizationUnsafeFunction = organization -> {
+					Organization persistedOrganization = null;
+
 					try {
 						Organization getOrganization =
 							getOrganizationByExternalReferenceCode(
 								organization.getExternalReferenceCode());
 
-						patchOrganization(
+						persistedOrganization = patchOrganization(
 							getOrganization.getId() != null ?
 								getOrganization.getId() :
 									(String)parameters.get("organizationId"),
 							organization);
 					}
 					catch (NoSuchModelException noSuchModelException) {
-						postOrganization(organization);
+						persistedOrganization = postOrganization(organization);
 					}
+
+					return persistedOrganization;
 				};
 			}
 		}
 
-		if (organizationUnsafeConsumer == null) {
+		if (organizationUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Organization");
@@ -1390,11 +1393,11 @@ public abstract class BaseOrganizationResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				organizations, organizationUnsafeConsumer);
+				organizations, organizationUnsafeFunction);
 		}
 		else {
 			for (Organization organization : organizations) {
-				organizationUnsafeConsumer.accept(organization);
+				organizationUnsafeFunction.apply(organization);
 			}
 		}
 	}
@@ -1483,27 +1486,27 @@ public abstract class BaseOrganizationResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Organization, Exception> organizationUnsafeConsumer =
-			null;
+		UnsafeFunction<Organization, Organization, Exception>
+			organizationUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			organizationUnsafeConsumer = organization -> patchOrganization(
+			organizationUnsafeFunction = organization -> patchOrganization(
 				organization.getId() != null ? organization.getId() :
 					(String)parameters.get("organizationId"),
 				organization);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			organizationUnsafeConsumer = organization -> putOrganization(
+			organizationUnsafeFunction = organization -> putOrganization(
 				organization.getId() != null ? organization.getId() :
 					(String)parameters.get("organizationId"),
 				organization);
 		}
 
-		if (organizationUnsafeConsumer == null) {
+		if (organizationUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Organization");
@@ -1511,11 +1514,11 @@ public abstract class BaseOrganizationResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				organizations, organizationUnsafeConsumer);
+				organizations, organizationUnsafeFunction);
 		}
 		else {
 			for (Organization organization : organizations) {
-				organizationUnsafeConsumer.accept(organization);
+				organizationUnsafeFunction.apply(organization);
 			}
 		}
 	}
@@ -1542,8 +1545,9 @@ public abstract class BaseOrganizationResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Organization>, UnsafeConsumer<Organization, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<Organization>,
+			 UnsafeFunction<Organization, Organization, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1803,8 +1807,9 @@ public abstract class BaseOrganizationResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Organization>, UnsafeConsumer<Organization, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<Organization>,
+		 UnsafeFunction<Organization, Organization, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

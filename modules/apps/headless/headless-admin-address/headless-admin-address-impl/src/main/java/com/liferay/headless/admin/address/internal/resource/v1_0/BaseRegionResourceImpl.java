@@ -17,7 +17,6 @@ package com.liferay.headless.admin.address.internal.resource.v1_0;
 import com.liferay.headless.admin.address.dto.v1_0.Region;
 import com.liferay.headless.admin.address.resource.v1_0.RegionResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -717,14 +716,14 @@ public abstract class BaseRegionResourceImpl
 			Collection<Region> regions, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Region, Exception> regionUnsafeConsumer = null;
+		UnsafeFunction<Region, Region, Exception> regionUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("countryId")) {
-				regionUnsafeConsumer = region -> postCountryRegion(
+				regionUnsafeFunction = region -> postCountryRegion(
 					_parseLong((String)parameters.get("countryId")), region);
 			}
 			else {
@@ -733,18 +732,18 @@ public abstract class BaseRegionResourceImpl
 			}
 		}
 
-		if (regionUnsafeConsumer == null) {
+		if (regionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Region");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(regions, regionUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(regions, regionUnsafeFunction);
 		}
 		else {
 			for (Region region : regions) {
-				regionUnsafeConsumer.accept(region);
+				regionUnsafeFunction.apply(region);
 			}
 		}
 	}
@@ -832,37 +831,37 @@ public abstract class BaseRegionResourceImpl
 			Collection<Region> regions, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Region, Exception> regionUnsafeConsumer = null;
+		UnsafeFunction<Region, Region, Exception> regionUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			regionUnsafeConsumer = region -> patchRegion(
+			regionUnsafeFunction = region -> patchRegion(
 				region.getId() != null ? region.getId() :
 					_parseLong((String)parameters.get("regionId")),
 				region);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			regionUnsafeConsumer = region -> putRegion(
+			regionUnsafeFunction = region -> putRegion(
 				region.getId() != null ? region.getId() :
 					_parseLong((String)parameters.get("regionId")),
 				region);
 		}
 
-		if (regionUnsafeConsumer == null) {
+		if (regionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Region");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(regions, regionUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(regions, regionUnsafeFunction);
 		}
 		else {
 			for (Region region : regions) {
-				regionUnsafeConsumer.accept(region);
+				regionUnsafeFunction.apply(region);
 			}
 		}
 	}
@@ -889,8 +888,8 @@ public abstract class BaseRegionResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Region>, UnsafeConsumer<Region, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			<Collection<Region>, UnsafeFunction<Region, Region, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1149,8 +1148,8 @@ public abstract class BaseRegionResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Region>, UnsafeConsumer<Region, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Region>, UnsafeFunction<Region, Region, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.machine.learning.internal.resource.v1_0;
 import com.liferay.headless.commerce.machine.learning.dto.v1_0.AccountForecast;
 import com.liferay.headless.commerce.machine.learning.resource.v1_0.AccountForecastResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -238,8 +237,8 @@ public abstract class BaseAccountForecastResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<AccountForecast>,
-			 UnsafeConsumer<AccountForecast, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<AccountForecast, AccountForecast, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -496,7 +495,7 @@ public abstract class BaseAccountForecastResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<AccountForecast>,
-		 UnsafeConsumer<AccountForecast, Exception>, Exception>
+		 UnsafeFunction<AccountForecast, AccountForecast, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

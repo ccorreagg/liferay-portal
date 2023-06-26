@@ -15,7 +15,6 @@
 package com.liferay.portal.workflow.metrics.rest.internal.resource.v1_0;
 
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -248,8 +247,9 @@ public abstract class BaseTimeRangeResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<TimeRange>, UnsafeConsumer<TimeRange, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<TimeRange>,
+			 UnsafeFunction<TimeRange, TimeRange, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -505,8 +505,8 @@ public abstract class BaseTimeRangeResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<TimeRange>, UnsafeConsumer<TimeRange, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<TimeRange>, UnsafeFunction<TimeRange, TimeRange, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

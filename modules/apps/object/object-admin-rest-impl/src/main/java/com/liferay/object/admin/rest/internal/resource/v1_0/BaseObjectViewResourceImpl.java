@@ -17,7 +17,6 @@ package com.liferay.object.admin.rest.internal.resource.v1_0;
 import com.liferay.object.admin.rest.dto.v1_0.ObjectView;
 import com.liferay.object.admin.rest.resource.v1_0.ObjectViewResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -587,14 +586,15 @@ public abstract class BaseObjectViewResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectView, Exception> objectViewUnsafeConsumer = null;
+		UnsafeFunction<ObjectView, ObjectView, Exception>
+			objectViewUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("objectDefinitionId")) {
-				objectViewUnsafeConsumer =
+				objectViewUnsafeFunction =
 					objectView -> postObjectDefinitionObjectView(
 						_parseLong(
 							(String)parameters.get("objectDefinitionId")),
@@ -606,7 +606,7 @@ public abstract class BaseObjectViewResourceImpl
 			}
 		}
 
-		if (objectViewUnsafeConsumer == null) {
+		if (objectViewUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ObjectView");
@@ -614,11 +614,11 @@ public abstract class BaseObjectViewResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectViews, objectViewUnsafeConsumer);
+				objectViews, objectViewUnsafeFunction);
 		}
 		else {
 			for (ObjectView objectView : objectViews) {
-				objectViewUnsafeConsumer.accept(objectView);
+				objectViewUnsafeFunction.apply(objectView);
 			}
 		}
 	}
@@ -706,19 +706,20 @@ public abstract class BaseObjectViewResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectView, Exception> objectViewUnsafeConsumer = null;
+		UnsafeFunction<ObjectView, ObjectView, Exception>
+			objectViewUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			objectViewUnsafeConsumer = objectView -> putObjectView(
+			objectViewUnsafeFunction = objectView -> putObjectView(
 				objectView.getId() != null ? objectView.getId() :
 					_parseLong((String)parameters.get("objectViewId")),
 				objectView);
 		}
 
-		if (objectViewUnsafeConsumer == null) {
+		if (objectViewUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ObjectView");
@@ -726,11 +727,11 @@ public abstract class BaseObjectViewResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectViews, objectViewUnsafeConsumer);
+				objectViews, objectViewUnsafeFunction);
 		}
 		else {
 			for (ObjectView objectView : objectViews) {
-				objectViewUnsafeConsumer.accept(objectView);
+				objectViewUnsafeFunction.apply(objectView);
 			}
 		}
 	}
@@ -749,8 +750,9 @@ public abstract class BaseObjectViewResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<ObjectView>, UnsafeConsumer<ObjectView, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<ObjectView>,
+			 UnsafeFunction<ObjectView, ObjectView, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1006,8 +1008,9 @@ public abstract class BaseObjectViewResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<ObjectView>, UnsafeConsumer<ObjectView, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<ObjectView>,
+		 UnsafeFunction<ObjectView, ObjectView, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

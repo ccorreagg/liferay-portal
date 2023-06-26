@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.delivery.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.delivery.catalog.dto.v1_0.WishList;
 import com.liferay.headless.commerce.delivery.catalog.resource.v1_0.WishListResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -394,19 +393,20 @@ public abstract class BaseWishListResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<WishList, Exception> wishListUnsafeConsumer = null;
+		UnsafeFunction<WishList, WishList, Exception> wishListUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			wishListUnsafeConsumer = wishList -> patchWishList(
+			wishListUnsafeFunction = wishList -> patchWishList(
 				wishList.getId() != null ? wishList.getId() :
 					_parseLong((String)parameters.get("wishListId")),
 				wishList);
 		}
 
-		if (wishListUnsafeConsumer == null) {
+		if (wishListUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for WishList");
@@ -414,11 +414,11 @@ public abstract class BaseWishListResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				wishLists, wishListUnsafeConsumer);
+				wishLists, wishListUnsafeFunction);
 		}
 		else {
 			for (WishList wishList : wishLists) {
-				wishListUnsafeConsumer.accept(wishList);
+				wishListUnsafeFunction.apply(wishList);
 			}
 		}
 	}
@@ -437,8 +437,9 @@ public abstract class BaseWishListResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<WishList>, UnsafeConsumer<WishList, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<WishList>,
+			 UnsafeFunction<WishList, WishList, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -694,8 +695,8 @@ public abstract class BaseWishListResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<WishList>, UnsafeConsumer<WishList, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<WishList>, UnsafeFunction<WishList, WishList, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -17,7 +17,6 @@ package com.liferay.headless.admin.address.internal.resource.v1_0;
 import com.liferay.headless.admin.address.dto.v1_0.Country;
 import com.liferay.headless.admin.address.resource.v1_0.CountryResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -659,27 +658,28 @@ public abstract class BaseCountryResourceImpl
 			Collection<Country> countries, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Country, Exception> countryUnsafeConsumer = null;
+		UnsafeFunction<Country, Country, Exception> countryUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			countryUnsafeConsumer = country -> postCountry(country);
+			countryUnsafeFunction = country -> postCountry(country);
 		}
 
-		if (countryUnsafeConsumer == null) {
+		if (countryUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Country");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(countries, countryUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(countries, countryUnsafeFunction);
 		}
 		else {
 			for (Country country : countries) {
-				countryUnsafeConsumer.accept(country);
+				countryUnsafeFunction.apply(country);
 			}
 		}
 	}
@@ -759,37 +759,38 @@ public abstract class BaseCountryResourceImpl
 			Collection<Country> countries, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Country, Exception> countryUnsafeConsumer = null;
+		UnsafeFunction<Country, Country, Exception> countryUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			countryUnsafeConsumer = country -> patchCountry(
+			countryUnsafeFunction = country -> patchCountry(
 				country.getId() != null ? country.getId() :
 					_parseLong((String)parameters.get("countryId")),
 				country);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			countryUnsafeConsumer = country -> putCountry(
+			countryUnsafeFunction = country -> putCountry(
 				country.getId() != null ? country.getId() :
 					_parseLong((String)parameters.get("countryId")),
 				country);
 		}
 
-		if (countryUnsafeConsumer == null) {
+		if (countryUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Country");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(countries, countryUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(countries, countryUnsafeFunction);
 		}
 		else {
 			for (Country country : countries) {
-				countryUnsafeConsumer.accept(country);
+				countryUnsafeFunction.apply(country);
 			}
 		}
 	}
@@ -816,8 +817,8 @@ public abstract class BaseCountryResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Country>, UnsafeConsumer<Country, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			<Collection<Country>, UnsafeFunction<Country, Country, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1076,8 +1077,8 @@ public abstract class BaseCountryResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Country>, UnsafeConsumer<Country, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Country>, UnsafeFunction<Country, Country, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

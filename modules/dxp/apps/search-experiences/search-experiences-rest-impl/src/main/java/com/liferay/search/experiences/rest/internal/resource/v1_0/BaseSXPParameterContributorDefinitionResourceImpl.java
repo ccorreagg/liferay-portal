@@ -15,7 +15,6 @@
 package com.liferay.search.experiences.rest.internal.resource.v1_0;
 
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -266,7 +265,9 @@ public abstract class BaseSXPParameterContributorDefinitionResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<SXPParameterContributorDefinition>,
-			 UnsafeConsumer<SXPParameterContributorDefinition, Exception>,
+			 UnsafeFunction
+				 <SXPParameterContributorDefinition,
+				  SXPParameterContributorDefinition, Exception>,
 			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -524,7 +525,9 @@ public abstract class BaseSXPParameterContributorDefinitionResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<SXPParameterContributorDefinition>,
-		 UnsafeConsumer<SXPParameterContributorDefinition, Exception>,
+		 UnsafeFunction
+			 <SXPParameterContributorDefinition,
+			  SXPParameterContributorDefinition, Exception>,
 		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

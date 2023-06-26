@@ -17,7 +17,6 @@ package com.liferay.headless.admin.workflow.internal.resource.v1_0;
 import com.liferay.headless.admin.workflow.dto.v1_0.WorkflowLog;
 import com.liferay.headless.admin.workflow.resource.v1_0.WorkflowLogResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -473,8 +472,9 @@ public abstract class BaseWorkflowLogResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<WorkflowLog>, UnsafeConsumer<WorkflowLog, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<WorkflowLog>,
+			 UnsafeFunction<WorkflowLog, WorkflowLog, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -730,8 +730,9 @@ public abstract class BaseWorkflowLogResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<WorkflowLog>, UnsafeConsumer<WorkflowLog, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<WorkflowLog>,
+		 UnsafeFunction<WorkflowLog, WorkflowLog, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

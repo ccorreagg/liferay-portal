@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.Catalog;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.CatalogResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -589,27 +588,28 @@ public abstract class BaseCatalogResourceImpl
 			Collection<Catalog> catalogs, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Catalog, Exception> catalogUnsafeConsumer = null;
+		UnsafeFunction<Catalog, Catalog, Exception> catalogUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			catalogUnsafeConsumer = catalog -> postCatalog(catalog);
+			catalogUnsafeFunction = catalog -> postCatalog(catalog);
 		}
 
-		if (catalogUnsafeConsumer == null) {
+		if (catalogUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Catalog");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(catalogs, catalogUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(catalogs, catalogUnsafeFunction);
 		}
 		else {
 			for (Catalog catalog : catalogs) {
-				catalogUnsafeConsumer.accept(catalog);
+				catalogUnsafeFunction.apply(catalog);
 			}
 		}
 	}
@@ -687,30 +687,31 @@ public abstract class BaseCatalogResourceImpl
 			Collection<Catalog> catalogs, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Catalog, Exception> catalogUnsafeConsumer = null;
+		UnsafeFunction<Catalog, Catalog, Exception> catalogUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			catalogUnsafeConsumer = catalog -> patchCatalog(
+			catalogUnsafeFunction = catalog -> patchCatalog(
 				catalog.getId() != null ? catalog.getId() :
 					_parseLong((String)parameters.get("catalogId")),
 				catalog);
 		}
 
-		if (catalogUnsafeConsumer == null) {
+		if (catalogUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Catalog");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(catalogs, catalogUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(catalogs, catalogUnsafeFunction);
 		}
 		else {
 			for (Catalog catalog : catalogs) {
-				catalogUnsafeConsumer.accept(catalog);
+				catalogUnsafeFunction.apply(catalog);
 			}
 		}
 	}
@@ -729,8 +730,8 @@ public abstract class BaseCatalogResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Catalog>, UnsafeConsumer<Catalog, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			<Collection<Catalog>, UnsafeFunction<Catalog, Catalog, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -986,8 +987,8 @@ public abstract class BaseCatalogResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Catalog>, UnsafeConsumer<Catalog, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Catalog>, UnsafeFunction<Catalog, Catalog, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

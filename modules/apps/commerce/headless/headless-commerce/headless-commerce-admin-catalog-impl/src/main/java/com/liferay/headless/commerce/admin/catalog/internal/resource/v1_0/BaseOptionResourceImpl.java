@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.Option;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.OptionResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -510,27 +509,27 @@ public abstract class BaseOptionResourceImpl
 			Collection<Option> options, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Option, Exception> optionUnsafeConsumer = null;
+		UnsafeFunction<Option, Option, Exception> optionUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			optionUnsafeConsumer = option -> postOption(option);
+			optionUnsafeFunction = option -> postOption(option);
 		}
 
-		if (optionUnsafeConsumer == null) {
+		if (optionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Option");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(options, optionUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(options, optionUnsafeFunction);
 		}
 		else {
 			for (Option option : options) {
-				optionUnsafeConsumer.accept(option);
+				optionUnsafeFunction.apply(option);
 			}
 		}
 	}
@@ -608,30 +607,30 @@ public abstract class BaseOptionResourceImpl
 			Collection<Option> options, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Option, Exception> optionUnsafeConsumer = null;
+		UnsafeFunction<Option, Option, Exception> optionUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			optionUnsafeConsumer = option -> patchOption(
+			optionUnsafeFunction = option -> patchOption(
 				option.getId() != null ? option.getId() :
 					_parseLong((String)parameters.get("optionId")),
 				option);
 		}
 
-		if (optionUnsafeConsumer == null) {
+		if (optionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Option");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(options, optionUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(options, optionUnsafeFunction);
 		}
 		else {
 			for (Option option : options) {
-				optionUnsafeConsumer.accept(option);
+				optionUnsafeFunction.apply(option);
 			}
 		}
 	}
@@ -650,8 +649,8 @@ public abstract class BaseOptionResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Option>, UnsafeConsumer<Option, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			<Collection<Option>, UnsafeFunction<Option, Option, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -907,8 +906,8 @@ public abstract class BaseOptionResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Option>, UnsafeConsumer<Option, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Option>, UnsafeFunction<Option, Option, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

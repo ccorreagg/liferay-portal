@@ -17,7 +17,6 @@ package com.liferay.object.admin.rest.internal.resource.v1_0;
 import com.liferay.object.admin.rest.dto.v1_0.ObjectDefinition;
 import com.liferay.object.admin.rest.resource.v1_0.ObjectDefinitionResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -715,14 +714,14 @@ public abstract class BaseObjectDefinitionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectDefinition, Exception>
-			objectDefinitionUnsafeConsumer = null;
+		UnsafeFunction<ObjectDefinition, ObjectDefinition, Exception>
+			objectDefinitionUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			objectDefinitionUnsafeConsumer =
+			objectDefinitionUnsafeFunction =
 				objectDefinition -> postObjectDefinition(objectDefinition);
 		}
 
@@ -731,7 +730,7 @@ public abstract class BaseObjectDefinitionResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				objectDefinitionUnsafeConsumer =
+				objectDefinitionUnsafeFunction =
 					objectDefinition ->
 						putObjectDefinitionByExternalReferenceCode(
 							objectDefinition.getExternalReferenceCode(),
@@ -739,13 +738,15 @@ public abstract class BaseObjectDefinitionResourceImpl
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				objectDefinitionUnsafeConsumer = objectDefinition -> {
+				objectDefinitionUnsafeFunction = objectDefinition -> {
+					ObjectDefinition persistedObjectDefinition = null;
+
 					try {
 						ObjectDefinition getObjectDefinition =
 							getObjectDefinitionByExternalReferenceCode(
 								objectDefinition.getExternalReferenceCode());
 
-						patchObjectDefinition(
+						persistedObjectDefinition = patchObjectDefinition(
 							getObjectDefinition.getId() != null ?
 								getObjectDefinition.getId() :
 									_parseLong(
@@ -754,13 +755,16 @@ public abstract class BaseObjectDefinitionResourceImpl
 							objectDefinition);
 					}
 					catch (NoSuchModelException noSuchModelException) {
-						postObjectDefinition(objectDefinition);
+						persistedObjectDefinition = postObjectDefinition(
+							objectDefinition);
 					}
+
+					return persistedObjectDefinition;
 				};
 			}
 		}
 
-		if (objectDefinitionUnsafeConsumer == null) {
+		if (objectDefinitionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ObjectDefinition");
@@ -768,11 +772,11 @@ public abstract class BaseObjectDefinitionResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectDefinitions, objectDefinitionUnsafeConsumer);
+				objectDefinitions, objectDefinitionUnsafeFunction);
 		}
 		else {
 			for (ObjectDefinition objectDefinition : objectDefinitions) {
-				objectDefinitionUnsafeConsumer.accept(objectDefinition);
+				objectDefinitionUnsafeFunction.apply(objectDefinition);
 			}
 		}
 	}
@@ -853,14 +857,14 @@ public abstract class BaseObjectDefinitionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectDefinition, Exception>
-			objectDefinitionUnsafeConsumer = null;
+		UnsafeFunction<ObjectDefinition, ObjectDefinition, Exception>
+			objectDefinitionUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			objectDefinitionUnsafeConsumer =
+			objectDefinitionUnsafeFunction =
 				objectDefinition -> patchObjectDefinition(
 					objectDefinition.getId() != null ?
 						objectDefinition.getId() :
@@ -870,7 +874,7 @@ public abstract class BaseObjectDefinitionResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			objectDefinitionUnsafeConsumer =
+			objectDefinitionUnsafeFunction =
 				objectDefinition -> putObjectDefinition(
 					objectDefinition.getId() != null ?
 						objectDefinition.getId() :
@@ -879,7 +883,7 @@ public abstract class BaseObjectDefinitionResourceImpl
 					objectDefinition);
 		}
 
-		if (objectDefinitionUnsafeConsumer == null) {
+		if (objectDefinitionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ObjectDefinition");
@@ -887,11 +891,11 @@ public abstract class BaseObjectDefinitionResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectDefinitions, objectDefinitionUnsafeConsumer);
+				objectDefinitions, objectDefinitionUnsafeFunction);
 		}
 		else {
 			for (ObjectDefinition objectDefinition : objectDefinitions) {
-				objectDefinitionUnsafeConsumer.accept(objectDefinition);
+				objectDefinitionUnsafeFunction.apply(objectDefinition);
 			}
 		}
 	}
@@ -911,8 +915,8 @@ public abstract class BaseObjectDefinitionResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<ObjectDefinition>,
-			 UnsafeConsumer<ObjectDefinition, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<ObjectDefinition, ObjectDefinition, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1174,8 +1178,8 @@ public abstract class BaseObjectDefinitionResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<ObjectDefinition>,
-		 UnsafeConsumer<ObjectDefinition, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<ObjectDefinition, ObjectDefinition, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

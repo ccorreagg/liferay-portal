@@ -17,7 +17,6 @@ package com.liferay.headless.admin.taxonomy.internal.resource.v1_0;
 import com.liferay.headless.admin.taxonomy.dto.v1_0.Keyword;
 import com.liferay.headless.admin.taxonomy.resource.v1_0.KeywordResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -1131,18 +1130,19 @@ public abstract class BaseKeywordResourceImpl
 			Collection<Keyword> keywords, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Keyword, Exception> keywordUnsafeConsumer = null;
+		UnsafeFunction<Keyword, Keyword, Exception> keywordUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("assetLibraryId")) {
-				keywordUnsafeConsumer = keyword -> postAssetLibraryKeyword(
+				keywordUnsafeFunction = keyword -> postAssetLibraryKeyword(
 					(Long)parameters.get("assetLibraryId"), keyword);
 			}
 			else if (parameters.containsKey("siteId")) {
-				keywordUnsafeConsumer = keyword -> postSiteKeyword(
+				keywordUnsafeFunction = keyword -> postSiteKeyword(
 					(Long)parameters.get("siteId"), keyword);
 			}
 			else {
@@ -1151,18 +1151,18 @@ public abstract class BaseKeywordResourceImpl
 			}
 		}
 
-		if (keywordUnsafeConsumer == null) {
+		if (keywordUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Keyword");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(keywords, keywordUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(keywords, keywordUnsafeFunction);
 		}
 		else {
 			for (Keyword keyword : keywords) {
-				keywordUnsafeConsumer.accept(keyword);
+				keywordUnsafeFunction.apply(keyword);
 			}
 		}
 	}
@@ -1253,30 +1253,31 @@ public abstract class BaseKeywordResourceImpl
 			Collection<Keyword> keywords, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Keyword, Exception> keywordUnsafeConsumer = null;
+		UnsafeFunction<Keyword, Keyword, Exception> keywordUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			keywordUnsafeConsumer = keyword -> putKeyword(
+			keywordUnsafeFunction = keyword -> putKeyword(
 				keyword.getId() != null ? keyword.getId() :
 					_parseLong((String)parameters.get("keywordId")),
 				keyword);
 		}
 
-		if (keywordUnsafeConsumer == null) {
+		if (keywordUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Keyword");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(keywords, keywordUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(keywords, keywordUnsafeFunction);
 		}
 		else {
 			for (Keyword keyword : keywords) {
-				keywordUnsafeConsumer.accept(keyword);
+				keywordUnsafeFunction.apply(keyword);
 			}
 		}
 	}
@@ -1458,8 +1459,8 @@ public abstract class BaseKeywordResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Keyword>, UnsafeConsumer<Keyword, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			<Collection<Keyword>, UnsafeFunction<Keyword, Keyword, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1715,8 +1716,8 @@ public abstract class BaseKeywordResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Keyword>, UnsafeConsumer<Keyword, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Keyword>, UnsafeFunction<Keyword, Keyword, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

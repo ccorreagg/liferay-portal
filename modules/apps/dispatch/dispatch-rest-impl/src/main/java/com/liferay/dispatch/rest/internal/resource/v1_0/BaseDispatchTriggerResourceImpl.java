@@ -17,7 +17,6 @@ package com.liferay.dispatch.rest.internal.resource.v1_0;
 import com.liferay.dispatch.rest.dto.v1_0.DispatchTrigger;
 import com.liferay.dispatch.rest.resource.v1_0.DispatchTriggerResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -264,18 +263,18 @@ public abstract class BaseDispatchTriggerResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<DispatchTrigger, Exception>
-			dispatchTriggerUnsafeConsumer = null;
+		UnsafeFunction<DispatchTrigger, DispatchTrigger, Exception>
+			dispatchTriggerUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			dispatchTriggerUnsafeConsumer =
+			dispatchTriggerUnsafeFunction =
 				dispatchTrigger -> postDispatchTrigger(dispatchTrigger);
 		}
 
-		if (dispatchTriggerUnsafeConsumer == null) {
+		if (dispatchTriggerUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for DispatchTrigger");
@@ -283,11 +282,11 @@ public abstract class BaseDispatchTriggerResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				dispatchTriggers, dispatchTriggerUnsafeConsumer);
+				dispatchTriggers, dispatchTriggerUnsafeFunction);
 		}
 		else {
 			for (DispatchTrigger dispatchTrigger : dispatchTriggers) {
-				dispatchTriggerUnsafeConsumer.accept(dispatchTrigger);
+				dispatchTriggerUnsafeFunction.apply(dispatchTrigger);
 			}
 		}
 	}
@@ -377,8 +376,8 @@ public abstract class BaseDispatchTriggerResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<DispatchTrigger>,
-			 UnsafeConsumer<DispatchTrigger, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<DispatchTrigger, DispatchTrigger, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -635,7 +634,7 @@ public abstract class BaseDispatchTriggerResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<DispatchTrigger>,
-		 UnsafeConsumer<DispatchTrigger, Exception>, Exception>
+		 UnsafeFunction<DispatchTrigger, DispatchTrigger, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

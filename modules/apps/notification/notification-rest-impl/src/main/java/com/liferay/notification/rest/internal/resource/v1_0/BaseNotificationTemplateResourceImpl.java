@@ -17,7 +17,6 @@ package com.liferay.notification.rest.internal.resource.v1_0;
 import com.liferay.notification.rest.dto.v1_0.NotificationTemplate;
 import com.liferay.notification.rest.resource.v1_0.NotificationTemplateResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -725,14 +724,14 @@ public abstract class BaseNotificationTemplateResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<NotificationTemplate, Exception>
-			notificationTemplateUnsafeConsumer = null;
+		UnsafeFunction<NotificationTemplate, NotificationTemplate, Exception>
+			notificationTemplateUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			notificationTemplateUnsafeConsumer =
+			notificationTemplateUnsafeFunction =
 				notificationTemplate -> postNotificationTemplate(
 					notificationTemplate);
 		}
@@ -742,36 +741,42 @@ public abstract class BaseNotificationTemplateResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				notificationTemplateUnsafeConsumer = notificationTemplate ->
+				notificationTemplateUnsafeFunction = notificationTemplate ->
 					putNotificationTemplateByExternalReferenceCode(
 						notificationTemplate.getExternalReferenceCode(),
 						notificationTemplate);
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				notificationTemplateUnsafeConsumer = notificationTemplate -> {
+				notificationTemplateUnsafeFunction = notificationTemplate -> {
+					NotificationTemplate persistedNotificationTemplate = null;
+
 					try {
 						NotificationTemplate getNotificationTemplate =
 							getNotificationTemplateByExternalReferenceCode(
 								notificationTemplate.
 									getExternalReferenceCode());
 
-						patchNotificationTemplate(
-							getNotificationTemplate.getId() != null ?
-								getNotificationTemplate.getId() :
-									_parseLong(
-										(String)parameters.get(
-											"notificationTemplateId")),
-							notificationTemplate);
+						persistedNotificationTemplate =
+							patchNotificationTemplate(
+								getNotificationTemplate.getId() != null ?
+									getNotificationTemplate.getId() :
+										_parseLong(
+											(String)parameters.get(
+												"notificationTemplateId")),
+								notificationTemplate);
 					}
 					catch (NoSuchModelException noSuchModelException) {
-						postNotificationTemplate(notificationTemplate);
+						persistedNotificationTemplate =
+							postNotificationTemplate(notificationTemplate);
 					}
+
+					return persistedNotificationTemplate;
 				};
 			}
 		}
 
-		if (notificationTemplateUnsafeConsumer == null) {
+		if (notificationTemplateUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for NotificationTemplate");
@@ -779,13 +784,13 @@ public abstract class BaseNotificationTemplateResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				notificationTemplates, notificationTemplateUnsafeConsumer);
+				notificationTemplates, notificationTemplateUnsafeFunction);
 		}
 		else {
 			for (NotificationTemplate notificationTemplate :
 					notificationTemplates) {
 
-				notificationTemplateUnsafeConsumer.accept(notificationTemplate);
+				notificationTemplateUnsafeFunction.apply(notificationTemplate);
 			}
 		}
 	}
@@ -868,14 +873,14 @@ public abstract class BaseNotificationTemplateResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<NotificationTemplate, Exception>
-			notificationTemplateUnsafeConsumer = null;
+		UnsafeFunction<NotificationTemplate, NotificationTemplate, Exception>
+			notificationTemplateUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			notificationTemplateUnsafeConsumer =
+			notificationTemplateUnsafeFunction =
 				notificationTemplate -> patchNotificationTemplate(
 					notificationTemplate.getId() != null ?
 						notificationTemplate.getId() :
@@ -886,7 +891,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			notificationTemplateUnsafeConsumer =
+			notificationTemplateUnsafeFunction =
 				notificationTemplate -> putNotificationTemplate(
 					notificationTemplate.getId() != null ?
 						notificationTemplate.getId() :
@@ -896,7 +901,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 					notificationTemplate);
 		}
 
-		if (notificationTemplateUnsafeConsumer == null) {
+		if (notificationTemplateUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for NotificationTemplate");
@@ -904,13 +909,13 @@ public abstract class BaseNotificationTemplateResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				notificationTemplates, notificationTemplateUnsafeConsumer);
+				notificationTemplates, notificationTemplateUnsafeFunction);
 		}
 		else {
 			for (NotificationTemplate notificationTemplate :
 					notificationTemplates) {
 
-				notificationTemplateUnsafeConsumer.accept(notificationTemplate);
+				notificationTemplateUnsafeFunction.apply(notificationTemplate);
 			}
 		}
 	}
@@ -930,8 +935,9 @@ public abstract class BaseNotificationTemplateResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<NotificationTemplate>,
-			 UnsafeConsumer<NotificationTemplate, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <NotificationTemplate, NotificationTemplate, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1193,8 +1199,8 @@ public abstract class BaseNotificationTemplateResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<NotificationTemplate>,
-		 UnsafeConsumer<NotificationTemplate, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<NotificationTemplate, NotificationTemplate, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

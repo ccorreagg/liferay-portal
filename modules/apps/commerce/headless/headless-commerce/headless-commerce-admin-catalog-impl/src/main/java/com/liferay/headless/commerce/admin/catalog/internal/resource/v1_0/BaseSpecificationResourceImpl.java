@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.Specification;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.SpecificationResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -428,18 +427,18 @@ public abstract class BaseSpecificationResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Specification, Exception> specificationUnsafeConsumer =
-			null;
+		UnsafeFunction<Specification, Specification, Exception>
+			specificationUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			specificationUnsafeConsumer = specification -> postSpecification(
+			specificationUnsafeFunction = specification -> postSpecification(
 				specification);
 		}
 
-		if (specificationUnsafeConsumer == null) {
+		if (specificationUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Specification");
@@ -447,11 +446,11 @@ public abstract class BaseSpecificationResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				specifications, specificationUnsafeConsumer);
+				specifications, specificationUnsafeFunction);
 		}
 		else {
 			for (Specification specification : specifications) {
-				specificationUnsafeConsumer.accept(specification);
+				specificationUnsafeFunction.apply(specification);
 			}
 		}
 	}
@@ -531,20 +530,20 @@ public abstract class BaseSpecificationResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Specification, Exception> specificationUnsafeConsumer =
-			null;
+		UnsafeFunction<Specification, Specification, Exception>
+			specificationUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			specificationUnsafeConsumer = specification -> patchSpecification(
+			specificationUnsafeFunction = specification -> patchSpecification(
 				specification.getId() != null ? specification.getId() :
 					_parseLong((String)parameters.get("specificationId")),
 				specification);
 		}
 
-		if (specificationUnsafeConsumer == null) {
+		if (specificationUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Specification");
@@ -552,11 +551,11 @@ public abstract class BaseSpecificationResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				specifications, specificationUnsafeConsumer);
+				specifications, specificationUnsafeFunction);
 		}
 		else {
 			for (Specification specification : specifications) {
-				specificationUnsafeConsumer.accept(specification);
+				specificationUnsafeFunction.apply(specification);
 			}
 		}
 	}
@@ -576,7 +575,7 @@ public abstract class BaseSpecificationResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<Specification>,
-			 UnsafeConsumer<Specification, Exception>, Exception>
+			 UnsafeFunction<Specification, Specification, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -833,8 +832,9 @@ public abstract class BaseSpecificationResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Specification>, UnsafeConsumer<Specification, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<Specification>,
+		 UnsafeFunction<Specification, Specification, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

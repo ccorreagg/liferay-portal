@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.delivery.order.internal.resource.v1_0;
 import com.liferay.headless.commerce.delivery.order.dto.v1_0.PlacedOrderItem;
 import com.liferay.headless.commerce.delivery.order.resource.v1_0.PlacedOrderItemResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -356,8 +355,8 @@ public abstract class BasePlacedOrderItemResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<PlacedOrderItem>,
-			 UnsafeConsumer<PlacedOrderItem, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<PlacedOrderItem, PlacedOrderItem, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -614,7 +613,7 @@ public abstract class BasePlacedOrderItemResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<PlacedOrderItem>,
-		 UnsafeConsumer<PlacedOrderItem, Exception>, Exception>
+		 UnsafeFunction<PlacedOrderItem, PlacedOrderItem, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

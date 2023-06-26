@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.order.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.order.dto.v1_0.OrderTypeChannel;
 import com.liferay.headless.commerce.admin.order.resource.v1_0.OrderTypeChannelResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -463,8 +462,8 @@ public abstract class BaseOrderTypeChannelResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<OrderTypeChannel>,
-			 UnsafeConsumer<OrderTypeChannel, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<OrderTypeChannel, OrderTypeChannel, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -721,8 +720,8 @@ public abstract class BaseOrderTypeChannelResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<OrderTypeChannel>,
-		 UnsafeConsumer<OrderTypeChannel, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<OrderTypeChannel, OrderTypeChannel, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

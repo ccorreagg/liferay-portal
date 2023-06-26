@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.order.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.order.dto.v1_0.OrderNote;
 import com.liferay.headless.commerce.admin.order.resource.v1_0.OrderNoteResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -593,19 +592,20 @@ public abstract class BaseOrderNoteResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OrderNote, Exception> orderNoteUnsafeConsumer = null;
+		UnsafeFunction<OrderNote, OrderNote, Exception>
+			orderNoteUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			orderNoteUnsafeConsumer = orderNote -> patchOrderNote(
+			orderNoteUnsafeFunction = orderNote -> patchOrderNote(
 				orderNote.getId() != null ? orderNote.getId() :
 					_parseLong((String)parameters.get("orderNoteId")),
 				orderNote);
 		}
 
-		if (orderNoteUnsafeConsumer == null) {
+		if (orderNoteUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for OrderNote");
@@ -613,11 +613,11 @@ public abstract class BaseOrderNoteResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				orderNotes, orderNoteUnsafeConsumer);
+				orderNotes, orderNoteUnsafeFunction);
 		}
 		else {
 			for (OrderNote orderNote : orderNotes) {
-				orderNoteUnsafeConsumer.accept(orderNote);
+				orderNoteUnsafeFunction.apply(orderNote);
 			}
 		}
 	}
@@ -636,8 +636,9 @@ public abstract class BaseOrderNoteResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<OrderNote>, UnsafeConsumer<OrderNote, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<OrderNote>,
+			 UnsafeFunction<OrderNote, OrderNote, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -893,8 +894,8 @@ public abstract class BaseOrderNoteResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<OrderNote>, UnsafeConsumer<OrderNote, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<OrderNote>, UnsafeFunction<OrderNote, OrderNote, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

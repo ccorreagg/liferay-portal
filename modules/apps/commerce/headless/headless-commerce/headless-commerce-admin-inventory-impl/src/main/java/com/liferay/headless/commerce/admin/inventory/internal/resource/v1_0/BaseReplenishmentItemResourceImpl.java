@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.inventory.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.inventory.dto.v1_0.ReplenishmentItem;
 import com.liferay.headless.commerce.admin.inventory.resource.v1_0.ReplenishmentItemResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -587,20 +586,20 @@ public abstract class BaseReplenishmentItemResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ReplenishmentItem, Exception>
-			replenishmentItemUnsafeConsumer = null;
+		UnsafeFunction<ReplenishmentItem, ReplenishmentItem, Exception>
+			replenishmentItemUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			replenishmentItemUnsafeConsumer =
+			replenishmentItemUnsafeFunction =
 				replenishmentItem -> postReplenishmentItem(
 					_parseLong((String)parameters.get("warehouseId")),
 					(String)parameters.get("sku"), replenishmentItem);
 		}
 
-		if (replenishmentItemUnsafeConsumer == null) {
+		if (replenishmentItemUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ReplenishmentItem");
@@ -608,11 +607,11 @@ public abstract class BaseReplenishmentItemResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				replenishmentItems, replenishmentItemUnsafeConsumer);
+				replenishmentItems, replenishmentItemUnsafeFunction);
 		}
 		else {
 			for (ReplenishmentItem replenishmentItem : replenishmentItems) {
-				replenishmentItemUnsafeConsumer.accept(replenishmentItem);
+				replenishmentItemUnsafeFunction.apply(replenishmentItem);
 			}
 		}
 	}
@@ -693,14 +692,14 @@ public abstract class BaseReplenishmentItemResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ReplenishmentItem, Exception>
-			replenishmentItemUnsafeConsumer = null;
+		UnsafeFunction<ReplenishmentItem, ReplenishmentItem, Exception>
+			replenishmentItemUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			replenishmentItemUnsafeConsumer =
+			replenishmentItemUnsafeFunction =
 				replenishmentItem -> patchReplenishmentItem(
 					replenishmentItem.getId() != null ?
 						replenishmentItem.getId() :
@@ -709,7 +708,7 @@ public abstract class BaseReplenishmentItemResourceImpl
 					replenishmentItem);
 		}
 
-		if (replenishmentItemUnsafeConsumer == null) {
+		if (replenishmentItemUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ReplenishmentItem");
@@ -717,11 +716,11 @@ public abstract class BaseReplenishmentItemResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				replenishmentItems, replenishmentItemUnsafeConsumer);
+				replenishmentItems, replenishmentItemUnsafeFunction);
 		}
 		else {
 			for (ReplenishmentItem replenishmentItem : replenishmentItems) {
-				replenishmentItemUnsafeConsumer.accept(replenishmentItem);
+				replenishmentItemUnsafeFunction.apply(replenishmentItem);
 			}
 		}
 	}
@@ -741,8 +740,8 @@ public abstract class BaseReplenishmentItemResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<ReplenishmentItem>,
-			 UnsafeConsumer<ReplenishmentItem, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<ReplenishmentItem, ReplenishmentItem, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -999,8 +998,8 @@ public abstract class BaseReplenishmentItemResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<ReplenishmentItem>,
-		 UnsafeConsumer<ReplenishmentItem, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<ReplenishmentItem, ReplenishmentItem, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

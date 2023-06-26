@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.ContentStructure;
 import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.resource.v1_0.ContentStructureResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -1151,8 +1150,8 @@ public abstract class BaseContentStructureResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<ContentStructure>,
-			 UnsafeConsumer<ContentStructure, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<ContentStructure, ContentStructure, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1409,8 +1408,8 @@ public abstract class BaseContentStructureResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<ContentStructure>,
-		 UnsafeConsumer<ContentStructure, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<ContentStructure, ContentStructure, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

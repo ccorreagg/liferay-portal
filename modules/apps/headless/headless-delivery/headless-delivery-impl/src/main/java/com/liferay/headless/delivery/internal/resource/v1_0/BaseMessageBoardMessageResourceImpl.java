@@ -19,7 +19,6 @@ import com.liferay.headless.delivery.dto.v1_0.MessageBoardMessage;
 import com.liferay.headless.delivery.dto.v1_0.Rating;
 import com.liferay.headless.delivery.resource.v1_0.MessageBoardMessageResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -1748,15 +1747,15 @@ public abstract class BaseMessageBoardMessageResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<MessageBoardMessage, Exception>
-			messageBoardMessageUnsafeConsumer = null;
+		UnsafeFunction<MessageBoardMessage, MessageBoardMessage, Exception>
+			messageBoardMessageUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("messageBoardThreadId")) {
-				messageBoardMessageUnsafeConsumer = messageBoardMessage ->
+				messageBoardMessageUnsafeFunction = messageBoardMessage ->
 					postMessageBoardThreadMessageBoardMessage(
 						_parseLong(
 							(String)parameters.get("messageBoardThreadId")),
@@ -1773,7 +1772,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				messageBoardMessageUnsafeConsumer = messageBoardMessage ->
+				messageBoardMessageUnsafeFunction = messageBoardMessage ->
 					putSiteMessageBoardMessageByExternalReferenceCode(
 						messageBoardMessage.getSiteId() != null ?
 							messageBoardMessage.getSiteId() :
@@ -1783,7 +1782,9 @@ public abstract class BaseMessageBoardMessageResourceImpl
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				messageBoardMessageUnsafeConsumer = messageBoardMessage -> {
+				messageBoardMessageUnsafeFunction = messageBoardMessage -> {
+					MessageBoardMessage persistedMessageBoardMessage = null;
+
 					try {
 						MessageBoardMessage getMessageBoardMessage =
 							getSiteMessageBoardMessageByExternalReferenceCode(
@@ -1792,7 +1793,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 										(Long)parameters.get("siteId"),
 								messageBoardMessage.getExternalReferenceCode());
 
-						patchMessageBoardMessage(
+						persistedMessageBoardMessage = patchMessageBoardMessage(
 							getMessageBoardMessage.getId() != null ?
 								getMessageBoardMessage.getId() :
 									_parseLong(
@@ -1802,22 +1803,25 @@ public abstract class BaseMessageBoardMessageResourceImpl
 					}
 					catch (NoSuchModelException noSuchModelException) {
 						if (parameters.containsKey("messageBoardThreadId")) {
-							postMessageBoardThreadMessageBoardMessage(
-								_parseLong(
-									(String)parameters.get(
-										"messageBoardThreadId")),
-								messageBoardMessage);
+							persistedMessageBoardMessage =
+								postMessageBoardThreadMessageBoardMessage(
+									_parseLong(
+										(String)parameters.get(
+											"messageBoardThreadId")),
+									messageBoardMessage);
 						}
 						else {
 							throw new NotSupportedException(
 								"One of the following parameters must be specified: [messageBoardThreadId, messageBoardThreadId]");
 						}
 					}
+
+					return persistedMessageBoardMessage;
 				};
 			}
 		}
 
-		if (messageBoardMessageUnsafeConsumer == null) {
+		if (messageBoardMessageUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for MessageBoardMessage");
@@ -1825,13 +1829,13 @@ public abstract class BaseMessageBoardMessageResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				messageBoardMessages, messageBoardMessageUnsafeConsumer);
+				messageBoardMessages, messageBoardMessageUnsafeFunction);
 		}
 		else {
 			for (MessageBoardMessage messageBoardMessage :
 					messageBoardMessages) {
 
-				messageBoardMessageUnsafeConsumer.accept(messageBoardMessage);
+				messageBoardMessageUnsafeFunction.apply(messageBoardMessage);
 			}
 		}
 	}
@@ -1925,14 +1929,14 @@ public abstract class BaseMessageBoardMessageResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<MessageBoardMessage, Exception>
-			messageBoardMessageUnsafeConsumer = null;
+		UnsafeFunction<MessageBoardMessage, MessageBoardMessage, Exception>
+			messageBoardMessageUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			messageBoardMessageUnsafeConsumer =
+			messageBoardMessageUnsafeFunction =
 				messageBoardMessage -> patchMessageBoardMessage(
 					messageBoardMessage.getId() != null ?
 						messageBoardMessage.getId() :
@@ -1943,7 +1947,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			messageBoardMessageUnsafeConsumer =
+			messageBoardMessageUnsafeFunction =
 				messageBoardMessage -> putMessageBoardMessage(
 					messageBoardMessage.getId() != null ?
 						messageBoardMessage.getId() :
@@ -1953,7 +1957,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 					messageBoardMessage);
 		}
 
-		if (messageBoardMessageUnsafeConsumer == null) {
+		if (messageBoardMessageUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for MessageBoardMessage");
@@ -1961,13 +1965,13 @@ public abstract class BaseMessageBoardMessageResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				messageBoardMessages, messageBoardMessageUnsafeConsumer);
+				messageBoardMessages, messageBoardMessageUnsafeFunction);
 		}
 		else {
 			for (MessageBoardMessage messageBoardMessage :
 					messageBoardMessages) {
 
-				messageBoardMessageUnsafeConsumer.accept(messageBoardMessage);
+				messageBoardMessageUnsafeFunction.apply(messageBoardMessage);
 			}
 		}
 	}
@@ -2158,8 +2162,9 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<MessageBoardMessage>,
-			 UnsafeConsumer<MessageBoardMessage, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <MessageBoardMessage, MessageBoardMessage, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -2421,8 +2426,8 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<MessageBoardMessage>,
-		 UnsafeConsumer<MessageBoardMessage, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<MessageBoardMessage, MessageBoardMessage, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

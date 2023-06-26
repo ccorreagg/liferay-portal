@@ -19,7 +19,6 @@ import com.liferay.headless.delivery.dto.v1_0.DocumentFolder;
 import com.liferay.headless.delivery.dto.v1_0.Rating;
 import com.liferay.headless.delivery.resource.v1_0.DocumentFolderResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -1867,20 +1866,20 @@ public abstract class BaseDocumentFolderResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<DocumentFolder, Exception> documentFolderUnsafeConsumer =
-			null;
+		UnsafeFunction<DocumentFolder, DocumentFolder, Exception>
+			documentFolderUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("assetLibraryId")) {
-				documentFolderUnsafeConsumer =
+				documentFolderUnsafeFunction =
 					documentFolder -> postAssetLibraryDocumentFolder(
 						(Long)parameters.get("assetLibraryId"), documentFolder);
 			}
 			else if (parameters.containsKey("siteId")) {
-				documentFolderUnsafeConsumer =
+				documentFolderUnsafeFunction =
 					documentFolder -> postSiteDocumentFolder(
 						(Long)parameters.get("siteId"), documentFolder);
 			}
@@ -1890,7 +1889,7 @@ public abstract class BaseDocumentFolderResourceImpl
 			}
 		}
 
-		if (documentFolderUnsafeConsumer == null) {
+		if (documentFolderUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for DocumentFolder");
@@ -1898,11 +1897,11 @@ public abstract class BaseDocumentFolderResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				documentFolders, documentFolderUnsafeConsumer);
+				documentFolders, documentFolderUnsafeFunction);
 		}
 		else {
 			for (DocumentFolder documentFolder : documentFolders) {
-				documentFolderUnsafeConsumer.accept(documentFolder);
+				documentFolderUnsafeFunction.apply(documentFolder);
 			}
 		}
 	}
@@ -1997,14 +1996,14 @@ public abstract class BaseDocumentFolderResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<DocumentFolder, Exception> documentFolderUnsafeConsumer =
-			null;
+		UnsafeFunction<DocumentFolder, DocumentFolder, Exception>
+			documentFolderUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			documentFolderUnsafeConsumer =
+			documentFolderUnsafeFunction =
 				documentFolder -> patchDocumentFolder(
 					documentFolder.getId() != null ? documentFolder.getId() :
 						_parseLong((String)parameters.get("documentFolderId")),
@@ -2012,13 +2011,13 @@ public abstract class BaseDocumentFolderResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			documentFolderUnsafeConsumer = documentFolder -> putDocumentFolder(
+			documentFolderUnsafeFunction = documentFolder -> putDocumentFolder(
 				documentFolder.getId() != null ? documentFolder.getId() :
 					_parseLong((String)parameters.get("documentFolderId")),
 				documentFolder);
 		}
 
-		if (documentFolderUnsafeConsumer == null) {
+		if (documentFolderUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for DocumentFolder");
@@ -2026,11 +2025,11 @@ public abstract class BaseDocumentFolderResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				documentFolders, documentFolderUnsafeConsumer);
+				documentFolders, documentFolderUnsafeFunction);
 		}
 		else {
 			for (DocumentFolder documentFolder : documentFolders) {
-				documentFolderUnsafeConsumer.accept(documentFolder);
+				documentFolderUnsafeFunction.apply(documentFolder);
 			}
 		}
 	}
@@ -2221,8 +2220,8 @@ public abstract class BaseDocumentFolderResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<DocumentFolder>,
-			 UnsafeConsumer<DocumentFolder, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<DocumentFolder, DocumentFolder, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -2482,8 +2481,9 @@ public abstract class BaseDocumentFolderResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<DocumentFolder>, UnsafeConsumer<DocumentFolder, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<DocumentFolder>,
+		 UnsafeFunction<DocumentFolder, DocumentFolder, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

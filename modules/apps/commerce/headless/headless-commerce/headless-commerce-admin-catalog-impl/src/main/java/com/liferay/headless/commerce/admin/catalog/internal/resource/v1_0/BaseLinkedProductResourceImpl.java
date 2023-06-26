@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.LinkedProduct;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.LinkedProductResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -214,7 +213,7 @@ public abstract class BaseLinkedProductResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<LinkedProduct>,
-			 UnsafeConsumer<LinkedProduct, Exception>, Exception>
+			 UnsafeFunction<LinkedProduct, LinkedProduct, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -471,8 +470,9 @@ public abstract class BaseLinkedProductResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<LinkedProduct>, UnsafeConsumer<LinkedProduct, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<LinkedProduct>,
+		 UnsafeFunction<LinkedProduct, LinkedProduct, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

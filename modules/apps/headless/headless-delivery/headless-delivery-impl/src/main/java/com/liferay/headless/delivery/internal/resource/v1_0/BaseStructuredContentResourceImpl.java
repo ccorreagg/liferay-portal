@@ -19,7 +19,6 @@ import com.liferay.headless.delivery.dto.v1_0.Rating;
 import com.liferay.headless.delivery.dto.v1_0.StructuredContent;
 import com.liferay.headless.delivery.resource.v1_0.StructuredContentResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringPool;
@@ -2529,15 +2528,15 @@ public abstract class BaseStructuredContentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<StructuredContent, Exception>
-			structuredContentUnsafeConsumer = null;
+		UnsafeFunction<StructuredContent, StructuredContent, Exception>
+			structuredContentUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("structuredContentFolderId")) {
-				structuredContentUnsafeConsumer = structuredContent ->
+				structuredContentUnsafeFunction = structuredContent ->
 					postStructuredContentFolderStructuredContent(
 						_parseLong(
 							(String)parameters.get(
@@ -2545,13 +2544,13 @@ public abstract class BaseStructuredContentResourceImpl
 						structuredContent);
 			}
 			else if (parameters.containsKey("assetLibraryId")) {
-				structuredContentUnsafeConsumer =
+				structuredContentUnsafeFunction =
 					structuredContent -> postAssetLibraryStructuredContent(
 						(Long)parameters.get("assetLibraryId"),
 						structuredContent);
 			}
 			else if (parameters.containsKey("siteId")) {
-				structuredContentUnsafeConsumer =
+				structuredContentUnsafeFunction =
 					structuredContent -> postSiteStructuredContent(
 						(Long)parameters.get("siteId"), structuredContent);
 			}
@@ -2566,7 +2565,7 @@ public abstract class BaseStructuredContentResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				structuredContentUnsafeConsumer = structuredContent ->
+				structuredContentUnsafeFunction = structuredContent ->
 					putSiteStructuredContentByExternalReferenceCode(
 						structuredContent.getSiteId() != null ?
 							structuredContent.getSiteId() :
@@ -2576,7 +2575,9 @@ public abstract class BaseStructuredContentResourceImpl
 			}
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				structuredContentUnsafeConsumer = structuredContent -> {
+				structuredContentUnsafeFunction = structuredContent -> {
+					StructuredContent persistedStructuredContent = null;
+
 					try {
 						StructuredContent getStructuredContent =
 							getSiteStructuredContentByExternalReferenceCode(
@@ -2585,7 +2586,7 @@ public abstract class BaseStructuredContentResourceImpl
 										(Long)parameters.get("siteId"),
 								structuredContent.getExternalReferenceCode());
 
-						patchStructuredContent(
+						persistedStructuredContent = patchStructuredContent(
 							getStructuredContent.getId() != null ?
 								getStructuredContent.getId() :
 									_parseLong(
@@ -2597,32 +2598,37 @@ public abstract class BaseStructuredContentResourceImpl
 						if (parameters.containsKey(
 								"structuredContentFolderId")) {
 
-							postStructuredContentFolderStructuredContent(
-								_parseLong(
-									(String)parameters.get(
-										"structuredContentFolderId")),
-								structuredContent);
+							persistedStructuredContent =
+								postStructuredContentFolderStructuredContent(
+									_parseLong(
+										(String)parameters.get(
+											"structuredContentFolderId")),
+									structuredContent);
 						}
 						else if (parameters.containsKey("assetLibraryId")) {
-							postAssetLibraryStructuredContent(
-								(Long)parameters.get("assetLibraryId"),
-								structuredContent);
+							persistedStructuredContent =
+								postAssetLibraryStructuredContent(
+									(Long)parameters.get("assetLibraryId"),
+									structuredContent);
 						}
 						else if (parameters.containsKey("siteId")) {
-							postSiteStructuredContent(
-								(Long)parameters.get("siteId"),
-								structuredContent);
+							persistedStructuredContent =
+								postSiteStructuredContent(
+									(Long)parameters.get("siteId"),
+									structuredContent);
 						}
 						else {
 							throw new NotSupportedException(
 								"One of the following parameters must be specified: [structuredContentFolderId, assetLibraryId, siteId, structuredContentFolderId, assetLibraryId]");
 						}
 					}
+
+					return persistedStructuredContent;
 				};
 			}
 		}
 
-		if (structuredContentUnsafeConsumer == null) {
+		if (structuredContentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for StructuredContent");
@@ -2630,11 +2636,11 @@ public abstract class BaseStructuredContentResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				structuredContents, structuredContentUnsafeConsumer);
+				structuredContents, structuredContentUnsafeFunction);
 		}
 		else {
 			for (StructuredContent structuredContent : structuredContents) {
-				structuredContentUnsafeConsumer.accept(structuredContent);
+				structuredContentUnsafeFunction.apply(structuredContent);
 			}
 		}
 	}
@@ -2740,14 +2746,14 @@ public abstract class BaseStructuredContentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<StructuredContent, Exception>
-			structuredContentUnsafeConsumer = null;
+		UnsafeFunction<StructuredContent, StructuredContent, Exception>
+			structuredContentUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			structuredContentUnsafeConsumer =
+			structuredContentUnsafeFunction =
 				structuredContent -> patchStructuredContent(
 					structuredContent.getId() != null ?
 						structuredContent.getId() :
@@ -2757,7 +2763,7 @@ public abstract class BaseStructuredContentResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			structuredContentUnsafeConsumer =
+			structuredContentUnsafeFunction =
 				structuredContent -> putStructuredContent(
 					structuredContent.getId() != null ?
 						structuredContent.getId() :
@@ -2766,7 +2772,7 @@ public abstract class BaseStructuredContentResourceImpl
 					structuredContent);
 		}
 
-		if (structuredContentUnsafeConsumer == null) {
+		if (structuredContentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for StructuredContent");
@@ -2774,11 +2780,11 @@ public abstract class BaseStructuredContentResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				structuredContents, structuredContentUnsafeConsumer);
+				structuredContents, structuredContentUnsafeFunction);
 		}
 		else {
 			for (StructuredContent structuredContent : structuredContents) {
-				structuredContentUnsafeConsumer.accept(structuredContent);
+				structuredContentUnsafeFunction.apply(structuredContent);
 			}
 		}
 	}
@@ -2969,8 +2975,8 @@ public abstract class BaseStructuredContentResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<StructuredContent>,
-			 UnsafeConsumer<StructuredContent, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<StructuredContent, StructuredContent, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -3232,8 +3238,8 @@ public abstract class BaseStructuredContentResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<StructuredContent>,
-		 UnsafeConsumer<StructuredContent, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction<StructuredContent, StructuredContent, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

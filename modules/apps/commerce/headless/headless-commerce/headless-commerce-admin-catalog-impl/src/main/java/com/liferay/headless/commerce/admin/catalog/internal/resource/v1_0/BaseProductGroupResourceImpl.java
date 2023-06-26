@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.ProductGroup;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.ProductGroupResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -506,18 +505,18 @@ public abstract class BaseProductGroupResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ProductGroup, Exception> productGroupUnsafeConsumer =
-			null;
+		UnsafeFunction<ProductGroup, ProductGroup, Exception>
+			productGroupUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			productGroupUnsafeConsumer = productGroup -> postProductGroup(
+			productGroupUnsafeFunction = productGroup -> postProductGroup(
 				productGroup);
 		}
 
-		if (productGroupUnsafeConsumer == null) {
+		if (productGroupUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ProductGroup");
@@ -525,11 +524,11 @@ public abstract class BaseProductGroupResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				productGroups, productGroupUnsafeConsumer);
+				productGroups, productGroupUnsafeFunction);
 		}
 		else {
 			for (ProductGroup productGroup : productGroups) {
-				productGroupUnsafeConsumer.accept(productGroup);
+				productGroupUnsafeFunction.apply(productGroup);
 			}
 		}
 	}
@@ -609,20 +608,20 @@ public abstract class BaseProductGroupResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ProductGroup, Exception> productGroupUnsafeConsumer =
-			null;
+		UnsafeFunction<ProductGroup, ProductGroup, Exception>
+			productGroupUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			productGroupUnsafeConsumer = productGroup -> patchProductGroup(
+			productGroupUnsafeFunction = productGroup -> patchProductGroup(
 				productGroup.getId() != null ? productGroup.getId() :
 					_parseLong((String)parameters.get("productGroupId")),
 				productGroup);
 		}
 
-		if (productGroupUnsafeConsumer == null) {
+		if (productGroupUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ProductGroup");
@@ -630,11 +629,11 @@ public abstract class BaseProductGroupResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				productGroups, productGroupUnsafeConsumer);
+				productGroups, productGroupUnsafeFunction);
 		}
 		else {
 			for (ProductGroup productGroup : productGroups) {
-				productGroupUnsafeConsumer.accept(productGroup);
+				productGroupUnsafeFunction.apply(productGroup);
 			}
 		}
 	}
@@ -653,8 +652,9 @@ public abstract class BaseProductGroupResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<ProductGroup>, UnsafeConsumer<ProductGroup, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<ProductGroup>,
+			 UnsafeFunction<ProductGroup, ProductGroup, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -910,8 +910,9 @@ public abstract class BaseProductGroupResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<ProductGroup>, UnsafeConsumer<ProductGroup, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<ProductGroup>,
+		 UnsafeFunction<ProductGroup, ProductGroup, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

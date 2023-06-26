@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.dto.v1_0.WikiPage;
 import com.liferay.headless.delivery.resource.v1_0.WikiPageResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -953,14 +952,15 @@ public abstract class BaseWikiPageResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<WikiPage, Exception> wikiPageUnsafeConsumer = null;
+		UnsafeFunction<WikiPage, WikiPage, Exception> wikiPageUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("wikiNodeId")) {
-				wikiPageUnsafeConsumer = wikiPage -> postWikiNodeWikiPage(
+				wikiPageUnsafeFunction = wikiPage -> postWikiNodeWikiPage(
 					_parseLong((String)parameters.get("wikiNodeId")), wikiPage);
 			}
 			else {
@@ -974,7 +974,7 @@ public abstract class BaseWikiPageResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-				wikiPageUnsafeConsumer =
+				wikiPageUnsafeFunction =
 					wikiPage -> putSiteWikiPageByExternalReferenceCode(
 						wikiPage.getSiteId() != null ? wikiPage.getSiteId() :
 							(Long)parameters.get("siteId"),
@@ -982,7 +982,7 @@ public abstract class BaseWikiPageResourceImpl
 			}
 		}
 
-		if (wikiPageUnsafeConsumer == null) {
+		if (wikiPageUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for WikiPage");
@@ -990,11 +990,11 @@ public abstract class BaseWikiPageResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				wikiPages, wikiPageUnsafeConsumer);
+				wikiPages, wikiPageUnsafeFunction);
 		}
 		else {
 			for (WikiPage wikiPage : wikiPages) {
-				wikiPageUnsafeConsumer.accept(wikiPage);
+				wikiPageUnsafeFunction.apply(wikiPage);
 			}
 		}
 	}
@@ -1082,19 +1082,20 @@ public abstract class BaseWikiPageResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<WikiPage, Exception> wikiPageUnsafeConsumer = null;
+		UnsafeFunction<WikiPage, WikiPage, Exception> wikiPageUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			wikiPageUnsafeConsumer = wikiPage -> putWikiPage(
+			wikiPageUnsafeFunction = wikiPage -> putWikiPage(
 				wikiPage.getId() != null ? wikiPage.getId() :
 					_parseLong((String)parameters.get("wikiPageId")),
 				wikiPage);
 		}
 
-		if (wikiPageUnsafeConsumer == null) {
+		if (wikiPageUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for WikiPage");
@@ -1102,11 +1103,11 @@ public abstract class BaseWikiPageResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				wikiPages, wikiPageUnsafeConsumer);
+				wikiPages, wikiPageUnsafeFunction);
 		}
 		else {
 			for (WikiPage wikiPage : wikiPages) {
-				wikiPageUnsafeConsumer.accept(wikiPage);
+				wikiPageUnsafeFunction.apply(wikiPage);
 			}
 		}
 	}
@@ -1288,8 +1289,9 @@ public abstract class BaseWikiPageResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<WikiPage>, UnsafeConsumer<WikiPage, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<WikiPage>,
+			 UnsafeFunction<WikiPage, WikiPage, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1545,8 +1547,8 @@ public abstract class BaseWikiPageResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<WikiPage>, UnsafeConsumer<WikiPage, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<WikiPage>, UnsafeFunction<WikiPage, WikiPage, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

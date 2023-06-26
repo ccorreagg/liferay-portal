@@ -17,7 +17,6 @@ package com.liferay.object.admin.rest.internal.resource.v1_0;
 import com.liferay.object.admin.rest.dto.v1_0.ObjectField;
 import com.liferay.object.admin.rest.resource.v1_0.ObjectFieldResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -701,14 +700,15 @@ public abstract class BaseObjectFieldResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectField, Exception> objectFieldUnsafeConsumer = null;
+		UnsafeFunction<ObjectField, ObjectField, Exception>
+			objectFieldUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("objectDefinitionId")) {
-				objectFieldUnsafeConsumer =
+				objectFieldUnsafeFunction =
 					objectField -> postObjectDefinitionObjectField(
 						_parseLong(
 							(String)parameters.get("objectDefinitionId")),
@@ -720,7 +720,7 @@ public abstract class BaseObjectFieldResourceImpl
 			}
 		}
 
-		if (objectFieldUnsafeConsumer == null) {
+		if (objectFieldUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ObjectField");
@@ -728,11 +728,11 @@ public abstract class BaseObjectFieldResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectFields, objectFieldUnsafeConsumer);
+				objectFields, objectFieldUnsafeFunction);
 		}
 		else {
 			for (ObjectField objectField : objectFields) {
-				objectFieldUnsafeConsumer.accept(objectField);
+				objectFieldUnsafeFunction.apply(objectField);
 			}
 		}
 	}
@@ -820,26 +820,27 @@ public abstract class BaseObjectFieldResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ObjectField, Exception> objectFieldUnsafeConsumer = null;
+		UnsafeFunction<ObjectField, ObjectField, Exception>
+			objectFieldUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			objectFieldUnsafeConsumer = objectField -> patchObjectField(
+			objectFieldUnsafeFunction = objectField -> patchObjectField(
 				objectField.getId() != null ? objectField.getId() :
 					_parseLong((String)parameters.get("objectFieldId")),
 				objectField);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			objectFieldUnsafeConsumer = objectField -> putObjectField(
+			objectFieldUnsafeFunction = objectField -> putObjectField(
 				objectField.getId() != null ? objectField.getId() :
 					_parseLong((String)parameters.get("objectFieldId")),
 				objectField);
 		}
 
-		if (objectFieldUnsafeConsumer == null) {
+		if (objectFieldUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for ObjectField");
@@ -847,11 +848,11 @@ public abstract class BaseObjectFieldResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				objectFields, objectFieldUnsafeConsumer);
+				objectFields, objectFieldUnsafeFunction);
 		}
 		else {
 			for (ObjectField objectField : objectFields) {
-				objectFieldUnsafeConsumer.accept(objectField);
+				objectFieldUnsafeFunction.apply(objectField);
 			}
 		}
 	}
@@ -870,8 +871,9 @@ public abstract class BaseObjectFieldResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<ObjectField>, UnsafeConsumer<ObjectField, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<ObjectField>,
+			 UnsafeFunction<ObjectField, ObjectField, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1131,8 +1133,9 @@ public abstract class BaseObjectFieldResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<ObjectField>, UnsafeConsumer<ObjectField, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<ObjectField>,
+		 UnsafeFunction<ObjectField, ObjectField, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

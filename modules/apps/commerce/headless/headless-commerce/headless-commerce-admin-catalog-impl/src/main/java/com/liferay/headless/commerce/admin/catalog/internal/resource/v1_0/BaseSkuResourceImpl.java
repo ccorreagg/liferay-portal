@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.catalog.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.Sku;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.SkuResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -704,30 +703,30 @@ public abstract class BaseSkuResourceImpl
 			Collection<Sku> skus, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Sku, Exception> skuUnsafeConsumer = null;
+		UnsafeFunction<Sku, Sku, Exception> skuUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			skuUnsafeConsumer = sku -> patchSku(
+			skuUnsafeFunction = sku -> patchSku(
 				sku.getId() != null ? sku.getId() :
 					_parseLong((String)parameters.get("skuId")),
 				sku);
 		}
 
-		if (skuUnsafeConsumer == null) {
+		if (skuUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Sku");
 		}
 
 		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(skus, skuUnsafeConsumer);
+			contextBatchUnsafeConsumer.accept(skus, skuUnsafeFunction);
 		}
 		else {
 			for (Sku sku : skus) {
-				skuUnsafeConsumer.accept(sku);
+				skuUnsafeFunction.apply(sku);
 			}
 		}
 	}
@@ -746,7 +745,7 @@ public abstract class BaseSkuResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Sku>, UnsafeConsumer<Sku, Exception>, Exception>
+			<Collection<Sku>, UnsafeFunction<Sku, Sku, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -1003,7 +1002,7 @@ public abstract class BaseSkuResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Sku>, UnsafeConsumer<Sku, Exception>, Exception>
+		<Collection<Sku>, UnsafeFunction<Sku, Sku, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;

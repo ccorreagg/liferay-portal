@@ -18,7 +18,6 @@ import com.liferay.headless.delivery.dto.v1_0.DefaultValue;
 import com.liferay.headless.delivery.dto.v1_0.KnowledgeBaseAttachment;
 import com.liferay.headless.delivery.resource.v1_0.KnowledgeBaseAttachmentResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -576,15 +575,16 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<KnowledgeBaseAttachment, Exception>
-			knowledgeBaseAttachmentUnsafeConsumer = null;
+		UnsafeFunction
+			<KnowledgeBaseAttachment, KnowledgeBaseAttachment, Exception>
+				knowledgeBaseAttachmentUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("knowledgeBaseArticleId")) {
-				knowledgeBaseAttachmentUnsafeConsumer =
+				knowledgeBaseAttachmentUnsafeFunction =
 					knowledgeBaseAttachment ->
 						postKnowledgeBaseArticleKnowledgeBaseAttachment(
 							_parseLong(
@@ -598,7 +598,7 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 			}
 		}
 
-		if (knowledgeBaseAttachmentUnsafeConsumer == null) {
+		if (knowledgeBaseAttachmentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for KnowledgeBaseAttachment");
@@ -607,13 +607,13 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
 				knowledgeBaseAttachments,
-				knowledgeBaseAttachmentUnsafeConsumer);
+				knowledgeBaseAttachmentUnsafeFunction);
 		}
 		else {
 			for (KnowledgeBaseAttachment knowledgeBaseAttachment :
 					knowledgeBaseAttachments) {
 
-				knowledgeBaseAttachmentUnsafeConsumer.accept(
+				knowledgeBaseAttachmentUnsafeFunction.apply(
 					knowledgeBaseAttachment);
 			}
 		}
@@ -722,8 +722,9 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<KnowledgeBaseAttachment>,
-			 UnsafeConsumer<KnowledgeBaseAttachment, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <KnowledgeBaseAttachment, KnowledgeBaseAttachment, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -980,8 +981,9 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<KnowledgeBaseAttachment>,
-		 UnsafeConsumer<KnowledgeBaseAttachment, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction
+			 <KnowledgeBaseAttachment, KnowledgeBaseAttachment, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

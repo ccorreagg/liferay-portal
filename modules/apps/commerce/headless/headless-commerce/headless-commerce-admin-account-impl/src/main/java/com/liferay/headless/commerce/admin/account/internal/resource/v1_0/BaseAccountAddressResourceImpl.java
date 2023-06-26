@@ -18,7 +18,6 @@ import com.liferay.headless.commerce.admin.account.dto.v1_0.AccountAddress;
 import com.liferay.headless.commerce.admin.account.dto.v1_0.User;
 import com.liferay.headless.commerce.admin.account.resource.v1_0.AccountAddressResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -771,14 +770,14 @@ public abstract class BaseAccountAddressResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<AccountAddress, Exception> accountAddressUnsafeConsumer =
-			null;
+		UnsafeFunction<AccountAddress, AccountAddress, Exception>
+			accountAddressUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			accountAddressUnsafeConsumer =
+			accountAddressUnsafeFunction =
 				accountAddress -> patchAccountAddress(
 					accountAddress.getId() != null ? accountAddress.getId() :
 						_parseLong((String)parameters.get("accountAddressId")),
@@ -786,13 +785,13 @@ public abstract class BaseAccountAddressResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			accountAddressUnsafeConsumer = accountAddress -> putAccountAddress(
+			accountAddressUnsafeFunction = accountAddress -> putAccountAddress(
 				accountAddress.getId() != null ? accountAddress.getId() :
 					_parseLong((String)parameters.get("accountAddressId")),
 				accountAddress);
 		}
 
-		if (accountAddressUnsafeConsumer == null) {
+		if (accountAddressUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for AccountAddress");
@@ -800,11 +799,11 @@ public abstract class BaseAccountAddressResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				accountAddresses, accountAddressUnsafeConsumer);
+				accountAddresses, accountAddressUnsafeFunction);
 		}
 		else {
 			for (AccountAddress accountAddress : accountAddresses) {
-				accountAddressUnsafeConsumer.accept(accountAddress);
+				accountAddressUnsafeFunction.apply(accountAddress);
 			}
 		}
 	}
@@ -824,8 +823,8 @@ public abstract class BaseAccountAddressResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<AccountAddress>,
-			 UnsafeConsumer<AccountAddress, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction<AccountAddress, AccountAddress, Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1085,8 +1084,9 @@ public abstract class BaseAccountAddressResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<AccountAddress>, UnsafeConsumer<AccountAddress, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<AccountAddress>,
+		 UnsafeFunction<AccountAddress, AccountAddress, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

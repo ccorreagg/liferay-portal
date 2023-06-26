@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.shipment.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.shipment.dto.v1_0.Shipment;
 import com.liferay.headless.commerce.admin.shipment.resource.v1_0.ShipmentResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -773,13 +772,14 @@ public abstract class BaseShipmentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Shipment, Exception> shipmentUnsafeConsumer = null;
+		UnsafeFunction<Shipment, Shipment, Exception> shipmentUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			shipmentUnsafeConsumer = shipment -> postShipment(shipment);
+			shipmentUnsafeFunction = shipment -> postShipment(shipment);
 		}
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "UPSERT")) {
@@ -787,26 +787,30 @@ public abstract class BaseShipmentResourceImpl
 				"updateStrategy", "UPDATE");
 
 			if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-				shipmentUnsafeConsumer = shipment -> {
+				shipmentUnsafeFunction = shipment -> {
+					Shipment persistedShipment = null;
+
 					try {
 						Shipment getShipment =
 							getShipmentByExternalReferenceCode(
 								shipment.getExternalReferenceCode());
 
-						patchShipment(
+						persistedShipment = patchShipment(
 							getShipment.getId() != null ? getShipment.getId() :
 								_parseLong(
 									(String)parameters.get("shipmentId")),
 							shipment);
 					}
 					catch (NoSuchModelException noSuchModelException) {
-						postShipment(shipment);
+						persistedShipment = postShipment(shipment);
 					}
+
+					return persistedShipment;
 				};
 			}
 		}
 
-		if (shipmentUnsafeConsumer == null) {
+		if (shipmentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Shipment");
@@ -814,11 +818,11 @@ public abstract class BaseShipmentResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				shipments, shipmentUnsafeConsumer);
+				shipments, shipmentUnsafeFunction);
 		}
 		else {
 			for (Shipment shipment : shipments) {
-				shipmentUnsafeConsumer.accept(shipment);
+				shipmentUnsafeFunction.apply(shipment);
 			}
 		}
 	}
@@ -898,19 +902,20 @@ public abstract class BaseShipmentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Shipment, Exception> shipmentUnsafeConsumer = null;
+		UnsafeFunction<Shipment, Shipment, Exception> shipmentUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			shipmentUnsafeConsumer = shipment -> patchShipment(
+			shipmentUnsafeFunction = shipment -> patchShipment(
 				shipment.getId() != null ? shipment.getId() :
 					_parseLong((String)parameters.get("shipmentId")),
 				shipment);
 		}
 
-		if (shipmentUnsafeConsumer == null) {
+		if (shipmentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Shipment");
@@ -918,11 +923,11 @@ public abstract class BaseShipmentResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				shipments, shipmentUnsafeConsumer);
+				shipments, shipmentUnsafeFunction);
 		}
 		else {
 			for (Shipment shipment : shipments) {
-				shipmentUnsafeConsumer.accept(shipment);
+				shipmentUnsafeFunction.apply(shipment);
 			}
 		}
 	}
@@ -941,8 +946,9 @@ public abstract class BaseShipmentResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<Shipment>, UnsafeConsumer<Shipment, Exception>,
-			 Exception> contextBatchUnsafeConsumer) {
+			<Collection<Shipment>,
+			 UnsafeFunction<Shipment, Shipment, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -1201,8 +1207,8 @@ public abstract class BaseShipmentResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<Shipment>, UnsafeConsumer<Shipment, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		<Collection<Shipment>, UnsafeFunction<Shipment, Shipment, Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

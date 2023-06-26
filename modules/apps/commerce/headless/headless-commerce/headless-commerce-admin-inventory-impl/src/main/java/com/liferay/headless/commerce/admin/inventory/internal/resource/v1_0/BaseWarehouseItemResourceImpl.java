@@ -17,7 +17,6 @@ package com.liferay.headless.commerce.admin.inventory.internal.resource.v1_0;
 import com.liferay.headless.commerce.admin.inventory.dto.v1_0.WarehouseItem;
 import com.liferay.headless.commerce.admin.inventory.resource.v1_0.WarehouseItemResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -703,20 +702,20 @@ public abstract class BaseWarehouseItemResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<WarehouseItem, Exception> warehouseItemUnsafeConsumer =
-			null;
+		UnsafeFunction<WarehouseItem, WarehouseItem, Exception>
+			warehouseItemUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			warehouseItemUnsafeConsumer = warehouseItem -> patchWarehouseItem(
+			warehouseItemUnsafeFunction = warehouseItem -> patchWarehouseItem(
 				warehouseItem.getId() != null ? warehouseItem.getId() :
 					_parseLong((String)parameters.get("warehouseItemId")),
 				warehouseItem);
 		}
 
-		if (warehouseItemUnsafeConsumer == null) {
+		if (warehouseItemUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for WarehouseItem");
@@ -724,11 +723,11 @@ public abstract class BaseWarehouseItemResourceImpl
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				warehouseItems, warehouseItemUnsafeConsumer);
+				warehouseItems, warehouseItemUnsafeFunction);
 		}
 		else {
 			for (WarehouseItem warehouseItem : warehouseItems) {
-				warehouseItemUnsafeConsumer.accept(warehouseItem);
+				warehouseItemUnsafeFunction.apply(warehouseItem);
 			}
 		}
 	}
@@ -748,7 +747,7 @@ public abstract class BaseWarehouseItemResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<WarehouseItem>,
-			 UnsafeConsumer<WarehouseItem, Exception>, Exception>
+			 UnsafeFunction<WarehouseItem, WarehouseItem, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -1005,8 +1004,9 @@ public abstract class BaseWarehouseItemResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<WarehouseItem>, UnsafeConsumer<WarehouseItem, Exception>,
-		 Exception> contextBatchUnsafeConsumer;
+		<Collection<WarehouseItem>,
+		 UnsafeFunction<WarehouseItem, WarehouseItem, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

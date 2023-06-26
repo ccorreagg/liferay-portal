@@ -18,7 +18,6 @@ import com.liferay.headless.commerce.admin.account.dto.v1_0.AccountChannelShippi
 import com.liferay.headless.commerce.admin.account.dto.v1_0.User;
 import com.liferay.headless.commerce.admin.account.resource.v1_0.AccountChannelShippingOptionResource;
 import com.liferay.petra.function.UnsafeBiConsumer;
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -536,14 +535,15 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<AccountChannelShippingOption, Exception>
-			accountChannelShippingOptionUnsafeConsumer = null;
+		UnsafeFunction
+			<AccountChannelShippingOption, AccountChannelShippingOption,
+			 Exception> accountChannelShippingOptionUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			accountChannelShippingOptionUnsafeConsumer =
+			accountChannelShippingOptionUnsafeFunction =
 				accountChannelShippingOption ->
 					patchAccountChannelShippingOption(
 						accountChannelShippingOption.getId() != null ?
@@ -554,7 +554,7 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 						accountChannelShippingOption);
 		}
 
-		if (accountChannelShippingOptionUnsafeConsumer == null) {
+		if (accountChannelShippingOptionUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for AccountChannelShippingOption");
@@ -563,13 +563,13 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
 				accountChannelShippingOptions,
-				accountChannelShippingOptionUnsafeConsumer);
+				accountChannelShippingOptionUnsafeFunction);
 		}
 		else {
 			for (AccountChannelShippingOption accountChannelShippingOption :
 					accountChannelShippingOptions) {
 
-				accountChannelShippingOptionUnsafeConsumer.accept(
+				accountChannelShippingOptionUnsafeFunction.apply(
 					accountChannelShippingOption);
 			}
 		}
@@ -590,8 +590,10 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<AccountChannelShippingOption>,
-			 UnsafeConsumer<AccountChannelShippingOption, Exception>, Exception>
-				contextBatchUnsafeConsumer) {
+			 UnsafeFunction
+				 <AccountChannelShippingOption, AccountChannelShippingOption,
+				  Exception>,
+			 Exception> contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
@@ -848,8 +850,10 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<AccountChannelShippingOption>,
-		 UnsafeConsumer<AccountChannelShippingOption, Exception>, Exception>
-			contextBatchUnsafeConsumer;
+		 UnsafeFunction
+			 <AccountChannelShippingOption, AccountChannelShippingOption,
+			  Exception>,
+		 Exception> contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;
