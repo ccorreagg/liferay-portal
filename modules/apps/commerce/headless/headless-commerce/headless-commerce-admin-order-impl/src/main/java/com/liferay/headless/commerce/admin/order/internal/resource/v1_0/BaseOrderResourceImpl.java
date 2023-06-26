@@ -613,10 +613,14 @@ public abstract class BaseOrderResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			orderUnsafeFunction = order -> patchOrder(
-				order.getId() != null ? order.getId() :
-					_parseLong((String)parameters.get("orderId")),
-				order);
+			orderUnsafeFunction = order -> {
+				patchOrder(
+					order.getId() != null ? order.getId() :
+						_parseLong((String)parameters.get("orderId")),
+					order);
+
+				return null;
+			};
 		}
 
 		if (orderUnsafeFunction == null) {

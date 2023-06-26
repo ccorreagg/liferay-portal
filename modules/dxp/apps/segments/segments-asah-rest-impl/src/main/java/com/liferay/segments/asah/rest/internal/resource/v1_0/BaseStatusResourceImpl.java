@@ -176,8 +176,13 @@ public abstract class BaseStatusResourceImpl
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("experimentId")) {
-				statusUnsafeFunction = status -> postExperimentStatus(
-					_parseLong((String)parameters.get("experimentId")), status);
+				statusUnsafeFunction = status -> {
+					postExperimentStatus(
+						_parseLong((String)parameters.get("experimentId")),
+						status);
+
+					return null;
+				};
 			}
 			else {
 				throw new NotSupportedException(

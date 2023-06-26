@@ -615,10 +615,14 @@ public abstract class BaseProductGroupResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			productGroupUnsafeFunction = productGroup -> patchProductGroup(
-				productGroup.getId() != null ? productGroup.getId() :
-					_parseLong((String)parameters.get("productGroupId")),
-				productGroup);
+			productGroupUnsafeFunction = productGroup -> {
+				patchProductGroup(
+					productGroup.getId() != null ? productGroup.getId() :
+						_parseLong((String)parameters.get("productGroupId")),
+					productGroup);
+
+				return null;
+			};
 		}
 
 		if (productGroupUnsafeFunction == null) {

@@ -694,10 +694,14 @@ public abstract class BaseCatalogResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			catalogUnsafeFunction = catalog -> patchCatalog(
-				catalog.getId() != null ? catalog.getId() :
-					_parseLong((String)parameters.get("catalogId")),
-				catalog);
+			catalogUnsafeFunction = catalog -> {
+				patchCatalog(
+					catalog.getId() != null ? catalog.getId() :
+						_parseLong((String)parameters.get("catalogId")),
+					catalog);
+
+				return null;
+			};
 		}
 
 		if (catalogUnsafeFunction == null) {

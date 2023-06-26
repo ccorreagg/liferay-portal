@@ -460,14 +460,17 @@ public abstract class BaseAvailabilityEstimateResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			availabilityEstimateUnsafeFunction =
-				availabilityEstimate -> putAvailabilityEstimate(
+			availabilityEstimateUnsafeFunction = availabilityEstimate -> {
+				putAvailabilityEstimate(
 					availabilityEstimate.getId() != null ?
 						availabilityEstimate.getId() :
 							_parseLong(
 								(String)parameters.get(
 									"availabilityEstimateId")),
 					availabilityEstimate);
+
+				return null;
+			};
 		}
 
 		if (availabilityEstimateUnsafeFunction == null) {

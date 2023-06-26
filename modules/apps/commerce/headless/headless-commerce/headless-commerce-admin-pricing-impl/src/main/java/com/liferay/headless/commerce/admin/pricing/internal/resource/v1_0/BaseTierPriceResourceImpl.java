@@ -599,10 +599,14 @@ public abstract class BaseTierPriceResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			tierPriceUnsafeFunction = tierPrice -> patchTierPrice(
-				tierPrice.getId() != null ? tierPrice.getId() :
-					_parseLong((String)parameters.get("tierPriceId")),
-				tierPrice);
+			tierPriceUnsafeFunction = tierPrice -> {
+				patchTierPrice(
+					tierPrice.getId() != null ? tierPrice.getId() :
+						_parseLong((String)parameters.get("tierPriceId")),
+					tierPrice);
+
+				return null;
+			};
 		}
 
 		if (tierPriceUnsafeFunction == null) {

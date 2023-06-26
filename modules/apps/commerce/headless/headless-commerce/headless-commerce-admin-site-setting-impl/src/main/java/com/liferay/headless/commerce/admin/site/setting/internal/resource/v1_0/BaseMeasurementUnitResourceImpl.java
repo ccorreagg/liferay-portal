@@ -764,11 +764,14 @@ public abstract class BaseMeasurementUnitResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			measurementUnitUnsafeFunction =
-				measurementUnit -> patchMeasurementUnit(
+			measurementUnitUnsafeFunction = measurementUnit -> {
+				patchMeasurementUnit(
 					measurementUnit.getId() != null ? measurementUnit.getId() :
 						_parseLong((String)parameters.get("measurementUnitId")),
 					measurementUnit);
+
+				return null;
+			};
 		}
 
 		if (measurementUnitUnsafeFunction == null) {

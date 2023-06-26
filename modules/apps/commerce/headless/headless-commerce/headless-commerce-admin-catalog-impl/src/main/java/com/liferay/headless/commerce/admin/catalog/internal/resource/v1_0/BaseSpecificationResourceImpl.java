@@ -537,10 +537,14 @@ public abstract class BaseSpecificationResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			specificationUnsafeFunction = specification -> patchSpecification(
-				specification.getId() != null ? specification.getId() :
-					_parseLong((String)parameters.get("specificationId")),
-				specification);
+			specificationUnsafeFunction = specification -> {
+				patchSpecification(
+					specification.getId() != null ? specification.getId() :
+						_parseLong((String)parameters.get("specificationId")),
+					specification);
+
+				return null;
+			};
 		}
 
 		if (specificationUnsafeFunction == null) {

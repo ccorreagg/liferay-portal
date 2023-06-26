@@ -459,10 +459,14 @@ public abstract class BaseProcessResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			processUnsafeFunction = process -> putProcess(
-				process.getId() != null ? process.getId() :
-					_parseLong((String)parameters.get("processId")),
-				process);
+			processUnsafeFunction = process -> {
+				putProcess(
+					process.getId() != null ? process.getId() :
+						_parseLong((String)parameters.get("processId")),
+					process);
+
+				return null;
+			};
 		}
 
 		if (processUnsafeFunction == null) {

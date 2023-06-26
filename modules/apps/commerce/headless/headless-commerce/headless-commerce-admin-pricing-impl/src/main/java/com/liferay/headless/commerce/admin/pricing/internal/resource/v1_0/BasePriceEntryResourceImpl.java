@@ -599,10 +599,14 @@ public abstract class BasePriceEntryResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			priceEntryUnsafeFunction = priceEntry -> patchPriceEntry(
-				priceEntry.getId() != null ? priceEntry.getId() :
-					_parseLong((String)parameters.get("priceEntryId")),
-				priceEntry);
+			priceEntryUnsafeFunction = priceEntry -> {
+				patchPriceEntry(
+					priceEntry.getId() != null ? priceEntry.getId() :
+						_parseLong((String)parameters.get("priceEntryId")),
+					priceEntry);
+
+				return null;
+			};
 		}
 
 		if (priceEntryUnsafeFunction == null) {

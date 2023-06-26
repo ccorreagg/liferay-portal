@@ -764,10 +764,14 @@ public abstract class BaseAccountResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			accountUnsafeFunction = account -> patchAccount(
-				account.getId() != null ? account.getId() :
-					_parseLong((String)parameters.get("accountId")),
-				account);
+			accountUnsafeFunction = account -> {
+				patchAccount(
+					account.getId() != null ? account.getId() :
+						_parseLong((String)parameters.get("accountId")),
+					account);
+
+				return null;
+			};
 		}
 
 		if (accountUnsafeFunction == null) {

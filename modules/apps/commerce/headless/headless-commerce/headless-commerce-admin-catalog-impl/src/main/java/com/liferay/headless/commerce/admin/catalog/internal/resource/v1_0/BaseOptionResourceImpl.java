@@ -613,10 +613,14 @@ public abstract class BaseOptionResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			optionUnsafeFunction = option -> patchOption(
-				option.getId() != null ? option.getId() :
-					_parseLong((String)parameters.get("optionId")),
-				option);
+			optionUnsafeFunction = option -> {
+				patchOption(
+					option.getId() != null ? option.getId() :
+						_parseLong((String)parameters.get("optionId")),
+					option);
+
+				return null;
+			};
 		}
 
 		if (optionUnsafeFunction == null) {

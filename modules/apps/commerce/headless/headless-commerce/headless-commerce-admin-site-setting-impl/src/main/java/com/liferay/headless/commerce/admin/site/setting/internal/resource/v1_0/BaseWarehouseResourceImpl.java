@@ -431,10 +431,14 @@ public abstract class BaseWarehouseResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			warehouseUnsafeFunction = warehouse -> putWarehouse(
-				warehouse.getId() != null ? warehouse.getId() :
-					_parseLong((String)parameters.get("warehouseId")),
-				warehouse);
+			warehouseUnsafeFunction = warehouse -> {
+				putWarehouse(
+					warehouse.getId() != null ? warehouse.getId() :
+						_parseLong((String)parameters.get("warehouseId")),
+					warehouse);
+
+				return null;
+			};
 		}
 
 		if (warehouseUnsafeFunction == null) {

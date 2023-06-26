@@ -424,10 +424,14 @@ public abstract class BaseTaxCategoryResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			taxCategoryUnsafeFunction = taxCategory -> putTaxCategory(
-				taxCategory.getId() != null ? taxCategory.getId() :
-					_parseLong((String)parameters.get("taxCategoryId")),
-				taxCategory);
+			taxCategoryUnsafeFunction = taxCategory -> {
+				putTaxCategory(
+					taxCategory.getId() != null ? taxCategory.getId() :
+						_parseLong((String)parameters.get("taxCategoryId")),
+					taxCategory);
+
+				return null;
+			};
 		}
 
 		if (taxCategoryUnsafeFunction == null) {

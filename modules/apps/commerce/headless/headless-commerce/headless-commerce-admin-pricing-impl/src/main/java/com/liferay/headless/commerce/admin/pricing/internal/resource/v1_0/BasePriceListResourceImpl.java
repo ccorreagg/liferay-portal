@@ -605,10 +605,14 @@ public abstract class BasePriceListResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			priceListUnsafeFunction = priceList -> patchPriceList(
-				priceList.getId() != null ? priceList.getId() :
-					_parseLong((String)parameters.get("priceListId")),
-				priceList);
+			priceListUnsafeFunction = priceList -> {
+				patchPriceList(
+					priceList.getId() != null ? priceList.getId() :
+						_parseLong((String)parameters.get("priceListId")),
+					priceList);
+
+				return null;
+			};
 		}
 
 		if (priceListUnsafeFunction == null) {

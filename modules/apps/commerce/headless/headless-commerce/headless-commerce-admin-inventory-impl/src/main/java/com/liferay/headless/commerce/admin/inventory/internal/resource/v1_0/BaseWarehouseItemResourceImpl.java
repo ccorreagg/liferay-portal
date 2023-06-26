@@ -709,10 +709,14 @@ public abstract class BaseWarehouseItemResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			warehouseItemUnsafeFunction = warehouseItem -> patchWarehouseItem(
-				warehouseItem.getId() != null ? warehouseItem.getId() :
-					_parseLong((String)parameters.get("warehouseItemId")),
-				warehouseItem);
+			warehouseItemUnsafeFunction = warehouseItem -> {
+				patchWarehouseItem(
+					warehouseItem.getId() != null ? warehouseItem.getId() :
+						_parseLong((String)parameters.get("warehouseItemId")),
+					warehouseItem);
+
+				return null;
+			};
 		}
 
 		if (warehouseItemUnsafeFunction == null) {

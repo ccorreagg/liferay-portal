@@ -523,11 +523,14 @@ public abstract class BaseOptionCategoryResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			optionCategoryUnsafeFunction =
-				optionCategory -> patchOptionCategory(
+			optionCategoryUnsafeFunction = optionCategory -> {
+				patchOptionCategory(
 					optionCategory.getId() != null ? optionCategory.getId() :
 						_parseLong((String)parameters.get("optionCategoryId")),
 					optionCategory);
+
+				return null;
+			};
 		}
 
 		if (optionCategoryUnsafeFunction == null) {

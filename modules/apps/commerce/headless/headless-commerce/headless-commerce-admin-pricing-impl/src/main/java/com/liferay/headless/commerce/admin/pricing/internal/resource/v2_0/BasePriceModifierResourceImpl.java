@@ -633,10 +633,14 @@ public abstract class BasePriceModifierResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			priceModifierUnsafeFunction = priceModifier -> patchPriceModifier(
-				priceModifier.getId() != null ? priceModifier.getId() :
-					_parseLong((String)parameters.get("priceModifierId")),
-				priceModifier);
+			priceModifierUnsafeFunction = priceModifier -> {
+				patchPriceModifier(
+					priceModifier.getId() != null ? priceModifier.getId() :
+						_parseLong((String)parameters.get("priceModifierId")),
+					priceModifier);
+
+				return null;
+			};
 		}
 
 		if (priceModifierUnsafeFunction == null) {

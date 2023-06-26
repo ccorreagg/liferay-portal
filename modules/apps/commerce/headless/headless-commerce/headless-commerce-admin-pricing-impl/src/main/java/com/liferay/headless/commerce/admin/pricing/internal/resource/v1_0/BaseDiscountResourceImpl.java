@@ -585,10 +585,14 @@ public abstract class BaseDiscountResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			discountUnsafeFunction = discount -> patchDiscount(
-				discount.getId() != null ? discount.getId() :
-					_parseLong((String)parameters.get("discountId")),
-				discount);
+			discountUnsafeFunction = discount -> {
+				patchDiscount(
+					discount.getId() != null ? discount.getId() :
+						_parseLong((String)parameters.get("discountId")),
+					discount);
+
+				return null;
+			};
 		}
 
 		if (discountUnsafeFunction == null) {

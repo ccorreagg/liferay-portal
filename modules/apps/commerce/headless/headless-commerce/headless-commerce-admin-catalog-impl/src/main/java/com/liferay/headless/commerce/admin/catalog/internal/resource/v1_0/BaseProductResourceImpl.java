@@ -833,10 +833,14 @@ public abstract class BaseProductResourceImpl
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			productUnsafeFunction = product -> patchProduct(
-				product.getId() != null ? product.getId() :
-					_parseLong((String)parameters.get("productId")),
-				product);
+			productUnsafeFunction = product -> {
+				patchProduct(
+					product.getId() != null ? product.getId() :
+						_parseLong((String)parameters.get("productId")),
+					product);
+
+				return null;
+			};
 		}
 
 		if (productUnsafeFunction == null) {
