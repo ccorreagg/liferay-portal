@@ -544,6 +544,64 @@
 			},
 			"modifiable": true,
 			"name": "APIApplication",
+			"objectActions": [
+				{
+					"active": true,
+					"description": "Publish API Application",
+					"errorMessage": {
+						"en_US": "The publish action could not be performed"
+					},
+					"externalReferenceCode": "L_API_APPLICATION_PUBLISH_ACTION",
+					"label": {
+						"en_US": "Publish"
+					},
+					"name": "publish",
+					"objectActionExecutorKey": "update-object-entry",
+					"objectActionTriggerKey": "standalone",
+					"parameters": {
+						"objectDefinitionExternalReferenceCode": "L_API_APPLICATION",
+						"predefinedValues": [
+							{
+								"name": "applicationStatus",
+								"inputAsValue": true,
+								"label": {
+									"en_US": "Application Status"
+								},
+								"businessType": "Picklist",
+								"value": "published"
+							}
+						]
+					}
+				},
+				{
+					"active": true,
+					"description": "Unpublish API Application",
+					"errorMessage": {
+						"en_US": "The unpublish action could not be performed"
+					},
+					"externalReferenceCode": "L_API_APPLICATION_UNPUBLISH_ACTION",
+					"label": {
+						"en_US": "Unpublish"
+					},
+					"name": "unpublish",
+					"objectActionExecutorKey": "update-object-entry",
+					"objectActionTriggerKey": "standalone",
+					"parameters": {
+						"objectDefinitionExternalReferenceCode": "L_API_APPLICATION",
+						"predefinedValues": [
+							{
+								"name": "applicationStatus",
+								"inputAsValue": true,
+								"label": {
+									"en_US": "Application Status"
+								},
+								"businessType": "Picklist",
+								"value": "unpublished"
+							}
+						]
+					}
+				}
+			],
 			"objectFields": [
 				{
 					"DBType": "String",
