@@ -442,6 +442,8 @@ public class BatchEngineImportTaskExecutorTest
 	public void testImportAccountJSONWithObjectFields()
 		throws Exception {
 
+		// Successful import
+
 		AccountResource accountResource = AccountResource.builder(
 		).authentication(
 			"test@liferay.com", "test"
@@ -474,8 +476,6 @@ public class BatchEngineImportTaskExecutorTest
 			).build(),
 			false, textFieldName, null, null, false, false,
 			Collections.emptyList());
-
-		// Successful import
 
 		int integerFieldValue1 = RandomTestUtil.randomInt();
 		int integerFieldValue2 = RandomTestUtil.randomInt();
@@ -560,7 +560,7 @@ public class BatchEngineImportTaskExecutorTest
 			).toString(),
 			httpResponse.getContent(), JSONCompareMode.LENIENT);
 
-		// Unsuccessful import (missing required field)
+		// Unsuccessful import
 
 		account1 = new Account() {
 			{
