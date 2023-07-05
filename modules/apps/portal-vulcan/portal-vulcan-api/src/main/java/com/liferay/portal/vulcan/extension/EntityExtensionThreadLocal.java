@@ -27,11 +27,11 @@ import java.util.Map;
 public class EntityExtensionThreadLocal {
 
 	public static void clearExtendedProperties(Object object) {
-		Map<Object, Map<String, Serializable>> objectExtendedProperties =
-			_objectExtendedPropertiesThreadLocal.get();
+		Map<Object, Map<String, Serializable>> objectDefinitionExtendedProperties =
+			_objectDefinitionExtendedPropertiesThreadLocal.get();
 
-		if (objectExtendedProperties != null) {
-			objectExtendedProperties.remove(object);
+		if (objectDefinitionExtendedProperties != null) {
+			objectDefinitionExtendedProperties.remove(object);
 		}
 	}
 
@@ -42,11 +42,11 @@ public class EntityExtensionThreadLocal {
 	public static Map<String, Serializable> getExtendedProperties(
 		Object object) {
 
-		Map<Object, Map<String, Serializable>> objectExtendedProperties =
-			_objectExtendedPropertiesThreadLocal.get();
+		Map<Object, Map<String, Serializable>> objectDefinitionExtendedProperties =
+			_objectDefinitionExtendedPropertiesThreadLocal.get();
 
-		if (objectExtendedProperties.containsKey(object)) {
-			return objectExtendedProperties.get(object);
+		if (objectDefinitionExtendedProperties.containsKey(object)) {
+			return objectDefinitionExtendedProperties.get(object);
 		}
 
 		return null;
@@ -61,16 +61,16 @@ public class EntityExtensionThreadLocal {
 	public static void setExtendedProperties(
 		Map<String, Serializable> extendedProperties, Object object) {
 
-		Map<Object, Map<String, Serializable>> objectExtendedProperties =
-			_objectExtendedPropertiesThreadLocal.get();
+		Map<Object, Map<String, Serializable>> objectDefinitionExtendedProperties =
+			_objectDefinitionExtendedPropertiesThreadLocal.get();
 
-		if (objectExtendedProperties == null) {
-			objectExtendedProperties = new HashMap<>();
+		if (objectDefinitionExtendedProperties == null) {
+			objectDefinitionExtendedProperties = new HashMap<>();
 		}
 
-		objectExtendedProperties.put(object, extendedProperties);
+		objectDefinitionExtendedProperties.put(object, extendedProperties);
 
-		_objectExtendedPropertiesThreadLocal.set(objectExtendedProperties);
+		_objectDefinitionExtendedPropertiesThreadLocal.set(objectDefinitionExtendedProperties);
 	}
 
 	private static final ThreadLocal<Map<String, Serializable>>
@@ -78,9 +78,9 @@ public class EntityExtensionThreadLocal {
 			EntityExtensionThreadLocal.class +
 				"._extendedPropertiesThreadLocal");
 	private static final ThreadLocal<Map<Object, Map<String, Serializable>>>
-		_objectExtendedPropertiesThreadLocal = new CentralizedThreadLocal<>(
+		_objectDefinitionExtendedPropertiesThreadLocal = new CentralizedThreadLocal<>(
 			EntityExtensionThreadLocal.class.getName() +
-				"._objectExtendedPropertiesThreadLocal",
+				"._objectDefinitionExtendedPropertiesThreadLocal",
 			HashMap::new);
 
 }

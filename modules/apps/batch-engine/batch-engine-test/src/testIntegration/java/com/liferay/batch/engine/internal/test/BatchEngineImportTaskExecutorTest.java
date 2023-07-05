@@ -439,7 +439,7 @@ public class BatchEngineImportTaskExecutorTest
 	}
 
 	@Test
-	public void testImportAccountJSONWithObjectFields()
+	public void testImportAccountJSONWithObjectDefinitionExtendedProperties()
 		throws Exception {
 
 		// Successful import
