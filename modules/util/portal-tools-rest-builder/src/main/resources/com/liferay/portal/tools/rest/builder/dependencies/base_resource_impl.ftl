@@ -441,7 +441,8 @@ public abstract class Base${schemaName}ResourceImpl
 						<#if stringUtil.equals(javaDataType, postBatchJavaMethodSignature.returnType)>
 							${schemaVarName}UnsafeFunction = ${schemaVarName} -> ${postBatchJavaMethodSignature.methodName}(
 						<#else>
-							${schemaVarName}UnsafeFunction = ${schemaVarName} -> { ${postBatchJavaMethodSignature.methodName}(
+							${schemaVarName}UnsafeFunction = ${schemaVarName} -> {
+								${postBatchJavaMethodSignature.methodName}(
 						</#if>
 
 						<@getPOSTBatchJavaMethodParameters
@@ -452,8 +453,8 @@ public abstract class Base${schemaName}ResourceImpl
 						);
 
 						<#if !stringUtil.equals(javaDataType, postBatchJavaMethodSignature.returnType)>
-							return null;
-						};
+								return null;
+							};
 						</#if>
 					</#if>
 
@@ -476,7 +477,7 @@ public abstract class Base${schemaName}ResourceImpl
 								);
 
 								<#if !stringUtil.equals(javaDataType, parentBatchJavaMethodSignature.returnType)>
-									return null;
+										return null;
 									};
 								</#if>
 							}
@@ -509,7 +510,7 @@ public abstract class Base${schemaName}ResourceImpl
 							);
 
 							<#if !stringUtil.equals(javaDataType, postAssetLibraryBatchJavaMethodSignature.returnType)>
-								return null;
+									return null;
 								};
 							</#if>
 						}
@@ -537,7 +538,7 @@ public abstract class Base${schemaName}ResourceImpl
 							);
 
 							<#if !stringUtil.equals(javaDataType, postSiteBatchJavaMethodSignature.returnType)>
-								return null;
+									return null;
 								};
 							</#if>
 						}
@@ -587,7 +588,7 @@ public abstract class Base${schemaName}ResourceImpl
 							);
 
 							<#if !stringUtil.equals(javaDataType, putByERCBatchJavaMethodSignature.returnType)>
-								return null;
+									return null;
 								};
 							</#if>
 						}
@@ -939,7 +940,7 @@ public abstract class Base${schemaName}ResourceImpl
 					);
 
 					<#if !stringUtil.equals(javaDataType, patchBatchJavaMethodSignature.returnType)>
-						return null;
+							return null;
 						};
 					</#if>
 				}
@@ -986,7 +987,7 @@ public abstract class Base${schemaName}ResourceImpl
 					);
 
 					<#if !stringUtil.equals(javaDataType, putBatchJavaMethodSignature.returnType)>
-						return null;
+							return null;
 						};
 					</#if>
 				}
@@ -1328,7 +1329,6 @@ public abstract class Base${schemaName}ResourceImpl
 
 	<#if generateBatch>
 		protected UnsafeBiConsumer<Collection<${javaDataType}>, UnsafeFunction<${javaDataType}, ${javaDataType}, Exception>, Exception> contextBatchUnsafeBiConsumer;
-
 		protected UnsafeBiConsumer<Collection<${javaDataType}>, UnsafeConsumer<${javaDataType}, Exception>, Exception> contextBatchUnsafeConsumer;
 	</#if>
 
