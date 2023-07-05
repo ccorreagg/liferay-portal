@@ -439,7 +439,7 @@ public class BatchEngineImportTaskExecutorTest
 	}
 
 	@Test
-	public void testImportAccountJSONWithObjectExtendedFields()
+	public void testImportAccountJSONWithObjectFields()
 		throws Exception {
 
 		AccountResource accountResource = AccountResource.builder(
