@@ -477,11 +477,6 @@ public class BatchEngineImportTaskExecutorTest
 			false, textFieldName, null, null, false, false,
 			Collections.emptyList());
 
-		int integerFieldValue1 = RandomTestUtil.randomInt();
-		int integerFieldValue2 = RandomTestUtil.randomInt();
-		String textFieldValue1 = RandomTestUtil.randomString();
-		String textFieldValue2 = RandomTestUtil.randomString();
-
 		Account account1 = new Account() {
 			{
 				setExternalReferenceCode(RandomTestUtil.randomString());
@@ -497,6 +492,11 @@ public class BatchEngineImportTaskExecutorTest
 				setType(Account.Type.PERSON);
 			}
 		};
+
+		int integerFieldValue1 = RandomTestUtil.randomInt();
+		int integerFieldValue2 = RandomTestUtil.randomInt();
+		String textFieldValue1 = RandomTestUtil.randomString();
+		String textFieldValue2 = RandomTestUtil.randomString();
 
 		String accounts = JSONUtil.putAll(
 			JSONFactoryUtil.createJSONObject(
