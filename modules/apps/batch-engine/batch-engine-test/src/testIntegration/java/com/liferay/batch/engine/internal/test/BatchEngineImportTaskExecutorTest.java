@@ -498,7 +498,7 @@ public class BatchEngineImportTaskExecutorTest
 		String textFieldValue1 = RandomTestUtil.randomString();
 		String textFieldValue2 = RandomTestUtil.randomString();
 
-		String accounts = JSONUtil.putAll(
+		String json = JSONUtil.putAll(
 			JSONFactoryUtil.createJSONObject(
 				account1.toString()
 			).put(
@@ -520,7 +520,7 @@ public class BatchEngineImportTaskExecutorTest
 				null, TestPropsValues.getCompanyId(), user.getUserId(),
 				_BATCH_SIZE, null,
 				"com.liferay.headless.admin.user.dto.v1_0.Account",
-				_compressContent(accounts.getBytes(), "JSON"), "JSON",
+				_compressContent(json.getBytes(), "JSON"), "JSON",
 				BatchEngineTaskExecuteStatus.INITIAL.name(), null,
 				BatchEngineImportTaskConstants.IMPORT_STRATEGY_ON_ERROR_FAIL,
 				BatchEngineTaskOperation.CREATE.toString(), new HashMap<>(),
