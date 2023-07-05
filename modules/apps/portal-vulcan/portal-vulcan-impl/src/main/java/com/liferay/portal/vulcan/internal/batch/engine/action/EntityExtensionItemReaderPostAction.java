@@ -82,13 +82,11 @@ public class EntityExtensionItemReaderPostAction
 			return false;
 		}
 
-		String createStrategy = MapUtil.getString(parameters, "createStrategy");
-
-		String updateStrategy = MapUtil.getString(parameters, "updateStrategy");
-
 		BatchEngineTaskOperation batchEngineTaskOperation =
 			BatchEngineTaskOperation.valueOf(
 				batchEngineImportTask.getOperation());
+		String createStrategy = MapUtil.getString(parameters, "createStrategy");
+		String updateStrategy = MapUtil.getString(parameters, "updateStrategy");
 
 		if ((batchEngineTaskOperation == BatchEngineTaskOperation.CREATE) &&
 			StringUtil.equals(createStrategy, "UPSERT") &&
