@@ -50,9 +50,8 @@ public class BatchEngineImportTaskItemReaderUtil {
 			List<ItemReaderPostAction> itemReaderPostActions)
 		throws ReflectiveOperationException {
 
-		T item = itemClass.newInstance();
-
 		Map<String, Serializable> extendedProperties = new HashMap<>();
+		T item = itemClass.newInstance();
 
 		for (Map.Entry<String, Object> entry : fieldNameValueMap.entrySet()) {
 			String name = entry.getKey();
