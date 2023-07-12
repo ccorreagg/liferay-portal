@@ -32,6 +32,7 @@ import com.liferay.object.rest.internal.manager.v1_0.ObjectEntry1toMObjectRelati
 import com.liferay.object.rest.internal.manager.v1_0.ObjectEntryMtoMObjectRelationshipElementsParserImpl;
 import com.liferay.object.rest.internal.manager.v1_0.SystemObjectEntry1toMObjectRelationshipElementsParserImpl;
 import com.liferay.object.rest.internal.manager.v1_0.SystemObjectEntryMtoMObjectRelationshipElementsParserImpl;
+import com.liferay.object.rest.internal.odata.entity.v1_0.EntityModelProviderImpl;
 import com.liferay.object.rest.internal.openapi.v1_0.ObjectEntryOpenAPIResourceImpl;
 import com.liferay.object.rest.internal.resource.v1_0.BaseObjectEntryResourceImpl;
 import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryRelatedObjectsResourceImpl;
@@ -39,6 +40,7 @@ import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryResourceFactory
 import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryResourceImpl;
 import com.liferay.object.rest.manager.v1_0.ObjectEntryManagerRegistry;
 import com.liferay.object.rest.manager.v1_0.ObjectRelationshipElementsParser;
+import com.liferay.object.rest.odata.entity.v1_0.EntityModelProvider;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResourceProvider;
 import com.liferay.object.rest.petra.sql.dsl.expression.FilterPredicateFactory;
@@ -337,6 +339,18 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 				serviceRegistrationsMap.computeIfAbsent(
 					objectDefinition.getCompanyId(),
 					key2 -> Arrays.asList(
+						_bundleContext.registerService(
+							EntityModelProvider.class,
+							new EntityModelProviderImpl(
+								objectDefinition, _objectFieldLocalService),
+							HashMapDictionaryBuilder.<String, Object>put(
+								"companyId",
+								String.valueOf(objectDefinition.getCompanyId())
+							).put(
+								"resource.key",
+								objectDefinition.getOSGiJaxRsName(
+									"EntityModelProvider")
+							).build()),
 						_bundleContext.registerService(
 							ObjectEntryOpenAPIResource.class,
 							new ObjectEntryOpenAPIResourceImpl(
@@ -638,6 +652,18 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 				serviceRegistrationsMap.computeIfAbsent(
 					objectDefinition.getCompanyId(),
 					key2 -> Arrays.asList(
+						_bundleContext.registerService(
+							EntityModelProvider.class,
+							new EntityModelProviderImpl(
+								objectDefinition, _objectFieldLocalService),
+							HashMapDictionaryBuilder.<String, Object>put(
+								"companyId",
+								String.valueOf(objectDefinition.getCompanyId())
+							).put(
+								"resource.key",
+								objectDefinition.getOSGiJaxRsName(
+									"EntityModelProvider")
+							).build()),
 						_bundleContext.registerService(
 							ObjectRelationshipElementsParser.class,
 							new SystemObjectEntry1toMObjectRelationshipElementsParserImpl(
