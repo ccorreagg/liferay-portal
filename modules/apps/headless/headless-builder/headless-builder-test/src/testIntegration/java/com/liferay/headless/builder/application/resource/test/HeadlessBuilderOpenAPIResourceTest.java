@@ -497,6 +497,18 @@ public class HeadlessBuilderOpenAPIResourceTest extends BaseTestCase {
 				_API_SCHEMA_ERC, "/responseAPISchemaToAPIEndpoints/",
 				_API_ENDPOINT_ERC),
 			Http.Method.PUT);
+
+		HTTPTestUtil.invoke(
+			JSONUtil.put(
+				"apiEndpointToAPIFilters",
+				JSONUtil.put(
+					JSONUtil.put(
+						"externalReferenceCode", _API_FILTER_ERC
+					).put(
+						"oDataFilter", "textProperty ne 'testName'"
+					))).toString(),
+			"headless-builder/endpoints/by-external-reference-code/" + _API_ENDPOINT_ERC,
+			Http.Method.PATCH);
 	}
 
 	private ObjectFieldSetting _createObjectFieldSetting(
@@ -535,6 +547,9 @@ public class HeadlessBuilderOpenAPIResourceTest extends BaseTestCase {
 	private static final String _API_BASE_URL = RandomTestUtil.randomString();
 
 	private static final String _API_ENDPOINT_ERC =
+		RandomTestUtil.randomString();
+
+	private static final String _API_FILTER_ERC =
 		RandomTestUtil.randomString();
 
 	private static final String _API_SCHEMA_AGGREGATION_FIELD_ERC =
