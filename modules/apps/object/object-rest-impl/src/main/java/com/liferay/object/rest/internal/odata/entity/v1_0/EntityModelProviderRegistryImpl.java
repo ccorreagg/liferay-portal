@@ -19,6 +19,7 @@ import com.liferay.object.rest.odata.entity.v1_0.EntityModelProvider;
 import com.liferay.object.rest.odata.entity.v1_0.EntityModelProviderRegistry;
 import com.liferay.osgi.service.tracker.collections.map.ScopedServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ScopedServiceTrackerMapFactory;
+import com.liferay.portal.odata.entity.EntityModel;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
@@ -36,9 +37,16 @@ public class EntityModelProviderRegistryImpl
 	public EntityModelProvider getEntityModelProvider(
 		ObjectDefinition objectDefinition) {
 
-		return _scopedServiceTrackerMap.getService(
-			objectDefinition.getCompanyId(),
-			objectDefinition.getOSGiJaxRsName("EntityModelProvider"));
+		EntityModelProvider entityModelProvider =
+			_scopedServiceTrackerMap.getService(
+				objectDefinition.getCompanyId(),
+				objectDefinition.getOSGiJaxRsName("EntityModelProvider"));
+
+		if (entityModelProvider == null) {
+			return new NullEntityModelProvider();
+		}
+
+		return entityModelProvider;
 	}
 
 	@Activate
@@ -55,5 +63,14 @@ public class EntityModelProviderRegistryImpl
 
 	private ScopedServiceTrackerMap<EntityModelProvider>
 		_scopedServiceTrackerMap;
+
+	private final class NullEntityModelProvider implements EntityModelProvider {
+
+		@Override
+		public EntityModel getEntityModel() {
+			return null;
+		}
+
+	}
 
 }

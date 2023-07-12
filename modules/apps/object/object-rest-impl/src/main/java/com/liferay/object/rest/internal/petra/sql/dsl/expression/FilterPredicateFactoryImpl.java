@@ -50,7 +50,7 @@ public class FilterPredicateFactoryImpl implements FilterPredicateFactory {
 		EntityModel entityModel, String filterString,
 		ObjectDefinition objectDefinition) {
 
-		if (Validator.isNull(filterString)) {
+		if ((entityModel == null) || Validator.isNull(filterString)) {
 			return null;
 		}
 
