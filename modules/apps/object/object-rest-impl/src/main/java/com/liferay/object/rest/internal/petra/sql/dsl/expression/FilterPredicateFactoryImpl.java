@@ -17,9 +17,10 @@ package com.liferay.object.rest.internal.petra.sql.dsl.expression;
 import com.liferay.object.field.business.type.ObjectFieldBusinessTypeRegistry;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.related.models.ObjectRelatedModelsPredicateProviderRegistry;
-import com.liferay.object.rest.internal.odata.entity.v1_0.ObjectEntryEntityModel;
 import com.liferay.object.rest.internal.odata.filter.expression.PredicateExpressionVisitorImpl;
 import com.liferay.object.rest.internal.odata.filter.expression.field.predicate.provider.FieldPredicateProviderTracker;
+import com.liferay.object.rest.odata.entity.v1_0.EntityModelProvider;
+import com.liferay.object.rest.odata.entity.v1_0.EntityModelProviderRegistry;
 import com.liferay.object.rest.petra.sql.dsl.expression.FilterPredicateFactory;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.petra.sql.dsl.expression.Predicate;
@@ -63,9 +64,9 @@ public class FilterPredicateFactoryImpl implements FilterPredicateFactory {
 
 			return (Predicate)expression.accept(
 				new PredicateExpressionVisitorImpl(
-					entityModel, _fieldPredicateProviderTracker,
-					objectDefinition, _objectFieldBusinessTypeRegistry,
-					_objectFieldLocalService,
+					entityModel, _entityModelProviderRegistry,
+					_fieldPredicateProviderTracker, objectDefinition,
+					_objectFieldBusinessTypeRegistry, _objectFieldLocalService,
 					_objectRelatedModelsPredicateProviderRegistry));
 		}
 		catch (ExpressionVisitException expressionVisitException) {
@@ -86,17 +87,13 @@ public class FilterPredicateFactoryImpl implements FilterPredicateFactory {
 		String filterString, ObjectDefinition objectDefinition) {
 
 		try {
-			EntityModel entityModel = new ObjectEntryEntityModel(
-				objectDefinition.getObjectDefinitionId(),
-				_objectFieldLocalService.getObjectFields(
-					objectDefinition.getObjectDefinitionId()));
+			EntityModelProvider entityModelProvider =
+				_entityModelProviderRegistry.getEntityModelProvider(
+					objectDefinition);
 
-			return create(entityModel, filterString, objectDefinition);
-		}
-		catch (ExpressionVisitException expressionVisitException) {
-			throw new InvalidFilterException(
-				expressionVisitException.getMessage(),
-				expressionVisitException);
+			return create(
+				entityModelProvider.getEntityModel(), filterString,
+				objectDefinition);
 		}
 		catch (InvalidFilterException invalidFilterException) {
 			throw invalidFilterException;
@@ -105,6 +102,9 @@ public class FilterPredicateFactoryImpl implements FilterPredicateFactory {
 			throw new ServerErrorException(500, exception);
 		}
 	}
+
+	@Reference
+	private EntityModelProviderRegistry _entityModelProviderRegistry;
 
 	@Reference
 	private FieldPredicateProviderTracker _fieldPredicateProviderTracker;

@@ -41,6 +41,7 @@ import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryResourceImpl;
 import com.liferay.object.rest.manager.v1_0.ObjectEntryManagerRegistry;
 import com.liferay.object.rest.manager.v1_0.ObjectRelationshipElementsParser;
 import com.liferay.object.rest.odata.entity.v1_0.EntityModelProvider;
+import com.liferay.object.rest.odata.entity.v1_0.EntityModelProviderRegistry;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResourceProvider;
 import com.liferay.object.rest.petra.sql.dsl.expression.FilterPredicateFactory;
@@ -156,6 +157,8 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 			_bundleContext.registerService(
 				GraphQLDTOContributor.class,
 				ObjectDefinitionGraphQLDTOContributor.of(
+					_entityModelProviderRegistry.getEntityModelProvider(
+						objectDefinition),
 					_extensionProviderRegistry, _filterPredicateFactory,
 					objectDefinition, _objectDefinitionLocalService,
 					_objectEntryManagerRegistry.getObjectEntryManager(
@@ -205,9 +208,9 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 	private ObjectEntryResourceImpl _createObjectEntryResourceImpl() {
 		return new ObjectEntryResourceImpl(
-			_dtoConverterRegistry, _objectDefinitionLocalService,
-			_objectEntryLocalService, _objectEntryManagerRegistry,
-			_objectFieldLocalService, _objectRelationshipService,
+			_dtoConverterRegistry, _entityModelProviderRegistry,
+			_objectDefinitionLocalService, _objectEntryLocalService,
+			_objectEntryManagerRegistry, _objectRelationshipService,
 			_objectScopeProviderRegistry,
 			_systemObjectDefinitionManagerRegistry);
 	}
@@ -856,6 +859,9 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 	@Reference
 	private DTOConverterRegistry _dtoConverterRegistry;
+
+	@Reference
+	private EntityModelProviderRegistry _entityModelProviderRegistry;
 
 	@Reference(
 		target = "(result.class.name=com.liferay.portal.kernel.search.filter.Filter)"

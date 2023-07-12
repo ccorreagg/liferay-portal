@@ -17,16 +17,16 @@ package com.liferay.object.rest.internal.resource.v1_0;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
-import com.liferay.object.rest.internal.odata.entity.v1_0.ObjectEntryEntityModel;
 import com.liferay.object.rest.manager.v1_0.DefaultObjectEntryManager;
 import com.liferay.object.rest.manager.v1_0.DefaultObjectEntryManagerProvider;
 import com.liferay.object.rest.manager.v1_0.ObjectEntryManager;
 import com.liferay.object.rest.manager.v1_0.ObjectEntryManagerRegistry;
+import com.liferay.object.rest.odata.entity.v1_0.EntityModelProvider;
+import com.liferay.object.rest.odata.entity.v1_0.EntityModelProviderRegistry;
 import com.liferay.object.scope.ObjectScopeProvider;
 import com.liferay.object.scope.ObjectScopeProviderRegistry;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
-import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.service.ObjectRelationshipService;
 import com.liferay.object.system.SystemObjectDefinitionManager;
 import com.liferay.object.system.SystemObjectDefinitionManagerRegistry;
@@ -62,20 +62,20 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 
 	public ObjectEntryResourceImpl(
 		DTOConverterRegistry dtoConverterRegistry,
+		EntityModelProviderRegistry entityModelProviderRegistry,
 		ObjectDefinitionLocalService objectDefinitionLocalService,
 		ObjectEntryLocalService objectEntryLocalService,
 		ObjectEntryManagerRegistry objectEntryManagerRegistry,
-		ObjectFieldLocalService objectFieldLocalService,
 		ObjectRelationshipService objectRelationshipService,
 		ObjectScopeProviderRegistry objectScopeProviderRegistry,
 		SystemObjectDefinitionManagerRegistry
 			systemObjectDefinitionManagerRegistry) {
 
 		_dtoConverterRegistry = dtoConverterRegistry;
+		_entityModelProviderRegistry = entityModelProviderRegistry;
 		_objectDefinitionLocalService = objectDefinitionLocalService;
 		_objectEntryLocalService = objectEntryLocalService;
 		_objectEntryManagerRegistry = objectEntryManagerRegistry;
-		_objectFieldLocalService = objectFieldLocalService;
 		_objectRelationshipService = objectRelationshipService;
 		_objectScopeProviderRegistry = objectScopeProviderRegistry;
 		_systemObjectDefinitionManagerRegistry =
@@ -193,10 +193,11 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 	public EntityModel getEntityModel(MultivaluedMap multivaluedMap)
 		throws Exception {
 
-		return new ObjectEntryEntityModel(
-			_objectDefinition.getObjectDefinitionId(),
-			_objectFieldLocalService.getObjectFields(
-				_objectDefinition.getObjectDefinitionId()));
+		EntityModelProvider entityModelProvider =
+			_entityModelProviderRegistry.getEntityModelProvider(
+				_objectDefinition);
+
+		return entityModelProvider.getEntityModel();
 	}
 
 	@Override
@@ -580,6 +581,7 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 	}
 
 	private final DTOConverterRegistry _dtoConverterRegistry;
+	private final EntityModelProviderRegistry _entityModelProviderRegistry;
 
 	@Context
 	private ObjectDefinition _objectDefinition;
@@ -587,7 +589,6 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 	private final ObjectDefinitionLocalService _objectDefinitionLocalService;
 	private final ObjectEntryLocalService _objectEntryLocalService;
 	private final ObjectEntryManagerRegistry _objectEntryManagerRegistry;
-	private final ObjectFieldLocalService _objectFieldLocalService;
 	private final ObjectRelationshipService _objectRelationshipService;
 	private final ObjectScopeProviderRegistry _objectScopeProviderRegistry;
 	private final SystemObjectDefinitionManagerRegistry
