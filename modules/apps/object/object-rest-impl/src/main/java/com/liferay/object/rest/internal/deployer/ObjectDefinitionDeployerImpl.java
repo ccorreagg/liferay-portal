@@ -44,7 +44,6 @@ import com.liferay.object.rest.odata.entity.v1_0.EntityModelProvider;
 import com.liferay.object.rest.odata.entity.v1_0.EntityModelProviderRegistry;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResourceProvider;
-import com.liferay.object.rest.petra.sql.dsl.expression.FilterPredicateFactory;
 import com.liferay.object.rest.resource.v1_0.ObjectEntryResource;
 import com.liferay.object.scope.ObjectScopeProvider;
 import com.liferay.object.scope.ObjectScopeProviderRegistry;
@@ -159,8 +158,8 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 				ObjectDefinitionGraphQLDTOContributor.of(
 					_entityModelProviderRegistry.getEntityModelProvider(
 						objectDefinition),
-					_extensionProviderRegistry, _filterPredicateFactory,
-					objectDefinition, _objectDefinitionLocalService,
+					_extensionProviderRegistry, objectDefinition,
+					_objectDefinitionLocalService,
 					_objectEntryManagerRegistry.getObjectEntryManager(
 						objectDefinition.getStorageType()),
 					_objectFieldLocalService, _objectRelationshipLocalService,
@@ -873,9 +872,6 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 	@Reference
 	private FilterParserProvider _filterParserProvider;
-
-	@Reference
-	private FilterPredicateFactory _filterPredicateFactory;
 
 	@Reference
 	private GroupLocalService _groupLocalService;
