@@ -473,7 +473,7 @@ public class DefaultObjectEntryManagerImpl
 		throws Exception {
 
 		Predicate predicate = _filterPredicateFactory.create(
-			filterString, objectDefinition.getObjectDefinitionId());
+			filterString, objectDefinition);
 
 		long groupId = getGroupId(objectDefinition, scopeKey);
 
