@@ -15,6 +15,7 @@
 package com.liferay.object.rest.internal.petra.sql.dsl.expression;
 
 import com.liferay.object.field.business.type.ObjectFieldBusinessTypeRegistry;
+import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.related.models.ObjectRelatedModelsPredicateProviderRegistry;
 import com.liferay.object.rest.internal.odata.entity.v1_0.ObjectEntryEntityModel;
 import com.liferay.object.rest.internal.odata.filter.expression.PredicateExpressionVisitorImpl;
@@ -45,7 +46,8 @@ public class FilterPredicateFactoryImpl implements FilterPredicateFactory {
 
 	@Override
 	public Predicate create(
-		EntityModel entityModel, String filterString, long objectDefinitionId) {
+		EntityModel entityModel, String filterString,
+		ObjectDefinition objectDefinition) {
 
 		if (Validator.isNull(filterString)) {
 			return null;
@@ -62,7 +64,7 @@ public class FilterPredicateFactoryImpl implements FilterPredicateFactory {
 			return (Predicate)expression.accept(
 				new PredicateExpressionVisitorImpl(
 					entityModel, _fieldPredicateProviderTracker,
-					objectDefinitionId, _objectFieldBusinessTypeRegistry,
+					objectDefinition, _objectFieldBusinessTypeRegistry,
 					_objectFieldLocalService,
 					_objectRelatedModelsPredicateProviderRegistry));
 		}
@@ -80,13 +82,16 @@ public class FilterPredicateFactoryImpl implements FilterPredicateFactory {
 	}
 
 	@Override
-	public Predicate create(String filterString, long objectDefinitionId) {
+	public Predicate create(
+		String filterString, ObjectDefinition objectDefinition) {
+
 		try {
 			EntityModel entityModel = new ObjectEntryEntityModel(
-				objectDefinitionId,
-				_objectFieldLocalService.getObjectFields(objectDefinitionId));
+				objectDefinition.getObjectDefinitionId(),
+				_objectFieldLocalService.getObjectFields(
+					objectDefinition.getObjectDefinitionId()));
 
-			return create(entityModel, filterString, objectDefinitionId);
+			return create(entityModel, filterString, objectDefinition);
 		}
 		catch (ExpressionVisitException expressionVisitException) {
 			throw new InvalidFilterException(
