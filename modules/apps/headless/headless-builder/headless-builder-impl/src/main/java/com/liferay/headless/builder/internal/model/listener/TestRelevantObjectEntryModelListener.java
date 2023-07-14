@@ -29,8 +29,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.odata.filter.FilterParserProvider;
-import com.liferay.segments.criteria.contributor.SegmentsCriteriaContributor;
-import com.liferay.segments.criteria.mapper.SegmentsCriteriaJSONObjectMapper;
 
 import java.io.Serializable;
 
@@ -129,9 +127,8 @@ public class TestRelevantObjectEntryModelListener
 					schemaObjectDefinition);
 
 			Predicate predicate = _filterPredicateFactory.create(
-				new APISchemaEntityModelWrapper(
-					entityModelProvider.getEntityModel(), schema),
-				oDataFilter, schemaObjectDefinition);
+				entityModelProvider.getEntityModel(), oDataFilter,
+				schemaObjectDefinition);
 		}
 		catch (Exception exception) {
 			throw new ModelListenerException(exception);
@@ -155,10 +152,5 @@ public class TestRelevantObjectEntryModelListener
 
 	@Reference
 	private ObjectEntryLocalService _objectEntryLocalService;
-
-	private SegmentsCriteriaContributor _segmentsCriteriaContributor;
-
-	@Reference(target = "(segments.criteria.mapper.key=odata)")
-	private SegmentsCriteriaJSONObjectMapper _segmentsCriteriaJSONObjectMapper;
 
 }
