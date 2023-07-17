@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.transaction.TransactionConfig;
 import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -50,9 +51,14 @@ public abstract class BaseBatchEngineImportStrategy
 			UnsafeFunction<T, T, Exception> unsafeFunction)
 		throws Exception {
 
-		for (T item : collection) {
+		int index = 0;
+
+		for (Iterator<T> iterator = collection.iterator(); iterator.hasNext();
+			 index++) {
+
 			importItem(
-				item,
+				iterator.next(),
+				batchEngineImportTask.getProcessedItemsCount() + index,
 				element -> {
 					for (ImportTaskPreAction importTaskPreAction :
 							importTaskPreActions) {
@@ -100,7 +106,8 @@ public abstract class BaseBatchEngineImportStrategy
 	}
 
 	protected abstract <T> T importItem(
-			T item, UnsafeFunction<T, T, Exception> unsafeFunction)
+			T item, int itemIndex,
+			UnsafeFunction<T, T, Exception> unsafeFunction)
 		throws Exception;
 
 	protected final BatchEngineImportTask batchEngineImportTask;

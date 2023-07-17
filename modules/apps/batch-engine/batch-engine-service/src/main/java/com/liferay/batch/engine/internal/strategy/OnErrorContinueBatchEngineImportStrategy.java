@@ -16,7 +16,6 @@ package com.liferay.batch.engine.internal.strategy;
 
 import com.liferay.batch.engine.action.ImportTaskPostAction;
 import com.liferay.batch.engine.action.ImportTaskPreAction;
-import com.liferay.batch.engine.internal.util.ItemIndexThreadLocal;
 import com.liferay.batch.engine.model.BatchEngineImportTask;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.log.Log;
@@ -41,7 +40,7 @@ public class OnErrorContinueBatchEngineImportStrategy
 
 	@Override
 	public <T> T importItem(
-		T item, UnsafeFunction<T, T, Exception> unsafeFunction) {
+		T item, int itemIndex, UnsafeFunction<T, T, Exception> unsafeFunction) {
 
 		T persistedItem = null;
 
@@ -55,8 +54,7 @@ public class OnErrorContinueBatchEngineImportStrategy
 				batchEngineImportTask.getCompanyId(),
 				batchEngineImportTask.getUserId(),
 				batchEngineImportTask.getBatchEngineImportTaskId(),
-				item.toString(), ItemIndexThreadLocal.get(item),
-				exception.toString());
+				item.toString(), itemIndex, exception.toString());
 		}
 
 		return persistedItem;

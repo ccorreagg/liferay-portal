@@ -32,7 +32,6 @@ import com.liferay.batch.engine.internal.reader.BatchEngineImportTaskItemReaderU
 import com.liferay.batch.engine.internal.strategy.BatchEngineImportStrategyFactory;
 import com.liferay.batch.engine.internal.task.progress.BatchEngineTaskProgress;
 import com.liferay.batch.engine.internal.task.progress.BatchEngineTaskProgressFactory;
-import com.liferay.batch.engine.internal.util.ItemIndexThreadLocal;
 import com.liferay.batch.engine.model.BatchEngineImportTask;
 import com.liferay.batch.engine.service.BatchEngineImportTaskErrorLocalService;
 import com.liferay.batch.engine.service.BatchEngineImportTaskLocalService;
@@ -312,8 +311,6 @@ public class BatchEngineImportTaskExecutorImpl
 					items.add(item);
 
 					processedItemsCount++;
-
-					ItemIndexThreadLocal.put(item, processedItemsCount);
 				}
 				catch (Exception exception) {
 					processedItemsCount++;
@@ -329,8 +326,6 @@ public class BatchEngineImportTaskExecutorImpl
 						processedItemsCount);
 
 					items.clear();
-
-					ItemIndexThreadLocal.remove();
 				}
 			}
 
