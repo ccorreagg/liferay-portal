@@ -14,6 +14,7 @@
 
 package com.liferay.batch.engine.internal;
 
+import com.liferay.batch.engine.internal.security.permission.LiberalPermissionChecker;
 import com.liferay.petra.function.UnsafeRunnable;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
@@ -27,14 +28,21 @@ import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 public class BatchEngineTaskExecutorUtil {
 
 	public static void execute(
-			UnsafeRunnable<Throwable> unsafeRunnable, User user)
+			boolean checkPermissions, UnsafeRunnable<Throwable> unsafeRunnable,
+			User user)
 		throws Throwable {
 
 		PermissionChecker permissionChecker =
 			PermissionThreadLocal.getPermissionChecker();
 
-		PermissionThreadLocal.setPermissionChecker(
-			PermissionCheckerFactoryUtil.create(user));
+		if (checkPermissions) {
+			PermissionThreadLocal.setPermissionChecker(
+				PermissionCheckerFactoryUtil.create(user));
+		}
+		else {
+			PermissionThreadLocal.setPermissionChecker(
+				new LiberalPermissionChecker(user));
+		}
 
 		String name = PrincipalThreadLocal.getName();
 
