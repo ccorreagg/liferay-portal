@@ -15,9 +15,13 @@
 package com.liferay.headless.builder.internal.helper;
 
 import com.liferay.headless.builder.application.APIApplication;
+import com.liferay.headless.builder.internal.odata.entity.APISchemaEntityModel;
+import com.liferay.headless.builder.internal.odata.filter.expression.APISchemaTranslatorExpressionVisitor;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
-import com.liferay.object.rest.manager.v1_0.ObjectEntryManager;
+import com.liferay.object.rest.manager.v1_0.DefaultObjectEntryManager;
+import com.liferay.object.rest.odata.entity.v1_0.EntityModelProvider;
+import com.liferay.object.rest.odata.entity.v1_0.EntityModelProviderRegistry;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactory;
@@ -26,6 +30,12 @@ import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.odata.entity.EntityModel;
+import com.liferay.portal.odata.filter.FilterParser;
+import com.liferay.portal.odata.filter.FilterParserProvider;
+import com.liferay.portal.odata.filter.expression.BinaryExpression;
+import com.liferay.portal.odata.filter.expression.Expression;
+import com.liferay.portal.odata.filter.expression.factory.ExpressionFactory;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterContext;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedFieldsContext;
@@ -103,7 +113,7 @@ public class ObjectEntryHelper {
 			_permissionCheckerFactory.create(
 				_userLocalService.getUser(objectDefinition.getUserId())));
 
-		return _objectEntryManager.getObjectEntries(
+		return _defaultObjectEntryManager.getObjectEntries(
 			companyId, objectDefinition, null, null,
 			_getDefaultDTOConverterContext(objectDefinition), filterString,
 			pagination, null, null);
@@ -126,7 +136,7 @@ public class ObjectEntryHelper {
 
 	public Page<Map<String, Object>> getResponseEntityMapsPage(
 			long companyId, APIApplication.Endpoint endpoint,
-			Pagination pagination)
+			String filterString, Pagination pagination)
 		throws Exception {
 
 		List<Map<String, Object>> responseEntityMaps = new ArrayList<>();
@@ -140,9 +150,9 @@ public class ObjectEntryHelper {
 						getMainObjectDefinitionExternalReferenceCode(),
 					companyId);
 
-		Page<ObjectEntry> objectEntriesPage = getObjectEntriesPage(
-			companyId, _getODataFilterString(endpoint), pagination,
-			schemaMainObjectDefinition.getExternalReferenceCode());
+		Page<ObjectEntry> objectEntriesPage = _getObjectEntriesPage(
+			companyId, _getFilterExpression(companyId, endpoint, filterString),
+			pagination, schemaMainObjectDefinition.getExternalReferenceCode());
 
 		for (ObjectEntry objectEntry : objectEntriesPage.getItems()) {
 			Map<String, Object> objectEntryProperties =
@@ -174,6 +184,93 @@ public class ObjectEntryHelper {
 			_userLocalService.getUser(objectDefinition.getUserId()));
 	}
 
+	private Expression _getFilterExpression(
+			EntityModel entityModel, String filterString)
+		throws Exception {
+
+		FilterParser filterParser = _filterParserProvider.provide(entityModel);
+
+		return filterParser.parse(filterString);
+	}
+
+	private Expression _getFilterExpression(
+			long companyId, APIApplication.Endpoint endpoint,
+			String filterString)
+		throws Exception {
+
+		if ((endpoint.getFilter() == null) && (filterString == null)) {
+			return null;
+		}
+
+		Expression endpointFilterExpression = null;
+		Expression requestFilterExpression = null;
+
+		APIApplication.Schema schema = endpoint.getResponseSchema();
+
+		EntityModelProvider entityModelProvider =
+			_entityModelProviderRegistry.getEntityModelProvider(
+				_objectDefinitionLocalService.
+					getObjectDefinitionByExternalReferenceCode(
+						schema.getMainObjectDefinitionExternalReferenceCode(),
+						companyId));
+
+		EntityModel entityModel = entityModelProvider.getEntityModel();
+
+		APIApplication.Filter filter = endpoint.getFilter();
+
+		if (filter != null) {
+			endpointFilterExpression = _getFilterExpression(
+				entityModel, filter.getODataFilterString());
+		}
+
+		if (filterString != null) {
+			EntityModel apiSchemaEntityModel = new APISchemaEntityModel(
+				entityModel, endpoint.getResponseSchema());
+
+			Expression expression = _getFilterExpression(
+				apiSchemaEntityModel, filterString);
+
+			requestFilterExpression = expression.accept(
+				new APISchemaTranslatorExpressionVisitor(
+					apiSchemaEntityModel, _expressionFactory));
+		}
+
+		if (endpointFilterExpression == null) {
+			return requestFilterExpression;
+		}
+		else if (requestFilterExpression == null) {
+			return endpointFilterExpression;
+		}
+
+		return _expressionFactory.createBinaryExpression(
+			endpointFilterExpression, BinaryExpression.Operation.AND,
+			requestFilterExpression);
+	}
+
+	private Page<ObjectEntry> _getObjectEntriesPage(
+			long companyId, Expression filterExpression, Pagination pagination,
+			String objectDefinitionExternalReferenceCode)
+		throws Exception {
+
+		ObjectDefinition objectDefinition =
+			_objectDefinitionLocalService.
+				fetchObjectDefinitionByExternalReferenceCode(
+					objectDefinitionExternalReferenceCode, companyId);
+
+		if (objectDefinition == null) {
+			return Page.of(Collections.emptyList());
+		}
+
+		PermissionThreadLocal.setPermissionChecker(
+			_permissionCheckerFactory.create(
+				_userLocalService.getUser(objectDefinition.getUserId())));
+
+		return _defaultObjectEntryManager.getObjectEntries(
+			companyId, objectDefinition, null, null,
+			_getDefaultDTOConverterContext(objectDefinition), filterExpression,
+			pagination, null, null);
+	}
+
 	private Map<String, Object> _getObjectEntryProperties(
 		ObjectEntry objectEntry) {
 
@@ -188,21 +285,20 @@ public class ObjectEntryHelper {
 		).build();
 	}
 
-	private String _getODataFilterString(APIApplication.Endpoint endpoint) {
-		APIApplication.Filter filter = endpoint.getFilter();
+	@Reference
+	private DefaultObjectEntryManager _defaultObjectEntryManager;
 
-		if (filter == null) {
-			return null;
-		}
+	@Reference
+	private EntityModelProviderRegistry _entityModelProviderRegistry;
 
-		return filter.getODataFilterString();
-	}
+	@Reference
+	private ExpressionFactory _expressionFactory;
+
+	@Reference
+	private FilterParserProvider _filterParserProvider;
 
 	@Reference
 	private ObjectDefinitionLocalService _objectDefinitionLocalService;
-
-	@Reference(target = "(object.entry.manager.storage.type=default)")
-	private ObjectEntryManager _objectEntryManager;
 
 	@Reference
 	private PermissionCheckerFactory _permissionCheckerFactory;
