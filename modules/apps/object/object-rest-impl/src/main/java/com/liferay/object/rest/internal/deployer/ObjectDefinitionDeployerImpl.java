@@ -41,9 +41,9 @@ import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryResourceImpl;
 import com.liferay.object.rest.manager.v1_0.ObjectEntryManagerRegistry;
 import com.liferay.object.rest.manager.v1_0.ObjectRelationshipElementsParser;
 import com.liferay.object.rest.odata.entity.v1_0.EntityModelProvider;
+import com.liferay.object.rest.odata.entity.v1_0.EntityModelProviderRegistry;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResourceProvider;
-import com.liferay.object.rest.petra.sql.dsl.expression.FilterPredicateFactory;
 import com.liferay.object.rest.resource.v1_0.ObjectEntryResource;
 import com.liferay.object.scope.ObjectScopeProvider;
 import com.liferay.object.scope.ObjectScopeProviderRegistry;
@@ -157,8 +157,10 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 			_bundleContext.registerService(
 				GraphQLDTOContributor.class,
 				ObjectDefinitionGraphQLDTOContributor.of(
-					_extensionProviderRegistry, _filterPredicateFactory,
-					objectDefinition, _objectDefinitionLocalService,
+					_entityModelProviderRegistry.getEntityModelProvider(
+						objectDefinition),
+					_extensionProviderRegistry, objectDefinition,
+					_objectDefinitionLocalService,
 					_objectEntryManagerRegistry.getObjectEntryManager(
 						objectDefinition.getStorageType()),
 					_objectFieldLocalService, _objectRelationshipLocalService,
@@ -206,9 +208,9 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 	private ObjectEntryResourceImpl _createObjectEntryResourceImpl() {
 		return new ObjectEntryResourceImpl(
-			_dtoConverterRegistry, _objectDefinitionLocalService,
-			_objectEntryLocalService, _objectEntryManagerRegistry,
-			_objectFieldLocalService, _objectRelationshipService,
+			_dtoConverterRegistry, _entityModelProviderRegistry,
+			_objectDefinitionLocalService, _objectEntryLocalService,
+			_objectEntryManagerRegistry, _objectRelationshipService,
 			_objectScopeProviderRegistry,
 			_systemObjectDefinitionManagerRegistry);
 	}
@@ -859,6 +861,9 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 	@Reference
 	private DTOConverterRegistry _dtoConverterRegistry;
 
+	@Reference
+	private EntityModelProviderRegistry _entityModelProviderRegistry;
+
 	@Reference(
 		target = "(result.class.name=com.liferay.portal.kernel.search.filter.Filter)"
 	)
@@ -869,9 +874,6 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 	@Reference
 	private FilterParserProvider _filterParserProvider;
-
-	@Reference
-	private FilterPredicateFactory _filterPredicateFactory;
 
 	@Reference
 	private GroupLocalService _groupLocalService;

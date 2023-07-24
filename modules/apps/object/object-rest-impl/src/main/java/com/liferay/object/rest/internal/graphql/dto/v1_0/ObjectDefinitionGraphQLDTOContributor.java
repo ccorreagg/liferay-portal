@@ -23,13 +23,12 @@ import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.rest.dto.v1_0.FileEntry;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
 import com.liferay.object.rest.dto.v1_0.Status;
-import com.liferay.object.rest.internal.odata.entity.v1_0.ObjectEntryEntityModel;
 import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryRelatedObjectsResourceImpl;
 import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryResourceImpl;
 import com.liferay.object.rest.manager.v1_0.DefaultObjectEntryManager;
 import com.liferay.object.rest.manager.v1_0.DefaultObjectEntryManagerProvider;
 import com.liferay.object.rest.manager.v1_0.ObjectEntryManager;
-import com.liferay.object.rest.petra.sql.dsl.expression.FilterPredicateFactory;
+import com.liferay.object.rest.odata.entity.v1_0.EntityModelProvider;
 import com.liferay.object.scope.ObjectScopeProvider;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectFieldLocalService;
@@ -85,8 +84,8 @@ public class ObjectDefinitionGraphQLDTOContributor
 	implements GraphQLDTOContributor<Map<String, Object>, Map<String, Object>> {
 
 	public static ObjectDefinitionGraphQLDTOContributor of(
+		EntityModelProvider entityModelProvider,
 		ExtensionProviderRegistry extensionProviderRegistry,
-		FilterPredicateFactory filterPredicateFactory,
 		ObjectDefinition objectDefinition,
 		ObjectDefinitionLocalService objectDefinitionLocalService,
 		ObjectEntryManager objectEntryManager,
@@ -180,7 +179,7 @@ public class ObjectDefinitionGraphQLDTOContributor
 
 		return new ObjectDefinitionGraphQLDTOContributor(
 			objectDefinition.getCompanyId(),
-			new ObjectEntryEntityModel(objectFields), extensionProviderRegistry,
+			entityModelProvider.getEntityModel(), extensionProviderRegistry,
 			graphQLDTOProperties,
 			StringUtil.removeSubstring(
 				objectDefinition.getPKObjectFieldName(), "c_"),
