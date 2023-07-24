@@ -17,6 +17,7 @@ package com.liferay.object.rest.petra.sql.dsl.expression;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.petra.sql.dsl.expression.Predicate;
 import com.liferay.portal.odata.entity.EntityModel;
+import com.liferay.portal.odata.filter.expression.Expression;
 
 /**
  * @author Gabriel Albuquerque
@@ -26,6 +27,9 @@ public interface FilterPredicateFactory {
 	public Predicate create(
 		EntityModel entityModel, String filterString,
 		ObjectDefinition objectDefinition);
+
+	public Predicate create(
+		Expression filterExpression, ObjectDefinition objectDefinition);
 
 	public Predicate create(
 		String filterString, ObjectDefinition objectDefinition);

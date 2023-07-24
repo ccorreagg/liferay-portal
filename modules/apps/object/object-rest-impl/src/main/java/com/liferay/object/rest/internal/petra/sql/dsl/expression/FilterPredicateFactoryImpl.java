@@ -84,6 +84,40 @@ public class FilterPredicateFactoryImpl implements FilterPredicateFactory {
 
 	@Override
 	public Predicate create(
+		Expression filterExpression, ObjectDefinition objectDefinition) {
+
+		if (filterExpression == null) {
+			return null;
+		}
+
+		try {
+			EntityModelProvider entityModelProvider =
+				_entityModelProviderRegistry.getEntityModelProvider(
+					objectDefinition);
+
+			return (Predicate)filterExpression.accept(
+				new PredicateExpressionVisitorImpl(
+					entityModelProvider.getEntityModel(),
+					_entityModelProviderRegistry,
+					_fieldPredicateProviderTracker, objectDefinition,
+					_objectFieldBusinessTypeRegistry, _objectFieldLocalService,
+					_objectRelatedModelsPredicateProviderRegistry));
+		}
+		catch (ExpressionVisitException expressionVisitException) {
+			throw new InvalidFilterException(
+				expressionVisitException.getMessage(),
+				expressionVisitException);
+		}
+		catch (InvalidFilterException invalidFilterException) {
+			throw invalidFilterException;
+		}
+		catch (Exception exception) {
+			throw new ServerErrorException(500, exception);
+		}
+	}
+
+	@Override
+	public Predicate create(
 		String filterString, ObjectDefinition objectDefinition) {
 
 		try {
