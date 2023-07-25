@@ -15,6 +15,7 @@
 package com.liferay.headless.builder.internal.odata.filter.expression;
 
 import com.liferay.headless.builder.internal.odata.entity.APIPropertyEntityField;
+import com.liferay.portal.odata.entity.CollectionEntityField;
 import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.odata.filter.expression.BinaryExpression;
@@ -37,6 +38,7 @@ import com.liferay.portal.odata.filter.expression.factory.ExpressionFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Carlos Correa
@@ -54,10 +56,10 @@ public class APISchemaTranslatorExpressionVisitor
 
 		for (EntityField entityField : entityFieldsMap.values()) {
 			APIPropertyEntityField apiPropertyEntityField =
-				(APIPropertyEntityField)entityField;
+				_getAPIPropertyEntityField(entityField);
 
 			_propertyNames.put(
-				apiPropertyEntityField.getName(),
+				entityField.getName(),
 				apiPropertyEntityField.getInternalName());
 		}
 	}
@@ -163,6 +165,22 @@ public class APISchemaTranslatorExpressionVisitor
 		throws ExpressionVisitException {
 
 		return _expressionFactory.createUnaryExpression(expression, operation);
+	}
+
+	private APIPropertyEntityField _getAPIPropertyEntityField(
+		EntityField entityField) {
+
+		if (Objects.equals(
+				entityField.getType(), EntityField.Type.COLLECTION)) {
+
+			CollectionEntityField collectionEntityField =
+				(CollectionEntityField)entityField;
+
+			return (APIPropertyEntityField)
+				collectionEntityField.getEntityField();
+		}
+
+		return (APIPropertyEntityField)entityField;
 	}
 
 	private final ExpressionFactory _expressionFactory;

@@ -17,11 +17,13 @@ package com.liferay.headless.builder.internal.odata.entity;
 import com.liferay.headless.builder.application.APIApplication;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.odata.entity.CollectionEntityField;
 import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Carlos Correa
@@ -57,11 +59,7 @@ public class APISchemaEntityModel implements EntityModel {
 
 					entityModelFieldsMap.put(
 						property.getName(),
-						new APIPropertyEntityField(
-							entry.getKey(), property.getName(),
-							entityField.getType(), locale -> property.getName(),
-							locale -> property.getName(),
-							locale -> property.getName()));
+						_toAPIPropertyEntityField(entityField, property));
 
 					break;
 				}
@@ -79,6 +77,26 @@ public class APISchemaEntityModel implements EntityModel {
 	@Override
 	public String getName() {
 		return _entityModel.getName();
+	}
+
+	private EntityField _toAPIPropertyEntityField(
+		EntityField entityField, APIApplication.Property property) {
+
+		if (Objects.equals(
+				entityField.getType(), EntityField.Type.COLLECTION)) {
+
+			CollectionEntityField collectionEntityField =
+				(CollectionEntityField)entityField;
+
+			return new CollectionEntityField(
+				_toAPIPropertyEntityField(
+					collectionEntityField.getEntityField(), property));
+		}
+
+		return new APIPropertyEntityField(
+			entityField.getName(), property.getName(), entityField.getType(),
+			locale -> property.getName(), locale -> property.getName(),
+			locale -> property.getName());
 	}
 
 	private final EntityModel _entityModel;
