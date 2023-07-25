@@ -20,6 +20,7 @@ import com.liferay.headless.builder.internal.odata.filter.expression.APISchemaTr
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
 import com.liferay.object.rest.manager.v1_0.DefaultObjectEntryManager;
+import com.liferay.object.rest.manager.v1_0.ObjectEntryManager;
 import com.liferay.object.rest.odata.entity.v1_0.EntityModelProvider;
 import com.liferay.object.rest.odata.entity.v1_0.EntityModelProviderRegistry;
 import com.liferay.object.service.ObjectDefinitionLocalService;
@@ -113,7 +114,7 @@ public class ObjectEntryHelper {
 			_permissionCheckerFactory.create(
 				_userLocalService.getUser(objectDefinition.getUserId())));
 
-		return _defaultObjectEntryManager.getObjectEntries(
+		return _objectEntryManager.getObjectEntries(
 			companyId, objectDefinition, null, null,
 			_getDefaultDTOConverterContext(objectDefinition), filterString,
 			pagination, null, null);
@@ -265,7 +266,10 @@ public class ObjectEntryHelper {
 			_permissionCheckerFactory.create(
 				_userLocalService.getUser(objectDefinition.getUserId())));
 
-		return _defaultObjectEntryManager.getObjectEntries(
+		DefaultObjectEntryManager defaultObjectEntryManager =
+			(DefaultObjectEntryManager)_objectEntryManager;
+
+		return defaultObjectEntryManager.getObjectEntries(
 			companyId, objectDefinition, null, null,
 			_getDefaultDTOConverterContext(objectDefinition), filterExpression,
 			pagination, null, null);
@@ -286,9 +290,6 @@ public class ObjectEntryHelper {
 	}
 
 	@Reference
-	private DefaultObjectEntryManager _defaultObjectEntryManager;
-
-	@Reference
 	private EntityModelProviderRegistry _entityModelProviderRegistry;
 
 	@Reference
@@ -299,6 +300,9 @@ public class ObjectEntryHelper {
 
 	@Reference
 	private ObjectDefinitionLocalService _objectDefinitionLocalService;
+
+	@Reference(target = "(object.entry.manager.storage.type=default)")
+	private ObjectEntryManager _objectEntryManager;
 
 	@Reference
 	private PermissionCheckerFactory _permissionCheckerFactory;
