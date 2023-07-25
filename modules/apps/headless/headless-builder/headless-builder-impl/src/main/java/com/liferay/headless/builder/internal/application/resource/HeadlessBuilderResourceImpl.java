@@ -18,7 +18,6 @@ import com.liferay.headless.builder.application.APIApplication;
 import com.liferay.headless.builder.internal.helper.ObjectEntryHelper;
 import com.liferay.headless.builder.internal.util.PathUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
-import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
@@ -37,7 +36,9 @@ public class HeadlessBuilderResourceImpl
 	}
 
 	@Override
-	public Response get(Pagination pagination) throws Exception {
+	public Response get(String filterString, Pagination pagination)
+		throws Exception {
+
 		String endpointPath = StringUtil.removeSubstring(
 			PathUtil.sanitize(contextHttpServletRequest.getRequestURI()),
 			contextAPIApplication.getBaseURL());
@@ -53,8 +54,8 @@ public class HeadlessBuilderResourceImpl
 
 				return Response.ok(
 					_objectEntryHelper.getResponseEntityMapsPage(
-						contextCompany.getCompanyId(), endpoint,
-						_getFilterString(), pagination)
+						contextCompany.getCompanyId(), endpoint, filterString,
+						pagination)
 				).build();
 			}
 		}
@@ -63,14 +64,6 @@ public class HeadlessBuilderResourceImpl
 			String.format(
 				"Endpoint %s does not exist for %s", endpointPath,
 				contextAPIApplication.getTitle()));
-	}
-
-	private String _getFilterString() {
-		if (contextHttpServletRequest == null) {
-			return null;
-		}
-
-		return ParamUtil.getString(contextHttpServletRequest, "filter", null);
 	}
 
 	private final ObjectEntryHelper _objectEntryHelper;
