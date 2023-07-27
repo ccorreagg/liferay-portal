@@ -401,7 +401,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
-	public void testFilterByComparisonOperatorsObjectEntriesByRelatesObjectEntriesFields()
+	public void testFilterByComparisonOperatorsObjectEntriesByRelatedObjectEntriesFields()
 		throws Exception {
 
 		// Many to many relationship, custom object field
@@ -775,7 +775,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
-	public void testFilterByComparisonOperatorsObjectEntriesByRelatesObjectEntriesFieldsThroughMultipleRelationships()
+	public void testFilterByComparisonOperatorsObjectEntriesByRelatedObjectEntriesFieldsThroughMultipleRelationships()
 		throws Exception {
 
 		// Many to many relationship, custom object field
@@ -1232,7 +1232,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
-	public void testFilterByGroupingOperatorsObjectEntriesByRelatesObjectEntriesFields()
+	public void testFilterByGroupingOperatorsObjectEntriesByRelatedObjectEntriesFields()
 		throws Exception {
 
 		// Many to many relationship, custom object field
@@ -1346,7 +1346,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
-	public void testFilterByGroupingOperatorsObjectEntriesByRelatesObjectEntriesFieldsThroughMultipleRelationships()
+	public void testFilterByGroupingOperatorsObjectEntriesByRelatedObjectEntriesFieldsThroughMultipleRelationships()
 		throws Exception {
 
 		// Many to many relationship, custom object field
@@ -1570,7 +1570,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
-	public void testFilterByLambdaOperatorsObjectEntriesByRelatesObjectEntriesFields()
+	public void testFilterByLambdaOperatorsObjectEntriesByRelatedObjectEntriesFields()
 		throws Exception {
 
 		_objectEntry1 = ObjectEntryTestUtil.addObjectEntry(
@@ -1885,7 +1885,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
-	public void testFilterByLambdaOperatorsObjectEntriesByRelatesObjectEntriesFieldsThroughMultipleRelationships()
+	public void testFilterByLambdaOperatorsObjectEntriesByRelatedObjectEntriesFieldsThroughMultipleRelationships()
 		throws Exception {
 
 		_objectEntry1 = ObjectEntryTestUtil.addObjectEntry(
@@ -2446,7 +2446,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
-	public void testFilterByLogicalOperatorsObjectEntriesByRelatesObjectEntriesFields()
+	public void testFilterByLogicalOperatorsObjectEntriesByRelatedObjectEntriesFields()
 		throws Exception {
 
 		// Many to many relationship, custom object field
@@ -2688,7 +2688,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
-	public void testFilterByLogicalOperatorsObjectEntriesByRelatesObjectEntriesFieldsThroughMultipleRelationships()
+	public void testFilterByLogicalOperatorsObjectEntriesByRelatedObjectEntriesFieldsThroughMultipleRelationships()
 		throws Exception {
 
 		// Many to many relationship, custom object field
@@ -3038,7 +3038,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
-	public void testFilterByStringOperatorsObjectEntriesByRelatesObjectEntriesFields()
+	public void testFilterByStringOperatorsObjectEntriesByRelatedObjectEntriesFields()
 		throws Exception {
 
 		String objectFieldValue1 = String.valueOf(_OBJECT_FIELD_VALUE_1);
@@ -3202,7 +3202,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
-	public void testFilterByStringOperatorsObjectEntriesByRelatesObjectEntriesFieldsThroughMultipleRelationships()
+	public void testFilterByStringOperatorsObjectEntriesByRelatedObjectEntriesFieldsThroughMultipleRelationships()
 		throws Exception {
 
 		String objectFieldValue1 = String.valueOf(_OBJECT_FIELD_VALUE_1);
@@ -3425,7 +3425,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
-	public void testFilterObjectEntriesByRelatesSystemObjectEntriesFields()
+	public void testFilterObjectEntriesByRelatedSystemObjectEntriesFields()
 		throws Exception {
 
 		// Many to many relationship
@@ -3435,7 +3435,7 @@ public class ObjectEntryResourceTest {
 			_objectEntry1.getPrimaryKey(), _userAccountJSONObject.getLong("id"),
 			ObjectRelationshipConstants.TYPE_MANY_TO_MANY);
 
-		_testFilterObjectEntriesByRelatesSystemObjectEntriesFields(
+		_testFilterObjectEntriesByRelatedSystemObjectEntriesFields(
 			_escape(
 				String.format(
 					"%s/%s eq '%s'", _objectRelationship1.getName(),
@@ -3452,7 +3452,7 @@ public class ObjectEntryResourceTest {
 			_objectEntry1.getPrimaryKey(), _userAccountJSONObject.getLong("id"),
 			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
 
-		_testFilterObjectEntriesByRelatesSystemObjectEntriesFields(
+		_testFilterObjectEntriesByRelatedSystemObjectEntriesFields(
 			_escape(
 				String.format(
 					"%s/%s eq '%s'", _objectRelationship1.getName(),
@@ -5638,7 +5638,7 @@ public class ObjectEntryResourceTest {
 			_objectDefinition1.getRESTContextPath(), Http.Method.POST);
 	}
 
-	private void _testFilterObjectEntriesByRelatesSystemObjectEntriesFields(
+	private void _testFilterObjectEntriesByRelatedSystemObjectEntriesFields(
 			String filterString, ObjectDefinition objectDefinition)
 		throws Exception {
 
