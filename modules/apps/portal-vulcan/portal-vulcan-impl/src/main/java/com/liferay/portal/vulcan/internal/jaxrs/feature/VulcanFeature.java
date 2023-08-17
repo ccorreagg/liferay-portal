@@ -9,6 +9,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 import com.liferay.depot.service.DepotEntryLocalService;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.service.GroupLocalService;
@@ -123,7 +124,6 @@ public class VulcanFeature implements Feature {
 		featureContext.register(NotFoundExceptionMapper.class);
 		featureContext.register(ObjectMapperContextResolver.class);
 		featureContext.register(PageEntityExtensionWriterInterceptor.class);
-		featureContext.register(PaginationContextProvider.class);
 		featureContext.register(PrincipalExceptionMapper.class);
 		featureContext.register(RestrictFieldsQueryParamContextProvider.class);
 		featureContext.register(StatusDynamicFeature.class);
@@ -158,6 +158,9 @@ public class VulcanFeature implements Feature {
 
 		featureContext.register(
 			_nestedFieldsWriterInterceptor, Priorities.USER - 10);
+
+		featureContext.register(
+			new PaginationContextProvider(_configurationProvider, _portal));
 
 		featureContext.register(
 			new SiteParamConverterProvider(
@@ -197,6 +200,9 @@ public class VulcanFeature implements Feature {
 
 	@Reference
 	private ConfigurationAdmin _configurationAdmin;
+
+	@Reference
+	private ConfigurationProvider _configurationProvider;
 
 	@Reference
 	private DepotEntryLocalService _depotEntryLocalService;
