@@ -144,6 +144,18 @@ public class OpenAPIResourceTest {
 			ObjectDefinitionConstants.SCOPE_COMPANY, _user.getUserId());
 
 		_testGetOpenAPI(_objectDefinition1, _objectDefinition2);
+
+		_siteScopedObjectDefinition =
+			ObjectDefinitionTestUtil.publishObjectDefinition(
+				Collections.singletonList(
+					ObjectFieldUtil.createObjectField(
+						"Text", "String", true, true, null,
+						RandomTestUtil.randomString(), _OBJECT_FIELD_NAME,
+						false)),
+				ObjectDefinitionConstants.SCOPE_SITE,
+				TestPropsValues.getUserId());
+
+		_testGetOpenAPI(_siteScopedObjectDefinition, _objectDefinition2);
 	}
 
 	@Test
@@ -344,7 +356,17 @@ public class OpenAPIResourceTest {
 			propertiesJSONObject.getJSONObject("taxonomyCategoryBriefs"));
 		Assert.assertNotNull(
 			propertiesJSONObject.getJSONObject("taxonomyCategoryIds"));
-		Assert.assertNull(propertiesJSONObject.getJSONObject("scopeKey"));
+
+		if (StringUtil.equals(
+				objectDefinition1.getScope(),
+				ObjectDefinitionConstants.SCOPE_COMPANY)) {
+
+			Assert.assertNull(propertiesJSONObject.getJSONObject("scopeKey"));
+		}
+		else {
+			Assert.assertNotNull(
+				propertiesJSONObject.getJSONObject("scopeKey"));
+		}
 
 		jsonObject = HTTPTestUtil.invokeToJSONObject(
 			null, objectDefinition2.getRESTContextPath() + "/openapi.json",
@@ -369,6 +391,9 @@ public class OpenAPIResourceTest {
 
 	@Inject
 	private ObjectDefinitionLocalService _objectDefinitionLocalService;
+
+	@DeleteAfterTestRun
+	private ObjectDefinition _siteScopedObjectDefinition;
 
 	@DeleteAfterTestRun
 	private User _user;
