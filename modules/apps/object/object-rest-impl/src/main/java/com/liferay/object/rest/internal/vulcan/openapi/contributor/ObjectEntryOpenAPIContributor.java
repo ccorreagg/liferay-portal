@@ -6,6 +6,7 @@
 package com.liferay.object.rest.internal.vulcan.openapi.contributor;
 
 import com.liferay.object.constants.ObjectActionTriggerConstants;
+import com.liferay.object.constants.ObjectDefinitionConstants;
 import com.liferay.object.constants.ObjectRelationshipConstants;
 import com.liferay.object.model.ObjectAction;
 import com.liferay.object.model.ObjectDefinition;
@@ -175,6 +176,13 @@ public class ObjectEntryOpenAPIContributor extends BaseOpenAPIContributor {
 			objectDefinitionSchemaProperties.remove("taxonomyCategoryIds");
 
 			schemas.remove("TaxonomyCategoryBrief");
+		}
+
+		if (StringUtil.equals(
+				_objectDefinition.getScope(),
+				ObjectDefinitionConstants.SCOPE_COMPANY)) {
+
+			objectDefinitionSchemaProperties.remove("scopeKey");
 		}
 
 		if ((openAPIContext != null) &&
