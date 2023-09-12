@@ -5,6 +5,7 @@
 
 package com.liferay.batch.planner.rest.internal.resource.v1_0;
 
+import com.liferay.batch.planner.batch.engine.task.TaskItemUtil;
 import com.liferay.batch.planner.model.BatchPlannerMapping;
 import com.liferay.batch.planner.model.BatchPlannerPlan;
 import com.liferay.batch.planner.model.BatchPlannerPolicy;
@@ -78,7 +79,8 @@ public class PlanResourceImpl extends BasePlanResourceImpl {
 	public Plan patchPlan(Long id, Plan plan) throws Exception {
 		BatchPlannerPlan batchPlannerPlan =
 			_batchPlannerPlanService.updateBatchPlannerPlan(
-				id, plan.getExternalType(), plan.getInternalClassName(),
+				id, plan.getExternalType(),
+				TaskItemUtil.getInternalClassName(plan.getInternalClassName()),
 				plan.getName());
 
 		Mapping[] mappings = plan.getMappings();
@@ -108,8 +110,9 @@ public class PlanResourceImpl extends BasePlanResourceImpl {
 		BatchPlannerPlan batchPlannerPlan =
 			_batchPlannerPlanService.addBatchPlannerPlan(
 				plan.getExport(), plan.getExternalType(), plan.getExternalURL(),
-				plan.getInternalClassName(), plan.getName(), 0,
-				plan.getTaskItemDelegateName(), plan.getTemplate());
+				TaskItemUtil.getInternalClassName(plan.getInternalClassName()),
+				plan.getName(), 0, plan.getTaskItemDelegateName(),
+				plan.getTemplate());
 
 		Mapping[] mappings = plan.getMappings();
 
@@ -199,7 +202,9 @@ public class PlanResourceImpl extends BasePlanResourceImpl {
 				externalType = batchPlannerPlan.getExternalType();
 				externalURL = batchPlannerPlan.getExternalURL();
 				id = batchPlannerPlan.getBatchPlannerPlanId();
-				internalClassName = batchPlannerPlan.getInternalClassName();
+				internalClassName = TaskItemUtil.getInternalClassName(
+					batchPlannerPlan.getInternalClassName(),
+					batchPlannerPlan.getTaskItemDelegateName());
 				mappings = transformToArray(
 					_batchPlannerMappingService.getBatchPlannerMappings(
 						batchPlannerPlan.getBatchPlannerPlanId()),

@@ -5,6 +5,7 @@
 
 package com.liferay.batch.planner.rest.internal.vulcan.batch.engine;
 
+import com.liferay.batch.planner.batch.engine.task.TaskItemUtil;
 import com.liferay.batch.planner.rest.internal.vulcan.yaml.openapi.OpenAPIYAMLProvider;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.rest.openapi.v1_0.ObjectEntryOpenAPIResource;
@@ -58,9 +59,7 @@ public class FieldProvider {
 			long companyId, String internalClassName, UriInfo uriInfo)
 		throws Exception {
 
-		int index = internalClassName.indexOf(StringPool.POUND);
-
-		if (index < 0) {
+		if (!internalClassName.contains(StringPool.POUND)) {
 			OpenAPIYAML openAPIYAML = _openAPIYAMLProvider.getOpenAPIYAML(
 				companyId, internalClassName);
 
@@ -73,7 +72,7 @@ public class FieldProvider {
 
 		ObjectDefinition objectDefinition =
 			_objectDefinitionLocalService.fetchObjectDefinition(
-				companyId, internalClassName.substring(index + 1));
+				companyId, TaskItemUtil.getDelegateName(internalClassName));
 
 		ObjectEntryOpenAPIResource objectEntryOpenAPIResource =
 			_objectEntryOpenAPIResourceProvider.getObjectEntryOpenAPIResource(

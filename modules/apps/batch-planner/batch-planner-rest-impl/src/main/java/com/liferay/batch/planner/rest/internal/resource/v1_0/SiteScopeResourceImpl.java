@@ -5,10 +5,10 @@
 
 package com.liferay.batch.planner.rest.internal.resource.v1_0;
 
+import com.liferay.batch.planner.batch.engine.task.TaskItemUtil;
 import com.liferay.batch.planner.rest.dto.v1_0.SiteScope;
 import com.liferay.batch.planner.rest.internal.vulcan.yaml.openapi.OpenAPIYAMLProvider;
 import com.liferay.batch.planner.rest.resource.v1_0.SiteScopeResource;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
@@ -46,16 +46,13 @@ public class SiteScopeResourceImpl extends BaseSiteScopeResourceImpl {
 		OpenAPIYAML openAPIYAML = _openAPIYAMLProvider.getOpenAPIYAML(
 			contextCompany.getCompanyId(), internalClassName);
 
-		String simpleInternalClassName = internalClassName.substring(
-			internalClassName.lastIndexOf(StringPool.PERIOD) + 1);
-
 		if (GetterUtil.getBoolean(export)) {
 			entityScopes = OpenAPIUtil.getReadEntityScopes(
-				simpleInternalClassName, openAPIYAML);
+				TaskItemUtil.getDelegateName(internalClassName), openAPIYAML);
 		}
 		else {
 			entityScopes = OpenAPIUtil.getCreateEntityScopes(
-				simpleInternalClassName, openAPIYAML);
+				TaskItemUtil.getDelegateName(internalClassName), openAPIYAML);
 		}
 
 		return Page.of(_getSiteScopes(entityScopes));
