@@ -7,6 +7,7 @@ package com.liferay.batch.engine.internal;
 
 import com.liferay.batch.engine.BatchEngineTaskItemDelegate;
 import com.liferay.batch.engine.BatchEngineTaskItemDelegateRegistry;
+import com.liferay.batch.engine.constants.BatchEngineTaskConstants;
 import com.liferay.batch.engine.internal.writer.BatchEngineTaskItemDelegateProvider;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
@@ -101,7 +102,8 @@ public class BatchEngineTaskItemDelegateRegistryImpl
 		String itemClassName, String taskItemDelegateName) {
 
 		if (Validator.isNull(taskItemDelegateName)) {
-			taskItemDelegateName = "DEFAULT";
+			taskItemDelegateName =
+				BatchEngineTaskConstants.TASK_ITEM_DELEGATE_NAME_DEFAULT;
 		}
 
 		return StringBundler.concat(

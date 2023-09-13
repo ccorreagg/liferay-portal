@@ -5,6 +5,7 @@
 
 package com.liferay.batch.planner.batch.engine.task;
 
+import com.liferay.batch.engine.constants.BatchEngineTaskConstants;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -18,7 +19,7 @@ public class TaskItemUtil {
 		int idx = internalClassName.indexOf(StringPool.POUND);
 
 		if (idx < 0) {
-			return "DEFAULT";
+			return BatchEngineTaskConstants.TASK_ITEM_DELEGATE_NAME_DEFAULT;
 		}
 
 		return internalClassName.substring(idx + 1);
@@ -38,7 +39,9 @@ public class TaskItemUtil {
 		String internalClassName, String taskItemDelegateName) {
 
 		if (Validator.isBlank(taskItemDelegateName) ||
-			StringUtil.equals(taskItemDelegateName, "DEFAULT")) {
+			StringUtil.equals(
+				taskItemDelegateName,
+				BatchEngineTaskConstants.TASK_ITEM_DELEGATE_NAME_DEFAULT)) {
 
 			return internalClassName;
 		}
