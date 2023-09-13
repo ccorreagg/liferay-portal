@@ -21,7 +21,7 @@ const BASE_PROPS = {
 	],
 	portletNamespace: 'test',
 };
-const internalClassName =
+const internalClassNameKey =
 	'com.liferay.headless.commerce.admin.channel.dto.v1_0.Channel';
 const mockedMapping = {
 	currencyCode: 'currencyCode',
@@ -33,7 +33,7 @@ const mockedMapping = {
 
 const initialTemplate = {
 	externalType: 'JSONL',
-	internalClassName,
+	internalClassNameKey,
 	mappings: mockedMapping,
 };
 const mockPlanId = 106902;
@@ -88,7 +88,7 @@ describe('TemplateSelect', () => {
 		const {getByLabelText} = render(
 			<TemplateSelect
 				{...BASE_PROPS}
-				selectedTemplateClassName={internalClassName}
+				selectedTemplateClassName={internalClassNameKey}
 				selectedTemplateMapping={mockedMapping}
 			/>
 		);
@@ -139,7 +139,7 @@ const mockGetPlan = {
 	externalType: 'JSONL',
 	externalURL: '/',
 	id: 106902,
-	internalClassName,
+	internalClassNameKey,
 	mappings: [
 		{
 			externalFieldName: 'type',
