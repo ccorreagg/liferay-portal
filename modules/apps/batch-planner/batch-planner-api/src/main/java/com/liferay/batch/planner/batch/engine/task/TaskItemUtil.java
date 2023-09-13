@@ -7,6 +7,7 @@ package com.liferay.batch.planner.batch.engine.task;
 
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 /**
  * @author Igor Beslic
@@ -36,7 +37,9 @@ public class TaskItemUtil {
 	public static String getInternalClassName(
 		String internalClassName, String taskItemDelegateName) {
 
-		if (StringUtil.equals(taskItemDelegateName, "DEFAULT")) {
+		if (Validator.isBlank(taskItemDelegateName) ||
+			StringUtil.equals(taskItemDelegateName, "DEFAULT")) {
+
 			return internalClassName;
 		}
 
