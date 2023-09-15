@@ -777,6 +777,10 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 		_undeployScopedServiceRegistrationsMap(
 			objectDefinition.getCompanyId(), restContextPath);
+
+		if (_shouldUnregisterApplication(restContextPath)) {
+			_unregisterApplication(restContextPath);
+		}
 	}
 
 	private void _unregisterApplication(String restContextPath) {
