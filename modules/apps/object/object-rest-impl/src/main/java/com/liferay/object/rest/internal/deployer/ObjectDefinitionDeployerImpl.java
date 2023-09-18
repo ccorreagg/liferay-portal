@@ -544,12 +544,6 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 						"osgi.jaxrs.resource", "true"
 					).build())));
 
-		_serviceRegistrationsMap.computeIfAbsent(
-			jaxRsApplicationDescriptor.getRESTContextPath(),
-			key -> _registerExceptionMappers(
-				jaxRsApplicationDescriptor.getApplicationName(),
-				objectDefinition));
-
 		_scopedServiceRegistrationsMap.compute(
 			jaxRsApplicationDescriptor.getRESTContextPath(),
 			(key1, serviceRegistrationsMap) -> {
@@ -577,6 +571,12 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 				return serviceRegistrationsMap;
 			});
+
+		_serviceRegistrationsMap.computeIfAbsent(
+			jaxRsApplicationDescriptor.getRESTContextPath(),
+			key -> _registerExceptionMappers(
+				jaxRsApplicationDescriptor.getApplicationName(),
+				objectDefinition));
 	}
 
 	private List<ServiceRegistration<?>> _registerExceptionMappers(
