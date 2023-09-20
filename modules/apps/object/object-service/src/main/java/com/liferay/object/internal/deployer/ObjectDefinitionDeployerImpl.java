@@ -278,13 +278,6 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 				new ObjectEntryMtoMObjectRelatedModelsPredicateProviderImpl(
 					objectDefinition, _objectFieldLocalService),
 				null),
-			_objectRelatedModelsProviderRegistrator.register(
-				objectDefinition,
-				ObjectRelationshipConstants.TYPE_MANY_TO_MANY),
-			_objectRelatedModelsProviderRegistrator.register(
-				objectDefinition, ObjectRelationshipConstants.TYPE_ONE_TO_MANY),
-			_objectRelatedModelsProviderRegistrator.register(
-				objectDefinition, ObjectRelationshipConstants.TYPE_ONE_TO_ONE),
 			_bundleContext.registerService(
 				PortletResourcePermission.class, portletResourcePermission,
 				HashMapDictionaryBuilder.<String, Object>put(
@@ -334,7 +327,14 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 						objectEntryModelIndexerWriterContributor);
 					modelSearchDefinition.setModelSummaryContributor(
 						objectEntryModelSummaryContributor);
-				}));
+				}),
+			_objectRelatedModelsProviderRegistrator.register(
+				objectDefinition,
+				ObjectRelationshipConstants.TYPE_MANY_TO_MANY),
+			_objectRelatedModelsProviderRegistrator.register(
+				objectDefinition, ObjectRelationshipConstants.TYPE_ONE_TO_MANY),
+			_objectRelatedModelsProviderRegistrator.register(
+				objectDefinition, ObjectRelationshipConstants.TYPE_ONE_TO_ONE));
 
 		try {
 			for (Locale locale : LanguageUtil.getAvailableLocales()) {
