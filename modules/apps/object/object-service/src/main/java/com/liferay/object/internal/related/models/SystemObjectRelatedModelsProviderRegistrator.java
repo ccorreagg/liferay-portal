@@ -54,9 +54,6 @@ public class SystemObjectRelatedModelsProviderRegistrator
 					objectDefinition, _objectDefinitionLocalService,
 					_objectFieldLocalService, _objectRelationshipLocalService,
 					_persistedModelLocalServiceRegistry,
-					_systemObjectDefinitionManagerRegistry.
-						getSystemObjectDefinitionManager(
-							objectDefinition.getName()),
 					_systemObjectDefinitionManagerRegistry);
 		}
 		else if (StringUtil.equals(
@@ -69,9 +66,6 @@ public class SystemObjectRelatedModelsProviderRegistrator
 					_objectEntryLocalService, _objectFieldLocalService,
 					_objectRelationshipLocalService,
 					_persistedModelLocalServiceRegistry,
-					_systemObjectDefinitionManagerRegistry.
-						getSystemObjectDefinitionManager(
-							objectDefinition.getName()),
 					_systemObjectDefinitionManagerRegistry);
 		}
 		else {

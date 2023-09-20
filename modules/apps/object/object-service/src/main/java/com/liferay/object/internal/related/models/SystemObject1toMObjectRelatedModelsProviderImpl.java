@@ -58,7 +58,6 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 		ObjectFieldLocalService objectFieldLocalService,
 		ObjectRelationshipLocalService objectRelationshipLocalService,
 		PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry,
-		SystemObjectDefinitionManager systemObjectDefinitionManager,
 		SystemObjectDefinitionManagerRegistry
 			systemObjectDefinitionManagerRegistry) {
 
@@ -69,11 +68,8 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 		_objectRelationshipLocalService = objectRelationshipLocalService;
 		_persistedModelLocalServiceRegistry =
 			persistedModelLocalServiceRegistry;
-		_systemObjectDefinitionManager = systemObjectDefinitionManager;
 		_systemObjectDefinitionManagerRegistry =
 			systemObjectDefinitionManagerRegistry;
-
-		_table = systemObjectDefinitionManager.getTable();
 	}
 
 	@Override
@@ -99,9 +95,7 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 				ObjectRelationshipConstants.DELETION_TYPE_CASCADE)) {
 
 			SystemObjectDefinitionManager systemObjectDefinitionManager =
-				_systemObjectDefinitionManagerRegistry.
-					getSystemObjectDefinitionManager(
-						_objectDefinition.getName());
+				_getSystemObjectDefinitionManager();
 
 			for (BaseModel<T> baseModel : relatedModels) {
 				systemObjectDefinitionManager.deleteBaseModel(baseModel);
@@ -179,7 +173,7 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 
 		PersistedModelLocalService persistedModelLocalService =
 			_persistedModelLocalServiceRegistry.getPersistedModelLocalService(
-				_systemObjectDefinitionManager.getModelClassName());
+				_getSystemObjectDefinitionManager().getModelClassName());
 
 		DynamicObjectDefinitionTable dynamicObjectDefinitionTable =
 			_getDynamicObjectDefinitionTable(
@@ -202,7 +196,7 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 					relatedObjectDefinition.getObjectDefinitionId());
 		}
 
-		FromStep fromStep = DSLQueryFactoryUtil.selectDistinct(_table);
+		FromStep fromStep = DSLQueryFactoryUtil.selectDistinct(_getTable());
 		ObjectField objectField = _objectFieldLocalService.getObjectField(
 			objectRelationship.getObjectFieldId2());
 		Column<DynamicObjectDefinitionTable, Long> primaryKeyColumn =
@@ -210,10 +204,11 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 
 		List<T> relatedModels = persistedModelLocalService.dslQuery(
 			fromStep.from(
-				_table
+				_getTable()
 			).innerJoinON(
 				dynamicObjectDefinitionTable,
-				_systemObjectDefinitionManager.getPrimaryKeyColumn(
+				_getSystemObjectDefinitionManager(
+				).getPrimaryKeyColumn(
 				).eq(
 					(Expression<Long>)dynamicObjectDefinitionTable.getColumn(
 						objectField.getDBColumnName())
@@ -222,7 +217,8 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 				primaryKeyColumn.eq(
 					primaryKey
 				).and(
-					_table.getColumn(
+					_getTable(
+					).getColumn(
 						"companyId"
 					).eq(
 						groupId
@@ -239,7 +235,7 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 
 	@Override
 	public String getClassName() {
-		return _systemObjectDefinitionManager.getModelClassName();
+		return _getSystemObjectDefinitionManager().getModelClassName();
 	}
 
 	@Override
@@ -260,11 +256,11 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 
 		PersistedModelLocalService persistedModelLocalService =
 			_persistedModelLocalServiceRegistry.getPersistedModelLocalService(
-				_systemObjectDefinitionManager.getModelClassName());
+				_getSystemObjectDefinitionManager().getModelClassName());
 
 		DSLQuery dslQuery = _getGroupByStep(
 			_getDynamicObjectDefinitionTable(),
-			DSLQueryFactoryUtil.selectDistinct(_table), groupId,
+			DSLQueryFactoryUtil.selectDistinct(_getTable()), groupId,
 			objectRelationshipId, primaryKey, search
 		).limit(
 			start, end
@@ -284,7 +280,7 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 
 		PersistedModelLocalService persistedModelLocalService =
 			_persistedModelLocalServiceRegistry.getPersistedModelLocalService(
-				_systemObjectDefinitionManager.getModelClassName());
+				_getSystemObjectDefinitionManager().getModelClassName());
 
 		return persistedModelLocalService.dslQueryCount(
 			_getGroupByStep(
@@ -300,8 +296,8 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 			long objectEntryId, long objectRelationshipId)
 		throws PortalException {
 
-		Column<?, Long> companyIdColumn = (Column<?, Long>)_table.getColumn(
-			"companyId");
+		Column<?, Long> companyIdColumn =
+			(Column<?, Long>)_getTable().getColumn("companyId");
 
 		ObjectRelationship objectRelationship =
 			_objectRelationshipLocalService.getObjectRelationship(
@@ -317,15 +313,15 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 
 		return persistedModelLocalService.dslQuery(
 			DSLQueryFactoryUtil.select(
-				_table
+				_getTable()
 			).from(
-				_table
+				_getTable()
 			).where(
 				companyIdColumn.eq(
 					companyId
 				).and(
 					() -> {
-						Column<?, Long> groupIdColumn = _table.getColumn(
+						Column<?, Long> groupIdColumn = _getTable().getColumn(
 							"groupId");
 
 						if ((groupIdColumn == null) ||
@@ -340,8 +336,10 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 					}
 				).and(
 					() -> {
-						Column<?, Long> primaryKeyColumn = _table.getColumn(
-							objectDefinition.getPKObjectFieldDBColumnName());
+						Column<?, Long> primaryKeyColumn =
+							_getTable().getColumn(
+								objectDefinition.
+									getPKObjectFieldDBColumnName());
 
 						DynamicObjectDefinitionTable
 							dynamicObjectDefinitionTable =
@@ -439,8 +437,8 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 		ObjectField objectField = _objectFieldLocalService.getObjectField(
 			objectRelationship.getObjectFieldId2());
 
-		if (Objects.equals(objectField.getDBTableName(), _table)) {
-			primaryKeyColumn = (Column<?, Long>)_table.getColumn(
+		if (Objects.equals(objectField.getDBTableName(), _getTable())) {
+			primaryKeyColumn = (Column<?, Long>)_getTable().getColumn(
 				objectField.getDBColumnName());
 		}
 		else {
@@ -451,19 +449,20 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 		}
 
 		return fromStep.from(
-			_table
+			_getTable()
 		).innerJoinON(
 			dynamicObjectDefinitionTable,
 			dynamicObjectDefinitionTable.getPrimaryKeyColumn(
 			).eq(
-				_systemObjectDefinitionManager.getPrimaryKeyColumn()
+				_getSystemObjectDefinitionManager().getPrimaryKeyColumn()
 			)
 		).where(
 			primaryKeyColumn.eq(
 				primaryKey
 			).and(
 				() -> {
-					Column<?, Long> groupIdColumn = _table.getColumn("groupId");
+					Column<?, Long> groupIdColumn = _getTable().getColumn(
+						"groupId");
 
 					if ((groupIdColumn == null) ||
 						Objects.equals(
@@ -477,7 +476,7 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 				}
 			).and(
 				() -> {
-					Column<?, Long> companyIdColumn = _table.getColumn(
+					Column<?, Long> companyIdColumn = _getTable().getColumn(
 						"companyId");
 
 					if (companyIdColumn == null) {
@@ -496,6 +495,28 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 		);
 	}
 
+	private SystemObjectDefinitionManager _getSystemObjectDefinitionManager() {
+		if (_systemObjectDefinitionManager == null) {
+			_systemObjectDefinitionManager =
+				_systemObjectDefinitionManagerRegistry.
+					getSystemObjectDefinitionManager(
+						_objectDefinition.getName());
+		}
+
+		return _systemObjectDefinitionManager;
+	}
+
+	private Table _getTable() {
+		if (_table == null) {
+			SystemObjectDefinitionManager systemObjectDefinitionManager =
+				_getSystemObjectDefinitionManager();
+
+			_table = systemObjectDefinitionManager.getTable();
+		}
+
+		return _table;
+	}
+
 	private final ObjectDefinition _objectDefinition;
 	private final ObjectDefinitionLocalService _objectDefinitionLocalService;
 	private final ObjectEntryLocalService _objectEntryLocalService;
@@ -504,9 +525,9 @@ public class SystemObject1toMObjectRelatedModelsProviderImpl
 		_objectRelationshipLocalService;
 	private final PersistedModelLocalServiceRegistry
 		_persistedModelLocalServiceRegistry;
-	private final SystemObjectDefinitionManager _systemObjectDefinitionManager;
+	private SystemObjectDefinitionManager _systemObjectDefinitionManager;
 	private final SystemObjectDefinitionManagerRegistry
 		_systemObjectDefinitionManagerRegistry;
-	private final Table _table;
+	private Table _table;
 
 }

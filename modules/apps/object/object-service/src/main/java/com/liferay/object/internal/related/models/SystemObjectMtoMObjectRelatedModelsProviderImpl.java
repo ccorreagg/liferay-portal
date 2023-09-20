@@ -47,7 +47,6 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 		ObjectFieldLocalService objectFieldLocalService,
 		ObjectRelationshipLocalService objectRelationshipLocalService,
 		PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry,
-		SystemObjectDefinitionManager systemObjectDefinitionManager,
 		SystemObjectDefinitionManagerRegistry
 			systemObjectDefinitionManagerRegistry) {
 
@@ -57,11 +56,8 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 		_objectRelationshipLocalService = objectRelationshipLocalService;
 		_persistedModelLocalServiceRegistry =
 			persistedModelLocalServiceRegistry;
-		_systemObjectDefinitionManager = systemObjectDefinitionManager;
 		_systemObjectDefinitionManagerRegistry =
 			systemObjectDefinitionManagerRegistry;
-
-		_table = systemObjectDefinitionManager.getTable();
 	}
 
 	@Override
@@ -127,7 +123,7 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 
 	@Override
 	public String getClassName() {
-		return _systemObjectDefinitionManager.getModelClassName();
+		return _getSystemObjectDefinitionManager().getModelClassName();
 	}
 
 	@Override
@@ -148,11 +144,11 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 
 		PersistedModelLocalService persistedModelLocalService =
 			_persistedModelLocalServiceRegistry.getPersistedModelLocalService(
-				_systemObjectDefinitionManager.getModelClassName());
+				_getSystemObjectDefinitionManager().getModelClassName());
 
 		return persistedModelLocalService.dslQuery(
 			_getGroupByStep(
-				DSLQueryFactoryUtil.selectDistinct(_table), groupId,
+				DSLQueryFactoryUtil.selectDistinct(_getTable()), groupId,
 				objectRelationshipId, primaryKey, search
 			).limit(
 				start, end
@@ -167,12 +163,12 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 
 		PersistedModelLocalService persistedModelLocalService =
 			_persistedModelLocalServiceRegistry.getPersistedModelLocalService(
-				_systemObjectDefinitionManager.getModelClassName());
+				_getSystemObjectDefinitionManager().getModelClassName());
 
 		return persistedModelLocalService.dslQueryCount(
 			_getGroupByStep(
 				DSLQueryFactoryUtil.countDistinct(
-					_table.getColumn(
+					_getTable().getColumn(
 						_objectDefinition.getPKObjectFieldDBColumnName())),
 				groupId, objectRelationshipId, primaryKey, search));
 	}
@@ -183,8 +179,8 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 			long objectEntryId, long objectRelationshipId)
 		throws PortalException {
 
-		Column<?, Long> companyIdColumn = (Column<?, Long>)_table.getColumn(
-			"companyId");
+		Column<?, Long> companyIdColumn =
+			(Column<?, Long>)_getTable().getColumn("companyId");
 
 		ObjectRelationship objectRelationship =
 			_objectRelationshipLocalService.getObjectRelationship(
@@ -207,15 +203,15 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 
 		return persistedModelLocalService.dslQuery(
 			DSLQueryFactoryUtil.select(
-				_table
+				_getTable()
 			).from(
-				_table
+				_getTable()
 			).where(
 				companyIdColumn.eq(
 					companyId
 				).and(
 					() -> {
-						Column<?, Long> groupIdColumn = _table.getColumn(
+						Column<?, Long> groupIdColumn = _getTable().getColumn(
 							"groupId");
 
 						if ((groupIdColumn == null) ||
@@ -244,8 +240,8 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 						String primaryKeyColumnName2 =
 							objectDefinition.getPKObjectFieldDBColumnName();
 
-						Column<?, Long> primaryKeyColumn2 = _table.getColumn(
-							primaryKeyColumnName2);
+						Column<?, Long> primaryKeyColumn2 =
+							_getTable().getColumn(primaryKeyColumnName2);
 
 						return primaryKeyColumn2.notIn(
 							DSLQueryFactoryUtil.select(
@@ -310,7 +306,8 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 				primaryKey
 			).and(
 				() -> {
-					Column<?, Long> groupIdColumn = _table.getColumn("groupId");
+					Column<?, Long> groupIdColumn = _getTable().getColumn(
+						"groupId");
 
 					if ((groupIdColumn == null) ||
 						Objects.equals(
@@ -324,7 +321,7 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 				}
 			).and(
 				() -> {
-					Column<?, Long> companyIdColumn = _table.getColumn(
+					Column<?, Long> companyIdColumn = _getTable().getColumn(
 						"companyId");
 
 					if (companyIdColumn == null) {
@@ -342,6 +339,28 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 		);
 	}
 
+	private SystemObjectDefinitionManager _getSystemObjectDefinitionManager() {
+		if (_systemObjectDefinitionManager == null) {
+			_systemObjectDefinitionManager =
+				_systemObjectDefinitionManagerRegistry.
+					getSystemObjectDefinitionManager(
+						_objectDefinition.getName());
+		}
+
+		return _systemObjectDefinitionManager;
+	}
+
+	private Table _getTable() {
+		if (_table == null) {
+			SystemObjectDefinitionManager systemObjectDefinitionManager =
+				_getSystemObjectDefinitionManager();
+
+			_table = systemObjectDefinitionManager.getTable();
+		}
+
+		return _table;
+	}
+
 	private final ObjectDefinition _objectDefinition;
 	private final ObjectDefinitionLocalService _objectDefinitionLocalService;
 	private final ObjectFieldLocalService _objectFieldLocalService;
@@ -349,9 +368,9 @@ public class SystemObjectMtoMObjectRelatedModelsProviderImpl
 		_objectRelationshipLocalService;
 	private final PersistedModelLocalServiceRegistry
 		_persistedModelLocalServiceRegistry;
-	private final SystemObjectDefinitionManager _systemObjectDefinitionManager;
+	private SystemObjectDefinitionManager _systemObjectDefinitionManager;
 	private final SystemObjectDefinitionManagerRegistry
 		_systemObjectDefinitionManagerRegistry;
-	private final Table _table;
+	private Table _table;
 
 }
