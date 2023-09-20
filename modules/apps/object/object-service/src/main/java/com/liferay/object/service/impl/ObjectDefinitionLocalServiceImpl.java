@@ -59,11 +59,11 @@ import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.model.impl.ObjectDefinitionImpl;
 import com.liferay.object.petra.sql.dsl.DynamicObjectDefinitionLocalizationTable;
 import com.liferay.object.petra.sql.dsl.DynamicObjectDefinitionTable;
+import com.liferay.object.related.models.ObjectRelatedModelsProviderRegistrator;
 import com.liferay.object.scope.ObjectScopeProviderRegistry;
 import com.liferay.object.service.ObjectActionLocalService;
 import com.liferay.object.service.ObjectDefinitionLocalServiceUtil;
 import com.liferay.object.service.ObjectEntryLocalService;
-import com.liferay.object.service.ObjectEntryService;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.service.ObjectFolderItemLocalService;
 import com.liferay.object.service.ObjectFolderLocalService;
@@ -837,8 +837,7 @@ public class ObjectDefinitionLocalServiceImpl
 			new ConcurrentHashMap<>();
 		InactiveObjectDefinitionDeployer inactiveObjectDefinitionDeployer =
 			new InactiveObjectDefinitionDeployerImpl(
-				_bundleContext, _objectEntryService, _objectFieldLocalService,
-				_objectRelationshipLocalService);
+				_objectRelatedModelsProviderRegistrator);
 		Map<Long, List<ServiceRegistration<?>>>
 			inactiveServiceRegistrationsMap = new ConcurrentHashMap<>();
 		ObjectDefinitionDeployer objectDefinitionDeployer =
@@ -849,8 +848,9 @@ public class ObjectDefinitionLocalServiceImpl
 				_dynamicQueryBatchIndexingActionableFactory, _groupLocalService,
 				_listTypeLocalService, _modelSearchRegistrarHelper,
 				_objectActionLocalService, this, _objectEntryLocalService,
-				_objectEntryService, _objectFieldLocalService,
-				_objectLayoutLocalService, _objectLayoutTabLocalService,
+				_objectFieldLocalService, _objectLayoutLocalService,
+				_objectLayoutTabLocalService,
+				_objectRelatedModelsProviderRegistrator,
 				_objectRelationshipLocalService, _objectScopeProviderRegistry,
 				_objectViewLocalService, _organizationLocalService,
 				_persistedModelLocalServiceRegistry, _ploEntryLocalService,
@@ -2359,9 +2359,6 @@ public class ObjectDefinitionLocalServiceImpl
 	private ObjectEntryPersistence _objectEntryPersistence;
 
 	@Reference
-	private ObjectEntryService _objectEntryService;
-
-	@Reference
 	private ObjectFieldLocalService _objectFieldLocalService;
 
 	@Reference
@@ -2381,6 +2378,10 @@ public class ObjectDefinitionLocalServiceImpl
 
 	@Reference
 	private ObjectLayoutTabLocalService _objectLayoutTabLocalService;
+
+	@Reference(target = "(type=custom)")
+	private ObjectRelatedModelsProviderRegistrator
+		_objectRelatedModelsProviderRegistrator;
 
 	@Reference
 	private ObjectRelationshipLocalService _objectRelationshipLocalService;

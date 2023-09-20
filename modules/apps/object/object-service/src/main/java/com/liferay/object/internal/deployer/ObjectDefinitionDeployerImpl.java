@@ -12,6 +12,7 @@ import com.liferay.frontend.taglib.servlet.taglib.ScreenNavigationCategory;
 import com.liferay.frontend.taglib.servlet.taglib.ScreenNavigationEntry;
 import com.liferay.notification.handler.NotificationHandler;
 import com.liferay.notification.term.evaluator.NotificationTermEvaluator;
+import com.liferay.object.constants.ObjectRelationshipConstants;
 import com.liferay.object.definition.tree.Edge;
 import com.liferay.object.definition.tree.Node;
 import com.liferay.object.definition.tree.Tree;
@@ -20,11 +21,8 @@ import com.liferay.object.deployer.ObjectDefinitionDeployer;
 import com.liferay.object.internal.layout.tab.screen.navigation.category.ObjectLayoutTabScreenNavigationCategory;
 import com.liferay.object.internal.notification.handler.ObjectDefinitionNotificationHandler;
 import com.liferay.object.internal.notification.term.contributor.ObjectDefinitionNotificationTermEvaluator;
-import com.liferay.object.internal.related.models.ObjectEntry1to1ObjectRelatedModelsProviderImpl;
 import com.liferay.object.internal.related.models.ObjectEntry1toMObjectRelatedModelsPredicateProviderImpl;
-import com.liferay.object.internal.related.models.ObjectEntry1toMObjectRelatedModelsProviderImpl;
 import com.liferay.object.internal.related.models.ObjectEntryMtoMObjectRelatedModelsPredicateProviderImpl;
-import com.liferay.object.internal.related.models.ObjectEntryMtoMObjectRelatedModelsProviderImpl;
 import com.liferay.object.internal.rest.context.path.RESTContextPathResolverImpl;
 import com.liferay.object.internal.search.spi.model.index.contributor.ObjectEntryModelDocumentContributor;
 import com.liferay.object.internal.search.spi.model.index.contributor.ObjectEntryModelIndexerWriterContributor;
@@ -41,15 +39,13 @@ import com.liferay.object.internal.workflow.ObjectEntryWorkflowHandler;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectLayout;
 import com.liferay.object.model.ObjectRelationship;
-import com.liferay.object.related.models.ManyToOneObjectRelatedModelsProvider;
 import com.liferay.object.related.models.ObjectRelatedModelsPredicateProvider;
-import com.liferay.object.related.models.ObjectRelatedModelsProvider;
+import com.liferay.object.related.models.ObjectRelatedModelsProviderRegistrator;
 import com.liferay.object.rest.context.path.RESTContextPathResolver;
 import com.liferay.object.scope.ObjectScopeProviderRegistry;
 import com.liferay.object.service.ObjectActionLocalService;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
-import com.liferay.object.service.ObjectEntryService;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.service.ObjectLayoutLocalService;
 import com.liferay.object.service.ObjectLayoutTabLocalService;
@@ -118,10 +114,11 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 		ObjectActionLocalService objectActionLocalService,
 		ObjectDefinitionLocalService objectDefinitionLocalService,
 		ObjectEntryLocalService objectEntryLocalService,
-		ObjectEntryService objectEntryService,
 		ObjectFieldLocalService objectFieldLocalService,
 		ObjectLayoutLocalService objectLayoutLocalService,
 		ObjectLayoutTabLocalService objectLayoutTabLocalService,
+		ObjectRelatedModelsProviderRegistrator
+			objectRelatedModelsProviderRegistrator,
 		ObjectRelationshipLocalService objectRelationshipLocalService,
 		ObjectScopeProviderRegistry objectScopeProviderRegistry,
 		ObjectViewLocalService objectViewLocalService,
@@ -148,10 +145,11 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 		_objectActionLocalService = objectActionLocalService;
 		_objectDefinitionLocalService = objectDefinitionLocalService;
 		_objectEntryLocalService = objectEntryLocalService;
-		_objectEntryService = objectEntryService;
 		_objectFieldLocalService = objectFieldLocalService;
 		_objectLayoutLocalService = objectLayoutLocalService;
 		_objectLayoutTabLocalService = objectLayoutTabLocalService;
+		_objectRelatedModelsProviderRegistrator =
+			objectRelatedModelsProviderRegistrator;
 		_objectRelationshipLocalService = objectRelationshipLocalService;
 		_objectScopeProviderRegistry = objectScopeProviderRegistry;
 		_objectViewLocalService = objectViewLocalService;
@@ -280,27 +278,13 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 				new ObjectEntryMtoMObjectRelatedModelsPredicateProviderImpl(
 					objectDefinition, _objectFieldLocalService),
 				null),
-			_bundleContext.registerService(
-				ObjectRelatedModelsProvider.class,
-				new ObjectEntry1to1ObjectRelatedModelsProviderImpl(
-					objectDefinition, _objectEntryService,
-					_objectFieldLocalService, _objectRelationshipLocalService),
-				null),
-			_bundleContext.registerService(
-				new String[] {
-					ManyToOneObjectRelatedModelsProvider.class.getName(),
-					ObjectRelatedModelsProvider.class.getName()
-				},
-				new ObjectEntry1toMObjectRelatedModelsProviderImpl(
-					objectDefinition, _objectEntryService,
-					_objectFieldLocalService, _objectRelationshipLocalService),
-				null),
-			_bundleContext.registerService(
-				ObjectRelatedModelsProvider.class,
-				new ObjectEntryMtoMObjectRelatedModelsProviderImpl(
-					objectDefinition, _objectEntryService,
-					_objectRelationshipLocalService),
-				null),
+			_objectRelatedModelsProviderRegistrator.register(
+				objectDefinition,
+				ObjectRelationshipConstants.TYPE_MANY_TO_MANY),
+			_objectRelatedModelsProviderRegistrator.register(
+				objectDefinition, ObjectRelationshipConstants.TYPE_ONE_TO_MANY),
+			_objectRelatedModelsProviderRegistrator.register(
+				objectDefinition, ObjectRelationshipConstants.TYPE_ONE_TO_ONE),
 			_bundleContext.registerService(
 				PortletResourcePermission.class, portletResourcePermission,
 				HashMapDictionaryBuilder.<String, Object>put(
@@ -505,10 +489,11 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 	private final ObjectActionLocalService _objectActionLocalService;
 	private final ObjectDefinitionLocalService _objectDefinitionLocalService;
 	private final ObjectEntryLocalService _objectEntryLocalService;
-	private final ObjectEntryService _objectEntryService;
 	private final ObjectFieldLocalService _objectFieldLocalService;
 	private final ObjectLayoutLocalService _objectLayoutLocalService;
 	private final ObjectLayoutTabLocalService _objectLayoutTabLocalService;
+	private final ObjectRelatedModelsProviderRegistrator
+		_objectRelatedModelsProviderRegistrator;
 	private final ObjectRelationshipLocalService
 		_objectRelationshipLocalService;
 	private final ObjectScopeProviderRegistry _objectScopeProviderRegistry;
