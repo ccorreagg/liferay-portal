@@ -118,8 +118,11 @@ public class BatchEngineFileInstaller implements FileInstaller {
 			_log.info("Deploying batch engine file " + zipFile.getName());
 		}
 
-		_batchEngineUnitProcessor.processBatchEngineUnits(
-			_getBatchEngineUnitsCollection(zipFile));
+		for (BatchEngineUnit batchEngineUnit :
+				_getBatchEngineUnitsCollection(zipFile)) {
+
+			_batchEngineUnitProcessor.processBatchEngineUnit(batchEngineUnit);
+		}
 	}
 
 	private BatchEngineUnitConfiguration _getBatchEngineUnitConfiguration(

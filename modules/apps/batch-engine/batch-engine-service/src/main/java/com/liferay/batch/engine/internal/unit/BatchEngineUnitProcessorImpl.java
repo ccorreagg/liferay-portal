@@ -42,10 +42,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -68,53 +64,48 @@ import org.osgi.util.tracker.ServiceTracker;
 public class BatchEngineUnitProcessorImpl implements BatchEngineUnitProcessor {
 
 	@Override
-	public CompletableFuture<Void> processBatchEngineUnits(
-		Collection<BatchEngineUnit> batchEngineUnits) {
+	public CompletableFuture<Void> processBatchEngineUnit(
+		BatchEngineUnit batchEngineUnit) {
 
-		List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
+		try {
+			BatchEngineUnitConfiguration batchEngineUnitConfiguration =
+				batchEngineUnit.getBatchEngineUnitConfiguration();
 
-		for (BatchEngineUnit batchEngineUnit : batchEngineUnits) {
-			try {
-				BatchEngineUnitConfiguration batchEngineUnitConfiguration =
-					batchEngineUnit.getBatchEngineUnitConfiguration();
+			String featureFlagKey = _getFeatureFlagKey(
+				batchEngineUnitConfiguration);
 
-				String featureFlagKey = _getFeatureFlagKey(
-					batchEngineUnitConfiguration);
+			if (_isFeatureFlagDisabled(featureFlagKey)) {
+				_featureFlagBatchEngineUnitProcessor.registerBatchEngineUnit(
+					batchEngineUnitConfiguration.getCompanyId(), featureFlagKey,
+					() -> _processBatchEngineUnit(batchEngineUnit));
 
-				if (_isFeatureFlagDisabled(featureFlagKey)) {
-					_featureFlagBatchEngineUnitProcessor.
-						registerBatchEngineUnit(
-							batchEngineUnitConfiguration.getCompanyId(),
-							featureFlagKey,
-							() -> _processBatchEngineUnit(batchEngineUnit));
-
-					continue;
-				}
-
-				CompletableFuture<Void> completableFuture =
-					_processBatchEngineUnit(batchEngineUnit);
-
-				if (completableFuture != null) {
-					completableFutures.add(completableFuture);
-				}
-
-				if (_log.isInfoEnabled()) {
-					_log.info(
-						StringBundler.concat(
-							"Successfully enqueued batch file ",
-							batchEngineUnit.getFileName(), " ",
-							batchEngineUnit.getDataFileName()));
-				}
+				return null;
 			}
-			catch (Exception exception) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(exception);
-				}
+
+			CompletableFuture<Void> completableFuture = _processBatchEngineUnit(
+				batchEngineUnit);
+
+			if (completableFuture == null) {
+				return null;
+			}
+
+			if (_log.isInfoEnabled()) {
+				_log.info(
+					StringBundler.concat(
+						"Successfully enqueued batch file ",
+						batchEngineUnit.getFileName(), " ",
+						batchEngineUnit.getDataFileName()));
+			}
+
+			return completableFuture;
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(exception);
 			}
 		}
 
-		return CompletableFuture.allOf(
-			completableFutures.toArray(new CompletableFuture[0]));
+		return null;
 	}
 
 	@Activate

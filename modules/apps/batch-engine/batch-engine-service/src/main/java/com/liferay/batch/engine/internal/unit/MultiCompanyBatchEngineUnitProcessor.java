@@ -80,11 +80,16 @@ public class MultiCompanyBatchEngineUnitProcessor {
 
 		companyIds.add(company.getCompanyId());
 
-		return _batchEngineUnitProcessor.processBatchEngineUnits(
+		List<CompletableFuture<Void>> completableFutures =
 			TransformUtil.transform(
 				_bundleBatchEngineUnits.get(bundle),
-				batchEngineUnit -> new CompanyBatchEngineUnitWrapper(
-					batchEngineUnit, company)));
+				batchEngineUnit ->
+					_batchEngineUnitProcessor.processBatchEngineUnit(
+						new CompanyBatchEngineUnitWrapper(
+							batchEngineUnit, company)));
+
+		return CompletableFuture.allOf(
+			completableFutures.toArray(new CompletableFuture[0]));
 	}
 
 	@Reference
