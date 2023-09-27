@@ -106,8 +106,8 @@ public class BatchEngineBundleTracker {
 				}
 			}
 
-			_batchEngineUnitProcessor.processBatchEngineUnits(
-				singleCompanyBatchEngineUnits);
+			singleCompanyBatchEngineUnits.forEach(
+				_batchEngineUnitProcessor::processBatchEngineUnit);
 
 			if (multiCompanyBatchEngineUnits.isEmpty()) {
 				return null;

@@ -6,6 +6,7 @@
 package com.liferay.headless.builder.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.batch.engine.unit.BatchEngineUnit;
 import com.liferay.batch.engine.unit.BatchEngineUnitProcessor;
 import com.liferay.batch.engine.unit.BatchEngineUnitReader;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
@@ -52,21 +53,27 @@ public abstract class BaseTestCase {
 		BundleContext bundleContext = testBundle.getBundleContext();
 
 		for (Bundle bundle : bundleContext.getBundles()) {
-			if (Objects.equals(
+			if (!Objects.equals(
 					bundle.getSymbolicName(),
 					"com.liferay.headless.builder.impl")) {
 
-				File processedFile = bundle.getDataFile(
-					".com.liferay.headless.builder.internal.batch.headless." +
-						"builder.batch.engine.data.json.0.processed");
+				continue;
+			}
 
-				if ((processedFile != null) && processedFile.exists()) {
-					processedFile.delete();
-				}
+			File processedFile = bundle.getDataFile(
+				".com.liferay.headless.builder.internal.batch.headless." +
+					"builder.batch.engine.data.json.0.processed");
+
+			if ((processedFile != null) && processedFile.exists()) {
+				processedFile.delete();
+			}
+
+			for (BatchEngineUnit batchEngineUnit :
+					_batchEngineUnitReader.getBatchEngineUnits(bundle)) {
 
 				CompletableFuture<Void> completableFuture =
-					_batchEngineUnitProcessor.processBatchEngineUnits(
-						_batchEngineUnitReader.getBatchEngineUnits(bundle));
+					_batchEngineUnitProcessor.processBatchEngineUnit(
+						batchEngineUnit);
 
 				completableFuture.join();
 			}
