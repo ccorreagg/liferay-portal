@@ -18,13 +18,11 @@ import com.liferay.object.admin.rest.dto.v1_0.ObjectValidationRule;
 import com.liferay.object.admin.rest.dto.v1_0.ObjectView;
 import com.liferay.object.admin.rest.dto.v1_0.Status;
 import com.liferay.object.admin.rest.dto.v1_0.util.ObjectActionUtil;
-import com.liferay.object.admin.rest.internal.dto.v1_0.converter.constants.DTOConverterConstants;
 import com.liferay.object.admin.rest.internal.dto.v1_0.util.ObjectFieldSettingUtil;
 import com.liferay.object.admin.rest.internal.dto.v1_0.util.ObjectFieldUtil;
 import com.liferay.object.admin.rest.internal.dto.v1_0.util.ObjectLayoutUtil;
 import com.liferay.object.admin.rest.internal.odata.entity.v1_0.ObjectDefinitionEntityModel;
 import com.liferay.object.admin.rest.resource.v1_0.ObjectActionResource;
-import com.liferay.object.admin.rest.resource.v1_0.ObjectDefinitionResource;
 import com.liferay.object.admin.rest.resource.v1_0.ObjectLayoutResource;
 import com.liferay.object.admin.rest.resource.v1_0.ObjectRelationshipResource;
 import com.liferay.object.admin.rest.resource.v1_0.ObjectValidationRuleResource;
@@ -99,19 +97,81 @@ import java.util.Set;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ServiceScope;
-
 /**
  * @author Javier Gamarra
  */
-@Component(
-	properties = "OSGI-INF/liferay/rest/v1_0/object-definition.properties",
-	scope = ServiceScope.PROTOTYPE, service = ObjectDefinitionResource.class
-)
 public class ObjectDefinitionResourceImpl
 	extends BaseObjectDefinitionResourceImpl {
+
+	public ObjectDefinitionResourceImpl(
+		Language language,
+		ListTypeDefinitionLocalService listTypeDefinitionLocalService,
+		ListTypeEntryLocalService listTypeEntryLocalService,
+		Localization localization,
+		NotificationTemplateLocalService notificationTemplateLocalService,
+		ObjectActionLocalService objectActionLocalService,
+		ObjectActionResource.Factory objectActionResourceFactory,
+		ObjectActionService objectActionService,
+		ObjectDefinitionLocalService objectDefinitionLocalService,
+		ObjectDefinitionService objectDefinitionService,
+		DTOConverter<com.liferay.object.model.ObjectField, ObjectField>
+			objectFieldDTOConverter,
+		ObjectFieldLocalService objectFieldLocalService,
+		ObjectFieldSettingLocalService objectFieldSettingLocalService,
+		ObjectFilterLocalService objectFilterLocalService,
+		ObjectFolderLocalService objectFolderLocalService,
+		ObjectLayoutLocalService objectLayoutLocalService,
+		ObjectLayoutResource.Factory objectLayoutResourceFactory,
+		DTOConverter
+			<com.liferay.object.model.ObjectRelationship, ObjectRelationship>
+				objectRelationshipDTOConverter,
+		ObjectRelationshipLocalService objectRelationshipLocalService,
+		ObjectRelationshipResource.Factory objectRelationshipResourceFactory,
+		DTOConverter
+			<com.liferay.object.model.ObjectValidationRule,
+			 ObjectValidationRule> objectValidationRuleDTOConverter,
+		ObjectValidationRuleLocalService objectValidationRuleLocalService,
+		ObjectValidationRuleResource.Factory
+			objectValidationRuleResourceFactory,
+		DTOConverter<com.liferay.object.model.ObjectView, ObjectView>
+			objectViewDTOConverter,
+		ObjectViewLocalService objectViewLocalService,
+		ObjectViewResource.Factory objectViewResourceFactory,
+		ObjectViewService objectViewService,
+		SystemObjectDefinitionManagerRegistry
+			systemObjectDefinitionManagerRegistry) {
+
+		_language = language;
+		_listTypeDefinitionLocalService = listTypeDefinitionLocalService;
+		_listTypeEntryLocalService = listTypeEntryLocalService;
+		_localization = localization;
+		_notificationTemplateLocalService = notificationTemplateLocalService;
+		_objectActionLocalService = objectActionLocalService;
+		_objectActionResourceFactory = objectActionResourceFactory;
+		_objectActionService = objectActionService;
+		_objectDefinitionLocalService = objectDefinitionLocalService;
+		_objectDefinitionService = objectDefinitionService;
+		_objectFieldDTOConverter = objectFieldDTOConverter;
+		_objectFieldLocalService = objectFieldLocalService;
+		_objectFieldSettingLocalService = objectFieldSettingLocalService;
+		_objectFilterLocalService = objectFilterLocalService;
+		_objectFolderLocalService = objectFolderLocalService;
+		_objectLayoutLocalService = objectLayoutLocalService;
+		_objectLayoutResourceFactory = objectLayoutResourceFactory;
+		_objectRelationshipDTOConverter = objectRelationshipDTOConverter;
+		_objectRelationshipLocalService = objectRelationshipLocalService;
+		_objectRelationshipResourceFactory = objectRelationshipResourceFactory;
+		_objectValidationRuleDTOConverter = objectValidationRuleDTOConverter;
+		_objectValidationRuleLocalService = objectValidationRuleLocalService;
+		_objectValidationRuleResourceFactory =
+			objectValidationRuleResourceFactory;
+		_objectViewDTOConverter = objectViewDTOConverter;
+		_objectViewLocalService = objectViewLocalService;
+		_objectViewResourceFactory = objectViewResourceFactory;
+		_objectViewService = objectViewService;
+		_systemObjectDefinitionManagerRegistry =
+			systemObjectDefinitionManagerRegistry;
+	}
 
 	@Override
 	public void create(
@@ -1300,99 +1360,48 @@ public class ObjectDefinitionResourceImpl
 	private static final EntityModel _entityModel =
 		new ObjectDefinitionEntityModel();
 
-	@Reference
-	private Language _language;
-
-	@Reference
-	private ListTypeDefinitionLocalService _listTypeDefinitionLocalService;
-
-	@Reference
-	private ListTypeEntryLocalService _listTypeEntryLocalService;
-
-	@Reference
-	private Localization _localization;
-
-	@Reference
-	private NotificationTemplateLocalService _notificationTemplateLocalService;
-
-	@Reference
-	private ObjectActionLocalService _objectActionLocalService;
-
-	@Reference
-	private ObjectActionResource.Factory _objectActionResourceFactory;
-
-	@Reference
-	private ObjectActionService _objectActionService;
-
-	@Reference
-	private ObjectDefinitionLocalService _objectDefinitionLocalService;
-
-	@Reference
-	private ObjectDefinitionService _objectDefinitionService;
-
-	@Reference(target = DTOConverterConstants.OBJECT_FIELD_DTO_CONVERTER)
-	private DTOConverter<com.liferay.object.model.ObjectField, ObjectField>
-		_objectFieldDTOConverter;
-
-	@Reference
-	private ObjectFieldLocalService _objectFieldLocalService;
-
-	@Reference
-	private ObjectFieldSettingLocalService _objectFieldSettingLocalService;
-
-	@Reference
-	private ObjectFilterLocalService _objectFilterLocalService;
-
-	@Reference
-	private ObjectFolderLocalService _objectFolderLocalService;
-
-	@Reference
-	private ObjectLayoutLocalService _objectLayoutLocalService;
-
-	@Reference
-	private ObjectLayoutResource.Factory _objectLayoutResourceFactory;
-
-	@Reference(target = DTOConverterConstants.OBJECT_RELATIONSHIP_DTO_CONVERTER)
-	private DTOConverter
+	private final Language _language;
+	private final ListTypeDefinitionLocalService
+		_listTypeDefinitionLocalService;
+	private final ListTypeEntryLocalService _listTypeEntryLocalService;
+	private final Localization _localization;
+	private final NotificationTemplateLocalService
+		_notificationTemplateLocalService;
+	private final ObjectActionLocalService _objectActionLocalService;
+	private final ObjectActionResource.Factory _objectActionResourceFactory;
+	private final ObjectActionService _objectActionService;
+	private final ObjectDefinitionLocalService _objectDefinitionLocalService;
+	private final ObjectDefinitionService _objectDefinitionService;
+	private final DTOConverter
+		<com.liferay.object.model.ObjectField, ObjectField>
+			_objectFieldDTOConverter;
+	private final ObjectFieldLocalService _objectFieldLocalService;
+	private final ObjectFieldSettingLocalService
+		_objectFieldSettingLocalService;
+	private final ObjectFilterLocalService _objectFilterLocalService;
+	private final ObjectFolderLocalService _objectFolderLocalService;
+	private final ObjectLayoutLocalService _objectLayoutLocalService;
+	private final ObjectLayoutResource.Factory _objectLayoutResourceFactory;
+	private final DTOConverter
 		<com.liferay.object.model.ObjectRelationship, ObjectRelationship>
 			_objectRelationshipDTOConverter;
-
-	@Reference
-	private ObjectRelationshipLocalService _objectRelationshipLocalService;
-
-	@Reference
-	private ObjectRelationshipResource.Factory
+	private final ObjectRelationshipLocalService
+		_objectRelationshipLocalService;
+	private final ObjectRelationshipResource.Factory
 		_objectRelationshipResourceFactory;
-
-	@Reference(
-		target = DTOConverterConstants.OBJECT_VALIDATION_RULE_DTO_CONVERTER
-	)
-	private DTOConverter
+	private final DTOConverter
 		<com.liferay.object.model.ObjectValidationRule, ObjectValidationRule>
 			_objectValidationRuleDTOConverter;
-
-	@Reference
-	private ObjectValidationRuleLocalService _objectValidationRuleLocalService;
-
-	@Reference
-	private ObjectValidationRuleResource.Factory
+	private final ObjectValidationRuleLocalService
+		_objectValidationRuleLocalService;
+	private final ObjectValidationRuleResource.Factory
 		_objectValidationRuleResourceFactory;
-
-	@Reference(target = DTOConverterConstants.OBJECT_VIEW_DTO_CONVERTER)
-	private DTOConverter<com.liferay.object.model.ObjectView, ObjectView>
+	private final DTOConverter<com.liferay.object.model.ObjectView, ObjectView>
 		_objectViewDTOConverter;
-
-	@Reference
-	private ObjectViewLocalService _objectViewLocalService;
-
-	@Reference
-	private ObjectViewResource.Factory _objectViewResourceFactory;
-
-	@Reference
-	private ObjectViewService _objectViewService;
-
-	@Reference
-	private SystemObjectDefinitionManagerRegistry
+	private final ObjectViewLocalService _objectViewLocalService;
+	private final ObjectViewResource.Factory _objectViewResourceFactory;
+	private final ObjectViewService _objectViewService;
+	private final SystemObjectDefinitionManagerRegistry
 		_systemObjectDefinitionManagerRegistry;
 
 }
