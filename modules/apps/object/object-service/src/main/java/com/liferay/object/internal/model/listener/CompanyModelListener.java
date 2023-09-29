@@ -5,8 +5,11 @@
 
 package com.liferay.object.internal.model.listener;
 
+import com.liferay.object.lifecycle.ObjectFrameworkLifecycleListener;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectFolderLocalService;
+import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
+import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -15,7 +18,10 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.ModelListener;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -36,6 +42,24 @@ public class CompanyModelListener extends BaseModelListener<Company> {
 		catch (PortalException portalException) {
 			_log.error(portalException);
 		}
+
+		for (ObjectFrameworkLifecycleListener objectFrameworkLifecycleListener :
+				_serviceTrackerList.toList()) {
+
+			objectFrameworkLifecycleListener.objectFrameworkUnregistered(
+				company);
+		}
+	}
+
+	@Activate
+	protected void activate(BundleContext bundleContext) {
+		_serviceTrackerList = ServiceTrackerListFactory.open(
+			bundleContext, ObjectFrameworkLifecycleListener.class);
+	}
+
+	@Deactivate
+	protected void deactivate() {
+		_serviceTrackerList.close();
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -46,5 +70,8 @@ public class CompanyModelListener extends BaseModelListener<Company> {
 
 	@Reference
 	private ObjectFolderLocalService _objectFolderLocalService;
+
+	private ServiceTrackerList<ObjectFrameworkLifecycleListener>
+		_serviceTrackerList;
 
 }
