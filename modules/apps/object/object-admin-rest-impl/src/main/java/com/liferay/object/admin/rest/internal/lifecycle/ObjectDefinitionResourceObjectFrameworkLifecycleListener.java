@@ -48,12 +48,15 @@ import java.io.InputStream;
 
 import java.net.URL;
 
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.PrototypeServiceFactory;
+import org.osgi.framework.ServiceFactory;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -69,14 +72,45 @@ public class ObjectDefinitionResourceObjectFrameworkLifecycleListener
 
 	@Override
 	public void objectFrameworkRegistered(Company company) {
+		_serviceRegistrationMap.computeIfAbsent(
+			company.getCompanyId(),
+			companyId -> _bundleContext.registerService(
+				Object.class,
+				(ServiceFactory<?>)new PrototypeServiceFactory<Object>() {
+
+					@Override
+					public Object getService(
+						Bundle bundle,
+						ServiceRegistration<Object> serviceRegistration) {
+
+						return _createObjectDefinitionResourceImpl();
+					}
+
+					@Override
+					public void ungetService(
+						Bundle bundle,
+						ServiceRegistration<Object> serviceRegistration,
+						Object object) {
+					}
+
+				},
+				_getProperties(true, companyId)));
 	}
 
 	@Override
 	public void objectFrameworkUnregistered(Company company) {
+		ServiceRegistration<Object> serviceRegistration =
+			_serviceRegistrationMap.remove(company.getCompanyId());
+
+		if (serviceRegistration != null) {
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Activate
 	protected void activate(BundleContext bundleContext) throws Exception {
+		_bundleContext = bundleContext;
+
 		Bundle bundle = bundleContext.getBundle();
 
 		URL url = bundle.getResource(
@@ -112,7 +146,7 @@ public class ObjectDefinitionResourceObjectFrameworkLifecycleListener
 				}
 
 			},
-			new HashMapDictionary<>(_objectDefinitionResourceProperties));
+			_getProperties(false, null));
 	}
 
 	@Deactivate
@@ -138,6 +172,30 @@ public class ObjectDefinitionResourceObjectFrameworkLifecycleListener
 			_objectViewLocalService, _objectViewResourceFactory,
 			_objectViewService, _systemObjectDefinitionManagerRegistry);
 	}
+
+	private Dictionary<String, Object> _getProperties(
+		boolean batchProperties, Long companyId) {
+
+		Dictionary<String, Object> properties = new HashMapDictionary<>();
+
+		for (Map.Entry<String, Object> entry :
+				_objectDefinitionResourceProperties.entrySet()) {
+
+			String propertyName = entry.getKey();
+
+			if (batchProperties == propertyName.startsWith("batch.")) {
+				properties.put(propertyName, entry.getValue());
+			}
+		}
+
+		if (companyId != null) {
+			properties.put("companyId", String.valueOf(companyId));
+		}
+
+		return properties;
+	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	private CompanyLocalService _companyLocalService;
@@ -236,6 +294,8 @@ public class ObjectDefinitionResourceObjectFrameworkLifecycleListener
 	private ObjectViewService _objectViewService;
 
 	private ServiceRegistration<ObjectDefinitionResource> _serviceRegistration;
+	private final Map<Long, ServiceRegistration<Object>>
+		_serviceRegistrationMap = new HashMap<>();
 
 	@Reference
 	private SystemObjectDefinitionManagerRegistry

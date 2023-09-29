@@ -135,7 +135,7 @@ public class BatchEngineUnitProcessorImpl implements BatchEngineUnitProcessor {
 				_bundleContext,
 				_bundleContext.createFilter(
 					StringBundler.concat(
-						"(|(&(batch.engine.entity.class.name=",
+						"(&(|(&(batch.engine.entity.class.name=",
 						batchEngineUnitConfiguration.getClassName(), ")",
 						"(!(batch.engine.task.item.delegate.name=*)))",
 						"(&(batch.engine.entity.class.name=",
@@ -146,7 +146,8 @@ public class BatchEngineUnitProcessorImpl implements BatchEngineUnitProcessor {
 						batchEngineUnitConfiguration.getClassName(),
 						")(batch.engine.task.item.delegate.name=",
 						batchEngineUnitConfiguration.getTaskItemDelegateName(),
-						")))")),
+						")))(|(!(companyId=*))(companyId=",
+						batchEngineUnitConfiguration.getCompanyId(), ")))")),
 				null) {
 
 				@Override
