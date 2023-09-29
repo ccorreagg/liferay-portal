@@ -5,6 +5,7 @@
 
 package com.liferay.portal.vulcan.internal.batch.engine;
 
+import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegateRegistry;
@@ -130,6 +131,22 @@ public class VulcanBatchEngineTaskItemDelegateRegistryImpl
 		_serviceTracker.close();
 	}
 
+	private List<String> _getCompanyIdStrings(
+		ServiceReference<?> serviceReference) {
+
+		Object companyIdObject = serviceReference.getProperty("companyId");
+
+		if (companyIdObject == null) {
+			return null;
+		}
+
+		if (companyIdObject instanceof List) {
+			return (List<String>)companyIdObject;
+		}
+
+		return StringUtil.split(String.valueOf(companyIdObject));
+	}
+
 	private final Map<String, Boolean> _batchPlannerExportEnableds =
 		new HashMap<>();
 	private final Map<String, Boolean> _batchPlannerImportEnableds =
@@ -158,8 +175,9 @@ public class VulcanBatchEngineTaskItemDelegateRegistryImpl
 				serviceReference.getProperty("batch.planner.export.enabled"));
 			boolean batchPlannerImportEnabled = GetterUtil.getBoolean(
 				serviceReference.getProperty("batch.planner.import.enabled"));
-			List<String> companyIdStrings = (List)serviceReference.getProperty(
-				"companyId");
+
+			List<String> companyIdStrings = _getCompanyIdStrings(
+				serviceReference);
 			String entityClassName = (String)serviceReference.getProperty(
 				"entity.class.name");
 			VulcanBatchEngineTaskItemDelegate<?>
@@ -229,8 +247,8 @@ public class VulcanBatchEngineTaskItemDelegateRegistryImpl
 			VulcanBatchEngineTaskItemDelegate<?>
 				vulcanBatchEngineTaskItemDelegate) {
 
-			List<String> companyIdStrings = (List)serviceReference.getProperty(
-				"companyId");
+			List<String> companyIdStrings = _getCompanyIdStrings(
+				serviceReference);
 
 			if (companyIdStrings == null) {
 				return;
@@ -293,8 +311,9 @@ public class VulcanBatchEngineTaskItemDelegateRegistryImpl
 			VulcanBatchEngineTaskItemDelegate<?>
 				vulcanBatchEngineTaskItemDelegate) {
 
-			List<String> companyIdStrings = (List)serviceReference.getProperty(
-				"companyId");
+			List<String> companyIdStrings = _getCompanyIdStrings(
+				serviceReference);
+
 			String entityClassName = (String)serviceReference.getProperty(
 				"entity.class.name");
 
