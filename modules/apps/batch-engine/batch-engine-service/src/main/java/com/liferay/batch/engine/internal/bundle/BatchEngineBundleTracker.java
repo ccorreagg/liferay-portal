@@ -5,17 +5,15 @@
 
 package com.liferay.batch.engine.internal.bundle;
 
-import com.liferay.batch.engine.internal.unit.MultiCompanyBatchEngineUnitProcessor;
+import com.liferay.batch.engine.internal.unit.InternalBatchEngineUnitProcessor;
+import com.liferay.batch.engine.internal.unit.MultiCompanyInternalBatchEngineUnitProcessor;
 import com.liferay.batch.engine.unit.BatchEngineUnit;
-import com.liferay.batch.engine.unit.BatchEngineUnitConfiguration;
 import com.liferay.batch.engine.unit.BatchEngineUnitProcessor;
 import com.liferay.batch.engine.unit.BatchEngineUnitReader;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 
-import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.List;
 import java.util.Map;
 
 import org.osgi.framework.Bundle;
@@ -58,12 +56,11 @@ public class BatchEngineBundleTracker {
 
 	private BundleTracker<Bundle> _bundleTracker;
 
+	@Reference(target = "(processor.type=multicompany)")
+	private InternalBatchEngineUnitProcessor _internalBatchEngineUnitProcessor;
+
 	@Reference(target = ModuleServiceLifecycle.PORTLETS_INITIALIZED)
 	private ModuleServiceLifecycle _moduleServiceLifecycle;
-
-	@Reference
-	private MultiCompanyBatchEngineUnitProcessor
-		_multiCompanyBatchEngineUnitProcessor;
 
 	private class BatchEngineBundleTrackerCustomizer
 		implements BundleTrackerCustomizer<Bundle> {
@@ -77,44 +74,16 @@ public class BatchEngineBundleTracker {
 				return null;
 			}
 
-			List<BatchEngineUnit> multiCompanyBatchEngineUnits =
-				new ArrayList<>();
-			List<BatchEngineUnit> singleCompanyBatchEngineUnits =
-				new ArrayList<>();
+			for (BatchEngineUnit batchEngineUnit :
+					_batchEngineUnitReader.getBatchEngineUnits(bundle)) {
 
-			Iterable<BatchEngineUnit> batchEngineUnits =
-				_batchEngineUnitReader.getBatchEngineUnits(bundle);
-
-			for (BatchEngineUnit batchEngineUnit : batchEngineUnits) {
 				if (!batchEngineUnit.isValid()) {
 					continue;
 				}
 
-				try {
-					BatchEngineUnitConfiguration batchEngineUnitConfiguration =
-						batchEngineUnit.getBatchEngineUnitConfiguration();
-
-					if (batchEngineUnitConfiguration.isMultiCompany()) {
-						multiCompanyBatchEngineUnits.add(batchEngineUnit);
-					}
-					else {
-						singleCompanyBatchEngineUnits.add(batchEngineUnit);
-					}
-				}
-				catch (Exception exception) {
-					throw new RuntimeException(exception);
-				}
+				_batchEngineUnitProcessor.processBatchEngineUnit(
+					batchEngineUnit);
 			}
-
-			singleCompanyBatchEngineUnits.forEach(
-				_batchEngineUnitProcessor::processBatchEngineUnit);
-
-			if (multiCompanyBatchEngineUnits.isEmpty()) {
-				return null;
-			}
-
-			_multiCompanyBatchEngineUnitProcessor.registerBatchEngineUnits(
-				bundle, multiCompanyBatchEngineUnits);
 
 			return bundle;
 		}
@@ -128,7 +97,8 @@ public class BatchEngineBundleTracker {
 		public void removedBundle(
 			Bundle bundle, BundleEvent bundleEvent, Bundle unusedBundle) {
 
-			_multiCompanyBatchEngineUnitProcessor.unregister(bundle);
+			((MultiCompanyInternalBatchEngineUnitProcessor)
+				_internalBatchEngineUnitProcessor).unregister(bundle);
 		}
 
 	}
