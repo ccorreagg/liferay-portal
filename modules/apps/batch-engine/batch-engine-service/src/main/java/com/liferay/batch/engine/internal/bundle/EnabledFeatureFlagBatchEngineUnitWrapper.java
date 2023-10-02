@@ -37,6 +37,8 @@ public class EnabledFeatureFlagBatchEngineUnitWrapper
 			{
 				setCallbackURL(batchEngineUnitConfiguration.getCallbackURL());
 				setCheckFeatureFlag(false);
+				setCheckPermissions(
+					batchEngineUnitConfiguration.isCheckPermissions());
 				setClassName(batchEngineUnitConfiguration.getClassName());
 				setCompanyId(batchEngineUnitConfiguration.getCompanyId());
 				setFieldNameMappingMap(

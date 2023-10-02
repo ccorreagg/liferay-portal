@@ -39,11 +39,13 @@ public class CompanyBatchEngineUnitWrapper implements BundleBatchEngineUnit {
 				setCallbackURL(batchEngineUnitConfiguration.getCallbackURL());
 				setCheckFeatureFlag(
 					batchEngineUnitConfiguration.isCheckFeatureFlag());
+				setCheckPermissions(
+					_isCheckPermissions(batchEngineUnitConfiguration));
 				setClassName(batchEngineUnitConfiguration.getClassName());
 				setCompanyId(_company.getCompanyId());
 				setFieldNameMappingMap(
 					batchEngineUnitConfiguration.getFieldNameMappingMap());
-				setMultiCompany(batchEngineUnitConfiguration.isMultiCompany());
+				setMultiCompany(false);
 				setParameters(batchEngineUnitConfiguration.getParameters());
 				setTaskItemDelegateName(
 					batchEngineUnitConfiguration.getTaskItemDelegateName());
@@ -88,6 +90,18 @@ public class CompanyBatchEngineUnitWrapper implements BundleBatchEngineUnit {
 	@Override
 	public boolean isValid() {
 		return _batchEngineUnit.isValid();
+	}
+
+	private boolean _isCheckPermissions(
+		BatchEngineUnitConfiguration batchEngineUnitConfiguration) {
+
+		if ((batchEngineUnitConfiguration.getUserId() == 0) &&
+			batchEngineUnitConfiguration.isMultiCompany()) {
+
+			return false;
+		}
+
+		return true;
 	}
 
 	private final BatchEngineUnit _batchEngineUnit;
