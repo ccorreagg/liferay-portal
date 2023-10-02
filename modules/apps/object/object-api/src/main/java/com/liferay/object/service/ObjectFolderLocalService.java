@@ -79,6 +79,7 @@ public interface ObjectFolderLocalService
 			Map<Locale, String> labelMap, String name)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public ObjectFolder addOrGetUncategorizedObjectFolder(long companyId)
 		throws PortalException;
 
