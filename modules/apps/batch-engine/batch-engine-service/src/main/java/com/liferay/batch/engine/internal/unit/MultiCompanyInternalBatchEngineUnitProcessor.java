@@ -10,6 +10,8 @@ import com.liferay.batch.engine.unit.BatchEngineUnit;
 import com.liferay.batch.engine.unit.BatchEngineUnitProcessor;
 import com.liferay.batch.engine.unit.BundleBatchEngineUnit;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
+import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 
@@ -22,7 +24,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -65,30 +71,21 @@ public class MultiCompanyInternalBatchEngineUnitProcessor
 			completableFutures.toArray(new CompletableFuture[0]));
 	}
 
-	public CompletableFuture<Void> processBatchEngineUnits(Company company) {
-		List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
-
-		for (Bundle bundle :
-				new ArrayList<>(_bundleBatchEngineUnits.keySet())) {
-
-			completableFutures.add(_processBatchEngineUnits(bundle, company));
-		}
-
-		return CompletableFuture.allOf(
-			completableFutures.toArray(new CompletableFuture[0]));
-	}
-
 	public void unregister(Bundle bundle) {
 		_bundleBatchEngineUnits.remove(bundle);
 		_bundleProcessedCompanies.remove(bundle);
 	}
 
-	public void unregister(Company company) {
-		for (Set<Long> companyIds :
-				new ArrayList<>(_bundleProcessedCompanies.values())) {
+	@Activate
+	protected void activate(BundleContext bundleContext) {
+		_serviceRegistration = bundleContext.registerService(
+			PortalInstanceLifecycleListener.class,
+			new PortalInstanceLifecycleListenerImpl(), null);
+	}
 
-			companyIds.remove(company.getCompanyId());
-		}
+	@Deactivate
+	protected void deactivate() {
+		_serviceRegistration.unregister();
 	}
 
 	private CompletableFuture<Void> _processBatchEngineUnits(
@@ -119,6 +116,27 @@ public class MultiCompanyInternalBatchEngineUnitProcessor
 			completableFutures.toArray(new CompletableFuture[0]));
 	}
 
+	private CompletableFuture<Void> _processBatchEngineUnits(Company company) {
+		List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
+
+		for (Bundle bundle :
+				new ArrayList<>(_bundleBatchEngineUnits.keySet())) {
+
+			completableFutures.add(_processBatchEngineUnits(bundle, company));
+		}
+
+		return CompletableFuture.allOf(
+			completableFutures.toArray(new CompletableFuture[0]));
+	}
+
+	private void _unregister(Company company) {
+		for (Set<Long> companyIds :
+				new ArrayList<>(_bundleProcessedCompanies.values())) {
+
+			companyIds.remove(company.getCompanyId());
+		}
+	}
+
 	@Reference
 	private BatchEngineUnitProcessor _batchEngineUnitProcessor;
 
@@ -129,5 +147,25 @@ public class MultiCompanyInternalBatchEngineUnitProcessor
 
 	@Reference
 	private CompanyLocalService _companyLocalService;
+
+	private ServiceRegistration<PortalInstanceLifecycleListener>
+		_serviceRegistration;
+
+	private class PortalInstanceLifecycleListenerImpl
+		extends BasePortalInstanceLifecycleListener {
+
+		public void portalInstanceRegistered(Company company) throws Exception {
+			CompletableFuture<Void> completableFuture =
+				_processBatchEngineUnits(company);
+
+			completableFuture.get();
+		}
+
+		@Override
+		public void portalInstanceUnregistered(Company company) {
+			_unregister(company);
+		}
+
+	}
 
 }
