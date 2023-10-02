@@ -8,47 +8,74 @@ package com.liferay.batch.engine.internal.unit;
 import com.liferay.batch.engine.internal.bundle.CompanyBatchEngineUnitWrapper;
 import com.liferay.batch.engine.unit.BatchEngineUnit;
 import com.liferay.batch.engine.unit.BatchEngineUnitProcessor;
+import com.liferay.batch.engine.unit.BundleBatchEngineUnit;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.osgi.framework.Bundle;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author Alejandro Tardín
+ * @author Carlos Correa
  */
-@Component(service = MultiCompanyBatchEngineUnitProcessor.class)
-public class MultiCompanyBatchEngineUnitProcessor {
+@Component(
+	property = "processor.type=multicompany",
+	service = InternalBatchEngineUnitProcessor.class
+)
+public class MultiCompanyInternalBatchEngineUnitProcessor
+	implements InternalBatchEngineUnitProcessor {
 
-	public CompletableFuture<Void> processBatchEngineUnits(Company company) {
+	@Override
+	public CompletableFuture<Void> processBatchEngineUnit(
+		BatchEngineUnit batchEngineUnit) {
+
+		BundleBatchEngineUnit bundleBatchEngineUnit =
+			(BundleBatchEngineUnit)batchEngineUnit;
+
+		_bundleBatchEngineUnits.compute(
+			bundleBatchEngineUnit.getBundle(),
+			(bundle, batchEngineUnits) -> {
+				if (batchEngineUnits == null) {
+					batchEngineUnits = new ArrayList<>();
+				}
+
+				batchEngineUnits.add(batchEngineUnit);
+
+				return batchEngineUnits;
+			});
+
 		List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
 
-		for (Bundle bundle : _bundleBatchEngineUnits.keySet()) {
-			completableFutures.add(_processBatchEngineUnits(bundle, company));
-		}
+		_companyLocalService.forEachCompany(
+			company -> completableFutures.add(
+				_processBatchEngineUnits(
+					bundleBatchEngineUnit.getBundle(), company)));
 
 		return CompletableFuture.allOf(
 			completableFutures.toArray(new CompletableFuture[0]));
 	}
 
-	public void registerBatchEngineUnits(
-		Bundle bundle, List<BatchEngineUnit> batchEngineUnits) {
+	public CompletableFuture<Void> processBatchEngineUnits(Company company) {
+		List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
 
-		_bundleBatchEngineUnits.put(bundle, batchEngineUnits);
+		for (Bundle bundle :
+				new ArrayList<>(_bundleBatchEngineUnits.keySet())) {
 
-		_companyLocalService.forEachCompany(
-			company -> _processBatchEngineUnits(bundle, company));
+			completableFutures.add(_processBatchEngineUnits(bundle, company));
+		}
+
+		return CompletableFuture.allOf(
+			completableFutures.toArray(new CompletableFuture[0]));
 	}
 
 	public void unregister(Bundle bundle) {
@@ -57,15 +84,11 @@ public class MultiCompanyBatchEngineUnitProcessor {
 	}
 
 	public void unregister(Company company) {
-		for (Set<Long> companyIds : _bundleProcessedCompanies.values()) {
+		for (Set<Long> companyIds :
+				new ArrayList<>(_bundleProcessedCompanies.values())) {
+
 			companyIds.remove(company.getCompanyId());
 		}
-	}
-
-	@Deactivate
-	protected void deactivate() {
-		_bundleBatchEngineUnits.clear();
-		_bundleProcessedCompanies.clear();
 	}
 
 	private CompletableFuture<Void> _processBatchEngineUnits(
@@ -82,11 +105,15 @@ public class MultiCompanyBatchEngineUnitProcessor {
 
 		List<CompletableFuture<Void>> completableFutures =
 			TransformUtil.transform(
-				_bundleBatchEngineUnits.get(bundle),
-				batchEngineUnit ->
-					_batchEngineUnitProcessor.processBatchEngineUnit(
+				new ArrayList<>(_bundleBatchEngineUnits.get(bundle)),
+				batchEngineUnit -> {
+					BatchEngineUnit batchEngineUnitWrapper =
 						new CompanyBatchEngineUnitWrapper(
-							batchEngineUnit, company)));
+							batchEngineUnit, company);
+
+					return _batchEngineUnitProcessor.processBatchEngineUnit(
+						batchEngineUnitWrapper);
+				});
 
 		return CompletableFuture.allOf(
 			completableFutures.toArray(new CompletableFuture[0]));
@@ -96,9 +123,9 @@ public class MultiCompanyBatchEngineUnitProcessor {
 	private BatchEngineUnitProcessor _batchEngineUnitProcessor;
 
 	private final Map<Bundle, List<BatchEngineUnit>> _bundleBatchEngineUnits =
-		new HashMap<>();
+		new ConcurrentHashMap<>();
 	private final Map<Bundle, Set<Long>> _bundleProcessedCompanies =
-		new HashMap<>();
+		new ConcurrentHashMap<>();
 
 	@Reference
 	private CompanyLocalService _companyLocalService;

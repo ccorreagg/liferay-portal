@@ -1,5 +1,5 @@
 /**
- * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
@@ -8,7 +8,6 @@ package com.liferay.batch.engine.internal.bundle;
 import com.liferay.batch.engine.unit.BatchEngineUnit;
 import com.liferay.batch.engine.unit.BatchEngineUnitConfiguration;
 import com.liferay.batch.engine.unit.BundleBatchEngineUnit;
-import com.liferay.portal.kernel.model.Company;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,15 +15,15 @@ import java.io.InputStream;
 import org.osgi.framework.Bundle;
 
 /**
- * @author Alejandro Tardín
+ * @author Carlos Correa
  */
-public class CompanyBatchEngineUnitWrapper implements BundleBatchEngineUnit {
+public class EnabledFeatureFlagBatchEngineUnitWrapper
+	implements BundleBatchEngineUnit {
 
-	public CompanyBatchEngineUnitWrapper(
-		BatchEngineUnit batchEngineUnit, Company company) {
+	public EnabledFeatureFlagBatchEngineUnitWrapper(
+		BatchEngineUnit batchEngineUnit) {
 
 		_batchEngineUnit = batchEngineUnit;
-		_company = company;
 	}
 
 	@Override
@@ -37,10 +36,9 @@ public class CompanyBatchEngineUnitWrapper implements BundleBatchEngineUnit {
 		return new BatchEngineUnitConfiguration() {
 			{
 				setCallbackURL(batchEngineUnitConfiguration.getCallbackURL());
-				setCheckFeatureFlag(
-					batchEngineUnitConfiguration.isCheckFeatureFlag());
+				setCheckFeatureFlag(false);
 				setClassName(batchEngineUnitConfiguration.getClassName());
-				setCompanyId(_company.getCompanyId());
+				setCompanyId(batchEngineUnitConfiguration.getCompanyId());
 				setFieldNameMappingMap(
 					batchEngineUnitConfiguration.getFieldNameMappingMap());
 				setMultiCompany(batchEngineUnitConfiguration.isMultiCompany());
@@ -91,6 +89,5 @@ public class CompanyBatchEngineUnitWrapper implements BundleBatchEngineUnit {
 	}
 
 	private final BatchEngineUnit _batchEngineUnit;
-	private final Company _company;
 
 }

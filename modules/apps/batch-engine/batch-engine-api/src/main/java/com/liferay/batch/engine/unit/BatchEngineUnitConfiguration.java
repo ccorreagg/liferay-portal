@@ -53,6 +53,10 @@ public class BatchEngineUnitConfiguration {
 		return _version;
 	}
 
+	public boolean isCheckFeatureFlag() {
+		return _checkFeatureFlag;
+	}
+
 	public boolean isCheckPermissions() {
 		return _checkPermissions;
 	}
@@ -63,6 +67,11 @@ public class BatchEngineUnitConfiguration {
 
 	public void setCallbackURL(String callbackURL) {
 		_callbackURL = callbackURL;
+	}
+
+	@JsonIgnore
+	public void setCheckFeatureFlag(boolean checkFeatureFlag) {
+		_checkFeatureFlag = checkFeatureFlag;
 	}
 
 	@JsonIgnore
@@ -116,6 +125,7 @@ public class BatchEngineUnitConfiguration {
 	@JsonProperty("callbackURL")
 	private String _callbackURL;
 
+	private boolean _checkFeatureFlag = true;
 	private boolean _checkPermissions = true;
 
 	@JsonProperty("className")
