@@ -18,10 +18,7 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Alejandro Tardín
  */
-@Component(
-	property = "service.ranking:Integer=" + Integer.MIN_VALUE,
-	service = PortalInstanceLifecycleListener.class
-)
+@Component(service = PortalInstanceLifecycleListener.class)
 public class MultiCompanyBatchEngineUnitPortalInstanceLifecycleListener
 	extends BasePortalInstanceLifecycleListener {
 
