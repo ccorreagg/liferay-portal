@@ -5,7 +5,8 @@
 
 package com.liferay.batch.engine.internal.instance.lifecycle;
 
-import com.liferay.batch.engine.internal.unit.MultiCompanyBatchEngineUnitProcessor;
+import com.liferay.batch.engine.internal.unit.InternalBatchEngineUnitProcessor;
+import com.liferay.batch.engine.internal.unit.MultiCompanyInternalBatchEngineUnitProcessor;
 import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
 import com.liferay.portal.kernel.model.Company;
@@ -24,20 +25,29 @@ public class MultiCompanyBatchEngineUnitPortalInstanceLifecycleListener
 
 	@Override
 	public void portalInstanceRegistered(Company company) throws Exception {
+		MultiCompanyInternalBatchEngineUnitProcessor
+			multiCompanyInternalBatchEngineUnitProcessor =
+				(MultiCompanyInternalBatchEngineUnitProcessor)
+					_internalBatchEngineUnitProcessor;
+
 		CompletableFuture<Void> completableFuture =
-			_multiCompanyBatchEngineUnitProcessor.processBatchEngineUnits(
-				company);
+			multiCompanyInternalBatchEngineUnitProcessor.
+				processBatchEngineUnits(company);
 
 		completableFuture.get();
 	}
 
 	@Override
 	public void portalInstanceUnregistered(Company company) {
-		_multiCompanyBatchEngineUnitProcessor.unregister(company);
+		MultiCompanyInternalBatchEngineUnitProcessor
+			multiCompanyInternalBatchEngineUnitProcessor =
+				(MultiCompanyInternalBatchEngineUnitProcessor)
+					_internalBatchEngineUnitProcessor;
+
+		multiCompanyInternalBatchEngineUnitProcessor.unregister(company);
 	}
 
-	@Reference
-	private MultiCompanyBatchEngineUnitProcessor
-		_multiCompanyBatchEngineUnitProcessor;
+	@Reference(target = "(processor.type=multicompany)")
+	private InternalBatchEngineUnitProcessor _internalBatchEngineUnitProcessor;
 
 }
