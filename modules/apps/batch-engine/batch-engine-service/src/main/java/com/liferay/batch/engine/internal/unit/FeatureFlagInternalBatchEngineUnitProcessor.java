@@ -5,10 +5,18 @@
 
 package com.liferay.batch.engine.internal.unit;
 
+import com.liferay.batch.engine.internal.bundle.FeatureFlagBatchEngineUnitWrapper;
+import com.liferay.batch.engine.internal.unit.util.BatchEngineUnitUtil;
+import com.liferay.batch.engine.unit.BatchEngineUnit;
+import com.liferay.batch.engine.unit.BatchEngineUnitConfiguration;
+import com.liferay.batch.engine.unit.BatchEngineUnitProcessor;
 import com.liferay.petra.executor.PortalExecutorManager;
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.portal.kernel.feature.flag.FeatureFlag;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.feature.flag.listener.FeatureFlagListener;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Tuple;
 
 import java.util.ArrayList;
@@ -28,24 +36,56 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Carlos Correa
  */
-@Component(service = FeatureFlagBatchEngineUnitProcessor.class)
-public class FeatureFlagBatchEngineUnitProcessor {
+@Component(
+	property = "processor.type=feature.flag",
+	service = InternalBatchEngineUnitProcessor.class
+)
+public class FeatureFlagInternalBatchEngineUnitProcessor
+	implements InternalBatchEngineUnitProcessor {
 
-	public void registerBatchEngineUnit(
-		long companyId, String featureFlagKey,
-		UnsafeSupplier<CompletableFuture<Void>, Exception> unsafeSupplier) {
+	@Override
+	public CompletableFuture<Void> processBatchEngineUnit(
+		BatchEngineUnit batchEngineUnit) {
 
-		_unsafeSuppliers.compute(
-			_getTuple(companyId, featureFlagKey),
-			(key, unsafeSuppliers) -> {
-				if (unsafeSuppliers == null) {
-					unsafeSuppliers = new ArrayList<>();
-				}
+		try {
+			BatchEngineUnitConfiguration batchEngineUnitConfiguration =
+				batchEngineUnit.getBatchEngineUnitConfiguration();
 
-				unsafeSuppliers.add(unsafeSupplier);
+			String featureFlag = BatchEngineUnitUtil.getFeatureFlag(
+				batchEngineUnitConfiguration);
 
-				return unsafeSuppliers;
-			});
+			FeatureFlagBatchEngineUnitWrapper
+				featureFlagBatchEngineUnitWrapper =
+					new FeatureFlagBatchEngineUnitWrapper(
+						batchEngineUnit, null);
+
+			if (FeatureFlagManagerUtil.isEnabled(featureFlag)) {
+				return _batchEngineUnitProcessor.processBatchEngineUnit(
+					featureFlagBatchEngineUnitWrapper);
+			}
+
+			_unsafeSuppliers.compute(
+				_getTuple(
+					batchEngineUnitConfiguration.getCompanyId(), featureFlag),
+				(key, unsafeSuppliers) -> {
+					if (unsafeSuppliers == null) {
+						unsafeSuppliers = new ArrayList<>();
+					}
+
+					unsafeSuppliers.add(
+						() -> _batchEngineUnitProcessor.processBatchEngineUnit(
+							featureFlagBatchEngineUnitWrapper));
+
+					return unsafeSuppliers;
+				});
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(exception);
+			}
+		}
+
+		return null;
 	}
 
 	@Activate
@@ -62,6 +102,12 @@ public class FeatureFlagBatchEngineUnitProcessor {
 	private Tuple _getTuple(long companyId, String featureFlagKey) {
 		return new Tuple(companyId, featureFlagKey);
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		FeatureFlagInternalBatchEngineUnitProcessor.class);
+
+	@Reference
+	private BatchEngineUnitProcessor _batchEngineUnitProcessor;
 
 	@Reference
 	private PortalExecutorManager _portalExecutorManager;
