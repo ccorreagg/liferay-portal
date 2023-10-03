@@ -6,8 +6,8 @@
 package com.liferay.portal.test.rule;
 
 import com.liferay.portal.kernel.test.rule.AbstractTestRule;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.UnicodePropertiesBuilder;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PropsUtil;
 
 import java.util.Collections;
@@ -70,15 +70,14 @@ public class FeatureFlagTestRule
 		for (String key : featureFlags.value()) {
 			String featureFlagKey = "feature.flag." + key;
 
-			String previousValue = PropsUtil.get(featureFlagKey);
-
-			if (Validator.isNotNull(previousValue)) {
-				previousValues.put(featureFlagKey, previousValue);
-			}
+			previousValues.put(
+				featureFlagKey,
+				GetterUtil.get(
+					PropsUtil.get(featureFlagKey), Boolean.FALSE.toString()));
 
 			PropsUtil.addProperties(
 				UnicodePropertiesBuilder.setProperty(
-					featureFlagKey, "true"
+					featureFlagKey, Boolean.TRUE.toString()
 				).build());
 		}
 

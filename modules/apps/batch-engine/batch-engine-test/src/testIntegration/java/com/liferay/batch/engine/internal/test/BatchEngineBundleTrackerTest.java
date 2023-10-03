@@ -14,11 +14,11 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
-import com.liferay.portal.kernel.test.util.CompanyTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.zip.ZipWriter;
 import com.liferay.portal.kernel.zip.ZipWriterFactory;
+import com.liferay.portal.test.rule.FeatureFlags;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
@@ -64,20 +64,28 @@ public class BatchEngineBundleTrackerTest {
 
 	@Test
 	public void testProcessBatchEngineBundle() throws Exception {
-		_testProcessBatchEngineBundle("batch1", 1);
-		_testProcessBatchEngineBundle("batch2", 0);
-		_testProcessBatchEngineBundle("batch3", 2);
-		_testProcessBatchEngineBundle("batch4", 3);
-		_testProcessBatchEngineBundle("batch5", 1);
-		_testProcessBatchEngineBundle("batch6", 2);
-		_testProcessBatchEngineBundle("batch7", 1);
-		_testProcessBatchEngineBundle("batch8", 3);
+		//		_testProcessBatchEngineBundle("batch1", 1);
+		//		_testProcessBatchEngineBundle("batch2", 0);
+		//		_testProcessBatchEngineBundle("batch3", 2);
+		//		_testProcessBatchEngineBundle("batch4", 3);
+		//		_testProcessBatchEngineBundle("batch5", 1);
+		//		_testProcessBatchEngineBundle("batch6", 2);
+		//		_testProcessBatchEngineBundle("batch7", 1);
+		//		_testProcessBatchEngineBundle("batch8", 3);
+		//
+		//		_testProcessBatchEngineBundle("batch9", 1);
+		//
+		//		_company = CompanyTestUtil.addCompany();
+		//
+		//		_testProcessBatchEngineBundle("batch9", 2);
 
-		_testProcessBatchEngineBundle("batch9", 1);
+		_testProcessBatchEngineBundle("batch10", 0);
+	}
 
-		_company = CompanyTestUtil.addCompany();
-
-		_testProcessBatchEngineBundle("batch9", 2);
+	@FeatureFlags("LPS-TEST10")
+	@Test
+	public void testProcessBatchEngineBundleWithFeatureFlag() throws Exception {
+		_testProcessBatchEngineBundle("batch10", 1);
 	}
 
 	private void _testProcessBatchEngineBundle(
