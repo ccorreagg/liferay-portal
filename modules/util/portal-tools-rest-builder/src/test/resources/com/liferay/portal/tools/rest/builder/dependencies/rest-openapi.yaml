@@ -97,6 +97,39 @@ components:
                     type: array
             title: TestArray
             type: object
+        TestBaseAllOfSchema:
+            description:
+                Test Component to test the REST Builder support for allOf
+            properties:
+                baseName:
+                    type: string
+                baseValue:
+                    type: string
+            title: TestBaseSchema
+            type: object
+        TestAllOfSchema1:
+            description:
+                Test Component 1 to test the REST Builder support for allOf
+            allOf:
+                - $ref: "#/components/schemas/TestBaseAllOfSchema"
+                  x-merge-properties: false
+                - properties:
+                      name:
+                        type: string
+                      value:
+                        type: string
+            title: TestAllOfSchema1
+        TestAllOfSchema2:
+            description:
+                Test Component 2 to test the REST Builder support for allOf
+            allOf:
+                - $ref: "#/components/schemas/TestBaseAllOfSchema"
+                - properties:
+                      name:
+                          type: string
+                      value:
+                          type: string
+            title: TestAllOfSchema2
         UnreferencedSchemaComponent:
             properties:
                 description:
