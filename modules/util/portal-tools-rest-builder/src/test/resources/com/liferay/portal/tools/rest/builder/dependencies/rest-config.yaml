@@ -1,4 +1,4 @@
-apiDir: "./test-classes/actual/sample-api/src/main/java"
+apiDir: "./test-classes/actual/compatibilityVersion${compatibilityVersion}/sample-api/src/main/java"
 apiName: "sample"
 apiPackagePath: "com.example.sample"
 application:
@@ -6,5 +6,6 @@ application:
     className: "SampleApplication"
     name: "sample-application"
 author: "John Doe"
+compatibilityVersion: ${compatibilityVersion}
 forcePredictableOperationId: true
-implDir: "./test-classes/actual/sample-impl/src/main/java"
+implDir: "./test-classes/actual/compatibilityVersion${compatibilityVersion}/sample-impl/src/main/java"
