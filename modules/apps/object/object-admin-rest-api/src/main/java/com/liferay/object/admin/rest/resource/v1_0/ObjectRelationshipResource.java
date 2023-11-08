@@ -78,6 +78,18 @@ public interface ObjectRelationshipResource {
 			Long objectDefinitionId, String callbackURL, Object object)
 		throws Exception;
 
+	public ObjectRelationship postObjectRelationship(
+			ObjectRelationship objectRelationship)
+		throws Exception;
+
+	public Response postObjectRelationshipBatch(
+			String callbackURL, Object object)
+		throws Exception;
+
+	public ObjectRelationship putObjectRelationshipByExternalReferenceCode(
+			String externalReferenceCode, ObjectRelationship objectRelationship)
+		throws Exception;
+
 	public void deleteObjectRelationship(Long objectRelationshipId)
 		throws Exception;
 

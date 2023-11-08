@@ -855,6 +855,50 @@ public class Mutation {
 	}
 
 	@GraphQLField
+	public ObjectRelationship createObjectRelationship(
+			@GraphQLName("objectRelationship") ObjectRelationship
+				objectRelationship)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_objectRelationshipResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			objectRelationshipResource ->
+				objectRelationshipResource.postObjectRelationship(
+					objectRelationship));
+	}
+
+	@GraphQLField
+	public Response createObjectRelationshipBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_objectRelationshipResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			objectRelationshipResource ->
+				objectRelationshipResource.postObjectRelationshipBatch(
+					callbackURL, object));
+	}
+
+	@GraphQLField
+	public ObjectRelationship updateObjectRelationshipByExternalReferenceCode(
+			@GraphQLName("externalReferenceCode") String externalReferenceCode,
+			@GraphQLName("objectRelationship") ObjectRelationship
+				objectRelationship)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_objectRelationshipResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			objectRelationshipResource ->
+				objectRelationshipResource.
+					putObjectRelationshipByExternalReferenceCode(
+						externalReferenceCode, objectRelationship));
+	}
+
+	@GraphQLField
 	public boolean deleteObjectRelationship(
 			@GraphQLName("objectRelationshipId") Long objectRelationshipId)
 		throws Exception {

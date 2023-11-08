@@ -358,6 +358,21 @@ public class ServletDataImpl implements ServletData {
 							ObjectRelationshipResourceImpl.class,
 							"postObjectDefinitionObjectRelationshipBatch"));
 					put(
+						"mutation#createObjectRelationship",
+						new ObjectValuePair<>(
+							ObjectRelationshipResourceImpl.class,
+							"postObjectRelationship"));
+					put(
+						"mutation#createObjectRelationshipBatch",
+						new ObjectValuePair<>(
+							ObjectRelationshipResourceImpl.class,
+							"postObjectRelationshipBatch"));
+					put(
+						"mutation#updateObjectRelationshipByExternalReferenceCode",
+						new ObjectValuePair<>(
+							ObjectRelationshipResourceImpl.class,
+							"putObjectRelationshipByExternalReferenceCode"));
+					put(
 						"mutation#deleteObjectRelationship",
 						new ObjectValuePair<>(
 							ObjectRelationshipResourceImpl.class,
