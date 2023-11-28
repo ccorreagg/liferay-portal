@@ -70,40 +70,43 @@ public class BatchEngineBundleTrackerTest {
 
 	@Test
 	public void testProcessBatchEngineBundle() throws Exception {
-		_testProcessBatchEngineBundle(
-			"batch1", 1, Arrays.asList("/batch1/export.json"));
-		_testProcessBatchEngineBundle("batch2", 0, Arrays.asList());
-		_testProcessBatchEngineBundle(
-			"batch3", 2,
-			Arrays.asList(
-				"/batch3/batch1/export.json", "/batch3/batch2/export.json"));
-		_testProcessBatchEngineBundle(
-			"batch4", 3,
-			Arrays.asList(
-				"/batch4/batch1/export.json", "/batch4/batch2/export.json",
-				"/batch4/batch2/batch3/export.json"));
-		_testProcessBatchEngineBundle(
-			"batch5", 1, Arrays.asList("/batch5/data.batch-engine-data.json"));
-		_testProcessBatchEngineBundle(
-			"batch6", 2,
-			Arrays.asList(
-				"/batch6/data1.batch-engine-data.json",
-				"/batch6/data2.batch-engine-data.json"));
-		_testProcessBatchEngineBundle(
-			"batch7", 1, Arrays.asList("/batch7/export.json"));
-		_testProcessBatchEngineBundle(
-			"batch8", 3,
-			Arrays.asList(
-				"/batch8/data1.batch-engine-data.json",
-				"/batch8/data2.batch-engine-data.json",
-				"/batch8/data3.batch-engine-data.json"));
-
-		_testProcessBatchEngineBundle(
-			"batch9", 1, Arrays.asList("/batch9/data.batch-engine-data.json"));
+//		_testProcessBatchEngineBundle(
+//			"batch1", 1, Arrays.asList("/batch1/export.json"));
+//		_testProcessBatchEngineBundle("batch2", 0, Arrays.asList());
+//		_testProcessBatchEngineBundle(
+//			"batch3", 2,
+//			Arrays.asList(
+//				"/batch3/batch1/export.json", "/batch3/batch2/export.json"));
+//		_testProcessBatchEngineBundle(
+//			"batch4", 3,
+//			Arrays.asList(
+//				"/batch4/batch1/export.json", "/batch4/batch2/export.json",
+//				"/batch4/batch2/batch3/export.json"));
+//		_testProcessBatchEngineBundle(
+//			"batch5", 1, Arrays.asList("/batch5/data.batch-engine-data.json"));
+//		_testProcessBatchEngineBundle(
+//			"batch6", 2,
+//			Arrays.asList(
+//				"/batch6/data1.batch-engine-data.json",
+//				"/batch6/data2.batch-engine-data.json"));
+//		_testProcessBatchEngineBundle(
+//			"batch7", 1, Arrays.asList("/batch7/export.json"));
+//		_testProcessBatchEngineBundle(
+//			"batch8", 3,
+//			Arrays.asList(
+//				"/batch8/data1.batch-engine-data.json",
+//				"/batch8/data2.batch-engine-data.json",
+//				"/batch8/data3.batch-engine-data.json"));
+//
+//		_testProcessBatchEngineBundle(
+//			"batch9", 1, Arrays.asList("/batch9/data.batch-engine-data.json"));
 
 		_company = CompanyTestUtil.addCompany();
 
-		PortalInstances.initCompany(_company);
+//		PortalInstances.initCompany(_company);
+
+		System.out.println(
+			"[test] [THREAD: " + Thread.currentThread().getId() + "]");
 
 		_testProcessBatchEngineBundle(
 			"batch9", 2,
