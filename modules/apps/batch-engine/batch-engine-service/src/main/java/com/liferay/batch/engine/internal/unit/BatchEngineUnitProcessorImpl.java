@@ -117,7 +117,7 @@ public class BatchEngineUnitProcessorImpl implements BatchEngineUnitProcessor {
 		for (int i = 1; i < runnables.size(); i++) {
 			Runnable runnable = runnables.get(i);
 
-			completableFuture = completableFuture.thenAcceptAsync(
+			completableFuture = completableFuture.thenAccept(
 				result -> runnable.run());
 		}
 
