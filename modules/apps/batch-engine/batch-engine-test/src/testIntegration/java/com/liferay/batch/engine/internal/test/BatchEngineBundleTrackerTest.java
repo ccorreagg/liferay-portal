@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.zip.ZipWriter;
 import com.liferay.portal.kernel.zip.ZipWriterFactory;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.util.PortalInstances;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -101,6 +102,8 @@ public class BatchEngineBundleTrackerTest {
 			"batch9", 1, Arrays.asList("/batch9/data.batch-engine-data.json"));
 
 		_company = CompanyTestUtil.addCompany();
+
+		PortalInstances.initCompany(_company);
 
 		_testProcessBatchEngineBundle(
 			"batch9", 2,
