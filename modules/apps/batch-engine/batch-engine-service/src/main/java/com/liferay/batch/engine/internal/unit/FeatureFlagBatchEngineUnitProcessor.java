@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.Tuple;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 
@@ -32,7 +33,7 @@ public class FeatureFlagBatchEngineUnitProcessor {
 
 	public void registerBatchEngineUnit(
 		long companyId, String featureFlagKey,
-		UnsafeSupplier<Runnable, Exception> unsafeSupplier) {
+		UnsafeSupplier<CompletableFuture<Void>, Exception> unsafeSupplier) {
 
 		_unsafeSuppliers.compute(
 			_getTuple(companyId, featureFlagKey),
@@ -67,8 +68,9 @@ public class FeatureFlagBatchEngineUnitProcessor {
 	private PortalExecutorManager _portalExecutorManager;
 
 	private ServiceRegistration<FeatureFlagListener> _serviceRegistration;
-	private final Map<Tuple, List<UnsafeSupplier<Runnable, Exception>>>
-		_unsafeSuppliers = new ConcurrentHashMap<>();
+	private final Map
+		<Tuple, List<UnsafeSupplier<CompletableFuture<Void>, Exception>>>
+			_unsafeSuppliers = new ConcurrentHashMap<>();
 
 	private class FeatureFlagListenerImpl implements FeatureFlagListener {
 
@@ -87,8 +89,8 @@ public class FeatureFlagBatchEngineUnitProcessor {
 			}
 
 			synchronized (_unsafeSuppliers) {
-				List<UnsafeSupplier<Runnable, Exception>> unsafeSuppliers =
-					_unsafeSuppliers.remove(tuple);
+				List<UnsafeSupplier<CompletableFuture<Void>, Exception>>
+					unsafeSuppliers = _unsafeSuppliers.remove(tuple);
 
 				ExecutorService executorService =
 					_portalExecutorManager.getPortalExecutor(
@@ -96,13 +98,14 @@ public class FeatureFlagBatchEngineUnitProcessor {
 
 				executorService.submit(
 					() -> {
-						for (UnsafeSupplier<Runnable, Exception>
+						for (UnsafeSupplier<CompletableFuture<Void>, Exception>
 								unsafeSupplier : unsafeSuppliers) {
 
 							try {
-								Runnable runnable = unsafeSupplier.get();
+								CompletableFuture<Void> completableFuture =
+									unsafeSupplier.get();
 
-								runnable.run();
+								completableFuture.get();
 							}
 							catch (Exception exception) {
 								throw new RuntimeException(exception);

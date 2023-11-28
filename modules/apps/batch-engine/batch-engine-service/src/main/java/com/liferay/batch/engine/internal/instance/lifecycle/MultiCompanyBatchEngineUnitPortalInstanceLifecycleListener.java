@@ -27,6 +27,9 @@ public class MultiCompanyBatchEngineUnitPortalInstanceLifecycleListener
 
 	@Override
 	public void portalInstanceRegistered(Company company) throws Exception {
+		System.out.println(
+			"[portalInstanceRegistered] [THREAD: " + Thread.currentThread().getId() + "] [COMPANY: " + company.getCompanyId() + "]");
+
 		CompletableFuture<Void> completableFuture =
 			_multiCompanyBatchEngineUnitProcessor.processBatchEngineUnits(
 				company);

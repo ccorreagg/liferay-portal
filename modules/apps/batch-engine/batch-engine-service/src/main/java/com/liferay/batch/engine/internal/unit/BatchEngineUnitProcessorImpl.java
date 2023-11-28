@@ -80,7 +80,8 @@ public class BatchEngineUnitProcessorImpl implements BatchEngineUnitProcessor {
 					_featureFlagBatchEngineUnitProcessor.
 						registerBatchEngineUnit(
 							batchEngineUnitMetaInfo.getCompanyId(), featureFlag,
-							() -> _getRunnable(batchEngineUnit));
+							() -> CompletableFuture.runAsync(
+								_getRunnable(batchEngineUnit)));
 
 					continue;
 				}
@@ -258,7 +259,7 @@ public class BatchEngineUnitProcessorImpl implements BatchEngineUnitProcessor {
 
 		return () -> {
 			System.out.println(
-				"[BEGIN] [COMPANY: " +
+				"[BEGIN] [THREAD: " + Thread.currentThread().getId() + "] [COMPANY: " +
 					batchEngineUnitConfiguration.getCompanyId() + "]");
 
 			CompletableFuture<Void> completableFuture =
@@ -296,6 +297,10 @@ public class BatchEngineUnitProcessorImpl implements BatchEngineUnitProcessor {
 							serviceReference);
 
 						try {
+							System.out.println(
+								"[EXECUTION] [THREAD: " + Thread.currentThread().getId() + "] [COMPANY: " +
+								batchEngineUnitConfiguration.getCompanyId() + "]");
+
 							_execute(
 								batchEngineUnit, batchEngineUnitConfiguration,
 								content, contentType, service, this);
@@ -329,7 +334,7 @@ public class BatchEngineUnitProcessorImpl implements BatchEngineUnitProcessor {
 			}
 
 			System.out.println(
-				"[END] [COMPANY: " +
+				"[END] [THREAD: " + Thread.currentThread().getId() + "] [COMPANY: " +
 					batchEngineUnitConfiguration.getCompanyId() + "]");
 		};
 	}
