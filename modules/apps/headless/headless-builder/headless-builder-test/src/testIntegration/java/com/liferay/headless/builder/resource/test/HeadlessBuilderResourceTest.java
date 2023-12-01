@@ -1874,6 +1874,39 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 			apiEndpointExternalReferenceCode, apiSchemaExternalReferenceCode);
 	}
 
+	private class APIApplicationBuilder {
+
+		private APIApplicationBuilder withAPIEndpoint(
+			String externalReferenceCode, Http.Method method, String path, String pathParameter, APIApplication.Endpoint.RetrieveType retrieveType, APIApplication.Endpoint.Scope scope) {
+
+			JSONArray jsonArray =
+				_apiapplicationJSONObject.getJSONArray("apiApplicationToAPIEndpoints");
+
+			if (jsonArray == null) {
+				jsonArray = JSONFactoryUtil.createJSONArray();
+			}
+
+			jsonArray.put(
+				_createAPIEndpoint(
+					externalReferenceCode, method, path,
+					pathParameter,
+					retrieveType.getValue(),
+					scope));
+
+			return this;
+		}
+
+		private APIApplicationBuilder withAPISchema(
+			String externalReferenceCode, ObjectDefinition objectDefinition) {
+
+			// TODO
+
+			return this;
+		}
+
+		private JSONObject _apiapplicationJSONObject;
+	}
+
 	private void _addAPIApplication(
 			String apiApplicationExternalReferenceCode,
 			String apiEndpointExternalReferenceCode, String baseURL,
