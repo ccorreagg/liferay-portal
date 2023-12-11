@@ -311,6 +311,18 @@ public class ${schemaName} <#if dtoParentClassName?has_content>extends ${dtoPare
 		}
 	</#if>
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		<#list properties?keys as propertyName>
+			if (Objects.equals(propertyName, "${propertyName}")) {
+				set${propertyName?cap_first}((${properties[propertyName]})propertyValue);
+			}
+
+			<#sep>
+				else
+			</#sep>
+		</#list>
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();
