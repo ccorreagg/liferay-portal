@@ -47,7 +47,6 @@ import com.liferay.headless.admin.user.resource.v1_0.UserAccountResource;
 import com.liferay.headless.common.spi.service.context.ServiceContextBuilder;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
-import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.captcha.CaptchaSettings;
@@ -1116,6 +1115,209 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 		return _toUserAccount(user);
 	}
 
+	protected Map<String, UnsafeFunction<User, Object, Exception>>
+		getFieldUnsafeFunctions(DTOConverterContext dtoConverterContext) {
+
+		return HashMapBuilder.
+			<String, UnsafeFunction<User, Object, Exception>>put(
+				"accountBriefs",
+				user -> transformToArray(
+					_accountEntryUserRelService.
+						getAccountEntryUserRelsByAccountUserId(
+							user.getUserId()),
+					accountEntryUserRel -> _toAccountBrief(
+						accountEntryUserRel, dtoConverterContext, user),
+					AccountBrief.class)
+			).put(
+				"actions", user -> dtoConverterContext.getActions()
+			).put(
+				"additionalName", user -> user.getMiddleName()
+			).put(
+				"alternateName", user -> user.getScreenName()
+			).put(
+				"birthDate", user -> user.getBirthday()
+			).put(
+				"customFields",
+				user -> CustomFieldsUtil.toCustomFields(
+					dtoConverterContext.isAcceptAllLanguages(),
+					User.class.getName(), user.getUserId(), user.getCompanyId(),
+					dtoConverterContext.getLocale())
+			).put(
+				"dateCreated", user -> user.getCreateDate()
+			).put(
+				"dashboardURL",
+				user -> {
+					Group group = user.getGroup();
+
+					if (group == null) {
+						return null;
+					}
+
+					return group.getDisplayURL(_getThemeDisplay(group), true);
+				}
+			).put(
+				"dateModified", user -> user.getModifiedDate()
+			).put(
+				"emailAddress", user -> user.getEmailAddresses()
+			).put(
+				"externalReferenceCode", user -> user.getExternalReferenceCode()
+			).put(
+				"familyName", user -> user.getLastName()
+			).put(
+				"givenName", user -> user.getFirstName()
+			).put(
+				"honorificPrefix",
+				user -> {
+					Contact contact = user.getContact();
+
+					return ServiceBuilderListTypeUtil.
+						getServiceBuilderListTypeMessage(
+							contact.getPrefixListTypeId(),
+							dtoConverterContext.getLocale());
+				}
+			).put(
+				"honorificSuffix",
+				user -> {
+					Contact contact = user.getContact();
+
+					return ServiceBuilderListTypeUtil.
+						getServiceBuilderListTypeMessage(
+							contact.getPrefixListTypeId(),
+							dtoConverterContext.getLocale());
+				}
+			).put(
+				"id", User::getUserId
+			).put(
+				"imageId", User::getPortraitId
+			).put(
+				"jobTitle", User::getJobTitle
+			).put(
+				"keywords",
+				user -> ListUtil.toArray(
+					_assetTagLocalService.getTags(
+						User.class.getName(), user.getUserId()),
+					AssetTag.NAME_ACCESSOR)
+			).put(
+				"languageId", User::getLanguageId
+			).put(
+				"lastLoginDate", User::getLastLoginDate
+			).put(
+				"name", User::getFullName
+			).put(
+				"organizationBriefs",
+				user -> transformToArray(
+					user.getOrganizations(),
+					organization -> _toOrganizationBrief(
+						dtoConverterContext, organization, user),
+					OrganizationBrief.class)
+			).put(
+				"siteBriefs",
+				user -> transformToArray(
+					_groupLocalService.getUserSitesGroups(user.getUserId()),
+					group -> _toSiteBrief(dtoConverterContext, group, user),
+					SiteBrief.class)
+			).put(
+				"userAccountContactInformation",
+				user -> {
+					Contact contact = user.getContact();
+
+					return new UserAccountContactInformation() {
+						{
+							emailAddresses = transformToArray(
+								user.getEmailAddresses(),
+								EmailAddressUtil::toEmailAddress,
+								EmailAddress.class);
+							facebook = contact.getFacebookSn();
+							jabber = contact.getJabberSn();
+							postalAddresses = transformToArray(
+								user.getAddresses(),
+								address -> PostalAddressUtil.toPostalAddress(
+									dtoConverterContext.isAcceptAllLanguages(),
+									address, user.getCompanyId(),
+									dtoConverterContext.getLocale()),
+								PostalAddress.class);
+							skype = contact.getSkypeSn();
+							sms = contact.getSmsSn();
+							telephones = transformToArray(
+								user.getPhones(), PhoneUtil::toPhone,
+								Phone.class);
+							twitter = contact.getTwitterSn();
+							webUrls = transformToArray(
+								user.getWebsites(), WebUrlUtil::toWebUrl,
+								WebUrl.class);
+						}
+					};
+				}
+			).put(
+				"userGroupBriefs",
+				user -> transformToArray(
+					_userGroupLocalService.getUserUserGroups(user.getUserId()),
+					userGroup -> _toUserGroupBrief(userGroup),
+					UserGroupBrief.class)
+			).put(
+				"image",
+				user -> {
+					if (user.getPortraitId() == 0) {
+						return null;
+					}
+
+					ThemeDisplay themeDisplay = new ThemeDisplay() {
+						{
+							setPathImage(_portal.getPathImage());
+						}
+					};
+
+					return user.getPortraitURL(themeDisplay);
+				}
+			).put(
+				"languageDisplayName",
+				user -> {
+					if (Validator.isNull(user.getLanguageId())) {
+						return null;
+					}
+
+					Locale locale = LocaleUtil.fromLanguageId(
+						user.getLanguageId());
+
+					return locale.getDisplayName(
+						dtoConverterContext.getLocale());
+				}
+			).put(
+				"profileURL",
+				user -> {
+					Group group = user.getGroup();
+
+					if (group == null) {
+						return null;
+					}
+
+					return group.getDisplayURL(_getThemeDisplay(group));
+				}
+			).put(
+				"roleBriefs",
+				user -> {
+					UserBag userBag = UserBagFactoryUtil.create(
+						user.getUserId());
+
+					return _toRoleBriefs(
+						dtoConverterContext, userBag.getRoles());
+				}
+			).put(
+				"status",
+				user -> {
+					if (user.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+						return UserAccount.Status.ACTIVE;
+					}
+
+					if (user.getStatus() == WorkflowConstants.STATUS_INACTIVE) {
+						return UserAccount.Status.INACTIVE;
+					}
+
+					return null;
+				}
+			).build();
+	}
+
 	@Override
 	protected void preparePatch(
 		UserAccount userAccount, UserAccount existingUserAccount) {
@@ -1378,209 +1580,6 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 			contextUser);
 	}
 
-	private Map<String, UnsafeFunction<User, Object, Exception>>
-		_getFieldUnsafeFunctions(DTOConverterContext dtoConverterContext) {
-
-		return HashMapBuilder.
-			<String, UnsafeFunction<User, Object, Exception>>put(
-				"accountBriefs",
-				user -> TransformUtil.transformToArray(
-					_accountEntryUserRelService.
-						getAccountEntryUserRelsByAccountUserId(
-							user.getUserId()),
-					accountEntryUserRel -> _toAccountBrief(
-						accountEntryUserRel, dtoConverterContext, user),
-					AccountBrief.class)
-			).put(
-				"actions", user -> dtoConverterContext.getActions()
-			).put(
-				"additionalName", user -> user.getMiddleName()
-			).put(
-				"alternateName", user -> user.getScreenName()
-			).put(
-				"birthDate", user -> user.getBirthday()
-			).put(
-				"customFields",
-				user -> CustomFieldsUtil.toCustomFields(
-					dtoConverterContext.isAcceptAllLanguages(),
-					User.class.getName(), user.getUserId(), user.getCompanyId(),
-					dtoConverterContext.getLocale())
-			).put(
-				"dateCreated", user -> user.getCreateDate()
-			).put(
-				"dashboardURL",
-				user -> {
-					Group group = user.getGroup();
-
-					if (group == null) {
-						return null;
-					}
-
-					return group.getDisplayURL(_getThemeDisplay(group), true);
-				}
-			).put(
-				"dateModified", user -> user.getModifiedDate()
-			).put(
-				"emailAddress", user -> user.getEmailAddresses()
-			).put(
-				"externalReferenceCode", user -> user.getExternalReferenceCode()
-			).put(
-				"familyName", user -> user.getLastName()
-			).put(
-				"givenName", user -> user.getFirstName()
-			).put(
-				"honorificPrefix",
-				user -> {
-					Contact contact = user.getContact();
-
-					return ServiceBuilderListTypeUtil.
-						getServiceBuilderListTypeMessage(
-							contact.getPrefixListTypeId(),
-							dtoConverterContext.getLocale());
-				}
-			).put(
-				"honorificSuffix",
-				user -> {
-					Contact contact = user.getContact();
-
-					return ServiceBuilderListTypeUtil.
-						getServiceBuilderListTypeMessage(
-							contact.getPrefixListTypeId(),
-							dtoConverterContext.getLocale());
-				}
-			).put(
-				"id", User::getUserId
-			).put(
-				"imageId", User::getPortraitId
-			).put(
-				"jobTitle", User::getJobTitle
-			).put(
-				"keywords",
-				user -> ListUtil.toArray(
-					_assetTagLocalService.getTags(
-						User.class.getName(), user.getUserId()),
-					AssetTag.NAME_ACCESSOR)
-			).put(
-				"languageId", User::getLanguageId
-			).put(
-				"lastLoginDate", User::getLastLoginDate
-			).put(
-				"name", User::getFullName
-			).put(
-				"organizationBriefs",
-				user -> TransformUtil.transformToArray(
-					user.getOrganizations(),
-					organization -> _toOrganizationBrief(
-						dtoConverterContext, organization, user),
-					OrganizationBrief.class)
-			).put(
-				"siteBriefs",
-				user -> TransformUtil.transformToArray(
-					_groupLocalService.getUserSitesGroups(user.getUserId()),
-					group -> _toSiteBrief(dtoConverterContext, group, user),
-					SiteBrief.class)
-			).put(
-				"userAccountContactInformation",
-				user -> {
-					Contact contact = user.getContact();
-
-					return new UserAccountContactInformation() {
-						{
-							emailAddresses = TransformUtil.transformToArray(
-								user.getEmailAddresses(),
-								EmailAddressUtil::toEmailAddress,
-								EmailAddress.class);
-							facebook = contact.getFacebookSn();
-							jabber = contact.getJabberSn();
-							postalAddresses = TransformUtil.transformToArray(
-								user.getAddresses(),
-								address -> PostalAddressUtil.toPostalAddress(
-									dtoConverterContext.isAcceptAllLanguages(),
-									address, user.getCompanyId(),
-									dtoConverterContext.getLocale()),
-								PostalAddress.class);
-							skype = contact.getSkypeSn();
-							sms = contact.getSmsSn();
-							telephones = TransformUtil.transformToArray(
-								user.getPhones(), PhoneUtil::toPhone,
-								Phone.class);
-							twitter = contact.getTwitterSn();
-							webUrls = TransformUtil.transformToArray(
-								user.getWebsites(), WebUrlUtil::toWebUrl,
-								WebUrl.class);
-						}
-					};
-				}
-			).put(
-				"userGroupBriefs",
-				user -> TransformUtil.transformToArray(
-					_userGroupLocalService.getUserUserGroups(user.getUserId()),
-					userGroup -> _toUserGroupBrief(userGroup),
-					UserGroupBrief.class)
-			).put(
-				"image",
-				user -> {
-					if (user.getPortraitId() == 0) {
-						return null;
-					}
-
-					ThemeDisplay themeDisplay = new ThemeDisplay() {
-						{
-							setPathImage(_portal.getPathImage());
-						}
-					};
-
-					return user.getPortraitURL(themeDisplay);
-				}
-			).put(
-				"languageDisplayName",
-				user -> {
-					if (Validator.isNull(user.getLanguageId())) {
-						return null;
-					}
-
-					Locale locale = LocaleUtil.fromLanguageId(
-						user.getLanguageId());
-
-					return locale.getDisplayName(
-						dtoConverterContext.getLocale());
-				}
-			).put(
-				"profileURL",
-				user -> {
-					Group group = user.getGroup();
-
-					if (group == null) {
-						return null;
-					}
-
-					return group.getDisplayURL(_getThemeDisplay(group));
-				}
-			).put(
-				"roleBriefs",
-				user -> {
-					UserBag userBag = UserBagFactoryUtil.create(
-						user.getUserId());
-
-					return _toRoleBriefs(
-						dtoConverterContext, userBag.getRoles());
-				}
-			).put(
-				"status",
-				user -> {
-					if (user.getStatus() == WorkflowConstants.STATUS_APPROVED) {
-						return UserAccount.Status.ACTIVE;
-					}
-
-					if (user.getStatus() == WorkflowConstants.STATUS_INACTIVE) {
-						return UserAccount.Status.INACTIVE;
-					}
-
-					return null;
-				}
-			).build();
-	}
-
 	private Map<String, Map<String, String>> _getModelActions(
 		Map<String, String[]> actionMethodMap, long id,
 		ModelResourcePermission<?> modelResourcePermission) {
@@ -1836,7 +1835,7 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 				externalReferenceCode = accountEntry.getExternalReferenceCode();
 				id = accountEntry.getAccountEntryId();
 				name = accountEntry.getName();
-				roleBriefs = TransformUtil.transformToArray(
+				roleBriefs = transformToArray(
 					_accountRoleLocalService.getAccountRoles(
 						accountEntry.getAccountEntryId(), user.getUserId()),
 					accountRole -> _toRoleBrief(
@@ -1898,7 +1897,7 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 			DTOConverterContext dtoConverterContext, Collection<Role> roles)
 		throws Exception {
 
-		return TransformUtil.transformToArray(
+		return transformToArray(
 			roles,
 			role -> {
 				if (!_roleModelResourcePermission.contains(
@@ -1951,32 +1950,19 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 			actions = dtoConverterContext.getActions();
 		}
 
-		//		return _userResourceDTOConverter.toDTO(
-		//			new DefaultDTOConverterContext(
-		//				contextAcceptLanguage.isAcceptAllLanguages(), actions,
-		//				_dtoConverterRegistry, userId,
-		//				contextAcceptLanguage.getPreferredLocale(), contextUriInfo,
-		//				contextUser));
-
 		return _userAccountNewDTOConverter.toDTO(
 			UserAccount.class,
-			_getFieldUnsafeFunctions(
-				new DefaultDTOConverterContext(
-					contextAcceptLanguage.isAcceptAllLanguages(), actions,
-					_dtoConverterRegistry, userId,
-					contextAcceptLanguage.getPreferredLocale(), contextUriInfo,
-					contextUser)),
-			_userService.getUserById(userId));
+			new DefaultDTOConverterContext(
+				contextAcceptLanguage.isAcceptAllLanguages(), actions,
+				_dtoConverterRegistry, userId,
+				contextAcceptLanguage.getPreferredLocale(), contextUriInfo,
+				contextUser),
+			_userLocalService.getUserById(userId));
 	}
 
 	private UserAccount _toUserAccount(User user) throws Exception {
 		return _userAccountNewDTOConverter.toDTO(
-			UserAccount.class,
-			_getFieldUnsafeFunctions(_getDTOConverterContext(user.getUserId())),
-			user);
-
-		//		return _userResourceDTOConverter.toDTO(
-		//			_getDTOConverterContext(user.getUserId()), user);
+			UserAccount.class, _getDTOConverterContext(user.getUserId()), user);
 	}
 
 	private UserGroupBrief _toUserGroupBrief(UserGroup userGroup)

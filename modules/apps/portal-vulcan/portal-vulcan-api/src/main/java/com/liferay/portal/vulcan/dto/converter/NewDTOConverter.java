@@ -1,5 +1,5 @@
 /**
- * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
@@ -12,13 +12,18 @@ import java.util.Map;
 /**
  * @author Carlos Correa
  */
-public interface NewDTOConverter<E, D> {
+public interface NewDTOConverter<D, E> {
 
-	public D toDTO(
-			Class<? extends D> clazz,
-			Map<String, UnsafeFunction<E, Object, Exception>>
+	public E toDTO(
+			Class<? extends E> clazz, DTOConverterContext dtoConverterContext,
+			D item)
+		throws Exception;
+
+	public E toDTO(
+			Class<? extends E> clazz,
+			Map<String, UnsafeFunction<D, Object, Exception>>
 				fieldUnsafeFunctions,
-			E object)
+			D object)
 		throws Exception;
 
 }
