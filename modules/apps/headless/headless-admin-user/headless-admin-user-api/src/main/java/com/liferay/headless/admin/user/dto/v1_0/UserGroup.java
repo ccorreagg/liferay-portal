@@ -233,6 +233,27 @@ public class UserGroup implements Serializable {
 		return Objects.equals(toString(), userGroup.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "actions")) {
+			setActions((Map<String, Map<String, String>>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "description")) {
+			setDescription((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "externalReferenceCode")) {
+			setExternalReferenceCode((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name")) {
+			setName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "usersCount")) {
+			setUsersCount((Integer)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

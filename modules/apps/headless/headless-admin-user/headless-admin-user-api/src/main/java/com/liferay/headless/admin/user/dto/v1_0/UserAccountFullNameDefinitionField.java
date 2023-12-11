@@ -151,6 +151,18 @@ public class UserAccountFullNameDefinitionField implements Serializable {
 			toString(), userAccountFullNameDefinitionField.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "key")) {
+			setKey((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "required")) {
+			setRequired((Boolean)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "values")) {
+			setValues((String[])propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

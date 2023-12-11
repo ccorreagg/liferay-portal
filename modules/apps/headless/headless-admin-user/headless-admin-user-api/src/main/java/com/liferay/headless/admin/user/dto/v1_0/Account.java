@@ -691,6 +691,72 @@ public class Account implements Serializable {
 		return Objects.equals(toString(), account.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "accountUserAccounts")) {
+			setAccountUserAccounts((UserAccount[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "actions")) {
+			setActions((Map<String, Map<String, String>>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "customFields")) {
+			setCustomFields((CustomField[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dateCreated")) {
+			setDateCreated((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dateModified")) {
+			setDateModified((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "defaultBillingAddressId")) {
+			setDefaultBillingAddressId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "defaultShippingAddressId")) {
+			setDefaultShippingAddressId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "description")) {
+			setDescription((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "domains")) {
+			setDomains((String[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "externalReferenceCode")) {
+			setExternalReferenceCode((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "logoId")) {
+			setLogoId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "logoURL")) {
+			setLogoURL((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name")) {
+			setName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "numberOfUsers")) {
+			setNumberOfUsers((Integer)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "organizationIds")) {
+			setOrganizationIds((Long[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "parentAccountId")) {
+			setParentAccountId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "postalAddresses")) {
+			setPostalAddresses((PostalAddress[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "status")) {
+			setStatus((Integer)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "taxId")) {
+			setTaxId((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "type")) {
+			setType((Type)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

@@ -177,6 +177,21 @@ public class WebUrl implements Serializable {
 		return Objects.equals(toString(), webUrl.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "primary")) {
+			setPrimary((Boolean)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "url")) {
+			setUrl((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "urlType")) {
+			setUrlType((String)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

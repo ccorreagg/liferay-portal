@@ -157,6 +157,18 @@ public class HoursAvailable implements Serializable {
 		return Objects.equals(toString(), hoursAvailable.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "closes")) {
+			setCloses((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dayOfWeek")) {
+			setDayOfWeek((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "opens")) {
+			setOpens((String)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

@@ -237,6 +237,27 @@ public class SiteBrief implements Serializable {
 		return Objects.equals(toString(), siteBrief.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "descriptiveName")) {
+			setDescriptiveName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "descriptiveName_i18n")) {
+			setDescriptiveName_i18n((Map<String, String>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name")) {
+			setName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name_i18n")) {
+			setName_i18n((Map<String, String>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "roleBriefs")) {
+			setRoleBriefs((RoleBrief[])propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

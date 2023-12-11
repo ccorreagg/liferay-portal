@@ -707,6 +707,75 @@ public class Organization implements Serializable {
 		return Objects.equals(toString(), organization.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "actions")) {
+			setActions((Map<String, Map<String, String>>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "childOrganizations")) {
+			setChildOrganizations((Organization[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "comment")) {
+			setComment((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "customFields")) {
+			setCustomFields((CustomField[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dateCreated")) {
+			setDateCreated((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dateModified")) {
+			setDateModified((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "externalReferenceCode")) {
+			setExternalReferenceCode((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "image")) {
+			setImage((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "keywords")) {
+			setKeywords((String[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "location")) {
+			setLocation((Location)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name")) {
+			setName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "numberOfAccounts")) {
+			setNumberOfAccounts((Integer)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "numberOfOrganizations")) {
+			setNumberOfOrganizations((Integer)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "numberOfUsers")) {
+			setNumberOfUsers((Integer)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "organizationAccounts")) {
+			setOrganizationAccounts((Account[])propertyValue);
+		}
+		else if (Objects.equals(
+					propertyName, "organizationContactInformation")) {
+
+			setOrganizationContactInformation(
+				(OrganizationContactInformation)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "parentOrganization")) {
+			setParentOrganization((Organization)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "services")) {
+			setServices((Service[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "treePath")) {
+			setTreePath((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "userAccounts")) {
+			setUserAccounts((UserAccount[])propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

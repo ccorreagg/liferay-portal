@@ -177,6 +177,21 @@ public class EmailAddress implements Serializable {
 		return Objects.equals(toString(), emailAddress.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "emailAddress")) {
+			setEmailAddress((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "primary")) {
+			setPrimary((Boolean)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "type")) {
+			setType((String)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

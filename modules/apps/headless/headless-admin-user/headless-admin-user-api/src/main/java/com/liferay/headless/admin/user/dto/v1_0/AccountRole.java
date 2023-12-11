@@ -232,6 +232,27 @@ public class AccountRole implements Serializable {
 		return Objects.equals(toString(), accountRole.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "accountId")) {
+			setAccountId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "description")) {
+			setDescription((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "displayName")) {
+			setDisplayName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name")) {
+			setName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "roleId")) {
+			setRoleId((Long)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

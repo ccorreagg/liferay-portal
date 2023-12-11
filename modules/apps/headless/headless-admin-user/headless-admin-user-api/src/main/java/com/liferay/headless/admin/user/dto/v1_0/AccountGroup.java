@@ -240,6 +240,27 @@ public class AccountGroup implements Serializable {
 		return Objects.equals(toString(), accountGroup.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "actions")) {
+			setActions((Map<String, Map<String, String>>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "customFields")) {
+			setCustomFields((CustomField[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "description")) {
+			setDescription((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "externalReferenceCode")) {
+			setExternalReferenceCode((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name")) {
+			setName((String)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

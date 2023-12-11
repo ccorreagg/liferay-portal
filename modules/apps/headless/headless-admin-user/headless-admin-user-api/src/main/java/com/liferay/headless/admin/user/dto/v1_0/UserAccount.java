@@ -1029,6 +1029,111 @@ public class UserAccount implements Serializable {
 		return Objects.equals(toString(), userAccount.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "accountBriefs")) {
+			setAccountBriefs((AccountBrief[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "actions")) {
+			setActions((Map<String, Map<String, String>>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "additionalName")) {
+			setAdditionalName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "alternateName")) {
+			setAlternateName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "birthDate")) {
+			setBirthDate((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "currentPassword")) {
+			setCurrentPassword((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "customFields")) {
+			setCustomFields((CustomField[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dashboardURL")) {
+			setDashboardURL((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dateCreated")) {
+			setDateCreated((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dateModified")) {
+			setDateModified((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "emailAddress")) {
+			setEmailAddress((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "externalReferenceCode")) {
+			setExternalReferenceCode((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "familyName")) {
+			setFamilyName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "givenName")) {
+			setGivenName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "honorificPrefix")) {
+			setHonorificPrefix((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "honorificSuffix")) {
+			setHonorificSuffix((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "image")) {
+			setImage((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "imageId")) {
+			setImageId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "jobTitle")) {
+			setJobTitle((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "keywords")) {
+			setKeywords((String[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "languageDisplayName")) {
+			setLanguageDisplayName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "languageId")) {
+			setLanguageId((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "lastLoginDate")) {
+			setLastLoginDate((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name")) {
+			setName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "organizationBriefs")) {
+			setOrganizationBriefs((OrganizationBrief[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "password")) {
+			setPassword((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "profileURL")) {
+			setProfileURL((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "roleBriefs")) {
+			setRoleBriefs((RoleBrief[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "siteBriefs")) {
+			setSiteBriefs((SiteBrief[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "status")) {
+			setStatus((Status)propertyValue);
+		}
+		else if (Objects.equals(
+					propertyName, "userAccountContactInformation")) {
+
+			setUserAccountContactInformation(
+				(UserAccountContactInformation)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "userGroupBriefs")) {
+			setUserGroupBriefs((UserGroupBrief[])propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

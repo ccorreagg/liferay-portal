@@ -90,6 +90,12 @@ public class Image implements Serializable {
 		return Objects.equals(toString(), image.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "image")) {
+			setImage((String)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

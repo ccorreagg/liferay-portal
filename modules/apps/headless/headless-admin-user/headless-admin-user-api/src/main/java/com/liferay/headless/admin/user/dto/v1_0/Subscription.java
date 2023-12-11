@@ -264,6 +264,30 @@ public class Subscription implements Serializable {
 		return Objects.equals(toString(), subscription.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "contentId")) {
+			setContentId((Object)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "contentType")) {
+			setContentType((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dateCreated")) {
+			setDateCreated((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dateModified")) {
+			setDateModified((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "frequency")) {
+			setFrequency((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "siteId")) {
+			setSiteId((Long)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

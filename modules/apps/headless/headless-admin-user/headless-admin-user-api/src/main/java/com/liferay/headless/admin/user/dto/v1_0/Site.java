@@ -463,6 +463,51 @@ public class Site implements Serializable {
 		return Objects.equals(toString(), site.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "availableLanguages")) {
+			setAvailableLanguages((String[])propertyValue);
+		}
+		else if (Objects.equals(propertyName, "creator")) {
+			setCreator((Creator)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "description")) {
+			setDescription((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "description_i18n")) {
+			setDescription_i18n((Map<String, String>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "descriptiveName")) {
+			setDescriptiveName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "descriptiveName_i18n")) {
+			setDescriptiveName_i18n((Map<String, String>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "friendlyUrlPath")) {
+			setFriendlyUrlPath((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "key")) {
+			setKey((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "membershipType")) {
+			setMembershipType((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name")) {
+			setName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name_i18n")) {
+			setName_i18n((Map<String, String>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "parentSiteId")) {
+			setParentSiteId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "sites")) {
+			setSites((Site[])propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

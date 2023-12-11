@@ -332,6 +332,36 @@ public class Segment implements Serializable {
 		return Objects.equals(toString(), segment.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "active")) {
+			setActive((Boolean)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "criteria")) {
+			setCriteria((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "criteriaValue")) {
+			setCriteriaValue((Map<String, Object>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dateCreated")) {
+			setDateCreated((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "dateModified")) {
+			setDateModified((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name")) {
+			setName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "siteId")) {
+			setSiteId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "source")) {
+			setSource((String)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

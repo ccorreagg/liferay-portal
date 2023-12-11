@@ -439,6 +439,48 @@ public class PostalAddress implements Serializable {
 		return Objects.equals(toString(), postalAddress.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "addressCountry")) {
+			setAddressCountry((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "addressCountry_i18n")) {
+			setAddressCountry_i18n((Map<String, String>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "addressLocality")) {
+			setAddressLocality((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "addressRegion")) {
+			setAddressRegion((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "addressType")) {
+			setAddressType((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name")) {
+			setName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "phoneNumber")) {
+			setPhoneNumber((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "postalCode")) {
+			setPostalCode((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "primary")) {
+			setPrimary((Boolean)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "streetAddressLine1")) {
+			setStreetAddressLine1((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "streetAddressLine2")) {
+			setStreetAddressLine2((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "streetAddressLine3")) {
+			setStreetAddressLine3((String)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

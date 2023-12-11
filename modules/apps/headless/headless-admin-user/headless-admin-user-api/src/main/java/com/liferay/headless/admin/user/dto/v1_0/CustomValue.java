@@ -149,6 +149,18 @@ public class CustomValue implements Serializable {
 		return Objects.equals(toString(), customValue.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "data")) {
+			setData((Object)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "data_i18n")) {
+			setData_i18n((Map<String, String>)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "geo")) {
+			setGeo((Geo)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

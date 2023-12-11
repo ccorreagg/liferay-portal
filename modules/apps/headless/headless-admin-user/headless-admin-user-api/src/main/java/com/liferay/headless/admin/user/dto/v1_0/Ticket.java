@@ -174,6 +174,21 @@ public class Ticket implements Serializable {
 		return Objects.equals(toString(), ticket.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "expirationDate")) {
+			setExpirationDate((Date)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "extraInfo")) {
+			setExtraInfo((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "key")) {
+			setKey((String)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();

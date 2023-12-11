@@ -149,6 +149,18 @@ public class RoleBrief implements Serializable {
 		return Objects.equals(toString(), roleBrief.toString());
 	}
 
+	public void setPropertyValue(String propertyName, Object propertyValue) {
+		if (Objects.equals(propertyName, "id")) {
+			setId((Long)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name")) {
+			setName((String)propertyValue);
+		}
+		else if (Objects.equals(propertyName, "name_i18n")) {
+			setName_i18n((Map<String, String>)propertyValue);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		String string = toString();
