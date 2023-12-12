@@ -6,10 +6,7 @@
 package com.liferay.portal.vulcan.internal.jaxrs.context.provider;
 
 import com.liferay.portal.vulcan.fields.RestrictFieldsQueryParam;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import com.liferay.portal.vulcan.util.FieldUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,18 +27,8 @@ public class RestrictFieldsQueryParamContextProvider
 		HttpServletRequest httpServletRequest =
 			ContextProviderUtil.getHttpServletRequest(message);
 
-		String restrictFields = httpServletRequest.getParameter(
-			"restrictFields");
-
-		if (restrictFields == null) {
-			return () -> null;
-		}
-
-		if (restrictFields.isEmpty()) {
-			return Collections::emptySet;
-		}
-
-		return () -> new HashSet<>(Arrays.asList(restrictFields.split(",")));
+		return () -> FieldUtil.parseRestrictFields(
+			httpServletRequest.getParameter("restrictFields"));
 	}
 
 }

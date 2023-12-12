@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ser.PropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.vulcan.util.FieldUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -66,58 +67,12 @@ public class VulcanPropertyFilter
 		}
 	}
 
-	private boolean _isFiltered(String path) {
-		if ((_fieldNames.isEmpty() || _fieldNames.contains(path)) &&
-			!_restrictFieldNames.contains(path)) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	private boolean _isFilteredWithoutNested(String path) {
-		if (_isFiltered(path)) {
-			for (String fieldName : _fieldNames) {
-				if (fieldName.startsWith(path + ".")) {
-					return false;
-				}
-			}
-
-			for (String restrictFieldName : _restrictFieldNames) {
-				if (restrictFieldName.startsWith(path + ".")) {
-					return false;
-				}
-			}
-
-			return true;
-		}
-
-		return false;
-	}
-
 	private boolean _shouldWrite(
 		JsonGenerator jsonGenerator, PropertyWriter propertyWriter) {
 
-		List<String> paths = _toPaths(jsonGenerator, propertyWriter.getName());
-
-		String firstPath = paths.get(0);
-
-		if (_isFiltered(firstPath)) {
-			return true;
-		}
-
-		if (paths.size() == 1) {
-			return false;
-		}
-
-		for (int i = 1; i < paths.size(); i++) {
-			if (_isFilteredWithoutNested(paths.get(i))) {
-				return true;
-			}
-		}
-
-		return false;
+		return FieldUtil.shouldWrite(
+			_fieldNames, _toPaths(jsonGenerator, propertyWriter.getName()),
+			_restrictFieldNames);
 	}
 
 	private List<String> _toPaths(JsonGenerator jsonGenerator, String name) {
