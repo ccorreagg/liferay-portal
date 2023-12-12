@@ -14,6 +14,7 @@ import java.util.Objects;
 
 /**
  * @author Carlos Correa
+ * @generated
  */
 public abstract class UserAccountFieldProvider<T>
 	implements FieldProvider<T, UserAccount> {

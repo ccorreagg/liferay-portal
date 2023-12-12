@@ -15,6 +15,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
@@ -39,11 +40,14 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.dto.converter.DTOConverterContext;
+import com.liferay.portal.vulcan.dto.converter.NewDTOConverter;
 import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
 import com.liferay.portal.vulcan.util.ActionUtil;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 
@@ -1383,8 +1387,18 @@ public abstract class BaseUserAccountResourceImpl
 	public UserAccount postUserAccount(UserAccount userAccount)
 		throws Exception {
 
-		return new UserAccount();
+		return toUserAccount(post(userAccount));
 	}
+
+	public abstract User post(UserAccount userAccount) throws Exception;
+
+	public abstract DTOConverterContext getDTOConverterContext(User user);
+
+	protected UserAccount toUserAccount(User user) throws Exception {
+		return contextNewDTOConverter.toDTO(UserAccount.class, getDTOConverterContext(user), user);
+	}
+
+	protected NewDTOConverter<User, UserAccount> contextNewDTOConverter;
 
 	/**
 	 * Invoke this method with the command line:

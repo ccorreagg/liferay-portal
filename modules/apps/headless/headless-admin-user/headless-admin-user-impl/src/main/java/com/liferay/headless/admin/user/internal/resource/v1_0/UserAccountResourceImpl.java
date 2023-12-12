@@ -841,9 +841,7 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 	}
 
 	@Override
-	public UserAccount postUserAccount(UserAccount userAccount)
-		throws Exception {
-
+	public User post(UserAccount userAccount) throws Exception {
 		User user = null;
 
 		boolean autoPassword = false;
@@ -937,7 +935,12 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 			user = _userService.getUserById(user.getUserId());
 		}
 
-		return _toUserAccount(user);
+		return user;
+	}
+
+	@Override
+	public DTOConverterContext getDTOConverterContext(User user) {
+		return _getDTOConverterContext(user.getUserId());
 	}
 
 	@Override
