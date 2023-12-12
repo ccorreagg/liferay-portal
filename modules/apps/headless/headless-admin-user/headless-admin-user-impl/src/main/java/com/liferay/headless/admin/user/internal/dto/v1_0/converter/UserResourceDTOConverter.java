@@ -33,6 +33,7 @@ import com.liferay.headless.admin.user.internal.dto.v1_0.util.PhoneUtil;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.PostalAddressUtil;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.ServiceBuilderListTypeUtil;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.WebUrlUtil;
+import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Contact;
@@ -60,10 +61,16 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.security.permission.UserBagFactoryUtil;
 import com.liferay.portal.vulcan.dto.converter.DTOConverter;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterContext;
+import com.liferay.portal.vulcan.fields.FieldsQueryParam;
+import com.liferay.portal.vulcan.fields.RestrictFieldsQueryParam;
+import com.liferay.portal.vulcan.util.FieldUtil;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -109,161 +116,264 @@ public class UserResourceDTOConverter
 
 		Contact contact = user.getContact();
 
-		return new UserAccount() {
-			{
-				accountBriefs = TransformUtil.transformToArray(
+		Set<String> fieldNames = new HashSet<>();
+
+		FieldsQueryParam fieldsQueryParam =
+			(FieldsQueryParam)dtoConverterContext.getAttribute(
+				"fieldsQueryParam");
+
+		if ((fieldsQueryParam != null) &&
+			(fieldsQueryParam.getFieldNames() != null)) {
+
+			fieldNames.addAll(fieldsQueryParam.getFieldNames());
+		}
+
+		Set<String> restrictFieldNames = new HashSet<>();
+
+		RestrictFieldsQueryParam restrictFieldsQueryParam =
+			(RestrictFieldsQueryParam)dtoConverterContext.getAttribute(
+				"restrictFieldsQueryParam");
+
+		if ((restrictFieldsQueryParam != null) &&
+			(restrictFieldsQueryParam.getRestrictFieldNames() != null)) {
+
+			restrictFieldNames.addAll(
+				restrictFieldsQueryParam.getRestrictFieldNames());
+		}
+
+		UserAccount userAccount = new UserAccount();
+
+		userAccount.setAccountBriefs(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"accountBriefs", fieldNames, restrictFieldNames,
+				() -> TransformUtil.transformToArray(
 					_accountEntryUserRelService.
 						getAccountEntryUserRelsByAccountUserId(
 							user.getUserId()),
 					accountEntryUserRel -> _toAccountBrief(
 						accountEntryUserRel, dtoConverterContext, user),
-					AccountBrief.class);
-				actions = dtoConverterContext.getActions();
-				additionalName = user.getMiddleName();
-				alternateName = user.getScreenName();
-				birthDate = user.getBirthday();
-				customFields = CustomFieldsUtil.toCustomFields(
+					AccountBrief.class)));
+		userAccount.setActions(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"actions", fieldNames, restrictFieldNames,
+				dtoConverterContext::getActions));
+		userAccount.setAdditionalName(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"additionalName", fieldNames, restrictFieldNames,
+				user::getMiddleName));
+		userAccount.setAlternateName(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"alternateName", fieldNames, restrictFieldNames,
+				user::getScreenName));
+
+		userAccount.setBirthDate(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"birthDate", fieldNames, restrictFieldNames,
+				user::getBirthday));
+		userAccount.setCustomFields(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"customFields", fieldNames, restrictFieldNames,
+				() -> CustomFieldsUtil.toCustomFields(
 					dtoConverterContext.isAcceptAllLanguages(),
 					User.class.getName(), user.getUserId(), user.getCompanyId(),
-					dtoConverterContext.getLocale());
-				dateCreated = user.getCreateDate();
-				dateModified = user.getModifiedDate();
-				emailAddress = user.getEmailAddress();
-				externalReferenceCode = user.getExternalReferenceCode();
-				familyName = user.getLastName();
-				givenName = user.getFirstName();
-				honorificPrefix =
+					dtoConverterContext.getLocale())));
+		userAccount.setDateCreated(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"dateCreated", fieldNames, restrictFieldNames,
+				user::getCreateDate));
+		userAccount.setDateModified(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"dateModified", fieldNames, restrictFieldNames,
+				user::getModifiedDate));
+		userAccount.setEmailAddress(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"emailAddress", fieldNames, restrictFieldNames,
+				user::getEmailAddress));
+		userAccount.setExternalReferenceCode(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"externalReferenceCode", fieldNames, restrictFieldNames,
+				user::getExternalReferenceCode));
+		userAccount.setFamilyName(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"familyName", fieldNames, restrictFieldNames,
+				user::getLastName));
+		userAccount.setGivenName(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"givenName", fieldNames, restrictFieldNames,
+				user::getFirstName));
+		userAccount.setHonorificPrefix(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"honorificPrefix", fieldNames, restrictFieldNames,
+				() ->
 					ServiceBuilderListTypeUtil.getServiceBuilderListTypeMessage(
 						contact.getPrefixListTypeId(),
-						dtoConverterContext.getLocale());
-				honorificSuffix =
+						dtoConverterContext.getLocale())));
+		userAccount.setHonorificSuffix(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"honorificSuffix", fieldNames, restrictFieldNames,
+				() ->
 					ServiceBuilderListTypeUtil.getServiceBuilderListTypeMessage(
 						contact.getSuffixListTypeId(),
-						dtoConverterContext.getLocale());
-				id = user.getUserId();
-				imageId = user.getPortraitId();
-				jobTitle = user.getJobTitle();
-				keywords = ListUtil.toArray(
+						dtoConverterContext.getLocale())));
+		userAccount.setId(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"id", fieldNames, restrictFieldNames, user::getUserId));
+		userAccount.setImageId(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"imageId", fieldNames, restrictFieldNames,
+				user::getPortraitId));
+		userAccount.setJobTitle(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"jobTitle", fieldNames, restrictFieldNames, user::getJobTitle));
+		userAccount.setKeywords(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"keywords", fieldNames, restrictFieldNames,
+				() -> ListUtil.toArray(
 					_assetTagLocalService.getTags(
 						User.class.getName(), user.getUserId()),
-					AssetTag.NAME_ACCESSOR);
-				languageId = user.getLanguageId();
-				lastLoginDate = user.getLastLoginDate();
-				name = user.getFullName();
-				organizationBriefs = TransformUtil.transformToArray(
+					AssetTag.NAME_ACCESSOR)));
+		userAccount.setLanguageId(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"languageId", fieldNames, restrictFieldNames,
+				user::getLanguageId));
+		userAccount.setLastLoginDate(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"lastLoginDate", fieldNames, restrictFieldNames,
+				user::getLastLoginDate));
+		userAccount.setName(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"name", fieldNames, restrictFieldNames, user::getFullName));
+		userAccount.setOrganizationBriefs(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"organizationBriefs", fieldNames, restrictFieldNames,
+				() -> TransformUtil.transformToArray(
 					user.getOrganizations(),
 					organization -> _toOrganizationBrief(
 						dtoConverterContext, organization, user),
-					OrganizationBrief.class);
-				siteBriefs = TransformUtil.transformToArray(
+					OrganizationBrief.class)));
+		userAccount.setSiteBriefs(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"siteBriefs", fieldNames, restrictFieldNames,
+				() -> TransformUtil.transformToArray(
 					_groupLocalService.getUserSitesGroups(user.getUserId()),
 					group -> _toSiteBrief(dtoConverterContext, group, user),
-					SiteBrief.class);
-				userAccountContactInformation =
-					new UserAccountContactInformation() {
-						{
-							emailAddresses = TransformUtil.transformToArray(
-								user.getEmailAddresses(),
-								EmailAddressUtil::toEmailAddress,
-								EmailAddress.class);
-							facebook = contact.getFacebookSn();
-							jabber = contact.getJabberSn();
-							postalAddresses = TransformUtil.transformToArray(
-								user.getAddresses(),
-								address -> PostalAddressUtil.toPostalAddress(
-									dtoConverterContext.isAcceptAllLanguages(),
-									address, user.getCompanyId(),
-									dtoConverterContext.getLocale()),
-								PostalAddress.class);
-							skype = contact.getSkypeSn();
-							sms = contact.getSmsSn();
-							telephones = TransformUtil.transformToArray(
-								user.getPhones(), PhoneUtil::toPhone,
-								Phone.class);
-							twitter = contact.getTwitterSn();
-							webUrls = TransformUtil.transformToArray(
-								user.getWebsites(), WebUrlUtil::toWebUrl,
-								WebUrl.class);
-						}
-					};
-				userGroupBriefs = TransformUtil.transformToArray(
+					SiteBrief.class)));
+		userAccount.setUserAccountContactInformation(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"userAccountContactInformation", fieldNames, restrictFieldNames,
+				() -> new UserAccountContactInformation() {
+					{
+						emailAddresses = TransformUtil.transformToArray(
+							user.getEmailAddresses(),
+							EmailAddressUtil::toEmailAddress,
+							EmailAddress.class);
+						facebook = contact.getFacebookSn();
+						jabber = contact.getJabberSn();
+						postalAddresses = TransformUtil.transformToArray(
+							user.getAddresses(),
+							address -> PostalAddressUtil.toPostalAddress(
+								dtoConverterContext.isAcceptAllLanguages(),
+								address, user.getCompanyId(),
+								dtoConverterContext.getLocale()),
+							PostalAddress.class);
+						skype = contact.getSkypeSn();
+						sms = contact.getSmsSn();
+						telephones = TransformUtil.transformToArray(
+							user.getPhones(), PhoneUtil::toPhone, Phone.class);
+						twitter = contact.getTwitterSn();
+						webUrls = TransformUtil.transformToArray(
+							user.getWebsites(), WebUrlUtil::toWebUrl,
+							WebUrl.class);
+					}
+				}));
+		userAccount.setUserGroupBriefs(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"userGroupBriefs", fieldNames, restrictFieldNames,
+				() -> TransformUtil.transformToArray(
 					_userGroupLocalService.getUserUserGroups(user.getUserId()),
 					userGroup -> _toUserGroupBrief(userGroup),
-					UserGroupBrief.class);
+					UserGroupBrief.class)));
 
-				setDashboardURL(
-					() -> {
-						Group group = user.getGroup();
+		userAccount.setDashboardURL(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"dashboardURL", fieldNames, restrictFieldNames,
+				() -> {
+					Group group = user.getGroup();
 
-						if (group == null) {
-							return null;
-						}
-
-						return group.getDisplayURL(
-							_getThemeDisplay(group), true);
-					});
-				setImage(
-					() -> {
-						if (user.getPortraitId() == 0) {
-							return null;
-						}
-
-						ThemeDisplay themeDisplay = new ThemeDisplay() {
-							{
-								setPathImage(_portal.getPathImage());
-							}
-						};
-
-						return user.getPortraitURL(themeDisplay);
-					});
-				setLanguageDisplayName(
-					() -> {
-						if (Validator.isNull(user.getLanguageId())) {
-							return null;
-						}
-
-						Locale locale = LocaleUtil.fromLanguageId(
-							user.getLanguageId());
-
-						return locale.getDisplayName(
-							dtoConverterContext.getLocale());
-					});
-				setProfileURL(
-					() -> {
-						Group group = user.getGroup();
-
-						if (group == null) {
-							return null;
-						}
-
-						return group.getDisplayURL(_getThemeDisplay(group));
-					});
-				setRoleBriefs(
-					() -> {
-						UserBag userBag = UserBagFactoryUtil.create(
-							user.getUserId());
-
-						return _toRoleBriefs(
-							dtoConverterContext, userBag.getRoles());
-					});
-				setStatus(
-					() -> {
-						if (user.getStatus() ==
-								WorkflowConstants.STATUS_APPROVED) {
-
-							return Status.ACTIVE;
-						}
-
-						if (user.getStatus() ==
-								WorkflowConstants.STATUS_INACTIVE) {
-
-							return Status.INACTIVE;
-						}
-
+					if (group == null) {
 						return null;
-					});
-			}
-		};
+					}
+
+					return group.getDisplayURL(_getThemeDisplay(group), true);
+				}));
+		userAccount.setImage(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"image", fieldNames, restrictFieldNames,
+				() -> {
+					if (user.getPortraitId() == 0) {
+						return null;
+					}
+
+					ThemeDisplay themeDisplay = new ThemeDisplay() {
+						{
+							setPathImage(_portal.getPathImage());
+						}
+					};
+
+					return user.getPortraitURL(themeDisplay);
+				}));
+		userAccount.setLanguageDisplayName(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"languageDisplayName", fieldNames, restrictFieldNames,
+				() -> {
+					if (Validator.isNull(user.getLanguageId())) {
+						return null;
+					}
+
+					Locale locale = LocaleUtil.fromLanguageId(
+						user.getLanguageId());
+
+					return locale.getDisplayName(
+						dtoConverterContext.getLocale());
+				}));
+		userAccount.setProfileURL(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"profileURL", fieldNames, restrictFieldNames,
+				() -> {
+					Group group = user.getGroup();
+
+					if (group == null) {
+						return null;
+					}
+
+					return group.getDisplayURL(_getThemeDisplay(group));
+				}));
+		userAccount.setRoleBriefs(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"roleBriefs", fieldNames, restrictFieldNames,
+				() -> {
+					UserBag userBag = UserBagFactoryUtil.create(
+						user.getUserId());
+
+					return _toRoleBriefs(
+						dtoConverterContext, userBag.getRoles());
+				}));
+		userAccount.setStatus(
+			(UnsafeSupplier)_getUnsafeSupplier(
+				"status", fieldNames, restrictFieldNames,
+				() -> {
+					if (user.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+						return UserAccount.Status.ACTIVE;
+					}
+
+					if (user.getStatus() == WorkflowConstants.STATUS_INACTIVE) {
+						return UserAccount.Status.INACTIVE;
+					}
+
+					return null;
+				}));
+
+		return userAccount;
 	}
 
 	private ThemeDisplay _getThemeDisplay(Group group) {
@@ -276,6 +386,21 @@ public class UserResourceDTOConverter
 				}
 			}
 		};
+	}
+
+	private UnsafeSupplier<?, Exception> _getUnsafeSupplier(
+		String fieldName, Set<String> fieldNames,
+		Set<String> restrictFieldNames,
+		UnsafeSupplier<?, Exception> unsafeSupplier) {
+
+		if (!FieldUtil.shouldWrite(
+				fieldNames, Collections.singletonList(fieldName),
+				restrictFieldNames)) {
+
+			return () -> null;
+		}
+
+		return unsafeSupplier;
 	}
 
 	private AccountBrief _toAccountBrief(

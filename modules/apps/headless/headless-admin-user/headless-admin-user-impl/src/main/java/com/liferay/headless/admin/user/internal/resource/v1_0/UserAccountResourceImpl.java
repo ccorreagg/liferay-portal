@@ -92,8 +92,10 @@ import com.liferay.portal.vulcan.dto.converter.DTOConverterContext;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterRegistry;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.dto.converter.util.DTOConverterUtil;
+import com.liferay.portal.vulcan.fields.FieldsQueryParam;
 import com.liferay.portal.vulcan.fields.NestedField;
 import com.liferay.portal.vulcan.fields.NestedFieldId;
+import com.liferay.portal.vulcan.fields.RestrictFieldsQueryParam;
 import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -114,6 +116,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
@@ -1590,17 +1593,28 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 			actions = dtoConverterContext.getActions();
 		}
 
-		return _userResourceDTOConverter.toDTO(
-			new DefaultDTOConverterContext(
-				contextAcceptLanguage.isAcceptAllLanguages(), actions,
-				_dtoConverterRegistry, userId,
-				contextAcceptLanguage.getPreferredLocale(), contextUriInfo,
-				contextUser));
+		dtoConverterContext = new DefaultDTOConverterContext(
+			contextAcceptLanguage.isAcceptAllLanguages(), actions,
+			_dtoConverterRegistry, userId,
+			contextAcceptLanguage.getPreferredLocale(), contextUriInfo,
+			contextUser);
+
+		dtoConverterContext.setAttribute("fieldsQueryParam", _fieldsQueryParam);
+		dtoConverterContext.setAttribute(
+			"restrictFieldsQueryParam", _restrictFieldsQueryParam);
+
+		return _userResourceDTOConverter.toDTO(dtoConverterContext);
 	}
 
 	private UserAccount _toUserAccount(User user) throws Exception {
-		return _userResourceDTOConverter.toDTO(
-			_getDTOConverterContext(user.getUserId()), user);
+		DTOConverterContext dtoConverterContext = _getDTOConverterContext(
+			user.getUserId());
+
+		dtoConverterContext.setAttribute("fieldsQueryParam", _fieldsQueryParam);
+		dtoConverterContext.setAttribute(
+			"restrictFieldsQueryParam", _restrictFieldsQueryParam);
+
+		return _userResourceDTOConverter.toDTO(dtoConverterContext, user);
 	}
 
 	private void _updatePassword(
@@ -1686,6 +1700,9 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 	@Reference
 	private DTOConverterRegistry _dtoConverterRegistry;
 
+	@Context
+	private FieldsQueryParam _fieldsQueryParam;
+
 	@Reference
 	private File _file;
 
@@ -1707,6 +1724,9 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 
 	@Reference
 	private Portal _portal;
+
+	@Context
+	private RestrictFieldsQueryParam _restrictFieldsQueryParam;
 
 	@Reference
 	private UADAnonymousUserProvider _uadAnonymousUserProvider;
