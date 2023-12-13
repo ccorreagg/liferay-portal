@@ -45,6 +45,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -198,6 +199,12 @@ public class ${schemaName} <#if dtoParentClassName?has_content>extends ${dtoPare
 		</#if>
 
 		public ${propertyType} get${capitalizedPropertyName}() {
+			if (${propertyName} != null) {
+				return ${propertyName};
+			}
+
+			${propertyName} = _${propertyName}Supplier.get();
+
 			return ${propertyName};
 		}
 
@@ -214,19 +221,25 @@ public class ${schemaName} <#if dtoParentClassName?has_content>extends ${dtoPare
 
 		public void set${capitalizedPropertyName}(${propertyType} ${propertyName}) {
 			this.${propertyName} = ${propertyName};
+
+			_${propertyName}Supplier = () -> ${propertyName};
 		}
 
 		@JsonIgnore
 		public void set${capitalizedPropertyName}(UnsafeSupplier<${propertyType}, Exception> ${propertyName}UnsafeSupplier) {
-			try {
-				${propertyName} = ${propertyName}UnsafeSupplier.get();
-			}
-			catch (RuntimeException re) {
-				throw re;
-			}
-			catch (Exception e) {
-				throw new RuntimeException(e);
-			}
+			${propertyName} = null;
+
+			_${propertyName}Supplier = () -> {
+				try {
+					return ${propertyName}UnsafeSupplier.get();
+				}
+				catch (RuntimeException re) {
+					throw re;
+				}
+				catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			};
 		}
 
 		<#if propertySchema.deprecated>
@@ -267,6 +280,13 @@ public class ${schemaName} <#if dtoParentClassName?has_content>extends ${dtoPare
 			</#if>
 		</#if>
 		protected ${propertyType} ${propertyName}<#if propertySchema.jsonMap> = new HashMap<>()</#if>;
+
+		private Supplier<${propertyType}> _${propertyName}Supplier =
+			<#if propertySchema.jsonMap>
+				() -> new HashMap<>();
+			<#else>
+				() -> null;
+			</#if>
 	</#list>
 
 	@Override
