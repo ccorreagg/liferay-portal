@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,6 +53,13 @@ public class GroupedProduct implements Serializable {
 
 	@Schema(example = "exampleERC")
 	public String getEntryProductExternalReferenceCode() {
+		if (entryProductExternalReferenceCode != null) {
+			return entryProductExternalReferenceCode;
+		}
+
+		entryProductExternalReferenceCode =
+			_entryProductExternalReferenceCodeSupplier.get();
+
 		return entryProductExternalReferenceCode;
 	}
 
@@ -60,6 +68,9 @@ public class GroupedProduct implements Serializable {
 
 		this.entryProductExternalReferenceCode =
 			entryProductExternalReferenceCode;
+
+		_entryProductExternalReferenceCodeSupplier =
+			() -> entryProductExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -67,61 +78,89 @@ public class GroupedProduct implements Serializable {
 		UnsafeSupplier<String, Exception>
 			entryProductExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			entryProductExternalReferenceCode =
-				entryProductExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		entryProductExternalReferenceCode = null;
+
+		_entryProductExternalReferenceCodeSupplier = () -> {
+			try {
+				return entryProductExternalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String entryProductExternalReferenceCode;
 
+	private Supplier<String> _entryProductExternalReferenceCodeSupplier =
+		() -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "33131")
 	public Long getEntryProductId() {
+		if (entryProductId != null) {
+			return entryProductId;
+		}
+
+		entryProductId = _entryProductIdSupplier.get();
+
 		return entryProductId;
 	}
 
 	public void setEntryProductId(Long entryProductId) {
 		this.entryProductId = entryProductId;
+
+		_entryProductIdSupplier = () -> entryProductId;
 	}
 
 	@JsonIgnore
 	public void setEntryProductId(
 		UnsafeSupplier<Long, Exception> entryProductIdUnsafeSupplier) {
 
-		try {
-			entryProductId = entryProductIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		entryProductId = null;
+
+		_entryProductIdSupplier = () -> {
+			try {
+				return entryProductIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long entryProductId;
 
+	private Supplier<Long> _entryProductIdSupplier = () -> null;
+
 	@Schema(
 		example = "{en_US=Hand Saw, hr_HR=Product Name HR, hu_HU=Product Name HU}"
 	)
 	@Valid
 	public Map<String, String> getEntryProductName() {
+		if (entryProductName != null) {
+			return entryProductName;
+		}
+
+		entryProductName = _entryProductNameSupplier.get();
+
 		return entryProductName;
 	}
 
 	public void setEntryProductName(Map<String, String> entryProductName) {
 		this.entryProductName = entryProductName;
+
+		_entryProductNameSupplier = () -> entryProductName;
 	}
 
 	@JsonIgnore
@@ -129,78 +168,120 @@ public class GroupedProduct implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			entryProductNameUnsafeSupplier) {
 
-		try {
-			entryProductName = entryProductNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		entryProductName = null;
+
+		_entryProductNameSupplier = () -> {
+			try {
+				return entryProductNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, String> entryProductName;
 
+	private Supplier<Map<String, String>> _entryProductNameSupplier =
+		() -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "33130")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(example = "1.2")
 	public Double getPriority() {
+		if (priority != null) {
+			return priority;
+		}
+
+		priority = _prioritySupplier.get();
+
 		return priority;
 	}
 
 	public void setPriority(Double priority) {
 		this.priority = priority;
+
+		_prioritySupplier = () -> priority;
 	}
 
 	@JsonIgnore
 	public void setPriority(
 		UnsafeSupplier<Double, Exception> priorityUnsafeSupplier) {
 
-		try {
-			priority = priorityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		priority = null;
+
+		_prioritySupplier = () -> {
+			try {
+				return priorityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Double priority;
 
+	private Supplier<Double> _prioritySupplier = () -> null;
+
 	@Schema(example = "exampleERC")
 	public String getProductExternalReferenceCode() {
+		if (productExternalReferenceCode != null) {
+			return productExternalReferenceCode;
+		}
+
+		productExternalReferenceCode =
+			_productExternalReferenceCodeSupplier.get();
+
 		return productExternalReferenceCode;
 	}
 
@@ -208,6 +289,9 @@ public class GroupedProduct implements Serializable {
 		String productExternalReferenceCode) {
 
 		this.productExternalReferenceCode = productExternalReferenceCode;
+
+		_productExternalReferenceCodeSupplier =
+			() -> productExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -215,61 +299,88 @@ public class GroupedProduct implements Serializable {
 		UnsafeSupplier<String, Exception>
 			productExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			productExternalReferenceCode =
-				productExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		productExternalReferenceCode = null;
+
+		_productExternalReferenceCodeSupplier = () -> {
+			try {
+				return productExternalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String productExternalReferenceCode;
 
+	private Supplier<String> _productExternalReferenceCodeSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "33131")
 	public Long getProductId() {
+		if (productId != null) {
+			return productId;
+		}
+
+		productId = _productIdSupplier.get();
+
 		return productId;
 	}
 
 	public void setProductId(Long productId) {
 		this.productId = productId;
+
+		_productIdSupplier = () -> productId;
 	}
 
 	@JsonIgnore
 	public void setProductId(
 		UnsafeSupplier<Long, Exception> productIdUnsafeSupplier) {
 
-		try {
-			productId = productIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		productId = null;
+
+		_productIdSupplier = () -> {
+			try {
+				return productIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long productId;
 
+	private Supplier<Long> _productIdSupplier = () -> null;
+
 	@Schema(
 		example = "{en_US=Hand Saw, hr_HR=Product Name HR, hu_HU=Product Name HU}"
 	)
 	@Valid
 	public Map<String, String> getProductName() {
+		if (productName != null) {
+			return productName;
+		}
+
+		productName = _productNameSupplier.get();
+
 		return productName;
 	}
 
 	public void setProductName(Map<String, String> productName) {
 		this.productName = productName;
+
+		_productNameSupplier = () -> productName;
 	}
 
 	@JsonIgnore
@@ -277,49 +388,69 @@ public class GroupedProduct implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			productNameUnsafeSupplier) {
 
-		try {
-			productName = productNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		productName = null;
+
+		_productNameSupplier = () -> {
+			try {
+				return productNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, String> productName;
 
+	private Supplier<Map<String, String>> _productNameSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "1")
 	public Integer getQuantity() {
+		if (quantity != null) {
+			return quantity;
+		}
+
+		quantity = _quantitySupplier.get();
+
 		return quantity;
 	}
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+
+		_quantitySupplier = () -> quantity;
 	}
 
 	@JsonIgnore
 	public void setQuantity(
 		UnsafeSupplier<Integer, Exception> quantityUnsafeSupplier) {
 
-		try {
-			quantity = quantityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		quantity = null;
+
+		_quantitySupplier = () -> {
+			try {
+				return quantityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer quantity;
+
+	private Supplier<Integer> _quantitySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

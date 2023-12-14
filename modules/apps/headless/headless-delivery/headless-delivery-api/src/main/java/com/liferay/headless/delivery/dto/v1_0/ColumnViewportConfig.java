@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,11 +57,19 @@ public class ColumnViewportConfig implements Serializable {
 	@Schema
 	@Valid
 	public LandscapeMobile getLandscapeMobile() {
+		if (landscapeMobile != null) {
+			return landscapeMobile;
+		}
+
+		landscapeMobile = _landscapeMobileSupplier.get();
+
 		return landscapeMobile;
 	}
 
 	public void setLandscapeMobile(LandscapeMobile landscapeMobile) {
 		this.landscapeMobile = landscapeMobile;
+
+		_landscapeMobileSupplier = () -> landscapeMobile;
 	}
 
 	@JsonIgnore
@@ -68,29 +77,43 @@ public class ColumnViewportConfig implements Serializable {
 		UnsafeSupplier<LandscapeMobile, Exception>
 			landscapeMobileUnsafeSupplier) {
 
-		try {
-			landscapeMobile = landscapeMobileUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		landscapeMobile = null;
+
+		_landscapeMobileSupplier = () -> {
+			try {
+				return landscapeMobileUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected LandscapeMobile landscapeMobile;
 
+	private Supplier<LandscapeMobile> _landscapeMobileSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public PortraitMobile getPortraitMobile() {
+		if (portraitMobile != null) {
+			return portraitMobile;
+		}
+
+		portraitMobile = _portraitMobileSupplier.get();
+
 		return portraitMobile;
 	}
 
 	public void setPortraitMobile(PortraitMobile portraitMobile) {
 		this.portraitMobile = portraitMobile;
+
+		_portraitMobileSupplier = () -> portraitMobile;
 	}
 
 	@JsonIgnore
@@ -98,49 +121,69 @@ public class ColumnViewportConfig implements Serializable {
 		UnsafeSupplier<PortraitMobile, Exception>
 			portraitMobileUnsafeSupplier) {
 
-		try {
-			portraitMobile = portraitMobileUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		portraitMobile = null;
+
+		_portraitMobileSupplier = () -> {
+			try {
+				return portraitMobileUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected PortraitMobile portraitMobile;
 
+	private Supplier<PortraitMobile> _portraitMobileSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Tablet getTablet() {
+		if (tablet != null) {
+			return tablet;
+		}
+
+		tablet = _tabletSupplier.get();
+
 		return tablet;
 	}
 
 	public void setTablet(Tablet tablet) {
 		this.tablet = tablet;
+
+		_tabletSupplier = () -> tablet;
 	}
 
 	@JsonIgnore
 	public void setTablet(
 		UnsafeSupplier<Tablet, Exception> tabletUnsafeSupplier) {
 
-		try {
-			tablet = tabletUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		tablet = null;
+
+		_tabletSupplier = () -> {
+			try {
+				return tabletUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Tablet tablet;
+
+	private Supplier<Tablet> _tabletSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

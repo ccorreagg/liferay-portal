@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,31 +50,45 @@ public class MLModel implements Serializable {
 
 	@Schema
 	public String getModelId() {
+		if (modelId != null) {
+			return modelId;
+		}
+
+		modelId = _modelIdSupplier.get();
+
 		return modelId;
 	}
 
 	public void setModelId(String modelId) {
 		this.modelId = modelId;
+
+		_modelIdSupplier = () -> modelId;
 	}
 
 	@JsonIgnore
 	public void setModelId(
 		UnsafeSupplier<String, Exception> modelIdUnsafeSupplier) {
 
-		try {
-			modelId = modelIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		modelId = null;
+
+		_modelIdSupplier = () -> {
+			try {
+				return modelIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String modelId;
+
+	private Supplier<String> _modelIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

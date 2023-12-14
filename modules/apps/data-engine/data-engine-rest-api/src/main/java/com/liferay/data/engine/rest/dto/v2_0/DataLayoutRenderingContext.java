@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,40 +54,62 @@ public class DataLayoutRenderingContext implements Serializable {
 
 	@Schema
 	public String getContainerId() {
+		if (containerId != null) {
+			return containerId;
+		}
+
+		containerId = _containerIdSupplier.get();
+
 		return containerId;
 	}
 
 	public void setContainerId(String containerId) {
 		this.containerId = containerId;
+
+		_containerIdSupplier = () -> containerId;
 	}
 
 	@JsonIgnore
 	public void setContainerId(
 		UnsafeSupplier<String, Exception> containerIdUnsafeSupplier) {
 
-		try {
-			containerId = containerIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		containerId = null;
+
+		_containerIdSupplier = () -> {
+			try {
+				return containerIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String containerId;
 
+	private Supplier<String> _containerIdSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, Object> getDataRecordValues() {
+		if (dataRecordValues != null) {
+			return dataRecordValues;
+		}
+
+		dataRecordValues = _dataRecordValuesSupplier.get();
+
 		return dataRecordValues;
 	}
 
 	public void setDataRecordValues(Map<String, Object> dataRecordValues) {
 		this.dataRecordValues = dataRecordValues;
+
+		_dataRecordValuesSupplier = () -> dataRecordValues;
 	}
 
 	@JsonIgnore
@@ -94,160 +117,237 @@ public class DataLayoutRenderingContext implements Serializable {
 		UnsafeSupplier<Map<String, Object>, Exception>
 			dataRecordValuesUnsafeSupplier) {
 
-		try {
-			dataRecordValues = dataRecordValuesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dataRecordValues = null;
+
+		_dataRecordValuesSupplier = () -> {
+			try {
+				return dataRecordValuesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, Object> dataRecordValues;
 
+	private Supplier<Map<String, Object>> _dataRecordValuesSupplier =
+		() -> null;
+
 	@Schema
 	public String getNamespace() {
+		if (namespace != null) {
+			return namespace;
+		}
+
+		namespace = _namespaceSupplier.get();
+
 		return namespace;
 	}
 
 	public void setNamespace(String namespace) {
 		this.namespace = namespace;
+
+		_namespaceSupplier = () -> namespace;
 	}
 
 	@JsonIgnore
 	public void setNamespace(
 		UnsafeSupplier<String, Exception> namespaceUnsafeSupplier) {
 
-		try {
-			namespace = namespaceUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		namespace = null;
+
+		_namespaceSupplier = () -> {
+			try {
+				return namespaceUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String namespace;
 
+	private Supplier<String> _namespaceSupplier = () -> null;
+
 	@Schema
 	public String getPathThemeImages() {
+		if (pathThemeImages != null) {
+			return pathThemeImages;
+		}
+
+		pathThemeImages = _pathThemeImagesSupplier.get();
+
 		return pathThemeImages;
 	}
 
 	public void setPathThemeImages(String pathThemeImages) {
 		this.pathThemeImages = pathThemeImages;
+
+		_pathThemeImagesSupplier = () -> pathThemeImages;
 	}
 
 	@JsonIgnore
 	public void setPathThemeImages(
 		UnsafeSupplier<String, Exception> pathThemeImagesUnsafeSupplier) {
 
-		try {
-			pathThemeImages = pathThemeImagesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		pathThemeImages = null;
+
+		_pathThemeImagesSupplier = () -> {
+			try {
+				return pathThemeImagesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String pathThemeImages;
 
+	private Supplier<String> _pathThemeImagesSupplier = () -> null;
+
 	@Schema
 	public Boolean getReadOnly() {
+		if (readOnly != null) {
+			return readOnly;
+		}
+
+		readOnly = _readOnlySupplier.get();
+
 		return readOnly;
 	}
 
 	public void setReadOnly(Boolean readOnly) {
 		this.readOnly = readOnly;
+
+		_readOnlySupplier = () -> readOnly;
 	}
 
 	@JsonIgnore
 	public void setReadOnly(
 		UnsafeSupplier<Boolean, Exception> readOnlyUnsafeSupplier) {
 
-		try {
-			readOnly = readOnlyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		readOnly = null;
+
+		_readOnlySupplier = () -> {
+			try {
+				return readOnlyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean readOnly;
 
+	private Supplier<Boolean> _readOnlySupplier = () -> null;
+
 	@Schema
 	public Long getScopeGroupId() {
+		if (scopeGroupId != null) {
+			return scopeGroupId;
+		}
+
+		scopeGroupId = _scopeGroupIdSupplier.get();
+
 		return scopeGroupId;
 	}
 
 	public void setScopeGroupId(Long scopeGroupId) {
 		this.scopeGroupId = scopeGroupId;
+
+		_scopeGroupIdSupplier = () -> scopeGroupId;
 	}
 
 	@JsonIgnore
 	public void setScopeGroupId(
 		UnsafeSupplier<Long, Exception> scopeGroupIdUnsafeSupplier) {
 
-		try {
-			scopeGroupId = scopeGroupIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		scopeGroupId = null;
+
+		_scopeGroupIdSupplier = () -> {
+			try {
+				return scopeGroupIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long scopeGroupId;
 
+	private Supplier<Long> _scopeGroupIdSupplier = () -> null;
+
 	@Schema
 	public Long getSiteGroupId() {
+		if (siteGroupId != null) {
+			return siteGroupId;
+		}
+
+		siteGroupId = _siteGroupIdSupplier.get();
+
 		return siteGroupId;
 	}
 
 	public void setSiteGroupId(Long siteGroupId) {
 		this.siteGroupId = siteGroupId;
+
+		_siteGroupIdSupplier = () -> siteGroupId;
 	}
 
 	@JsonIgnore
 	public void setSiteGroupId(
 		UnsafeSupplier<Long, Exception> siteGroupIdUnsafeSupplier) {
 
-		try {
-			siteGroupId = siteGroupIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		siteGroupId = null;
+
+		_siteGroupIdSupplier = () -> {
+			try {
+				return siteGroupIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long siteGroupId;
+
+	private Supplier<Long> _siteGroupIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

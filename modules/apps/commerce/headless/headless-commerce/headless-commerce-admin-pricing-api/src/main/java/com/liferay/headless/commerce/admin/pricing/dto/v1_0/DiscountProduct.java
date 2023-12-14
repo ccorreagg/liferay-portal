@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,6 +52,13 @@ public class DiscountProduct implements Serializable {
 
 	@Schema(example = "DAB-34098-789-N")
 	public String getDiscountExternalReferenceCode() {
+		if (discountExternalReferenceCode != null) {
+			return discountExternalReferenceCode;
+		}
+
+		discountExternalReferenceCode =
+			_discountExternalReferenceCodeSupplier.get();
+
 		return discountExternalReferenceCode;
 	}
 
@@ -58,6 +66,9 @@ public class DiscountProduct implements Serializable {
 		String discountExternalReferenceCode) {
 
 		this.discountExternalReferenceCode = discountExternalReferenceCode;
+
+		_discountExternalReferenceCodeSupplier =
+			() -> discountExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -65,80 +76,121 @@ public class DiscountProduct implements Serializable {
 		UnsafeSupplier<String, Exception>
 			discountExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			discountExternalReferenceCode =
-				discountExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		discountExternalReferenceCode = null;
+
+		_discountExternalReferenceCodeSupplier = () -> {
+			try {
+				return discountExternalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String discountExternalReferenceCode;
 
+	private Supplier<String> _discountExternalReferenceCodeSupplier =
+		() -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30324")
 	public Long getDiscountId() {
+		if (discountId != null) {
+			return discountId;
+		}
+
+		discountId = _discountIdSupplier.get();
+
 		return discountId;
 	}
 
 	public void setDiscountId(Long discountId) {
 		this.discountId = discountId;
+
+		_discountIdSupplier = () -> discountId;
 	}
 
 	@JsonIgnore
 	public void setDiscountId(
 		UnsafeSupplier<Long, Exception> discountIdUnsafeSupplier) {
 
-		try {
-			discountId = discountIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		discountId = null;
+
+		_discountIdSupplier = () -> {
+			try {
+				return discountIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long discountId;
 
+	private Supplier<Long> _discountIdSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30643")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(example = "PAB-34098-789-N")
 	public String getProductExternalReferenceCode() {
+		if (productExternalReferenceCode != null) {
+			return productExternalReferenceCode;
+		}
+
+		productExternalReferenceCode =
+			_productExternalReferenceCodeSupplier.get();
+
 		return productExternalReferenceCode;
 	}
 
@@ -146,6 +198,9 @@ public class DiscountProduct implements Serializable {
 		String productExternalReferenceCode) {
 
 		this.productExternalReferenceCode = productExternalReferenceCode;
+
+		_productExternalReferenceCodeSupplier =
+			() -> productExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -153,50 +208,69 @@ public class DiscountProduct implements Serializable {
 		UnsafeSupplier<String, Exception>
 			productExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			productExternalReferenceCode =
-				productExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		productExternalReferenceCode = null;
+
+		_productExternalReferenceCodeSupplier = () -> {
+			try {
+				return productExternalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String productExternalReferenceCode;
 
+	private Supplier<String> _productExternalReferenceCodeSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30130")
 	public Long getProductId() {
+		if (productId != null) {
+			return productId;
+		}
+
+		productId = _productIdSupplier.get();
+
 		return productId;
 	}
 
 	public void setProductId(Long productId) {
 		this.productId = productId;
+
+		_productIdSupplier = () -> productId;
 	}
 
 	@JsonIgnore
 	public void setProductId(
 		UnsafeSupplier<Long, Exception> productIdUnsafeSupplier) {
 
-		try {
-			productId = productIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		productId = null;
+
+		_productIdSupplier = () -> {
+			try {
+				return productIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long productId;
+
+	private Supplier<Long> _productIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

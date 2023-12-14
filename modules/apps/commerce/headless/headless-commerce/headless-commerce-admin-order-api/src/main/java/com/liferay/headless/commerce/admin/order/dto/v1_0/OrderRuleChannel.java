@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,11 +56,19 @@ public class OrderRuleChannel implements Serializable {
 	@Schema
 	@Valid
 	public Map<String, Map<String, String>> getActions() {
+		if (actions != null) {
+			return actions;
+		}
+
+		actions = _actionsSupplier.get();
+
 		return actions;
 	}
 
 	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
+
+		_actionsSupplier = () -> actions;
 	}
 
 	@JsonIgnore
@@ -67,52 +76,80 @@ public class OrderRuleChannel implements Serializable {
 		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
 			actionsUnsafeSupplier) {
 
-		try {
-			actions = actionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actions = null;
+
+		_actionsSupplier = () -> {
+			try {
+				return actionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, Map<String, String>> actions;
 
+	private Supplier<Map<String, Map<String, String>>> _actionsSupplier =
+		() -> null;
+
 	@Schema
 	@Valid
 	public Channel getChannel() {
+		if (channel != null) {
+			return channel;
+		}
+
+		channel = _channelSupplier.get();
+
 		return channel;
 	}
 
 	public void setChannel(Channel channel) {
 		this.channel = channel;
+
+		_channelSupplier = () -> channel;
 	}
 
 	@JsonIgnore
 	public void setChannel(
 		UnsafeSupplier<Channel, Exception> channelUnsafeSupplier) {
 
-		try {
-			channel = channelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		channel = null;
+
+		_channelSupplier = () -> {
+			try {
+				return channelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Channel channel;
 
+	private Supplier<Channel> _channelSupplier = () -> null;
+
 	@Schema(example = "DAB-34098-789-N")
 	public String getChannelExternalReferenceCode() {
+		if (channelExternalReferenceCode != null) {
+			return channelExternalReferenceCode;
+		}
+
+		channelExternalReferenceCode =
+			_channelExternalReferenceCodeSupplier.get();
+
 		return channelExternalReferenceCode;
 	}
 
@@ -120,6 +157,9 @@ public class OrderRuleChannel implements Serializable {
 		String channelExternalReferenceCode) {
 
 		this.channelExternalReferenceCode = channelExternalReferenceCode;
+
+		_channelExternalReferenceCodeSupplier =
+			() -> channelExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -127,45 +167,62 @@ public class OrderRuleChannel implements Serializable {
 		UnsafeSupplier<String, Exception>
 			channelExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			channelExternalReferenceCode =
-				channelExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		channelExternalReferenceCode = null;
+
+		_channelExternalReferenceCodeSupplier = () -> {
+			try {
+				return channelExternalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String channelExternalReferenceCode;
 
+	private Supplier<String> _channelExternalReferenceCodeSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30324")
 	public Long getChannelId() {
+		if (channelId != null) {
+			return channelId;
+		}
+
+		channelId = _channelIdSupplier.get();
+
 		return channelId;
 	}
 
 	public void setChannelId(Long channelId) {
 		this.channelId = channelId;
+
+		_channelIdSupplier = () -> channelId;
 	}
 
 	@JsonIgnore
 	public void setChannelId(
 		UnsafeSupplier<Long, Exception> channelIdUnsafeSupplier) {
 
-		try {
-			channelId = channelIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		channelId = null;
+
+		_channelIdSupplier = () -> {
+			try {
+				return channelIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
@@ -173,37 +230,60 @@ public class OrderRuleChannel implements Serializable {
 	@NotNull
 	protected Long channelId;
 
+	private Supplier<Long> _channelIdSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30643")
 	public Long getOrderRuleChannelId() {
+		if (orderRuleChannelId != null) {
+			return orderRuleChannelId;
+		}
+
+		orderRuleChannelId = _orderRuleChannelIdSupplier.get();
+
 		return orderRuleChannelId;
 	}
 
 	public void setOrderRuleChannelId(Long orderRuleChannelId) {
 		this.orderRuleChannelId = orderRuleChannelId;
+
+		_orderRuleChannelIdSupplier = () -> orderRuleChannelId;
 	}
 
 	@JsonIgnore
 	public void setOrderRuleChannelId(
 		UnsafeSupplier<Long, Exception> orderRuleChannelIdUnsafeSupplier) {
 
-		try {
-			orderRuleChannelId = orderRuleChannelIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		orderRuleChannelId = null;
+
+		_orderRuleChannelIdSupplier = () -> {
+			try {
+				return orderRuleChannelIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long orderRuleChannelId;
 
+	private Supplier<Long> _orderRuleChannelIdSupplier = () -> null;
+
 	@Schema(example = "PAB-34098-789-N")
 	public String getOrderRuleExternalReferenceCode() {
+		if (orderRuleExternalReferenceCode != null) {
+			return orderRuleExternalReferenceCode;
+		}
+
+		orderRuleExternalReferenceCode =
+			_orderRuleExternalReferenceCodeSupplier.get();
+
 		return orderRuleExternalReferenceCode;
 	}
 
@@ -211,6 +291,9 @@ public class OrderRuleChannel implements Serializable {
 		String orderRuleExternalReferenceCode) {
 
 		this.orderRuleExternalReferenceCode = orderRuleExternalReferenceCode;
+
+		_orderRuleExternalReferenceCodeSupplier =
+			() -> orderRuleExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -218,51 +301,71 @@ public class OrderRuleChannel implements Serializable {
 		UnsafeSupplier<String, Exception>
 			orderRuleExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			orderRuleExternalReferenceCode =
-				orderRuleExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		orderRuleExternalReferenceCode = null;
+
+		_orderRuleExternalReferenceCodeSupplier = () -> {
+			try {
+				return orderRuleExternalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String orderRuleExternalReferenceCode;
 
+	private Supplier<String> _orderRuleExternalReferenceCodeSupplier =
+		() -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30130")
 	public Long getOrderRuleId() {
+		if (orderRuleId != null) {
+			return orderRuleId;
+		}
+
+		orderRuleId = _orderRuleIdSupplier.get();
+
 		return orderRuleId;
 	}
 
 	public void setOrderRuleId(Long orderRuleId) {
 		this.orderRuleId = orderRuleId;
+
+		_orderRuleIdSupplier = () -> orderRuleId;
 	}
 
 	@JsonIgnore
 	public void setOrderRuleId(
 		UnsafeSupplier<Long, Exception> orderRuleIdUnsafeSupplier) {
 
-		try {
-			orderRuleId = orderRuleIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		orderRuleId = null;
+
+		_orderRuleIdSupplier = () -> {
+			try {
+				return orderRuleIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Long orderRuleId;
+
+	private Supplier<Long> _orderRuleIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

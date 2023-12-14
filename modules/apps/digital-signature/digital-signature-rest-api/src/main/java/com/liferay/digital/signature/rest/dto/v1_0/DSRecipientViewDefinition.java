@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,143 +52,213 @@ public class DSRecipientViewDefinition implements Serializable {
 
 	@Schema
 	public String getAuthenticationMethod() {
+		if (authenticationMethod != null) {
+			return authenticationMethod;
+		}
+
+		authenticationMethod = _authenticationMethodSupplier.get();
+
 		return authenticationMethod;
 	}
 
 	public void setAuthenticationMethod(String authenticationMethod) {
 		this.authenticationMethod = authenticationMethod;
+
+		_authenticationMethodSupplier = () -> authenticationMethod;
 	}
 
 	@JsonIgnore
 	public void setAuthenticationMethod(
 		UnsafeSupplier<String, Exception> authenticationMethodUnsafeSupplier) {
 
-		try {
-			authenticationMethod = authenticationMethodUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		authenticationMethod = null;
+
+		_authenticationMethodSupplier = () -> {
+			try {
+				return authenticationMethodUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String authenticationMethod;
 
+	private Supplier<String> _authenticationMethodSupplier = () -> null;
+
 	@Schema
 	public String getDsClientUserId() {
+		if (dsClientUserId != null) {
+			return dsClientUserId;
+		}
+
+		dsClientUserId = _dsClientUserIdSupplier.get();
+
 		return dsClientUserId;
 	}
 
 	public void setDsClientUserId(String dsClientUserId) {
 		this.dsClientUserId = dsClientUserId;
+
+		_dsClientUserIdSupplier = () -> dsClientUserId;
 	}
 
 	@JsonIgnore
 	public void setDsClientUserId(
 		UnsafeSupplier<String, Exception> dsClientUserIdUnsafeSupplier) {
 
-		try {
-			dsClientUserId = dsClientUserIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dsClientUserId = null;
+
+		_dsClientUserIdSupplier = () -> {
+			try {
+				return dsClientUserIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String dsClientUserId;
 
+	private Supplier<String> _dsClientUserIdSupplier = () -> null;
+
 	@Schema
 	public String getEmailAddress() {
+		if (emailAddress != null) {
+			return emailAddress;
+		}
+
+		emailAddress = _emailAddressSupplier.get();
+
 		return emailAddress;
 	}
 
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
+
+		_emailAddressSupplier = () -> emailAddress;
 	}
 
 	@JsonIgnore
 	public void setEmailAddress(
 		UnsafeSupplier<String, Exception> emailAddressUnsafeSupplier) {
 
-		try {
-			emailAddress = emailAddressUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		emailAddress = null;
+
+		_emailAddressSupplier = () -> {
+			try {
+				return emailAddressUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String emailAddress;
 
+	private Supplier<String> _emailAddressSupplier = () -> null;
+
 	@Schema
 	public String getReturnURL() {
+		if (returnURL != null) {
+			return returnURL;
+		}
+
+		returnURL = _returnURLSupplier.get();
+
 		return returnURL;
 	}
 
 	public void setReturnURL(String returnURL) {
 		this.returnURL = returnURL;
+
+		_returnURLSupplier = () -> returnURL;
 	}
 
 	@JsonIgnore
 	public void setReturnURL(
 		UnsafeSupplier<String, Exception> returnURLUnsafeSupplier) {
 
-		try {
-			returnURL = returnURLUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		returnURL = null;
+
+		_returnURLSupplier = () -> {
+			try {
+				return returnURLUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String returnURL;
 
+	private Supplier<String> _returnURLSupplier = () -> null;
+
 	@Schema
 	public String getUserName() {
+		if (userName != null) {
+			return userName;
+		}
+
+		userName = _userNameSupplier.get();
+
 		return userName;
 	}
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+
+		_userNameSupplier = () -> userName;
 	}
 
 	@JsonIgnore
 	public void setUserName(
 		UnsafeSupplier<String, Exception> userNameUnsafeSupplier) {
 
-		try {
-			userName = userNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		userName = null;
+
+		_userNameSupplier = () -> {
+			try {
+				return userNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String userName;
+
+	private Supplier<String> _userNameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

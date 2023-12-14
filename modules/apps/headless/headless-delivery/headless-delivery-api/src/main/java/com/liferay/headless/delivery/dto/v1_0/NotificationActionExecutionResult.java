@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -58,26 +59,38 @@ public class NotificationActionExecutionResult implements Serializable {
 		description = "Whether to reload the page after the action is executed."
 	)
 	public Boolean getReload() {
+		if (reload != null) {
+			return reload;
+		}
+
+		reload = _reloadSupplier.get();
+
 		return reload;
 	}
 
 	public void setReload(Boolean reload) {
 		this.reload = reload;
+
+		_reloadSupplier = () -> reload;
 	}
 
 	@JsonIgnore
 	public void setReload(
 		UnsafeSupplier<Boolean, Exception> reloadUnsafeSupplier) {
 
-		try {
-			reload = reloadUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		reload = null;
+
+		_reloadSupplier = () -> {
+			try {
+				return reloadUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -86,31 +99,45 @@ public class NotificationActionExecutionResult implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean reload;
 
+	private Supplier<Boolean> _reloadSupplier = () -> null;
+
 	@Schema(
 		description = "The localized text to display when an action is executed."
 	)
 	@Valid
 	public FragmentInlineValue getText() {
+		if (text != null) {
+			return text;
+		}
+
+		text = _textSupplier.get();
+
 		return text;
 	}
 
 	public void setText(FragmentInlineValue text) {
 		this.text = text;
+
+		_textSupplier = () -> text;
 	}
 
 	@JsonIgnore
 	public void setText(
 		UnsafeSupplier<FragmentInlineValue, Exception> textUnsafeSupplier) {
 
-		try {
-			text = textUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		text = null;
+
+		_textSupplier = () -> {
+			try {
+				return textUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -118,6 +145,8 @@ public class NotificationActionExecutionResult implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentInlineValue text;
+
+	private Supplier<FragmentInlineValue> _textSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

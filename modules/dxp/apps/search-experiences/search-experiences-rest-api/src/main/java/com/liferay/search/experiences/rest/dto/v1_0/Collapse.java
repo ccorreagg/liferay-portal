@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,63 +52,97 @@ public class Collapse implements Serializable {
 
 	@Schema
 	public String getField() {
+		if (field != null) {
+			return field;
+		}
+
+		field = _fieldSupplier.get();
+
 		return field;
 	}
 
 	public void setField(String field) {
 		this.field = field;
+
+		_fieldSupplier = () -> field;
 	}
 
 	@JsonIgnore
 	public void setField(
 		UnsafeSupplier<String, Exception> fieldUnsafeSupplier) {
 
-		try {
-			field = fieldUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		field = null;
+
+		_fieldSupplier = () -> {
+			try {
+				return fieldUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String field;
 
+	private Supplier<String> _fieldSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public InnerHit[] getInnerHits() {
+		if (innerHits != null) {
+			return innerHits;
+		}
+
+		innerHits = _innerHitsSupplier.get();
+
 		return innerHits;
 	}
 
 	public void setInnerHits(InnerHit[] innerHits) {
 		this.innerHits = innerHits;
+
+		_innerHitsSupplier = () -> innerHits;
 	}
 
 	@JsonIgnore
 	public void setInnerHits(
 		UnsafeSupplier<InnerHit[], Exception> innerHitsUnsafeSupplier) {
 
-		try {
-			innerHits = innerHitsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		innerHits = null;
+
+		_innerHitsSupplier = () -> {
+			try {
+				return innerHitsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected InnerHit[] innerHits;
 
+	private Supplier<InnerHit[]> _innerHitsSupplier = () -> null;
+
 	@Schema
 	public Integer getMaxConcurrentGroupRequests() {
+		if (maxConcurrentGroupRequests != null) {
+			return maxConcurrentGroupRequests;
+		}
+
+		maxConcurrentGroupRequests = _maxConcurrentGroupRequestsSupplier.get();
+
 		return maxConcurrentGroupRequests;
 	}
 
@@ -115,6 +150,8 @@ public class Collapse implements Serializable {
 		Integer maxConcurrentGroupRequests) {
 
 		this.maxConcurrentGroupRequests = maxConcurrentGroupRequests;
+
+		_maxConcurrentGroupRequestsSupplier = () -> maxConcurrentGroupRequests;
 	}
 
 	@JsonIgnore
@@ -122,21 +159,26 @@ public class Collapse implements Serializable {
 		UnsafeSupplier<Integer, Exception>
 			maxConcurrentGroupRequestsUnsafeSupplier) {
 
-		try {
-			maxConcurrentGroupRequests =
-				maxConcurrentGroupRequestsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		maxConcurrentGroupRequests = null;
+
+		_maxConcurrentGroupRequestsSupplier = () -> {
+			try {
+				return maxConcurrentGroupRequestsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer maxConcurrentGroupRequests;
+
+	private Supplier<Integer> _maxConcurrentGroupRequestsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

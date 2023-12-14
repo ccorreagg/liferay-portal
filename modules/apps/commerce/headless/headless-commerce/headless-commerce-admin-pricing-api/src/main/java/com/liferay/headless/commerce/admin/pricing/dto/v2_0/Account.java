@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,84 +53,126 @@ public class Account implements Serializable {
 	@DecimalMin("0")
 	@Schema(example = "30130")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "20078")
 	public Long getLogoId() {
+		if (logoId != null) {
+			return logoId;
+		}
+
+		logoId = _logoIdSupplier.get();
+
 		return logoId;
 	}
 
 	public void setLogoId(Long logoId) {
 		this.logoId = logoId;
+
+		_logoIdSupplier = () -> logoId;
 	}
 
 	@JsonIgnore
 	public void setLogoId(
 		UnsafeSupplier<Long, Exception> logoIdUnsafeSupplier) {
 
-		try {
-			logoId = logoIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		logoId = null;
+
+		_logoIdSupplier = () -> {
+			try {
+				return logoIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long logoId;
 
+	private Supplier<Long> _logoIdSupplier = () -> null;
+
 	@Schema(example = "Account Name")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
+
+	private Supplier<String> _nameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

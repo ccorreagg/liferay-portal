@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,58 +52,86 @@ public class ObjectStateFlow implements Serializable {
 
 	@Schema
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public ObjectState[] getObjectStates() {
+		if (objectStates != null) {
+			return objectStates;
+		}
+
+		objectStates = _objectStatesSupplier.get();
+
 		return objectStates;
 	}
 
 	public void setObjectStates(ObjectState[] objectStates) {
 		this.objectStates = objectStates;
+
+		_objectStatesSupplier = () -> objectStates;
 	}
 
 	@JsonIgnore
 	public void setObjectStates(
 		UnsafeSupplier<ObjectState[], Exception> objectStatesUnsafeSupplier) {
 
-		try {
-			objectStates = objectStatesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		objectStates = null;
+
+		_objectStatesSupplier = () -> {
+			try {
+				return objectStatesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ObjectState[] objectStates;
+
+	private Supplier<ObjectState[]> _objectStatesSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

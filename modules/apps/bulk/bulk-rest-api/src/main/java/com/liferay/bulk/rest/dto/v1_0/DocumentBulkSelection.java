@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,40 +53,62 @@ public class DocumentBulkSelection implements Serializable {
 
 	@Schema
 	public String[] getDocumentIds() {
+		if (documentIds != null) {
+			return documentIds;
+		}
+
+		documentIds = _documentIdsSupplier.get();
+
 		return documentIds;
 	}
 
 	public void setDocumentIds(String[] documentIds) {
 		this.documentIds = documentIds;
+
+		_documentIdsSupplier = () -> documentIds;
 	}
 
 	@JsonIgnore
 	public void setDocumentIds(
 		UnsafeSupplier<String[], Exception> documentIdsUnsafeSupplier) {
 
-		try {
-			documentIds = documentIdsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		documentIds = null;
+
+		_documentIdsSupplier = () -> {
+			try {
+				return documentIdsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] documentIds;
 
+	private Supplier<String[]> _documentIdsSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public SelectionScope getSelectionScope() {
+		if (selectionScope != null) {
+			return selectionScope;
+		}
+
+		selectionScope = _selectionScopeSupplier.get();
+
 		return selectionScope;
 	}
 
 	public void setSelectionScope(SelectionScope selectionScope) {
 		this.selectionScope = selectionScope;
+
+		_selectionScopeSupplier = () -> selectionScope;
 	}
 
 	@JsonIgnore
@@ -93,20 +116,26 @@ public class DocumentBulkSelection implements Serializable {
 		UnsafeSupplier<SelectionScope, Exception>
 			selectionScopeUnsafeSupplier) {
 
-		try {
-			selectionScope = selectionScopeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		selectionScope = null;
+
+		_selectionScopeSupplier = () -> {
+			try {
+				return selectionScopeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected SelectionScope selectionScope;
+
+	private Supplier<SelectionScope> _selectionScopeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

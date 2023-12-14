@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,6 +55,13 @@ public class AccountChannelShippingOption implements Serializable {
 
 	@Schema(example = "UAB-34098-789-N")
 	public String getAccountExternalReferenceCode() {
+		if (accountExternalReferenceCode != null) {
+			return accountExternalReferenceCode;
+		}
+
+		accountExternalReferenceCode =
+			_accountExternalReferenceCodeSupplier.get();
+
 		return accountExternalReferenceCode;
 	}
 
@@ -61,6 +69,9 @@ public class AccountChannelShippingOption implements Serializable {
 		String accountExternalReferenceCode) {
 
 		this.accountExternalReferenceCode = accountExternalReferenceCode;
+
+		_accountExternalReferenceCodeSupplier =
+			() -> accountExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -68,59 +79,86 @@ public class AccountChannelShippingOption implements Serializable {
 		UnsafeSupplier<String, Exception>
 			accountExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			accountExternalReferenceCode =
-				accountExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		accountExternalReferenceCode = null;
+
+		_accountExternalReferenceCodeSupplier = () -> {
+			try {
+				return accountExternalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String accountExternalReferenceCode;
 
+	private Supplier<String> _accountExternalReferenceCodeSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30130")
 	public Long getAccountId() {
+		if (accountId != null) {
+			return accountId;
+		}
+
+		accountId = _accountIdSupplier.get();
+
 		return accountId;
 	}
 
 	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
+
+		_accountIdSupplier = () -> accountId;
 	}
 
 	@JsonIgnore
 	public void setAccountId(
 		UnsafeSupplier<Long, Exception> accountIdUnsafeSupplier) {
 
-		try {
-			accountId = accountIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		accountId = null;
+
+		_accountIdSupplier = () -> {
+			try {
+				return accountIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long accountId;
 
+	private Supplier<Long> _accountIdSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, Map<String, String>> getActions() {
+		if (actions != null) {
+			return actions;
+		}
+
+		actions = _actionsSupplier.get();
+
 		return actions;
 	}
 
 	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
+
+		_actionsSupplier = () -> actions;
 	}
 
 	@JsonIgnore
@@ -128,23 +166,37 @@ public class AccountChannelShippingOption implements Serializable {
 		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
 			actionsUnsafeSupplier) {
 
-		try {
-			actions = actionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actions = null;
+
+		_actionsSupplier = () -> {
+			try {
+				return actionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, Map<String, String>> actions;
 
+	private Supplier<Map<String, Map<String, String>>> _actionsSupplier =
+		() -> null;
+
 	@Schema
 	public String getChannelExternalReferenceCode() {
+		if (channelExternalReferenceCode != null) {
+			return channelExternalReferenceCode;
+		}
+
+		channelExternalReferenceCode =
+			_channelExternalReferenceCodeSupplier.get();
+
 		return channelExternalReferenceCode;
 	}
 
@@ -152,6 +204,9 @@ public class AccountChannelShippingOption implements Serializable {
 		String channelExternalReferenceCode) {
 
 		this.channelExternalReferenceCode = channelExternalReferenceCode;
+
+		_channelExternalReferenceCodeSupplier =
+			() -> channelExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -159,190 +214,279 @@ public class AccountChannelShippingOption implements Serializable {
 		UnsafeSupplier<String, Exception>
 			channelExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			channelExternalReferenceCode =
-				channelExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		channelExternalReferenceCode = null;
+
+		_channelExternalReferenceCodeSupplier = () -> {
+			try {
+				return channelExternalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String channelExternalReferenceCode;
 
+	private Supplier<String> _channelExternalReferenceCodeSupplier = () -> null;
+
 	@Schema
 	public Long getChannelId() {
+		if (channelId != null) {
+			return channelId;
+		}
+
+		channelId = _channelIdSupplier.get();
+
 		return channelId;
 	}
 
 	public void setChannelId(Long channelId) {
 		this.channelId = channelId;
+
+		_channelIdSupplier = () -> channelId;
 	}
 
 	@JsonIgnore
 	public void setChannelId(
 		UnsafeSupplier<Long, Exception> channelIdUnsafeSupplier) {
 
-		try {
-			channelId = channelIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		channelId = null;
+
+		_channelIdSupplier = () -> {
+			try {
+				return channelIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long channelId;
 
+	private Supplier<Long> _channelIdSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30324")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30324")
 	public Long getShippingMethodId() {
+		if (shippingMethodId != null) {
+			return shippingMethodId;
+		}
+
+		shippingMethodId = _shippingMethodIdSupplier.get();
+
 		return shippingMethodId;
 	}
 
 	public void setShippingMethodId(Long shippingMethodId) {
 		this.shippingMethodId = shippingMethodId;
+
+		_shippingMethodIdSupplier = () -> shippingMethodId;
 	}
 
 	@JsonIgnore
 	public void setShippingMethodId(
 		UnsafeSupplier<Long, Exception> shippingMethodIdUnsafeSupplier) {
 
-		try {
-			shippingMethodId = shippingMethodIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		shippingMethodId = null;
+
+		_shippingMethodIdSupplier = () -> {
+			try {
+				return shippingMethodIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long shippingMethodId;
 
+	private Supplier<Long> _shippingMethodIdSupplier = () -> null;
+
 	@Schema
 	public String getShippingMethodKey() {
+		if (shippingMethodKey != null) {
+			return shippingMethodKey;
+		}
+
+		shippingMethodKey = _shippingMethodKeySupplier.get();
+
 		return shippingMethodKey;
 	}
 
 	public void setShippingMethodKey(String shippingMethodKey) {
 		this.shippingMethodKey = shippingMethodKey;
+
+		_shippingMethodKeySupplier = () -> shippingMethodKey;
 	}
 
 	@JsonIgnore
 	public void setShippingMethodKey(
 		UnsafeSupplier<String, Exception> shippingMethodKeyUnsafeSupplier) {
 
-		try {
-			shippingMethodKey = shippingMethodKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		shippingMethodKey = null;
+
+		_shippingMethodKeySupplier = () -> {
+			try {
+				return shippingMethodKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String shippingMethodKey;
 
+	private Supplier<String> _shippingMethodKeySupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30324")
 	public Long getShippingOptionId() {
+		if (shippingOptionId != null) {
+			return shippingOptionId;
+		}
+
+		shippingOptionId = _shippingOptionIdSupplier.get();
+
 		return shippingOptionId;
 	}
 
 	public void setShippingOptionId(Long shippingOptionId) {
 		this.shippingOptionId = shippingOptionId;
+
+		_shippingOptionIdSupplier = () -> shippingOptionId;
 	}
 
 	@JsonIgnore
 	public void setShippingOptionId(
 		UnsafeSupplier<Long, Exception> shippingOptionIdUnsafeSupplier) {
 
-		try {
-			shippingOptionId = shippingOptionIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		shippingOptionId = null;
+
+		_shippingOptionIdSupplier = () -> {
+			try {
+				return shippingOptionIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long shippingOptionId;
 
+	private Supplier<Long> _shippingOptionIdSupplier = () -> null;
+
 	@Schema
 	public String getShippingOptionKey() {
+		if (shippingOptionKey != null) {
+			return shippingOptionKey;
+		}
+
+		shippingOptionKey = _shippingOptionKeySupplier.get();
+
 		return shippingOptionKey;
 	}
 
 	public void setShippingOptionKey(String shippingOptionKey) {
 		this.shippingOptionKey = shippingOptionKey;
+
+		_shippingOptionKeySupplier = () -> shippingOptionKey;
 	}
 
 	@JsonIgnore
 	public void setShippingOptionKey(
 		UnsafeSupplier<String, Exception> shippingOptionKeyUnsafeSupplier) {
 
-		try {
-			shippingOptionKey = shippingOptionKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		shippingOptionKey = null;
+
+		_shippingOptionKeySupplier = () -> {
+			try {
+				return shippingOptionKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String shippingOptionKey;
+
+	private Supplier<String> _shippingOptionKeySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

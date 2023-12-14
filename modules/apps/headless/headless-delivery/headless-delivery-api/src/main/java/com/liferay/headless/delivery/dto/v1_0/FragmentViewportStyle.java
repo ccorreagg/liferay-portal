@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,252 +54,376 @@ public class FragmentViewportStyle implements Serializable {
 
 	@Schema(description = "The fragment viewport's background color.")
 	public String getBackgroundColor() {
+		if (backgroundColor != null) {
+			return backgroundColor;
+		}
+
+		backgroundColor = _backgroundColorSupplier.get();
+
 		return backgroundColor;
 	}
 
 	public void setBackgroundColor(String backgroundColor) {
 		this.backgroundColor = backgroundColor;
+
+		_backgroundColorSupplier = () -> backgroundColor;
 	}
 
 	@JsonIgnore
 	public void setBackgroundColor(
 		UnsafeSupplier<String, Exception> backgroundColorUnsafeSupplier) {
 
-		try {
-			backgroundColor = backgroundColorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		backgroundColor = null;
+
+		_backgroundColorSupplier = () -> {
+			try {
+				return backgroundColorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's background color.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String backgroundColor;
 
+	private Supplier<String> _backgroundColorSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's border color.")
 	public String getBorderColor() {
+		if (borderColor != null) {
+			return borderColor;
+		}
+
+		borderColor = _borderColorSupplier.get();
+
 		return borderColor;
 	}
 
 	public void setBorderColor(String borderColor) {
 		this.borderColor = borderColor;
+
+		_borderColorSupplier = () -> borderColor;
 	}
 
 	@JsonIgnore
 	public void setBorderColor(
 		UnsafeSupplier<String, Exception> borderColorUnsafeSupplier) {
 
-		try {
-			borderColor = borderColorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		borderColor = null;
+
+		_borderColorSupplier = () -> {
+			try {
+				return borderColorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's border color.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String borderColor;
 
+	private Supplier<String> _borderColorSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's background radius.")
 	public String getBorderRadius() {
+		if (borderRadius != null) {
+			return borderRadius;
+		}
+
+		borderRadius = _borderRadiusSupplier.get();
+
 		return borderRadius;
 	}
 
 	public void setBorderRadius(String borderRadius) {
 		this.borderRadius = borderRadius;
+
+		_borderRadiusSupplier = () -> borderRadius;
 	}
 
 	@JsonIgnore
 	public void setBorderRadius(
 		UnsafeSupplier<String, Exception> borderRadiusUnsafeSupplier) {
 
-		try {
-			borderRadius = borderRadiusUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		borderRadius = null;
+
+		_borderRadiusSupplier = () -> {
+			try {
+				return borderRadiusUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's background radius.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String borderRadius;
 
+	private Supplier<String> _borderRadiusSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's border width.")
 	public String getBorderWidth() {
+		if (borderWidth != null) {
+			return borderWidth;
+		}
+
+		borderWidth = _borderWidthSupplier.get();
+
 		return borderWidth;
 	}
 
 	public void setBorderWidth(String borderWidth) {
 		this.borderWidth = borderWidth;
+
+		_borderWidthSupplier = () -> borderWidth;
 	}
 
 	@JsonIgnore
 	public void setBorderWidth(
 		UnsafeSupplier<String, Exception> borderWidthUnsafeSupplier) {
 
-		try {
-			borderWidth = borderWidthUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		borderWidth = null;
+
+		_borderWidthSupplier = () -> {
+			try {
+				return borderWidthUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's border width.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String borderWidth;
 
+	private Supplier<String> _borderWidthSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's font family.")
 	public String getFontFamily() {
+		if (fontFamily != null) {
+			return fontFamily;
+		}
+
+		fontFamily = _fontFamilySupplier.get();
+
 		return fontFamily;
 	}
 
 	public void setFontFamily(String fontFamily) {
 		this.fontFamily = fontFamily;
+
+		_fontFamilySupplier = () -> fontFamily;
 	}
 
 	@JsonIgnore
 	public void setFontFamily(
 		UnsafeSupplier<String, Exception> fontFamilyUnsafeSupplier) {
 
-		try {
-			fontFamily = fontFamilyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fontFamily = null;
+
+		_fontFamilySupplier = () -> {
+			try {
+				return fontFamilyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's font family.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String fontFamily;
 
+	private Supplier<String> _fontFamilySupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's font size.")
 	public String getFontSize() {
+		if (fontSize != null) {
+			return fontSize;
+		}
+
+		fontSize = _fontSizeSupplier.get();
+
 		return fontSize;
 	}
 
 	public void setFontSize(String fontSize) {
 		this.fontSize = fontSize;
+
+		_fontSizeSupplier = () -> fontSize;
 	}
 
 	@JsonIgnore
 	public void setFontSize(
 		UnsafeSupplier<String, Exception> fontSizeUnsafeSupplier) {
 
-		try {
-			fontSize = fontSizeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fontSize = null;
+
+		_fontSizeSupplier = () -> {
+			try {
+				return fontSizeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's font size.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String fontSize;
 
+	private Supplier<String> _fontSizeSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's font weight.")
 	public String getFontWeight() {
+		if (fontWeight != null) {
+			return fontWeight;
+		}
+
+		fontWeight = _fontWeightSupplier.get();
+
 		return fontWeight;
 	}
 
 	public void setFontWeight(String fontWeight) {
 		this.fontWeight = fontWeight;
+
+		_fontWeightSupplier = () -> fontWeight;
 	}
 
 	@JsonIgnore
 	public void setFontWeight(
 		UnsafeSupplier<String, Exception> fontWeightUnsafeSupplier) {
 
-		try {
-			fontWeight = fontWeightUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fontWeight = null;
+
+		_fontWeightSupplier = () -> {
+			try {
+				return fontWeightUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's font weight.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String fontWeight;
 
+	private Supplier<String> _fontWeightSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's height.")
 	public String getHeight() {
+		if (height != null) {
+			return height;
+		}
+
+		height = _heightSupplier.get();
+
 		return height;
 	}
 
 	public void setHeight(String height) {
 		this.height = height;
+
+		_heightSupplier = () -> height;
 	}
 
 	@JsonIgnore
 	public void setHeight(
 		UnsafeSupplier<String, Exception> heightUnsafeSupplier) {
 
-		try {
-			height = heightUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		height = null;
+
+		_heightSupplier = () -> {
+			try {
+				return heightUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's height.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String height;
 
+	private Supplier<String> _heightSupplier = () -> null;
+
 	@Schema(
 		description = "Specifies if the fragment's viewport is hidden to the user."
 	)
 	public Boolean getHidden() {
+		if (hidden != null) {
+			return hidden;
+		}
+
+		hidden = _hiddenSupplier.get();
+
 		return hidden;
 	}
 
 	public void setHidden(Boolean hidden) {
 		this.hidden = hidden;
+
+		_hiddenSupplier = () -> hidden;
 	}
 
 	@JsonIgnore
 	public void setHidden(
 		UnsafeSupplier<Boolean, Exception> hiddenUnsafeSupplier) {
 
-		try {
-			hidden = hiddenUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		hidden = null;
+
+		_hiddenSupplier = () -> {
+			try {
+				return hiddenUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -307,509 +432,763 @@ public class FragmentViewportStyle implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean hidden;
 
+	private Supplier<Boolean> _hiddenSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's margin bottom.")
 	public String getMarginBottom() {
+		if (marginBottom != null) {
+			return marginBottom;
+		}
+
+		marginBottom = _marginBottomSupplier.get();
+
 		return marginBottom;
 	}
 
 	public void setMarginBottom(String marginBottom) {
 		this.marginBottom = marginBottom;
+
+		_marginBottomSupplier = () -> marginBottom;
 	}
 
 	@JsonIgnore
 	public void setMarginBottom(
 		UnsafeSupplier<String, Exception> marginBottomUnsafeSupplier) {
 
-		try {
-			marginBottom = marginBottomUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		marginBottom = null;
+
+		_marginBottomSupplier = () -> {
+			try {
+				return marginBottomUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's margin bottom.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String marginBottom;
 
+	private Supplier<String> _marginBottomSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's margin left.")
 	public String getMarginLeft() {
+		if (marginLeft != null) {
+			return marginLeft;
+		}
+
+		marginLeft = _marginLeftSupplier.get();
+
 		return marginLeft;
 	}
 
 	public void setMarginLeft(String marginLeft) {
 		this.marginLeft = marginLeft;
+
+		_marginLeftSupplier = () -> marginLeft;
 	}
 
 	@JsonIgnore
 	public void setMarginLeft(
 		UnsafeSupplier<String, Exception> marginLeftUnsafeSupplier) {
 
-		try {
-			marginLeft = marginLeftUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		marginLeft = null;
+
+		_marginLeftSupplier = () -> {
+			try {
+				return marginLeftUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's margin left.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String marginLeft;
 
+	private Supplier<String> _marginLeftSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's margin right.")
 	public String getMarginRight() {
+		if (marginRight != null) {
+			return marginRight;
+		}
+
+		marginRight = _marginRightSupplier.get();
+
 		return marginRight;
 	}
 
 	public void setMarginRight(String marginRight) {
 		this.marginRight = marginRight;
+
+		_marginRightSupplier = () -> marginRight;
 	}
 
 	@JsonIgnore
 	public void setMarginRight(
 		UnsafeSupplier<String, Exception> marginRightUnsafeSupplier) {
 
-		try {
-			marginRight = marginRightUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		marginRight = null;
+
+		_marginRightSupplier = () -> {
+			try {
+				return marginRightUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's margin right.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String marginRight;
 
+	private Supplier<String> _marginRightSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's margin top.")
 	public String getMarginTop() {
+		if (marginTop != null) {
+			return marginTop;
+		}
+
+		marginTop = _marginTopSupplier.get();
+
 		return marginTop;
 	}
 
 	public void setMarginTop(String marginTop) {
 		this.marginTop = marginTop;
+
+		_marginTopSupplier = () -> marginTop;
 	}
 
 	@JsonIgnore
 	public void setMarginTop(
 		UnsafeSupplier<String, Exception> marginTopUnsafeSupplier) {
 
-		try {
-			marginTop = marginTopUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		marginTop = null;
+
+		_marginTopSupplier = () -> {
+			try {
+				return marginTopUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's margin top.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String marginTop;
 
+	private Supplier<String> _marginTopSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's max height.")
 	public String getMaxHeight() {
+		if (maxHeight != null) {
+			return maxHeight;
+		}
+
+		maxHeight = _maxHeightSupplier.get();
+
 		return maxHeight;
 	}
 
 	public void setMaxHeight(String maxHeight) {
 		this.maxHeight = maxHeight;
+
+		_maxHeightSupplier = () -> maxHeight;
 	}
 
 	@JsonIgnore
 	public void setMaxHeight(
 		UnsafeSupplier<String, Exception> maxHeightUnsafeSupplier) {
 
-		try {
-			maxHeight = maxHeightUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		maxHeight = null;
+
+		_maxHeightSupplier = () -> {
+			try {
+				return maxHeightUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's max height.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String maxHeight;
 
+	private Supplier<String> _maxHeightSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's max width.")
 	public String getMaxWidth() {
+		if (maxWidth != null) {
+			return maxWidth;
+		}
+
+		maxWidth = _maxWidthSupplier.get();
+
 		return maxWidth;
 	}
 
 	public void setMaxWidth(String maxWidth) {
 		this.maxWidth = maxWidth;
+
+		_maxWidthSupplier = () -> maxWidth;
 	}
 
 	@JsonIgnore
 	public void setMaxWidth(
 		UnsafeSupplier<String, Exception> maxWidthUnsafeSupplier) {
 
-		try {
-			maxWidth = maxWidthUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		maxWidth = null;
+
+		_maxWidthSupplier = () -> {
+			try {
+				return maxWidthUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's max width.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String maxWidth;
 
+	private Supplier<String> _maxWidthSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's min height.")
 	public String getMinHeight() {
+		if (minHeight != null) {
+			return minHeight;
+		}
+
+		minHeight = _minHeightSupplier.get();
+
 		return minHeight;
 	}
 
 	public void setMinHeight(String minHeight) {
 		this.minHeight = minHeight;
+
+		_minHeightSupplier = () -> minHeight;
 	}
 
 	@JsonIgnore
 	public void setMinHeight(
 		UnsafeSupplier<String, Exception> minHeightUnsafeSupplier) {
 
-		try {
-			minHeight = minHeightUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		minHeight = null;
+
+		_minHeightSupplier = () -> {
+			try {
+				return minHeightUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's min height.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String minHeight;
 
+	private Supplier<String> _minHeightSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's min width.")
 	public String getMinWidth() {
+		if (minWidth != null) {
+			return minWidth;
+		}
+
+		minWidth = _minWidthSupplier.get();
+
 		return minWidth;
 	}
 
 	public void setMinWidth(String minWidth) {
 		this.minWidth = minWidth;
+
+		_minWidthSupplier = () -> minWidth;
 	}
 
 	@JsonIgnore
 	public void setMinWidth(
 		UnsafeSupplier<String, Exception> minWidthUnsafeSupplier) {
 
-		try {
-			minWidth = minWidthUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		minWidth = null;
+
+		_minWidthSupplier = () -> {
+			try {
+				return minWidthUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's min width.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String minWidth;
 
+	private Supplier<String> _minWidthSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's opacity.")
 	public String getOpacity() {
+		if (opacity != null) {
+			return opacity;
+		}
+
+		opacity = _opacitySupplier.get();
+
 		return opacity;
 	}
 
 	public void setOpacity(String opacity) {
 		this.opacity = opacity;
+
+		_opacitySupplier = () -> opacity;
 	}
 
 	@JsonIgnore
 	public void setOpacity(
 		UnsafeSupplier<String, Exception> opacityUnsafeSupplier) {
 
-		try {
-			opacity = opacityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		opacity = null;
+
+		_opacitySupplier = () -> {
+			try {
+				return opacityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's opacity.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String opacity;
 
+	private Supplier<String> _opacitySupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's overflow behavior.")
 	public String getOverflow() {
+		if (overflow != null) {
+			return overflow;
+		}
+
+		overflow = _overflowSupplier.get();
+
 		return overflow;
 	}
 
 	public void setOverflow(String overflow) {
 		this.overflow = overflow;
+
+		_overflowSupplier = () -> overflow;
 	}
 
 	@JsonIgnore
 	public void setOverflow(
 		UnsafeSupplier<String, Exception> overflowUnsafeSupplier) {
 
-		try {
-			overflow = overflowUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		overflow = null;
+
+		_overflowSupplier = () -> {
+			try {
+				return overflowUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's overflow behavior.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String overflow;
 
+	private Supplier<String> _overflowSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's padding bottom.")
 	public String getPaddingBottom() {
+		if (paddingBottom != null) {
+			return paddingBottom;
+		}
+
+		paddingBottom = _paddingBottomSupplier.get();
+
 		return paddingBottom;
 	}
 
 	public void setPaddingBottom(String paddingBottom) {
 		this.paddingBottom = paddingBottom;
+
+		_paddingBottomSupplier = () -> paddingBottom;
 	}
 
 	@JsonIgnore
 	public void setPaddingBottom(
 		UnsafeSupplier<String, Exception> paddingBottomUnsafeSupplier) {
 
-		try {
-			paddingBottom = paddingBottomUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		paddingBottom = null;
+
+		_paddingBottomSupplier = () -> {
+			try {
+				return paddingBottomUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's padding bottom.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String paddingBottom;
 
+	private Supplier<String> _paddingBottomSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's padding left.")
 	public String getPaddingLeft() {
+		if (paddingLeft != null) {
+			return paddingLeft;
+		}
+
+		paddingLeft = _paddingLeftSupplier.get();
+
 		return paddingLeft;
 	}
 
 	public void setPaddingLeft(String paddingLeft) {
 		this.paddingLeft = paddingLeft;
+
+		_paddingLeftSupplier = () -> paddingLeft;
 	}
 
 	@JsonIgnore
 	public void setPaddingLeft(
 		UnsafeSupplier<String, Exception> paddingLeftUnsafeSupplier) {
 
-		try {
-			paddingLeft = paddingLeftUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		paddingLeft = null;
+
+		_paddingLeftSupplier = () -> {
+			try {
+				return paddingLeftUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's padding left.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String paddingLeft;
 
+	private Supplier<String> _paddingLeftSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's padding right.")
 	public String getPaddingRight() {
+		if (paddingRight != null) {
+			return paddingRight;
+		}
+
+		paddingRight = _paddingRightSupplier.get();
+
 		return paddingRight;
 	}
 
 	public void setPaddingRight(String paddingRight) {
 		this.paddingRight = paddingRight;
+
+		_paddingRightSupplier = () -> paddingRight;
 	}
 
 	@JsonIgnore
 	public void setPaddingRight(
 		UnsafeSupplier<String, Exception> paddingRightUnsafeSupplier) {
 
-		try {
-			paddingRight = paddingRightUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		paddingRight = null;
+
+		_paddingRightSupplier = () -> {
+			try {
+				return paddingRightUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's padding right.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String paddingRight;
 
+	private Supplier<String> _paddingRightSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's padding top.")
 	public String getPaddingTop() {
+		if (paddingTop != null) {
+			return paddingTop;
+		}
+
+		paddingTop = _paddingTopSupplier.get();
+
 		return paddingTop;
 	}
 
 	public void setPaddingTop(String paddingTop) {
 		this.paddingTop = paddingTop;
+
+		_paddingTopSupplier = () -> paddingTop;
 	}
 
 	@JsonIgnore
 	public void setPaddingTop(
 		UnsafeSupplier<String, Exception> paddingTopUnsafeSupplier) {
 
-		try {
-			paddingTop = paddingTopUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		paddingTop = null;
+
+		_paddingTopSupplier = () -> {
+			try {
+				return paddingTopUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's padding top.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String paddingTop;
 
+	private Supplier<String> _paddingTopSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's shadow effect.")
 	public String getShadow() {
+		if (shadow != null) {
+			return shadow;
+		}
+
+		shadow = _shadowSupplier.get();
+
 		return shadow;
 	}
 
 	public void setShadow(String shadow) {
 		this.shadow = shadow;
+
+		_shadowSupplier = () -> shadow;
 	}
 
 	@JsonIgnore
 	public void setShadow(
 		UnsafeSupplier<String, Exception> shadowUnsafeSupplier) {
 
-		try {
-			shadow = shadowUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		shadow = null;
+
+		_shadowSupplier = () -> {
+			try {
+				return shadowUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's shadow effect.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String shadow;
 
+	private Supplier<String> _shadowSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's text align.")
 	public String getTextAlign() {
+		if (textAlign != null) {
+			return textAlign;
+		}
+
+		textAlign = _textAlignSupplier.get();
+
 		return textAlign;
 	}
 
 	public void setTextAlign(String textAlign) {
 		this.textAlign = textAlign;
+
+		_textAlignSupplier = () -> textAlign;
 	}
 
 	@JsonIgnore
 	public void setTextAlign(
 		UnsafeSupplier<String, Exception> textAlignUnsafeSupplier) {
 
-		try {
-			textAlign = textAlignUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		textAlign = null;
+
+		_textAlignSupplier = () -> {
+			try {
+				return textAlignUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's text align.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String textAlign;
 
+	private Supplier<String> _textAlignSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's text color.")
 	public String getTextColor() {
+		if (textColor != null) {
+			return textColor;
+		}
+
+		textColor = _textColorSupplier.get();
+
 		return textColor;
 	}
 
 	public void setTextColor(String textColor) {
 		this.textColor = textColor;
+
+		_textColorSupplier = () -> textColor;
 	}
 
 	@JsonIgnore
 	public void setTextColor(
 		UnsafeSupplier<String, Exception> textColorUnsafeSupplier) {
 
-		try {
-			textColor = textColorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		textColor = null;
+
+		_textColorSupplier = () -> {
+			try {
+				return textColorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's text color.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String textColor;
 
+	private Supplier<String> _textColorSupplier = () -> null;
+
 	@Schema(description = "The fragment viewport's width.")
 	public String getWidth() {
+		if (width != null) {
+			return width;
+		}
+
+		width = _widthSupplier.get();
+
 		return width;
 	}
 
 	public void setWidth(String width) {
 		this.width = width;
+
+		_widthSupplier = () -> width;
 	}
 
 	@JsonIgnore
 	public void setWidth(
 		UnsafeSupplier<String, Exception> widthUnsafeSupplier) {
 
-		try {
-			width = widthUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		width = null;
+
+		_widthSupplier = () -> {
+			try {
+				return widthUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment viewport's width.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String width;
+
+	private Supplier<String> _widthSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

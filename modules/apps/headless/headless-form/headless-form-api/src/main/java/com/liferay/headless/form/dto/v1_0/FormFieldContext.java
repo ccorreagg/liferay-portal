@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,40 +55,62 @@ public class FormFieldContext implements Serializable {
 
 	@Schema
 	public Boolean getEvaluable() {
+		if (evaluable != null) {
+			return evaluable;
+		}
+
+		evaluable = _evaluableSupplier.get();
+
 		return evaluable;
 	}
 
 	public void setEvaluable(Boolean evaluable) {
 		this.evaluable = evaluable;
+
+		_evaluableSupplier = () -> evaluable;
 	}
 
 	@JsonIgnore
 	public void setEvaluable(
 		UnsafeSupplier<Boolean, Exception> evaluableUnsafeSupplier) {
 
-		try {
-			evaluable = evaluableUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		evaluable = null;
+
+		_evaluableSupplier = () -> {
+			try {
+				return evaluableUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean evaluable;
 
+	private Supplier<Boolean> _evaluableSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public FormFieldOption[] getFormFieldOptions() {
+		if (formFieldOptions != null) {
+			return formFieldOptions;
+		}
+
+		formFieldOptions = _formFieldOptionsSupplier.get();
+
 		return formFieldOptions;
 	}
 
 	public void setFormFieldOptions(FormFieldOption[] formFieldOptions) {
 		this.formFieldOptions = formFieldOptions;
+
+		_formFieldOptionsSupplier = () -> formFieldOptions;
 	}
 
 	@JsonIgnore
@@ -95,214 +118,318 @@ public class FormFieldContext implements Serializable {
 		UnsafeSupplier<FormFieldOption[], Exception>
 			formFieldOptionsUnsafeSupplier) {
 
-		try {
-			formFieldOptions = formFieldOptionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		formFieldOptions = null;
+
+		_formFieldOptionsSupplier = () -> {
+			try {
+				return formFieldOptionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FormFieldOption[] formFieldOptions;
 
+	private Supplier<FormFieldOption[]> _formFieldOptionsSupplier = () -> null;
+
 	@Schema
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema
 	public Boolean getReadOnly() {
+		if (readOnly != null) {
+			return readOnly;
+		}
+
+		readOnly = _readOnlySupplier.get();
+
 		return readOnly;
 	}
 
 	public void setReadOnly(Boolean readOnly) {
 		this.readOnly = readOnly;
+
+		_readOnlySupplier = () -> readOnly;
 	}
 
 	@JsonIgnore
 	public void setReadOnly(
 		UnsafeSupplier<Boolean, Exception> readOnlyUnsafeSupplier) {
 
-		try {
-			readOnly = readOnlyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		readOnly = null;
+
+		_readOnlySupplier = () -> {
+			try {
+				return readOnlyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean readOnly;
 
+	private Supplier<Boolean> _readOnlySupplier = () -> null;
+
 	@Schema
 	public Boolean getRequired() {
+		if (required != null) {
+			return required;
+		}
+
+		required = _requiredSupplier.get();
+
 		return required;
 	}
 
 	public void setRequired(Boolean required) {
 		this.required = required;
+
+		_requiredSupplier = () -> required;
 	}
 
 	@JsonIgnore
 	public void setRequired(
 		UnsafeSupplier<Boolean, Exception> requiredUnsafeSupplier) {
 
-		try {
-			required = requiredUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		required = null;
+
+		_requiredSupplier = () -> {
+			try {
+				return requiredUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean required;
 
+	private Supplier<Boolean> _requiredSupplier = () -> null;
+
 	@Schema
 	public Boolean getValid() {
+		if (valid != null) {
+			return valid;
+		}
+
+		valid = _validSupplier.get();
+
 		return valid;
 	}
 
 	public void setValid(Boolean valid) {
 		this.valid = valid;
+
+		_validSupplier = () -> valid;
 	}
 
 	@JsonIgnore
 	public void setValid(
 		UnsafeSupplier<Boolean, Exception> validUnsafeSupplier) {
 
-		try {
-			valid = validUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		valid = null;
+
+		_validSupplier = () -> {
+			try {
+				return validUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean valid;
 
+	private Supplier<Boolean> _validSupplier = () -> null;
+
 	@Schema
 	public String getValue() {
+		if (value != null) {
+			return value;
+		}
+
+		value = _valueSupplier.get();
+
 		return value;
 	}
 
 	public void setValue(String value) {
 		this.value = value;
+
+		_valueSupplier = () -> value;
 	}
 
 	@JsonIgnore
 	public void setValue(
 		UnsafeSupplier<String, Exception> valueUnsafeSupplier) {
 
-		try {
-			value = valueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		value = null;
+
+		_valueSupplier = () -> {
+			try {
+				return valueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String value;
 
+	private Supplier<String> _valueSupplier = () -> null;
+
 	@Schema
 	public Boolean getValueChanged() {
+		if (valueChanged != null) {
+			return valueChanged;
+		}
+
+		valueChanged = _valueChangedSupplier.get();
+
 		return valueChanged;
 	}
 
 	public void setValueChanged(Boolean valueChanged) {
 		this.valueChanged = valueChanged;
+
+		_valueChangedSupplier = () -> valueChanged;
 	}
 
 	@JsonIgnore
 	public void setValueChanged(
 		UnsafeSupplier<Boolean, Exception> valueChangedUnsafeSupplier) {
 
-		try {
-			valueChanged = valueChangedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		valueChanged = null;
+
+		_valueChangedSupplier = () -> {
+			try {
+				return valueChangedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean valueChanged;
 
+	private Supplier<Boolean> _valueChangedSupplier = () -> null;
+
 	@Schema
 	public Boolean getVisible() {
+		if (visible != null) {
+			return visible;
+		}
+
+		visible = _visibleSupplier.get();
+
 		return visible;
 	}
 
 	public void setVisible(Boolean visible) {
 		this.visible = visible;
+
+		_visibleSupplier = () -> visible;
 	}
 
 	@JsonIgnore
 	public void setVisible(
 		UnsafeSupplier<Boolean, Exception> visibleUnsafeSupplier) {
 
-		try {
-			visible = visibleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		visible = null;
+
+		_visibleSupplier = () -> {
+			try {
+				return visibleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean visible;
+
+	private Supplier<Boolean> _visibleSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

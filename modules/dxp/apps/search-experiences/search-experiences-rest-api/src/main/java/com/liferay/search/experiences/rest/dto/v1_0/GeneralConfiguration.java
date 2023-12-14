@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -50,6 +51,12 @@ public class GeneralConfiguration implements Serializable {
 
 	@Schema
 	public String[] getClauseContributorsExcludes() {
+		if (clauseContributorsExcludes != null) {
+			return clauseContributorsExcludes;
+		}
+
+		clauseContributorsExcludes = _clauseContributorsExcludesSupplier.get();
+
 		return clauseContributorsExcludes;
 	}
 
@@ -57,6 +64,8 @@ public class GeneralConfiguration implements Serializable {
 		String[] clauseContributorsExcludes) {
 
 		this.clauseContributorsExcludes = clauseContributorsExcludes;
+
+		_clauseContributorsExcludesSupplier = () -> clauseContributorsExcludes;
 	}
 
 	@JsonIgnore
@@ -64,24 +73,35 @@ public class GeneralConfiguration implements Serializable {
 		UnsafeSupplier<String[], Exception>
 			clauseContributorsExcludesUnsafeSupplier) {
 
-		try {
-			clauseContributorsExcludes =
-				clauseContributorsExcludesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		clauseContributorsExcludes = null;
+
+		_clauseContributorsExcludesSupplier = () -> {
+			try {
+				return clauseContributorsExcludesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] clauseContributorsExcludes;
 
+	private Supplier<String[]> _clauseContributorsExcludesSupplier = () -> null;
+
 	@Schema
 	public String[] getClauseContributorsIncludes() {
+		if (clauseContributorsIncludes != null) {
+			return clauseContributorsIncludes;
+		}
+
+		clauseContributorsIncludes = _clauseContributorsIncludesSupplier.get();
+
 		return clauseContributorsIncludes;
 	}
 
@@ -89,6 +109,8 @@ public class GeneralConfiguration implements Serializable {
 		String[] clauseContributorsIncludes) {
 
 		this.clauseContributorsIncludes = clauseContributorsIncludes;
+
+		_clauseContributorsIncludesSupplier = () -> clauseContributorsIncludes;
 	}
 
 	@JsonIgnore
@@ -96,85 +118,126 @@ public class GeneralConfiguration implements Serializable {
 		UnsafeSupplier<String[], Exception>
 			clauseContributorsIncludesUnsafeSupplier) {
 
-		try {
-			clauseContributorsIncludes =
-				clauseContributorsIncludesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		clauseContributorsIncludes = null;
+
+		_clauseContributorsIncludesSupplier = () -> {
+			try {
+				return clauseContributorsIncludesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] clauseContributorsIncludes;
 
+	private Supplier<String[]> _clauseContributorsIncludesSupplier = () -> null;
+
 	@Schema
 	public Boolean getEmptySearchEnabled() {
+		if (emptySearchEnabled != null) {
+			return emptySearchEnabled;
+		}
+
+		emptySearchEnabled = _emptySearchEnabledSupplier.get();
+
 		return emptySearchEnabled;
 	}
 
 	public void setEmptySearchEnabled(Boolean emptySearchEnabled) {
 		this.emptySearchEnabled = emptySearchEnabled;
+
+		_emptySearchEnabledSupplier = () -> emptySearchEnabled;
 	}
 
 	@JsonIgnore
 	public void setEmptySearchEnabled(
 		UnsafeSupplier<Boolean, Exception> emptySearchEnabledUnsafeSupplier) {
 
-		try {
-			emptySearchEnabled = emptySearchEnabledUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		emptySearchEnabled = null;
+
+		_emptySearchEnabledSupplier = () -> {
+			try {
+				return emptySearchEnabledUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean emptySearchEnabled;
 
+	private Supplier<Boolean> _emptySearchEnabledSupplier = () -> null;
+
 	@Schema
 	public Boolean getExplain() {
+		if (explain != null) {
+			return explain;
+		}
+
+		explain = _explainSupplier.get();
+
 		return explain;
 	}
 
 	public void setExplain(Boolean explain) {
 		this.explain = explain;
+
+		_explainSupplier = () -> explain;
 	}
 
 	@JsonIgnore
 	public void setExplain(
 		UnsafeSupplier<Boolean, Exception> explainUnsafeSupplier) {
 
-		try {
-			explain = explainUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		explain = null;
+
+		_explainSupplier = () -> {
+			try {
+				return explainUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean explain;
 
+	private Supplier<Boolean> _explainSupplier = () -> null;
+
 	@Schema
 	public Boolean getIncludeResponseString() {
+		if (includeResponseString != null) {
+			return includeResponseString;
+		}
+
+		includeResponseString = _includeResponseStringSupplier.get();
+
 		return includeResponseString;
 	}
 
 	public void setIncludeResponseString(Boolean includeResponseString) {
 		this.includeResponseString = includeResponseString;
+
+		_includeResponseStringSupplier = () -> includeResponseString;
 	}
 
 	@JsonIgnore
@@ -182,84 +245,126 @@ public class GeneralConfiguration implements Serializable {
 		UnsafeSupplier<Boolean, Exception>
 			includeResponseStringUnsafeSupplier) {
 
-		try {
-			includeResponseString = includeResponseStringUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		includeResponseString = null;
+
+		_includeResponseStringSupplier = () -> {
+			try {
+				return includeResponseStringUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean includeResponseString;
 
+	private Supplier<Boolean> _includeResponseStringSupplier = () -> null;
+
 	@Schema
 	public String getLanguageId() {
+		if (languageId != null) {
+			return languageId;
+		}
+
+		languageId = _languageIdSupplier.get();
+
 		return languageId;
 	}
 
 	public void setLanguageId(String languageId) {
 		this.languageId = languageId;
+
+		_languageIdSupplier = () -> languageId;
 	}
 
 	@JsonIgnore
 	public void setLanguageId(
 		UnsafeSupplier<String, Exception> languageIdUnsafeSupplier) {
 
-		try {
-			languageId = languageIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		languageId = null;
+
+		_languageIdSupplier = () -> {
+			try {
+				return languageIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String languageId;
 
+	private Supplier<String> _languageIdSupplier = () -> null;
+
 	@Schema
 	public String getQueryString() {
+		if (queryString != null) {
+			return queryString;
+		}
+
+		queryString = _queryStringSupplier.get();
+
 		return queryString;
 	}
 
 	public void setQueryString(String queryString) {
 		this.queryString = queryString;
+
+		_queryStringSupplier = () -> queryString;
 	}
 
 	@JsonIgnore
 	public void setQueryString(
 		UnsafeSupplier<String, Exception> queryStringUnsafeSupplier) {
 
-		try {
-			queryString = queryStringUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		queryString = null;
+
+		_queryStringSupplier = () -> {
+			try {
+				return queryStringUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String queryString;
 
+	private Supplier<String> _queryStringSupplier = () -> null;
+
 	@Schema
 	public String[] getSearchableAssetTypes() {
+		if (searchableAssetTypes != null) {
+			return searchableAssetTypes;
+		}
+
+		searchableAssetTypes = _searchableAssetTypesSupplier.get();
+
 		return searchableAssetTypes;
 	}
 
 	public void setSearchableAssetTypes(String[] searchableAssetTypes) {
 		this.searchableAssetTypes = searchableAssetTypes;
+
+		_searchableAssetTypesSupplier = () -> searchableAssetTypes;
 	}
 
 	@JsonIgnore
@@ -267,48 +372,68 @@ public class GeneralConfiguration implements Serializable {
 		UnsafeSupplier<String[], Exception>
 			searchableAssetTypesUnsafeSupplier) {
 
-		try {
-			searchableAssetTypes = searchableAssetTypesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		searchableAssetTypes = null;
+
+		_searchableAssetTypesSupplier = () -> {
+			try {
+				return searchableAssetTypesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] searchableAssetTypes;
 
+	private Supplier<String[]> _searchableAssetTypesSupplier = () -> null;
+
 	@Schema
 	public String getTimeZoneId() {
+		if (timeZoneId != null) {
+			return timeZoneId;
+		}
+
+		timeZoneId = _timeZoneIdSupplier.get();
+
 		return timeZoneId;
 	}
 
 	public void setTimeZoneId(String timeZoneId) {
 		this.timeZoneId = timeZoneId;
+
+		_timeZoneIdSupplier = () -> timeZoneId;
 	}
 
 	@JsonIgnore
 	public void setTimeZoneId(
 		UnsafeSupplier<String, Exception> timeZoneIdUnsafeSupplier) {
 
-		try {
-			timeZoneId = timeZoneIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		timeZoneId = null;
+
+		_timeZoneIdSupplier = () -> {
+			try {
+				return timeZoneIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String timeZoneId;
+
+	private Supplier<String> _timeZoneIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,26 +52,38 @@ public class PagePermission implements Serializable {
 		description = "The keys of the actions the role has permission for."
 	)
 	public String[] getActionKeys() {
+		if (actionKeys != null) {
+			return actionKeys;
+		}
+
+		actionKeys = _actionKeysSupplier.get();
+
 		return actionKeys;
 	}
 
 	public void setActionKeys(String[] actionKeys) {
 		this.actionKeys = actionKeys;
+
+		_actionKeysSupplier = () -> actionKeys;
 	}
 
 	@JsonIgnore
 	public void setActionKeys(
 		UnsafeSupplier<String[], Exception> actionKeysUnsafeSupplier) {
 
-		try {
-			actionKeys = actionKeysUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actionKeys = null;
+
+		_actionKeysSupplier = () -> {
+			try {
+				return actionKeysUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -79,33 +92,49 @@ public class PagePermission implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] actionKeys;
 
+	private Supplier<String[]> _actionKeysSupplier = () -> null;
+
 	@Schema(description = "The role's key.")
 	public String getRoleKey() {
+		if (roleKey != null) {
+			return roleKey;
+		}
+
+		roleKey = _roleKeySupplier.get();
+
 		return roleKey;
 	}
 
 	public void setRoleKey(String roleKey) {
 		this.roleKey = roleKey;
+
+		_roleKeySupplier = () -> roleKey;
 	}
 
 	@JsonIgnore
 	public void setRoleKey(
 		UnsafeSupplier<String, Exception> roleKeyUnsafeSupplier) {
 
-		try {
-			roleKey = roleKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		roleKey = null;
+
+		_roleKeySupplier = () -> {
+			try {
+				return roleKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The role's key.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String roleKey;
+
+	private Supplier<String> _roleKeySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

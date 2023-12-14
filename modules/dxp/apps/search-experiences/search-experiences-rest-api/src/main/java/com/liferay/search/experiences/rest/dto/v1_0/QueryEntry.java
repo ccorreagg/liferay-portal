@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,146 +53,216 @@ public class QueryEntry implements Serializable {
 	@Schema
 	@Valid
 	public Clause[] getClauses() {
+		if (clauses != null) {
+			return clauses;
+		}
+
+		clauses = _clausesSupplier.get();
+
 		return clauses;
 	}
 
 	public void setClauses(Clause[] clauses) {
 		this.clauses = clauses;
+
+		_clausesSupplier = () -> clauses;
 	}
 
 	@JsonIgnore
 	public void setClauses(
 		UnsafeSupplier<Clause[], Exception> clausesUnsafeSupplier) {
 
-		try {
-			clauses = clausesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		clauses = null;
+
+		_clausesSupplier = () -> {
+			try {
+				return clausesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Clause[] clauses;
 
+	private Supplier<Clause[]> _clausesSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Condition getCondition() {
+		if (condition != null) {
+			return condition;
+		}
+
+		condition = _conditionSupplier.get();
+
 		return condition;
 	}
 
 	public void setCondition(Condition condition) {
 		this.condition = condition;
+
+		_conditionSupplier = () -> condition;
 	}
 
 	@JsonIgnore
 	public void setCondition(
 		UnsafeSupplier<Condition, Exception> conditionUnsafeSupplier) {
 
-		try {
-			condition = conditionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		condition = null;
+
+		_conditionSupplier = () -> {
+			try {
+				return conditionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Condition condition;
 
+	private Supplier<Condition> _conditionSupplier = () -> null;
+
 	@Schema
 	public Boolean getEnabled() {
+		if (enabled != null) {
+			return enabled;
+		}
+
+		enabled = _enabledSupplier.get();
+
 		return enabled;
 	}
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+
+		_enabledSupplier = () -> enabled;
 	}
 
 	@JsonIgnore
 	public void setEnabled(
 		UnsafeSupplier<Boolean, Exception> enabledUnsafeSupplier) {
 
-		try {
-			enabled = enabledUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		enabled = null;
+
+		_enabledSupplier = () -> {
+			try {
+				return enabledUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean enabled;
 
+	private Supplier<Boolean> _enabledSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Clause[] getPostFilterClauses() {
+		if (postFilterClauses != null) {
+			return postFilterClauses;
+		}
+
+		postFilterClauses = _postFilterClausesSupplier.get();
+
 		return postFilterClauses;
 	}
 
 	public void setPostFilterClauses(Clause[] postFilterClauses) {
 		this.postFilterClauses = postFilterClauses;
+
+		_postFilterClausesSupplier = () -> postFilterClauses;
 	}
 
 	@JsonIgnore
 	public void setPostFilterClauses(
 		UnsafeSupplier<Clause[], Exception> postFilterClausesUnsafeSupplier) {
 
-		try {
-			postFilterClauses = postFilterClausesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		postFilterClauses = null;
+
+		_postFilterClausesSupplier = () -> {
+			try {
+				return postFilterClausesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Clause[] postFilterClauses;
 
+	private Supplier<Clause[]> _postFilterClausesSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Rescore[] getRescores() {
+		if (rescores != null) {
+			return rescores;
+		}
+
+		rescores = _rescoresSupplier.get();
+
 		return rescores;
 	}
 
 	public void setRescores(Rescore[] rescores) {
 		this.rescores = rescores;
+
+		_rescoresSupplier = () -> rescores;
 	}
 
 	@JsonIgnore
 	public void setRescores(
 		UnsafeSupplier<Rescore[], Exception> rescoresUnsafeSupplier) {
 
-		try {
-			rescores = rescoresUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		rescores = null;
+
+		_rescoresSupplier = () -> {
+			try {
+				return rescoresUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Rescore[] rescores;
+
+	private Supplier<Rescore[]> _rescoresSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

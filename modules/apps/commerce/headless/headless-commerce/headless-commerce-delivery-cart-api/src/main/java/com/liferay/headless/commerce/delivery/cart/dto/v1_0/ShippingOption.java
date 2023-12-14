@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,113 +50,169 @@ public class ShippingOption implements Serializable {
 
 	@Schema
 	public Double getAmount() {
+		if (amount != null) {
+			return amount;
+		}
+
+		amount = _amountSupplier.get();
+
 		return amount;
 	}
 
 	public void setAmount(Double amount) {
 		this.amount = amount;
+
+		_amountSupplier = () -> amount;
 	}
 
 	@JsonIgnore
 	public void setAmount(
 		UnsafeSupplier<Double, Exception> amountUnsafeSupplier) {
 
-		try {
-			amount = amountUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		amount = null;
+
+		_amountSupplier = () -> {
+			try {
+				return amountUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Double amount;
 
+	private Supplier<Double> _amountSupplier = () -> null;
+
 	@Schema
 	public String getAmountFormatted() {
+		if (amountFormatted != null) {
+			return amountFormatted;
+		}
+
+		amountFormatted = _amountFormattedSupplier.get();
+
 		return amountFormatted;
 	}
 
 	public void setAmountFormatted(String amountFormatted) {
 		this.amountFormatted = amountFormatted;
+
+		_amountFormattedSupplier = () -> amountFormatted;
 	}
 
 	@JsonIgnore
 	public void setAmountFormatted(
 		UnsafeSupplier<String, Exception> amountFormattedUnsafeSupplier) {
 
-		try {
-			amountFormatted = amountFormattedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		amountFormatted = null;
+
+		_amountFormattedSupplier = () -> {
+			try {
+				return amountFormattedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String amountFormatted;
 
+	private Supplier<String> _amountFormattedSupplier = () -> null;
+
 	@Schema
 	public String getLabel() {
+		if (label != null) {
+			return label;
+		}
+
+		label = _labelSupplier.get();
+
 		return label;
 	}
 
 	public void setLabel(String label) {
 		this.label = label;
+
+		_labelSupplier = () -> label;
 	}
 
 	@JsonIgnore
 	public void setLabel(
 		UnsafeSupplier<String, Exception> labelUnsafeSupplier) {
 
-		try {
-			label = labelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		label = null;
+
+		_labelSupplier = () -> {
+			try {
+				return labelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String label;
 
+	private Supplier<String> _labelSupplier = () -> null;
+
 	@Schema
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
+
+	private Supplier<String> _nameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

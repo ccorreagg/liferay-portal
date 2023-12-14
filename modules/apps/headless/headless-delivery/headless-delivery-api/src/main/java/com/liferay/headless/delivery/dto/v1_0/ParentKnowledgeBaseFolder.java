@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,59 +55,87 @@ public class ParentKnowledgeBaseFolder implements Serializable {
 
 	@Schema(description = "The parent folder's ID.")
 	public Long getFolderId() {
+		if (folderId != null) {
+			return folderId;
+		}
+
+		folderId = _folderIdSupplier.get();
+
 		return folderId;
 	}
 
 	public void setFolderId(Long folderId) {
 		this.folderId = folderId;
+
+		_folderIdSupplier = () -> folderId;
 	}
 
 	@JsonIgnore
 	public void setFolderId(
 		UnsafeSupplier<Long, Exception> folderIdUnsafeSupplier) {
 
-		try {
-			folderId = folderIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		folderId = null;
+
+		_folderIdSupplier = () -> {
+			try {
+				return folderIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The parent folder's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long folderId;
 
+	private Supplier<Long> _folderIdSupplier = () -> null;
+
 	@Schema(description = "The parent folder's name.")
 	public String getFolderName() {
+		if (folderName != null) {
+			return folderName;
+		}
+
+		folderName = _folderNameSupplier.get();
+
 		return folderName;
 	}
 
 	public void setFolderName(String folderName) {
 		this.folderName = folderName;
+
+		_folderNameSupplier = () -> folderName;
 	}
 
 	@JsonIgnore
 	public void setFolderName(
 		UnsafeSupplier<String, Exception> folderNameUnsafeSupplier) {
 
-		try {
-			folderName = folderNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		folderName = null;
+
+		_folderNameSupplier = () -> {
+			try {
+				return folderNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The parent folder's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String folderName;
+
+	private Supplier<String> _folderNameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

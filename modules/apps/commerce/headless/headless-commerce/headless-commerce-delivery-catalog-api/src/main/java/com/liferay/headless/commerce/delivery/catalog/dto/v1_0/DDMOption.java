@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,85 +50,127 @@ public class DDMOption implements Serializable {
 
 	@Schema
 	public String getKey() {
+		if (key != null) {
+			return key;
+		}
+
+		key = _keySupplier.get();
+
 		return key;
 	}
 
 	public void setKey(String key) {
 		this.key = key;
+
+		_keySupplier = () -> key;
 	}
 
 	@JsonIgnore
 	public void setKey(UnsafeSupplier<String, Exception> keyUnsafeSupplier) {
-		try {
-			key = keyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		key = null;
+
+		_keySupplier = () -> {
+			try {
+				return keyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String key;
 
+	private Supplier<String> _keySupplier = () -> null;
+
 	@Schema
 	public Boolean getRequired() {
+		if (required != null) {
+			return required;
+		}
+
+		required = _requiredSupplier.get();
+
 		return required;
 	}
 
 	public void setRequired(Boolean required) {
 		this.required = required;
+
+		_requiredSupplier = () -> required;
 	}
 
 	@JsonIgnore
 	public void setRequired(
 		UnsafeSupplier<Boolean, Exception> requiredUnsafeSupplier) {
 
-		try {
-			required = requiredUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		required = null;
+
+		_requiredSupplier = () -> {
+			try {
+				return requiredUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean required;
 
+	private Supplier<Boolean> _requiredSupplier = () -> null;
+
 	@Schema
 	public String[] getValue() {
+		if (value != null) {
+			return value;
+		}
+
+		value = _valueSupplier.get();
+
 		return value;
 	}
 
 	public void setValue(String[] value) {
 		this.value = value;
+
+		_valueSupplier = () -> value;
 	}
 
 	@JsonIgnore
 	public void setValue(
 		UnsafeSupplier<String[], Exception> valueUnsafeSupplier) {
 
-		try {
-			value = valueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		value = null;
+
+		_valueSupplier = () -> {
+			try {
+				return valueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] value;
+
+	private Supplier<String[]> _valueSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,6 +58,12 @@ public class FragmentFieldBackgroundImage implements Serializable {
 	@Schema(description = "The fragment field's background image.")
 	@Valid
 	public FragmentImage getBackgroundFragmentImage() {
+		if (backgroundFragmentImage != null) {
+			return backgroundFragmentImage;
+		}
+
+		backgroundFragmentImage = _backgroundFragmentImageSupplier.get();
+
 		return backgroundFragmentImage;
 	}
 
@@ -64,6 +71,8 @@ public class FragmentFieldBackgroundImage implements Serializable {
 		FragmentImage backgroundFragmentImage) {
 
 		this.backgroundFragmentImage = backgroundFragmentImage;
+
+		_backgroundFragmentImageSupplier = () -> backgroundFragmentImage;
 	}
 
 	@JsonIgnore
@@ -71,21 +80,27 @@ public class FragmentFieldBackgroundImage implements Serializable {
 		UnsafeSupplier<FragmentImage, Exception>
 			backgroundFragmentImageUnsafeSupplier) {
 
-		try {
-			backgroundFragmentImage =
-				backgroundFragmentImageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		backgroundFragmentImage = null;
+
+		_backgroundFragmentImageSupplier = () -> {
+			try {
+				return backgroundFragmentImageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment field's background image.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentImage backgroundFragmentImage;
+
+	private Supplier<FragmentImage> _backgroundFragmentImageSupplier =
+		() -> null;
 
 	@Schema(
 		deprecated = true,
@@ -93,11 +108,19 @@ public class FragmentFieldBackgroundImage implements Serializable {
 	)
 	@Valid
 	public BackgroundImage getBackgroundImage() {
+		if (backgroundImage != null) {
+			return backgroundImage;
+		}
+
+		backgroundImage = _backgroundImageSupplier.get();
+
 		return backgroundImage;
 	}
 
 	public void setBackgroundImage(BackgroundImage backgroundImage) {
 		this.backgroundImage = backgroundImage;
+
+		_backgroundImageSupplier = () -> backgroundImage;
 	}
 
 	@JsonIgnore
@@ -105,15 +128,19 @@ public class FragmentFieldBackgroundImage implements Serializable {
 		UnsafeSupplier<BackgroundImage, Exception>
 			backgroundImageUnsafeSupplier) {
 
-		try {
-			backgroundImage = backgroundImageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		backgroundImage = null;
+
+		_backgroundImageSupplier = () -> {
+			try {
+				return backgroundImageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@Deprecated
@@ -122,6 +149,8 @@ public class FragmentFieldBackgroundImage implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected BackgroundImage backgroundImage;
+
+	private Supplier<BackgroundImage> _backgroundImageSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

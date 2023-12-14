@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,112 +52,168 @@ public class WishList implements Serializable {
 
 	@Schema
 	public Boolean getDefaultWishList() {
+		if (defaultWishList != null) {
+			return defaultWishList;
+		}
+
+		defaultWishList = _defaultWishListSupplier.get();
+
 		return defaultWishList;
 	}
 
 	public void setDefaultWishList(Boolean defaultWishList) {
 		this.defaultWishList = defaultWishList;
+
+		_defaultWishListSupplier = () -> defaultWishList;
 	}
 
 	@JsonIgnore
 	public void setDefaultWishList(
 		UnsafeSupplier<Boolean, Exception> defaultWishListUnsafeSupplier) {
 
-		try {
-			defaultWishList = defaultWishListUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		defaultWishList = null;
+
+		_defaultWishListSupplier = () -> {
+			try {
+				return defaultWishListUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean defaultWishList;
 
+	private Supplier<Boolean> _defaultWishListSupplier = () -> null;
+
 	@Schema
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public WishListItem[] getWishListItems() {
+		if (wishListItems != null) {
+			return wishListItems;
+		}
+
+		wishListItems = _wishListItemsSupplier.get();
+
 		return wishListItems;
 	}
 
 	public void setWishListItems(WishListItem[] wishListItems) {
 		this.wishListItems = wishListItems;
+
+		_wishListItemsSupplier = () -> wishListItems;
 	}
 
 	@JsonIgnore
 	public void setWishListItems(
 		UnsafeSupplier<WishListItem[], Exception> wishListItemsUnsafeSupplier) {
 
-		try {
-			wishListItems = wishListItemsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		wishListItems = null;
+
+		_wishListItemsSupplier = () -> {
+			try {
+				return wishListItemsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected WishListItem[] wishListItems;
+
+	private Supplier<WishListItem[]> _wishListItemsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,55 +52,81 @@ public class PortalInstance implements Serializable {
 
 	@Schema
 	public Boolean getActive() {
+		if (active != null) {
+			return active;
+		}
+
+		active = _activeSupplier.get();
+
 		return active;
 	}
 
 	public void setActive(Boolean active) {
 		this.active = active;
+
+		_activeSupplier = () -> active;
 	}
 
 	@JsonIgnore
 	public void setActive(
 		UnsafeSupplier<Boolean, Exception> activeUnsafeSupplier) {
 
-		try {
-			active = activeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		active = null;
+
+		_activeSupplier = () -> {
+			try {
+				return activeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean active;
 
+	private Supplier<Boolean> _activeSupplier = () -> null;
+
 	@Schema(
 		description = "The portal instance's administrator. This field is optional and is only used in the portal instance creation."
 	)
 	@Valid
 	public Admin getAdmin() {
+		if (admin != null) {
+			return admin;
+		}
+
+		admin = _adminSupplier.get();
+
 		return admin;
 	}
 
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
+
+		_adminSupplier = () -> admin;
 	}
 
 	@JsonIgnore
 	public void setAdmin(UnsafeSupplier<Admin, Exception> adminUnsafeSupplier) {
-		try {
-			admin = adminUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		admin = null;
+
+		_adminSupplier = () -> {
+			try {
+				return adminUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -108,86 +135,128 @@ public class PortalInstance implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Admin admin;
 
+	private Supplier<Admin> _adminSupplier = () -> null;
+
 	@Schema(description = "internal unique key.")
 	public Long getCompanyId() {
+		if (companyId != null) {
+			return companyId;
+		}
+
+		companyId = _companyIdSupplier.get();
+
 		return companyId;
 	}
 
 	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
+
+		_companyIdSupplier = () -> companyId;
 	}
 
 	@JsonIgnore
 	public void setCompanyId(
 		UnsafeSupplier<Long, Exception> companyIdUnsafeSupplier) {
 
-		try {
-			companyId = companyIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		companyId = null;
+
+		_companyIdSupplier = () -> {
+			try {
+				return companyIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "internal unique key.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long companyId;
 
+	private Supplier<Long> _companyIdSupplier = () -> null;
+
 	@Schema(description = "domain used for email authentication.")
 	public String getDomain() {
+		if (domain != null) {
+			return domain;
+		}
+
+		domain = _domainSupplier.get();
+
 		return domain;
 	}
 
 	public void setDomain(String domain) {
 		this.domain = domain;
+
+		_domainSupplier = () -> domain;
 	}
 
 	@JsonIgnore
 	public void setDomain(
 		UnsafeSupplier<String, Exception> domainUnsafeSupplier) {
 
-		try {
-			domain = domainUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		domain = null;
+
+		_domainSupplier = () -> {
+			try {
+				return domainUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "domain used for email authentication.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String domain;
 
+	private Supplier<String> _domainSupplier = () -> null;
+
 	@Schema(
 		description = "public unique key (corresponds to company's webId field)"
 	)
 	public String getPortalInstanceId() {
+		if (portalInstanceId != null) {
+			return portalInstanceId;
+		}
+
+		portalInstanceId = _portalInstanceIdSupplier.get();
+
 		return portalInstanceId;
 	}
 
 	public void setPortalInstanceId(String portalInstanceId) {
 		this.portalInstanceId = portalInstanceId;
+
+		_portalInstanceIdSupplier = () -> portalInstanceId;
 	}
 
 	@JsonIgnore
 	public void setPortalInstanceId(
 		UnsafeSupplier<String, Exception> portalInstanceIdUnsafeSupplier) {
 
-		try {
-			portalInstanceId = portalInstanceIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		portalInstanceId = null;
+
+		_portalInstanceIdSupplier = () -> {
+			try {
+				return portalInstanceIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -196,61 +265,91 @@ public class PortalInstance implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String portalInstanceId;
 
+	private Supplier<String> _portalInstanceIdSupplier = () -> null;
+
 	@Schema
 	public String getSiteInitializerKey() {
+		if (siteInitializerKey != null) {
+			return siteInitializerKey;
+		}
+
+		siteInitializerKey = _siteInitializerKeySupplier.get();
+
 		return siteInitializerKey;
 	}
 
 	public void setSiteInitializerKey(String siteInitializerKey) {
 		this.siteInitializerKey = siteInitializerKey;
+
+		_siteInitializerKeySupplier = () -> siteInitializerKey;
 	}
 
 	@JsonIgnore
 	public void setSiteInitializerKey(
 		UnsafeSupplier<String, Exception> siteInitializerKeyUnsafeSupplier) {
 
-		try {
-			siteInitializerKey = siteInitializerKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		siteInitializerKey = null;
+
+		_siteInitializerKeySupplier = () -> {
+			try {
+				return siteInitializerKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String siteInitializerKey;
 
+	private Supplier<String> _siteInitializerKeySupplier = () -> null;
+
 	@Schema
 	public String getVirtualHost() {
+		if (virtualHost != null) {
+			return virtualHost;
+		}
+
+		virtualHost = _virtualHostSupplier.get();
+
 		return virtualHost;
 	}
 
 	public void setVirtualHost(String virtualHost) {
 		this.virtualHost = virtualHost;
+
+		_virtualHostSupplier = () -> virtualHost;
 	}
 
 	@JsonIgnore
 	public void setVirtualHost(
 		UnsafeSupplier<String, Exception> virtualHostUnsafeSupplier) {
 
-		try {
-			virtualHost = virtualHostUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		virtualHost = null;
+
+		_virtualHostSupplier = () -> {
+			try {
+				return virtualHostUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String virtualHost;
+
+	private Supplier<String> _virtualHostSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

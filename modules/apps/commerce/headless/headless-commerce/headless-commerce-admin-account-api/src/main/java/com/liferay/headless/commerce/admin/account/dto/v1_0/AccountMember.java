@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,85 +56,125 @@ public class AccountMember implements Serializable {
 	@DecimalMin("0")
 	@Schema(example = "30130")
 	public Long getAccountId() {
+		if (accountId != null) {
+			return accountId;
+		}
+
+		accountId = _accountIdSupplier.get();
+
 		return accountId;
 	}
 
 	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
+
+		_accountIdSupplier = () -> accountId;
 	}
 
 	@JsonIgnore
 	public void setAccountId(
 		UnsafeSupplier<Long, Exception> accountIdUnsafeSupplier) {
 
-		try {
-			accountId = accountIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		accountId = null;
+
+		_accountIdSupplier = () -> {
+			try {
+				return accountIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long accountId;
 
+	private Supplier<Long> _accountIdSupplier = () -> null;
+
 	@Schema(
 		example = "[{description={en_US=Account Administrator Description US, hr_HR=Account Administrator Description HR, hu_HU=Account Administrator Description HU}}, {description={en_US=Order Manager Description US, hr_HR=Order Manager Description HR, hu_HU=Order Manager Description HU}}]"
 	)
 	@Valid
 	public AccountRole[] getAccountRoles() {
+		if (accountRoles != null) {
+			return accountRoles;
+		}
+
+		accountRoles = _accountRolesSupplier.get();
+
 		return accountRoles;
 	}
 
 	public void setAccountRoles(AccountRole[] accountRoles) {
 		this.accountRoles = accountRoles;
+
+		_accountRolesSupplier = () -> accountRoles;
 	}
 
 	@JsonIgnore
 	public void setAccountRoles(
 		UnsafeSupplier<AccountRole[], Exception> accountRolesUnsafeSupplier) {
 
-		try {
-			accountRoles = accountRolesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		accountRoles = null;
+
+		_accountRolesSupplier = () -> {
+			try {
+				return accountRolesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected AccountRole[] accountRoles;
 
+	private Supplier<AccountRole[]> _accountRolesSupplier = () -> null;
+
 	@Schema(example = "joe.1@commerce.com")
 	public String getEmail() {
+		if (email != null) {
+			return email;
+		}
+
+		email = _emailSupplier.get();
+
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+
+		_emailSupplier = () -> email;
 	}
 
 	@JsonIgnore
 	public void setEmail(
 		UnsafeSupplier<String, Exception> emailUnsafeSupplier) {
 
-		try {
-			email = emailUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		email = null;
+
+		_emailSupplier = () -> {
+			try {
+				return emailUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
@@ -141,67 +182,105 @@ public class AccountMember implements Serializable {
 	@NotEmpty
 	protected String email;
 
+	private Supplier<String> _emailSupplier = () -> null;
+
 	@Schema(example = "AB-34098-789-N")
 	public String getExternalReferenceCode() {
+		if (externalReferenceCode != null) {
+			return externalReferenceCode;
+		}
+
+		externalReferenceCode = _externalReferenceCodeSupplier.get();
+
 		return externalReferenceCode;
 	}
 
 	public void setExternalReferenceCode(String externalReferenceCode) {
 		this.externalReferenceCode = externalReferenceCode;
+
+		_externalReferenceCodeSupplier = () -> externalReferenceCode;
 	}
 
 	@JsonIgnore
 	public void setExternalReferenceCode(
 		UnsafeSupplier<String, Exception> externalReferenceCodeUnsafeSupplier) {
 
-		try {
-			externalReferenceCode = externalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		externalReferenceCode = null;
+
+		_externalReferenceCodeSupplier = () -> {
+			try {
+				return externalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String externalReferenceCode;
 
+	private Supplier<String> _externalReferenceCodeSupplier = () -> null;
+
 	@Schema(example = "User Name")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema(example = "UAB-34098-789-N")
 	public String getUserExternalReferenceCode() {
+		if (userExternalReferenceCode != null) {
+			return userExternalReferenceCode;
+		}
+
+		userExternalReferenceCode = _userExternalReferenceCodeSupplier.get();
+
 		return userExternalReferenceCode;
 	}
 
 	public void setUserExternalReferenceCode(String userExternalReferenceCode) {
 		this.userExternalReferenceCode = userExternalReferenceCode;
+
+		_userExternalReferenceCodeSupplier = () -> userExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -209,50 +288,69 @@ public class AccountMember implements Serializable {
 		UnsafeSupplier<String, Exception>
 			userExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			userExternalReferenceCode =
-				userExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		userExternalReferenceCode = null;
+
+		_userExternalReferenceCodeSupplier = () -> {
+			try {
+				return userExternalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String userExternalReferenceCode;
 
+	private Supplier<String> _userExternalReferenceCodeSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30002")
 	public Long getUserId() {
+		if (userId != null) {
+			return userId;
+		}
+
+		userId = _userIdSupplier.get();
+
 		return userId;
 	}
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+
+		_userIdSupplier = () -> userId;
 	}
 
 	@JsonIgnore
 	public void setUserId(
 		UnsafeSupplier<Long, Exception> userIdUnsafeSupplier) {
 
-		try {
-			userId = userIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		userId = null;
+
+		_userIdSupplier = () -> {
+			try {
+				return userIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long userId;
+
+	private Supplier<Long> _userIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

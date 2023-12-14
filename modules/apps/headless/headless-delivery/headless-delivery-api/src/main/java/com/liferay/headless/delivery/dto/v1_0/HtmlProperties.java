@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,6 +57,12 @@ public class HtmlProperties implements Serializable {
 	@Schema
 	@Valid
 	public HtmlTag getHtmlTag() {
+		if (htmlTag != null) {
+			return htmlTag;
+		}
+
+		htmlTag = _htmlTagSupplier.get();
+
 		return htmlTag;
 	}
 
@@ -70,26 +77,34 @@ public class HtmlProperties implements Serializable {
 
 	public void setHtmlTag(HtmlTag htmlTag) {
 		this.htmlTag = htmlTag;
+
+		_htmlTagSupplier = () -> htmlTag;
 	}
 
 	@JsonIgnore
 	public void setHtmlTag(
 		UnsafeSupplier<HtmlTag, Exception> htmlTagUnsafeSupplier) {
 
-		try {
-			htmlTag = htmlTagUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		htmlTag = null;
+
+		_htmlTagSupplier = () -> {
+			try {
+				return htmlTagUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected HtmlTag htmlTag;
+
+	private Supplier<HtmlTag> _htmlTagSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

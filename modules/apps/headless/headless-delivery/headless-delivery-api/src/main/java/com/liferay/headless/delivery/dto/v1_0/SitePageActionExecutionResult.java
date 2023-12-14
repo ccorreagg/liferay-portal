@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,11 +58,19 @@ public class SitePageActionExecutionResult implements Serializable {
 	@Schema(description = "The reference to a page.")
 	@Valid
 	public ClassFieldsReference getItemReference() {
+		if (itemReference != null) {
+			return itemReference;
+		}
+
+		itemReference = _itemReferenceSupplier.get();
+
 		return itemReference;
 	}
 
 	public void setItemReference(ClassFieldsReference itemReference) {
 		this.itemReference = itemReference;
+
+		_itemReferenceSupplier = () -> itemReference;
 	}
 
 	@JsonIgnore
@@ -69,20 +78,26 @@ public class SitePageActionExecutionResult implements Serializable {
 		UnsafeSupplier<ClassFieldsReference, Exception>
 			itemReferenceUnsafeSupplier) {
 
-		try {
-			itemReference = itemReferenceUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		itemReference = null;
+
+		_itemReferenceSupplier = () -> {
+			try {
+				return itemReferenceUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The reference to a page.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ClassFieldsReference itemReference;
+
+	private Supplier<ClassFieldsReference> _itemReferenceSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

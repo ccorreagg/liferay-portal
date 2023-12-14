@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,26 +55,38 @@ public class EmptyCollectionConfig implements Serializable {
 		description = "Whether to display a message when the collection is empty or no results match the applied filters (true by default)."
 	)
 	public Boolean getDisplayMessage() {
+		if (displayMessage != null) {
+			return displayMessage;
+		}
+
+		displayMessage = _displayMessageSupplier.get();
+
 		return displayMessage;
 	}
 
 	public void setDisplayMessage(Boolean displayMessage) {
 		this.displayMessage = displayMessage;
+
+		_displayMessageSupplier = () -> displayMessage;
 	}
 
 	@JsonIgnore
 	public void setDisplayMessage(
 		UnsafeSupplier<Boolean, Exception> displayMessageUnsafeSupplier) {
 
-		try {
-			displayMessage = displayMessageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		displayMessage = null;
+
+		_displayMessageSupplier = () -> {
+			try {
+				return displayMessageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -82,16 +95,26 @@ public class EmptyCollectionConfig implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean displayMessage;
 
+	private Supplier<Boolean> _displayMessageSupplier = () -> null;
+
 	@Schema(
 		description = "The localized message to display when the collection is empty or no results match the applied filters ('No Results Found' by default)."
 	)
 	@Valid
 	public Map<String, String> getMessage_i18n() {
+		if (message_i18n != null) {
+			return message_i18n;
+		}
+
+		message_i18n = _message_i18nSupplier.get();
+
 		return message_i18n;
 	}
 
 	public void setMessage_i18n(Map<String, String> message_i18n) {
 		this.message_i18n = message_i18n;
+
+		_message_i18nSupplier = () -> message_i18n;
 	}
 
 	@JsonIgnore
@@ -99,15 +122,19 @@ public class EmptyCollectionConfig implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			message_i18nUnsafeSupplier) {
 
-		try {
-			message_i18n = message_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		message_i18n = null;
+
+		_message_i18nSupplier = () -> {
+			try {
+				return message_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -115,6 +142,8 @@ public class EmptyCollectionConfig implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> message_i18n;
+
+	private Supplier<Map<String, String>> _message_i18nSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

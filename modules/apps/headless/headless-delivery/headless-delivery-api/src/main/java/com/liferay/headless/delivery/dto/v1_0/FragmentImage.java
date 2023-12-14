@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,35 +56,56 @@ public class FragmentImage implements Serializable {
 	@Schema(description = "The fragment image's description.")
 	@Valid
 	public Object getDescription() {
+		if (description != null) {
+			return description;
+		}
+
+		description = _descriptionSupplier.get();
+
 		return description;
 	}
 
 	public void setDescription(Object description) {
 		this.description = description;
+
+		_descriptionSupplier = () -> description;
 	}
 
 	@JsonIgnore
 	public void setDescription(
 		UnsafeSupplier<Object, Exception> descriptionUnsafeSupplier) {
 
-		try {
-			description = descriptionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description = null;
+
+		_descriptionSupplier = () -> {
+			try {
+				return descriptionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment image's description.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object description;
 
+	private Supplier<Object> _descriptionSupplier = () -> null;
+
 	@Schema(description = "A reference to a fragment image class primary key.")
 	@Valid
 	public FragmentImageClassPKReference getFragmentImageClassPKReference() {
+		if (fragmentImageClassPKReference != null) {
+			return fragmentImageClassPKReference;
+		}
+
+		fragmentImageClassPKReference =
+			_fragmentImageClassPKReferenceSupplier.get();
+
 		return fragmentImageClassPKReference;
 	}
 
@@ -91,6 +113,9 @@ public class FragmentImage implements Serializable {
 		FragmentImageClassPKReference fragmentImageClassPKReference) {
 
 		this.fragmentImageClassPKReference = fragmentImageClassPKReference;
+
+		_fragmentImageClassPKReferenceSupplier =
+			() -> fragmentImageClassPKReference;
 	}
 
 	@JsonIgnore
@@ -98,16 +123,19 @@ public class FragmentImage implements Serializable {
 		UnsafeSupplier<FragmentImageClassPKReference, Exception>
 			fragmentImageClassPKReferenceUnsafeSupplier) {
 
-		try {
-			fragmentImageClassPKReference =
-				fragmentImageClassPKReferenceUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragmentImageClassPKReference = null;
+
+		_fragmentImageClassPKReferenceSupplier = () -> {
+			try {
+				return fragmentImageClassPKReferenceUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -116,58 +144,87 @@ public class FragmentImage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentImageClassPKReference fragmentImageClassPKReference;
 
+	private Supplier<FragmentImageClassPKReference>
+		_fragmentImageClassPKReferenceSupplier = () -> null;
+
 	@Schema(description = "The fragment image's title.")
 	@Valid
 	public Object getTitle() {
+		if (title != null) {
+			return title;
+		}
+
+		title = _titleSupplier.get();
+
 		return title;
 	}
 
 	public void setTitle(Object title) {
 		this.title = title;
+
+		_titleSupplier = () -> title;
 	}
 
 	@JsonIgnore
 	public void setTitle(
 		UnsafeSupplier<Object, Exception> titleUnsafeSupplier) {
 
-		try {
-			title = titleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		title = null;
+
+		_titleSupplier = () -> {
+			try {
+				return titleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment image's title.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object title;
 
+	private Supplier<Object> _titleSupplier = () -> null;
+
 	@Schema(
 		description = "The fragment image's url. Can be inline or mapped to an external value."
 	)
 	@Valid
 	public Object getUrl() {
+		if (url != null) {
+			return url;
+		}
+
+		url = _urlSupplier.get();
+
 		return url;
 	}
 
 	public void setUrl(Object url) {
 		this.url = url;
+
+		_urlSupplier = () -> url;
 	}
 
 	@JsonIgnore
 	public void setUrl(UnsafeSupplier<Object, Exception> urlUnsafeSupplier) {
-		try {
-			url = urlUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		url = null;
+
+		_urlSupplier = () -> {
+			try {
+				return urlUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -175,6 +232,8 @@ public class FragmentImage implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object url;
+
+	private Supplier<Object> _urlSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

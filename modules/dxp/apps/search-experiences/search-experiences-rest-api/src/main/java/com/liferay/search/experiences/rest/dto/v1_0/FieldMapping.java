@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,85 +53,127 @@ public class FieldMapping implements Serializable {
 	@Schema
 	@Valid
 	public Float getBoost() {
+		if (boost != null) {
+			return boost;
+		}
+
+		boost = _boostSupplier.get();
+
 		return boost;
 	}
 
 	public void setBoost(Float boost) {
 		this.boost = boost;
+
+		_boostSupplier = () -> boost;
 	}
 
 	@JsonIgnore
 	public void setBoost(UnsafeSupplier<Float, Exception> boostUnsafeSupplier) {
-		try {
-			boost = boostUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		boost = null;
+
+		_boostSupplier = () -> {
+			try {
+				return boostUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Float boost;
 
+	private Supplier<Float> _boostSupplier = () -> null;
+
 	@Schema
 	public String getField() {
+		if (field != null) {
+			return field;
+		}
+
+		field = _fieldSupplier.get();
+
 		return field;
 	}
 
 	public void setField(String field) {
 		this.field = field;
+
+		_fieldSupplier = () -> field;
 	}
 
 	@JsonIgnore
 	public void setField(
 		UnsafeSupplier<String, Exception> fieldUnsafeSupplier) {
 
-		try {
-			field = fieldUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		field = null;
+
+		_fieldSupplier = () -> {
+			try {
+				return fieldUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String field;
 
+	private Supplier<String> _fieldSupplier = () -> null;
+
 	@Schema
 	public String getLocale() {
+		if (locale != null) {
+			return locale;
+		}
+
+		locale = _localeSupplier.get();
+
 		return locale;
 	}
 
 	public void setLocale(String locale) {
 		this.locale = locale;
+
+		_localeSupplier = () -> locale;
 	}
 
 	@JsonIgnore
 	public void setLocale(
 		UnsafeSupplier<String, Exception> localeUnsafeSupplier) {
 
-		try {
-			locale = localeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		locale = null;
+
+		_localeSupplier = () -> {
+			try {
+				return localeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String locale;
+
+	private Supplier<String> _localeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

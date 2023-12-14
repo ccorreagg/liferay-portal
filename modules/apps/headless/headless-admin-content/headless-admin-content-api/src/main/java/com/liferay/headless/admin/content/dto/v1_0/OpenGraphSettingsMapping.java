@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,6 +56,12 @@ public class OpenGraphSettingsMapping implements Serializable {
 		description = "Field of the content type that will be used as the description"
 	)
 	public String getDescriptionMappingFieldKey() {
+		if (descriptionMappingFieldKey != null) {
+			return descriptionMappingFieldKey;
+		}
+
+		descriptionMappingFieldKey = _descriptionMappingFieldKeySupplier.get();
+
 		return descriptionMappingFieldKey;
 	}
 
@@ -62,6 +69,8 @@ public class OpenGraphSettingsMapping implements Serializable {
 		String descriptionMappingFieldKey) {
 
 		this.descriptionMappingFieldKey = descriptionMappingFieldKey;
+
+		_descriptionMappingFieldKeySupplier = () -> descriptionMappingFieldKey;
 	}
 
 	@JsonIgnore
@@ -69,16 +78,19 @@ public class OpenGraphSettingsMapping implements Serializable {
 		UnsafeSupplier<String, Exception>
 			descriptionMappingFieldKeyUnsafeSupplier) {
 
-		try {
-			descriptionMappingFieldKey =
-				descriptionMappingFieldKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		descriptionMappingFieldKey = null;
+
+		_descriptionMappingFieldKeySupplier = () -> {
+			try {
+				return descriptionMappingFieldKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -87,15 +99,25 @@ public class OpenGraphSettingsMapping implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String descriptionMappingFieldKey;
 
+	private Supplier<String> _descriptionMappingFieldKeySupplier = () -> null;
+
 	@Schema(
 		description = "Field of the content type that will be used as the alt property of the image"
 	)
 	public String getImageAltMappingFieldKey() {
+		if (imageAltMappingFieldKey != null) {
+			return imageAltMappingFieldKey;
+		}
+
+		imageAltMappingFieldKey = _imageAltMappingFieldKeySupplier.get();
+
 		return imageAltMappingFieldKey;
 	}
 
 	public void setImageAltMappingFieldKey(String imageAltMappingFieldKey) {
 		this.imageAltMappingFieldKey = imageAltMappingFieldKey;
+
+		_imageAltMappingFieldKeySupplier = () -> imageAltMappingFieldKey;
 	}
 
 	@JsonIgnore
@@ -103,16 +125,19 @@ public class OpenGraphSettingsMapping implements Serializable {
 		UnsafeSupplier<String, Exception>
 			imageAltMappingFieldKeyUnsafeSupplier) {
 
-		try {
-			imageAltMappingFieldKey =
-				imageAltMappingFieldKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		imageAltMappingFieldKey = null;
+
+		_imageAltMappingFieldKeySupplier = () -> {
+			try {
+				return imageAltMappingFieldKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -121,30 +146,44 @@ public class OpenGraphSettingsMapping implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String imageAltMappingFieldKey;
 
+	private Supplier<String> _imageAltMappingFieldKeySupplier = () -> null;
+
 	@Schema(
 		description = "Field of the content type that will be used as the image"
 	)
 	public String getImageMappingFieldKey() {
+		if (imageMappingFieldKey != null) {
+			return imageMappingFieldKey;
+		}
+
+		imageMappingFieldKey = _imageMappingFieldKeySupplier.get();
+
 		return imageMappingFieldKey;
 	}
 
 	public void setImageMappingFieldKey(String imageMappingFieldKey) {
 		this.imageMappingFieldKey = imageMappingFieldKey;
+
+		_imageMappingFieldKeySupplier = () -> imageMappingFieldKey;
 	}
 
 	@JsonIgnore
 	public void setImageMappingFieldKey(
 		UnsafeSupplier<String, Exception> imageMappingFieldKeyUnsafeSupplier) {
 
-		try {
-			imageMappingFieldKey = imageMappingFieldKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		imageMappingFieldKey = null;
+
+		_imageMappingFieldKeySupplier = () -> {
+			try {
+				return imageMappingFieldKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -153,30 +192,44 @@ public class OpenGraphSettingsMapping implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String imageMappingFieldKey;
 
+	private Supplier<String> _imageMappingFieldKeySupplier = () -> null;
+
 	@Schema(
 		description = "Field of the content type that will be used as the title"
 	)
 	public String getTitleMappingFieldKey() {
+		if (titleMappingFieldKey != null) {
+			return titleMappingFieldKey;
+		}
+
+		titleMappingFieldKey = _titleMappingFieldKeySupplier.get();
+
 		return titleMappingFieldKey;
 	}
 
 	public void setTitleMappingFieldKey(String titleMappingFieldKey) {
 		this.titleMappingFieldKey = titleMappingFieldKey;
+
+		_titleMappingFieldKeySupplier = () -> titleMappingFieldKey;
 	}
 
 	@JsonIgnore
 	public void setTitleMappingFieldKey(
 		UnsafeSupplier<String, Exception> titleMappingFieldKeyUnsafeSupplier) {
 
-		try {
-			titleMappingFieldKey = titleMappingFieldKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		titleMappingFieldKey = null;
+
+		_titleMappingFieldKeySupplier = () -> {
+			try {
+				return titleMappingFieldKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -184,6 +237,8 @@ public class OpenGraphSettingsMapping implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String titleMappingFieldKey;
+
+	private Supplier<String> _titleMappingFieldKeySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

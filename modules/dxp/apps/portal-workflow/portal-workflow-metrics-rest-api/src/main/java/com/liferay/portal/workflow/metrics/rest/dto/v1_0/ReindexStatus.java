@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,57 +53,85 @@ public class ReindexStatus implements Serializable {
 
 	@Schema
 	public Long getCompletionPercentage() {
+		if (completionPercentage != null) {
+			return completionPercentage;
+		}
+
+		completionPercentage = _completionPercentageSupplier.get();
+
 		return completionPercentage;
 	}
 
 	public void setCompletionPercentage(Long completionPercentage) {
 		this.completionPercentage = completionPercentage;
+
+		_completionPercentageSupplier = () -> completionPercentage;
 	}
 
 	@JsonIgnore
 	public void setCompletionPercentage(
 		UnsafeSupplier<Long, Exception> completionPercentageUnsafeSupplier) {
 
-		try {
-			completionPercentage = completionPercentageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		completionPercentage = null;
+
+		_completionPercentageSupplier = () -> {
+			try {
+				return completionPercentageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long completionPercentage;
 
+	private Supplier<Long> _completionPercentageSupplier = () -> null;
+
 	@Schema
 	public String getKey() {
+		if (key != null) {
+			return key;
+		}
+
+		key = _keySupplier.get();
+
 		return key;
 	}
 
 	public void setKey(String key) {
 		this.key = key;
+
+		_keySupplier = () -> key;
 	}
 
 	@JsonIgnore
 	public void setKey(UnsafeSupplier<String, Exception> keyUnsafeSupplier) {
-		try {
-			key = keyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		key = null;
+
+		_keySupplier = () -> {
+			try {
+				return keyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String key;
+
+	private Supplier<String> _keySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

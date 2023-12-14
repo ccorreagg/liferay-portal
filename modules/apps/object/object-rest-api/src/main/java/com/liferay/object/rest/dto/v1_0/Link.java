@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,57 +50,85 @@ public class Link implements Serializable {
 
 	@Schema
 	public String getHref() {
+		if (href != null) {
+			return href;
+		}
+
+		href = _hrefSupplier.get();
+
 		return href;
 	}
 
 	public void setHref(String href) {
 		this.href = href;
+
+		_hrefSupplier = () -> href;
 	}
 
 	@JsonIgnore
 	public void setHref(UnsafeSupplier<String, Exception> hrefUnsafeSupplier) {
-		try {
-			href = hrefUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		href = null;
+
+		_hrefSupplier = () -> {
+			try {
+				return hrefUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String href;
 
+	private Supplier<String> _hrefSupplier = () -> null;
+
 	@Schema
 	public String getLabel() {
+		if (label != null) {
+			return label;
+		}
+
+		label = _labelSupplier.get();
+
 		return label;
 	}
 
 	public void setLabel(String label) {
 		this.label = label;
+
+		_labelSupplier = () -> label;
 	}
 
 	@JsonIgnore
 	public void setLabel(
 		UnsafeSupplier<String, Exception> labelUnsafeSupplier) {
 
-		try {
-			label = labelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		label = null;
+
+		_labelSupplier = () -> {
+			try {
+				return labelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String label;
+
+	private Supplier<String> _labelSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

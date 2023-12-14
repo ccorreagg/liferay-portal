@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,122 +54,186 @@ public class ContentElement implements Serializable {
 	@Schema(description = "The content's fields.")
 	@Valid
 	public Object getContent() {
+		if (content != null) {
+			return content;
+		}
+
+		content = _contentSupplier.get();
+
 		return content;
 	}
 
 	public void setContent(Object content) {
 		this.content = content;
+
+		_contentSupplier = () -> content;
 	}
 
 	@JsonIgnore
 	public void setContent(
 		UnsafeSupplier<Object, Exception> contentUnsafeSupplier) {
 
-		try {
-			content = contentUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		content = null;
+
+		_contentSupplier = () -> {
+			try {
+				return contentUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The content's fields.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Object content;
 
+	private Supplier<Object> _contentSupplier = () -> null;
+
 	@Schema(description = "The content set element's type.")
 	public String getContentType() {
+		if (contentType != null) {
+			return contentType;
+		}
+
+		contentType = _contentTypeSupplier.get();
+
 		return contentType;
 	}
 
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
+
+		_contentTypeSupplier = () -> contentType;
 	}
 
 	@JsonIgnore
 	public void setContentType(
 		UnsafeSupplier<String, Exception> contentTypeUnsafeSupplier) {
 
-		try {
-			contentType = contentTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentType = null;
+
+		_contentTypeSupplier = () -> {
+			try {
+				return contentTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The content set element's type.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String contentType;
 
+	private Supplier<String> _contentTypeSupplier = () -> null;
+
 	@Schema(description = "The content set element's ID.")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The content set element's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(description = "The content's title.")
 	public String getTitle() {
+		if (title != null) {
+			return title;
+		}
+
+		title = _titleSupplier.get();
+
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
+
+		_titleSupplier = () -> title;
 	}
 
 	@JsonIgnore
 	public void setTitle(
 		UnsafeSupplier<String, Exception> titleUnsafeSupplier) {
 
-		try {
-			title = titleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		title = null;
+
+		_titleSupplier = () -> {
+			try {
+				return titleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The content's title.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String title;
 
+	private Supplier<String> _titleSupplier = () -> null;
+
 	@Schema(description = "The localized content's titles.")
 	@Valid
 	public Map<String, String> getTitle_i18n() {
+		if (title_i18n != null) {
+			return title_i18n;
+		}
+
+		title_i18n = _title_i18nSupplier.get();
+
 		return title_i18n;
 	}
 
 	public void setTitle_i18n(Map<String, String> title_i18n) {
 		this.title_i18n = title_i18n;
+
+		_title_i18nSupplier = () -> title_i18n;
 	}
 
 	@JsonIgnore
@@ -176,20 +241,26 @@ public class ContentElement implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			title_i18nUnsafeSupplier) {
 
-		try {
-			title_i18n = title_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		title_i18n = null;
+
+		_title_i18nSupplier = () -> {
+			try {
+				return title_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The localized content's titles.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, String> title_i18n;
+
+	private Supplier<Map<String, String>> _title_i18nSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

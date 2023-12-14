@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,59 +52,87 @@ public class EmbeddingProviderValidationResult implements Serializable {
 
 	@Schema
 	public String getErrorMessage() {
+		if (errorMessage != null) {
+			return errorMessage;
+		}
+
+		errorMessage = _errorMessageSupplier.get();
+
 		return errorMessage;
 	}
 
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
+
+		_errorMessageSupplier = () -> errorMessage;
 	}
 
 	@JsonIgnore
 	public void setErrorMessage(
 		UnsafeSupplier<String, Exception> errorMessageUnsafeSupplier) {
 
-		try {
-			errorMessage = errorMessageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		errorMessage = null;
+
+		_errorMessageSupplier = () -> {
+			try {
+				return errorMessageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String errorMessage;
 
+	private Supplier<String> _errorMessageSupplier = () -> null;
+
 	@Schema
 	public Integer getExpectedDimensions() {
+		if (expectedDimensions != null) {
+			return expectedDimensions;
+		}
+
+		expectedDimensions = _expectedDimensionsSupplier.get();
+
 		return expectedDimensions;
 	}
 
 	public void setExpectedDimensions(Integer expectedDimensions) {
 		this.expectedDimensions = expectedDimensions;
+
+		_expectedDimensionsSupplier = () -> expectedDimensions;
 	}
 
 	@JsonIgnore
 	public void setExpectedDimensions(
 		UnsafeSupplier<Integer, Exception> expectedDimensionsUnsafeSupplier) {
 
-		try {
-			expectedDimensions = expectedDimensionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		expectedDimensions = null;
+
+		_expectedDimensionsSupplier = () -> {
+			try {
+				return expectedDimensionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer expectedDimensions;
+
+	private Supplier<Integer> _expectedDimensionsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

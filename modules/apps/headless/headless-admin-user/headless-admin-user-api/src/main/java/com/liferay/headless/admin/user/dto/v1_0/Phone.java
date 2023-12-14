@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,138 +53,206 @@ public class Phone implements Serializable {
 
 	@Schema(description = "The phone number's extension.")
 	public String getExtension() {
+		if (extension != null) {
+			return extension;
+		}
+
+		extension = _extensionSupplier.get();
+
 		return extension;
 	}
 
 	public void setExtension(String extension) {
 		this.extension = extension;
+
+		_extensionSupplier = () -> extension;
 	}
 
 	@JsonIgnore
 	public void setExtension(
 		UnsafeSupplier<String, Exception> extensionUnsafeSupplier) {
 
-		try {
-			extension = extensionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		extension = null;
+
+		_extensionSupplier = () -> {
+			try {
+				return extensionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The phone number's extension.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String extension;
 
+	private Supplier<String> _extensionSupplier = () -> null;
+
 	@Schema(description = "The phone number's ID.")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The phone number's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(description = "The phone number without its extension.")
 	public String getPhoneNumber() {
+		if (phoneNumber != null) {
+			return phoneNumber;
+		}
+
+		phoneNumber = _phoneNumberSupplier.get();
+
 		return phoneNumber;
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+
+		_phoneNumberSupplier = () -> phoneNumber;
 	}
 
 	@JsonIgnore
 	public void setPhoneNumber(
 		UnsafeSupplier<String, Exception> phoneNumberUnsafeSupplier) {
 
-		try {
-			phoneNumber = phoneNumberUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		phoneNumber = null;
+
+		_phoneNumberSupplier = () -> {
+			try {
+				return phoneNumberUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The phone number without its extension.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String phoneNumber;
 
+	private Supplier<String> _phoneNumberSupplier = () -> null;
+
 	@Schema(description = "The phone number's type.")
 	public String getPhoneType() {
+		if (phoneType != null) {
+			return phoneType;
+		}
+
+		phoneType = _phoneTypeSupplier.get();
+
 		return phoneType;
 	}
 
 	public void setPhoneType(String phoneType) {
 		this.phoneType = phoneType;
+
+		_phoneTypeSupplier = () -> phoneType;
 	}
 
 	@JsonIgnore
 	public void setPhoneType(
 		UnsafeSupplier<String, Exception> phoneTypeUnsafeSupplier) {
 
-		try {
-			phoneType = phoneTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		phoneType = null;
+
+		_phoneTypeSupplier = () -> {
+			try {
+				return phoneTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The phone number's type.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String phoneType;
 
+	private Supplier<String> _phoneTypeSupplier = () -> null;
+
 	@Schema(
 		description = "A flag that identifies whether this is the main phone number of the user/organization."
 	)
 	public Boolean getPrimary() {
+		if (primary != null) {
+			return primary;
+		}
+
+		primary = _primarySupplier.get();
+
 		return primary;
 	}
 
 	public void setPrimary(Boolean primary) {
 		this.primary = primary;
+
+		_primarySupplier = () -> primary;
 	}
 
 	@JsonIgnore
 	public void setPrimary(
 		UnsafeSupplier<Boolean, Exception> primaryUnsafeSupplier) {
 
-		try {
-			primary = primaryUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		primary = null;
+
+		_primarySupplier = () -> {
+			try {
+				return primaryUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -191,6 +260,8 @@ public class Phone implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean primary;
+
+	private Supplier<Boolean> _primarySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

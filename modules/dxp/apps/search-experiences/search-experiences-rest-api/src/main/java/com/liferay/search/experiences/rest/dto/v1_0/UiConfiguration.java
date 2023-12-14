@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,31 +53,45 @@ public class UiConfiguration implements Serializable {
 	@Schema
 	@Valid
 	public FieldSet[] getFieldSets() {
+		if (fieldSets != null) {
+			return fieldSets;
+		}
+
+		fieldSets = _fieldSetsSupplier.get();
+
 		return fieldSets;
 	}
 
 	public void setFieldSets(FieldSet[] fieldSets) {
 		this.fieldSets = fieldSets;
+
+		_fieldSetsSupplier = () -> fieldSets;
 	}
 
 	@JsonIgnore
 	public void setFieldSets(
 		UnsafeSupplier<FieldSet[], Exception> fieldSetsUnsafeSupplier) {
 
-		try {
-			fieldSets = fieldSetsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fieldSets = null;
+
+		_fieldSetsSupplier = () -> {
+			try {
+				return fieldSetsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FieldSet[] fieldSets;
+
+	private Supplier<FieldSet[]> _fieldSetsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

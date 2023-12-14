@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -58,11 +59,19 @@ public class PageCollectionDefinition implements Serializable {
 	@Schema
 	@Valid
 	public CollectionConfig getCollectionConfig() {
+		if (collectionConfig != null) {
+			return collectionConfig;
+		}
+
+		collectionConfig = _collectionConfigSupplier.get();
+
 		return collectionConfig;
 	}
 
 	public void setCollectionConfig(CollectionConfig collectionConfig) {
 		this.collectionConfig = collectionConfig;
+
+		_collectionConfigSupplier = () -> collectionConfig;
 	}
 
 	@JsonIgnore
@@ -70,24 +79,36 @@ public class PageCollectionDefinition implements Serializable {
 		UnsafeSupplier<CollectionConfig, Exception>
 			collectionConfigUnsafeSupplier) {
 
-		try {
-			collectionConfig = collectionConfigUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		collectionConfig = null;
+
+		_collectionConfigSupplier = () -> {
+			try {
+				return collectionConfigUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected CollectionConfig collectionConfig;
 
+	private Supplier<CollectionConfig> _collectionConfigSupplier = () -> null;
+
 	@Schema(description = "A list of viewports of the page collection.")
 	@Valid
 	public CollectionViewport[] getCollectionViewports() {
+		if (collectionViewports != null) {
+			return collectionViewports;
+		}
+
+		collectionViewports = _collectionViewportsSupplier.get();
+
 		return collectionViewports;
 	}
 
@@ -95,6 +116,8 @@ public class PageCollectionDefinition implements Serializable {
 		CollectionViewport[] collectionViewports) {
 
 		this.collectionViewports = collectionViewports;
+
+		_collectionViewportsSupplier = () -> collectionViewports;
 	}
 
 	@JsonIgnore
@@ -102,45 +125,64 @@ public class PageCollectionDefinition implements Serializable {
 		UnsafeSupplier<CollectionViewport[], Exception>
 			collectionViewportsUnsafeSupplier) {
 
-		try {
-			collectionViewports = collectionViewportsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		collectionViewports = null;
+
+		_collectionViewportsSupplier = () -> {
+			try {
+				return collectionViewportsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "A list of viewports of the page collection.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected CollectionViewport[] collectionViewports;
 
+	private Supplier<CollectionViewport[]> _collectionViewportsSupplier =
+		() -> null;
+
 	@Schema(
 		description = "Whether to show all items when pagination is disabled."
 	)
 	public Boolean getDisplayAllItems() {
+		if (displayAllItems != null) {
+			return displayAllItems;
+		}
+
+		displayAllItems = _displayAllItemsSupplier.get();
+
 		return displayAllItems;
 	}
 
 	public void setDisplayAllItems(Boolean displayAllItems) {
 		this.displayAllItems = displayAllItems;
+
+		_displayAllItemsSupplier = () -> displayAllItems;
 	}
 
 	@JsonIgnore
 	public void setDisplayAllItems(
 		UnsafeSupplier<Boolean, Exception> displayAllItemsUnsafeSupplier) {
 
-		try {
-			displayAllItems = displayAllItemsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		displayAllItems = null;
+
+		_displayAllItemsSupplier = () -> {
+			try {
+				return displayAllItemsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -149,30 +191,44 @@ public class PageCollectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean displayAllItems;
 
+	private Supplier<Boolean> _displayAllItemsSupplier = () -> null;
+
 	@Schema(
 		description = "Whether to show all pages when pagination is enabled."
 	)
 	public Boolean getDisplayAllPages() {
+		if (displayAllPages != null) {
+			return displayAllPages;
+		}
+
+		displayAllPages = _displayAllPagesSupplier.get();
+
 		return displayAllPages;
 	}
 
 	public void setDisplayAllPages(Boolean displayAllPages) {
 		this.displayAllPages = displayAllPages;
+
+		_displayAllPagesSupplier = () -> displayAllPages;
 	}
 
 	@JsonIgnore
 	public void setDisplayAllPages(
 		UnsafeSupplier<Boolean, Exception> displayAllPagesUnsafeSupplier) {
 
-		try {
-			displayAllPages = displayAllPagesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		displayAllPages = null;
+
+		_displayAllPagesSupplier = () -> {
+			try {
+				return displayAllPagesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -181,9 +237,17 @@ public class PageCollectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean displayAllPages;
 
+	private Supplier<Boolean> _displayAllPagesSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public EmptyCollectionConfig getEmptyCollectionConfig() {
+		if (emptyCollectionConfig != null) {
+			return emptyCollectionConfig;
+		}
+
+		emptyCollectionConfig = _emptyCollectionConfigSupplier.get();
+
 		return emptyCollectionConfig;
 	}
 
@@ -191,6 +255,8 @@ public class PageCollectionDefinition implements Serializable {
 		EmptyCollectionConfig emptyCollectionConfig) {
 
 		this.emptyCollectionConfig = emptyCollectionConfig;
+
+		_emptyCollectionConfigSupplier = () -> emptyCollectionConfig;
 	}
 
 	@JsonIgnore
@@ -198,58 +264,87 @@ public class PageCollectionDefinition implements Serializable {
 		UnsafeSupplier<EmptyCollectionConfig, Exception>
 			emptyCollectionConfigUnsafeSupplier) {
 
-		try {
-			emptyCollectionConfig = emptyCollectionConfigUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		emptyCollectionConfig = null;
+
+		_emptyCollectionConfigSupplier = () -> {
+			try {
+				return emptyCollectionConfigUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected EmptyCollectionConfig emptyCollectionConfig;
 
+	private Supplier<EmptyCollectionConfig> _emptyCollectionConfigSupplier =
+		() -> null;
+
 	@Schema(description = "The fragment style of the page collection.")
 	@Valid
 	public FragmentStyle getFragmentStyle() {
+		if (fragmentStyle != null) {
+			return fragmentStyle;
+		}
+
+		fragmentStyle = _fragmentStyleSupplier.get();
+
 		return fragmentStyle;
 	}
 
 	public void setFragmentStyle(FragmentStyle fragmentStyle) {
 		this.fragmentStyle = fragmentStyle;
+
+		_fragmentStyleSupplier = () -> fragmentStyle;
 	}
 
 	@JsonIgnore
 	public void setFragmentStyle(
 		UnsafeSupplier<FragmentStyle, Exception> fragmentStyleUnsafeSupplier) {
 
-		try {
-			fragmentStyle = fragmentStyleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragmentStyle = null;
+
+		_fragmentStyleSupplier = () -> {
+			try {
+				return fragmentStyleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment style of the page collection.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentStyle fragmentStyle;
 
+	private Supplier<FragmentStyle> _fragmentStyleSupplier = () -> null;
+
 	@Schema(description = "The fragment viewports of the page collection.")
 	@Valid
 	public FragmentViewport[] getFragmentViewports() {
+		if (fragmentViewports != null) {
+			return fragmentViewports;
+		}
+
+		fragmentViewports = _fragmentViewportsSupplier.get();
+
 		return fragmentViewports;
 	}
 
 	public void setFragmentViewports(FragmentViewport[] fragmentViewports) {
 		this.fragmentViewports = fragmentViewports;
+
+		_fragmentViewportsSupplier = () -> fragmentViewports;
 	}
 
 	@JsonIgnore
@@ -257,15 +352,19 @@ public class PageCollectionDefinition implements Serializable {
 		UnsafeSupplier<FragmentViewport[], Exception>
 			fragmentViewportsUnsafeSupplier) {
 
-		try {
-			fragmentViewports = fragmentViewportsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragmentViewports = null;
+
+		_fragmentViewportsSupplier = () -> {
+			try {
+				return fragmentViewportsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -274,59 +373,88 @@ public class PageCollectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentViewport[] fragmentViewports;
 
+	private Supplier<FragmentViewport[]> _fragmentViewportsSupplier =
+		() -> null;
+
 	@Schema(description = "the page section's layout.")
 	@Valid
 	public Layout getLayout() {
+		if (layout != null) {
+			return layout;
+		}
+
+		layout = _layoutSupplier.get();
+
 		return layout;
 	}
 
 	public void setLayout(Layout layout) {
 		this.layout = layout;
+
+		_layoutSupplier = () -> layout;
 	}
 
 	@JsonIgnore
 	public void setLayout(
 		UnsafeSupplier<Layout, Exception> layoutUnsafeSupplier) {
 
-		try {
-			layout = layoutUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		layout = null;
+
+		_layoutSupplier = () -> {
+			try {
+				return layoutUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "the page section's layout.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Layout layout;
 
+	private Supplier<Layout> _layoutSupplier = () -> null;
+
 	@Schema(
 		description = "The style of a list of items in the page collection."
 	)
 	public String getListItemStyle() {
+		if (listItemStyle != null) {
+			return listItemStyle;
+		}
+
+		listItemStyle = _listItemStyleSupplier.get();
+
 		return listItemStyle;
 	}
 
 	public void setListItemStyle(String listItemStyle) {
 		this.listItemStyle = listItemStyle;
+
+		_listItemStyleSupplier = () -> listItemStyle;
 	}
 
 	@JsonIgnore
 	public void setListItemStyle(
 		UnsafeSupplier<String, Exception> listItemStyleUnsafeSupplier) {
 
-		try {
-			listItemStyle = listItemStyleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		listItemStyle = null;
+
+		_listItemStyleSupplier = () -> {
+			try {
+				return listItemStyleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -335,112 +463,168 @@ public class PageCollectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String listItemStyle;
 
+	private Supplier<String> _listItemStyleSupplier = () -> null;
+
 	@Schema(description = "The style of a list in the page collection.")
 	public String getListStyle() {
+		if (listStyle != null) {
+			return listStyle;
+		}
+
+		listStyle = _listStyleSupplier.get();
+
 		return listStyle;
 	}
 
 	public void setListStyle(String listStyle) {
 		this.listStyle = listStyle;
+
+		_listStyleSupplier = () -> listStyle;
 	}
 
 	@JsonIgnore
 	public void setListStyle(
 		UnsafeSupplier<String, Exception> listStyleUnsafeSupplier) {
 
-		try {
-			listStyle = listStyleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		listStyle = null;
+
+		_listStyleSupplier = () -> {
+			try {
+				return listStyleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The style of a list in the page collection.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String listStyle;
 
+	private Supplier<String> _listStyleSupplier = () -> null;
+
 	@Schema(description = "The custom name of a Page Collection.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The custom name of a Page Collection.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema(description = "The number of columns in the page collection.")
 	public Integer getNumberOfColumns() {
+		if (numberOfColumns != null) {
+			return numberOfColumns;
+		}
+
+		numberOfColumns = _numberOfColumnsSupplier.get();
+
 		return numberOfColumns;
 	}
 
 	public void setNumberOfColumns(Integer numberOfColumns) {
 		this.numberOfColumns = numberOfColumns;
+
+		_numberOfColumnsSupplier = () -> numberOfColumns;
 	}
 
 	@JsonIgnore
 	public void setNumberOfColumns(
 		UnsafeSupplier<Integer, Exception> numberOfColumnsUnsafeSupplier) {
 
-		try {
-			numberOfColumns = numberOfColumnsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		numberOfColumns = null;
+
+		_numberOfColumnsSupplier = () -> {
+			try {
+				return numberOfColumnsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The number of columns in the page collection.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer numberOfColumns;
 
+	private Supplier<Integer> _numberOfColumnsSupplier = () -> null;
+
 	@Schema(
 		description = "The maximum number of items to display in the page collection when pagination is disabled."
 	)
 	public Integer getNumberOfItems() {
+		if (numberOfItems != null) {
+			return numberOfItems;
+		}
+
+		numberOfItems = _numberOfItemsSupplier.get();
+
 		return numberOfItems;
 	}
 
 	public void setNumberOfItems(Integer numberOfItems) {
 		this.numberOfItems = numberOfItems;
+
+		_numberOfItemsSupplier = () -> numberOfItems;
 	}
 
 	@JsonIgnore
 	public void setNumberOfItems(
 		UnsafeSupplier<Integer, Exception> numberOfItemsUnsafeSupplier) {
 
-		try {
-			numberOfItems = numberOfItemsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		numberOfItems = null;
+
+		_numberOfItemsSupplier = () -> {
+			try {
+				return numberOfItemsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -449,30 +633,44 @@ public class PageCollectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer numberOfItems;
 
+	private Supplier<Integer> _numberOfItemsSupplier = () -> null;
+
 	@Schema(
 		description = "The number of items per page in the page collection."
 	)
 	public Integer getNumberOfItemsPerPage() {
+		if (numberOfItemsPerPage != null) {
+			return numberOfItemsPerPage;
+		}
+
+		numberOfItemsPerPage = _numberOfItemsPerPageSupplier.get();
+
 		return numberOfItemsPerPage;
 	}
 
 	public void setNumberOfItemsPerPage(Integer numberOfItemsPerPage) {
 		this.numberOfItemsPerPage = numberOfItemsPerPage;
+
+		_numberOfItemsPerPageSupplier = () -> numberOfItemsPerPage;
 	}
 
 	@JsonIgnore
 	public void setNumberOfItemsPerPage(
 		UnsafeSupplier<Integer, Exception> numberOfItemsPerPageUnsafeSupplier) {
 
-		try {
-			numberOfItemsPerPage = numberOfItemsPerPageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		numberOfItemsPerPage = null;
+
+		_numberOfItemsPerPageSupplier = () -> {
+			try {
+				return numberOfItemsPerPageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -481,30 +679,44 @@ public class PageCollectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer numberOfItemsPerPage;
 
+	private Supplier<Integer> _numberOfItemsPerPageSupplier = () -> null;
+
 	@Schema(
 		description = "The maximum number of pages to show when pagination is enabled."
 	)
 	public Integer getNumberOfPages() {
+		if (numberOfPages != null) {
+			return numberOfPages;
+		}
+
+		numberOfPages = _numberOfPagesSupplier.get();
+
 		return numberOfPages;
 	}
 
 	public void setNumberOfPages(Integer numberOfPages) {
 		this.numberOfPages = numberOfPages;
+
+		_numberOfPagesSupplier = () -> numberOfPages;
 	}
 
 	@JsonIgnore
 	public void setNumberOfPages(
 		UnsafeSupplier<Integer, Exception> numberOfPagesUnsafeSupplier) {
 
-		try {
-			numberOfPages = numberOfPagesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		numberOfPages = null;
+
+		_numberOfPagesSupplier = () -> {
+			try {
+				return numberOfPagesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -513,9 +725,17 @@ public class PageCollectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer numberOfPages;
 
+	private Supplier<Integer> _numberOfPagesSupplier = () -> null;
+
 	@Schema(description = "The type of pagination.")
 	@Valid
 	public PaginationType getPaginationType() {
+		if (paginationType != null) {
+			return paginationType;
+		}
+
+		paginationType = _paginationTypeSupplier.get();
+
 		return paginationType;
 	}
 
@@ -530,6 +750,8 @@ public class PageCollectionDefinition implements Serializable {
 
 	public void setPaginationType(PaginationType paginationType) {
 		this.paginationType = paginationType;
+
+		_paginationTypeSupplier = () -> paginationType;
 	}
 
 	@JsonIgnore
@@ -537,46 +759,64 @@ public class PageCollectionDefinition implements Serializable {
 		UnsafeSupplier<PaginationType, Exception>
 			paginationTypeUnsafeSupplier) {
 
-		try {
-			paginationType = paginationTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		paginationType = null;
+
+		_paginationTypeSupplier = () -> {
+			try {
+				return paginationTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The type of pagination.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected PaginationType paginationType;
 
+	private Supplier<PaginationType> _paginationTypeSupplier = () -> null;
+
 	@Schema(
 		deprecated = true,
 		description = "Whether to show all items when pagination is enabled. Deprecated as of Cavanaugh (7.4.x), replaced by displayAllPages"
 	)
 	public Boolean getShowAllItems() {
+		if (showAllItems != null) {
+			return showAllItems;
+		}
+
+		showAllItems = _showAllItemsSupplier.get();
+
 		return showAllItems;
 	}
 
 	public void setShowAllItems(Boolean showAllItems) {
 		this.showAllItems = showAllItems;
+
+		_showAllItemsSupplier = () -> showAllItems;
 	}
 
 	@JsonIgnore
 	public void setShowAllItems(
 		UnsafeSupplier<Boolean, Exception> showAllItemsUnsafeSupplier) {
 
-		try {
-			showAllItems = showAllItemsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		showAllItems = null;
+
+		_showAllItemsSupplier = () -> {
+			try {
+				return showAllItemsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@Deprecated
@@ -586,33 +826,49 @@ public class PageCollectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean showAllItems;
 
+	private Supplier<Boolean> _showAllItemsSupplier = () -> null;
+
 	@Schema(description = "The page collection's template key.")
 	public String getTemplateKey() {
+		if (templateKey != null) {
+			return templateKey;
+		}
+
+		templateKey = _templateKeySupplier.get();
+
 		return templateKey;
 	}
 
 	public void setTemplateKey(String templateKey) {
 		this.templateKey = templateKey;
+
+		_templateKeySupplier = () -> templateKey;
 	}
 
 	@JsonIgnore
 	public void setTemplateKey(
 		UnsafeSupplier<String, Exception> templateKeyUnsafeSupplier) {
 
-		try {
-			templateKey = templateKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		templateKey = null;
+
+		_templateKeySupplier = () -> {
+			try {
+				return templateKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page collection's template key.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String templateKey;
+
+	private Supplier<String> _templateKeySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

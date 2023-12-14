@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,59 +50,87 @@ public class DataLayoutColumn implements Serializable {
 
 	@Schema
 	public Integer getColumnSize() {
+		if (columnSize != null) {
+			return columnSize;
+		}
+
+		columnSize = _columnSizeSupplier.get();
+
 		return columnSize;
 	}
 
 	public void setColumnSize(Integer columnSize) {
 		this.columnSize = columnSize;
+
+		_columnSizeSupplier = () -> columnSize;
 	}
 
 	@JsonIgnore
 	public void setColumnSize(
 		UnsafeSupplier<Integer, Exception> columnSizeUnsafeSupplier) {
 
-		try {
-			columnSize = columnSizeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		columnSize = null;
+
+		_columnSizeSupplier = () -> {
+			try {
+				return columnSizeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer columnSize;
 
+	private Supplier<Integer> _columnSizeSupplier = () -> null;
+
 	@Schema
 	public String[] getFieldNames() {
+		if (fieldNames != null) {
+			return fieldNames;
+		}
+
+		fieldNames = _fieldNamesSupplier.get();
+
 		return fieldNames;
 	}
 
 	public void setFieldNames(String[] fieldNames) {
 		this.fieldNames = fieldNames;
+
+		_fieldNamesSupplier = () -> fieldNames;
 	}
 
 	@JsonIgnore
 	public void setFieldNames(
 		UnsafeSupplier<String[], Exception> fieldNamesUnsafeSupplier) {
 
-		try {
-			fieldNames = fieldNamesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fieldNames = null;
+
+		_fieldNamesSupplier = () -> {
+			try {
+				return fieldNamesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] fieldNames;
+
+	private Supplier<String[]> _fieldNamesSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,11 +53,19 @@ public class DataLayoutPage implements Serializable {
 	@Schema
 	@Valid
 	public DataLayoutRow[] getDataLayoutRows() {
+		if (dataLayoutRows != null) {
+			return dataLayoutRows;
+		}
+
+		dataLayoutRows = _dataLayoutRowsSupplier.get();
+
 		return dataLayoutRows;
 	}
 
 	public void setDataLayoutRows(DataLayoutRow[] dataLayoutRows) {
 		this.dataLayoutRows = dataLayoutRows;
+
+		_dataLayoutRowsSupplier = () -> dataLayoutRows;
 	}
 
 	@JsonIgnore
@@ -64,29 +73,43 @@ public class DataLayoutPage implements Serializable {
 		UnsafeSupplier<DataLayoutRow[], Exception>
 			dataLayoutRowsUnsafeSupplier) {
 
-		try {
-			dataLayoutRows = dataLayoutRowsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dataLayoutRows = null;
+
+		_dataLayoutRowsSupplier = () -> {
+			try {
+				return dataLayoutRowsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected DataLayoutRow[] dataLayoutRows;
 
+	private Supplier<DataLayoutRow[]> _dataLayoutRowsSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, Object> getDescription() {
+		if (description != null) {
+			return description;
+		}
+
+		description = _descriptionSupplier.get();
+
 		return description;
 	}
 
 	public void setDescription(Map<String, Object> description) {
 		this.description = description;
+
+		_descriptionSupplier = () -> description;
 	}
 
 	@JsonIgnore
@@ -94,49 +117,69 @@ public class DataLayoutPage implements Serializable {
 		UnsafeSupplier<Map<String, Object>, Exception>
 			descriptionUnsafeSupplier) {
 
-		try {
-			description = descriptionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description = null;
+
+		_descriptionSupplier = () -> {
+			try {
+				return descriptionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, Object> description;
 
+	private Supplier<Map<String, Object>> _descriptionSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, Object> getTitle() {
+		if (title != null) {
+			return title;
+		}
+
+		title = _titleSupplier.get();
+
 		return title;
 	}
 
 	public void setTitle(Map<String, Object> title) {
 		this.title = title;
+
+		_titleSupplier = () -> title;
 	}
 
 	@JsonIgnore
 	public void setTitle(
 		UnsafeSupplier<Map<String, Object>, Exception> titleUnsafeSupplier) {
 
-		try {
-			title = titleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		title = null;
+
+		_titleSupplier = () -> {
+			try {
+				return titleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, Object> title;
+
+	private Supplier<Map<String, Object>> _titleSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

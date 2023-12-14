@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,66 +54,102 @@ public class Status implements Serializable {
 
 	@Schema(description = "A number which identifies a specific status")
 	public Integer getCode() {
+		if (code != null) {
+			return code;
+		}
+
+		code = _codeSupplier.get();
+
 		return code;
 	}
 
 	public void setCode(Integer code) {
 		this.code = code;
+
+		_codeSupplier = () -> code;
 	}
 
 	@JsonIgnore
 	public void setCode(UnsafeSupplier<Integer, Exception> codeUnsafeSupplier) {
-		try {
-			code = codeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		code = null;
+
+		_codeSupplier = () -> {
+			try {
+				return codeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "A number which identifies a specific status")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer code;
 
+	private Supplier<Integer> _codeSupplier = () -> null;
+
 	@Schema(description = "Label associated to the status")
 	public String getLabel() {
+		if (label != null) {
+			return label;
+		}
+
+		label = _labelSupplier.get();
+
 		return label;
 	}
 
 	public void setLabel(String label) {
 		this.label = label;
+
+		_labelSupplier = () -> label;
 	}
 
 	@JsonIgnore
 	public void setLabel(
 		UnsafeSupplier<String, Exception> labelUnsafeSupplier) {
 
-		try {
-			label = labelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		label = null;
+
+		_labelSupplier = () -> {
+			try {
+				return labelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Label associated to the status")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String label;
 
+	private Supplier<String> _labelSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, String> getLabel_i18n() {
+		if (label_i18n != null) {
+			return label_i18n;
+		}
+
+		label_i18n = _label_i18nSupplier.get();
+
 		return label_i18n;
 	}
 
 	public void setLabel_i18n(Map<String, String> label_i18n) {
 		this.label_i18n = label_i18n;
+
+		_label_i18nSupplier = () -> label_i18n;
 	}
 
 	@JsonIgnore
@@ -120,20 +157,26 @@ public class Status implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			label_i18nUnsafeSupplier) {
 
-		try {
-			label_i18n = label_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		label_i18n = null;
+
+		_label_i18nSupplier = () -> {
+			try {
+				return label_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, String> label_i18n;
+
+	private Supplier<Map<String, String>> _label_i18nSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

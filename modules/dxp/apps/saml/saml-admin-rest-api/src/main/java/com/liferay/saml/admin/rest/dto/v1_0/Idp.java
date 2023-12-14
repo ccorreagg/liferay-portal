@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,6 +53,13 @@ public class Idp implements Serializable {
 
 	@Schema
 	public Boolean getAuthnRequestSignatureRequired() {
+		if (authnRequestSignatureRequired != null) {
+			return authnRequestSignatureRequired;
+		}
+
+		authnRequestSignatureRequired =
+			_authnRequestSignatureRequiredSupplier.get();
+
 		return authnRequestSignatureRequired;
 	}
 
@@ -59,6 +67,9 @@ public class Idp implements Serializable {
 		Boolean authnRequestSignatureRequired) {
 
 		this.authnRequestSignatureRequired = authnRequestSignatureRequired;
+
+		_authnRequestSignatureRequiredSupplier =
+			() -> authnRequestSignatureRequired;
 	}
 
 	@JsonIgnore
@@ -66,29 +77,43 @@ public class Idp implements Serializable {
 		UnsafeSupplier<Boolean, Exception>
 			authnRequestSignatureRequiredUnsafeSupplier) {
 
-		try {
-			authnRequestSignatureRequired =
-				authnRequestSignatureRequiredUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		authnRequestSignatureRequired = null;
+
+		_authnRequestSignatureRequiredSupplier = () -> {
+			try {
+				return authnRequestSignatureRequiredUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean authnRequestSignatureRequired;
 
+	private Supplier<Boolean> _authnRequestSignatureRequiredSupplier =
+		() -> null;
+
 	@Schema
 	public Integer getDefaultAssertionLifetime() {
+		if (defaultAssertionLifetime != null) {
+			return defaultAssertionLifetime;
+		}
+
+		defaultAssertionLifetime = _defaultAssertionLifetimeSupplier.get();
+
 		return defaultAssertionLifetime;
 	}
 
 	public void setDefaultAssertionLifetime(Integer defaultAssertionLifetime) {
 		this.defaultAssertionLifetime = defaultAssertionLifetime;
+
+		_defaultAssertionLifetimeSupplier = () -> defaultAssertionLifetime;
 	}
 
 	@JsonIgnore
@@ -96,77 +121,110 @@ public class Idp implements Serializable {
 		UnsafeSupplier<Integer, Exception>
 			defaultAssertionLifetimeUnsafeSupplier) {
 
-		try {
-			defaultAssertionLifetime =
-				defaultAssertionLifetimeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		defaultAssertionLifetime = null;
+
+		_defaultAssertionLifetimeSupplier = () -> {
+			try {
+				return defaultAssertionLifetimeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer defaultAssertionLifetime;
 
+	private Supplier<Integer> _defaultAssertionLifetimeSupplier = () -> null;
+
 	@Schema
 	public Long getSessionMaximumAge() {
+		if (sessionMaximumAge != null) {
+			return sessionMaximumAge;
+		}
+
+		sessionMaximumAge = _sessionMaximumAgeSupplier.get();
+
 		return sessionMaximumAge;
 	}
 
 	public void setSessionMaximumAge(Long sessionMaximumAge) {
 		this.sessionMaximumAge = sessionMaximumAge;
+
+		_sessionMaximumAgeSupplier = () -> sessionMaximumAge;
 	}
 
 	@JsonIgnore
 	public void setSessionMaximumAge(
 		UnsafeSupplier<Long, Exception> sessionMaximumAgeUnsafeSupplier) {
 
-		try {
-			sessionMaximumAge = sessionMaximumAgeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		sessionMaximumAge = null;
+
+		_sessionMaximumAgeSupplier = () -> {
+			try {
+				return sessionMaximumAgeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long sessionMaximumAge;
 
+	private Supplier<Long> _sessionMaximumAgeSupplier = () -> null;
+
 	@Schema
 	public Long getSessionTimeout() {
+		if (sessionTimeout != null) {
+			return sessionTimeout;
+		}
+
+		sessionTimeout = _sessionTimeoutSupplier.get();
+
 		return sessionTimeout;
 	}
 
 	public void setSessionTimeout(Long sessionTimeout) {
 		this.sessionTimeout = sessionTimeout;
+
+		_sessionTimeoutSupplier = () -> sessionTimeout;
 	}
 
 	@JsonIgnore
 	public void setSessionTimeout(
 		UnsafeSupplier<Long, Exception> sessionTimeoutUnsafeSupplier) {
 
-		try {
-			sessionTimeout = sessionTimeoutUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		sessionTimeout = null;
+
+		_sessionTimeoutSupplier = () -> {
+			try {
+				return sessionTimeoutUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long sessionTimeout;
+
+	private Supplier<Long> _sessionTimeoutSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,6 +54,12 @@ public class KeywordBulkSelection implements Serializable {
 	@Schema
 	@Valid
 	public DocumentBulkSelection getDocumentBulkSelection() {
+		if (documentBulkSelection != null) {
+			return documentBulkSelection;
+		}
+
+		documentBulkSelection = _documentBulkSelectionSupplier.get();
+
 		return documentBulkSelection;
 	}
 
@@ -60,6 +67,8 @@ public class KeywordBulkSelection implements Serializable {
 		DocumentBulkSelection documentBulkSelection) {
 
 		this.documentBulkSelection = documentBulkSelection;
+
+		_documentBulkSelectionSupplier = () -> documentBulkSelection;
 	}
 
 	@JsonIgnore
@@ -67,76 +76,111 @@ public class KeywordBulkSelection implements Serializable {
 		UnsafeSupplier<DocumentBulkSelection, Exception>
 			documentBulkSelectionUnsafeSupplier) {
 
-		try {
-			documentBulkSelection = documentBulkSelectionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		documentBulkSelection = null;
+
+		_documentBulkSelectionSupplier = () -> {
+			try {
+				return documentBulkSelectionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected DocumentBulkSelection documentBulkSelection;
 
+	private Supplier<DocumentBulkSelection> _documentBulkSelectionSupplier =
+		() -> null;
+
 	@Schema
 	public String[] getKeywordsToAdd() {
+		if (keywordsToAdd != null) {
+			return keywordsToAdd;
+		}
+
+		keywordsToAdd = _keywordsToAddSupplier.get();
+
 		return keywordsToAdd;
 	}
 
 	public void setKeywordsToAdd(String[] keywordsToAdd) {
 		this.keywordsToAdd = keywordsToAdd;
+
+		_keywordsToAddSupplier = () -> keywordsToAdd;
 	}
 
 	@JsonIgnore
 	public void setKeywordsToAdd(
 		UnsafeSupplier<String[], Exception> keywordsToAddUnsafeSupplier) {
 
-		try {
-			keywordsToAdd = keywordsToAddUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		keywordsToAdd = null;
+
+		_keywordsToAddSupplier = () -> {
+			try {
+				return keywordsToAddUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] keywordsToAdd;
 
+	private Supplier<String[]> _keywordsToAddSupplier = () -> null;
+
 	@Schema
 	public String[] getKeywordsToRemove() {
+		if (keywordsToRemove != null) {
+			return keywordsToRemove;
+		}
+
+		keywordsToRemove = _keywordsToRemoveSupplier.get();
+
 		return keywordsToRemove;
 	}
 
 	public void setKeywordsToRemove(String[] keywordsToRemove) {
 		this.keywordsToRemove = keywordsToRemove;
+
+		_keywordsToRemoveSupplier = () -> keywordsToRemove;
 	}
 
 	@JsonIgnore
 	public void setKeywordsToRemove(
 		UnsafeSupplier<String[], Exception> keywordsToRemoveUnsafeSupplier) {
 
-		try {
-			keywordsToRemove = keywordsToRemoveUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		keywordsToRemove = null;
+
+		_keywordsToRemoveSupplier = () -> {
+			try {
+				return keywordsToRemoveUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] keywordsToRemove;
+
+	private Supplier<String[]> _keywordsToRemoveSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

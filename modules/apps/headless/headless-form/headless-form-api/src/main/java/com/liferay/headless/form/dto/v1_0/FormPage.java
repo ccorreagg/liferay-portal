@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,68 +55,104 @@ public class FormPage implements Serializable {
 	@Schema
 	@Valid
 	public FormField[] getFormFields() {
+		if (formFields != null) {
+			return formFields;
+		}
+
+		formFields = _formFieldsSupplier.get();
+
 		return formFields;
 	}
 
 	public void setFormFields(FormField[] formFields) {
 		this.formFields = formFields;
+
+		_formFieldsSupplier = () -> formFields;
 	}
 
 	@JsonIgnore
 	public void setFormFields(
 		UnsafeSupplier<FormField[], Exception> formFieldsUnsafeSupplier) {
 
-		try {
-			formFields = formFieldsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		formFields = null;
+
+		_formFieldsSupplier = () -> {
+			try {
+				return formFieldsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FormField[] formFields;
 
+	private Supplier<FormField[]> _formFieldsSupplier = () -> null;
+
 	@Schema
 	public String getHeadline() {
+		if (headline != null) {
+			return headline;
+		}
+
+		headline = _headlineSupplier.get();
+
 		return headline;
 	}
 
 	public void setHeadline(String headline) {
 		this.headline = headline;
+
+		_headlineSupplier = () -> headline;
 	}
 
 	@JsonIgnore
 	public void setHeadline(
 		UnsafeSupplier<String, Exception> headlineUnsafeSupplier) {
 
-		try {
-			headline = headlineUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		headline = null;
+
+		_headlineSupplier = () -> {
+			try {
+				return headlineUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String headline;
 
+	private Supplier<String> _headlineSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, String> getHeadline_i18n() {
+		if (headline_i18n != null) {
+			return headline_i18n;
+		}
+
+		headline_i18n = _headline_i18nSupplier.get();
+
 		return headline_i18n;
 	}
 
 	public void setHeadline_i18n(Map<String, String> headline_i18n) {
 		this.headline_i18n = headline_i18n;
+
+		_headline_i18nSupplier = () -> headline_i18n;
 	}
 
 	@JsonIgnore
@@ -123,81 +160,123 @@ public class FormPage implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			headline_i18nUnsafeSupplier) {
 
-		try {
-			headline_i18n = headline_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		headline_i18n = null;
+
+		_headline_i18nSupplier = () -> {
+			try {
+				return headline_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> headline_i18n;
 
+	private Supplier<Map<String, String>> _headline_i18nSupplier = () -> null;
+
 	@Schema
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema
 	public String getText() {
+		if (text != null) {
+			return text;
+		}
+
+		text = _textSupplier.get();
+
 		return text;
 	}
 
 	public void setText(String text) {
 		this.text = text;
+
+		_textSupplier = () -> text;
 	}
 
 	@JsonIgnore
 	public void setText(UnsafeSupplier<String, Exception> textUnsafeSupplier) {
-		try {
-			text = textUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		text = null;
+
+		_textSupplier = () -> {
+			try {
+				return textUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String text;
 
+	private Supplier<String> _textSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, String> getText_i18n() {
+		if (text_i18n != null) {
+			return text_i18n;
+		}
+
+		text_i18n = _text_i18nSupplier.get();
+
 		return text_i18n;
 	}
 
 	public void setText_i18n(Map<String, String> text_i18n) {
 		this.text_i18n = text_i18n;
+
+		_text_i18nSupplier = () -> text_i18n;
 	}
 
 	@JsonIgnore
@@ -205,20 +284,26 @@ public class FormPage implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			text_i18nUnsafeSupplier) {
 
-		try {
-			text_i18n = text_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		text_i18n = null;
+
+		_text_i18nSupplier = () -> {
+			try {
+				return text_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> text_i18n;
+
+	private Supplier<Map<String, String>> _text_i18nSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

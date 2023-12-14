@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,40 +55,62 @@ public class FormSuccessPage implements Serializable {
 
 	@Schema
 	public String getDescription() {
+		if (description != null) {
+			return description;
+		}
+
+		description = _descriptionSupplier.get();
+
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+
+		_descriptionSupplier = () -> description;
 	}
 
 	@JsonIgnore
 	public void setDescription(
 		UnsafeSupplier<String, Exception> descriptionUnsafeSupplier) {
 
-		try {
-			description = descriptionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description = null;
+
+		_descriptionSupplier = () -> {
+			try {
+				return descriptionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
+	private Supplier<String> _descriptionSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, String> getDescription_i18n() {
+		if (description_i18n != null) {
+			return description_i18n;
+		}
+
+		description_i18n = _description_i18nSupplier.get();
+
 		return description_i18n;
 	}
 
 	public void setDescription_i18n(Map<String, String> description_i18n) {
 		this.description_i18n = description_i18n;
+
+		_description_i18nSupplier = () -> description_i18n;
 	}
 
 	@JsonIgnore
@@ -95,57 +118,86 @@ public class FormSuccessPage implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			description_i18nUnsafeSupplier) {
 
-		try {
-			description_i18n = description_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description_i18n = null;
+
+		_description_i18nSupplier = () -> {
+			try {
+				return description_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> description_i18n;
 
+	private Supplier<Map<String, String>> _description_i18nSupplier =
+		() -> null;
+
 	@Schema
 	public String getHeadline() {
+		if (headline != null) {
+			return headline;
+		}
+
+		headline = _headlineSupplier.get();
+
 		return headline;
 	}
 
 	public void setHeadline(String headline) {
 		this.headline = headline;
+
+		_headlineSupplier = () -> headline;
 	}
 
 	@JsonIgnore
 	public void setHeadline(
 		UnsafeSupplier<String, Exception> headlineUnsafeSupplier) {
 
-		try {
-			headline = headlineUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		headline = null;
+
+		_headlineSupplier = () -> {
+			try {
+				return headlineUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String headline;
 
+	private Supplier<String> _headlineSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, String> getHeadline_i18n() {
+		if (headline_i18n != null) {
+			return headline_i18n;
+		}
+
+		headline_i18n = _headline_i18nSupplier.get();
+
 		return headline_i18n;
 	}
 
 	public void setHeadline_i18n(Map<String, String> headline_i18n) {
 		this.headline_i18n = headline_i18n;
+
+		_headline_i18nSupplier = () -> headline_i18n;
 	}
 
 	@JsonIgnore
@@ -153,46 +205,66 @@ public class FormSuccessPage implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			headline_i18nUnsafeSupplier) {
 
-		try {
-			headline_i18n = headline_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		headline_i18n = null;
+
+		_headline_i18nSupplier = () -> {
+			try {
+				return headline_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> headline_i18n;
 
+	private Supplier<Map<String, String>> _headline_i18nSupplier = () -> null;
+
 	@Schema
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
+
+	private Supplier<Long> _idSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

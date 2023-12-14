@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,88 +54,130 @@ public class AdvancedConfiguration implements Serializable {
 	@Schema
 	@Valid
 	public Collapse getCollapse() {
+		if (collapse != null) {
+			return collapse;
+		}
+
+		collapse = _collapseSupplier.get();
+
 		return collapse;
 	}
 
 	public void setCollapse(Collapse collapse) {
 		this.collapse = collapse;
+
+		_collapseSupplier = () -> collapse;
 	}
 
 	@JsonIgnore
 	public void setCollapse(
 		UnsafeSupplier<Collapse, Exception> collapseUnsafeSupplier) {
 
-		try {
-			collapse = collapseUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		collapse = null;
+
+		_collapseSupplier = () -> {
+			try {
+				return collapseUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Collapse collapse;
 
+	private Supplier<Collapse> _collapseSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Source getSource() {
+		if (source != null) {
+			return source;
+		}
+
+		source = _sourceSupplier.get();
+
 		return source;
 	}
 
 	public void setSource(Source source) {
 		this.source = source;
+
+		_sourceSupplier = () -> source;
 	}
 
 	@JsonIgnore
 	public void setSource(
 		UnsafeSupplier<Source, Exception> sourceUnsafeSupplier) {
 
-		try {
-			source = sourceUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		source = null;
+
+		_sourceSupplier = () -> {
+			try {
+				return sourceUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Source source;
 
+	private Supplier<Source> _sourceSupplier = () -> null;
+
 	@Schema
 	public String[] getStored_fields() {
+		if (stored_fields != null) {
+			return stored_fields;
+		}
+
+		stored_fields = _stored_fieldsSupplier.get();
+
 		return stored_fields;
 	}
 
 	public void setStored_fields(String[] stored_fields) {
 		this.stored_fields = stored_fields;
+
+		_stored_fieldsSupplier = () -> stored_fields;
 	}
 
 	@JsonIgnore
 	public void setStored_fields(
 		UnsafeSupplier<String[], Exception> stored_fieldsUnsafeSupplier) {
 
-		try {
-			stored_fields = stored_fieldsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		stored_fields = null;
+
+		_stored_fieldsSupplier = () -> {
+			try {
+				return stored_fieldsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] stored_fields;
+
+	private Supplier<String[]> _stored_fieldsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,83 +50,125 @@ public class FieldMappingInfo implements Serializable {
 
 	@Schema
 	public Integer getLanguageIdPosition() {
+		if (languageIdPosition != null) {
+			return languageIdPosition;
+		}
+
+		languageIdPosition = _languageIdPositionSupplier.get();
+
 		return languageIdPosition;
 	}
 
 	public void setLanguageIdPosition(Integer languageIdPosition) {
 		this.languageIdPosition = languageIdPosition;
+
+		_languageIdPositionSupplier = () -> languageIdPosition;
 	}
 
 	@JsonIgnore
 	public void setLanguageIdPosition(
 		UnsafeSupplier<Integer, Exception> languageIdPositionUnsafeSupplier) {
 
-		try {
-			languageIdPosition = languageIdPositionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		languageIdPosition = null;
+
+		_languageIdPositionSupplier = () -> {
+			try {
+				return languageIdPositionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer languageIdPosition;
 
+	private Supplier<Integer> _languageIdPositionSupplier = () -> null;
+
 	@Schema
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema
 	public String getType() {
+		if (type != null) {
+			return type;
+		}
+
+		type = _typeSupplier.get();
+
 		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
+
+		_typeSupplier = () -> type;
 	}
 
 	@JsonIgnore
 	public void setType(UnsafeSupplier<String, Exception> typeUnsafeSupplier) {
-		try {
-			type = typeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		type = null;
+
+		_typeSupplier = () -> {
+			try {
+				return typeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String type;
+
+	private Supplier<String> _typeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

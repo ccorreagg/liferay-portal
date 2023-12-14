@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,6 +58,12 @@ public class FragmentImageClassPKReference implements Serializable {
 	@Schema(description = "A map of class primary key references.")
 	@Valid
 	public Map<String, ClassPKReference> getClassPKReferences() {
+		if (classPKReferences != null) {
+			return classPKReferences;
+		}
+
+		classPKReferences = _classPKReferencesSupplier.get();
+
 		return classPKReferences;
 	}
 
@@ -64,6 +71,8 @@ public class FragmentImageClassPKReference implements Serializable {
 		Map<String, ClassPKReference> classPKReferences) {
 
 		this.classPKReferences = classPKReferences;
+
+		_classPKReferencesSupplier = () -> classPKReferences;
 	}
 
 	@JsonIgnore
@@ -71,24 +80,37 @@ public class FragmentImageClassPKReference implements Serializable {
 		UnsafeSupplier<Map<String, ClassPKReference>, Exception>
 			classPKReferencesUnsafeSupplier) {
 
-		try {
-			classPKReferences = classPKReferencesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		classPKReferences = null;
+
+		_classPKReferencesSupplier = () -> {
+			try {
+				return classPKReferencesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "A map of class primary key references.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, ClassPKReference> classPKReferences;
 
+	private Supplier<Map<String, ClassPKReference>> _classPKReferencesSupplier =
+		() -> null;
+
 	@Schema(description = "The fragment image's configuration.")
 	@Valid
 	public FragmentImageConfiguration getFragmentImageConfiguration() {
+		if (fragmentImageConfiguration != null) {
+			return fragmentImageConfiguration;
+		}
+
+		fragmentImageConfiguration = _fragmentImageConfigurationSupplier.get();
+
 		return fragmentImageConfiguration;
 	}
 
@@ -96,6 +118,8 @@ public class FragmentImageClassPKReference implements Serializable {
 		FragmentImageConfiguration fragmentImageConfiguration) {
 
 		this.fragmentImageConfiguration = fragmentImageConfiguration;
+
+		_fragmentImageConfigurationSupplier = () -> fragmentImageConfiguration;
 	}
 
 	@JsonIgnore
@@ -103,21 +127,27 @@ public class FragmentImageClassPKReference implements Serializable {
 		UnsafeSupplier<FragmentImageConfiguration, Exception>
 			fragmentImageConfigurationUnsafeSupplier) {
 
-		try {
-			fragmentImageConfiguration =
-				fragmentImageConfigurationUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragmentImageConfiguration = null;
+
+		_fragmentImageConfigurationSupplier = () -> {
+			try {
+				return fragmentImageConfigurationUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment image's configuration.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentImageConfiguration fragmentImageConfiguration;
+
+	private Supplier<FragmentImageConfiguration>
+		_fragmentImageConfigurationSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,26 +53,38 @@ public class Status implements Serializable {
 
 	@Schema
 	public String getStatus() {
+		if (status != null) {
+			return status;
+		}
+
+		status = _statusSupplier.get();
+
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+
+		_statusSupplier = () -> status;
 	}
 
 	@JsonIgnore
 	public void setStatus(
 		UnsafeSupplier<String, Exception> statusUnsafeSupplier) {
 
-		try {
-			status = statusUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		status = null;
+
+		_statusSupplier = () -> {
+			try {
+				return statusUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
@@ -79,33 +92,49 @@ public class Status implements Serializable {
 	@NotEmpty
 	protected String status;
 
+	private Supplier<String> _statusSupplier = () -> null;
+
 	@Schema
 	public String getWinnerVariantId() {
+		if (winnerVariantId != null) {
+			return winnerVariantId;
+		}
+
+		winnerVariantId = _winnerVariantIdSupplier.get();
+
 		return winnerVariantId;
 	}
 
 	public void setWinnerVariantId(String winnerVariantId) {
 		this.winnerVariantId = winnerVariantId;
+
+		_winnerVariantIdSupplier = () -> winnerVariantId;
 	}
 
 	@JsonIgnore
 	public void setWinnerVariantId(
 		UnsafeSupplier<String, Exception> winnerVariantIdUnsafeSupplier) {
 
-		try {
-			winnerVariantId = winnerVariantIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		winnerVariantId = null;
+
+		_winnerVariantIdSupplier = () -> {
+			try {
+				return winnerVariantIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String winnerVariantId;
+
+	private Supplier<String> _winnerVariantIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

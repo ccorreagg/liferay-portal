@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,31 +53,45 @@ public class DocumentField implements Serializable {
 	@Schema
 	@Valid
 	public Object[] getValues() {
+		if (values != null) {
+			return values;
+		}
+
+		values = _valuesSupplier.get();
+
 		return values;
 	}
 
 	public void setValues(Object[] values) {
 		this.values = values;
+
+		_valuesSupplier = () -> values;
 	}
 
 	@JsonIgnore
 	public void setValues(
 		UnsafeSupplier<Object[], Exception> valuesUnsafeSupplier) {
 
-		try {
-			values = valuesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		values = null;
+
+		_valuesSupplier = () -> {
+			try {
+				return valuesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object[] values;
+
+	private Supplier<Object[]> _valuesSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

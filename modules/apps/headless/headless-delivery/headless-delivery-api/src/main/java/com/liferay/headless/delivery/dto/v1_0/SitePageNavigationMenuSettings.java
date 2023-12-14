@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -58,56 +59,82 @@ public class SitePageNavigationMenuSettings implements Serializable {
 
 	@Schema(description = "The default parameter for a page.")
 	public String getQueryString() {
+		if (queryString != null) {
+			return queryString;
+		}
+
+		queryString = _queryStringSupplier.get();
+
 		return queryString;
 	}
 
 	public void setQueryString(String queryString) {
 		this.queryString = queryString;
+
+		_queryStringSupplier = () -> queryString;
 	}
 
 	@JsonIgnore
 	public void setQueryString(
 		UnsafeSupplier<String, Exception> queryStringUnsafeSupplier) {
 
-		try {
-			queryString = queryStringUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		queryString = null;
+
+		_queryStringSupplier = () -> {
+			try {
+				return queryStringUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The default parameter for a page.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String queryString;
 
+	private Supplier<String> _queryStringSupplier = () -> null;
+
 	@Schema(
 		description = "The page's description to be used as summary for search engines."
 	)
 	public String getTarget() {
+		if (target != null) {
+			return target;
+		}
+
+		target = _targetSupplier.get();
+
 		return target;
 	}
 
 	public void setTarget(String target) {
 		this.target = target;
+
+		_targetSupplier = () -> target;
 	}
 
 	@JsonIgnore
 	public void setTarget(
 		UnsafeSupplier<String, Exception> targetUnsafeSupplier) {
 
-		try {
-			target = targetUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		target = null;
+
+		_targetSupplier = () -> {
+			try {
+				return targetUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -116,9 +143,17 @@ public class SitePageNavigationMenuSettings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String target;
 
+	private Supplier<String> _targetSupplier = () -> null;
+
 	@Schema(description = "The target's type (specific frame or new tab).")
 	@Valid
 	public TargetType getTargetType() {
+		if (targetType != null) {
+			return targetType;
+		}
+
+		targetType = _targetTypeSupplier.get();
+
 		return targetType;
 	}
 
@@ -133,21 +168,27 @@ public class SitePageNavigationMenuSettings implements Serializable {
 
 	public void setTargetType(TargetType targetType) {
 		this.targetType = targetType;
+
+		_targetTypeSupplier = () -> targetType;
 	}
 
 	@JsonIgnore
 	public void setTargetType(
 		UnsafeSupplier<TargetType, Exception> targetTypeUnsafeSupplier) {
 
-		try {
-			targetType = targetTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		targetType = null;
+
+		_targetTypeSupplier = () -> {
+			try {
+				return targetTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -155,6 +196,8 @@ public class SitePageNavigationMenuSettings implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected TargetType targetType;
+
+	private Supplier<TargetType> _targetTypeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

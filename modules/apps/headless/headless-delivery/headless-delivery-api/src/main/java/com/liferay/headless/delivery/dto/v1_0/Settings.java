@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,92 +55,140 @@ public class Settings implements Serializable {
 
 	@Schema(description = "The page's color scheme name.")
 	public String getColorSchemeName() {
+		if (colorSchemeName != null) {
+			return colorSchemeName;
+		}
+
+		colorSchemeName = _colorSchemeNameSupplier.get();
+
 		return colorSchemeName;
 	}
 
 	public void setColorSchemeName(String colorSchemeName) {
 		this.colorSchemeName = colorSchemeName;
+
+		_colorSchemeNameSupplier = () -> colorSchemeName;
 	}
 
 	@JsonIgnore
 	public void setColorSchemeName(
 		UnsafeSupplier<String, Exception> colorSchemeNameUnsafeSupplier) {
 
-		try {
-			colorSchemeName = colorSchemeNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		colorSchemeName = null;
+
+		_colorSchemeNameSupplier = () -> {
+			try {
+				return colorSchemeNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's color scheme name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String colorSchemeName;
 
+	private Supplier<String> _colorSchemeNameSupplier = () -> null;
+
 	@Schema(description = "The page's CSS.")
 	public String getCss() {
+		if (css != null) {
+			return css;
+		}
+
+		css = _cssSupplier.get();
+
 		return css;
 	}
 
 	public void setCss(String css) {
 		this.css = css;
+
+		_cssSupplier = () -> css;
 	}
 
 	@JsonIgnore
 	public void setCss(UnsafeSupplier<String, Exception> cssUnsafeSupplier) {
-		try {
-			css = cssUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		css = null;
+
+		_cssSupplier = () -> {
+			try {
+				return cssUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's CSS.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String css;
 
+	private Supplier<String> _cssSupplier = () -> null;
+
 	@Schema(description = "The FavIcon of the page")
 	@Valid
 	public Object getFavIcon() {
+		if (favIcon != null) {
+			return favIcon;
+		}
+
+		favIcon = _favIconSupplier.get();
+
 		return favIcon;
 	}
 
 	public void setFavIcon(Object favIcon) {
 		this.favIcon = favIcon;
+
+		_favIconSupplier = () -> favIcon;
 	}
 
 	@JsonIgnore
 	public void setFavIcon(
 		UnsafeSupplier<Object, Exception> favIconUnsafeSupplier) {
 
-		try {
-			favIcon = favIconUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		favIcon = null;
+
+		_favIconSupplier = () -> {
+			try {
+				return favIconUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The FavIcon of the page")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object favIcon;
 
+	private Supplier<Object> _favIconSupplier = () -> null;
+
 	@Schema(
 		description = "The client extensions for global css associated to the page."
 	)
 	@Valid
 	public ClientExtension[] getGlobalCSSClientExtensions() {
+		if (globalCSSClientExtensions != null) {
+			return globalCSSClientExtensions;
+		}
+
+		globalCSSClientExtensions = _globalCSSClientExtensionsSupplier.get();
+
 		return globalCSSClientExtensions;
 	}
 
@@ -147,6 +196,8 @@ public class Settings implements Serializable {
 		ClientExtension[] globalCSSClientExtensions) {
 
 		this.globalCSSClientExtensions = globalCSSClientExtensions;
+
+		_globalCSSClientExtensionsSupplier = () -> globalCSSClientExtensions;
 	}
 
 	@JsonIgnore
@@ -154,16 +205,19 @@ public class Settings implements Serializable {
 		UnsafeSupplier<ClientExtension[], Exception>
 			globalCSSClientExtensionsUnsafeSupplier) {
 
-		try {
-			globalCSSClientExtensions =
-				globalCSSClientExtensionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		globalCSSClientExtensions = null;
+
+		_globalCSSClientExtensionsSupplier = () -> {
+			try {
+				return globalCSSClientExtensionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -172,11 +226,20 @@ public class Settings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ClientExtension[] globalCSSClientExtensions;
 
+	private Supplier<ClientExtension[]> _globalCSSClientExtensionsSupplier =
+		() -> null;
+
 	@Schema(
 		description = "The client extensions for global js associated to the page."
 	)
 	@Valid
 	public ClientExtension[] getGlobalJSClientExtensions() {
+		if (globalJSClientExtensions != null) {
+			return globalJSClientExtensions;
+		}
+
+		globalJSClientExtensions = _globalJSClientExtensionsSupplier.get();
+
 		return globalJSClientExtensions;
 	}
 
@@ -184,6 +247,8 @@ public class Settings implements Serializable {
 		ClientExtension[] globalJSClientExtensions) {
 
 		this.globalJSClientExtensions = globalJSClientExtensions;
+
+		_globalJSClientExtensionsSupplier = () -> globalJSClientExtensions;
 	}
 
 	@JsonIgnore
@@ -191,16 +256,19 @@ public class Settings implements Serializable {
 		UnsafeSupplier<ClientExtension[], Exception>
 			globalJSClientExtensionsUnsafeSupplier) {
 
-		try {
-			globalJSClientExtensions =
-				globalJSClientExtensionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		globalJSClientExtensions = null;
+
+		_globalJSClientExtensionsSupplier = () -> {
+			try {
+				return globalJSClientExtensionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -209,95 +277,146 @@ public class Settings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ClientExtension[] globalJSClientExtensions;
 
+	private Supplier<ClientExtension[]> _globalJSClientExtensionsSupplier =
+		() -> null;
+
 	@Schema(description = "The page's JavaScript.")
 	public String getJavascript() {
+		if (javascript != null) {
+			return javascript;
+		}
+
+		javascript = _javascriptSupplier.get();
+
 		return javascript;
 	}
 
 	public void setJavascript(String javascript) {
 		this.javascript = javascript;
+
+		_javascriptSupplier = () -> javascript;
 	}
 
 	@JsonIgnore
 	public void setJavascript(
 		UnsafeSupplier<String, Exception> javascriptUnsafeSupplier) {
 
-		try {
-			javascript = javascriptUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		javascript = null;
+
+		_javascriptSupplier = () -> {
+			try {
+				return javascriptUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's JavaScript.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String javascript;
 
+	private Supplier<String> _javascriptSupplier = () -> null;
+
 	@Schema(description = "The page's master page.")
 	@Valid
 	public MasterPage getMasterPage() {
+		if (masterPage != null) {
+			return masterPage;
+		}
+
+		masterPage = _masterPageSupplier.get();
+
 		return masterPage;
 	}
 
 	public void setMasterPage(MasterPage masterPage) {
 		this.masterPage = masterPage;
+
+		_masterPageSupplier = () -> masterPage;
 	}
 
 	@JsonIgnore
 	public void setMasterPage(
 		UnsafeSupplier<MasterPage, Exception> masterPageUnsafeSupplier) {
 
-		try {
-			masterPage = masterPageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		masterPage = null;
+
+		_masterPageSupplier = () -> {
+			try {
+				return masterPageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's master page.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected MasterPage masterPage;
 
+	private Supplier<MasterPage> _masterPageSupplier = () -> null;
+
 	@Schema(description = "The StyleBook that is applied to the page.")
 	@Valid
 	public StyleBook getStyleBook() {
+		if (styleBook != null) {
+			return styleBook;
+		}
+
+		styleBook = _styleBookSupplier.get();
+
 		return styleBook;
 	}
 
 	public void setStyleBook(StyleBook styleBook) {
 		this.styleBook = styleBook;
+
+		_styleBookSupplier = () -> styleBook;
 	}
 
 	@JsonIgnore
 	public void setStyleBook(
 		UnsafeSupplier<StyleBook, Exception> styleBookUnsafeSupplier) {
 
-		try {
-			styleBook = styleBookUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		styleBook = null;
+
+		_styleBookSupplier = () -> {
+			try {
+				return styleBookUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The StyleBook that is applied to the page.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected StyleBook styleBook;
 
+	private Supplier<StyleBook> _styleBookSupplier = () -> null;
+
 	@Schema(description = "The Client Extension for the theme css of a page")
 	@Valid
 	public ClientExtension getThemeCSSClientExtension() {
+		if (themeCSSClientExtension != null) {
+			return themeCSSClientExtension;
+		}
+
+		themeCSSClientExtension = _themeCSSClientExtensionSupplier.get();
+
 		return themeCSSClientExtension;
 	}
 
@@ -305,6 +424,8 @@ public class Settings implements Serializable {
 		ClientExtension themeCSSClientExtension) {
 
 		this.themeCSSClientExtension = themeCSSClientExtension;
+
+		_themeCSSClientExtensionSupplier = () -> themeCSSClientExtension;
 	}
 
 	@JsonIgnore
@@ -312,16 +433,19 @@ public class Settings implements Serializable {
 		UnsafeSupplier<ClientExtension, Exception>
 			themeCSSClientExtensionUnsafeSupplier) {
 
-		try {
-			themeCSSClientExtension =
-				themeCSSClientExtensionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		themeCSSClientExtension = null;
+
+		_themeCSSClientExtensionSupplier = () -> {
+			try {
+				return themeCSSClientExtensionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -330,62 +454,93 @@ public class Settings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ClientExtension themeCSSClientExtension;
 
+	private Supplier<ClientExtension> _themeCSSClientExtensionSupplier =
+		() -> null;
+
 	@Schema(description = "The page's theme name.")
 	public String getThemeName() {
+		if (themeName != null) {
+			return themeName;
+		}
+
+		themeName = _themeNameSupplier.get();
+
 		return themeName;
 	}
 
 	public void setThemeName(String themeName) {
 		this.themeName = themeName;
+
+		_themeNameSupplier = () -> themeName;
 	}
 
 	@JsonIgnore
 	public void setThemeName(
 		UnsafeSupplier<String, Exception> themeNameUnsafeSupplier) {
 
-		try {
-			themeName = themeNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		themeName = null;
+
+		_themeNameSupplier = () -> {
+			try {
+				return themeNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's theme name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String themeName;
 
+	private Supplier<String> _themeNameSupplier = () -> null;
+
 	@Schema(description = "The page's theme settings.")
 	@Valid
 	public Object getThemeSettings() {
+		if (themeSettings != null) {
+			return themeSettings;
+		}
+
+		themeSettings = _themeSettingsSupplier.get();
+
 		return themeSettings;
 	}
 
 	public void setThemeSettings(Object themeSettings) {
 		this.themeSettings = themeSettings;
+
+		_themeSettingsSupplier = () -> themeSettings;
 	}
 
 	@JsonIgnore
 	public void setThemeSettings(
 		UnsafeSupplier<Object, Exception> themeSettingsUnsafeSupplier) {
 
-		try {
-			themeSettings = themeSettingsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		themeSettings = null;
+
+		_themeSettingsSupplier = () -> {
+			try {
+				return themeSettingsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's theme settings.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object themeSettings;
+
+	private Supplier<Object> _themeSettingsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

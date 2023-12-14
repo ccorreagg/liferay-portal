@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,26 +55,38 @@ public class AggregateRating implements Serializable {
 		description = "The highest possible rating (by default normalized to 1.0)."
 	)
 	public Double getBestRating() {
+		if (bestRating != null) {
+			return bestRating;
+		}
+
+		bestRating = _bestRatingSupplier.get();
+
 		return bestRating;
 	}
 
 	public void setBestRating(Double bestRating) {
 		this.bestRating = bestRating;
+
+		_bestRatingSupplier = () -> bestRating;
 	}
 
 	@JsonIgnore
 	public void setBestRating(
 		UnsafeSupplier<Double, Exception> bestRatingUnsafeSupplier) {
 
-		try {
-			bestRating = bestRatingUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		bestRating = null;
+
+		_bestRatingSupplier = () -> {
+			try {
+				return bestRatingUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -82,114 +95,170 @@ public class AggregateRating implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Double bestRating;
 
+	private Supplier<Double> _bestRatingSupplier = () -> null;
+
 	@Schema(description = "The average rating.")
 	public Double getRatingAverage() {
+		if (ratingAverage != null) {
+			return ratingAverage;
+		}
+
+		ratingAverage = _ratingAverageSupplier.get();
+
 		return ratingAverage;
 	}
 
 	public void setRatingAverage(Double ratingAverage) {
 		this.ratingAverage = ratingAverage;
+
+		_ratingAverageSupplier = () -> ratingAverage;
 	}
 
 	@JsonIgnore
 	public void setRatingAverage(
 		UnsafeSupplier<Double, Exception> ratingAverageUnsafeSupplier) {
 
-		try {
-			ratingAverage = ratingAverageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		ratingAverage = null;
+
+		_ratingAverageSupplier = () -> {
+			try {
+				return ratingAverageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The average rating.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Double ratingAverage;
 
+	private Supplier<Double> _ratingAverageSupplier = () -> null;
+
 	@Schema(description = "The number of ratings.")
 	public Integer getRatingCount() {
+		if (ratingCount != null) {
+			return ratingCount;
+		}
+
+		ratingCount = _ratingCountSupplier.get();
+
 		return ratingCount;
 	}
 
 	public void setRatingCount(Integer ratingCount) {
 		this.ratingCount = ratingCount;
+
+		_ratingCountSupplier = () -> ratingCount;
 	}
 
 	@JsonIgnore
 	public void setRatingCount(
 		UnsafeSupplier<Integer, Exception> ratingCountUnsafeSupplier) {
 
-		try {
-			ratingCount = ratingCountUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		ratingCount = null;
+
+		_ratingCountSupplier = () -> {
+			try {
+				return ratingCountUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The number of ratings.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer ratingCount;
 
+	private Supplier<Integer> _ratingCountSupplier = () -> null;
+
 	@Schema(description = "The rating value.")
 	public Double getRatingValue() {
+		if (ratingValue != null) {
+			return ratingValue;
+		}
+
+		ratingValue = _ratingValueSupplier.get();
+
 		return ratingValue;
 	}
 
 	public void setRatingValue(Double ratingValue) {
 		this.ratingValue = ratingValue;
+
+		_ratingValueSupplier = () -> ratingValue;
 	}
 
 	@JsonIgnore
 	public void setRatingValue(
 		UnsafeSupplier<Double, Exception> ratingValueUnsafeSupplier) {
 
-		try {
-			ratingValue = ratingValueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		ratingValue = null;
+
+		_ratingValueSupplier = () -> {
+			try {
+				return ratingValueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The rating value.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Double ratingValue;
 
+	private Supplier<Double> _ratingValueSupplier = () -> null;
+
 	@Schema(
 		description = "The lowest possible rating (by default normalized to 0.0)."
 	)
 	public Double getWorstRating() {
+		if (worstRating != null) {
+			return worstRating;
+		}
+
+		worstRating = _worstRatingSupplier.get();
+
 		return worstRating;
 	}
 
 	public void setWorstRating(Double worstRating) {
 		this.worstRating = worstRating;
+
+		_worstRatingSupplier = () -> worstRating;
 	}
 
 	@JsonIgnore
 	public void setWorstRating(
 		UnsafeSupplier<Double, Exception> worstRatingUnsafeSupplier) {
 
-		try {
-			worstRating = worstRatingUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		worstRating = null;
+
+		_worstRatingSupplier = () -> {
+			try {
+				return worstRatingUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -197,6 +266,8 @@ public class AggregateRating implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Double worstRating;
+
+	private Supplier<Double> _worstRatingSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

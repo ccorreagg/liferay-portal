@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,87 +52,129 @@ public class SXPParameterContributorDefinition implements Serializable {
 
 	@Schema
 	public String getClassName() {
+		if (className != null) {
+			return className;
+		}
+
+		className = _classNameSupplier.get();
+
 		return className;
 	}
 
 	public void setClassName(String className) {
 		this.className = className;
+
+		_classNameSupplier = () -> className;
 	}
 
 	@JsonIgnore
 	public void setClassName(
 		UnsafeSupplier<String, Exception> classNameUnsafeSupplier) {
 
-		try {
-			className = classNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		className = null;
+
+		_classNameSupplier = () -> {
+			try {
+				return classNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String className;
 
+	private Supplier<String> _classNameSupplier = () -> null;
+
 	@Schema
 	public String getDescription() {
+		if (description != null) {
+			return description;
+		}
+
+		description = _descriptionSupplier.get();
+
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+
+		_descriptionSupplier = () -> description;
 	}
 
 	@JsonIgnore
 	public void setDescription(
 		UnsafeSupplier<String, Exception> descriptionUnsafeSupplier) {
 
-		try {
-			description = descriptionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description = null;
+
+		_descriptionSupplier = () -> {
+			try {
+				return descriptionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
+	private Supplier<String> _descriptionSupplier = () -> null;
+
 	@Schema
 	public String getTemplateVariable() {
+		if (templateVariable != null) {
+			return templateVariable;
+		}
+
+		templateVariable = _templateVariableSupplier.get();
+
 		return templateVariable;
 	}
 
 	public void setTemplateVariable(String templateVariable) {
 		this.templateVariable = templateVariable;
+
+		_templateVariableSupplier = () -> templateVariable;
 	}
 
 	@JsonIgnore
 	public void setTemplateVariable(
 		UnsafeSupplier<String, Exception> templateVariableUnsafeSupplier) {
 
-		try {
-			templateVariable = templateVariableUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		templateVariable = null;
+
+		_templateVariableSupplier = () -> {
+			try {
+				return templateVariableUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String templateVariable;
+
+	private Supplier<String> _templateVariableSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

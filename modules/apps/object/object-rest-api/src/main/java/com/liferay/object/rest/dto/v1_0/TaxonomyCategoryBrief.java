@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,11 +57,19 @@ public class TaxonomyCategoryBrief implements Serializable {
 	)
 	@Valid
 	public Object getEmbeddedTaxonomyCategory() {
+		if (embeddedTaxonomyCategory != null) {
+			return embeddedTaxonomyCategory;
+		}
+
+		embeddedTaxonomyCategory = _embeddedTaxonomyCategorySupplier.get();
+
 		return embeddedTaxonomyCategory;
 	}
 
 	public void setEmbeddedTaxonomyCategory(Object embeddedTaxonomyCategory) {
 		this.embeddedTaxonomyCategory = embeddedTaxonomyCategory;
+
+		_embeddedTaxonomyCategorySupplier = () -> embeddedTaxonomyCategory;
 	}
 
 	@JsonIgnore
@@ -68,16 +77,19 @@ public class TaxonomyCategoryBrief implements Serializable {
 		UnsafeSupplier<Object, Exception>
 			embeddedTaxonomyCategoryUnsafeSupplier) {
 
-		try {
-			embeddedTaxonomyCategory =
-				embeddedTaxonomyCategoryUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		embeddedTaxonomyCategory = null;
+
+		_embeddedTaxonomyCategorySupplier = () -> {
+			try {
+				return embeddedTaxonomyCategoryUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -86,30 +98,44 @@ public class TaxonomyCategoryBrief implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Object embeddedTaxonomyCategory;
 
+	private Supplier<Object> _embeddedTaxonomyCategorySupplier = () -> null;
+
 	@Schema(
 		description = "The category's ID. This can be used to retrieve more information in the `TaxonomyCategory` API."
 	)
 	public Long getTaxonomyCategoryId() {
+		if (taxonomyCategoryId != null) {
+			return taxonomyCategoryId;
+		}
+
+		taxonomyCategoryId = _taxonomyCategoryIdSupplier.get();
+
 		return taxonomyCategoryId;
 	}
 
 	public void setTaxonomyCategoryId(Long taxonomyCategoryId) {
 		this.taxonomyCategoryId = taxonomyCategoryId;
+
+		_taxonomyCategoryIdSupplier = () -> taxonomyCategoryId;
 	}
 
 	@JsonIgnore
 	public void setTaxonomyCategoryId(
 		UnsafeSupplier<Long, Exception> taxonomyCategoryIdUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryId = taxonomyCategoryIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryId = null;
+
+		_taxonomyCategoryIdSupplier = () -> {
+			try {
+				return taxonomyCategoryIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -118,37 +144,59 @@ public class TaxonomyCategoryBrief implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long taxonomyCategoryId;
 
+	private Supplier<Long> _taxonomyCategoryIdSupplier = () -> null;
+
 	@Schema(description = "The category's name.")
 	public String getTaxonomyCategoryName() {
+		if (taxonomyCategoryName != null) {
+			return taxonomyCategoryName;
+		}
+
+		taxonomyCategoryName = _taxonomyCategoryNameSupplier.get();
+
 		return taxonomyCategoryName;
 	}
 
 	public void setTaxonomyCategoryName(String taxonomyCategoryName) {
 		this.taxonomyCategoryName = taxonomyCategoryName;
+
+		_taxonomyCategoryNameSupplier = () -> taxonomyCategoryName;
 	}
 
 	@JsonIgnore
 	public void setTaxonomyCategoryName(
 		UnsafeSupplier<String, Exception> taxonomyCategoryNameUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryName = taxonomyCategoryNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryName = null;
+
+		_taxonomyCategoryNameSupplier = () -> {
+			try {
+				return taxonomyCategoryNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The category's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String taxonomyCategoryName;
 
+	private Supplier<String> _taxonomyCategoryNameSupplier = () -> null;
+
 	@Schema(description = "The localized category's names.")
 	@Valid
 	public Map<String, String> getTaxonomyCategoryName_i18n() {
+		if (taxonomyCategoryName_i18n != null) {
+			return taxonomyCategoryName_i18n;
+		}
+
+		taxonomyCategoryName_i18n = _taxonomyCategoryName_i18nSupplier.get();
+
 		return taxonomyCategoryName_i18n;
 	}
 
@@ -156,6 +204,8 @@ public class TaxonomyCategoryBrief implements Serializable {
 		Map<String, String> taxonomyCategoryName_i18n) {
 
 		this.taxonomyCategoryName_i18n = taxonomyCategoryName_i18n;
+
+		_taxonomyCategoryName_i18nSupplier = () -> taxonomyCategoryName_i18n;
 	}
 
 	@JsonIgnore
@@ -163,21 +213,27 @@ public class TaxonomyCategoryBrief implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			taxonomyCategoryName_i18nUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryName_i18n =
-				taxonomyCategoryName_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryName_i18n = null;
+
+		_taxonomyCategoryName_i18nSupplier = () -> {
+			try {
+				return taxonomyCategoryName_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The localized category's names.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, String> taxonomyCategoryName_i18n;
+
+	private Supplier<Map<String, String>> _taxonomyCategoryName_i18nSupplier =
+		() -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,6 +54,12 @@ public class WorkflowTaskTransitions implements Serializable {
 	@Schema
 	@Valid
 	public WorkflowTaskTransition[] getWorkflowTaskTransitions() {
+		if (workflowTaskTransitions != null) {
+			return workflowTaskTransitions;
+		}
+
+		workflowTaskTransitions = _workflowTaskTransitionsSupplier.get();
+
 		return workflowTaskTransitions;
 	}
 
@@ -60,6 +67,8 @@ public class WorkflowTaskTransitions implements Serializable {
 		WorkflowTaskTransition[] workflowTaskTransitions) {
 
 		this.workflowTaskTransitions = workflowTaskTransitions;
+
+		_workflowTaskTransitionsSupplier = () -> workflowTaskTransitions;
 	}
 
 	@JsonIgnore
@@ -67,21 +76,27 @@ public class WorkflowTaskTransitions implements Serializable {
 		UnsafeSupplier<WorkflowTaskTransition[], Exception>
 			workflowTaskTransitionsUnsafeSupplier) {
 
-		try {
-			workflowTaskTransitions =
-				workflowTaskTransitionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		workflowTaskTransitions = null;
+
+		_workflowTaskTransitionsSupplier = () -> {
+			try {
+				return workflowTaskTransitionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected WorkflowTaskTransition[] workflowTaskTransitions;
+
+	private Supplier<WorkflowTaskTransition[]>
+		_workflowTaskTransitionsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

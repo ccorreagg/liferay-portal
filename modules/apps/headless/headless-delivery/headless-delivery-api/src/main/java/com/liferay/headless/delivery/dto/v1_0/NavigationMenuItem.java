@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -60,26 +61,38 @@ public class NavigationMenuItem implements Serializable {
 		description = "The list of languages the navigation menu item has a translation for."
 	)
 	public String[] getAvailableLanguages() {
+		if (availableLanguages != null) {
+			return availableLanguages;
+		}
+
+		availableLanguages = _availableLanguagesSupplier.get();
+
 		return availableLanguages;
 	}
 
 	public void setAvailableLanguages(String[] availableLanguages) {
 		this.availableLanguages = availableLanguages;
+
+		_availableLanguagesSupplier = () -> availableLanguages;
 	}
 
 	@JsonIgnore
 	public void setAvailableLanguages(
 		UnsafeSupplier<String[], Exception> availableLanguagesUnsafeSupplier) {
 
-		try {
-			availableLanguages = availableLanguagesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		availableLanguages = null;
+
+		_availableLanguagesSupplier = () -> {
+			try {
+				return availableLanguagesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -88,28 +101,42 @@ public class NavigationMenuItem implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] availableLanguages;
 
+	private Supplier<String[]> _availableLanguagesSupplier = () -> null;
+
 	@Schema(description = "The navigation menu item's content API REST URL.")
 	public String getContentURL() {
+		if (contentURL != null) {
+			return contentURL;
+		}
+
+		contentURL = _contentURLSupplier.get();
+
 		return contentURL;
 	}
 
 	public void setContentURL(String contentURL) {
 		this.contentURL = contentURL;
+
+		_contentURLSupplier = () -> contentURL;
 	}
 
 	@JsonIgnore
 	public void setContentURL(
 		UnsafeSupplier<String, Exception> contentURLUnsafeSupplier) {
 
-		try {
-			contentURL = contentURLUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentURL = null;
+
+		_contentURLSupplier = () -> {
+			try {
+				return contentURLUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -118,85 +145,127 @@ public class NavigationMenuItem implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String contentURL;
 
+	private Supplier<String> _contentURLSupplier = () -> null;
+
 	@Schema(description = "The navigation menu item's creator.")
 	@Valid
 	public Creator getCreator() {
+		if (creator != null) {
+			return creator;
+		}
+
+		creator = _creatorSupplier.get();
+
 		return creator;
 	}
 
 	public void setCreator(Creator creator) {
 		this.creator = creator;
+
+		_creatorSupplier = () -> creator;
 	}
 
 	@JsonIgnore
 	public void setCreator(
 		UnsafeSupplier<Creator, Exception> creatorUnsafeSupplier) {
 
-		try {
-			creator = creatorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		creator = null;
+
+		_creatorSupplier = () -> {
+			try {
+				return creatorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The navigation menu item's creator.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
+	private Supplier<Creator> _creatorSupplier = () -> null;
+
 	@Schema(description = "The navigation menu item's creation date.")
 	public Date getDateCreated() {
+		if (dateCreated != null) {
+			return dateCreated;
+		}
+
+		dateCreated = _dateCreatedSupplier.get();
+
 		return dateCreated;
 	}
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+
+		_dateCreatedSupplier = () -> dateCreated;
 	}
 
 	@JsonIgnore
 	public void setDateCreated(
 		UnsafeSupplier<Date, Exception> dateCreatedUnsafeSupplier) {
 
-		try {
-			dateCreated = dateCreatedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateCreated = null;
+
+		_dateCreatedSupplier = () -> {
+			try {
+				return dateCreatedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The navigation menu item's creation date.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
+	private Supplier<Date> _dateCreatedSupplier = () -> null;
+
 	@Schema(description = "The last time the navigation menu item changed.")
 	public Date getDateModified() {
+		if (dateModified != null) {
+			return dateModified;
+		}
+
+		dateModified = _dateModifiedSupplier.get();
+
 		return dateModified;
 	}
 
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
+
+		_dateModifiedSupplier = () -> dateModified;
 	}
 
 	@JsonIgnore
 	public void setDateModified(
 		UnsafeSupplier<Date, Exception> dateModifiedUnsafeSupplier) {
 
-		try {
-			dateModified = dateModifiedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateModified = null;
+
+		_dateModifiedSupplier = () -> {
+			try {
+				return dateModifiedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -205,66 +274,104 @@ public class NavigationMenuItem implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
+	private Supplier<Date> _dateModifiedSupplier = () -> null;
+
 	@Schema(description = "The navigation menu item's ID.")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The navigation menu item's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(description = "The link to a page on the server.")
 	public String getLink() {
+		if (link != null) {
+			return link;
+		}
+
+		link = _linkSupplier.get();
+
 		return link;
 	}
 
 	public void setLink(String link) {
 		this.link = link;
+
+		_linkSupplier = () -> link;
 	}
 
 	@JsonIgnore
 	public void setLink(UnsafeSupplier<String, Exception> linkUnsafeSupplier) {
-		try {
-			link = linkUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		link = null;
+
+		_linkSupplier = () -> {
+			try {
+				return linkUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The link to a page on the server.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String link;
 
+	private Supplier<String> _linkSupplier = () -> null;
+
 	@Schema(description = "The localized links to a page on the server.")
 	@Valid
 	public Map<String, String> getLink_i18n() {
+		if (link_i18n != null) {
+			return link_i18n;
+		}
+
+		link_i18n = _link_i18nSupplier.get();
+
 		return link_i18n;
 	}
 
 	public void setLink_i18n(Map<String, String> link_i18n) {
 		this.link_i18n = link_i18n;
+
+		_link_i18nSupplier = () -> link_i18n;
 	}
 
 	@JsonIgnore
@@ -272,55 +379,83 @@ public class NavigationMenuItem implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			link_i18nUnsafeSupplier) {
 
-		try {
-			link_i18n = link_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		link_i18n = null;
+
+		_link_i18nSupplier = () -> {
+			try {
+				return link_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The localized links to a page on the server.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> link_i18n;
 
+	private Supplier<Map<String, String>> _link_i18nSupplier = () -> null;
+
 	@Schema(description = "The navigation menu item's name.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The navigation menu item's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema(description = "The localized navigation menu item's names.")
 	@Valid
 	public Map<String, String> getName_i18n() {
+		if (name_i18n != null) {
+			return name_i18n;
+		}
+
+		name_i18n = _name_i18nSupplier.get();
+
 		return name_i18n;
 	}
 
 	public void setName_i18n(Map<String, String> name_i18n) {
 		this.name_i18n = name_i18n;
+
+		_name_i18nSupplier = () -> name_i18n;
 	}
 
 	@JsonIgnore
@@ -328,26 +463,38 @@ public class NavigationMenuItem implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			name_i18nUnsafeSupplier) {
 
-		try {
-			name_i18n = name_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name_i18n = null;
+
+		_name_i18nSupplier = () -> {
+			try {
+				return name_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The localized navigation menu item's names.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> name_i18n;
 
+	private Supplier<Map<String, String>> _name_i18nSupplier = () -> null;
+
 	@Schema(
 		description = "The navigation menu items this navigation menu item has."
 	)
 	@Valid
 	public NavigationMenuItem[] getNavigationMenuItems() {
+		if (navigationMenuItems != null) {
+			return navigationMenuItems;
+		}
+
+		navigationMenuItems = _navigationMenuItemsSupplier.get();
+
 		return navigationMenuItems;
 	}
 
@@ -355,6 +502,8 @@ public class NavigationMenuItem implements Serializable {
 		NavigationMenuItem[] navigationMenuItems) {
 
 		this.navigationMenuItems = navigationMenuItems;
+
+		_navigationMenuItemsSupplier = () -> navigationMenuItems;
 	}
 
 	@JsonIgnore
@@ -362,15 +511,19 @@ public class NavigationMenuItem implements Serializable {
 		UnsafeSupplier<NavigationMenuItem[], Exception>
 			navigationMenuItemsUnsafeSupplier) {
 
-		try {
-			navigationMenuItems = navigationMenuItemsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		navigationMenuItems = null;
+
+		_navigationMenuItemsSupplier = () -> {
+			try {
+				return navigationMenuItemsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -379,56 +532,85 @@ public class NavigationMenuItem implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected NavigationMenuItem[] navigationMenuItems;
 
+	private Supplier<NavigationMenuItem[]> _navigationMenuItemsSupplier =
+		() -> null;
+
 	@Schema(description = "The ID of the navigation menu item's parent.")
 	public Long getParentNavigationMenuId() {
+		if (parentNavigationMenuId != null) {
+			return parentNavigationMenuId;
+		}
+
+		parentNavigationMenuId = _parentNavigationMenuIdSupplier.get();
+
 		return parentNavigationMenuId;
 	}
 
 	public void setParentNavigationMenuId(Long parentNavigationMenuId) {
 		this.parentNavigationMenuId = parentNavigationMenuId;
+
+		_parentNavigationMenuIdSupplier = () -> parentNavigationMenuId;
 	}
 
 	@JsonIgnore
 	public void setParentNavigationMenuId(
 		UnsafeSupplier<Long, Exception> parentNavigationMenuIdUnsafeSupplier) {
 
-		try {
-			parentNavigationMenuId = parentNavigationMenuIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		parentNavigationMenuId = null;
+
+		_parentNavigationMenuIdSupplier = () -> {
+			try {
+				return parentNavigationMenuIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The ID of the navigation menu item's parent.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long parentNavigationMenuId;
 
+	private Supplier<Long> _parentNavigationMenuIdSupplier = () -> null;
+
 	@Schema(description = "The navigation menu item's linked site page URL.")
 	public String getSitePageURL() {
+		if (sitePageURL != null) {
+			return sitePageURL;
+		}
+
+		sitePageURL = _sitePageURLSupplier.get();
+
 		return sitePageURL;
 	}
 
 	public void setSitePageURL(String sitePageURL) {
 		this.sitePageURL = sitePageURL;
+
+		_sitePageURLSupplier = () -> sitePageURL;
 	}
 
 	@JsonIgnore
 	public void setSitePageURL(
 		UnsafeSupplier<String, Exception> sitePageURLUnsafeSupplier) {
 
-		try {
-			sitePageURL = sitePageURLUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		sitePageURL = null;
+
+		_sitePageURLSupplier = () -> {
+			try {
+				return sitePageURLUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -437,85 +619,129 @@ public class NavigationMenuItem implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String sitePageURL;
 
+	private Supplier<String> _sitePageURLSupplier = () -> null;
+
 	@Schema(description = "The navigation menu item's type.")
 	public String getType() {
+		if (type != null) {
+			return type;
+		}
+
+		type = _typeSupplier.get();
+
 		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
+
+		_typeSupplier = () -> type;
 	}
 
 	@JsonIgnore
 	public void setType(UnsafeSupplier<String, Exception> typeUnsafeSupplier) {
-		try {
-			type = typeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		type = null;
+
+		_typeSupplier = () -> {
+			try {
+				return typeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The navigation menu item's type.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String type;
 
+	private Supplier<String> _typeSupplier = () -> null;
+
 	@Schema(description = "The navigation menu item's linked URL.")
 	public String getUrl() {
+		if (url != null) {
+			return url;
+		}
+
+		url = _urlSupplier.get();
+
 		return url;
 	}
 
 	public void setUrl(String url) {
 		this.url = url;
+
+		_urlSupplier = () -> url;
 	}
 
 	@JsonIgnore
 	public void setUrl(UnsafeSupplier<String, Exception> urlUnsafeSupplier) {
-		try {
-			url = urlUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		url = null;
+
+		_urlSupplier = () -> {
+			try {
+				return urlUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The navigation menu item's linked URL.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String url;
 
+	private Supplier<String> _urlSupplier = () -> null;
+
 	@Schema
 	public Boolean getUseCustomName() {
+		if (useCustomName != null) {
+			return useCustomName;
+		}
+
+		useCustomName = _useCustomNameSupplier.get();
+
 		return useCustomName;
 	}
 
 	public void setUseCustomName(Boolean useCustomName) {
 		this.useCustomName = useCustomName;
+
+		_useCustomNameSupplier = () -> useCustomName;
 	}
 
 	@JsonIgnore
 	public void setUseCustomName(
 		UnsafeSupplier<Boolean, Exception> useCustomNameUnsafeSupplier) {
 
-		try {
-			useCustomName = useCustomNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		useCustomName = null;
+
+		_useCustomNameSupplier = () -> {
+			try {
+				return useCustomNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean useCustomName;
+
+	private Supplier<Boolean> _useCustomNameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,111 +53,167 @@ public class PageRuleAction implements Serializable {
 
 	@Schema(description = "The page rule action's action.")
 	public String getAction() {
+		if (action != null) {
+			return action;
+		}
+
+		action = _actionSupplier.get();
+
 		return action;
 	}
 
 	public void setAction(String action) {
 		this.action = action;
+
+		_actionSupplier = () -> action;
 	}
 
 	@JsonIgnore
 	public void setAction(
 		UnsafeSupplier<String, Exception> actionUnsafeSupplier) {
 
-		try {
-			action = actionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		action = null;
+
+		_actionSupplier = () -> {
+			try {
+				return actionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page rule action's action.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String action;
 
+	private Supplier<String> _actionSupplier = () -> null;
+
 	@Schema(description = "The page rule action's ID.")
 	public String getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<String, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page rule action's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String id;
 
+	private Supplier<String> _idSupplier = () -> null;
+
 	@Schema(description = "The page rule condition's item ID.")
 	public String getItemId() {
+		if (itemId != null) {
+			return itemId;
+		}
+
+		itemId = _itemIdSupplier.get();
+
 		return itemId;
 	}
 
 	public void setItemId(String itemId) {
 		this.itemId = itemId;
+
+		_itemIdSupplier = () -> itemId;
 	}
 
 	@JsonIgnore
 	public void setItemId(
 		UnsafeSupplier<String, Exception> itemIdUnsafeSupplier) {
 
-		try {
-			itemId = itemIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		itemId = null;
+
+		_itemIdSupplier = () -> {
+			try {
+				return itemIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page rule condition's item ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String itemId;
 
+	private Supplier<String> _itemIdSupplier = () -> null;
+
 	@Schema(description = "The page rule action's type.")
 	public String getType() {
+		if (type != null) {
+			return type;
+		}
+
+		type = _typeSupplier.get();
+
 		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
+
+		_typeSupplier = () -> type;
 	}
 
 	@JsonIgnore
 	public void setType(UnsafeSupplier<String, Exception> typeUnsafeSupplier) {
-		try {
-			type = typeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		type = null;
+
+		_typeSupplier = () -> {
+			try {
+				return typeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page rule action's type.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String type;
+
+	private Supplier<String> _typeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

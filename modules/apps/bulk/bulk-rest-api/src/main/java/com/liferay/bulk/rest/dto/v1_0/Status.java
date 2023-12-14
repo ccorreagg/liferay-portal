@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,31 +50,45 @@ public class Status implements Serializable {
 
 	@Schema
 	public Boolean getActionInProgress() {
+		if (actionInProgress != null) {
+			return actionInProgress;
+		}
+
+		actionInProgress = _actionInProgressSupplier.get();
+
 		return actionInProgress;
 	}
 
 	public void setActionInProgress(Boolean actionInProgress) {
 		this.actionInProgress = actionInProgress;
+
+		_actionInProgressSupplier = () -> actionInProgress;
 	}
 
 	@JsonIgnore
 	public void setActionInProgress(
 		UnsafeSupplier<Boolean, Exception> actionInProgressUnsafeSupplier) {
 
-		try {
-			actionInProgress = actionInProgressUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actionInProgress = null;
+
+		_actionInProgressSupplier = () -> {
+			try {
+				return actionInProgressUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean actionInProgress;
+
+	private Supplier<Boolean> _actionInProgressSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

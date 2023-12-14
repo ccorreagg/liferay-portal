@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,6 +53,13 @@ public class Sp implements Serializable {
 
 	@Schema
 	public Boolean getAllowShowingTheLoginPortlet() {
+		if (allowShowingTheLoginPortlet != null) {
+			return allowShowingTheLoginPortlet;
+		}
+
+		allowShowingTheLoginPortlet =
+			_allowShowingTheLoginPortletSupplier.get();
+
 		return allowShowingTheLoginPortlet;
 	}
 
@@ -59,6 +67,9 @@ public class Sp implements Serializable {
 		Boolean allowShowingTheLoginPortlet) {
 
 		this.allowShowingTheLoginPortlet = allowShowingTheLoginPortlet;
+
+		_allowShowingTheLoginPortletSupplier =
+			() -> allowShowingTheLoginPortlet;
 	}
 
 	@JsonIgnore
@@ -66,24 +77,35 @@ public class Sp implements Serializable {
 		UnsafeSupplier<Boolean, Exception>
 			allowShowingTheLoginPortletUnsafeSupplier) {
 
-		try {
-			allowShowingTheLoginPortlet =
-				allowShowingTheLoginPortletUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		allowShowingTheLoginPortlet = null;
+
+		_allowShowingTheLoginPortletSupplier = () -> {
+			try {
+				return allowShowingTheLoginPortletUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean allowShowingTheLoginPortlet;
 
+	private Supplier<Boolean> _allowShowingTheLoginPortletSupplier = () -> null;
+
 	@Schema
 	public Boolean getAssertionSignatureRequired() {
+		if (assertionSignatureRequired != null) {
+			return assertionSignatureRequired;
+		}
+
+		assertionSignatureRequired = _assertionSignatureRequiredSupplier.get();
+
 		return assertionSignatureRequired;
 	}
 
@@ -91,6 +113,8 @@ public class Sp implements Serializable {
 		Boolean assertionSignatureRequired) {
 
 		this.assertionSignatureRequired = assertionSignatureRequired;
+
+		_assertionSignatureRequiredSupplier = () -> assertionSignatureRequired;
 	}
 
 	@JsonIgnore
@@ -98,52 +122,78 @@ public class Sp implements Serializable {
 		UnsafeSupplier<Boolean, Exception>
 			assertionSignatureRequiredUnsafeSupplier) {
 
-		try {
-			assertionSignatureRequired =
-				assertionSignatureRequiredUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		assertionSignatureRequired = null;
+
+		_assertionSignatureRequiredSupplier = () -> {
+			try {
+				return assertionSignatureRequiredUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean assertionSignatureRequired;
 
+	private Supplier<Boolean> _assertionSignatureRequiredSupplier = () -> null;
+
 	@Schema
 	public Long getClockSkew() {
+		if (clockSkew != null) {
+			return clockSkew;
+		}
+
+		clockSkew = _clockSkewSupplier.get();
+
 		return clockSkew;
 	}
 
 	public void setClockSkew(Long clockSkew) {
 		this.clockSkew = clockSkew;
+
+		_clockSkewSupplier = () -> clockSkew;
 	}
 
 	@JsonIgnore
 	public void setClockSkew(
 		UnsafeSupplier<Long, Exception> clockSkewUnsafeSupplier) {
 
-		try {
-			clockSkew = clockSkewUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		clockSkew = null;
+
+		_clockSkewSupplier = () -> {
+			try {
+				return clockSkewUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long clockSkew;
 
+	private Supplier<Long> _clockSkewSupplier = () -> null;
+
 	@Schema
 	public String getKeyStoreEncryptionCredentialPassword() {
+		if (keyStoreEncryptionCredentialPassword != null) {
+			return keyStoreEncryptionCredentialPassword;
+		}
+
+		keyStoreEncryptionCredentialPassword =
+			_keyStoreEncryptionCredentialPasswordSupplier.get();
+
 		return keyStoreEncryptionCredentialPassword;
 	}
 
@@ -152,6 +202,9 @@ public class Sp implements Serializable {
 
 		this.keyStoreEncryptionCredentialPassword =
 			keyStoreEncryptionCredentialPassword;
+
+		_keyStoreEncryptionCredentialPasswordSupplier =
+			() -> keyStoreEncryptionCredentialPassword;
 	}
 
 	@JsonIgnore
@@ -159,77 +212,111 @@ public class Sp implements Serializable {
 		UnsafeSupplier<String, Exception>
 			keyStoreEncryptionCredentialPasswordUnsafeSupplier) {
 
-		try {
-			keyStoreEncryptionCredentialPassword =
-				keyStoreEncryptionCredentialPasswordUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		keyStoreEncryptionCredentialPassword = null;
+
+		_keyStoreEncryptionCredentialPasswordSupplier = () -> {
+			try {
+				return keyStoreEncryptionCredentialPasswordUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String keyStoreEncryptionCredentialPassword;
 
+	private Supplier<String> _keyStoreEncryptionCredentialPasswordSupplier =
+		() -> null;
+
 	@Schema
 	public Boolean getLdapImportEnabled() {
+		if (ldapImportEnabled != null) {
+			return ldapImportEnabled;
+		}
+
+		ldapImportEnabled = _ldapImportEnabledSupplier.get();
+
 		return ldapImportEnabled;
 	}
 
 	public void setLdapImportEnabled(Boolean ldapImportEnabled) {
 		this.ldapImportEnabled = ldapImportEnabled;
+
+		_ldapImportEnabledSupplier = () -> ldapImportEnabled;
 	}
 
 	@JsonIgnore
 	public void setLdapImportEnabled(
 		UnsafeSupplier<Boolean, Exception> ldapImportEnabledUnsafeSupplier) {
 
-		try {
-			ldapImportEnabled = ldapImportEnabledUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		ldapImportEnabled = null;
+
+		_ldapImportEnabledSupplier = () -> {
+			try {
+				return ldapImportEnabledUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean ldapImportEnabled;
 
+	private Supplier<Boolean> _ldapImportEnabledSupplier = () -> null;
+
 	@Schema
 	public Boolean getSignAuthnRequest() {
+		if (signAuthnRequest != null) {
+			return signAuthnRequest;
+		}
+
+		signAuthnRequest = _signAuthnRequestSupplier.get();
+
 		return signAuthnRequest;
 	}
 
 	public void setSignAuthnRequest(Boolean signAuthnRequest) {
 		this.signAuthnRequest = signAuthnRequest;
+
+		_signAuthnRequestSupplier = () -> signAuthnRequest;
 	}
 
 	@JsonIgnore
 	public void setSignAuthnRequest(
 		UnsafeSupplier<Boolean, Exception> signAuthnRequestUnsafeSupplier) {
 
-		try {
-			signAuthnRequest = signAuthnRequestUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		signAuthnRequest = null;
+
+		_signAuthnRequestSupplier = () -> {
+			try {
+				return signAuthnRequestUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean signAuthnRequest;
+
+	private Supplier<Boolean> _signAuthnRequestSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

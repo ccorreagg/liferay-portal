@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,26 +56,38 @@ public class Error implements Serializable {
 
 	@Schema(description = "Internal error code mapping", example = "996")
 	public Integer getErrorCode() {
+		if (errorCode != null) {
+			return errorCode;
+		}
+
+		errorCode = _errorCodeSupplier.get();
+
 		return errorCode;
 	}
 
 	public void setErrorCode(Integer errorCode) {
 		this.errorCode = errorCode;
+
+		_errorCodeSupplier = () -> errorCode;
 	}
 
 	@JsonIgnore
 	public void setErrorCode(
 		UnsafeSupplier<Integer, Exception> errorCodeUnsafeSupplier) {
 
-		try {
-			errorCode = errorCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		errorCode = null;
+
+		_errorCodeSupplier = () -> {
+			try {
+				return errorCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Internal error code mapping")
@@ -82,30 +95,44 @@ public class Error implements Serializable {
 	@NotNull
 	protected Integer errorCode;
 
+	private Supplier<Integer> _errorCodeSupplier = () -> null;
+
 	@Schema(
 		example = "Unable to find currency. Currency code should be expressed with 3-letter ISO 4217 format."
 	)
 	public String getErrorDescription() {
+		if (errorDescription != null) {
+			return errorDescription;
+		}
+
+		errorDescription = _errorDescriptionSupplier.get();
+
 		return errorDescription;
 	}
 
 	public void setErrorDescription(String errorDescription) {
 		this.errorDescription = errorDescription;
+
+		_errorDescriptionSupplier = () -> errorDescription;
 	}
 
 	@JsonIgnore
 	public void setErrorDescription(
 		UnsafeSupplier<String, Exception> errorDescriptionUnsafeSupplier) {
 
-		try {
-			errorDescription = errorDescriptionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		errorDescription = null;
+
+		_errorDescriptionSupplier = () -> {
+			try {
+				return errorDescriptionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
@@ -113,30 +140,44 @@ public class Error implements Serializable {
 	@NotEmpty
 	protected String errorDescription;
 
+	private Supplier<String> _errorDescriptionSupplier = () -> null;
+
 	@Schema(
 		example = "No CommerceCurrency exists with the key {groupId=41811, code=US Dollar}"
 	)
 	public String getMessage() {
+		if (message != null) {
+			return message;
+		}
+
+		message = _messageSupplier.get();
+
 		return message;
 	}
 
 	public void setMessage(String message) {
 		this.message = message;
+
+		_messageSupplier = () -> message;
 	}
 
 	@JsonIgnore
 	public void setMessage(
 		UnsafeSupplier<String, Exception> messageUnsafeSupplier) {
 
-		try {
-			message = messageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		message = null;
+
+		_messageSupplier = () -> {
+			try {
+				return messageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
@@ -144,34 +185,50 @@ public class Error implements Serializable {
 	@NotEmpty
 	protected String message;
 
+	private Supplier<String> _messageSupplier = () -> null;
+
 	@Schema(description = "HTTP Status code", example = "404")
 	public Integer getStatus() {
+		if (status != null) {
+			return status;
+		}
+
+		status = _statusSupplier.get();
+
 		return status;
 	}
 
 	public void setStatus(Integer status) {
 		this.status = status;
+
+		_statusSupplier = () -> status;
 	}
 
 	@JsonIgnore
 	public void setStatus(
 		UnsafeSupplier<Integer, Exception> statusUnsafeSupplier) {
 
-		try {
-			status = statusUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		status = null;
+
+		_statusSupplier = () -> {
+			try {
+				return statusUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "HTTP Status code")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	@NotNull
 	protected Integer status;
+
+	private Supplier<Integer> _statusSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

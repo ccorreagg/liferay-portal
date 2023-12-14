@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,24 +58,36 @@ public class RowViewport implements Serializable {
 
 	@Schema(description = "The row viewport's ID.")
 	public String getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<String, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The row viewport's ID.")
@@ -82,9 +95,17 @@ public class RowViewport implements Serializable {
 	@NotEmpty
 	protected String id;
 
+	private Supplier<String> _idSupplier = () -> null;
+
 	@Schema(description = "The definition of the row viewport.")
 	@Valid
 	public RowViewportDefinition getRowViewportDefinition() {
+		if (rowViewportDefinition != null) {
+			return rowViewportDefinition;
+		}
+
+		rowViewportDefinition = _rowViewportDefinitionSupplier.get();
+
 		return rowViewportDefinition;
 	}
 
@@ -92,6 +113,8 @@ public class RowViewport implements Serializable {
 		RowViewportDefinition rowViewportDefinition) {
 
 		this.rowViewportDefinition = rowViewportDefinition;
+
+		_rowViewportDefinitionSupplier = () -> rowViewportDefinition;
 	}
 
 	@JsonIgnore
@@ -99,21 +122,28 @@ public class RowViewport implements Serializable {
 		UnsafeSupplier<RowViewportDefinition, Exception>
 			rowViewportDefinitionUnsafeSupplier) {
 
-		try {
-			rowViewportDefinition = rowViewportDefinitionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		rowViewportDefinition = null;
+
+		_rowViewportDefinitionSupplier = () -> {
+			try {
+				return rowViewportDefinitionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The definition of the row viewport.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected RowViewportDefinition rowViewportDefinition;
+
+	private Supplier<RowViewportDefinition> _rowViewportDefinitionSupplier =
+		() -> null;
 
 	@Override
 	public boolean equals(Object object) {

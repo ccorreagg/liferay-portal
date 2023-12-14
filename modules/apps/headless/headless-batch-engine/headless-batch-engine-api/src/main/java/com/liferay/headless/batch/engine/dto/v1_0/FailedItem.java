@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,54 +50,80 @@ public class FailedItem implements Serializable {
 
 	@Schema(description = "The item which failed to be imported.")
 	public String getItem() {
+		if (item != null) {
+			return item;
+		}
+
+		item = _itemSupplier.get();
+
 		return item;
 	}
 
 	public void setItem(String item) {
 		this.item = item;
+
+		_itemSupplier = () -> item;
 	}
 
 	@JsonIgnore
 	public void setItem(UnsafeSupplier<String, Exception> itemUnsafeSupplier) {
-		try {
-			item = itemUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		item = null;
+
+		_itemSupplier = () -> {
+			try {
+				return itemUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The item which failed to be imported.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String item;
 
+	private Supplier<String> _itemSupplier = () -> null;
+
 	@Schema(
 		description = "Position of the item in the import file. For CSV file it will represent a line number, for JSON file it will represent an array index etc."
 	)
 	public Integer getItemIndex() {
+		if (itemIndex != null) {
+			return itemIndex;
+		}
+
+		itemIndex = _itemIndexSupplier.get();
+
 		return itemIndex;
 	}
 
 	public void setItemIndex(Integer itemIndex) {
 		this.itemIndex = itemIndex;
+
+		_itemIndexSupplier = () -> itemIndex;
 	}
 
 	@JsonIgnore
 	public void setItemIndex(
 		UnsafeSupplier<Integer, Exception> itemIndexUnsafeSupplier) {
 
-		try {
-			itemIndex = itemIndexUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		itemIndex = null;
+
+		_itemIndexSupplier = () -> {
+			try {
+				return itemIndexUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -105,28 +132,42 @@ public class FailedItem implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer itemIndex;
 
+	private Supplier<Integer> _itemIndexSupplier = () -> null;
+
 	@Schema(description = "Message describing the reason of import failure.")
 	public String getMessage() {
+		if (message != null) {
+			return message;
+		}
+
+		message = _messageSupplier.get();
+
 		return message;
 	}
 
 	public void setMessage(String message) {
 		this.message = message;
+
+		_messageSupplier = () -> message;
 	}
 
 	@JsonIgnore
 	public void setMessage(
 		UnsafeSupplier<String, Exception> messageUnsafeSupplier) {
 
-		try {
-			message = messageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		message = null;
+
+		_messageSupplier = () -> {
+			try {
+				return messageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -134,6 +175,8 @@ public class FailedItem implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String message;
+
+	private Supplier<String> _messageSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

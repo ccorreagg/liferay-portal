@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -61,6 +62,12 @@ public class PageColumnDefinition implements Serializable {
 	)
 	@Valid
 	public ColumnViewportConfig getColumnViewportConfig() {
+		if (columnViewportConfig != null) {
+			return columnViewportConfig;
+		}
+
+		columnViewportConfig = _columnViewportConfigSupplier.get();
+
 		return columnViewportConfig;
 	}
 
@@ -68,6 +75,8 @@ public class PageColumnDefinition implements Serializable {
 		ColumnViewportConfig columnViewportConfig) {
 
 		this.columnViewportConfig = columnViewportConfig;
+
+		_columnViewportConfigSupplier = () -> columnViewportConfig;
 	}
 
 	@JsonIgnore
@@ -75,15 +84,19 @@ public class PageColumnDefinition implements Serializable {
 		UnsafeSupplier<ColumnViewportConfig, Exception>
 			columnViewportConfigUnsafeSupplier) {
 
-		try {
-			columnViewportConfig = columnViewportConfigUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		columnViewportConfig = null;
+
+		_columnViewportConfigSupplier = () -> {
+			try {
+				return columnViewportConfigUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@Deprecated
@@ -93,16 +106,27 @@ public class PageColumnDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ColumnViewportConfig columnViewportConfig;
 
+	private Supplier<ColumnViewportConfig> _columnViewportConfigSupplier =
+		() -> null;
+
 	@Schema(
 		description = "A list of column viewports of the page column definition."
 	)
 	@Valid
 	public ColumnViewport[] getColumnViewports() {
+		if (columnViewports != null) {
+			return columnViewports;
+		}
+
+		columnViewports = _columnViewportsSupplier.get();
+
 		return columnViewports;
 	}
 
 	public void setColumnViewports(ColumnViewport[] columnViewports) {
 		this.columnViewports = columnViewports;
+
+		_columnViewportsSupplier = () -> columnViewports;
 	}
 
 	@JsonIgnore
@@ -110,15 +134,19 @@ public class PageColumnDefinition implements Serializable {
 		UnsafeSupplier<ColumnViewport[], Exception>
 			columnViewportsUnsafeSupplier) {
 
-		try {
-			columnViewports = columnViewportsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		columnViewports = null;
+
+		_columnViewportsSupplier = () -> {
+			try {
+				return columnViewportsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -127,33 +155,49 @@ public class PageColumnDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ColumnViewport[] columnViewports;
 
+	private Supplier<ColumnViewport[]> _columnViewportsSupplier = () -> null;
+
 	@DecimalMax("12")
 	@DecimalMin("1")
 	@Schema(description = "The page column's size.")
 	public Integer getSize() {
+		if (size != null) {
+			return size;
+		}
+
+		size = _sizeSupplier.get();
+
 		return size;
 	}
 
 	public void setSize(Integer size) {
 		this.size = size;
+
+		_sizeSupplier = () -> size;
 	}
 
 	@JsonIgnore
 	public void setSize(UnsafeSupplier<Integer, Exception> sizeUnsafeSupplier) {
-		try {
-			size = sizeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		size = null;
+
+		_sizeSupplier = () -> {
+			try {
+				return sizeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page column's size.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer size;
+
+	private Supplier<Integer> _sizeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

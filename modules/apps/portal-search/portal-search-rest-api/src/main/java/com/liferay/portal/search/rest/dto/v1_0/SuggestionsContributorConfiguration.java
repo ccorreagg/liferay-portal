@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,113 +56,169 @@ public class SuggestionsContributorConfiguration implements Serializable {
 	@Schema
 	@Valid
 	public Object getAttributes() {
+		if (attributes != null) {
+			return attributes;
+		}
+
+		attributes = _attributesSupplier.get();
+
 		return attributes;
 	}
 
 	public void setAttributes(Object attributes) {
 		this.attributes = attributes;
+
+		_attributesSupplier = () -> attributes;
 	}
 
 	@JsonIgnore
 	public void setAttributes(
 		UnsafeSupplier<Object, Exception> attributesUnsafeSupplier) {
 
-		try {
-			attributes = attributesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		attributes = null;
+
+		_attributesSupplier = () -> {
+			try {
+				return attributesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object attributes;
 
+	private Supplier<Object> _attributesSupplier = () -> null;
+
 	@Schema
 	public String getContributorName() {
+		if (contributorName != null) {
+			return contributorName;
+		}
+
+		contributorName = _contributorNameSupplier.get();
+
 		return contributorName;
 	}
 
 	public void setContributorName(String contributorName) {
 		this.contributorName = contributorName;
+
+		_contributorNameSupplier = () -> contributorName;
 	}
 
 	@JsonIgnore
 	public void setContributorName(
 		UnsafeSupplier<String, Exception> contributorNameUnsafeSupplier) {
 
-		try {
-			contributorName = contributorNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contributorName = null;
+
+		_contributorNameSupplier = () -> {
+			try {
+				return contributorNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String contributorName;
 
+	private Supplier<String> _contributorNameSupplier = () -> null;
+
 	@Schema
 	public String getDisplayGroupName() {
+		if (displayGroupName != null) {
+			return displayGroupName;
+		}
+
+		displayGroupName = _displayGroupNameSupplier.get();
+
 		return displayGroupName;
 	}
 
 	public void setDisplayGroupName(String displayGroupName) {
 		this.displayGroupName = displayGroupName;
+
+		_displayGroupNameSupplier = () -> displayGroupName;
 	}
 
 	@JsonIgnore
 	public void setDisplayGroupName(
 		UnsafeSupplier<String, Exception> displayGroupNameUnsafeSupplier) {
 
-		try {
-			displayGroupName = displayGroupNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		displayGroupName = null;
+
+		_displayGroupNameSupplier = () -> {
+			try {
+				return displayGroupNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String displayGroupName;
 
+	private Supplier<String> _displayGroupNameSupplier = () -> null;
+
 	@Schema
 	public Integer getSize() {
+		if (size != null) {
+			return size;
+		}
+
+		size = _sizeSupplier.get();
+
 		return size;
 	}
 
 	public void setSize(Integer size) {
 		this.size = size;
+
+		_sizeSupplier = () -> size;
 	}
 
 	@JsonIgnore
 	public void setSize(UnsafeSupplier<Integer, Exception> sizeUnsafeSupplier) {
-		try {
-			size = sizeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		size = null;
+
+		_sizeSupplier = () -> {
+			try {
+				return sizeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer size;
+
+	private Supplier<Integer> _sizeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

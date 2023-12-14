@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,59 +53,87 @@ public class ContentSubtype implements Serializable {
 
 	@Schema(description = "The content subtype's ID.")
 	public Long getSubtypeId() {
+		if (subtypeId != null) {
+			return subtypeId;
+		}
+
+		subtypeId = _subtypeIdSupplier.get();
+
 		return subtypeId;
 	}
 
 	public void setSubtypeId(Long subtypeId) {
 		this.subtypeId = subtypeId;
+
+		_subtypeIdSupplier = () -> subtypeId;
 	}
 
 	@JsonIgnore
 	public void setSubtypeId(
 		UnsafeSupplier<Long, Exception> subtypeIdUnsafeSupplier) {
 
-		try {
-			subtypeId = subtypeIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		subtypeId = null;
+
+		_subtypeIdSupplier = () -> {
+			try {
+				return subtypeIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The content subtype's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long subtypeId;
 
+	private Supplier<Long> _subtypeIdSupplier = () -> null;
+
 	@Schema(description = "The content subtype's Key.")
 	public String getSubtypeKey() {
+		if (subtypeKey != null) {
+			return subtypeKey;
+		}
+
+		subtypeKey = _subtypeKeySupplier.get();
+
 		return subtypeKey;
 	}
 
 	public void setSubtypeKey(String subtypeKey) {
 		this.subtypeKey = subtypeKey;
+
+		_subtypeKeySupplier = () -> subtypeKey;
 	}
 
 	@JsonIgnore
 	public void setSubtypeKey(
 		UnsafeSupplier<String, Exception> subtypeKeyUnsafeSupplier) {
 
-		try {
-			subtypeKey = subtypeKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		subtypeKey = null;
+
+		_subtypeKeySupplier = () -> {
+			try {
+				return subtypeKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The content subtype's Key.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String subtypeKey;
+
+	private Supplier<String> _subtypeKeySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

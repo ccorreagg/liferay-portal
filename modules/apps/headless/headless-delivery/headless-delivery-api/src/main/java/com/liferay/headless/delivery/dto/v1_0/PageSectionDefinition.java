@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,26 +56,38 @@ public class PageSectionDefinition implements Serializable {
 
 	@Schema(deprecated = true)
 	public String getBackgroundColor() {
+		if (backgroundColor != null) {
+			return backgroundColor;
+		}
+
+		backgroundColor = _backgroundColorSupplier.get();
+
 		return backgroundColor;
 	}
 
 	public void setBackgroundColor(String backgroundColor) {
 		this.backgroundColor = backgroundColor;
+
+		_backgroundColorSupplier = () -> backgroundColor;
 	}
 
 	@JsonIgnore
 	public void setBackgroundColor(
 		UnsafeSupplier<String, Exception> backgroundColorUnsafeSupplier) {
 
-		try {
-			backgroundColor = backgroundColorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		backgroundColor = null;
+
+		_backgroundColorSupplier = () -> {
+			try {
+				return backgroundColorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@Deprecated
@@ -82,9 +95,17 @@ public class PageSectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String backgroundColor;
 
+	private Supplier<String> _backgroundColorSupplier = () -> null;
+
 	@Schema(description = "The background fragment image of the page section.")
 	@Valid
 	public FragmentImage getBackgroundFragmentImage() {
+		if (backgroundFragmentImage != null) {
+			return backgroundFragmentImage;
+		}
+
+		backgroundFragmentImage = _backgroundFragmentImageSupplier.get();
+
 		return backgroundFragmentImage;
 	}
 
@@ -92,6 +113,8 @@ public class PageSectionDefinition implements Serializable {
 		FragmentImage backgroundFragmentImage) {
 
 		this.backgroundFragmentImage = backgroundFragmentImage;
+
+		_backgroundFragmentImageSupplier = () -> backgroundFragmentImage;
 	}
 
 	@JsonIgnore
@@ -99,16 +122,19 @@ public class PageSectionDefinition implements Serializable {
 		UnsafeSupplier<FragmentImage, Exception>
 			backgroundFragmentImageUnsafeSupplier) {
 
-		try {
-			backgroundFragmentImage =
-				backgroundFragmentImageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		backgroundFragmentImage = null;
+
+		_backgroundFragmentImageSupplier = () -> {
+			try {
+				return backgroundFragmentImageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -117,17 +143,28 @@ public class PageSectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentImage backgroundFragmentImage;
 
+	private Supplier<FragmentImage> _backgroundFragmentImageSupplier =
+		() -> null;
+
 	@Schema(
 		deprecated = true,
 		description = "Deprecated as of Athanasius (7.3.x), replaced by backgroundFragmentImage"
 	)
 	@Valid
 	public BackgroundImage getBackgroundImage() {
+		if (backgroundImage != null) {
+			return backgroundImage;
+		}
+
+		backgroundImage = _backgroundImageSupplier.get();
+
 		return backgroundImage;
 	}
 
 	public void setBackgroundImage(BackgroundImage backgroundImage) {
 		this.backgroundImage = backgroundImage;
+
+		_backgroundImageSupplier = () -> backgroundImage;
 	}
 
 	@JsonIgnore
@@ -135,15 +172,19 @@ public class PageSectionDefinition implements Serializable {
 		UnsafeSupplier<BackgroundImage, Exception>
 			backgroundImageUnsafeSupplier) {
 
-		try {
-			backgroundImage = backgroundImageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		backgroundImage = null;
+
+		_backgroundImageSupplier = () -> {
+			try {
+				return backgroundImageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@Deprecated
@@ -153,28 +194,42 @@ public class PageSectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected BackgroundImage backgroundImage;
 
+	private Supplier<BackgroundImage> _backgroundImageSupplier = () -> null;
+
 	@Schema(description = "Defines the content visibility of the container.")
 	public String getContentVisibility() {
+		if (contentVisibility != null) {
+			return contentVisibility;
+		}
+
+		contentVisibility = _contentVisibilitySupplier.get();
+
 		return contentVisibility;
 	}
 
 	public void setContentVisibility(String contentVisibility) {
 		this.contentVisibility = contentVisibility;
+
+		_contentVisibilitySupplier = () -> contentVisibility;
 	}
 
 	@JsonIgnore
 	public void setContentVisibility(
 		UnsafeSupplier<String, Exception> contentVisibilityUnsafeSupplier) {
 
-		try {
-			contentVisibility = contentVisibilityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentVisibility = null;
+
+		_contentVisibilitySupplier = () -> {
+			try {
+				return contentVisibilityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -183,30 +238,44 @@ public class PageSectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String contentVisibility;
 
+	private Supplier<String> _contentVisibilitySupplier = () -> null;
+
 	@Schema(
 		description = "A list of CSS Classes that are applied to the element."
 	)
 	public String[] getCssClasses() {
+		if (cssClasses != null) {
+			return cssClasses;
+		}
+
+		cssClasses = _cssClassesSupplier.get();
+
 		return cssClasses;
 	}
 
 	public void setCssClasses(String[] cssClasses) {
 		this.cssClasses = cssClasses;
+
+		_cssClassesSupplier = () -> cssClasses;
 	}
 
 	@JsonIgnore
 	public void setCssClasses(
 		UnsafeSupplier<String[], Exception> cssClassesUnsafeSupplier) {
 
-		try {
-			cssClasses = cssClassesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		cssClasses = null;
+
+		_cssClassesSupplier = () -> {
+			try {
+				return cssClassesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -215,42 +284,66 @@ public class PageSectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] cssClasses;
 
+	private Supplier<String[]> _cssClassesSupplier = () -> null;
+
 	@Schema(description = "Custom CSS that is applied on the fragment.")
 	public String getCustomCSS() {
+		if (customCSS != null) {
+			return customCSS;
+		}
+
+		customCSS = _customCSSSupplier.get();
+
 		return customCSS;
 	}
 
 	public void setCustomCSS(String customCSS) {
 		this.customCSS = customCSS;
+
+		_customCSSSupplier = () -> customCSS;
 	}
 
 	@JsonIgnore
 	public void setCustomCSS(
 		UnsafeSupplier<String, Exception> customCSSUnsafeSupplier) {
 
-		try {
-			customCSS = customCSSUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		customCSS = null;
+
+		_customCSSSupplier = () -> {
+			try {
+				return customCSSUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Custom CSS that is applied on the fragment.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String customCSS;
 
+	private Supplier<String> _customCSSSupplier = () -> null;
+
 	@Schema(description = "The custom CSS viewports of the page collection.")
 	@Valid
 	public CustomCSSViewport[] getCustomCSSViewports() {
+		if (customCSSViewports != null) {
+			return customCSSViewports;
+		}
+
+		customCSSViewports = _customCSSViewportsSupplier.get();
+
 		return customCSSViewports;
 	}
 
 	public void setCustomCSSViewports(CustomCSSViewport[] customCSSViewports) {
 		this.customCSSViewports = customCSSViewports;
+
+		_customCSSViewportsSupplier = () -> customCSSViewports;
 	}
 
 	@JsonIgnore
@@ -258,15 +351,19 @@ public class PageSectionDefinition implements Serializable {
 		UnsafeSupplier<CustomCSSViewport[], Exception>
 			customCSSViewportsUnsafeSupplier) {
 
-		try {
-			customCSSViewports = customCSSViewportsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		customCSSViewports = null;
+
+		_customCSSViewportsSupplier = () -> {
+			try {
+				return customCSSViewportsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -275,72 +372,111 @@ public class PageSectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected CustomCSSViewport[] customCSSViewports;
 
+	private Supplier<CustomCSSViewport[]> _customCSSViewportsSupplier =
+		() -> null;
+
 	@Schema(description = "The fragment link of the page section.")
 	@Valid
 	public FragmentLink getFragmentLink() {
+		if (fragmentLink != null) {
+			return fragmentLink;
+		}
+
+		fragmentLink = _fragmentLinkSupplier.get();
+
 		return fragmentLink;
 	}
 
 	public void setFragmentLink(FragmentLink fragmentLink) {
 		this.fragmentLink = fragmentLink;
+
+		_fragmentLinkSupplier = () -> fragmentLink;
 	}
 
 	@JsonIgnore
 	public void setFragmentLink(
 		UnsafeSupplier<FragmentLink, Exception> fragmentLinkUnsafeSupplier) {
 
-		try {
-			fragmentLink = fragmentLinkUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragmentLink = null;
+
+		_fragmentLinkSupplier = () -> {
+			try {
+				return fragmentLinkUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment link of the page section.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentLink fragmentLink;
 
+	private Supplier<FragmentLink> _fragmentLinkSupplier = () -> null;
+
 	@Schema(description = "The fragment style of the page section.")
 	@Valid
 	public FragmentStyle getFragmentStyle() {
+		if (fragmentStyle != null) {
+			return fragmentStyle;
+		}
+
+		fragmentStyle = _fragmentStyleSupplier.get();
+
 		return fragmentStyle;
 	}
 
 	public void setFragmentStyle(FragmentStyle fragmentStyle) {
 		this.fragmentStyle = fragmentStyle;
+
+		_fragmentStyleSupplier = () -> fragmentStyle;
 	}
 
 	@JsonIgnore
 	public void setFragmentStyle(
 		UnsafeSupplier<FragmentStyle, Exception> fragmentStyleUnsafeSupplier) {
 
-		try {
-			fragmentStyle = fragmentStyleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragmentStyle = null;
+
+		_fragmentStyleSupplier = () -> {
+			try {
+				return fragmentStyleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment style of the page section.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentStyle fragmentStyle;
 
+	private Supplier<FragmentStyle> _fragmentStyleSupplier = () -> null;
+
 	@Schema(description = "A list of fragment viewports of the page section.")
 	@Valid
 	public FragmentViewport[] getFragmentViewports() {
+		if (fragmentViewports != null) {
+			return fragmentViewports;
+		}
+
+		fragmentViewports = _fragmentViewportsSupplier.get();
+
 		return fragmentViewports;
 	}
 
 	public void setFragmentViewports(FragmentViewport[] fragmentViewports) {
 		this.fragmentViewports = fragmentViewports;
+
+		_fragmentViewportsSupplier = () -> fragmentViewports;
 	}
 
 	@JsonIgnore
@@ -348,15 +484,19 @@ public class PageSectionDefinition implements Serializable {
 		UnsafeSupplier<FragmentViewport[], Exception>
 			fragmentViewportsUnsafeSupplier) {
 
-		try {
-			fragmentViewports = fragmentViewportsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragmentViewports = null;
+
+		_fragmentViewportsSupplier = () -> {
+			try {
+				return fragmentViewportsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -365,14 +505,25 @@ public class PageSectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentViewport[] fragmentViewports;
 
+	private Supplier<FragmentViewport[]> _fragmentViewportsSupplier =
+		() -> null;
+
 	@Schema(description = "The page section's html properties")
 	@Valid
 	public HtmlProperties getHtmlProperties() {
+		if (htmlProperties != null) {
+			return htmlProperties;
+		}
+
+		htmlProperties = _htmlPropertiesSupplier.get();
+
 		return htmlProperties;
 	}
 
 	public void setHtmlProperties(HtmlProperties htmlProperties) {
 		this.htmlProperties = htmlProperties;
+
+		_htmlPropertiesSupplier = () -> htmlProperties;
 	}
 
 	@JsonIgnore
@@ -380,45 +531,63 @@ public class PageSectionDefinition implements Serializable {
 		UnsafeSupplier<HtmlProperties, Exception>
 			htmlPropertiesUnsafeSupplier) {
 
-		try {
-			htmlProperties = htmlPropertiesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		htmlProperties = null;
+
+		_htmlPropertiesSupplier = () -> {
+			try {
+				return htmlPropertiesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page section's html properties")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected HtmlProperties htmlProperties;
 
+	private Supplier<HtmlProperties> _htmlPropertiesSupplier = () -> null;
+
 	@Schema(
 		description = "A flag that indicates whether the page section is indexed or not."
 	)
 	public Boolean getIndexed() {
+		if (indexed != null) {
+			return indexed;
+		}
+
+		indexed = _indexedSupplier.get();
+
 		return indexed;
 	}
 
 	public void setIndexed(Boolean indexed) {
 		this.indexed = indexed;
+
+		_indexedSupplier = () -> indexed;
 	}
 
 	@JsonIgnore
 	public void setIndexed(
 		UnsafeSupplier<Boolean, Exception> indexedUnsafeSupplier) {
 
-		try {
-			indexed = indexedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		indexed = null;
+
+		_indexedSupplier = () -> {
+			try {
+				return indexedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -427,60 +596,90 @@ public class PageSectionDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean indexed;
 
+	private Supplier<Boolean> _indexedSupplier = () -> null;
+
 	@Schema(description = "the page section's layout.")
 	@Valid
 	public Layout getLayout() {
+		if (layout != null) {
+			return layout;
+		}
+
+		layout = _layoutSupplier.get();
+
 		return layout;
 	}
 
 	public void setLayout(Layout layout) {
 		this.layout = layout;
+
+		_layoutSupplier = () -> layout;
 	}
 
 	@JsonIgnore
 	public void setLayout(
 		UnsafeSupplier<Layout, Exception> layoutUnsafeSupplier) {
 
-		try {
-			layout = layoutUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		layout = null;
+
+		_layoutSupplier = () -> {
+			try {
+				return layoutUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "the page section's layout.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Layout layout;
 
+	private Supplier<Layout> _layoutSupplier = () -> null;
+
 	@Schema(description = "The custom name of a Page section.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The custom name of a Page section.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
+
+	private Supplier<String> _nameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,26 +58,38 @@ public class DisplayPageActionExecutionResult implements Serializable {
 	@Schema(description = "The mapping of the display page action result.")
 	@Valid
 	public Mapping getMapping() {
+		if (mapping != null) {
+			return mapping;
+		}
+
+		mapping = _mappingSupplier.get();
+
 		return mapping;
 	}
 
 	public void setMapping(Mapping mapping) {
 		this.mapping = mapping;
+
+		_mappingSupplier = () -> mapping;
 	}
 
 	@JsonIgnore
 	public void setMapping(
 		UnsafeSupplier<Mapping, Exception> mappingUnsafeSupplier) {
 
-		try {
-			mapping = mappingUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		mapping = null;
+
+		_mappingSupplier = () -> {
+			try {
+				return mappingUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -84,6 +97,8 @@ public class DisplayPageActionExecutionResult implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Mapping mapping;
+
+	private Supplier<Mapping> _mappingSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

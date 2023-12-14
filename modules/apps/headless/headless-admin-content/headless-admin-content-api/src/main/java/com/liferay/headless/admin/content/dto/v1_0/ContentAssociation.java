@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,26 +55,38 @@ public class ContentAssociation implements Serializable {
 		description = "The subtype of the content. i.e. the Structure name if it's a Structured Content."
 	)
 	public String getContentSubtype() {
+		if (contentSubtype != null) {
+			return contentSubtype;
+		}
+
+		contentSubtype = _contentSubtypeSupplier.get();
+
 		return contentSubtype;
 	}
 
 	public void setContentSubtype(String contentSubtype) {
 		this.contentSubtype = contentSubtype;
+
+		_contentSubtypeSupplier = () -> contentSubtype;
 	}
 
 	@JsonIgnore
 	public void setContentSubtype(
 		UnsafeSupplier<String, Exception> contentSubtypeUnsafeSupplier) {
 
-		try {
-			contentSubtype = contentSubtypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentSubtype = null;
+
+		_contentSubtypeSupplier = () -> {
+			try {
+				return contentSubtypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -82,30 +95,44 @@ public class ContentAssociation implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String contentSubtype;
 
+	private Supplier<String> _contentSubtypeSupplier = () -> null;
+
 	@Schema(
 		description = "The type of the content, i.e. Structure Content, BlogsPosting, etc."
 	)
 	public String getContentType() {
+		if (contentType != null) {
+			return contentType;
+		}
+
+		contentType = _contentTypeSupplier.get();
+
 		return contentType;
 	}
 
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
+
+		_contentTypeSupplier = () -> contentType;
 	}
 
 	@JsonIgnore
 	public void setContentType(
 		UnsafeSupplier<String, Exception> contentTypeUnsafeSupplier) {
 
-		try {
-			contentType = contentTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentType = null;
+
+		_contentTypeSupplier = () -> {
+			try {
+				return contentTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -113,6 +140,8 @@ public class ContentAssociation implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String contentType;
+
+	private Supplier<String> _contentTypeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

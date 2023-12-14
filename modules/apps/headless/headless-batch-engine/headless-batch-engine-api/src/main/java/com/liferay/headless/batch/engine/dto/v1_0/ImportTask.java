@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -61,26 +62,38 @@ public class ImportTask implements Serializable {
 		example = "com.liferay.headless.delivery.dto.v1_0.BlogPosting"
 	)
 	public String getClassName() {
+		if (className != null) {
+			return className;
+		}
+
+		className = _classNameSupplier.get();
+
 		return className;
 	}
 
 	public void setClassName(String className) {
 		this.className = className;
+
+		_classNameSupplier = () -> className;
 	}
 
 	@JsonIgnore
 	public void setClassName(
 		UnsafeSupplier<String, Exception> classNameUnsafeSupplier) {
 
-		try {
-			className = classNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		className = null;
+
+		_classNameSupplier = () -> {
+			try {
+				return classNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -89,90 +102,132 @@ public class ImportTask implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String className;
 
+	private Supplier<String> _classNameSupplier = () -> null;
+
 	@Schema(description = "The file content type.", example = "JSON")
 	public String getContentType() {
+		if (contentType != null) {
+			return contentType;
+		}
+
+		contentType = _contentTypeSupplier.get();
+
 		return contentType;
 	}
 
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
+
+		_contentTypeSupplier = () -> contentType;
 	}
 
 	@JsonIgnore
 	public void setContentType(
 		UnsafeSupplier<String, Exception> contentTypeUnsafeSupplier) {
 
-		try {
-			contentType = contentTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentType = null;
+
+		_contentTypeSupplier = () -> {
+			try {
+				return contentTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The file content type.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String contentType;
 
+	private Supplier<String> _contentTypeSupplier = () -> null;
+
 	@Schema(
 		description = "The end time of import task operation.",
 		example = "2019-27-09'T'08:33:33'Z'"
 	)
 	public Date getEndTime() {
+		if (endTime != null) {
+			return endTime;
+		}
+
+		endTime = _endTimeSupplier.get();
+
 		return endTime;
 	}
 
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+
+		_endTimeSupplier = () -> endTime;
 	}
 
 	@JsonIgnore
 	public void setEndTime(
 		UnsafeSupplier<Date, Exception> endTimeUnsafeSupplier) {
 
-		try {
-			endTime = endTimeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		endTime = null;
+
+		_endTimeSupplier = () -> {
+			try {
+				return endTimeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The end time of import task operation.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date endTime;
 
+	private Supplier<Date> _endTimeSupplier = () -> null;
+
 	@Schema(
 		description = "The error message in case of import task's failed execution.",
 		example = "File import failed"
 	)
 	public String getErrorMessage() {
+		if (errorMessage != null) {
+			return errorMessage;
+		}
+
+		errorMessage = _errorMessageSupplier.get();
+
 		return errorMessage;
 	}
 
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
+
+		_errorMessageSupplier = () -> errorMessage;
 	}
 
 	@JsonIgnore
 	public void setErrorMessage(
 		UnsafeSupplier<String, Exception> errorMessageUnsafeSupplier) {
 
-		try {
-			errorMessage = errorMessageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		errorMessage = null;
+
+		_errorMessageSupplier = () -> {
+			try {
+				return errorMessageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -181,12 +236,20 @@ public class ImportTask implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String errorMessage;
 
+	private Supplier<String> _errorMessageSupplier = () -> null;
+
 	@Schema(
 		description = "The status of import task's execution.",
 		example = "INITIALIZED"
 	)
 	@Valid
 	public ExecuteStatus getExecuteStatus() {
+		if (executeStatus != null) {
+			return executeStatus;
+		}
+
+		executeStatus = _executeStatusSupplier.get();
+
 		return executeStatus;
 	}
 
@@ -201,116 +264,172 @@ public class ImportTask implements Serializable {
 
 	public void setExecuteStatus(ExecuteStatus executeStatus) {
 		this.executeStatus = executeStatus;
+
+		_executeStatusSupplier = () -> executeStatus;
 	}
 
 	@JsonIgnore
 	public void setExecuteStatus(
 		UnsafeSupplier<ExecuteStatus, Exception> executeStatusUnsafeSupplier) {
 
-		try {
-			executeStatus = executeStatusUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		executeStatus = null;
+
+		_executeStatusSupplier = () -> {
+			try {
+				return executeStatusUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The status of import task's execution.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ExecuteStatus executeStatus;
 
+	private Supplier<ExecuteStatus> _executeStatusSupplier = () -> null;
+
 	@Schema(description = "The optional external key of this account.")
 	public String getExternalReferenceCode() {
+		if (externalReferenceCode != null) {
+			return externalReferenceCode;
+		}
+
+		externalReferenceCode = _externalReferenceCodeSupplier.get();
+
 		return externalReferenceCode;
 	}
 
 	public void setExternalReferenceCode(String externalReferenceCode) {
 		this.externalReferenceCode = externalReferenceCode;
+
+		_externalReferenceCodeSupplier = () -> externalReferenceCode;
 	}
 
 	@JsonIgnore
 	public void setExternalReferenceCode(
 		UnsafeSupplier<String, Exception> externalReferenceCodeUnsafeSupplier) {
 
-		try {
-			externalReferenceCode = externalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		externalReferenceCode = null;
+
+		_externalReferenceCodeSupplier = () -> {
+			try {
+				return externalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The optional external key of this account.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String externalReferenceCode;
 
+	private Supplier<String> _externalReferenceCodeSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public FailedItem[] getFailedItems() {
+		if (failedItems != null) {
+			return failedItems;
+		}
+
+		failedItems = _failedItemsSupplier.get();
+
 		return failedItems;
 	}
 
 	public void setFailedItems(FailedItem[] failedItems) {
 		this.failedItems = failedItems;
+
+		_failedItemsSupplier = () -> failedItems;
 	}
 
 	@JsonIgnore
 	public void setFailedItems(
 		UnsafeSupplier<FailedItem[], Exception> failedItemsUnsafeSupplier) {
 
-		try {
-			failedItems = failedItemsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		failedItems = null;
+
+		_failedItemsSupplier = () -> {
+			try {
+				return failedItemsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FailedItem[] failedItems;
 
+	private Supplier<FailedItem[]> _failedItemsSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(description = "The task's ID.", example = "30130")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The task's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(
 		description = "Defines if import task will fail when error occurs or continue importing rest of the items."
 	)
 	@Valid
 	public ImportStrategy getImportStrategy() {
+		if (importStrategy != null) {
+			return importStrategy;
+		}
+
+		importStrategy = _importStrategySupplier.get();
+
 		return importStrategy;
 	}
 
@@ -325,6 +444,8 @@ public class ImportTask implements Serializable {
 
 	public void setImportStrategy(ImportStrategy importStrategy) {
 		this.importStrategy = importStrategy;
+
+		_importStrategySupplier = () -> importStrategy;
 	}
 
 	@JsonIgnore
@@ -332,15 +453,19 @@ public class ImportTask implements Serializable {
 		UnsafeSupplier<ImportStrategy, Exception>
 			importStrategyUnsafeSupplier) {
 
-		try {
-			importStrategy = importStrategyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		importStrategy = null;
+
+		_importStrategySupplier = () -> {
+			try {
+				return importStrategyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -349,9 +474,17 @@ public class ImportTask implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ImportStrategy importStrategy;
 
+	private Supplier<ImportStrategy> _importStrategySupplier = () -> null;
+
 	@Schema(description = "The operation of import task.", example = "CREATE")
 	@Valid
 	public Operation getOperation() {
+		if (operation != null) {
+			return operation;
+		}
+
+		operation = _operationSupplier.get();
+
 		return operation;
 	}
 
@@ -366,26 +499,34 @@ public class ImportTask implements Serializable {
 
 	public void setOperation(Operation operation) {
 		this.operation = operation;
+
+		_operationSupplier = () -> operation;
 	}
 
 	@JsonIgnore
 	public void setOperation(
 		UnsafeSupplier<Operation, Exception> operationUnsafeSupplier) {
 
-		try {
-			operation = operationUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		operation = null;
+
+		_operationSupplier = () -> {
+			try {
+				return operationUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The operation of import task.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Operation operation;
+
+	private Supplier<Operation> _operationSupplier = () -> null;
 
 	@DecimalMin("0")
 	@Schema(
@@ -393,26 +534,38 @@ public class ImportTask implements Serializable {
 		example = "100"
 	)
 	public Integer getProcessedItemsCount() {
+		if (processedItemsCount != null) {
+			return processedItemsCount;
+		}
+
+		processedItemsCount = _processedItemsCountSupplier.get();
+
 		return processedItemsCount;
 	}
 
 	public void setProcessedItemsCount(Integer processedItemsCount) {
 		this.processedItemsCount = processedItemsCount;
+
+		_processedItemsCountSupplier = () -> processedItemsCount;
 	}
 
 	@JsonIgnore
 	public void setProcessedItemsCount(
 		UnsafeSupplier<Integer, Exception> processedItemsCountUnsafeSupplier) {
 
-		try {
-			processedItemsCount = processedItemsCountUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		processedItemsCount = null;
+
+		_processedItemsCountSupplier = () -> {
+			try {
+				return processedItemsCountUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -421,36 +574,52 @@ public class ImportTask implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer processedItemsCount;
 
+	private Supplier<Integer> _processedItemsCountSupplier = () -> null;
+
 	@Schema(
 		description = "The start time of import task operation.",
 		example = "2019-27-09'T'08:23:33'Z'"
 	)
 	public Date getStartTime() {
+		if (startTime != null) {
+			return startTime;
+		}
+
+		startTime = _startTimeSupplier.get();
+
 		return startTime;
 	}
 
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
+
+		_startTimeSupplier = () -> startTime;
 	}
 
 	@JsonIgnore
 	public void setStartTime(
 		UnsafeSupplier<Date, Exception> startTimeUnsafeSupplier) {
 
-		try {
-			startTime = startTimeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		startTime = null;
+
+		_startTimeSupplier = () -> {
+			try {
+				return startTimeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The start time of import task operation.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date startTime;
+
+	private Supplier<Date> _startTimeSupplier = () -> null;
 
 	@DecimalMin("0")
 	@Schema(
@@ -458,26 +627,38 @@ public class ImportTask implements Serializable {
 		example = "1000"
 	)
 	public Integer getTotalItemsCount() {
+		if (totalItemsCount != null) {
+			return totalItemsCount;
+		}
+
+		totalItemsCount = _totalItemsCountSupplier.get();
+
 		return totalItemsCount;
 	}
 
 	public void setTotalItemsCount(Integer totalItemsCount) {
 		this.totalItemsCount = totalItemsCount;
+
+		_totalItemsCountSupplier = () -> totalItemsCount;
 	}
 
 	@JsonIgnore
 	public void setTotalItemsCount(
 		UnsafeSupplier<Integer, Exception> totalItemsCountUnsafeSupplier) {
 
-		try {
-			totalItemsCount = totalItemsCountUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		totalItemsCount = null;
+
+		_totalItemsCountSupplier = () -> {
+			try {
+				return totalItemsCountUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -485,6 +666,8 @@ public class ImportTask implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer totalItemsCount;
+
+	private Supplier<Integer> _totalItemsCountSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

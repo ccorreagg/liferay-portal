@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,6 +57,12 @@ public class SkuUnitOfMeasure implements Serializable {
 	@Schema(example = "1.5")
 	@Valid
 	public BigDecimal getIncrementalOrderQuantity() {
+		if (incrementalOrderQuantity != null) {
+			return incrementalOrderQuantity;
+		}
+
+		incrementalOrderQuantity = _incrementalOrderQuantitySupplier.get();
+
 		return incrementalOrderQuantity;
 	}
 
@@ -63,6 +70,8 @@ public class SkuUnitOfMeasure implements Serializable {
 		BigDecimal incrementalOrderQuantity) {
 
 		this.incrementalOrderQuantity = incrementalOrderQuantity;
+
+		_incrementalOrderQuantitySupplier = () -> incrementalOrderQuantity;
 	}
 
 	@JsonIgnore
@@ -70,188 +79,277 @@ public class SkuUnitOfMeasure implements Serializable {
 		UnsafeSupplier<BigDecimal, Exception>
 			incrementalOrderQuantityUnsafeSupplier) {
 
-		try {
-			incrementalOrderQuantity =
-				incrementalOrderQuantityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		incrementalOrderQuantity = null;
+
+		_incrementalOrderQuantitySupplier = () -> {
+			try {
+				return incrementalOrderQuantityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected BigDecimal incrementalOrderQuantity;
 
+	private Supplier<BigDecimal> _incrementalOrderQuantitySupplier = () -> null;
+
 	@Schema(example = "pl")
 	public String getKey() {
+		if (key != null) {
+			return key;
+		}
+
+		key = _keySupplier.get();
+
 		return key;
 	}
 
 	public void setKey(String key) {
 		this.key = key;
+
+		_keySupplier = () -> key;
 	}
 
 	@JsonIgnore
 	public void setKey(UnsafeSupplier<String, Exception> keyUnsafeSupplier) {
-		try {
-			key = keyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		key = null;
+
+		_keySupplier = () -> {
+			try {
+				return keyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String key;
 
+	private Supplier<String> _keySupplier = () -> null;
+
 	@Schema(example = "Pallet")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema(example = "3")
 	public Integer getPrecision() {
+		if (precision != null) {
+			return precision;
+		}
+
+		precision = _precisionSupplier.get();
+
 		return precision;
 	}
 
 	public void setPrecision(Integer precision) {
 		this.precision = precision;
+
+		_precisionSupplier = () -> precision;
 	}
 
 	@JsonIgnore
 	public void setPrecision(
 		UnsafeSupplier<Integer, Exception> precisionUnsafeSupplier) {
 
-		try {
-			precision = precisionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		precision = null;
+
+		_precisionSupplier = () -> {
+			try {
+				return precisionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer precision;
 
+	private Supplier<Integer> _precisionSupplier = () -> null;
+
 	@Schema(example = "true")
 	public Boolean getPrimary() {
+		if (primary != null) {
+			return primary;
+		}
+
+		primary = _primarySupplier.get();
+
 		return primary;
 	}
 
 	public void setPrimary(Boolean primary) {
 		this.primary = primary;
+
+		_primarySupplier = () -> primary;
 	}
 
 	@JsonIgnore
 	public void setPrimary(
 		UnsafeSupplier<Boolean, Exception> primaryUnsafeSupplier) {
 
-		try {
-			primary = primaryUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		primary = null;
+
+		_primarySupplier = () -> {
+			try {
+				return primaryUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean primary;
 
+	private Supplier<Boolean> _primarySupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "1.1")
 	public Double getPriority() {
+		if (priority != null) {
+			return priority;
+		}
+
+		priority = _prioritySupplier.get();
+
 		return priority;
 	}
 
 	public void setPriority(Double priority) {
 		this.priority = priority;
+
+		_prioritySupplier = () -> priority;
 	}
 
 	@JsonIgnore
 	public void setPriority(
 		UnsafeSupplier<Double, Exception> priorityUnsafeSupplier) {
 
-		try {
-			priority = priorityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		priority = null;
+
+		_prioritySupplier = () -> {
+			try {
+				return priorityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Double priority;
 
+	private Supplier<Double> _prioritySupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "202.1")
 	@Valid
 	public BigDecimal getRate() {
+		if (rate != null) {
+			return rate;
+		}
+
+		rate = _rateSupplier.get();
+
 		return rate;
 	}
 
 	public void setRate(BigDecimal rate) {
 		this.rate = rate;
+
+		_rateSupplier = () -> rate;
 	}
 
 	@JsonIgnore
 	public void setRate(
 		UnsafeSupplier<BigDecimal, Exception> rateUnsafeSupplier) {
 
-		try {
-			rate = rateUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		rate = null;
+
+		_rateSupplier = () -> {
+			try {
+				return rateUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected BigDecimal rate;
+
+	private Supplier<BigDecimal> _rateSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,59 +50,87 @@ public class IndexConfiguration implements Serializable {
 
 	@Schema
 	public Boolean getExternal() {
+		if (external != null) {
+			return external;
+		}
+
+		external = _externalSupplier.get();
+
 		return external;
 	}
 
 	public void setExternal(Boolean external) {
 		this.external = external;
+
+		_externalSupplier = () -> external;
 	}
 
 	@JsonIgnore
 	public void setExternal(
 		UnsafeSupplier<Boolean, Exception> externalUnsafeSupplier) {
 
-		try {
-			external = externalUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		external = null;
+
+		_externalSupplier = () -> {
+			try {
+				return externalUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean external;
 
+	private Supplier<Boolean> _externalSupplier = () -> null;
+
 	@Schema
 	public String getIndexName() {
+		if (indexName != null) {
+			return indexName;
+		}
+
+		indexName = _indexNameSupplier.get();
+
 		return indexName;
 	}
 
 	public void setIndexName(String indexName) {
 		this.indexName = indexName;
+
+		_indexNameSupplier = () -> indexName;
 	}
 
 	@JsonIgnore
 	public void setIndexName(
 		UnsafeSupplier<String, Exception> indexNameUnsafeSupplier) {
 
-		try {
-			indexName = indexNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		indexName = null;
+
+		_indexNameSupplier = () -> {
+			try {
+				return indexNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String indexName;
+
+	private Supplier<String> _indexNameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,11 +58,19 @@ public class Service implements Serializable {
 	)
 	@Valid
 	public HoursAvailable[] getHoursAvailable() {
+		if (hoursAvailable != null) {
+			return hoursAvailable;
+		}
+
+		hoursAvailable = _hoursAvailableSupplier.get();
+
 		return hoursAvailable;
 	}
 
 	public void setHoursAvailable(HoursAvailable[] hoursAvailable) {
 		this.hoursAvailable = hoursAvailable;
+
+		_hoursAvailableSupplier = () -> hoursAvailable;
 	}
 
 	@JsonIgnore
@@ -69,15 +78,19 @@ public class Service implements Serializable {
 		UnsafeSupplier<HoursAvailable[], Exception>
 			hoursAvailableUnsafeSupplier) {
 
-		try {
-			hoursAvailable = hoursAvailableUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		hoursAvailable = null;
+
+		_hoursAvailableSupplier = () -> {
+			try {
+				return hoursAvailableUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -86,28 +99,42 @@ public class Service implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected HoursAvailable[] hoursAvailable;
 
+	private Supplier<HoursAvailable[]> _hoursAvailableSupplier = () -> null;
+
 	@Schema(description = "The type of service the organization provides.")
 	public String getServiceType() {
+		if (serviceType != null) {
+			return serviceType;
+		}
+
+		serviceType = _serviceTypeSupplier.get();
+
 		return serviceType;
 	}
 
 	public void setServiceType(String serviceType) {
 		this.serviceType = serviceType;
+
+		_serviceTypeSupplier = () -> serviceType;
 	}
 
 	@JsonIgnore
 	public void setServiceType(
 		UnsafeSupplier<String, Exception> serviceTypeUnsafeSupplier) {
 
-		try {
-			serviceType = serviceTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		serviceType = null;
+
+		_serviceTypeSupplier = () -> {
+			try {
+				return serviceTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -115,6 +142,8 @@ public class Service implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String serviceType;
+
+	private Supplier<String> _serviceTypeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

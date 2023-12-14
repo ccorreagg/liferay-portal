@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,171 +57,255 @@ public class SearchResult implements Serializable {
 
 	@Schema(description = "The last time the item was changed.")
 	public Date getDateModified() {
+		if (dateModified != null) {
+			return dateModified;
+		}
+
+		dateModified = _dateModifiedSupplier.get();
+
 		return dateModified;
 	}
 
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
+
+		_dateModifiedSupplier = () -> dateModified;
 	}
 
 	@JsonIgnore
 	public void setDateModified(
 		UnsafeSupplier<Date, Exception> dateModifiedUnsafeSupplier) {
 
-		try {
-			dateModified = dateModifiedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateModified = null;
+
+		_dateModifiedSupplier = () -> {
+			try {
+				return dateModifiedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The last time the item was changed.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date dateModified;
 
+	private Supplier<Date> _dateModifiedSupplier = () -> null;
+
 	@Schema(description = "The item's description.")
 	public String getDescription() {
+		if (description != null) {
+			return description;
+		}
+
+		description = _descriptionSupplier.get();
+
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+
+		_descriptionSupplier = () -> description;
 	}
 
 	@JsonIgnore
 	public void setDescription(
 		UnsafeSupplier<String, Exception> descriptionUnsafeSupplier) {
 
-		try {
-			description = descriptionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description = null;
+
+		_descriptionSupplier = () -> {
+			try {
+				return descriptionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The item's description.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
+	private Supplier<String> _descriptionSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getEmbedded() {
+		if (embedded != null) {
+			return embedded;
+		}
+
+		embedded = _embeddedSupplier.get();
+
 		return embedded;
 	}
 
 	public void setEmbedded(Object embedded) {
 		this.embedded = embedded;
+
+		_embeddedSupplier = () -> embedded;
 	}
 
 	@JsonIgnore
 	public void setEmbedded(
 		UnsafeSupplier<Object, Exception> embeddedUnsafeSupplier) {
 
-		try {
-			embedded = embeddedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		embedded = null;
+
+		_embeddedSupplier = () -> {
+			try {
+				return embeddedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object embedded;
 
+	private Supplier<Object> _embeddedSupplier = () -> null;
+
 	@Schema(description = "The link to the embedded item.")
 	public String getItemURL() {
+		if (itemURL != null) {
+			return itemURL;
+		}
+
+		itemURL = _itemURLSupplier.get();
+
 		return itemURL;
 	}
 
 	public void setItemURL(String itemURL) {
 		this.itemURL = itemURL;
+
+		_itemURLSupplier = () -> itemURL;
 	}
 
 	@JsonIgnore
 	public void setItemURL(
 		UnsafeSupplier<String, Exception> itemURLUnsafeSupplier) {
 
-		try {
-			itemURL = itemURLUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		itemURL = null;
+
+		_itemURLSupplier = () -> {
+			try {
+				return itemURLUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The link to the embedded item.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String itemURL;
 
+	private Supplier<String> _itemURLSupplier = () -> null;
+
 	@Schema(description = "The item's score.")
 	@Valid
 	public Float getScore() {
+		if (score != null) {
+			return score;
+		}
+
+		score = _scoreSupplier.get();
+
 		return score;
 	}
 
 	public void setScore(Float score) {
 		this.score = score;
+
+		_scoreSupplier = () -> score;
 	}
 
 	@JsonIgnore
 	public void setScore(UnsafeSupplier<Float, Exception> scoreUnsafeSupplier) {
-		try {
-			score = scoreUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		score = null;
+
+		_scoreSupplier = () -> {
+			try {
+				return scoreUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The item's score.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Float score;
 
+	private Supplier<Float> _scoreSupplier = () -> null;
+
 	@Schema(description = "The item's title.")
 	public String getTitle() {
+		if (title != null) {
+			return title;
+		}
+
+		title = _titleSupplier.get();
+
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
+
+		_titleSupplier = () -> title;
 	}
 
 	@JsonIgnore
 	public void setTitle(
 		UnsafeSupplier<String, Exception> titleUnsafeSupplier) {
 
-		try {
-			title = titleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		title = null;
+
+		_titleSupplier = () -> {
+			try {
+				return titleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The item's title.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String title;
+
+	private Supplier<String> _titleSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -59,11 +60,19 @@ public class UserAccountContactInformation implements Serializable {
 	)
 	@Valid
 	public EmailAddress[] getEmailAddresses() {
+		if (emailAddresses != null) {
+			return emailAddresses;
+		}
+
+		emailAddresses = _emailAddressesSupplier.get();
+
 		return emailAddresses;
 	}
 
 	public void setEmailAddresses(EmailAddress[] emailAddresses) {
 		this.emailAddresses = emailAddresses;
+
+		_emailAddressesSupplier = () -> emailAddresses;
 	}
 
 	@JsonIgnore
@@ -71,15 +80,19 @@ public class UserAccountContactInformation implements Serializable {
 		UnsafeSupplier<EmailAddress[], Exception>
 			emailAddressesUnsafeSupplier) {
 
-		try {
-			emailAddresses = emailAddressesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		emailAddresses = null;
+
+		_emailAddressesSupplier = () -> {
+			try {
+				return emailAddressesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -88,98 +101,150 @@ public class UserAccountContactInformation implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected EmailAddress[] emailAddresses;
 
+	private Supplier<EmailAddress[]> _emailAddressesSupplier = () -> null;
+
 	@Schema(description = "The user's Facebook account.")
 	public String getFacebook() {
+		if (facebook != null) {
+			return facebook;
+		}
+
+		facebook = _facebookSupplier.get();
+
 		return facebook;
 	}
 
 	public void setFacebook(String facebook) {
 		this.facebook = facebook;
+
+		_facebookSupplier = () -> facebook;
 	}
 
 	@JsonIgnore
 	public void setFacebook(
 		UnsafeSupplier<String, Exception> facebookUnsafeSupplier) {
 
-		try {
-			facebook = facebookUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		facebook = null;
+
+		_facebookSupplier = () -> {
+			try {
+				return facebookUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The user's Facebook account.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String facebook;
 
+	private Supplier<String> _facebookSupplier = () -> null;
+
 	@Schema(description = "The ID of the `contactInformation`.")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The ID of the `contactInformation`.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(description = "The user's Jabber handle.")
 	public String getJabber() {
+		if (jabber != null) {
+			return jabber;
+		}
+
+		jabber = _jabberSupplier.get();
+
 		return jabber;
 	}
 
 	public void setJabber(String jabber) {
 		this.jabber = jabber;
+
+		_jabberSupplier = () -> jabber;
 	}
 
 	@JsonIgnore
 	public void setJabber(
 		UnsafeSupplier<String, Exception> jabberUnsafeSupplier) {
 
-		try {
-			jabber = jabberUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		jabber = null;
+
+		_jabberSupplier = () -> {
+			try {
+				return jabberUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The user's Jabber handle.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String jabber;
 
+	private Supplier<String> _jabberSupplier = () -> null;
+
 	@Schema(
 		description = "A list of user's postal addresses, with one optionally marked as primary."
 	)
 	@Valid
 	public PostalAddress[] getPostalAddresses() {
+		if (postalAddresses != null) {
+			return postalAddresses;
+		}
+
+		postalAddresses = _postalAddressesSupplier.get();
+
 		return postalAddresses;
 	}
 
 	public void setPostalAddresses(PostalAddress[] postalAddresses) {
 		this.postalAddresses = postalAddresses;
+
+		_postalAddressesSupplier = () -> postalAddresses;
 	}
 
 	@JsonIgnore
@@ -187,15 +252,19 @@ public class UserAccountContactInformation implements Serializable {
 		UnsafeSupplier<PostalAddress[], Exception>
 			postalAddressesUnsafeSupplier) {
 
-		try {
-			postalAddresses = postalAddressesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		postalAddresses = null;
+
+		_postalAddressesSupplier = () -> {
+			try {
+				return postalAddressesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -204,85 +273,127 @@ public class UserAccountContactInformation implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected PostalAddress[] postalAddresses;
 
+	private Supplier<PostalAddress[]> _postalAddressesSupplier = () -> null;
+
 	@Schema(description = "The user's Skype handle.")
 	public String getSkype() {
+		if (skype != null) {
+			return skype;
+		}
+
+		skype = _skypeSupplier.get();
+
 		return skype;
 	}
 
 	public void setSkype(String skype) {
 		this.skype = skype;
+
+		_skypeSupplier = () -> skype;
 	}
 
 	@JsonIgnore
 	public void setSkype(
 		UnsafeSupplier<String, Exception> skypeUnsafeSupplier) {
 
-		try {
-			skype = skypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		skype = null;
+
+		_skypeSupplier = () -> {
+			try {
+				return skypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The user's Skype handle.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String skype;
 
+	private Supplier<String> _skypeSupplier = () -> null;
+
 	@Schema(description = "The user's SMS number.")
 	public String getSms() {
+		if (sms != null) {
+			return sms;
+		}
+
+		sms = _smsSupplier.get();
+
 		return sms;
 	}
 
 	public void setSms(String sms) {
 		this.sms = sms;
+
+		_smsSupplier = () -> sms;
 	}
 
 	@JsonIgnore
 	public void setSms(UnsafeSupplier<String, Exception> smsUnsafeSupplier) {
-		try {
-			sms = smsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		sms = null;
+
+		_smsSupplier = () -> {
+			try {
+				return smsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The user's SMS number.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String sms;
 
+	private Supplier<String> _smsSupplier = () -> null;
+
 	@Schema(
 		description = "A list of the user's phone numbers, with one optionally marked as primary."
 	)
 	@Valid
 	public Phone[] getTelephones() {
+		if (telephones != null) {
+			return telephones;
+		}
+
+		telephones = _telephonesSupplier.get();
+
 		return telephones;
 	}
 
 	public void setTelephones(Phone[] telephones) {
 		this.telephones = telephones;
+
+		_telephonesSupplier = () -> telephones;
 	}
 
 	@JsonIgnore
 	public void setTelephones(
 		UnsafeSupplier<Phone[], Exception> telephonesUnsafeSupplier) {
 
-		try {
-			telephones = telephonesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		telephones = null;
+
+		_telephonesSupplier = () -> {
+			try {
+				return telephonesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -291,59 +402,87 @@ public class UserAccountContactInformation implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Phone[] telephones;
 
+	private Supplier<Phone[]> _telephonesSupplier = () -> null;
+
 	@Schema(description = "The user's Twitter handle.")
 	public String getTwitter() {
+		if (twitter != null) {
+			return twitter;
+		}
+
+		twitter = _twitterSupplier.get();
+
 		return twitter;
 	}
 
 	public void setTwitter(String twitter) {
 		this.twitter = twitter;
+
+		_twitterSupplier = () -> twitter;
 	}
 
 	@JsonIgnore
 	public void setTwitter(
 		UnsafeSupplier<String, Exception> twitterUnsafeSupplier) {
 
-		try {
-			twitter = twitterUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		twitter = null;
+
+		_twitterSupplier = () -> {
+			try {
+				return twitterUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The user's Twitter handle.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String twitter;
 
+	private Supplier<String> _twitterSupplier = () -> null;
+
 	@Schema(
 		description = "A list of the user's web URLs, with one optionally marked as primary."
 	)
 	@Valid
 	public WebUrl[] getWebUrls() {
+		if (webUrls != null) {
+			return webUrls;
+		}
+
+		webUrls = _webUrlsSupplier.get();
+
 		return webUrls;
 	}
 
 	public void setWebUrls(WebUrl[] webUrls) {
 		this.webUrls = webUrls;
+
+		_webUrlsSupplier = () -> webUrls;
 	}
 
 	@JsonIgnore
 	public void setWebUrls(
 		UnsafeSupplier<WebUrl[], Exception> webUrlsUnsafeSupplier) {
 
-		try {
-			webUrls = webUrlsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		webUrls = null;
+
+		_webUrlsSupplier = () -> {
+			try {
+				return webUrlsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -351,6 +490,8 @@ public class UserAccountContactInformation implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected WebUrl[] webUrls;
+
+	private Supplier<WebUrl[]> _webUrlsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

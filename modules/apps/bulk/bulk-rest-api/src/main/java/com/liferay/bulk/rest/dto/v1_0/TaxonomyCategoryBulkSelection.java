@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,6 +55,12 @@ public class TaxonomyCategoryBulkSelection implements Serializable {
 	@Schema
 	@Valid
 	public DocumentBulkSelection getDocumentBulkSelection() {
+		if (documentBulkSelection != null) {
+			return documentBulkSelection;
+		}
+
+		documentBulkSelection = _documentBulkSelectionSupplier.get();
+
 		return documentBulkSelection;
 	}
 
@@ -61,6 +68,8 @@ public class TaxonomyCategoryBulkSelection implements Serializable {
 		DocumentBulkSelection documentBulkSelection) {
 
 		this.documentBulkSelection = documentBulkSelection;
+
+		_documentBulkSelectionSupplier = () -> documentBulkSelection;
 	}
 
 	@JsonIgnore
@@ -68,28 +77,43 @@ public class TaxonomyCategoryBulkSelection implements Serializable {
 		UnsafeSupplier<DocumentBulkSelection, Exception>
 			documentBulkSelectionUnsafeSupplier) {
 
-		try {
-			documentBulkSelection = documentBulkSelectionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		documentBulkSelection = null;
+
+		_documentBulkSelectionSupplier = () -> {
+			try {
+				return documentBulkSelectionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected DocumentBulkSelection documentBulkSelection;
 
+	private Supplier<DocumentBulkSelection> _documentBulkSelectionSupplier =
+		() -> null;
+
 	@Schema
 	public Long[] getTaxonomyCategoryIdsToAdd() {
+		if (taxonomyCategoryIdsToAdd != null) {
+			return taxonomyCategoryIdsToAdd;
+		}
+
+		taxonomyCategoryIdsToAdd = _taxonomyCategoryIdsToAddSupplier.get();
+
 		return taxonomyCategoryIdsToAdd;
 	}
 
 	public void setTaxonomyCategoryIdsToAdd(Long[] taxonomyCategoryIdsToAdd) {
 		this.taxonomyCategoryIdsToAdd = taxonomyCategoryIdsToAdd;
+
+		_taxonomyCategoryIdsToAddSupplier = () -> taxonomyCategoryIdsToAdd;
 	}
 
 	@JsonIgnore
@@ -97,24 +121,36 @@ public class TaxonomyCategoryBulkSelection implements Serializable {
 		UnsafeSupplier<Long[], Exception>
 			taxonomyCategoryIdsToAddUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryIdsToAdd =
-				taxonomyCategoryIdsToAddUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryIdsToAdd = null;
+
+		_taxonomyCategoryIdsToAddSupplier = () -> {
+			try {
+				return taxonomyCategoryIdsToAddUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long[] taxonomyCategoryIdsToAdd;
 
+	private Supplier<Long[]> _taxonomyCategoryIdsToAddSupplier = () -> null;
+
 	@Schema
 	public Long[] getTaxonomyCategoryIdsToRemove() {
+		if (taxonomyCategoryIdsToRemove != null) {
+			return taxonomyCategoryIdsToRemove;
+		}
+
+		taxonomyCategoryIdsToRemove =
+			_taxonomyCategoryIdsToRemoveSupplier.get();
+
 		return taxonomyCategoryIdsToRemove;
 	}
 
@@ -122,6 +158,9 @@ public class TaxonomyCategoryBulkSelection implements Serializable {
 		Long[] taxonomyCategoryIdsToRemove) {
 
 		this.taxonomyCategoryIdsToRemove = taxonomyCategoryIdsToRemove;
+
+		_taxonomyCategoryIdsToRemoveSupplier =
+			() -> taxonomyCategoryIdsToRemove;
 	}
 
 	@JsonIgnore
@@ -129,21 +168,26 @@ public class TaxonomyCategoryBulkSelection implements Serializable {
 		UnsafeSupplier<Long[], Exception>
 			taxonomyCategoryIdsToRemoveUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryIdsToRemove =
-				taxonomyCategoryIdsToRemoveUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryIdsToRemove = null;
+
+		_taxonomyCategoryIdsToRemoveSupplier = () -> {
+			try {
+				return taxonomyCategoryIdsToRemoveUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long[] taxonomyCategoryIdsToRemove;
+
+	private Supplier<Long[]> _taxonomyCategoryIdsToRemoveSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

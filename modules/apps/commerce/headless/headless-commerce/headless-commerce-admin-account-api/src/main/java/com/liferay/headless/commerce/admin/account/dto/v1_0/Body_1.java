@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,29 +50,43 @@ public class Body_1 implements Serializable {
 
 	@Schema
 	public String getLogo() {
+		if (logo != null) {
+			return logo;
+		}
+
+		logo = _logoSupplier.get();
+
 		return logo;
 	}
 
 	public void setLogo(String logo) {
 		this.logo = logo;
+
+		_logoSupplier = () -> logo;
 	}
 
 	@JsonIgnore
 	public void setLogo(UnsafeSupplier<String, Exception> logoUnsafeSupplier) {
-		try {
-			logo = logoUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		logo = null;
+
+		_logoSupplier = () -> {
+			try {
+				return logoUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String logo;
+
+	private Supplier<String> _logoSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

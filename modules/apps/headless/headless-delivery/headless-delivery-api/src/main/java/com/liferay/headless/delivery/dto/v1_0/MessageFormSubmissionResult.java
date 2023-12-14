@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -59,35 +60,55 @@ public class MessageFormSubmissionResult implements Serializable {
 	@Schema(description = "The localized submission of message type.")
 	@Valid
 	public FragmentInlineValue getMessage() {
+		if (message != null) {
+			return message;
+		}
+
+		message = _messageSupplier.get();
+
 		return message;
 	}
 
 	public void setMessage(FragmentInlineValue message) {
 		this.message = message;
+
+		_messageSupplier = () -> message;
 	}
 
 	@JsonIgnore
 	public void setMessage(
 		UnsafeSupplier<FragmentInlineValue, Exception> messageUnsafeSupplier) {
 
-		try {
-			message = messageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		message = null;
+
+		_messageSupplier = () -> {
+			try {
+				return messageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The localized submission of message type.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentInlineValue message;
 
+	private Supplier<FragmentInlineValue> _messageSupplier = () -> null;
+
 	@Schema(description = "The message form submission type (embedded, none).")
 	@Valid
 	public MessageType getMessageType() {
+		if (messageType != null) {
+			return messageType;
+		}
+
+		messageType = _messageTypeSupplier.get();
+
 		return messageType;
 	}
 
@@ -102,21 +123,27 @@ public class MessageFormSubmissionResult implements Serializable {
 
 	public void setMessageType(MessageType messageType) {
 		this.messageType = messageType;
+
+		_messageTypeSupplier = () -> messageType;
 	}
 
 	@JsonIgnore
 	public void setMessageType(
 		UnsafeSupplier<MessageType, Exception> messageTypeUnsafeSupplier) {
 
-		try {
-			messageType = messageTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		messageType = null;
+
+		_messageTypeSupplier = () -> {
+			try {
+				return messageTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -125,33 +152,49 @@ public class MessageFormSubmissionResult implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected MessageType messageType;
 
+	private Supplier<MessageType> _messageTypeSupplier = () -> null;
+
 	@Schema
 	public Boolean getShowNotification() {
+		if (showNotification != null) {
+			return showNotification;
+		}
+
+		showNotification = _showNotificationSupplier.get();
+
 		return showNotification;
 	}
 
 	public void setShowNotification(Boolean showNotification) {
 		this.showNotification = showNotification;
+
+		_showNotificationSupplier = () -> showNotification;
 	}
 
 	@JsonIgnore
 	public void setShowNotification(
 		UnsafeSupplier<Boolean, Exception> showNotificationUnsafeSupplier) {
 
-		try {
-			showNotification = showNotificationUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		showNotification = null;
+
+		_showNotificationSupplier = () -> {
+			try {
+				return showNotificationUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean showNotification;
+
+	private Supplier<Boolean> _showNotificationSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

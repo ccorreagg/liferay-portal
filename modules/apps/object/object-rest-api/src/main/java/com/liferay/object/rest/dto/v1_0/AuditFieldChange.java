@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,87 +53,129 @@ public class AuditFieldChange implements Serializable {
 
 	@Schema
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getNewValue() {
+		if (newValue != null) {
+			return newValue;
+		}
+
+		newValue = _newValueSupplier.get();
+
 		return newValue;
 	}
 
 	public void setNewValue(Object newValue) {
 		this.newValue = newValue;
+
+		_newValueSupplier = () -> newValue;
 	}
 
 	@JsonIgnore
 	public void setNewValue(
 		UnsafeSupplier<Object, Exception> newValueUnsafeSupplier) {
 
-		try {
-			newValue = newValueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		newValue = null;
+
+		_newValueSupplier = () -> {
+			try {
+				return newValueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object newValue;
 
+	private Supplier<Object> _newValueSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getOldValue() {
+		if (oldValue != null) {
+			return oldValue;
+		}
+
+		oldValue = _oldValueSupplier.get();
+
 		return oldValue;
 	}
 
 	public void setOldValue(Object oldValue) {
 		this.oldValue = oldValue;
+
+		_oldValueSupplier = () -> oldValue;
 	}
 
 	@JsonIgnore
 	public void setOldValue(
 		UnsafeSupplier<Object, Exception> oldValueUnsafeSupplier) {
 
-		try {
-			oldValue = oldValueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		oldValue = null;
+
+		_oldValueSupplier = () -> {
+			try {
+				return oldValueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object oldValue;
+
+	private Supplier<Object> _oldValueSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

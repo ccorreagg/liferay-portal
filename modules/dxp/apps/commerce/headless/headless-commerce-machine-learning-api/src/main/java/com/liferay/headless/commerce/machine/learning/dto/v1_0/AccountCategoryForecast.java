@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,257 +57,383 @@ public class AccountCategoryForecast implements Serializable {
 
 	@Schema
 	public Long getAccount() {
+		if (account != null) {
+			return account;
+		}
+
+		account = _accountSupplier.get();
+
 		return account;
 	}
 
 	public void setAccount(Long account) {
 		this.account = account;
+
+		_accountSupplier = () -> account;
 	}
 
 	@JsonIgnore
 	public void setAccount(
 		UnsafeSupplier<Long, Exception> accountUnsafeSupplier) {
 
-		try {
-			account = accountUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		account = null;
+
+		_accountSupplier = () -> {
+			try {
+				return accountUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long account;
 
+	private Supplier<Long> _accountSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Float getActual() {
+		if (actual != null) {
+			return actual;
+		}
+
+		actual = _actualSupplier.get();
+
 		return actual;
 	}
 
 	public void setActual(Float actual) {
 		this.actual = actual;
+
+		_actualSupplier = () -> actual;
 	}
 
 	@JsonIgnore
 	public void setActual(
 		UnsafeSupplier<Float, Exception> actualUnsafeSupplier) {
 
-		try {
-			actual = actualUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actual = null;
+
+		_actualSupplier = () -> {
+			try {
+				return actualUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Float actual;
 
+	private Supplier<Float> _actualSupplier = () -> null;
+
 	@Schema
 	public Long getCategory() {
+		if (category != null) {
+			return category;
+		}
+
+		category = _categorySupplier.get();
+
 		return category;
 	}
 
 	public void setCategory(Long category) {
 		this.category = category;
+
+		_categorySupplier = () -> category;
 	}
 
 	@JsonIgnore
 	public void setCategory(
 		UnsafeSupplier<Long, Exception> categoryUnsafeSupplier) {
 
-		try {
-			category = categoryUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		category = null;
+
+		_categorySupplier = () -> {
+			try {
+				return categoryUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long category;
 
+	private Supplier<Long> _categorySupplier = () -> null;
+
 	@Schema
 	public String getCategoryTitle() {
+		if (categoryTitle != null) {
+			return categoryTitle;
+		}
+
+		categoryTitle = _categoryTitleSupplier.get();
+
 		return categoryTitle;
 	}
 
 	public void setCategoryTitle(String categoryTitle) {
 		this.categoryTitle = categoryTitle;
+
+		_categoryTitleSupplier = () -> categoryTitle;
 	}
 
 	@JsonIgnore
 	public void setCategoryTitle(
 		UnsafeSupplier<String, Exception> categoryTitleUnsafeSupplier) {
 
-		try {
-			categoryTitle = categoryTitleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		categoryTitle = null;
+
+		_categoryTitleSupplier = () -> {
+			try {
+				return categoryTitleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String categoryTitle;
 
+	private Supplier<String> _categoryTitleSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Float getForecast() {
+		if (forecast != null) {
+			return forecast;
+		}
+
+		forecast = _forecastSupplier.get();
+
 		return forecast;
 	}
 
 	public void setForecast(Float forecast) {
 		this.forecast = forecast;
+
+		_forecastSupplier = () -> forecast;
 	}
 
 	@JsonIgnore
 	public void setForecast(
 		UnsafeSupplier<Float, Exception> forecastUnsafeSupplier) {
 
-		try {
-			forecast = forecastUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		forecast = null;
+
+		_forecastSupplier = () -> {
+			try {
+				return forecastUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Float forecast;
 
+	private Supplier<Float> _forecastSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Float getForecastLowerBound() {
+		if (forecastLowerBound != null) {
+			return forecastLowerBound;
+		}
+
+		forecastLowerBound = _forecastLowerBoundSupplier.get();
+
 		return forecastLowerBound;
 	}
 
 	public void setForecastLowerBound(Float forecastLowerBound) {
 		this.forecastLowerBound = forecastLowerBound;
+
+		_forecastLowerBoundSupplier = () -> forecastLowerBound;
 	}
 
 	@JsonIgnore
 	public void setForecastLowerBound(
 		UnsafeSupplier<Float, Exception> forecastLowerBoundUnsafeSupplier) {
 
-		try {
-			forecastLowerBound = forecastLowerBoundUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		forecastLowerBound = null;
+
+		_forecastLowerBoundSupplier = () -> {
+			try {
+				return forecastLowerBoundUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Float forecastLowerBound;
 
+	private Supplier<Float> _forecastLowerBoundSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Float getForecastUpperBound() {
+		if (forecastUpperBound != null) {
+			return forecastUpperBound;
+		}
+
+		forecastUpperBound = _forecastUpperBoundSupplier.get();
+
 		return forecastUpperBound;
 	}
 
 	public void setForecastUpperBound(Float forecastUpperBound) {
 		this.forecastUpperBound = forecastUpperBound;
+
+		_forecastUpperBoundSupplier = () -> forecastUpperBound;
 	}
 
 	@JsonIgnore
 	public void setForecastUpperBound(
 		UnsafeSupplier<Float, Exception> forecastUpperBoundUnsafeSupplier) {
 
-		try {
-			forecastUpperBound = forecastUpperBoundUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		forecastUpperBound = null;
+
+		_forecastUpperBoundSupplier = () -> {
+			try {
+				return forecastUpperBoundUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Float forecastUpperBound;
 
+	private Supplier<Float> _forecastUpperBoundSupplier = () -> null;
+
 	@Schema
 	public Date getTimestamp() {
+		if (timestamp != null) {
+			return timestamp;
+		}
+
+		timestamp = _timestampSupplier.get();
+
 		return timestamp;
 	}
 
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
+
+		_timestampSupplier = () -> timestamp;
 	}
 
 	@JsonIgnore
 	public void setTimestamp(
 		UnsafeSupplier<Date, Exception> timestampUnsafeSupplier) {
 
-		try {
-			timestamp = timestampUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		timestamp = null;
+
+		_timestampSupplier = () -> {
+			try {
+				return timestampUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date timestamp;
 
+	private Supplier<Date> _timestampSupplier = () -> null;
+
 	@Schema
 	public String getUnit() {
+		if (unit != null) {
+			return unit;
+		}
+
+		unit = _unitSupplier.get();
+
 		return unit;
 	}
 
 	public void setUnit(String unit) {
 		this.unit = unit;
+
+		_unitSupplier = () -> unit;
 	}
 
 	@JsonIgnore
 	public void setUnit(UnsafeSupplier<String, Exception> unitUnsafeSupplier) {
-		try {
-			unit = unitUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		unit = null;
+
+		_unitSupplier = () -> {
+			try {
+				return unitUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String unit;
+
+	private Supplier<String> _unitSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

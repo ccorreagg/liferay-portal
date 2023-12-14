@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,60 +53,88 @@ public class Contains implements Serializable {
 
 	@Schema
 	public String getParameterName() {
+		if (parameterName != null) {
+			return parameterName;
+		}
+
+		parameterName = _parameterNameSupplier.get();
+
 		return parameterName;
 	}
 
 	public void setParameterName(String parameterName) {
 		this.parameterName = parameterName;
+
+		_parameterNameSupplier = () -> parameterName;
 	}
 
 	@JsonIgnore
 	public void setParameterName(
 		UnsafeSupplier<String, Exception> parameterNameUnsafeSupplier) {
 
-		try {
-			parameterName = parameterNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		parameterName = null;
+
+		_parameterNameSupplier = () -> {
+			try {
+				return parameterNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String parameterName;
 
+	private Supplier<String> _parameterNameSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getValue() {
+		if (value != null) {
+			return value;
+		}
+
+		value = _valueSupplier.get();
+
 		return value;
 	}
 
 	public void setValue(Object value) {
 		this.value = value;
+
+		_valueSupplier = () -> value;
 	}
 
 	@JsonIgnore
 	public void setValue(
 		UnsafeSupplier<Object, Exception> valueUnsafeSupplier) {
 
-		try {
-			value = valueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		value = null;
+
+		_valueSupplier = () -> {
+			try {
+				return valueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object value;
+
+	private Supplier<Object> _valueSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

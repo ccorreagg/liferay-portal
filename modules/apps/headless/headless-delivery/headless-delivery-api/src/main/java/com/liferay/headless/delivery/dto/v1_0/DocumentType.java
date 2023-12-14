@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,26 +54,38 @@ public class DocumentType implements Serializable {
 		description = "The list of languages the document type has a translation for."
 	)
 	public String[] getAvailableLanguages() {
+		if (availableLanguages != null) {
+			return availableLanguages;
+		}
+
+		availableLanguages = _availableLanguagesSupplier.get();
+
 		return availableLanguages;
 	}
 
 	public void setAvailableLanguages(String[] availableLanguages) {
 		this.availableLanguages = availableLanguages;
+
+		_availableLanguagesSupplier = () -> availableLanguages;
 	}
 
 	@JsonIgnore
 	public void setAvailableLanguages(
 		UnsafeSupplier<String[], Exception> availableLanguagesUnsafeSupplier) {
 
-		try {
-			availableLanguages = availableLanguagesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		availableLanguages = null;
+
+		_availableLanguagesSupplier = () -> {
+			try {
+				return availableLanguagesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -81,29 +94,43 @@ public class DocumentType implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] availableLanguages;
 
+	private Supplier<String[]> _availableLanguagesSupplier = () -> null;
+
 	@Schema(description = "The list of content fields the document type has.")
 	@Valid
 	public ContentField[] getContentFields() {
+		if (contentFields != null) {
+			return contentFields;
+		}
+
+		contentFields = _contentFieldsSupplier.get();
+
 		return contentFields;
 	}
 
 	public void setContentFields(ContentField[] contentFields) {
 		this.contentFields = contentFields;
+
+		_contentFieldsSupplier = () -> contentFields;
 	}
 
 	@JsonIgnore
 	public void setContentFields(
 		UnsafeSupplier<ContentField[], Exception> contentFieldsUnsafeSupplier) {
 
-		try {
-			contentFields = contentFieldsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentFields = null;
+
+		_contentFieldsSupplier = () -> {
+			try {
+				return contentFieldsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -112,42 +139,66 @@ public class DocumentType implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ContentField[] contentFields;
 
+	private Supplier<ContentField[]> _contentFieldsSupplier = () -> null;
+
 	@Schema(description = "The document type's description.")
 	public String getDescription() {
+		if (description != null) {
+			return description;
+		}
+
+		description = _descriptionSupplier.get();
+
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+
+		_descriptionSupplier = () -> description;
 	}
 
 	@JsonIgnore
 	public void setDescription(
 		UnsafeSupplier<String, Exception> descriptionUnsafeSupplier) {
 
-		try {
-			description = descriptionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description = null;
+
+		_descriptionSupplier = () -> {
+			try {
+				return descriptionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The document type's description.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
+	private Supplier<String> _descriptionSupplier = () -> null;
+
 	@Schema(description = "The localized document type's description.")
 	@Valid
 	public Map<String, String> getDescription_i18n() {
+		if (description_i18n != null) {
+			return description_i18n;
+		}
+
+		description_i18n = _description_i18nSupplier.get();
+
 		return description_i18n;
 	}
 
 	public void setDescription_i18n(Map<String, String> description_i18n) {
 		this.description_i18n = description_i18n;
+
+		_description_i18nSupplier = () -> description_i18n;
 	}
 
 	@JsonIgnore
@@ -155,55 +206,84 @@ public class DocumentType implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			description_i18nUnsafeSupplier) {
 
-		try {
-			description_i18n = description_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description_i18n = null;
+
+		_description_i18nSupplier = () -> {
+			try {
+				return description_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The localized document type's description.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, String> description_i18n;
 
+	private Supplier<Map<String, String>> _description_i18nSupplier =
+		() -> null;
+
 	@Schema(description = "The document type's name.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The document type's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema(description = "The localized document type's name.")
 	@Valid
 	public Map<String, String> getName_i18n() {
+		if (name_i18n != null) {
+			return name_i18n;
+		}
+
+		name_i18n = _name_i18nSupplier.get();
+
 		return name_i18n;
 	}
 
 	public void setName_i18n(Map<String, String> name_i18n) {
 		this.name_i18n = name_i18n;
+
+		_name_i18nSupplier = () -> name_i18n;
 	}
 
 	@JsonIgnore
@@ -211,20 +291,26 @@ public class DocumentType implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			name_i18nUnsafeSupplier) {
 
-		try {
-			name_i18n = name_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name_i18n = null;
+
+		_name_i18nSupplier = () -> {
+			try {
+				return name_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The localized document type's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, String> name_i18n;
+
+	private Supplier<Map<String, String>> _name_i18nSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

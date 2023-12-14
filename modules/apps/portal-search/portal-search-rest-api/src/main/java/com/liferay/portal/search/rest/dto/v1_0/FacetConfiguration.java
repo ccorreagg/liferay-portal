@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,40 +52,62 @@ public class FacetConfiguration implements Serializable {
 
 	@Schema(description = "The name of the aggregation.")
 	public String getAggregationName() {
+		if (aggregationName != null) {
+			return aggregationName;
+		}
+
+		aggregationName = _aggregationNameSupplier.get();
+
 		return aggregationName;
 	}
 
 	public void setAggregationName(String aggregationName) {
 		this.aggregationName = aggregationName;
+
+		_aggregationNameSupplier = () -> aggregationName;
 	}
 
 	@JsonIgnore
 	public void setAggregationName(
 		UnsafeSupplier<String, Exception> aggregationNameUnsafeSupplier) {
 
-		try {
-			aggregationName = aggregationNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		aggregationName = null;
+
+		_aggregationNameSupplier = () -> {
+			try {
+				return aggregationNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The name of the aggregation.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String aggregationName;
 
+	private Supplier<String> _aggregationNameSupplier = () -> null;
+
 	@Schema(description = "Additional attributes for the facet.")
 	@Valid
 	public Map<String, Object> getAttributes() {
+		if (attributes != null) {
+			return attributes;
+		}
+
+		attributes = _attributesSupplier.get();
+
 		return attributes;
 	}
 
 	public void setAttributes(Map<String, Object> attributes) {
 		this.attributes = attributes;
+
+		_attributesSupplier = () -> attributes;
 	}
 
 	@JsonIgnore
@@ -92,131 +115,193 @@ public class FacetConfiguration implements Serializable {
 		UnsafeSupplier<Map<String, Object>, Exception>
 			attributesUnsafeSupplier) {
 
-		try {
-			attributes = attributesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		attributes = null;
+
+		_attributesSupplier = () -> {
+			try {
+				return attributesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Additional attributes for the facet.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, Object> attributes;
 
+	private Supplier<Map<String, Object>> _attributesSupplier = () -> null;
+
 	@Schema(description = "Frequency threshold for showing the terms.")
 	public Integer getFrequencyThreshold() {
+		if (frequencyThreshold != null) {
+			return frequencyThreshold;
+		}
+
+		frequencyThreshold = _frequencyThresholdSupplier.get();
+
 		return frequencyThreshold;
 	}
 
 	public void setFrequencyThreshold(Integer frequencyThreshold) {
 		this.frequencyThreshold = frequencyThreshold;
+
+		_frequencyThresholdSupplier = () -> frequencyThreshold;
 	}
 
 	@JsonIgnore
 	public void setFrequencyThreshold(
 		UnsafeSupplier<Integer, Exception> frequencyThresholdUnsafeSupplier) {
 
-		try {
-			frequencyThreshold = frequencyThresholdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		frequencyThreshold = null;
+
+		_frequencyThresholdSupplier = () -> {
+			try {
+				return frequencyThresholdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Frequency threshold for showing the terms.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer frequencyThreshold;
 
+	private Supplier<Integer> _frequencyThresholdSupplier = () -> null;
+
 	@Schema(description = "Maximum number of terms to be shown.")
 	public Integer getMaxTerms() {
+		if (maxTerms != null) {
+			return maxTerms;
+		}
+
+		maxTerms = _maxTermsSupplier.get();
+
 		return maxTerms;
 	}
 
 	public void setMaxTerms(Integer maxTerms) {
 		this.maxTerms = maxTerms;
+
+		_maxTermsSupplier = () -> maxTerms;
 	}
 
 	@JsonIgnore
 	public void setMaxTerms(
 		UnsafeSupplier<Integer, Exception> maxTermsUnsafeSupplier) {
 
-		try {
-			maxTerms = maxTermsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		maxTerms = null;
+
+		_maxTermsSupplier = () -> {
+			try {
+				return maxTermsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Maximum number of terms to be shown.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer maxTerms;
 
+	private Supplier<Integer> _maxTermsSupplier = () -> null;
+
 	@Schema(description = "The name of the facet.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The name of the facet.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema(description = "The values / selections to be filtered by.")
 	@Valid
 	public Object[] getValues() {
+		if (values != null) {
+			return values;
+		}
+
+		values = _valuesSupplier.get();
+
 		return values;
 	}
 
 	public void setValues(Object[] values) {
 		this.values = values;
+
+		_valuesSupplier = () -> values;
 	}
 
 	@JsonIgnore
 	public void setValues(
 		UnsafeSupplier<Object[], Exception> valuesUnsafeSupplier) {
 
-		try {
-			values = valuesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		values = null;
+
+		_valuesSupplier = () -> {
+			try {
+				return valuesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The values / selections to be filtered by.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object[] values;
+
+	private Supplier<Object[]> _valuesSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

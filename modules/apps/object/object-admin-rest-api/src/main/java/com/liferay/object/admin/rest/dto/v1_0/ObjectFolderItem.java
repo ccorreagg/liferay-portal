@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,11 +52,19 @@ public class ObjectFolderItem implements Serializable {
 
 	@Schema
 	public Boolean getLinkedObjectDefinition() {
+		if (linkedObjectDefinition != null) {
+			return linkedObjectDefinition;
+		}
+
+		linkedObjectDefinition = _linkedObjectDefinitionSupplier.get();
+
 		return linkedObjectDefinition;
 	}
 
 	public void setLinkedObjectDefinition(Boolean linkedObjectDefinition) {
 		this.linkedObjectDefinition = linkedObjectDefinition;
+
+		_linkedObjectDefinitionSupplier = () -> linkedObjectDefinition;
 	}
 
 	@JsonIgnore
@@ -63,29 +72,43 @@ public class ObjectFolderItem implements Serializable {
 		UnsafeSupplier<Boolean, Exception>
 			linkedObjectDefinitionUnsafeSupplier) {
 
-		try {
-			linkedObjectDefinition = linkedObjectDefinitionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		linkedObjectDefinition = null;
+
+		_linkedObjectDefinitionSupplier = () -> {
+			try {
+				return linkedObjectDefinitionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean linkedObjectDefinition;
 
+	private Supplier<Boolean> _linkedObjectDefinitionSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public ObjectDefinition getObjectDefinition() {
+		if (objectDefinition != null) {
+			return objectDefinition;
+		}
+
+		objectDefinition = _objectDefinitionSupplier.get();
+
 		return objectDefinition;
 	}
 
 	public void setObjectDefinition(ObjectDefinition objectDefinition) {
 		this.objectDefinition = objectDefinition;
+
+		_objectDefinitionSupplier = () -> objectDefinition;
 	}
 
 	@JsonIgnore
@@ -93,23 +116,36 @@ public class ObjectFolderItem implements Serializable {
 		UnsafeSupplier<ObjectDefinition, Exception>
 			objectDefinitionUnsafeSupplier) {
 
-		try {
-			objectDefinition = objectDefinitionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		objectDefinition = null;
+
+		_objectDefinitionSupplier = () -> {
+			try {
+				return objectDefinitionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ObjectDefinition objectDefinition;
 
+	private Supplier<ObjectDefinition> _objectDefinitionSupplier = () -> null;
+
 	@Schema
 	public String getObjectDefinitionExternalReferenceCode() {
+		if (objectDefinitionExternalReferenceCode != null) {
+			return objectDefinitionExternalReferenceCode;
+		}
+
+		objectDefinitionExternalReferenceCode =
+			_objectDefinitionExternalReferenceCodeSupplier.get();
+
 		return objectDefinitionExternalReferenceCode;
 	}
 
@@ -118,6 +154,9 @@ public class ObjectFolderItem implements Serializable {
 
 		this.objectDefinitionExternalReferenceCode =
 			objectDefinitionExternalReferenceCode;
+
+		_objectDefinitionExternalReferenceCodeSupplier =
+			() -> objectDefinitionExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -125,77 +164,112 @@ public class ObjectFolderItem implements Serializable {
 		UnsafeSupplier<String, Exception>
 			objectDefinitionExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			objectDefinitionExternalReferenceCode =
-				objectDefinitionExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		objectDefinitionExternalReferenceCode = null;
+
+		_objectDefinitionExternalReferenceCodeSupplier = () -> {
+			try {
+				return objectDefinitionExternalReferenceCodeUnsafeSupplier.
+					get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String objectDefinitionExternalReferenceCode;
 
+	private Supplier<String> _objectDefinitionExternalReferenceCodeSupplier =
+		() -> null;
+
 	@Schema
 	public Integer getPositionX() {
+		if (positionX != null) {
+			return positionX;
+		}
+
+		positionX = _positionXSupplier.get();
+
 		return positionX;
 	}
 
 	public void setPositionX(Integer positionX) {
 		this.positionX = positionX;
+
+		_positionXSupplier = () -> positionX;
 	}
 
 	@JsonIgnore
 	public void setPositionX(
 		UnsafeSupplier<Integer, Exception> positionXUnsafeSupplier) {
 
-		try {
-			positionX = positionXUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		positionX = null;
+
+		_positionXSupplier = () -> {
+			try {
+				return positionXUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer positionX;
 
+	private Supplier<Integer> _positionXSupplier = () -> null;
+
 	@Schema
 	public Integer getPositionY() {
+		if (positionY != null) {
+			return positionY;
+		}
+
+		positionY = _positionYSupplier.get();
+
 		return positionY;
 	}
 
 	public void setPositionY(Integer positionY) {
 		this.positionY = positionY;
+
+		_positionYSupplier = () -> positionY;
 	}
 
 	@JsonIgnore
 	public void setPositionY(
 		UnsafeSupplier<Integer, Exception> positionYUnsafeSupplier) {
 
-		try {
-			positionY = positionYUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		positionY = null;
+
+		_positionYSupplier = () -> {
+			try {
+				return positionYUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer positionY;
+
+	private Supplier<Integer> _positionYSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -68,11 +69,19 @@ public class DisplayPageTemplate implements Serializable {
 	@Schema
 	@Valid
 	public Map<String, Map<String, String>> getActions() {
+		if (actions != null) {
+			return actions;
+		}
+
+		actions = _actionsSupplier.get();
+
 		return actions;
 	}
 
 	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
+
+		_actionsSupplier = () -> actions;
 	}
 
 	@JsonIgnore
@@ -80,45 +89,64 @@ public class DisplayPageTemplate implements Serializable {
 		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
 			actionsUnsafeSupplier) {
 
-		try {
-			actions = actionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actions = null;
+
+		_actionsSupplier = () -> {
+			try {
+				return actionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, Map<String, String>> actions;
 
+	private Supplier<Map<String, Map<String, String>>> _actionsSupplier =
+		() -> null;
+
 	@Schema(
 		description = "The list of languages the Display Page Template has a translation for."
 	)
 	public String[] getAvailableLanguages() {
+		if (availableLanguages != null) {
+			return availableLanguages;
+		}
+
+		availableLanguages = _availableLanguagesSupplier.get();
+
 		return availableLanguages;
 	}
 
 	public void setAvailableLanguages(String[] availableLanguages) {
 		this.availableLanguages = availableLanguages;
+
+		_availableLanguagesSupplier = () -> availableLanguages;
 	}
 
 	@JsonIgnore
 	public void setAvailableLanguages(
 		UnsafeSupplier<String[], Exception> availableLanguagesUnsafeSupplier) {
 
-		try {
-			availableLanguages = availableLanguagesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		availableLanguages = null;
+
+		_availableLanguagesSupplier = () -> {
+			try {
+				return availableLanguagesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -127,60 +155,88 @@ public class DisplayPageTemplate implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] availableLanguages;
 
+	private Supplier<String[]> _availableLanguagesSupplier = () -> null;
+
 	@Schema(description = "The Display Page Template's creator.")
 	@Valid
 	public Creator getCreator() {
+		if (creator != null) {
+			return creator;
+		}
+
+		creator = _creatorSupplier.get();
+
 		return creator;
 	}
 
 	public void setCreator(Creator creator) {
 		this.creator = creator;
+
+		_creatorSupplier = () -> creator;
 	}
 
 	@JsonIgnore
 	public void setCreator(
 		UnsafeSupplier<Creator, Exception> creatorUnsafeSupplier) {
 
-		try {
-			creator = creatorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		creator = null;
+
+		_creatorSupplier = () -> {
+			try {
+				return creatorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The Display Page Template's creator.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
+	private Supplier<Creator> _creatorSupplier = () -> null;
+
 	@Schema(
 		description = "The custom fields associated to the page that renders the Display Page Template."
 	)
 	@Valid
 	public CustomField[] getCustomFields() {
+		if (customFields != null) {
+			return customFields;
+		}
+
+		customFields = _customFieldsSupplier.get();
+
 		return customFields;
 	}
 
 	public void setCustomFields(CustomField[] customFields) {
 		this.customFields = customFields;
+
+		_customFieldsSupplier = () -> customFields;
 	}
 
 	@JsonIgnore
 	public void setCustomFields(
 		UnsafeSupplier<CustomField[], Exception> customFieldsUnsafeSupplier) {
 
-		try {
-			customFields = customFieldsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		customFields = null;
+
+		_customFieldsSupplier = () -> {
+			try {
+				return customFieldsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -189,58 +245,86 @@ public class DisplayPageTemplate implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected CustomField[] customFields;
 
+	private Supplier<CustomField[]> _customFieldsSupplier = () -> null;
+
 	@Schema(description = "The Display Page Template's creation date.")
 	public Date getDateCreated() {
+		if (dateCreated != null) {
+			return dateCreated;
+		}
+
+		dateCreated = _dateCreatedSupplier.get();
+
 		return dateCreated;
 	}
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+
+		_dateCreatedSupplier = () -> dateCreated;
 	}
 
 	@JsonIgnore
 	public void setDateCreated(
 		UnsafeSupplier<Date, Exception> dateCreatedUnsafeSupplier) {
 
-		try {
-			dateCreated = dateCreatedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateCreated = null;
+
+		_dateCreatedSupplier = () -> {
+			try {
+				return dateCreatedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The Display Page Template's creation date.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
+	private Supplier<Date> _dateCreatedSupplier = () -> null;
+
 	@Schema(
 		description = "The last time any field of the Display Page Template was changed."
 	)
 	public Date getDateModified() {
+		if (dateModified != null) {
+			return dateModified;
+		}
+
+		dateModified = _dateModifiedSupplier.get();
+
 		return dateModified;
 	}
 
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
+
+		_dateModifiedSupplier = () -> dateModified;
 	}
 
 	@JsonIgnore
 	public void setDateModified(
 		UnsafeSupplier<Date, Exception> dateModifiedUnsafeSupplier) {
 
-		try {
-			dateModified = dateModifiedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateModified = null;
+
+		_dateModifiedSupplier = () -> {
+			try {
+				return dateModifiedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -249,13 +333,23 @@ public class DisplayPageTemplate implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
+	private Supplier<Date> _dateModifiedSupplier = () -> null;
+
 	@Schema(description = "The Display Page Template's external key.")
 	public String getDisplayPageTemplateKey() {
+		if (displayPageTemplateKey != null) {
+			return displayPageTemplateKey;
+		}
+
+		displayPageTemplateKey = _displayPageTemplateKeySupplier.get();
+
 		return displayPageTemplateKey;
 	}
 
 	public void setDisplayPageTemplateKey(String displayPageTemplateKey) {
 		this.displayPageTemplateKey = displayPageTemplateKey;
+
+		_displayPageTemplateKeySupplier = () -> displayPageTemplateKey;
 	}
 
 	@JsonIgnore
@@ -263,24 +357,37 @@ public class DisplayPageTemplate implements Serializable {
 		UnsafeSupplier<String, Exception>
 			displayPageTemplateKeyUnsafeSupplier) {
 
-		try {
-			displayPageTemplateKey = displayPageTemplateKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		displayPageTemplateKey = null;
+
+		_displayPageTemplateKeySupplier = () -> {
+			try {
+				return displayPageTemplateKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The Display Page Template's external key.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String displayPageTemplateKey;
 
+	private Supplier<String> _displayPageTemplateKeySupplier = () -> null;
+
 	@Schema(description = "The Display Page Template's external key.")
 	@Valid
 	public DisplayPageTemplateSettings getDisplayPageTemplateSettings() {
+		if (displayPageTemplateSettings != null) {
+			return displayPageTemplateSettings;
+		}
+
+		displayPageTemplateSettings =
+			_displayPageTemplateSettingsSupplier.get();
+
 		return displayPageTemplateSettings;
 	}
 
@@ -288,6 +395,9 @@ public class DisplayPageTemplate implements Serializable {
 		DisplayPageTemplateSettings displayPageTemplateSettings) {
 
 		this.displayPageTemplateSettings = displayPageTemplateSettings;
+
+		_displayPageTemplateSettingsSupplier =
+			() -> displayPageTemplateSettings;
 	}
 
 	@JsonIgnore
@@ -295,46 +405,64 @@ public class DisplayPageTemplate implements Serializable {
 		UnsafeSupplier<DisplayPageTemplateSettings, Exception>
 			displayPageTemplateSettingsUnsafeSupplier) {
 
-		try {
-			displayPageTemplateSettings =
-				displayPageTemplateSettingsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		displayPageTemplateSettings = null;
+
+		_displayPageTemplateSettingsSupplier = () -> {
+			try {
+				return displayPageTemplateSettingsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The Display Page Template's external key.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected DisplayPageTemplateSettings displayPageTemplateSettings;
 
+	private Supplier<DisplayPageTemplateSettings>
+		_displayPageTemplateSettingsSupplier = () -> null;
+
 	@Schema(
 		description = "Specifies if the Display Page Template is the default one for the content type."
 	)
 	public Boolean getMarkedAsDefault() {
+		if (markedAsDefault != null) {
+			return markedAsDefault;
+		}
+
+		markedAsDefault = _markedAsDefaultSupplier.get();
+
 		return markedAsDefault;
 	}
 
 	public void setMarkedAsDefault(Boolean markedAsDefault) {
 		this.markedAsDefault = markedAsDefault;
+
+		_markedAsDefaultSupplier = () -> markedAsDefault;
 	}
 
 	@JsonIgnore
 	public void setMarkedAsDefault(
 		UnsafeSupplier<Boolean, Exception> markedAsDefaultUnsafeSupplier) {
 
-		try {
-			markedAsDefault = markedAsDefaultUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		markedAsDefault = null;
+
+		_markedAsDefaultSupplier = () -> {
+			try {
+				return markedAsDefaultUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -343,14 +471,24 @@ public class DisplayPageTemplate implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean markedAsDefault;
 
+	private Supplier<Boolean> _markedAsDefaultSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public PageDefinition getPageDefinition() {
+		if (pageDefinition != null) {
+			return pageDefinition;
+		}
+
+		pageDefinition = _pageDefinitionSupplier.get();
+
 		return pageDefinition;
 	}
 
 	public void setPageDefinition(PageDefinition pageDefinition) {
 		this.pageDefinition = pageDefinition;
+
+		_pageDefinitionSupplier = () -> pageDefinition;
 	}
 
 	@JsonIgnore
@@ -358,45 +496,63 @@ public class DisplayPageTemplate implements Serializable {
 		UnsafeSupplier<PageDefinition, Exception>
 			pageDefinitionUnsafeSupplier) {
 
-		try {
-			pageDefinition = pageDefinitionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		pageDefinition = null;
+
+		_pageDefinitionSupplier = () -> {
+			try {
+				return pageDefinitionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected PageDefinition pageDefinition;
 
+	private Supplier<PageDefinition> _pageDefinitionSupplier = () -> null;
+
 	@Schema(
 		description = "The ID of the site to which this Page Template is scoped."
 	)
 	public Long getSiteId() {
+		if (siteId != null) {
+			return siteId;
+		}
+
+		siteId = _siteIdSupplier.get();
+
 		return siteId;
 	}
 
 	public void setSiteId(Long siteId) {
 		this.siteId = siteId;
+
+		_siteIdSupplier = () -> siteId;
 	}
 
 	@JsonIgnore
 	public void setSiteId(
 		UnsafeSupplier<Long, Exception> siteIdUnsafeSupplier) {
 
-		try {
-			siteId = siteIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		siteId = null;
+
+		_siteIdSupplier = () -> {
+			try {
+				return siteIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -405,28 +561,42 @@ public class DisplayPageTemplate implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long siteId;
 
+	private Supplier<Long> _siteIdSupplier = () -> null;
+
 	@Schema(description = "The title of the Display Page Template")
 	public String getTitle() {
+		if (title != null) {
+			return title;
+		}
+
+		title = _titleSupplier.get();
+
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
+
+		_titleSupplier = () -> title;
 	}
 
 	@JsonIgnore
 	public void setTitle(
 		UnsafeSupplier<String, Exception> titleUnsafeSupplier) {
 
-		try {
-			title = titleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		title = null;
+
+		_titleSupplier = () -> {
+			try {
+				return titleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The title of the Display Page Template")
@@ -434,28 +604,42 @@ public class DisplayPageTemplate implements Serializable {
 	@NotEmpty
 	protected String title;
 
+	private Supplier<String> _titleSupplier = () -> null;
+
 	@Schema(
 		description = "A valid external identifier to reference this Display Page Template."
 	)
 	public String getUuid() {
+		if (uuid != null) {
+			return uuid;
+		}
+
+		uuid = _uuidSupplier.get();
+
 		return uuid;
 	}
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+
+		_uuidSupplier = () -> uuid;
 	}
 
 	@JsonIgnore
 	public void setUuid(UnsafeSupplier<String, Exception> uuidUnsafeSupplier) {
-		try {
-			uuid = uuidUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		uuid = null;
+
+		_uuidSupplier = () -> {
+			try {
+				return uuidUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -463,6 +647,8 @@ public class DisplayPageTemplate implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String uuid;
+
+	private Supplier<String> _uuidSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

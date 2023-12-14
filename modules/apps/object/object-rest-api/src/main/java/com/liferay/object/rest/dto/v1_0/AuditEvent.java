@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,11 +58,19 @@ public class AuditEvent implements Serializable {
 	@Schema
 	@Valid
 	public AuditFieldChange[] getAuditFieldChanges() {
+		if (auditFieldChanges != null) {
+			return auditFieldChanges;
+		}
+
+		auditFieldChanges = _auditFieldChangesSupplier.get();
+
 		return auditFieldChanges;
 	}
 
 	public void setAuditFieldChanges(AuditFieldChange[] auditFieldChanges) {
 		this.auditFieldChanges = auditFieldChanges;
+
+		_auditFieldChangesSupplier = () -> auditFieldChanges;
 	}
 
 	@JsonIgnore
@@ -69,105 +78,154 @@ public class AuditEvent implements Serializable {
 		UnsafeSupplier<AuditFieldChange[], Exception>
 			auditFieldChangesUnsafeSupplier) {
 
-		try {
-			auditFieldChanges = auditFieldChangesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		auditFieldChanges = null;
+
+		_auditFieldChangesSupplier = () -> {
+			try {
+				return auditFieldChangesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected AuditFieldChange[] auditFieldChanges;
 
+	private Supplier<AuditFieldChange[]> _auditFieldChangesSupplier =
+		() -> null;
+
 	@Schema
 	@Valid
 	public Creator getCreator() {
+		if (creator != null) {
+			return creator;
+		}
+
+		creator = _creatorSupplier.get();
+
 		return creator;
 	}
 
 	public void setCreator(Creator creator) {
 		this.creator = creator;
+
+		_creatorSupplier = () -> creator;
 	}
 
 	@JsonIgnore
 	public void setCreator(
 		UnsafeSupplier<Creator, Exception> creatorUnsafeSupplier) {
 
-		try {
-			creator = creatorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		creator = null;
+
+		_creatorSupplier = () -> {
+			try {
+				return creatorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
+	private Supplier<Creator> _creatorSupplier = () -> null;
+
 	@Schema
 	public Date getDateCreated() {
+		if (dateCreated != null) {
+			return dateCreated;
+		}
+
+		dateCreated = _dateCreatedSupplier.get();
+
 		return dateCreated;
 	}
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+
+		_dateCreatedSupplier = () -> dateCreated;
 	}
 
 	@JsonIgnore
 	public void setDateCreated(
 		UnsafeSupplier<Date, Exception> dateCreatedUnsafeSupplier) {
 
-		try {
-			dateCreated = dateCreatedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateCreated = null;
+
+		_dateCreatedSupplier = () -> {
+			try {
+				return dateCreatedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
+	private Supplier<Date> _dateCreatedSupplier = () -> null;
+
 	@Schema
 	public String getEventType() {
+		if (eventType != null) {
+			return eventType;
+		}
+
+		eventType = _eventTypeSupplier.get();
+
 		return eventType;
 	}
 
 	public void setEventType(String eventType) {
 		this.eventType = eventType;
+
+		_eventTypeSupplier = () -> eventType;
 	}
 
 	@JsonIgnore
 	public void setEventType(
 		UnsafeSupplier<String, Exception> eventTypeUnsafeSupplier) {
 
-		try {
-			eventType = eventTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		eventType = null;
+
+		_eventTypeSupplier = () -> {
+			try {
+				return eventTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String eventType;
+
+	private Supplier<String> _eventTypeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

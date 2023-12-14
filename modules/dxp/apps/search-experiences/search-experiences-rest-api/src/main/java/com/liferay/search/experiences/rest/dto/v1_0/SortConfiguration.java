@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,31 +54,45 @@ public class SortConfiguration implements Serializable {
 	@Schema
 	@Valid
 	public Object getSorts() {
+		if (sorts != null) {
+			return sorts;
+		}
+
+		sorts = _sortsSupplier.get();
+
 		return sorts;
 	}
 
 	public void setSorts(Object sorts) {
 		this.sorts = sorts;
+
+		_sortsSupplier = () -> sorts;
 	}
 
 	@JsonIgnore
 	public void setSorts(
 		UnsafeSupplier<Object, Exception> sortsUnsafeSupplier) {
 
-		try {
-			sorts = sortsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		sorts = null;
+
+		_sortsSupplier = () -> {
+			try {
+				return sortsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object sorts;
+
+	private Supplier<Object> _sortsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

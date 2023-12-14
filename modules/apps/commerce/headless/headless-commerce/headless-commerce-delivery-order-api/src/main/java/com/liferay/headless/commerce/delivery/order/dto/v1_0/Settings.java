@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,11 +55,19 @@ public class Settings implements Serializable {
 	@Schema
 	@Valid
 	public BigDecimal[] getAllowedQuantities() {
+		if (allowedQuantities != null) {
+			return allowedQuantities;
+		}
+
+		allowedQuantities = _allowedQuantitiesSupplier.get();
+
 		return allowedQuantities;
 	}
 
 	public void setAllowedQuantities(BigDecimal[] allowedQuantities) {
 		this.allowedQuantities = allowedQuantities;
+
+		_allowedQuantitiesSupplier = () -> allowedQuantities;
 	}
 
 	@JsonIgnore
@@ -66,107 +75,155 @@ public class Settings implements Serializable {
 		UnsafeSupplier<BigDecimal[], Exception>
 			allowedQuantitiesUnsafeSupplier) {
 
-		try {
-			allowedQuantities = allowedQuantitiesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		allowedQuantities = null;
+
+		_allowedQuantitiesSupplier = () -> {
+			try {
+				return allowedQuantitiesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected BigDecimal[] allowedQuantities;
 
+	private Supplier<BigDecimal[]> _allowedQuantitiesSupplier = () -> null;
+
 	@Schema(example = "10.1")
 	@Valid
 	public BigDecimal getMaxQuantity() {
+		if (maxQuantity != null) {
+			return maxQuantity;
+		}
+
+		maxQuantity = _maxQuantitySupplier.get();
+
 		return maxQuantity;
 	}
 
 	public void setMaxQuantity(BigDecimal maxQuantity) {
 		this.maxQuantity = maxQuantity;
+
+		_maxQuantitySupplier = () -> maxQuantity;
 	}
 
 	@JsonIgnore
 	public void setMaxQuantity(
 		UnsafeSupplier<BigDecimal, Exception> maxQuantityUnsafeSupplier) {
 
-		try {
-			maxQuantity = maxQuantityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		maxQuantity = null;
+
+		_maxQuantitySupplier = () -> {
+			try {
+				return maxQuantityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected BigDecimal maxQuantity;
 
+	private Supplier<BigDecimal> _maxQuantitySupplier = () -> null;
+
 	@Schema(example = "10.1")
 	@Valid
 	public BigDecimal getMinQuantity() {
+		if (minQuantity != null) {
+			return minQuantity;
+		}
+
+		minQuantity = _minQuantitySupplier.get();
+
 		return minQuantity;
 	}
 
 	public void setMinQuantity(BigDecimal minQuantity) {
 		this.minQuantity = minQuantity;
+
+		_minQuantitySupplier = () -> minQuantity;
 	}
 
 	@JsonIgnore
 	public void setMinQuantity(
 		UnsafeSupplier<BigDecimal, Exception> minQuantityUnsafeSupplier) {
 
-		try {
-			minQuantity = minQuantityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		minQuantity = null;
+
+		_minQuantitySupplier = () -> {
+			try {
+				return minQuantityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected BigDecimal minQuantity;
 
+	private Supplier<BigDecimal> _minQuantitySupplier = () -> null;
+
 	@Schema(example = "10.1")
 	@Valid
 	public BigDecimal getMultipleQuantity() {
+		if (multipleQuantity != null) {
+			return multipleQuantity;
+		}
+
+		multipleQuantity = _multipleQuantitySupplier.get();
+
 		return multipleQuantity;
 	}
 
 	public void setMultipleQuantity(BigDecimal multipleQuantity) {
 		this.multipleQuantity = multipleQuantity;
+
+		_multipleQuantitySupplier = () -> multipleQuantity;
 	}
 
 	@JsonIgnore
 	public void setMultipleQuantity(
 		UnsafeSupplier<BigDecimal, Exception> multipleQuantityUnsafeSupplier) {
 
-		try {
-			multipleQuantity = multipleQuantityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		multipleQuantity = null;
+
+		_multipleQuantitySupplier = () -> {
+			try {
+				return multipleQuantityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected BigDecimal multipleQuantity;
+
+	private Supplier<BigDecimal> _multipleQuantitySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

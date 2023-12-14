@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,86 +52,128 @@ public class ProductOption implements Serializable {
 
 	@Schema
 	public String getKey() {
+		if (key != null) {
+			return key;
+		}
+
+		key = _keySupplier.get();
+
 		return key;
 	}
 
 	public void setKey(String key) {
 		this.key = key;
+
+		_keySupplier = () -> key;
 	}
 
 	@JsonIgnore
 	public void setKey(UnsafeSupplier<String, Exception> keyUnsafeSupplier) {
-		try {
-			key = keyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		key = null;
+
+		_keySupplier = () -> {
+			try {
+				return keyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String key;
 
+	private Supplier<String> _keySupplier = () -> null;
+
 	@Schema(example = "option-key")
 	public String getOptionKey() {
+		if (optionKey != null) {
+			return optionKey;
+		}
+
+		optionKey = _optionKeySupplier.get();
+
 		return optionKey;
 	}
 
 	public void setOptionKey(String optionKey) {
 		this.optionKey = optionKey;
+
+		_optionKeySupplier = () -> optionKey;
 	}
 
 	@JsonIgnore
 	public void setOptionKey(
 		UnsafeSupplier<String, Exception> optionKeyUnsafeSupplier) {
 
-		try {
-			optionKey = optionKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		optionKey = null;
+
+		_optionKeySupplier = () -> {
+			try {
+				return optionKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String optionKey;
 
+	private Supplier<String> _optionKeySupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map[] getValues() {
+		if (values != null) {
+			return values;
+		}
+
+		values = _valuesSupplier.get();
+
 		return values;
 	}
 
 	public void setValues(Map[] values) {
 		this.values = values;
+
+		_valuesSupplier = () -> values;
 	}
 
 	@JsonIgnore
 	public void setValues(
 		UnsafeSupplier<Map[], Exception> valuesUnsafeSupplier) {
 
-		try {
-			values = valuesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		values = null;
+
+		_valuesSupplier = () -> {
+			try {
+				return valuesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map[] values;
+
+	private Supplier<Map[]> _valuesSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

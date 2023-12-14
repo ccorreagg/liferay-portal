@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,112 +53,168 @@ public class InnerHit implements Serializable {
 	@Schema
 	@Valid
 	public InnerCollapse getInnerCollapse() {
+		if (innerCollapse != null) {
+			return innerCollapse;
+		}
+
+		innerCollapse = _innerCollapseSupplier.get();
+
 		return innerCollapse;
 	}
 
 	public void setInnerCollapse(InnerCollapse innerCollapse) {
 		this.innerCollapse = innerCollapse;
+
+		_innerCollapseSupplier = () -> innerCollapse;
 	}
 
 	@JsonIgnore
 	public void setInnerCollapse(
 		UnsafeSupplier<InnerCollapse, Exception> innerCollapseUnsafeSupplier) {
 
-		try {
-			innerCollapse = innerCollapseUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		innerCollapse = null;
+
+		_innerCollapseSupplier = () -> {
+			try {
+				return innerCollapseUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected InnerCollapse innerCollapse;
 
+	private Supplier<InnerCollapse> _innerCollapseSupplier = () -> null;
+
 	@Schema
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema
 	public Integer getSize() {
+		if (size != null) {
+			return size;
+		}
+
+		size = _sizeSupplier.get();
+
 		return size;
 	}
 
 	public void setSize(Integer size) {
 		this.size = size;
+
+		_sizeSupplier = () -> size;
 	}
 
 	@JsonIgnore
 	public void setSize(UnsafeSupplier<Integer, Exception> sizeUnsafeSupplier) {
-		try {
-			size = sizeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		size = null;
+
+		_sizeSupplier = () -> {
+			try {
+				return sizeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer size;
 
+	private Supplier<Integer> _sizeSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object[] getSorts() {
+		if (sorts != null) {
+			return sorts;
+		}
+
+		sorts = _sortsSupplier.get();
+
 		return sorts;
 	}
 
 	public void setSorts(Object[] sorts) {
 		this.sorts = sorts;
+
+		_sortsSupplier = () -> sorts;
 	}
 
 	@JsonIgnore
 	public void setSorts(
 		UnsafeSupplier<Object[], Exception> sortsUnsafeSupplier) {
 
-		try {
-			sorts = sortsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		sorts = null;
+
+		_sortsSupplier = () -> {
+			try {
+				return sortsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object[] sorts;
+
+	private Supplier<Object[]> _sortsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

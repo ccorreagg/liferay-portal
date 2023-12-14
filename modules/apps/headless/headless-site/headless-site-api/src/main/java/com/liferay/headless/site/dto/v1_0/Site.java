@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -58,115 +59,177 @@ public class Site implements Serializable {
 
 	@Schema(description = "The site's external reference code.")
 	public String getExternalReferenceCode() {
+		if (externalReferenceCode != null) {
+			return externalReferenceCode;
+		}
+
+		externalReferenceCode = _externalReferenceCodeSupplier.get();
+
 		return externalReferenceCode;
 	}
 
 	public void setExternalReferenceCode(String externalReferenceCode) {
 		this.externalReferenceCode = externalReferenceCode;
+
+		_externalReferenceCodeSupplier = () -> externalReferenceCode;
 	}
 
 	@JsonIgnore
 	public void setExternalReferenceCode(
 		UnsafeSupplier<String, Exception> externalReferenceCodeUnsafeSupplier) {
 
-		try {
-			externalReferenceCode = externalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		externalReferenceCode = null;
+
+		_externalReferenceCodeSupplier = () -> {
+			try {
+				return externalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The site's external reference code.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String externalReferenceCode;
 
+	private Supplier<String> _externalReferenceCodeSupplier = () -> null;
+
 	@Schema
 	public String getFriendlyUrlPath() {
+		if (friendlyUrlPath != null) {
+			return friendlyUrlPath;
+		}
+
+		friendlyUrlPath = _friendlyUrlPathSupplier.get();
+
 		return friendlyUrlPath;
 	}
 
 	public void setFriendlyUrlPath(String friendlyUrlPath) {
 		this.friendlyUrlPath = friendlyUrlPath;
+
+		_friendlyUrlPathSupplier = () -> friendlyUrlPath;
 	}
 
 	@JsonIgnore
 	public void setFriendlyUrlPath(
 		UnsafeSupplier<String, Exception> friendlyUrlPathUnsafeSupplier) {
 
-		try {
-			friendlyUrlPath = friendlyUrlPathUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		friendlyUrlPath = null;
+
+		_friendlyUrlPathSupplier = () -> {
+			try {
+				return friendlyUrlPathUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String friendlyUrlPath;
 
+	private Supplier<String> _friendlyUrlPathSupplier = () -> null;
+
 	@Schema
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema
 	public String getKey() {
+		if (key != null) {
+			return key;
+		}
+
+		key = _keySupplier.get();
+
 		return key;
 	}
 
 	public void setKey(String key) {
 		this.key = key;
+
+		_keySupplier = () -> key;
 	}
 
 	@JsonIgnore
 	public void setKey(UnsafeSupplier<String, Exception> keyUnsafeSupplier) {
-		try {
-			key = keyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		key = null;
+
+		_keySupplier = () -> {
+			try {
+				return keyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String key;
 
+	private Supplier<String> _keySupplier = () -> null;
+
 	@Schema(description = "The default value is open.")
 	@Valid
 	public MembershipType getMembershipType() {
+		if (membershipType != null) {
+			return membershipType;
+		}
+
+		membershipType = _membershipTypeSupplier.get();
+
 		return membershipType;
 	}
 
@@ -181,6 +244,8 @@ public class Site implements Serializable {
 
 	public void setMembershipType(MembershipType membershipType) {
 		this.membershipType = membershipType;
+
+		_membershipTypeSupplier = () -> membershipType;
 	}
 
 	@JsonIgnore
@@ -188,41 +253,59 @@ public class Site implements Serializable {
 		UnsafeSupplier<MembershipType, Exception>
 			membershipTypeUnsafeSupplier) {
 
-		try {
-			membershipType = membershipTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		membershipType = null;
+
+		_membershipTypeSupplier = () -> {
+			try {
+				return membershipTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The default value is open.")
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected MembershipType membershipType;
 
+	private Supplier<MembershipType> _membershipTypeSupplier = () -> null;
+
 	@Schema
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
@@ -230,65 +313,101 @@ public class Site implements Serializable {
 	@NotEmpty
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema
 	public String getParentSiteKey() {
+		if (parentSiteKey != null) {
+			return parentSiteKey;
+		}
+
+		parentSiteKey = _parentSiteKeySupplier.get();
+
 		return parentSiteKey;
 	}
 
 	public void setParentSiteKey(String parentSiteKey) {
 		this.parentSiteKey = parentSiteKey;
+
+		_parentSiteKeySupplier = () -> parentSiteKey;
 	}
 
 	@JsonIgnore
 	public void setParentSiteKey(
 		UnsafeSupplier<String, Exception> parentSiteKeyUnsafeSupplier) {
 
-		try {
-			parentSiteKey = parentSiteKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		parentSiteKey = null;
+
+		_parentSiteKeySupplier = () -> {
+			try {
+				return parentSiteKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String parentSiteKey;
 
+	private Supplier<String> _parentSiteKeySupplier = () -> null;
+
 	@Schema
 	public String getTemplateKey() {
+		if (templateKey != null) {
+			return templateKey;
+		}
+
+		templateKey = _templateKeySupplier.get();
+
 		return templateKey;
 	}
 
 	public void setTemplateKey(String templateKey) {
 		this.templateKey = templateKey;
+
+		_templateKeySupplier = () -> templateKey;
 	}
 
 	@JsonIgnore
 	public void setTemplateKey(
 		UnsafeSupplier<String, Exception> templateKeyUnsafeSupplier) {
 
-		try {
-			templateKey = templateKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		templateKey = null;
+
+		_templateKeySupplier = () -> {
+			try {
+				return templateKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String templateKey;
 
+	private Supplier<String> _templateKeySupplier = () -> null;
+
 	@Schema
 	@Valid
 	public TemplateType getTemplateType() {
+		if (templateType != null) {
+			return templateType;
+		}
+
+		templateType = _templateTypeSupplier.get();
+
 		return templateType;
 	}
 
@@ -303,26 +422,34 @@ public class Site implements Serializable {
 
 	public void setTemplateType(TemplateType templateType) {
 		this.templateType = templateType;
+
+		_templateTypeSupplier = () -> templateType;
 	}
 
 	@JsonIgnore
 	public void setTemplateType(
 		UnsafeSupplier<TemplateType, Exception> templateTypeUnsafeSupplier) {
 
-		try {
-			templateType = templateTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		templateType = null;
+
+		_templateTypeSupplier = () -> {
+			try {
+				return templateTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected TemplateType templateType;
+
+	private Supplier<TemplateType> _templateTypeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -59,26 +60,38 @@ public class FragmentFieldAction implements Serializable {
 	)
 	@Valid
 	public Object getAction() {
+		if (action != null) {
+			return action;
+		}
+
+		action = _actionSupplier.get();
+
 		return action;
 	}
 
 	public void setAction(Object action) {
 		this.action = action;
+
+		_actionSupplier = () -> action;
 	}
 
 	@JsonIgnore
 	public void setAction(
 		UnsafeSupplier<Object, Exception> actionUnsafeSupplier) {
 
-		try {
-			action = actionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		action = null;
+
+		_actionSupplier = () -> {
+			try {
+				return actionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -87,16 +100,26 @@ public class FragmentFieldAction implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object action;
 
+	private Supplier<Object> _actionSupplier = () -> null;
+
 	@Schema(
 		description = "The action execution result in case the action fails."
 	)
 	@Valid
 	public ActionExecutionResult getOnError() {
+		if (onError != null) {
+			return onError;
+		}
+
+		onError = _onErrorSupplier.get();
+
 		return onError;
 	}
 
 	public void setOnError(ActionExecutionResult onError) {
 		this.onError = onError;
+
+		_onErrorSupplier = () -> onError;
 	}
 
 	@JsonIgnore
@@ -104,15 +127,19 @@ public class FragmentFieldAction implements Serializable {
 		UnsafeSupplier<ActionExecutionResult, Exception>
 			onErrorUnsafeSupplier) {
 
-		try {
-			onError = onErrorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		onError = null;
+
+		_onErrorSupplier = () -> {
+			try {
+				return onErrorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -121,16 +148,26 @@ public class FragmentFieldAction implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ActionExecutionResult onError;
 
+	private Supplier<ActionExecutionResult> _onErrorSupplier = () -> null;
+
 	@Schema(
 		description = "The action execution result in case the action succeeds."
 	)
 	@Valid
 	public ActionExecutionResult getOnSuccess() {
+		if (onSuccess != null) {
+			return onSuccess;
+		}
+
+		onSuccess = _onSuccessSupplier.get();
+
 		return onSuccess;
 	}
 
 	public void setOnSuccess(ActionExecutionResult onSuccess) {
 		this.onSuccess = onSuccess;
+
+		_onSuccessSupplier = () -> onSuccess;
 	}
 
 	@JsonIgnore
@@ -138,15 +175,19 @@ public class FragmentFieldAction implements Serializable {
 		UnsafeSupplier<ActionExecutionResult, Exception>
 			onSuccessUnsafeSupplier) {
 
-		try {
-			onSuccess = onSuccessUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		onSuccess = null;
+
+		_onSuccessSupplier = () -> {
+			try {
+				return onSuccessUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -155,32 +196,48 @@ public class FragmentFieldAction implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ActionExecutionResult onSuccess;
 
+	private Supplier<ActionExecutionResult> _onSuccessSupplier = () -> null;
+
 	@Schema(description = "The fragment field's text.")
 	@Valid
 	public Object getText() {
+		if (text != null) {
+			return text;
+		}
+
+		text = _textSupplier.get();
+
 		return text;
 	}
 
 	public void setText(Object text) {
 		this.text = text;
+
+		_textSupplier = () -> text;
 	}
 
 	@JsonIgnore
 	public void setText(UnsafeSupplier<Object, Exception> textUnsafeSupplier) {
-		try {
-			text = textUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		text = null;
+
+		_textSupplier = () -> {
+			try {
+				return textUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment field's text.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object text;
+
+	private Supplier<Object> _textSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

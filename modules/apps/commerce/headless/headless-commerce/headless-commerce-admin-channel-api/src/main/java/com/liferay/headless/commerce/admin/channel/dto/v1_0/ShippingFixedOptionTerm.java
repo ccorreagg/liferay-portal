@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,11 +57,19 @@ public class ShippingFixedOptionTerm implements Serializable {
 	@Schema
 	@Valid
 	public Map<String, Map<String, String>> getActions() {
+		if (actions != null) {
+			return actions;
+		}
+
+		actions = _actionsSupplier.get();
+
 		return actions;
 	}
 
 	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
+
+		_actionsSupplier = () -> actions;
 	}
 
 	@JsonIgnore
@@ -68,44 +77,63 @@ public class ShippingFixedOptionTerm implements Serializable {
 		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
 			actionsUnsafeSupplier) {
 
-		try {
-			actions = actionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actions = null;
+
+		_actionsSupplier = () -> {
+			try {
+				return actionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, Map<String, String>> actions;
 
+	private Supplier<Map<String, Map<String, String>>> _actionsSupplier =
+		() -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30324")
 	public Long getShippingFixedOptionId() {
+		if (shippingFixedOptionId != null) {
+			return shippingFixedOptionId;
+		}
+
+		shippingFixedOptionId = _shippingFixedOptionIdSupplier.get();
+
 		return shippingFixedOptionId;
 	}
 
 	public void setShippingFixedOptionId(Long shippingFixedOptionId) {
 		this.shippingFixedOptionId = shippingFixedOptionId;
+
+		_shippingFixedOptionIdSupplier = () -> shippingFixedOptionId;
 	}
 
 	@JsonIgnore
 	public void setShippingFixedOptionId(
 		UnsafeSupplier<Long, Exception> shippingFixedOptionIdUnsafeSupplier) {
 
-		try {
-			shippingFixedOptionId = shippingFixedOptionIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		shippingFixedOptionId = null;
+
+		_shippingFixedOptionIdSupplier = () -> {
+			try {
+				return shippingFixedOptionIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
@@ -113,14 +141,24 @@ public class ShippingFixedOptionTerm implements Serializable {
 	@NotNull
 	protected Long shippingFixedOptionId;
 
+	private Supplier<Long> _shippingFixedOptionIdSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30643")
 	public Long getShippingFixedOptionTermId() {
+		if (shippingFixedOptionTermId != null) {
+			return shippingFixedOptionTermId;
+		}
+
+		shippingFixedOptionTermId = _shippingFixedOptionTermIdSupplier.get();
+
 		return shippingFixedOptionTermId;
 	}
 
 	public void setShippingFixedOptionTermId(Long shippingFixedOptionTermId) {
 		this.shippingFixedOptionTermId = shippingFixedOptionTermId;
+
+		_shippingFixedOptionTermIdSupplier = () -> shippingFixedOptionTermId;
 	}
 
 	@JsonIgnore
@@ -128,56 +166,83 @@ public class ShippingFixedOptionTerm implements Serializable {
 		UnsafeSupplier<Long, Exception>
 			shippingFixedOptionTermIdUnsafeSupplier) {
 
-		try {
-			shippingFixedOptionTermId =
-				shippingFixedOptionTermIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		shippingFixedOptionTermId = null;
+
+		_shippingFixedOptionTermIdSupplier = () -> {
+			try {
+				return shippingFixedOptionTermIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long shippingFixedOptionTermId;
 
+	private Supplier<Long> _shippingFixedOptionTermIdSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Term getTerm() {
+		if (term != null) {
+			return term;
+		}
+
+		term = _termSupplier.get();
+
 		return term;
 	}
 
 	public void setTerm(Term term) {
 		this.term = term;
+
+		_termSupplier = () -> term;
 	}
 
 	@JsonIgnore
 	public void setTerm(UnsafeSupplier<Term, Exception> termUnsafeSupplier) {
-		try {
-			term = termUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		term = null;
+
+		_termSupplier = () -> {
+			try {
+				return termUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Term term;
 
+	private Supplier<Term> _termSupplier = () -> null;
+
 	@Schema(example = "PAB-34098-789-N")
 	public String getTermExternalReferenceCode() {
+		if (termExternalReferenceCode != null) {
+			return termExternalReferenceCode;
+		}
+
+		termExternalReferenceCode = _termExternalReferenceCodeSupplier.get();
+
 		return termExternalReferenceCode;
 	}
 
 	public void setTermExternalReferenceCode(String termExternalReferenceCode) {
 		this.termExternalReferenceCode = termExternalReferenceCode;
+
+		_termExternalReferenceCodeSupplier = () -> termExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -185,51 +250,70 @@ public class ShippingFixedOptionTerm implements Serializable {
 		UnsafeSupplier<String, Exception>
 			termExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			termExternalReferenceCode =
-				termExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		termExternalReferenceCode = null;
+
+		_termExternalReferenceCodeSupplier = () -> {
+			try {
+				return termExternalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String termExternalReferenceCode;
 
+	private Supplier<String> _termExternalReferenceCodeSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "30130")
 	public Long getTermId() {
+		if (termId != null) {
+			return termId;
+		}
+
+		termId = _termIdSupplier.get();
+
 		return termId;
 	}
 
 	public void setTermId(Long termId) {
 		this.termId = termId;
+
+		_termIdSupplier = () -> termId;
 	}
 
 	@JsonIgnore
 	public void setTermId(
 		UnsafeSupplier<Long, Exception> termIdUnsafeSupplier) {
 
-		try {
-			termId = termIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		termId = null;
+
+		_termIdSupplier = () -> {
+			try {
+				return termIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Long termId;
+
+	private Supplier<Long> _termIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

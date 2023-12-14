@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,87 +50,129 @@ public class SelectionScope implements Serializable {
 
 	@Schema
 	public Long getFolderId() {
+		if (folderId != null) {
+			return folderId;
+		}
+
+		folderId = _folderIdSupplier.get();
+
 		return folderId;
 	}
 
 	public void setFolderId(Long folderId) {
 		this.folderId = folderId;
+
+		_folderIdSupplier = () -> folderId;
 	}
 
 	@JsonIgnore
 	public void setFolderId(
 		UnsafeSupplier<Long, Exception> folderIdUnsafeSupplier) {
 
-		try {
-			folderId = folderIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		folderId = null;
+
+		_folderIdSupplier = () -> {
+			try {
+				return folderIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long folderId;
 
+	private Supplier<Long> _folderIdSupplier = () -> null;
+
 	@Schema
 	public Long getRepositoryId() {
+		if (repositoryId != null) {
+			return repositoryId;
+		}
+
+		repositoryId = _repositoryIdSupplier.get();
+
 		return repositoryId;
 	}
 
 	public void setRepositoryId(Long repositoryId) {
 		this.repositoryId = repositoryId;
+
+		_repositoryIdSupplier = () -> repositoryId;
 	}
 
 	@JsonIgnore
 	public void setRepositoryId(
 		UnsafeSupplier<Long, Exception> repositoryIdUnsafeSupplier) {
 
-		try {
-			repositoryId = repositoryIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		repositoryId = null;
+
+		_repositoryIdSupplier = () -> {
+			try {
+				return repositoryIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long repositoryId;
 
+	private Supplier<Long> _repositoryIdSupplier = () -> null;
+
 	@Schema
 	public Boolean getSelectAll() {
+		if (selectAll != null) {
+			return selectAll;
+		}
+
+		selectAll = _selectAllSupplier.get();
+
 		return selectAll;
 	}
 
 	public void setSelectAll(Boolean selectAll) {
 		this.selectAll = selectAll;
+
+		_selectAllSupplier = () -> selectAll;
 	}
 
 	@JsonIgnore
 	public void setSelectAll(
 		UnsafeSupplier<Boolean, Exception> selectAllUnsafeSupplier) {
 
-		try {
-			selectAll = selectAllUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		selectAll = null;
+
+		_selectAllSupplier = () -> {
+			try {
+				return selectAllUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean selectAll;
+
+	private Supplier<Boolean> _selectAllSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

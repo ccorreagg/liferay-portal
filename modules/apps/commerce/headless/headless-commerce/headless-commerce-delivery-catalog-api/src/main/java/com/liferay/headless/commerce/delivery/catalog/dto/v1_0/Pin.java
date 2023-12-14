@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,142 +54,212 @@ public class Pin implements Serializable {
 	@DecimalMin("0")
 	@Schema(example = "33130")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public MappedProduct getMappedProduct() {
+		if (mappedProduct != null) {
+			return mappedProduct;
+		}
+
+		mappedProduct = _mappedProductSupplier.get();
+
 		return mappedProduct;
 	}
 
 	public void setMappedProduct(MappedProduct mappedProduct) {
 		this.mappedProduct = mappedProduct;
+
+		_mappedProductSupplier = () -> mappedProduct;
 	}
 
 	@JsonIgnore
 	public void setMappedProduct(
 		UnsafeSupplier<MappedProduct, Exception> mappedProductUnsafeSupplier) {
 
-		try {
-			mappedProduct = mappedProductUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		mappedProduct = null;
+
+		_mappedProductSupplier = () -> {
+			try {
+				return mappedProductUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected MappedProduct mappedProduct;
 
+	private Supplier<MappedProduct> _mappedProductSupplier = () -> null;
+
 	@Schema(example = "33.54")
 	public Double getPositionX() {
+		if (positionX != null) {
+			return positionX;
+		}
+
+		positionX = _positionXSupplier.get();
+
 		return positionX;
 	}
 
 	public void setPositionX(Double positionX) {
 		this.positionX = positionX;
+
+		_positionXSupplier = () -> positionX;
 	}
 
 	@JsonIgnore
 	public void setPositionX(
 		UnsafeSupplier<Double, Exception> positionXUnsafeSupplier) {
 
-		try {
-			positionX = positionXUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		positionX = null;
+
+		_positionXSupplier = () -> {
+			try {
+				return positionXUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Double positionX;
 
+	private Supplier<Double> _positionXSupplier = () -> null;
+
 	@Schema(example = "33.54")
 	public Double getPositionY() {
+		if (positionY != null) {
+			return positionY;
+		}
+
+		positionY = _positionYSupplier.get();
+
 		return positionY;
 	}
 
 	public void setPositionY(Double positionY) {
 		this.positionY = positionY;
+
+		_positionYSupplier = () -> positionY;
 	}
 
 	@JsonIgnore
 	public void setPositionY(
 		UnsafeSupplier<Double, Exception> positionYUnsafeSupplier) {
 
-		try {
-			positionY = positionYUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		positionY = null;
+
+		_positionYSupplier = () -> {
+			try {
+				return positionYUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Double positionY;
 
+	private Supplier<Double> _positionYSupplier = () -> null;
+
 	@Schema(example = "1")
 	public String getSequence() {
+		if (sequence != null) {
+			return sequence;
+		}
+
+		sequence = _sequenceSupplier.get();
+
 		return sequence;
 	}
 
 	public void setSequence(String sequence) {
 		this.sequence = sequence;
+
+		_sequenceSupplier = () -> sequence;
 	}
 
 	@JsonIgnore
 	public void setSequence(
 		UnsafeSupplier<String, Exception> sequenceUnsafeSupplier) {
 
-		try {
-			sequence = sequenceUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		sequence = null;
+
+		_sequenceSupplier = () -> {
+			try {
+				return sequenceUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String sequence;
+
+	private Supplier<String> _sequenceSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

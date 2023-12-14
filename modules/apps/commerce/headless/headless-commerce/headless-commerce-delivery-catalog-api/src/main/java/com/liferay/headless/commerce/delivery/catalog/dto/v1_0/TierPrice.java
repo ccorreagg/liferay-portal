@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,117 +55,173 @@ public class TierPrice implements Serializable {
 
 	@Schema
 	public String getCurrency() {
+		if (currency != null) {
+			return currency;
+		}
+
+		currency = _currencySupplier.get();
+
 		return currency;
 	}
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
+
+		_currencySupplier = () -> currency;
 	}
 
 	@JsonIgnore
 	public void setCurrency(
 		UnsafeSupplier<String, Exception> currencyUnsafeSupplier) {
 
-		try {
-			currency = currencyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		currency = null;
+
+		_currencySupplier = () -> {
+			try {
+				return currencyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String currency;
 
+	private Supplier<String> _currencySupplier = () -> null;
+
 	@Schema
 	public Double getPrice() {
+		if (price != null) {
+			return price;
+		}
+
+		price = _priceSupplier.get();
+
 		return price;
 	}
 
 	public void setPrice(Double price) {
 		this.price = price;
+
+		_priceSupplier = () -> price;
 	}
 
 	@JsonIgnore
 	public void setPrice(
 		UnsafeSupplier<Double, Exception> priceUnsafeSupplier) {
 
-		try {
-			price = priceUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		price = null;
+
+		_priceSupplier = () -> {
+			try {
+				return priceUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Double price;
 
+	private Supplier<Double> _priceSupplier = () -> null;
+
 	@Schema
 	public String getPriceFormatted() {
+		if (priceFormatted != null) {
+			return priceFormatted;
+		}
+
+		priceFormatted = _priceFormattedSupplier.get();
+
 		return priceFormatted;
 	}
 
 	public void setPriceFormatted(String priceFormatted) {
 		this.priceFormatted = priceFormatted;
+
+		_priceFormattedSupplier = () -> priceFormatted;
 	}
 
 	@JsonIgnore
 	public void setPriceFormatted(
 		UnsafeSupplier<String, Exception> priceFormattedUnsafeSupplier) {
 
-		try {
-			priceFormatted = priceFormattedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		priceFormatted = null;
+
+		_priceFormattedSupplier = () -> {
+			try {
+				return priceFormattedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String priceFormatted;
 
+	private Supplier<String> _priceFormattedSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "202.1")
 	@Valid
 	public BigDecimal getQuantity() {
+		if (quantity != null) {
+			return quantity;
+		}
+
+		quantity = _quantitySupplier.get();
+
 		return quantity;
 	}
 
 	public void setQuantity(BigDecimal quantity) {
 		this.quantity = quantity;
+
+		_quantitySupplier = () -> quantity;
 	}
 
 	@JsonIgnore
 	public void setQuantity(
 		UnsafeSupplier<BigDecimal, Exception> quantityUnsafeSupplier) {
 
-		try {
-			quantity = quantityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		quantity = null;
+
+		_quantitySupplier = () -> {
+			try {
+				return quantityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected BigDecimal quantity;
+
+	private Supplier<BigDecimal> _quantitySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

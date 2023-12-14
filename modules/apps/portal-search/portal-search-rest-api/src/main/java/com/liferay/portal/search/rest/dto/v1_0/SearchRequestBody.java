@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,11 +53,19 @@ public class SearchRequestBody implements Serializable {
 	@Schema
 	@Valid
 	public Map<String, Object> getAttributes() {
+		if (attributes != null) {
+			return attributes;
+		}
+
+		attributes = _attributesSupplier.get();
+
 		return attributes;
 	}
 
 	public void setAttributes(Map<String, Object> attributes) {
 		this.attributes = attributes;
+
+		_attributesSupplier = () -> attributes;
 	}
 
 	@JsonIgnore
@@ -64,24 +73,36 @@ public class SearchRequestBody implements Serializable {
 		UnsafeSupplier<Map<String, Object>, Exception>
 			attributesUnsafeSupplier) {
 
-		try {
-			attributes = attributesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		attributes = null;
+
+		_attributesSupplier = () -> {
+			try {
+				return attributesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, Object> attributes;
 
+	private Supplier<Map<String, Object>> _attributesSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public FacetConfiguration[] getFacetConfigurations() {
+		if (facetConfigurations != null) {
+			return facetConfigurations;
+		}
+
+		facetConfigurations = _facetConfigurationsSupplier.get();
+
 		return facetConfigurations;
 	}
 
@@ -89,6 +110,8 @@ public class SearchRequestBody implements Serializable {
 		FacetConfiguration[] facetConfigurations) {
 
 		this.facetConfigurations = facetConfigurations;
+
+		_facetConfigurationsSupplier = () -> facetConfigurations;
 	}
 
 	@JsonIgnore
@@ -96,20 +119,27 @@ public class SearchRequestBody implements Serializable {
 		UnsafeSupplier<FacetConfiguration[], Exception>
 			facetConfigurationsUnsafeSupplier) {
 
-		try {
-			facetConfigurations = facetConfigurationsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		facetConfigurations = null;
+
+		_facetConfigurationsSupplier = () -> {
+			try {
+				return facetConfigurationsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FacetConfiguration[] facetConfigurations;
+
+	private Supplier<FacetConfiguration[]> _facetConfigurationsSupplier =
+		() -> null;
 
 	@Override
 	public boolean equals(Object object) {

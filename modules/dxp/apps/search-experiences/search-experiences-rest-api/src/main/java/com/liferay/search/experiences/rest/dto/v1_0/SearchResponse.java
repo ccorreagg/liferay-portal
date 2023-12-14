@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,257 +54,383 @@ public class SearchResponse implements Serializable {
 	@Schema
 	@Valid
 	public Map[] getErrors() {
+		if (errors != null) {
+			return errors;
+		}
+
+		errors = _errorsSupplier.get();
+
 		return errors;
 	}
 
 	public void setErrors(Map[] errors) {
 		this.errors = errors;
+
+		_errorsSupplier = () -> errors;
 	}
 
 	@JsonIgnore
 	public void setErrors(
 		UnsafeSupplier<Map[], Exception> errorsUnsafeSupplier) {
 
-		try {
-			errors = errorsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		errors = null;
+
+		_errorsSupplier = () -> {
+			try {
+				return errorsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map[] errors;
 
+	private Supplier<Map[]> _errorsSupplier = () -> null;
+
 	@Schema
 	public Integer getPage() {
+		if (page != null) {
+			return page;
+		}
+
+		page = _pageSupplier.get();
+
 		return page;
 	}
 
 	public void setPage(Integer page) {
 		this.page = page;
+
+		_pageSupplier = () -> page;
 	}
 
 	@JsonIgnore
 	public void setPage(UnsafeSupplier<Integer, Exception> pageUnsafeSupplier) {
-		try {
-			page = pageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		page = null;
+
+		_pageSupplier = () -> {
+			try {
+				return pageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer page;
 
+	private Supplier<Integer> _pageSupplier = () -> null;
+
 	@Schema
 	public Integer getPageSize() {
+		if (pageSize != null) {
+			return pageSize;
+		}
+
+		pageSize = _pageSizeSupplier.get();
+
 		return pageSize;
 	}
 
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
+
+		_pageSizeSupplier = () -> pageSize;
 	}
 
 	@JsonIgnore
 	public void setPageSize(
 		UnsafeSupplier<Integer, Exception> pageSizeUnsafeSupplier) {
 
-		try {
-			pageSize = pageSizeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		pageSize = null;
+
+		_pageSizeSupplier = () -> {
+			try {
+				return pageSizeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer pageSize;
 
+	private Supplier<Integer> _pageSizeSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getRequest() {
+		if (request != null) {
+			return request;
+		}
+
+		request = _requestSupplier.get();
+
 		return request;
 	}
 
 	public void setRequest(Object request) {
 		this.request = request;
+
+		_requestSupplier = () -> request;
 	}
 
 	@JsonIgnore
 	public void setRequest(
 		UnsafeSupplier<Object, Exception> requestUnsafeSupplier) {
 
-		try {
-			request = requestUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		request = null;
+
+		_requestSupplier = () -> {
+			try {
+				return requestUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object request;
 
+	private Supplier<Object> _requestSupplier = () -> null;
+
 	@Schema
 	public String getRequestString() {
+		if (requestString != null) {
+			return requestString;
+		}
+
+		requestString = _requestStringSupplier.get();
+
 		return requestString;
 	}
 
 	public void setRequestString(String requestString) {
 		this.requestString = requestString;
+
+		_requestStringSupplier = () -> requestString;
 	}
 
 	@JsonIgnore
 	public void setRequestString(
 		UnsafeSupplier<String, Exception> requestStringUnsafeSupplier) {
 
-		try {
-			requestString = requestStringUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		requestString = null;
+
+		_requestStringSupplier = () -> {
+			try {
+				return requestStringUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String requestString;
 
+	private Supplier<String> _requestStringSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getResponse() {
+		if (response != null) {
+			return response;
+		}
+
+		response = _responseSupplier.get();
+
 		return response;
 	}
 
 	public void setResponse(Object response) {
 		this.response = response;
+
+		_responseSupplier = () -> response;
 	}
 
 	@JsonIgnore
 	public void setResponse(
 		UnsafeSupplier<Object, Exception> responseUnsafeSupplier) {
 
-		try {
-			response = responseUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		response = null;
+
+		_responseSupplier = () -> {
+			try {
+				return responseUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object response;
 
+	private Supplier<Object> _responseSupplier = () -> null;
+
 	@Schema
 	public String getResponseString() {
+		if (responseString != null) {
+			return responseString;
+		}
+
+		responseString = _responseStringSupplier.get();
+
 		return responseString;
 	}
 
 	public void setResponseString(String responseString) {
 		this.responseString = responseString;
+
+		_responseStringSupplier = () -> responseString;
 	}
 
 	@JsonIgnore
 	public void setResponseString(
 		UnsafeSupplier<String, Exception> responseStringUnsafeSupplier) {
 
-		try {
-			responseString = responseStringUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		responseString = null;
+
+		_responseStringSupplier = () -> {
+			try {
+				return responseStringUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String responseString;
 
+	private Supplier<String> _responseStringSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public SearchHits getSearchHits() {
+		if (searchHits != null) {
+			return searchHits;
+		}
+
+		searchHits = _searchHitsSupplier.get();
+
 		return searchHits;
 	}
 
 	public void setSearchHits(SearchHits searchHits) {
 		this.searchHits = searchHits;
+
+		_searchHitsSupplier = () -> searchHits;
 	}
 
 	@JsonIgnore
 	public void setSearchHits(
 		UnsafeSupplier<SearchHits, Exception> searchHitsUnsafeSupplier) {
 
-		try {
-			searchHits = searchHitsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		searchHits = null;
+
+		_searchHitsSupplier = () -> {
+			try {
+				return searchHitsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected SearchHits searchHits;
 
+	private Supplier<SearchHits> _searchHitsSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public SearchRequest getSearchRequest() {
+		if (searchRequest != null) {
+			return searchRequest;
+		}
+
+		searchRequest = _searchRequestSupplier.get();
+
 		return searchRequest;
 	}
 
 	public void setSearchRequest(SearchRequest searchRequest) {
 		this.searchRequest = searchRequest;
+
+		_searchRequestSupplier = () -> searchRequest;
 	}
 
 	@JsonIgnore
 	public void setSearchRequest(
 		UnsafeSupplier<SearchRequest, Exception> searchRequestUnsafeSupplier) {
 
-		try {
-			searchRequest = searchRequestUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		searchRequest = null;
+
+		_searchRequestSupplier = () -> {
+			try {
+				return searchRequestUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected SearchRequest searchRequest;
+
+	private Supplier<SearchRequest> _searchRequestSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

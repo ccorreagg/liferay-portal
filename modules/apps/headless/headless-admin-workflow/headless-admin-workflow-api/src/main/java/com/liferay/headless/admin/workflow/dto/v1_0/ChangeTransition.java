@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,87 +53,129 @@ public class ChangeTransition implements Serializable {
 
 	@Schema
 	public String getComment() {
+		if (comment != null) {
+			return comment;
+		}
+
+		comment = _commentSupplier.get();
+
 		return comment;
 	}
 
 	public void setComment(String comment) {
 		this.comment = comment;
+
+		_commentSupplier = () -> comment;
 	}
 
 	@JsonIgnore
 	public void setComment(
 		UnsafeSupplier<String, Exception> commentUnsafeSupplier) {
 
-		try {
-			comment = commentUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		comment = null;
+
+		_commentSupplier = () -> {
+			try {
+				return commentUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String comment;
 
+	private Supplier<String> _commentSupplier = () -> null;
+
 	@Schema
 	public String getTransitionName() {
+		if (transitionName != null) {
+			return transitionName;
+		}
+
+		transitionName = _transitionNameSupplier.get();
+
 		return transitionName;
 	}
 
 	public void setTransitionName(String transitionName) {
 		this.transitionName = transitionName;
+
+		_transitionNameSupplier = () -> transitionName;
 	}
 
 	@JsonIgnore
 	public void setTransitionName(
 		UnsafeSupplier<String, Exception> transitionNameUnsafeSupplier) {
 
-		try {
-			transitionName = transitionNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		transitionName = null;
+
+		_transitionNameSupplier = () -> {
+			try {
+				return transitionNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String transitionName;
 
+	private Supplier<String> _transitionNameSupplier = () -> null;
+
 	@Schema
 	public Long getWorkflowTaskId() {
+		if (workflowTaskId != null) {
+			return workflowTaskId;
+		}
+
+		workflowTaskId = _workflowTaskIdSupplier.get();
+
 		return workflowTaskId;
 	}
 
 	public void setWorkflowTaskId(Long workflowTaskId) {
 		this.workflowTaskId = workflowTaskId;
+
+		_workflowTaskIdSupplier = () -> workflowTaskId;
 	}
 
 	@JsonIgnore
 	public void setWorkflowTaskId(
 		UnsafeSupplier<Long, Exception> workflowTaskIdUnsafeSupplier) {
 
-		try {
-			workflowTaskId = workflowTaskIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		workflowTaskId = null;
+
+		_workflowTaskIdSupplier = () -> {
+			try {
+				return workflowTaskIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Long workflowTaskId;
+
+	private Supplier<Long> _workflowTaskIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

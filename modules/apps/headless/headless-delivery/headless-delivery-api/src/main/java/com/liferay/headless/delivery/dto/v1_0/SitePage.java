@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -68,11 +69,19 @@ public class SitePage implements Serializable {
 	)
 	@Valid
 	public Map<String, Map<String, String>> getActions() {
+		if (actions != null) {
+			return actions;
+		}
+
+		actions = _actionsSupplier.get();
+
 		return actions;
 	}
 
 	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
+
+		_actionsSupplier = () -> actions;
 	}
 
 	@JsonIgnore
@@ -80,15 +89,19 @@ public class SitePage implements Serializable {
 		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
 			actionsUnsafeSupplier) {
 
-		try {
-			actions = actionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actions = null;
+
+		_actionsSupplier = () -> {
+			try {
+				return actionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -97,14 +110,25 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, Map<String, String>> actions;
 
+	private Supplier<Map<String, Map<String, String>>> _actionsSupplier =
+		() -> null;
+
 	@Schema(description = "The page's average rating.")
 	@Valid
 	public AggregateRating getAggregateRating() {
+		if (aggregateRating != null) {
+			return aggregateRating;
+		}
+
+		aggregateRating = _aggregateRatingSupplier.get();
+
 		return aggregateRating;
 	}
 
 	public void setAggregateRating(AggregateRating aggregateRating) {
 		this.aggregateRating = aggregateRating;
+
+		_aggregateRatingSupplier = () -> aggregateRating;
 	}
 
 	@JsonIgnore
@@ -112,45 +136,63 @@ public class SitePage implements Serializable {
 		UnsafeSupplier<AggregateRating, Exception>
 			aggregateRatingUnsafeSupplier) {
 
-		try {
-			aggregateRating = aggregateRatingUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		aggregateRating = null;
+
+		_aggregateRatingSupplier = () -> {
+			try {
+				return aggregateRatingUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's average rating.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected AggregateRating aggregateRating;
 
+	private Supplier<AggregateRating> _aggregateRatingSupplier = () -> null;
+
 	@Schema(
 		description = "The list of languages the page has a translation for."
 	)
 	public String[] getAvailableLanguages() {
+		if (availableLanguages != null) {
+			return availableLanguages;
+		}
+
+		availableLanguages = _availableLanguagesSupplier.get();
+
 		return availableLanguages;
 	}
 
 	public void setAvailableLanguages(String[] availableLanguages) {
 		this.availableLanguages = availableLanguages;
+
+		_availableLanguagesSupplier = () -> availableLanguages;
 	}
 
 	@JsonIgnore
 	public void setAvailableLanguages(
 		UnsafeSupplier<String[], Exception> availableLanguagesUnsafeSupplier) {
 
-		try {
-			availableLanguages = availableLanguagesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		availableLanguages = null;
+
+		_availableLanguagesSupplier = () -> {
+			try {
+				return availableLanguagesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -159,114 +201,170 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] availableLanguages;
 
+	private Supplier<String[]> _availableLanguagesSupplier = () -> null;
+
 	@Schema(description = "The page's creator.")
 	@Valid
 	public Creator getCreator() {
+		if (creator != null) {
+			return creator;
+		}
+
+		creator = _creatorSupplier.get();
+
 		return creator;
 	}
 
 	public void setCreator(Creator creator) {
 		this.creator = creator;
+
+		_creatorSupplier = () -> creator;
 	}
 
 	@JsonIgnore
 	public void setCreator(
 		UnsafeSupplier<Creator, Exception> creatorUnsafeSupplier) {
 
-		try {
-			creator = creatorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		creator = null;
+
+		_creatorSupplier = () -> {
+			try {
+				return creatorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's creator.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
+	private Supplier<Creator> _creatorSupplier = () -> null;
+
 	@Schema(description = "Custom fields associated with the page.")
 	@Valid
 	public CustomField[] getCustomFields() {
+		if (customFields != null) {
+			return customFields;
+		}
+
+		customFields = _customFieldsSupplier.get();
+
 		return customFields;
 	}
 
 	public void setCustomFields(CustomField[] customFields) {
 		this.customFields = customFields;
+
+		_customFieldsSupplier = () -> customFields;
 	}
 
 	@JsonIgnore
 	public void setCustomFields(
 		UnsafeSupplier<CustomField[], Exception> customFieldsUnsafeSupplier) {
 
-		try {
-			customFields = customFieldsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		customFields = null;
+
+		_customFieldsSupplier = () -> {
+			try {
+				return customFieldsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Custom fields associated with the page.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected CustomField[] customFields;
 
+	private Supplier<CustomField[]> _customFieldsSupplier = () -> null;
+
 	@Schema(description = "The page's creation date.")
 	public Date getDateCreated() {
+		if (dateCreated != null) {
+			return dateCreated;
+		}
+
+		dateCreated = _dateCreatedSupplier.get();
+
 		return dateCreated;
 	}
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+
+		_dateCreatedSupplier = () -> dateCreated;
 	}
 
 	@JsonIgnore
 	public void setDateCreated(
 		UnsafeSupplier<Date, Exception> dateCreatedUnsafeSupplier) {
 
-		try {
-			dateCreated = dateCreatedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateCreated = null;
+
+		_dateCreatedSupplier = () -> {
+			try {
+				return dateCreatedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's creation date.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
+	private Supplier<Date> _dateCreatedSupplier = () -> null;
+
 	@Schema(description = "The last time any field of the page was changed.")
 	public Date getDateModified() {
+		if (dateModified != null) {
+			return dateModified;
+		}
+
+		dateModified = _dateModifiedSupplier.get();
+
 		return dateModified;
 	}
 
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
+
+		_dateModifiedSupplier = () -> dateModified;
 	}
 
 	@JsonIgnore
 	public void setDateModified(
 		UnsafeSupplier<Date, Exception> dateModifiedUnsafeSupplier) {
 
-		try {
-			dateModified = dateModifiedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateModified = null;
+
+		_dateModifiedSupplier = () -> {
+			try {
+				return dateModifiedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -275,57 +373,85 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
+	private Supplier<Date> _dateModifiedSupplier = () -> null;
+
 	@Schema(description = "The page's most recent publication date.")
 	public Date getDatePublished() {
+		if (datePublished != null) {
+			return datePublished;
+		}
+
+		datePublished = _datePublishedSupplier.get();
+
 		return datePublished;
 	}
 
 	public void setDatePublished(Date datePublished) {
 		this.datePublished = datePublished;
+
+		_datePublishedSupplier = () -> datePublished;
 	}
 
 	@JsonIgnore
 	public void setDatePublished(
 		UnsafeSupplier<Date, Exception> datePublishedUnsafeSupplier) {
 
-		try {
-			datePublished = datePublishedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		datePublished = null;
+
+		_datePublishedSupplier = () -> {
+			try {
+				return datePublishedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's most recent publication date.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date datePublished;
 
+	private Supplier<Date> _datePublishedSupplier = () -> null;
+
 	@Schema(description = "Experience of the page that it's being retrieved.")
 	@Valid
 	public Experience getExperience() {
+		if (experience != null) {
+			return experience;
+		}
+
+		experience = _experienceSupplier.get();
+
 		return experience;
 	}
 
 	public void setExperience(Experience experience) {
 		this.experience = experience;
+
+		_experienceSupplier = () -> experience;
 	}
 
 	@JsonIgnore
 	public void setExperience(
 		UnsafeSupplier<Experience, Exception> experienceUnsafeSupplier) {
 
-		try {
-			experience = experienceUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		experience = null;
+
+		_experienceSupplier = () -> {
+			try {
+				return experienceUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -334,28 +460,42 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Experience experience;
 
+	private Supplier<Experience> _experienceSupplier = () -> null;
+
 	@Schema(description = "A relative URL to the page's rendered content.")
 	public String getFriendlyUrlPath() {
+		if (friendlyUrlPath != null) {
+			return friendlyUrlPath;
+		}
+
+		friendlyUrlPath = _friendlyUrlPathSupplier.get();
+
 		return friendlyUrlPath;
 	}
 
 	public void setFriendlyUrlPath(String friendlyUrlPath) {
 		this.friendlyUrlPath = friendlyUrlPath;
+
+		_friendlyUrlPathSupplier = () -> friendlyUrlPath;
 	}
 
 	@JsonIgnore
 	public void setFriendlyUrlPath(
 		UnsafeSupplier<String, Exception> friendlyUrlPathUnsafeSupplier) {
 
-		try {
-			friendlyUrlPath = friendlyUrlPathUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		friendlyUrlPath = null;
+
+		_friendlyUrlPathSupplier = () -> {
+			try {
+				return friendlyUrlPathUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -364,11 +504,19 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String friendlyUrlPath;
 
+	private Supplier<String> _friendlyUrlPathSupplier = () -> null;
+
 	@Schema(
 		description = "The localized relative URLs to the page's rendered content."
 	)
 	@Valid
 	public Map<String, String> getFriendlyUrlPath_i18n() {
+		if (friendlyUrlPath_i18n != null) {
+			return friendlyUrlPath_i18n;
+		}
+
+		friendlyUrlPath_i18n = _friendlyUrlPath_i18nSupplier.get();
+
 		return friendlyUrlPath_i18n;
 	}
 
@@ -376,6 +524,8 @@ public class SitePage implements Serializable {
 		Map<String, String> friendlyUrlPath_i18n) {
 
 		this.friendlyUrlPath_i18n = friendlyUrlPath_i18n;
+
+		_friendlyUrlPath_i18nSupplier = () -> friendlyUrlPath_i18n;
 	}
 
 	@JsonIgnore
@@ -383,15 +533,19 @@ public class SitePage implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			friendlyUrlPath_i18nUnsafeSupplier) {
 
-		try {
-			friendlyUrlPath_i18n = friendlyUrlPath_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		friendlyUrlPath_i18n = null;
+
+		_friendlyUrlPath_i18nSupplier = () -> {
+			try {
+				return friendlyUrlPath_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -400,70 +554,109 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> friendlyUrlPath_i18n;
 
+	private Supplier<Map<String, String>> _friendlyUrlPath_i18nSupplier =
+		() -> null;
+
 	@Schema(description = "The page ID.")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(description = "A list of keywords describing the page.")
 	public String[] getKeywords() {
+		if (keywords != null) {
+			return keywords;
+		}
+
+		keywords = _keywordsSupplier.get();
+
 		return keywords;
 	}
 
 	public void setKeywords(String[] keywords) {
 		this.keywords = keywords;
+
+		_keywordsSupplier = () -> keywords;
 	}
 
 	@JsonIgnore
 	public void setKeywords(
 		UnsafeSupplier<String[], Exception> keywordsUnsafeSupplier) {
 
-		try {
-			keywords = keywordsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		keywords = null;
+
+		_keywordsSupplier = () -> {
+			try {
+				return keywordsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "A list of keywords describing the page.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] keywords;
 
+	private Supplier<String[]> _keywordsSupplier = () -> null;
+
 	@Schema(
 		description = "Optional field with the structure of all the elements of the page. Can be embedded with nestedFields when retrieving the collection of site pages. When retrieving a single site page, it will automatically be included."
 	)
 	@Valid
 	public PageDefinition getPageDefinition() {
+		if (pageDefinition != null) {
+			return pageDefinition;
+		}
+
+		pageDefinition = _pageDefinitionSupplier.get();
+
 		return pageDefinition;
 	}
 
 	public void setPageDefinition(PageDefinition pageDefinition) {
 		this.pageDefinition = pageDefinition;
+
+		_pageDefinitionSupplier = () -> pageDefinition;
 	}
 
 	@JsonIgnore
@@ -471,15 +664,19 @@ public class SitePage implements Serializable {
 		UnsafeSupplier<PageDefinition, Exception>
 			pageDefinitionUnsafeSupplier) {
 
-		try {
-			pageDefinition = pageDefinitionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		pageDefinition = null;
+
+		_pageDefinitionSupplier = () -> {
+			try {
+				return pageDefinitionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -488,14 +685,24 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected PageDefinition pageDefinition;
 
+	private Supplier<PageDefinition> _pageDefinitionSupplier = () -> null;
+
 	@Schema(description = "The page's permissions.")
 	@Valid
 	public PagePermission[] getPagePermissions() {
+		if (pagePermissions != null) {
+			return pagePermissions;
+		}
+
+		pagePermissions = _pagePermissionsSupplier.get();
+
 		return pagePermissions;
 	}
 
 	public void setPagePermissions(PagePermission[] pagePermissions) {
 		this.pagePermissions = pagePermissions;
+
+		_pagePermissionsSupplier = () -> pagePermissions;
 	}
 
 	@JsonIgnore
@@ -503,44 +710,62 @@ public class SitePage implements Serializable {
 		UnsafeSupplier<PagePermission[], Exception>
 			pagePermissionsUnsafeSupplier) {
 
-		try {
-			pagePermissions = pagePermissionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		pagePermissions = null;
+
+		_pagePermissionsSupplier = () -> {
+			try {
+				return pagePermissionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's permissions.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected PagePermission[] pagePermissions;
 
+	private Supplier<PagePermission[]> _pagePermissionsSupplier = () -> null;
+
 	@Schema(description = "Settings of the page, such as SEO or OpenGraph.")
 	@Valid
 	public PageSettings getPageSettings() {
+		if (pageSettings != null) {
+			return pageSettings;
+		}
+
+		pageSettings = _pageSettingsSupplier.get();
+
 		return pageSettings;
 	}
 
 	public void setPageSettings(PageSettings pageSettings) {
 		this.pageSettings = pageSettings;
+
+		_pageSettingsSupplier = () -> pageSettings;
 	}
 
 	@JsonIgnore
 	public void setPageSettings(
 		UnsafeSupplier<PageSettings, Exception> pageSettingsUnsafeSupplier) {
 
-		try {
-			pageSettings = pageSettingsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		pageSettings = null;
+
+		_pageSettingsSupplier = () -> {
+			try {
+				return pageSettingsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -549,42 +774,66 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected PageSettings pageSettings;
 
+	private Supplier<PageSettings> _pageSettingsSupplier = () -> null;
+
 	@Schema(description = "The type of the page.")
 	public String getPageType() {
+		if (pageType != null) {
+			return pageType;
+		}
+
+		pageType = _pageTypeSupplier.get();
+
 		return pageType;
 	}
 
 	public void setPageType(String pageType) {
 		this.pageType = pageType;
+
+		_pageTypeSupplier = () -> pageType;
 	}
 
 	@JsonIgnore
 	public void setPageType(
 		UnsafeSupplier<String, Exception> pageTypeUnsafeSupplier) {
 
-		try {
-			pageType = pageTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		pageType = null;
+
+		_pageTypeSupplier = () -> {
+			try {
+				return pageTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The type of the page.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String pageType;
 
+	private Supplier<String> _pageTypeSupplier = () -> null;
+
 	@Schema(description = "The parent page or null if it is a top level page.")
 	@Valid
 	public ParentSitePage getParentSitePage() {
+		if (parentSitePage != null) {
+			return parentSitePage;
+		}
+
+		parentSitePage = _parentSitePageSupplier.get();
+
 		return parentSitePage;
 	}
 
 	public void setParentSitePage(ParentSitePage parentSitePage) {
 		this.parentSitePage = parentSitePage;
+
+		_parentSitePageSupplier = () -> parentSitePage;
 	}
 
 	@JsonIgnore
@@ -592,15 +841,19 @@ public class SitePage implements Serializable {
 		UnsafeSupplier<ParentSitePage, Exception>
 			parentSitePageUnsafeSupplier) {
 
-		try {
-			parentSitePage = parentSitePageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		parentSitePage = null;
+
+		_parentSitePageSupplier = () -> {
+			try {
+				return parentSitePageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -609,31 +862,45 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ParentSitePage parentSitePage;
 
+	private Supplier<ParentSitePage> _parentSitePageSupplier = () -> null;
+
 	@Schema(
 		description = "Metadata of the page such as it's master page and template."
 	)
 	@Valid
 	public RenderedPage getRenderedPage() {
+		if (renderedPage != null) {
+			return renderedPage;
+		}
+
+		renderedPage = _renderedPageSupplier.get();
+
 		return renderedPage;
 	}
 
 	public void setRenderedPage(RenderedPage renderedPage) {
 		this.renderedPage = renderedPage;
+
+		_renderedPageSupplier = () -> renderedPage;
 	}
 
 	@JsonIgnore
 	public void setRenderedPage(
 		UnsafeSupplier<RenderedPage, Exception> renderedPageUnsafeSupplier) {
 
-		try {
-			renderedPage = renderedPageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		renderedPage = null;
+
+		_renderedPageSupplier = () -> {
+			try {
+				return renderedPageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -642,28 +909,42 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected RenderedPage renderedPage;
 
+	private Supplier<RenderedPage> _renderedPageSupplier = () -> null;
+
 	@Schema(description = "The ID of the site to which this page is scoped.")
 	public Long getSiteId() {
+		if (siteId != null) {
+			return siteId;
+		}
+
+		siteId = _siteIdSupplier.get();
+
 		return siteId;
 	}
 
 	public void setSiteId(Long siteId) {
 		this.siteId = siteId;
+
+		_siteIdSupplier = () -> siteId;
 	}
 
 	@JsonIgnore
 	public void setSiteId(
 		UnsafeSupplier<Long, Exception> siteIdUnsafeSupplier) {
 
-		try {
-			siteId = siteIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		siteId = null;
+
+		_siteIdSupplier = () -> {
+			try {
+				return siteIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -672,9 +953,17 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long siteId;
 
+	private Supplier<Long> _siteIdSupplier = () -> null;
+
 	@Schema(description = "The categories associated with this page.")
 	@Valid
 	public TaxonomyCategoryBrief[] getTaxonomyCategoryBriefs() {
+		if (taxonomyCategoryBriefs != null) {
+			return taxonomyCategoryBriefs;
+		}
+
+		taxonomyCategoryBriefs = _taxonomyCategoryBriefsSupplier.get();
+
 		return taxonomyCategoryBriefs;
 	}
 
@@ -682,6 +971,8 @@ public class SitePage implements Serializable {
 		TaxonomyCategoryBrief[] taxonomyCategoryBriefs) {
 
 		this.taxonomyCategoryBriefs = taxonomyCategoryBriefs;
+
+		_taxonomyCategoryBriefsSupplier = () -> taxonomyCategoryBriefs;
 	}
 
 	@JsonIgnore
@@ -689,46 +980,65 @@ public class SitePage implements Serializable {
 		UnsafeSupplier<TaxonomyCategoryBrief[], Exception>
 			taxonomyCategoryBriefsUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryBriefs = taxonomyCategoryBriefsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryBriefs = null;
+
+		_taxonomyCategoryBriefsSupplier = () -> {
+			try {
+				return taxonomyCategoryBriefsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The categories associated with this page.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected TaxonomyCategoryBrief[] taxonomyCategoryBriefs;
 
+	private Supplier<TaxonomyCategoryBrief[]> _taxonomyCategoryBriefsSupplier =
+		() -> null;
+
 	@Schema(
 		deprecated = true,
 		description = "A write-only field that adds `TaxonomyCategory` instances to the page. Deprecated as of Cavanaugh (7.4.x), replaced by `taxonomyCategoryBriefs.taxonomyCategoryReference`"
 	)
 	public Long[] getTaxonomyCategoryIds() {
+		if (taxonomyCategoryIds != null) {
+			return taxonomyCategoryIds;
+		}
+
+		taxonomyCategoryIds = _taxonomyCategoryIdsSupplier.get();
+
 		return taxonomyCategoryIds;
 	}
 
 	public void setTaxonomyCategoryIds(Long[] taxonomyCategoryIds) {
 		this.taxonomyCategoryIds = taxonomyCategoryIds;
+
+		_taxonomyCategoryIdsSupplier = () -> taxonomyCategoryIds;
 	}
 
 	@JsonIgnore
 	public void setTaxonomyCategoryIds(
 		UnsafeSupplier<Long[], Exception> taxonomyCategoryIdsUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryIds = taxonomyCategoryIdsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryIds = null;
+
+		_taxonomyCategoryIdsSupplier = () -> {
+			try {
+				return taxonomyCategoryIdsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@Deprecated
@@ -738,28 +1048,42 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Long[] taxonomyCategoryIds;
 
+	private Supplier<Long[]> _taxonomyCategoryIdsSupplier = () -> null;
+
 	@Schema(description = "The page's title.")
 	public String getTitle() {
+		if (title != null) {
+			return title;
+		}
+
+		title = _titleSupplier.get();
+
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
+
+		_titleSupplier = () -> title;
 	}
 
 	@JsonIgnore
 	public void setTitle(
 		UnsafeSupplier<String, Exception> titleUnsafeSupplier) {
 
-		try {
-			title = titleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		title = null;
+
+		_titleSupplier = () -> {
+			try {
+				return titleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page's title.")
@@ -767,14 +1091,24 @@ public class SitePage implements Serializable {
 	@NotEmpty
 	protected String title;
 
+	private Supplier<String> _titleSupplier = () -> null;
+
 	@Schema(description = "The localized page's titles.")
 	@Valid
 	public Map<String, String> getTitle_i18n() {
+		if (title_i18n != null) {
+			return title_i18n;
+		}
+
+		title_i18n = _title_i18nSupplier.get();
+
 		return title_i18n;
 	}
 
 	public void setTitle_i18n(Map<String, String> title_i18n) {
 		this.title_i18n = title_i18n;
+
+		_title_i18nSupplier = () -> title_i18n;
 	}
 
 	@JsonIgnore
@@ -782,41 +1116,59 @@ public class SitePage implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			title_i18nUnsafeSupplier) {
 
-		try {
-			title_i18n = title_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		title_i18n = null;
+
+		_title_i18nSupplier = () -> {
+			try {
+				return title_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The localized page's titles.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> title_i18n;
 
+	private Supplier<Map<String, String>> _title_i18nSupplier = () -> null;
+
 	@Schema(description = "A valid external identifier to reference this page.")
 	public String getUuid() {
+		if (uuid != null) {
+			return uuid;
+		}
+
+		uuid = _uuidSupplier.get();
+
 		return uuid;
 	}
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+
+		_uuidSupplier = () -> uuid;
 	}
 
 	@JsonIgnore
 	public void setUuid(UnsafeSupplier<String, Exception> uuidUnsafeSupplier) {
-		try {
-			uuid = uuidUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		uuid = null;
+
+		_uuidSupplier = () -> {
+			try {
+				return uuidUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -825,9 +1177,17 @@ public class SitePage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String uuid;
 
+	private Supplier<String> _uuidSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public ViewableBy getViewableBy() {
+		if (viewableBy != null) {
+			return viewableBy;
+		}
+
+		viewableBy = _viewableBySupplier.get();
+
 		return viewableBy;
 	}
 
@@ -842,26 +1202,34 @@ public class SitePage implements Serializable {
 
 	public void setViewableBy(ViewableBy viewableBy) {
 		this.viewableBy = viewableBy;
+
+		_viewableBySupplier = () -> viewableBy;
 	}
 
 	@JsonIgnore
 	public void setViewableBy(
 		UnsafeSupplier<ViewableBy, Exception> viewableByUnsafeSupplier) {
 
-		try {
-			viewableBy = viewableByUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		viewableBy = null;
+
+		_viewableBySupplier = () -> {
+			try {
+				return viewableByUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected ViewableBy viewableBy;
+
+	private Supplier<ViewableBy> _viewableBySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

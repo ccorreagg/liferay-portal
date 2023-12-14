@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,35 +58,55 @@ public class HistogramMetric implements Serializable {
 	@Schema
 	@Valid
 	public Histogram[] getHistograms() {
+		if (histograms != null) {
+			return histograms;
+		}
+
+		histograms = _histogramsSupplier.get();
+
 		return histograms;
 	}
 
 	public void setHistograms(Histogram[] histograms) {
 		this.histograms = histograms;
+
+		_histogramsSupplier = () -> histograms;
 	}
 
 	@JsonIgnore
 	public void setHistograms(
 		UnsafeSupplier<Histogram[], Exception> histogramsUnsafeSupplier) {
 
-		try {
-			histograms = histogramsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		histograms = null;
+
+		_histogramsSupplier = () -> {
+			try {
+				return histogramsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Histogram[] histograms;
 
+	private Supplier<Histogram[]> _histogramsSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Unit getUnit() {
+		if (unit != null) {
+			return unit;
+		}
+
+		unit = _unitSupplier.get();
+
 		return unit;
 	}
 
@@ -100,52 +121,74 @@ public class HistogramMetric implements Serializable {
 
 	public void setUnit(Unit unit) {
 		this.unit = unit;
+
+		_unitSupplier = () -> unit;
 	}
 
 	@JsonIgnore
 	public void setUnit(UnsafeSupplier<Unit, Exception> unitUnsafeSupplier) {
-		try {
-			unit = unitUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		unit = null;
+
+		_unitSupplier = () -> {
+			try {
+				return unitUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Unit unit;
 
+	private Supplier<Unit> _unitSupplier = () -> null;
+
 	@Schema
 	public Double getValue() {
+		if (value != null) {
+			return value;
+		}
+
+		value = _valueSupplier.get();
+
 		return value;
 	}
 
 	public void setValue(Double value) {
 		this.value = value;
+
+		_valueSupplier = () -> value;
 	}
 
 	@JsonIgnore
 	public void setValue(
 		UnsafeSupplier<Double, Exception> valueUnsafeSupplier) {
 
-		try {
-			value = valueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		value = null;
+
+		_valueSupplier = () -> {
+			try {
+				return valueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Double value;
+
+	private Supplier<Double> _valueSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

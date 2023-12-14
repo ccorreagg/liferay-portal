@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -69,11 +70,19 @@ public class StructuredContent implements Serializable {
 	)
 	@Valid
 	public Map<String, Map<String, String>> getActions() {
+		if (actions != null) {
+			return actions;
+		}
+
+		actions = _actionsSupplier.get();
+
 		return actions;
 	}
 
 	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
+
+		_actionsSupplier = () -> actions;
 	}
 
 	@JsonIgnore
@@ -81,15 +90,19 @@ public class StructuredContent implements Serializable {
 		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
 			actionsUnsafeSupplier) {
 
-		try {
-			actions = actionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actions = null;
+
+		_actionsSupplier = () -> {
+			try {
+				return actionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -98,14 +111,25 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, Map<String, String>> actions;
 
+	private Supplier<Map<String, Map<String, String>>> _actionsSupplier =
+		() -> null;
+
 	@Schema(description = "The structured content's average rating.")
 	@Valid
 	public AggregateRating getAggregateRating() {
+		if (aggregateRating != null) {
+			return aggregateRating;
+		}
+
+		aggregateRating = _aggregateRatingSupplier.get();
+
 		return aggregateRating;
 	}
 
 	public void setAggregateRating(AggregateRating aggregateRating) {
 		this.aggregateRating = aggregateRating;
+
+		_aggregateRatingSupplier = () -> aggregateRating;
 	}
 
 	@JsonIgnore
@@ -113,45 +137,63 @@ public class StructuredContent implements Serializable {
 		UnsafeSupplier<AggregateRating, Exception>
 			aggregateRatingUnsafeSupplier) {
 
-		try {
-			aggregateRating = aggregateRatingUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		aggregateRating = null;
+
+		_aggregateRatingSupplier = () -> {
+			try {
+				return aggregateRatingUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The structured content's average rating.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected AggregateRating aggregateRating;
 
+	private Supplier<AggregateRating> _aggregateRatingSupplier = () -> null;
+
 	@Schema(
 		description = "The key of the asset library to which the structure content is scoped."
 	)
 	public String getAssetLibraryKey() {
+		if (assetLibraryKey != null) {
+			return assetLibraryKey;
+		}
+
+		assetLibraryKey = _assetLibraryKeySupplier.get();
+
 		return assetLibraryKey;
 	}
 
 	public void setAssetLibraryKey(String assetLibraryKey) {
 		this.assetLibraryKey = assetLibraryKey;
+
+		_assetLibraryKeySupplier = () -> assetLibraryKey;
 	}
 
 	@JsonIgnore
 	public void setAssetLibraryKey(
 		UnsafeSupplier<String, Exception> assetLibraryKeyUnsafeSupplier) {
 
-		try {
-			assetLibraryKey = assetLibraryKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		assetLibraryKey = null;
+
+		_assetLibraryKeySupplier = () -> {
+			try {
+				return assetLibraryKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -160,30 +202,44 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String assetLibraryKey;
 
+	private Supplier<String> _assetLibraryKeySupplier = () -> null;
+
 	@Schema(
 		description = "The list of languages the structured content has a translation for."
 	)
 	public String[] getAvailableLanguages() {
+		if (availableLanguages != null) {
+			return availableLanguages;
+		}
+
+		availableLanguages = _availableLanguagesSupplier.get();
+
 		return availableLanguages;
 	}
 
 	public void setAvailableLanguages(String[] availableLanguages) {
 		this.availableLanguages = availableLanguages;
+
+		_availableLanguagesSupplier = () -> availableLanguages;
 	}
 
 	@JsonIgnore
 	public void setAvailableLanguages(
 		UnsafeSupplier<String[], Exception> availableLanguagesUnsafeSupplier) {
 
-		try {
-			availableLanguages = availableLanguagesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		availableLanguages = null;
+
+		_availableLanguagesSupplier = () -> {
+			try {
+				return availableLanguagesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -192,31 +248,45 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] availableLanguages;
 
+	private Supplier<String[]> _availableLanguagesSupplier = () -> null;
+
 	@Schema(
 		description = "The list of fields that store the structured content's information."
 	)
 	@Valid
 	public ContentField[] getContentFields() {
+		if (contentFields != null) {
+			return contentFields;
+		}
+
+		contentFields = _contentFieldsSupplier.get();
+
 		return contentFields;
 	}
 
 	public void setContentFields(ContentField[] contentFields) {
 		this.contentFields = contentFields;
+
+		_contentFieldsSupplier = () -> contentFields;
 	}
 
 	@JsonIgnore
 	public void setContentFields(
 		UnsafeSupplier<ContentField[], Exception> contentFieldsUnsafeSupplier) {
 
-		try {
-			contentFields = contentFieldsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentFields = null;
+
+		_contentFieldsSupplier = () -> {
+			try {
+				return contentFieldsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -225,28 +295,42 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ContentField[] contentFields;
 
+	private Supplier<ContentField[]> _contentFieldsSupplier = () -> null;
+
 	@Schema(description = "The ID of the `ContentStructure`.")
 	public Long getContentStructureId() {
+		if (contentStructureId != null) {
+			return contentStructureId;
+		}
+
+		contentStructureId = _contentStructureIdSupplier.get();
+
 		return contentStructureId;
 	}
 
 	public void setContentStructureId(Long contentStructureId) {
 		this.contentStructureId = contentStructureId;
+
+		_contentStructureIdSupplier = () -> contentStructureId;
 	}
 
 	@JsonIgnore
 	public void setContentStructureId(
 		UnsafeSupplier<Long, Exception> contentStructureIdUnsafeSupplier) {
 
-		try {
-			contentStructureId = contentStructureIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentStructureId = null;
+
+		_contentStructureIdSupplier = () -> {
+			try {
+				return contentStructureIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The ID of the `ContentStructure`.")
@@ -254,60 +338,88 @@ public class StructuredContent implements Serializable {
 	@NotNull
 	protected Long contentStructureId;
 
+	private Supplier<Long> _contentStructureIdSupplier = () -> null;
+
 	@Schema(description = "The structured content's creator.")
 	@Valid
 	public Creator getCreator() {
+		if (creator != null) {
+			return creator;
+		}
+
+		creator = _creatorSupplier.get();
+
 		return creator;
 	}
 
 	public void setCreator(Creator creator) {
 		this.creator = creator;
+
+		_creatorSupplier = () -> creator;
 	}
 
 	@JsonIgnore
 	public void setCreator(
 		UnsafeSupplier<Creator, Exception> creatorUnsafeSupplier) {
 
-		try {
-			creator = creatorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		creator = null;
+
+		_creatorSupplier = () -> {
+			try {
+				return creatorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The structured content's creator.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
+	private Supplier<Creator> _creatorSupplier = () -> null;
+
 	@Schema(
 		description = "A list of the custom fields associated with the structured content."
 	)
 	@Valid
 	public CustomField[] getCustomFields() {
+		if (customFields != null) {
+			return customFields;
+		}
+
+		customFields = _customFieldsSupplier.get();
+
 		return customFields;
 	}
 
 	public void setCustomFields(CustomField[] customFields) {
 		this.customFields = customFields;
+
+		_customFieldsSupplier = () -> customFields;
 	}
 
 	@JsonIgnore
 	public void setCustomFields(
 		UnsafeSupplier<CustomField[], Exception> customFieldsUnsafeSupplier) {
 
-		try {
-			customFields = customFieldsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		customFields = null;
+
+		_customFieldsSupplier = () -> {
+			try {
+				return customFieldsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -316,58 +428,86 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected CustomField[] customFields;
 
+	private Supplier<CustomField[]> _customFieldsSupplier = () -> null;
+
 	@Schema(description = "The structured content's creation date.")
 	public Date getDateCreated() {
+		if (dateCreated != null) {
+			return dateCreated;
+		}
+
+		dateCreated = _dateCreatedSupplier.get();
+
 		return dateCreated;
 	}
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+
+		_dateCreatedSupplier = () -> dateCreated;
 	}
 
 	@JsonIgnore
 	public void setDateCreated(
 		UnsafeSupplier<Date, Exception> dateCreatedUnsafeSupplier) {
 
-		try {
-			dateCreated = dateCreatedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateCreated = null;
+
+		_dateCreatedSupplier = () -> {
+			try {
+				return dateCreatedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The structured content's creation date.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
+	private Supplier<Date> _dateCreatedSupplier = () -> null;
+
 	@Schema(
 		description = "The last time any field of the structured content was changed."
 	)
 	public Date getDateModified() {
+		if (dateModified != null) {
+			return dateModified;
+		}
+
+		dateModified = _dateModifiedSupplier.get();
+
 		return dateModified;
 	}
 
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
+
+		_dateModifiedSupplier = () -> dateModified;
 	}
 
 	@JsonIgnore
 	public void setDateModified(
 		UnsafeSupplier<Date, Exception> dateModifiedUnsafeSupplier) {
 
-		try {
-			dateModified = dateModifiedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateModified = null;
+
+		_dateModifiedSupplier = () -> {
+			try {
+				return dateModifiedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -376,30 +516,44 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
+	private Supplier<Date> _dateModifiedSupplier = () -> null;
+
 	@Schema(
 		description = "The structured content's most recent publication date."
 	)
 	public Date getDatePublished() {
+		if (datePublished != null) {
+			return datePublished;
+		}
+
+		datePublished = _datePublishedSupplier.get();
+
 		return datePublished;
 	}
 
 	public void setDatePublished(Date datePublished) {
 		this.datePublished = datePublished;
+
+		_datePublishedSupplier = () -> datePublished;
 	}
 
 	@JsonIgnore
 	public void setDatePublished(
 		UnsafeSupplier<Date, Exception> datePublishedUnsafeSupplier) {
 
-		try {
-			datePublished = datePublishedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		datePublished = null;
+
+		_datePublishedSupplier = () -> {
+			try {
+				return datePublishedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -408,42 +562,66 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date datePublished;
 
+	private Supplier<Date> _datePublishedSupplier = () -> null;
+
 	@Schema(description = "The structured content's description.")
 	public String getDescription() {
+		if (description != null) {
+			return description;
+		}
+
+		description = _descriptionSupplier.get();
+
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+
+		_descriptionSupplier = () -> description;
 	}
 
 	@JsonIgnore
 	public void setDescription(
 		UnsafeSupplier<String, Exception> descriptionUnsafeSupplier) {
 
-		try {
-			description = descriptionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description = null;
+
+		_descriptionSupplier = () -> {
+			try {
+				return descriptionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The structured content's description.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
+	private Supplier<String> _descriptionSupplier = () -> null;
+
 	@Schema(description = "The localized structured content's descriptions.")
 	@Valid
 	public Map<String, String> getDescription_i18n() {
+		if (description_i18n != null) {
+			return description_i18n;
+		}
+
+		description_i18n = _description_i18nSupplier.get();
+
 		return description_i18n;
 	}
 
 	public void setDescription_i18n(Map<String, String> description_i18n) {
 		this.description_i18n = description_i18n;
+
+		_description_i18nSupplier = () -> description_i18n;
 	}
 
 	@JsonIgnore
@@ -451,15 +629,19 @@ public class StructuredContent implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			description_i18nUnsafeSupplier) {
 
-		try {
-			description_i18n = description_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description_i18n = null;
+
+		_description_i18nSupplier = () -> {
+			try {
+				return description_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -468,28 +650,43 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> description_i18n;
 
+	private Supplier<Map<String, String>> _description_i18nSupplier =
+		() -> null;
+
 	@Schema(description = "The structured content's external reference code.")
 	public String getExternalReferenceCode() {
+		if (externalReferenceCode != null) {
+			return externalReferenceCode;
+		}
+
+		externalReferenceCode = _externalReferenceCodeSupplier.get();
+
 		return externalReferenceCode;
 	}
 
 	public void setExternalReferenceCode(String externalReferenceCode) {
 		this.externalReferenceCode = externalReferenceCode;
+
+		_externalReferenceCodeSupplier = () -> externalReferenceCode;
 	}
 
 	@JsonIgnore
 	public void setExternalReferenceCode(
 		UnsafeSupplier<String, Exception> externalReferenceCodeUnsafeSupplier) {
 
-		try {
-			externalReferenceCode = externalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		externalReferenceCode = null;
+
+		_externalReferenceCodeSupplier = () -> {
+			try {
+				return externalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -498,30 +695,44 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String externalReferenceCode;
 
+	private Supplier<String> _externalReferenceCodeSupplier = () -> null;
+
 	@Schema(
 		description = "A relative URL to the structured content's rendered content."
 	)
 	public String getFriendlyUrlPath() {
+		if (friendlyUrlPath != null) {
+			return friendlyUrlPath;
+		}
+
+		friendlyUrlPath = _friendlyUrlPathSupplier.get();
+
 		return friendlyUrlPath;
 	}
 
 	public void setFriendlyUrlPath(String friendlyUrlPath) {
 		this.friendlyUrlPath = friendlyUrlPath;
+
+		_friendlyUrlPathSupplier = () -> friendlyUrlPath;
 	}
 
 	@JsonIgnore
 	public void setFriendlyUrlPath(
 		UnsafeSupplier<String, Exception> friendlyUrlPathUnsafeSupplier) {
 
-		try {
-			friendlyUrlPath = friendlyUrlPathUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		friendlyUrlPath = null;
+
+		_friendlyUrlPathSupplier = () -> {
+			try {
+				return friendlyUrlPathUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -530,11 +741,19 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String friendlyUrlPath;
 
+	private Supplier<String> _friendlyUrlPathSupplier = () -> null;
+
 	@Schema(
 		description = "The localized relative URLs to the structured content's rendered content."
 	)
 	@Valid
 	public Map<String, String> getFriendlyUrlPath_i18n() {
+		if (friendlyUrlPath_i18n != null) {
+			return friendlyUrlPath_i18n;
+		}
+
+		friendlyUrlPath_i18n = _friendlyUrlPath_i18nSupplier.get();
+
 		return friendlyUrlPath_i18n;
 	}
 
@@ -542,6 +761,8 @@ public class StructuredContent implements Serializable {
 		Map<String, String> friendlyUrlPath_i18n) {
 
 		this.friendlyUrlPath_i18n = friendlyUrlPath_i18n;
+
+		_friendlyUrlPath_i18nSupplier = () -> friendlyUrlPath_i18n;
 	}
 
 	@JsonIgnore
@@ -549,15 +770,19 @@ public class StructuredContent implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			friendlyUrlPath_i18nUnsafeSupplier) {
 
-		try {
-			friendlyUrlPath_i18n = friendlyUrlPath_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		friendlyUrlPath_i18n = null;
+
+		_friendlyUrlPath_i18nSupplier = () -> {
+			try {
+				return friendlyUrlPath_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -566,54 +791,83 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> friendlyUrlPath_i18n;
 
+	private Supplier<Map<String, String>> _friendlyUrlPath_i18nSupplier =
+		() -> null;
+
 	@Schema(description = "The structured content's ID.")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The structured content's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(
 		description = "An identifier, independent of the database, that can be used to reference the structured content."
 	)
 	public String getKey() {
+		if (key != null) {
+			return key;
+		}
+
+		key = _keySupplier.get();
+
 		return key;
 	}
 
 	public void setKey(String key) {
 		this.key = key;
+
+		_keySupplier = () -> key;
 	}
 
 	@JsonIgnore
 	public void setKey(UnsafeSupplier<String, Exception> keyUnsafeSupplier) {
-		try {
-			key = keyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		key = null;
+
+		_keySupplier = () -> {
+			try {
+				return keyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -622,30 +876,44 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String key;
 
+	private Supplier<String> _keySupplier = () -> null;
+
 	@Schema(
 		description = "A list of keywords describing the structured content."
 	)
 	public String[] getKeywords() {
+		if (keywords != null) {
+			return keywords;
+		}
+
+		keywords = _keywordsSupplier.get();
+
 		return keywords;
 	}
 
 	public void setKeywords(String[] keywords) {
 		this.keywords = keywords;
+
+		_keywordsSupplier = () -> keywords;
 	}
 
 	@JsonIgnore
 	public void setKeywords(
 		UnsafeSupplier<String[], Exception> keywordsUnsafeSupplier) {
 
-		try {
-			keywords = keywordsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		keywords = null;
+
+		_keywordsSupplier = () -> {
+			try {
+				return keywordsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -654,30 +922,44 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] keywords;
 
+	private Supplier<String[]> _keywordsSupplier = () -> null;
+
 	@Schema(
 		description = "The number of comments the structured content has received."
 	)
 	public Integer getNumberOfComments() {
+		if (numberOfComments != null) {
+			return numberOfComments;
+		}
+
+		numberOfComments = _numberOfCommentsSupplier.get();
+
 		return numberOfComments;
 	}
 
 	public void setNumberOfComments(Integer numberOfComments) {
 		this.numberOfComments = numberOfComments;
+
+		_numberOfCommentsSupplier = () -> numberOfComments;
 	}
 
 	@JsonIgnore
 	public void setNumberOfComments(
 		UnsafeSupplier<Integer, Exception> numberOfCommentsUnsafeSupplier) {
 
-		try {
-			numberOfComments = numberOfCommentsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		numberOfComments = null;
+
+		_numberOfCommentsSupplier = () -> {
+			try {
+				return numberOfCommentsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -686,9 +968,17 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfComments;
 
+	private Supplier<Integer> _numberOfCommentsSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public com.liferay.portal.vulcan.permission.Permission[] getPermissions() {
+		if (permissions != null) {
+			return permissions;
+		}
+
+		permissions = _permissionsSupplier.get();
+
 		return permissions;
 	}
 
@@ -696,6 +986,8 @@ public class StructuredContent implements Serializable {
 		com.liferay.portal.vulcan.permission.Permission[] permissions) {
 
 		this.permissions = permissions;
+
+		_permissionsSupplier = () -> permissions;
 	}
 
 	@JsonIgnore
@@ -704,59 +996,88 @@ public class StructuredContent implements Serializable {
 			<com.liferay.portal.vulcan.permission.Permission[], Exception>
 				permissionsUnsafeSupplier) {
 
-		try {
-			permissions = permissionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		permissions = null;
+
+		_permissionsSupplier = () -> {
+			try {
+				return permissionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected com.liferay.portal.vulcan.permission.Permission[] permissions;
 
+	private Supplier<com.liferay.portal.vulcan.permission.Permission[]>
+		_permissionsSupplier = () -> null;
+
 	@Schema(description = "The structured content's priority.")
 	public Double getPriority() {
+		if (priority != null) {
+			return priority;
+		}
+
+		priority = _prioritySupplier.get();
+
 		return priority;
 	}
 
 	public void setPriority(Double priority) {
 		this.priority = priority;
+
+		_prioritySupplier = () -> priority;
 	}
 
 	@JsonIgnore
 	public void setPriority(
 		UnsafeSupplier<Double, Exception> priorityUnsafeSupplier) {
 
-		try {
-			priority = priorityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		priority = null;
+
+		_prioritySupplier = () -> {
+			try {
+				return priorityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The structured content's priority.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Double priority;
 
+	private Supplier<Double> _prioritySupplier = () -> null;
+
 	@Schema(
 		description = "A list of related contents to this structured content."
 	)
 	@Valid
 	public RelatedContent[] getRelatedContents() {
+		if (relatedContents != null) {
+			return relatedContents;
+		}
+
+		relatedContents = _relatedContentsSupplier.get();
+
 		return relatedContents;
 	}
 
 	public void setRelatedContents(RelatedContent[] relatedContents) {
 		this.relatedContents = relatedContents;
+
+		_relatedContentsSupplier = () -> relatedContents;
 	}
 
 	@JsonIgnore
@@ -764,15 +1085,19 @@ public class StructuredContent implements Serializable {
 		UnsafeSupplier<RelatedContent[], Exception>
 			relatedContentsUnsafeSupplier) {
 
-		try {
-			relatedContents = relatedContentsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		relatedContents = null;
+
+		_relatedContentsSupplier = () -> {
+			try {
+				return relatedContentsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -781,16 +1106,26 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected RelatedContent[] relatedContents;
 
+	private Supplier<RelatedContent[]> _relatedContentsSupplier = () -> null;
+
 	@Schema(
 		description = "A list of rendered content, which results from using a template to process the content and return HTML."
 	)
 	@Valid
 	public RenderedContent[] getRenderedContents() {
+		if (renderedContents != null) {
+			return renderedContents;
+		}
+
+		renderedContents = _renderedContentsSupplier.get();
+
 		return renderedContents;
 	}
 
 	public void setRenderedContents(RenderedContent[] renderedContents) {
 		this.renderedContents = renderedContents;
+
+		_renderedContentsSupplier = () -> renderedContents;
 	}
 
 	@JsonIgnore
@@ -798,15 +1133,19 @@ public class StructuredContent implements Serializable {
 		UnsafeSupplier<RenderedContent[], Exception>
 			renderedContentsUnsafeSupplier) {
 
-		try {
-			renderedContents = renderedContentsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		renderedContents = null;
+
+		_renderedContentsSupplier = () -> {
+			try {
+				return renderedContentsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -815,30 +1154,44 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected RenderedContent[] renderedContents;
 
+	private Supplier<RenderedContent[]> _renderedContentsSupplier = () -> null;
+
 	@Schema(
 		description = "The ID of the site to which this structured content is scoped."
 	)
 	public Long getSiteId() {
+		if (siteId != null) {
+			return siteId;
+		}
+
+		siteId = _siteIdSupplier.get();
+
 		return siteId;
 	}
 
 	public void setSiteId(Long siteId) {
 		this.siteId = siteId;
+
+		_siteIdSupplier = () -> siteId;
 	}
 
 	@JsonIgnore
 	public void setSiteId(
 		UnsafeSupplier<Long, Exception> siteIdUnsafeSupplier) {
 
-		try {
-			siteId = siteIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		siteId = null;
+
+		_siteIdSupplier = () -> {
+			try {
+				return siteIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -847,15 +1200,25 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long siteId;
 
+	private Supplier<Long> _siteIdSupplier = () -> null;
+
 	@Schema(
 		description = "The ID of the folder where structured content is stored."
 	)
 	public Long getStructuredContentFolderId() {
+		if (structuredContentFolderId != null) {
+			return structuredContentFolderId;
+		}
+
+		structuredContentFolderId = _structuredContentFolderIdSupplier.get();
+
 		return structuredContentFolderId;
 	}
 
 	public void setStructuredContentFolderId(Long structuredContentFolderId) {
 		this.structuredContentFolderId = structuredContentFolderId;
+
+		_structuredContentFolderIdSupplier = () -> structuredContentFolderId;
 	}
 
 	@JsonIgnore
@@ -863,16 +1226,19 @@ public class StructuredContent implements Serializable {
 		UnsafeSupplier<Long, Exception>
 			structuredContentFolderIdUnsafeSupplier) {
 
-		try {
-			structuredContentFolderId =
-				structuredContentFolderIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		structuredContentFolderId = null;
+
+		_structuredContentFolderIdSupplier = () -> {
+			try {
+				return structuredContentFolderIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -881,30 +1247,44 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long structuredContentFolderId;
 
+	private Supplier<Long> _structuredContentFolderIdSupplier = () -> null;
+
 	@Schema(
 		description = "A flag that indicates whether the user making the requests is subscribed to this structured content."
 	)
 	public Boolean getSubscribed() {
+		if (subscribed != null) {
+			return subscribed;
+		}
+
+		subscribed = _subscribedSupplier.get();
+
 		return subscribed;
 	}
 
 	public void setSubscribed(Boolean subscribed) {
 		this.subscribed = subscribed;
+
+		_subscribedSupplier = () -> subscribed;
 	}
 
 	@JsonIgnore
 	public void setSubscribed(
 		UnsafeSupplier<Boolean, Exception> subscribedUnsafeSupplier) {
 
-		try {
-			subscribed = subscribedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		subscribed = null;
+
+		_subscribedSupplier = () -> {
+			try {
+				return subscribedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -913,11 +1293,19 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean subscribed;
 
+	private Supplier<Boolean> _subscribedSupplier = () -> null;
+
 	@Schema(
 		description = "The categories associated with this structured content."
 	)
 	@Valid
 	public TaxonomyCategoryBrief[] getTaxonomyCategoryBriefs() {
+		if (taxonomyCategoryBriefs != null) {
+			return taxonomyCategoryBriefs;
+		}
+
+		taxonomyCategoryBriefs = _taxonomyCategoryBriefsSupplier.get();
+
 		return taxonomyCategoryBriefs;
 	}
 
@@ -925,6 +1313,8 @@ public class StructuredContent implements Serializable {
 		TaxonomyCategoryBrief[] taxonomyCategoryBriefs) {
 
 		this.taxonomyCategoryBriefs = taxonomyCategoryBriefs;
+
+		_taxonomyCategoryBriefsSupplier = () -> taxonomyCategoryBriefs;
 	}
 
 	@JsonIgnore
@@ -932,15 +1322,19 @@ public class StructuredContent implements Serializable {
 		UnsafeSupplier<TaxonomyCategoryBrief[], Exception>
 			taxonomyCategoryBriefsUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryBriefs = taxonomyCategoryBriefsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryBriefs = null;
+
+		_taxonomyCategoryBriefsSupplier = () -> {
+			try {
+				return taxonomyCategoryBriefsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -949,30 +1343,45 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected TaxonomyCategoryBrief[] taxonomyCategoryBriefs;
 
+	private Supplier<TaxonomyCategoryBrief[]> _taxonomyCategoryBriefsSupplier =
+		() -> null;
+
 	@Schema(
 		description = "A write-only field that adds `TaxonomyCategory` instances to the structured content."
 	)
 	public Long[] getTaxonomyCategoryIds() {
+		if (taxonomyCategoryIds != null) {
+			return taxonomyCategoryIds;
+		}
+
+		taxonomyCategoryIds = _taxonomyCategoryIdsSupplier.get();
+
 		return taxonomyCategoryIds;
 	}
 
 	public void setTaxonomyCategoryIds(Long[] taxonomyCategoryIds) {
 		this.taxonomyCategoryIds = taxonomyCategoryIds;
+
+		_taxonomyCategoryIdsSupplier = () -> taxonomyCategoryIds;
 	}
 
 	@JsonIgnore
 	public void setTaxonomyCategoryIds(
 		UnsafeSupplier<Long[], Exception> taxonomyCategoryIdsUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryIds = taxonomyCategoryIdsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryIds = null;
+
+		_taxonomyCategoryIdsSupplier = () -> {
+			try {
+				return taxonomyCategoryIdsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -981,28 +1390,42 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Long[] taxonomyCategoryIds;
 
+	private Supplier<Long[]> _taxonomyCategoryIdsSupplier = () -> null;
+
 	@Schema(description = "The structured content's main title.")
 	public String getTitle() {
+		if (title != null) {
+			return title;
+		}
+
+		title = _titleSupplier.get();
+
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
+
+		_titleSupplier = () -> title;
 	}
 
 	@JsonIgnore
 	public void setTitle(
 		UnsafeSupplier<String, Exception> titleUnsafeSupplier) {
 
-		try {
-			title = titleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		title = null;
+
+		_titleSupplier = () -> {
+			try {
+				return titleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The structured content's main title.")
@@ -1010,14 +1433,24 @@ public class StructuredContent implements Serializable {
 	@NotEmpty
 	protected String title;
 
+	private Supplier<String> _titleSupplier = () -> null;
+
 	@Schema(description = "The localized structured content's main titles.")
 	@Valid
 	public Map<String, String> getTitle_i18n() {
+		if (title_i18n != null) {
+			return title_i18n;
+		}
+
+		title_i18n = _title_i18nSupplier.get();
+
 		return title_i18n;
 	}
 
 	public void setTitle_i18n(Map<String, String> title_i18n) {
 		this.title_i18n = title_i18n;
+
+		_title_i18nSupplier = () -> title_i18n;
 	}
 
 	@JsonIgnore
@@ -1025,15 +1458,19 @@ public class StructuredContent implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			title_i18nUnsafeSupplier) {
 
-		try {
-			title_i18n = title_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		title_i18n = null;
+
+		_title_i18nSupplier = () -> {
+			try {
+				return title_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -1042,28 +1479,42 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> title_i18n;
 
+	private Supplier<Map<String, String>> _title_i18nSupplier = () -> null;
+
 	@Schema(
 		description = "A valid external identifier to reference this structured content."
 	)
 	public String getUuid() {
+		if (uuid != null) {
+			return uuid;
+		}
+
+		uuid = _uuidSupplier.get();
+
 		return uuid;
 	}
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+
+		_uuidSupplier = () -> uuid;
 	}
 
 	@JsonIgnore
 	public void setUuid(UnsafeSupplier<String, Exception> uuidUnsafeSupplier) {
-		try {
-			uuid = uuidUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		uuid = null;
+
+		_uuidSupplier = () -> {
+			try {
+				return uuidUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -1072,11 +1523,19 @@ public class StructuredContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String uuid;
 
+	private Supplier<String> _uuidSupplier = () -> null;
+
 	@Schema(
 		description = "A write-only property that specifies the structured content's default permissions."
 	)
 	@Valid
 	public ViewableBy getViewableBy() {
+		if (viewableBy != null) {
+			return viewableBy;
+		}
+
+		viewableBy = _viewableBySupplier.get();
+
 		return viewableBy;
 	}
 
@@ -1091,21 +1550,27 @@ public class StructuredContent implements Serializable {
 
 	public void setViewableBy(ViewableBy viewableBy) {
 		this.viewableBy = viewableBy;
+
+		_viewableBySupplier = () -> viewableBy;
 	}
 
 	@JsonIgnore
 	public void setViewableBy(
 		UnsafeSupplier<ViewableBy, Exception> viewableByUnsafeSupplier) {
 
-		try {
-			viewableBy = viewableByUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		viewableBy = null;
+
+		_viewableBySupplier = () -> {
+			try {
+				return viewableByUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -1113,6 +1578,8 @@ public class StructuredContent implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected ViewableBy viewableBy;
+
+	private Supplier<ViewableBy> _viewableBySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

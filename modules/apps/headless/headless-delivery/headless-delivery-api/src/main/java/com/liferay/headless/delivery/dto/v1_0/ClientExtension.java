@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,6 +55,12 @@ public class ClientExtension implements Serializable {
 	@Schema
 	@Valid
 	public Map<String, String> getClientExtensionConfig() {
+		if (clientExtensionConfig != null) {
+			return clientExtensionConfig;
+		}
+
+		clientExtensionConfig = _clientExtensionConfigSupplier.get();
+
 		return clientExtensionConfig;
 	}
 
@@ -61,6 +68,8 @@ public class ClientExtension implements Serializable {
 		Map<String, String> clientExtensionConfig) {
 
 		this.clientExtensionConfig = clientExtensionConfig;
+
+		_clientExtensionConfigSupplier = () -> clientExtensionConfig;
 	}
 
 	@JsonIgnore
@@ -68,43 +77,62 @@ public class ClientExtension implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			clientExtensionConfigUnsafeSupplier) {
 
-		try {
-			clientExtensionConfig = clientExtensionConfigUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		clientExtensionConfig = null;
+
+		_clientExtensionConfigSupplier = () -> {
+			try {
+				return clientExtensionConfigUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> clientExtensionConfig;
 
+	private Supplier<Map<String, String>> _clientExtensionConfigSupplier =
+		() -> null;
+
 	@Schema(description = "The client extension's external reference code.")
 	public String getExternalReferenceCode() {
+		if (externalReferenceCode != null) {
+			return externalReferenceCode;
+		}
+
+		externalReferenceCode = _externalReferenceCodeSupplier.get();
+
 		return externalReferenceCode;
 	}
 
 	public void setExternalReferenceCode(String externalReferenceCode) {
 		this.externalReferenceCode = externalReferenceCode;
+
+		_externalReferenceCodeSupplier = () -> externalReferenceCode;
 	}
 
 	@JsonIgnore
 	public void setExternalReferenceCode(
 		UnsafeSupplier<String, Exception> externalReferenceCodeUnsafeSupplier) {
 
-		try {
-			externalReferenceCode = externalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		externalReferenceCode = null;
+
+		_externalReferenceCodeSupplier = () -> {
+			try {
+				return externalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -113,31 +141,47 @@ public class ClientExtension implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String externalReferenceCode;
 
+	private Supplier<String> _externalReferenceCodeSupplier = () -> null;
+
 	@Schema(description = "The client extension's name.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The client extension's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String name;
+
+	private Supplier<String> _nameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

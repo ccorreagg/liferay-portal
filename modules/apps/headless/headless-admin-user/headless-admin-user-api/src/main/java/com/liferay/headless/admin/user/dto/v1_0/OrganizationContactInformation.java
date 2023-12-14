@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -59,11 +60,19 @@ public class OrganizationContactInformation implements Serializable {
 	)
 	@Valid
 	public EmailAddress[] getEmailAddresses() {
+		if (emailAddresses != null) {
+			return emailAddresses;
+		}
+
+		emailAddresses = _emailAddressesSupplier.get();
+
 		return emailAddresses;
 	}
 
 	public void setEmailAddresses(EmailAddress[] emailAddresses) {
 		this.emailAddresses = emailAddresses;
+
+		_emailAddressesSupplier = () -> emailAddresses;
 	}
 
 	@JsonIgnore
@@ -71,15 +80,19 @@ public class OrganizationContactInformation implements Serializable {
 		UnsafeSupplier<EmailAddress[], Exception>
 			emailAddressesUnsafeSupplier) {
 
-		try {
-			emailAddresses = emailAddressesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		emailAddresses = null;
+
+		_emailAddressesSupplier = () -> {
+			try {
+				return emailAddressesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -88,16 +101,26 @@ public class OrganizationContactInformation implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected EmailAddress[] emailAddresses;
 
+	private Supplier<EmailAddress[]> _emailAddressesSupplier = () -> null;
+
 	@Schema(
 		description = "The organization's postal addresses, with one optionally marked as primary."
 	)
 	@Valid
 	public PostalAddress[] getPostalAddresses() {
+		if (postalAddresses != null) {
+			return postalAddresses;
+		}
+
+		postalAddresses = _postalAddressesSupplier.get();
+
 		return postalAddresses;
 	}
 
 	public void setPostalAddresses(PostalAddress[] postalAddresses) {
 		this.postalAddresses = postalAddresses;
+
+		_postalAddressesSupplier = () -> postalAddresses;
 	}
 
 	@JsonIgnore
@@ -105,15 +128,19 @@ public class OrganizationContactInformation implements Serializable {
 		UnsafeSupplier<PostalAddress[], Exception>
 			postalAddressesUnsafeSupplier) {
 
-		try {
-			postalAddresses = postalAddressesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		postalAddresses = null;
+
+		_postalAddressesSupplier = () -> {
+			try {
+				return postalAddressesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -122,31 +149,45 @@ public class OrganizationContactInformation implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected PostalAddress[] postalAddresses;
 
+	private Supplier<PostalAddress[]> _postalAddressesSupplier = () -> null;
+
 	@Schema(
 		description = "The organization's phones numbers, with one optionally marked as primary."
 	)
 	@Valid
 	public Phone[] getTelephones() {
+		if (telephones != null) {
+			return telephones;
+		}
+
+		telephones = _telephonesSupplier.get();
+
 		return telephones;
 	}
 
 	public void setTelephones(Phone[] telephones) {
 		this.telephones = telephones;
+
+		_telephonesSupplier = () -> telephones;
 	}
 
 	@JsonIgnore
 	public void setTelephones(
 		UnsafeSupplier<Phone[], Exception> telephonesUnsafeSupplier) {
 
-		try {
-			telephones = telephonesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		telephones = null;
+
+		_telephonesSupplier = () -> {
+			try {
+				return telephonesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -155,31 +196,45 @@ public class OrganizationContactInformation implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Phone[] telephones;
 
+	private Supplier<Phone[]> _telephonesSupplier = () -> null;
+
 	@Schema(
 		description = "The organization's web URLs, with one optionally marked as primary."
 	)
 	@Valid
 	public WebUrl[] getWebUrls() {
+		if (webUrls != null) {
+			return webUrls;
+		}
+
+		webUrls = _webUrlsSupplier.get();
+
 		return webUrls;
 	}
 
 	public void setWebUrls(WebUrl[] webUrls) {
 		this.webUrls = webUrls;
+
+		_webUrlsSupplier = () -> webUrls;
 	}
 
 	@JsonIgnore
 	public void setWebUrls(
 		UnsafeSupplier<WebUrl[], Exception> webUrlsUnsafeSupplier) {
 
-		try {
-			webUrls = webUrlsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		webUrls = null;
+
+		_webUrlsSupplier = () -> {
+			try {
+				return webUrlsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -187,6 +242,8 @@ public class OrganizationContactInformation implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected WebUrl[] webUrls;
+
+	private Supplier<WebUrl[]> _webUrlsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

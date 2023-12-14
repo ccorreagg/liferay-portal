@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,37 +54,57 @@ public class SEOSettings implements Serializable {
 
 	@Schema(description = "The canonical URL of the page, if it exists.")
 	public String getCustomCanonicalURL() {
+		if (customCanonicalURL != null) {
+			return customCanonicalURL;
+		}
+
+		customCanonicalURL = _customCanonicalURLSupplier.get();
+
 		return customCanonicalURL;
 	}
 
 	public void setCustomCanonicalURL(String customCanonicalURL) {
 		this.customCanonicalURL = customCanonicalURL;
+
+		_customCanonicalURLSupplier = () -> customCanonicalURL;
 	}
 
 	@JsonIgnore
 	public void setCustomCanonicalURL(
 		UnsafeSupplier<String, Exception> customCanonicalURLUnsafeSupplier) {
 
-		try {
-			customCanonicalURL = customCanonicalURLUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		customCanonicalURL = null;
+
+		_customCanonicalURLSupplier = () -> {
+			try {
+				return customCanonicalURLUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The canonical URL of the page, if it exists.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String customCanonicalURL;
 
+	private Supplier<String> _customCanonicalURLSupplier = () -> null;
+
 	@Schema(
 		description = "The localized canonical URL of the page, if it exists."
 	)
 	@Valid
 	public Map<String, String> getCustomCanonicalURL_i18n() {
+		if (customCanonicalURL_i18n != null) {
+			return customCanonicalURL_i18n;
+		}
+
+		customCanonicalURL_i18n = _customCanonicalURL_i18nSupplier.get();
+
 		return customCanonicalURL_i18n;
 	}
 
@@ -91,6 +112,8 @@ public class SEOSettings implements Serializable {
 		Map<String, String> customCanonicalURL_i18n) {
 
 		this.customCanonicalURL_i18n = customCanonicalURL_i18n;
+
+		_customCanonicalURL_i18nSupplier = () -> customCanonicalURL_i18n;
 	}
 
 	@JsonIgnore
@@ -98,16 +121,19 @@ public class SEOSettings implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			customCanonicalURL_i18nUnsafeSupplier) {
 
-		try {
-			customCanonicalURL_i18n =
-				customCanonicalURL_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		customCanonicalURL_i18n = null;
+
+		_customCanonicalURL_i18nSupplier = () -> {
+			try {
+				return customCanonicalURL_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -116,30 +142,45 @@ public class SEOSettings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> customCanonicalURL_i18n;
 
+	private Supplier<Map<String, String>> _customCanonicalURL_i18nSupplier =
+		() -> null;
+
 	@Schema(
 		description = "The page's description to be used as summary for search engines."
 	)
 	public String getDescription() {
+		if (description != null) {
+			return description;
+		}
+
+		description = _descriptionSupplier.get();
+
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+
+		_descriptionSupplier = () -> description;
 	}
 
 	@JsonIgnore
 	public void setDescription(
 		UnsafeSupplier<String, Exception> descriptionUnsafeSupplier) {
 
-		try {
-			description = descriptionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description = null;
+
+		_descriptionSupplier = () -> {
+			try {
+				return descriptionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -148,16 +189,26 @@ public class SEOSettings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
+	private Supplier<String> _descriptionSupplier = () -> null;
+
 	@Schema(
 		description = "The localized descriptions of the page to be used as summary for search engines."
 	)
 	@Valid
 	public Map<String, String> getDescription_i18n() {
+		if (description_i18n != null) {
+			return description_i18n;
+		}
+
+		description_i18n = _description_i18nSupplier.get();
+
 		return description_i18n;
 	}
 
 	public void setDescription_i18n(Map<String, String> description_i18n) {
 		this.description_i18n = description_i18n;
+
+		_description_i18nSupplier = () -> description_i18n;
 	}
 
 	@JsonIgnore
@@ -165,15 +216,19 @@ public class SEOSettings implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			description_i18nUnsafeSupplier) {
 
-		try {
-			description_i18n = description_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description_i18n = null;
+
+		_description_i18nSupplier = () -> {
+			try {
+				return description_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -182,28 +237,43 @@ public class SEOSettings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> description_i18n;
 
+	private Supplier<Map<String, String>> _description_i18nSupplier =
+		() -> null;
+
 	@Schema(description = "The page's main title to be used by search engines.")
 	public String getHtmlTitle() {
+		if (htmlTitle != null) {
+			return htmlTitle;
+		}
+
+		htmlTitle = _htmlTitleSupplier.get();
+
 		return htmlTitle;
 	}
 
 	public void setHtmlTitle(String htmlTitle) {
 		this.htmlTitle = htmlTitle;
+
+		_htmlTitleSupplier = () -> htmlTitle;
 	}
 
 	@JsonIgnore
 	public void setHtmlTitle(
 		UnsafeSupplier<String, Exception> htmlTitleUnsafeSupplier) {
 
-		try {
-			htmlTitle = htmlTitleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		htmlTitle = null;
+
+		_htmlTitleSupplier = () -> {
+			try {
+				return htmlTitleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -212,16 +282,26 @@ public class SEOSettings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String htmlTitle;
 
+	private Supplier<String> _htmlTitleSupplier = () -> null;
+
 	@Schema(
 		description = "The localized main titles of the page to be used by search engines."
 	)
 	@Valid
 	public Map<String, String> getHtmlTitle_i18n() {
+		if (htmlTitle_i18n != null) {
+			return htmlTitle_i18n;
+		}
+
+		htmlTitle_i18n = _htmlTitle_i18nSupplier.get();
+
 		return htmlTitle_i18n;
 	}
 
 	public void setHtmlTitle_i18n(Map<String, String> htmlTitle_i18n) {
 		this.htmlTitle_i18n = htmlTitle_i18n;
+
+		_htmlTitle_i18nSupplier = () -> htmlTitle_i18n;
 	}
 
 	@JsonIgnore
@@ -229,15 +309,19 @@ public class SEOSettings implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			htmlTitle_i18nUnsafeSupplier) {
 
-		try {
-			htmlTitle_i18n = htmlTitle_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		htmlTitle_i18n = null;
+
+		_htmlTitle_i18nSupplier = () -> {
+			try {
+				return htmlTitle_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -246,30 +330,44 @@ public class SEOSettings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> htmlTitle_i18n;
 
+	private Supplier<Map<String, String>> _htmlTitle_i18nSupplier = () -> null;
+
 	@Schema(
 		description = "A tag telling search engines if and how they should crawl the page."
 	)
 	public String getRobots() {
+		if (robots != null) {
+			return robots;
+		}
+
+		robots = _robotsSupplier.get();
+
 		return robots;
 	}
 
 	public void setRobots(String robots) {
 		this.robots = robots;
+
+		_robotsSupplier = () -> robots;
 	}
 
 	@JsonIgnore
 	public void setRobots(
 		UnsafeSupplier<String, Exception> robotsUnsafeSupplier) {
 
-		try {
-			robots = robotsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		robots = null;
+
+		_robotsSupplier = () -> {
+			try {
+				return robotsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -278,16 +376,26 @@ public class SEOSettings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String robots;
 
+	private Supplier<String> _robotsSupplier = () -> null;
+
 	@Schema(
 		description = "A localized tag telling search engines if and how they should crawl the page."
 	)
 	@Valid
 	public Map<String, String> getRobots_i18n() {
+		if (robots_i18n != null) {
+			return robots_i18n;
+		}
+
+		robots_i18n = _robots_i18nSupplier.get();
+
 		return robots_i18n;
 	}
 
 	public void setRobots_i18n(Map<String, String> robots_i18n) {
 		this.robots_i18n = robots_i18n;
+
+		_robots_i18nSupplier = () -> robots_i18n;
 	}
 
 	@JsonIgnore
@@ -295,15 +403,19 @@ public class SEOSettings implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			robots_i18nUnsafeSupplier) {
 
-		try {
-			robots_i18n = robots_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		robots_i18n = null;
+
+		_robots_i18nSupplier = () -> {
+			try {
+				return robots_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -312,30 +424,44 @@ public class SEOSettings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> robots_i18n;
 
+	private Supplier<Map<String, String>> _robots_i18nSupplier = () -> null;
+
 	@Schema(
 		description = "A list of target keywords of the page to be used by search engines."
 	)
 	public String getSeoKeywords() {
+		if (seoKeywords != null) {
+			return seoKeywords;
+		}
+
+		seoKeywords = _seoKeywordsSupplier.get();
+
 		return seoKeywords;
 	}
 
 	public void setSeoKeywords(String seoKeywords) {
 		this.seoKeywords = seoKeywords;
+
+		_seoKeywordsSupplier = () -> seoKeywords;
 	}
 
 	@JsonIgnore
 	public void setSeoKeywords(
 		UnsafeSupplier<String, Exception> seoKeywordsUnsafeSupplier) {
 
-		try {
-			seoKeywords = seoKeywordsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		seoKeywords = null;
+
+		_seoKeywordsSupplier = () -> {
+			try {
+				return seoKeywordsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -344,16 +470,26 @@ public class SEOSettings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String seoKeywords;
 
+	private Supplier<String> _seoKeywordsSupplier = () -> null;
+
 	@Schema(
 		description = "A list of localized target keywords of the page to be used by search engines."
 	)
 	@Valid
 	public Map<String, String> getSeoKeywords_i18n() {
+		if (seoKeywords_i18n != null) {
+			return seoKeywords_i18n;
+		}
+
+		seoKeywords_i18n = _seoKeywords_i18nSupplier.get();
+
 		return seoKeywords_i18n;
 	}
 
 	public void setSeoKeywords_i18n(Map<String, String> seoKeywords_i18n) {
 		this.seoKeywords_i18n = seoKeywords_i18n;
+
+		_seoKeywords_i18nSupplier = () -> seoKeywords_i18n;
 	}
 
 	@JsonIgnore
@@ -361,15 +497,19 @@ public class SEOSettings implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			seoKeywords_i18nUnsafeSupplier) {
 
-		try {
-			seoKeywords_i18n = seoKeywords_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		seoKeywords_i18n = null;
+
+		_seoKeywords_i18nSupplier = () -> {
+			try {
+				return seoKeywords_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -378,14 +518,25 @@ public class SEOSettings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> seoKeywords_i18n;
 
+	private Supplier<Map<String, String>> _seoKeywords_i18nSupplier =
+		() -> null;
+
 	@Schema(description = "Represents settings related with the site map.")
 	@Valid
 	public SiteMapSettings getSiteMapSettings() {
+		if (siteMapSettings != null) {
+			return siteMapSettings;
+		}
+
+		siteMapSettings = _siteMapSettingsSupplier.get();
+
 		return siteMapSettings;
 	}
 
 	public void setSiteMapSettings(SiteMapSettings siteMapSettings) {
 		this.siteMapSettings = siteMapSettings;
+
+		_siteMapSettingsSupplier = () -> siteMapSettings;
 	}
 
 	@JsonIgnore
@@ -393,15 +544,19 @@ public class SEOSettings implements Serializable {
 		UnsafeSupplier<SiteMapSettings, Exception>
 			siteMapSettingsUnsafeSupplier) {
 
-		try {
-			siteMapSettings = siteMapSettingsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		siteMapSettings = null;
+
+		_siteMapSettingsSupplier = () -> {
+			try {
+				return siteMapSettingsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -409,6 +564,8 @@ public class SEOSettings implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected SiteMapSettings siteMapSettings;
+
+	private Supplier<SiteMapSettings> _siteMapSettingsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,108 +53,162 @@ public class Fragment implements Serializable {
 
 	@Schema(description = "The collection name this fragment belongs to.")
 	public String getCollectionName() {
+		if (collectionName != null) {
+			return collectionName;
+		}
+
+		collectionName = _collectionNameSupplier.get();
+
 		return collectionName;
 	}
 
 	public void setCollectionName(String collectionName) {
 		this.collectionName = collectionName;
+
+		_collectionNameSupplier = () -> collectionName;
 	}
 
 	@JsonIgnore
 	public void setCollectionName(
 		UnsafeSupplier<String, Exception> collectionNameUnsafeSupplier) {
 
-		try {
-			collectionName = collectionNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		collectionName = null;
+
+		_collectionNameSupplier = () -> {
+			try {
+				return collectionNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The collection name this fragment belongs to.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String collectionName;
 
+	private Supplier<String> _collectionNameSupplier = () -> null;
+
 	@Schema(description = "The fragment's key.")
 	public String getKey() {
+		if (key != null) {
+			return key;
+		}
+
+		key = _keySupplier.get();
+
 		return key;
 	}
 
 	public void setKey(String key) {
 		this.key = key;
+
+		_keySupplier = () -> key;
 	}
 
 	@JsonIgnore
 	public void setKey(UnsafeSupplier<String, Exception> keyUnsafeSupplier) {
-		try {
-			key = keyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		key = null;
+
+		_keySupplier = () -> {
+			try {
+				return keyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment's key.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String key;
 
+	private Supplier<String> _keySupplier = () -> null;
+
 	@Schema(description = "The fragment's name.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema(
 		description = "The key of the site to which this fragment is scoped."
 	)
 	public String getSiteKey() {
+		if (siteKey != null) {
+			return siteKey;
+		}
+
+		siteKey = _siteKeySupplier.get();
+
 		return siteKey;
 	}
 
 	public void setSiteKey(String siteKey) {
 		this.siteKey = siteKey;
+
+		_siteKeySupplier = () -> siteKey;
 	}
 
 	@JsonIgnore
 	public void setSiteKey(
 		UnsafeSupplier<String, Exception> siteKeyUnsafeSupplier) {
 
-		try {
-			siteKey = siteKeyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		siteKey = null;
+
+		_siteKeySupplier = () -> {
+			try {
+				return siteKeyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -161,6 +216,8 @@ public class Fragment implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String siteKey;
+
+	private Supplier<String> _siteKeySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

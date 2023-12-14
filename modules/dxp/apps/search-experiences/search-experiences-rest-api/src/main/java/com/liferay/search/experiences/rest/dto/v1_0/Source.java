@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,87 +50,129 @@ public class Source implements Serializable {
 
 	@Schema
 	public String[] getExcludes() {
+		if (excludes != null) {
+			return excludes;
+		}
+
+		excludes = _excludesSupplier.get();
+
 		return excludes;
 	}
 
 	public void setExcludes(String[] excludes) {
 		this.excludes = excludes;
+
+		_excludesSupplier = () -> excludes;
 	}
 
 	@JsonIgnore
 	public void setExcludes(
 		UnsafeSupplier<String[], Exception> excludesUnsafeSupplier) {
 
-		try {
-			excludes = excludesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		excludes = null;
+
+		_excludesSupplier = () -> {
+			try {
+				return excludesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] excludes;
 
+	private Supplier<String[]> _excludesSupplier = () -> null;
+
 	@Schema
 	public Boolean getFetchSource() {
+		if (fetchSource != null) {
+			return fetchSource;
+		}
+
+		fetchSource = _fetchSourceSupplier.get();
+
 		return fetchSource;
 	}
 
 	public void setFetchSource(Boolean fetchSource) {
 		this.fetchSource = fetchSource;
+
+		_fetchSourceSupplier = () -> fetchSource;
 	}
 
 	@JsonIgnore
 	public void setFetchSource(
 		UnsafeSupplier<Boolean, Exception> fetchSourceUnsafeSupplier) {
 
-		try {
-			fetchSource = fetchSourceUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fetchSource = null;
+
+		_fetchSourceSupplier = () -> {
+			try {
+				return fetchSourceUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean fetchSource;
 
+	private Supplier<Boolean> _fetchSourceSupplier = () -> null;
+
 	@Schema
 	public String[] getIncludes() {
+		if (includes != null) {
+			return includes;
+		}
+
+		includes = _includesSupplier.get();
+
 		return includes;
 	}
 
 	public void setIncludes(String[] includes) {
 		this.includes = includes;
+
+		_includesSupplier = () -> includes;
 	}
 
 	@JsonIgnore
 	public void setIncludes(
 		UnsafeSupplier<String[], Exception> includesUnsafeSupplier) {
 
-		try {
-			includes = includesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		includes = null;
+
+		_includesSupplier = () -> {
+			try {
+				return includesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] includes;
+
+	private Supplier<String[]> _includesSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

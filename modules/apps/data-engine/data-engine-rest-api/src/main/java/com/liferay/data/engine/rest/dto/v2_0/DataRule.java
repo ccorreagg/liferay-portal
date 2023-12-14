@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,117 +53,173 @@ public class DataRule implements Serializable {
 	@Schema
 	@Valid
 	public Map[] getActions() {
+		if (actions != null) {
+			return actions;
+		}
+
+		actions = _actionsSupplier.get();
+
 		return actions;
 	}
 
 	public void setActions(Map[] actions) {
 		this.actions = actions;
+
+		_actionsSupplier = () -> actions;
 	}
 
 	@JsonIgnore
 	public void setActions(
 		UnsafeSupplier<Map[], Exception> actionsUnsafeSupplier) {
 
-		try {
-			actions = actionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actions = null;
+
+		_actionsSupplier = () -> {
+			try {
+				return actionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map[] actions;
 
+	private Supplier<Map[]> _actionsSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map[] getConditions() {
+		if (conditions != null) {
+			return conditions;
+		}
+
+		conditions = _conditionsSupplier.get();
+
 		return conditions;
 	}
 
 	public void setConditions(Map[] conditions) {
 		this.conditions = conditions;
+
+		_conditionsSupplier = () -> conditions;
 	}
 
 	@JsonIgnore
 	public void setConditions(
 		UnsafeSupplier<Map[], Exception> conditionsUnsafeSupplier) {
 
-		try {
-			conditions = conditionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		conditions = null;
+
+		_conditionsSupplier = () -> {
+			try {
+				return conditionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map[] conditions;
 
+	private Supplier<Map[]> _conditionsSupplier = () -> null;
+
 	@Schema
 	public String getLogicalOperator() {
+		if (logicalOperator != null) {
+			return logicalOperator;
+		}
+
+		logicalOperator = _logicalOperatorSupplier.get();
+
 		return logicalOperator;
 	}
 
 	public void setLogicalOperator(String logicalOperator) {
 		this.logicalOperator = logicalOperator;
+
+		_logicalOperatorSupplier = () -> logicalOperator;
 	}
 
 	@JsonIgnore
 	public void setLogicalOperator(
 		UnsafeSupplier<String, Exception> logicalOperatorUnsafeSupplier) {
 
-		try {
-			logicalOperator = logicalOperatorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		logicalOperator = null;
+
+		_logicalOperatorSupplier = () -> {
+			try {
+				return logicalOperatorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String logicalOperator;
 
+	private Supplier<String> _logicalOperatorSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, Object> getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(Map<String, Object> name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(
 		UnsafeSupplier<Map<String, Object>, Exception> nameUnsafeSupplier) {
 
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, Object> name;
+
+	private Supplier<Map<String, Object>> _nameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

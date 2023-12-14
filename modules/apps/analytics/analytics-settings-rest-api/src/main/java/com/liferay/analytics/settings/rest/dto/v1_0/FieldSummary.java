@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,115 +50,171 @@ public class FieldSummary implements Serializable {
 
 	@Schema
 	public Integer getAccount() {
+		if (account != null) {
+			return account;
+		}
+
+		account = _accountSupplier.get();
+
 		return account;
 	}
 
 	public void setAccount(Integer account) {
 		this.account = account;
+
+		_accountSupplier = () -> account;
 	}
 
 	@JsonIgnore
 	public void setAccount(
 		UnsafeSupplier<Integer, Exception> accountUnsafeSupplier) {
 
-		try {
-			account = accountUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		account = null;
+
+		_accountSupplier = () -> {
+			try {
+				return accountUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer account;
 
+	private Supplier<Integer> _accountSupplier = () -> null;
+
 	@Schema
 	public Integer getOrder() {
+		if (order != null) {
+			return order;
+		}
+
+		order = _orderSupplier.get();
+
 		return order;
 	}
 
 	public void setOrder(Integer order) {
 		this.order = order;
+
+		_orderSupplier = () -> order;
 	}
 
 	@JsonIgnore
 	public void setOrder(
 		UnsafeSupplier<Integer, Exception> orderUnsafeSupplier) {
 
-		try {
-			order = orderUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		order = null;
+
+		_orderSupplier = () -> {
+			try {
+				return orderUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer order;
 
+	private Supplier<Integer> _orderSupplier = () -> null;
+
 	@Schema
 	public Integer getPeople() {
+		if (people != null) {
+			return people;
+		}
+
+		people = _peopleSupplier.get();
+
 		return people;
 	}
 
 	public void setPeople(Integer people) {
 		this.people = people;
+
+		_peopleSupplier = () -> people;
 	}
 
 	@JsonIgnore
 	public void setPeople(
 		UnsafeSupplier<Integer, Exception> peopleUnsafeSupplier) {
 
-		try {
-			people = peopleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		people = null;
+
+		_peopleSupplier = () -> {
+			try {
+				return peopleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer people;
 
+	private Supplier<Integer> _peopleSupplier = () -> null;
+
 	@Schema
 	public Integer getProduct() {
+		if (product != null) {
+			return product;
+		}
+
+		product = _productSupplier.get();
+
 		return product;
 	}
 
 	public void setProduct(Integer product) {
 		this.product = product;
+
+		_productSupplier = () -> product;
 	}
 
 	@JsonIgnore
 	public void setProduct(
 		UnsafeSupplier<Integer, Exception> productUnsafeSupplier) {
 
-		try {
-			product = productUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		product = null;
+
+		_productSupplier = () -> {
+			try {
+				return productUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer product;
+
+	private Supplier<Integer> _productSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

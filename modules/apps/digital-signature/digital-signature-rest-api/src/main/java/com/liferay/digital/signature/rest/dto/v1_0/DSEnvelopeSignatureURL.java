@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -50,29 +51,43 @@ public class DSEnvelopeSignatureURL implements Serializable {
 
 	@Schema
 	public String getUrl() {
+		if (url != null) {
+			return url;
+		}
+
+		url = _urlSupplier.get();
+
 		return url;
 	}
 
 	public void setUrl(String url) {
 		this.url = url;
+
+		_urlSupplier = () -> url;
 	}
 
 	@JsonIgnore
 	public void setUrl(UnsafeSupplier<String, Exception> urlUnsafeSupplier) {
-		try {
-			url = urlUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		url = null;
+
+		_urlSupplier = () -> {
+			try {
+				return urlUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String url;
+
+	private Supplier<String> _urlSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

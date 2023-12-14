@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,143 +57,213 @@ public class Channel implements Serializable {
 
 	@Schema
 	public String getChannelId() {
+		if (channelId != null) {
+			return channelId;
+		}
+
+		channelId = _channelIdSupplier.get();
+
 		return channelId;
 	}
 
 	public void setChannelId(String channelId) {
 		this.channelId = channelId;
+
+		_channelIdSupplier = () -> channelId;
 	}
 
 	@JsonIgnore
 	public void setChannelId(
 		UnsafeSupplier<String, Exception> channelIdUnsafeSupplier) {
 
-		try {
-			channelId = channelIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		channelId = null;
+
+		_channelIdSupplier = () -> {
+			try {
+				return channelIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String channelId;
 
+	private Supplier<String> _channelIdSupplier = () -> null;
+
 	@Schema
 	public Boolean getCommerceSyncEnabled() {
+		if (commerceSyncEnabled != null) {
+			return commerceSyncEnabled;
+		}
+
+		commerceSyncEnabled = _commerceSyncEnabledSupplier.get();
+
 		return commerceSyncEnabled;
 	}
 
 	public void setCommerceSyncEnabled(Boolean commerceSyncEnabled) {
 		this.commerceSyncEnabled = commerceSyncEnabled;
+
+		_commerceSyncEnabledSupplier = () -> commerceSyncEnabled;
 	}
 
 	@JsonIgnore
 	public void setCommerceSyncEnabled(
 		UnsafeSupplier<Boolean, Exception> commerceSyncEnabledUnsafeSupplier) {
 
-		try {
-			commerceSyncEnabled = commerceSyncEnabledUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		commerceSyncEnabled = null;
+
+		_commerceSyncEnabledSupplier = () -> {
+			try {
+				return commerceSyncEnabledUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean commerceSyncEnabled;
 
+	private Supplier<Boolean> _commerceSyncEnabledSupplier = () -> null;
+
 	@Schema
 	public Date getCreateDate() {
+		if (createDate != null) {
+			return createDate;
+		}
+
+		createDate = _createDateSupplier.get();
+
 		return createDate;
 	}
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+
+		_createDateSupplier = () -> createDate;
 	}
 
 	@JsonIgnore
 	public void setCreateDate(
 		UnsafeSupplier<Date, Exception> createDateUnsafeSupplier) {
 
-		try {
-			createDate = createDateUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		createDate = null;
+
+		_createDateSupplier = () -> {
+			try {
+				return createDateUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date createDate;
 
+	private Supplier<Date> _createDateSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public DataSource[] getDataSources() {
+		if (dataSources != null) {
+			return dataSources;
+		}
+
+		dataSources = _dataSourcesSupplier.get();
+
 		return dataSources;
 	}
 
 	public void setDataSources(DataSource[] dataSources) {
 		this.dataSources = dataSources;
+
+		_dataSourcesSupplier = () -> dataSources;
 	}
 
 	@JsonIgnore
 	public void setDataSources(
 		UnsafeSupplier<DataSource[], Exception> dataSourcesUnsafeSupplier) {
 
-		try {
-			dataSources = dataSourcesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dataSources = null;
+
+		_dataSourcesSupplier = () -> {
+			try {
+				return dataSourcesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected DataSource[] dataSources;
 
+	private Supplier<DataSource[]> _dataSourcesSupplier = () -> null;
+
 	@Schema
 	@Size(min = 3)
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
+
+	private Supplier<String> _nameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

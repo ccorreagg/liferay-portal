@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,40 +56,62 @@ public class ProductConfiguration implements Serializable {
 
 	@Schema(example = "true")
 	public Boolean getAllowBackOrder() {
+		if (allowBackOrder != null) {
+			return allowBackOrder;
+		}
+
+		allowBackOrder = _allowBackOrderSupplier.get();
+
 		return allowBackOrder;
 	}
 
 	public void setAllowBackOrder(Boolean allowBackOrder) {
 		this.allowBackOrder = allowBackOrder;
+
+		_allowBackOrderSupplier = () -> allowBackOrder;
 	}
 
 	@JsonIgnore
 	public void setAllowBackOrder(
 		UnsafeSupplier<Boolean, Exception> allowBackOrderUnsafeSupplier) {
 
-		try {
-			allowBackOrder = allowBackOrderUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		allowBackOrder = null;
+
+		_allowBackOrderSupplier = () -> {
+			try {
+				return allowBackOrderUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean allowBackOrder;
 
+	private Supplier<Boolean> _allowBackOrderSupplier = () -> null;
+
 	@Schema(example = "[10, 20, 30, 40]")
 	@Valid
 	public BigDecimal[] getAllowedOrderQuantities() {
+		if (allowedOrderQuantities != null) {
+			return allowedOrderQuantities;
+		}
+
+		allowedOrderQuantities = _allowedOrderQuantitiesSupplier.get();
+
 		return allowedOrderQuantities;
 	}
 
 	public void setAllowedOrderQuantities(BigDecimal[] allowedOrderQuantities) {
 		this.allowedOrderQuantities = allowedOrderQuantities;
+
+		_allowedOrderQuantitiesSupplier = () -> allowedOrderQuantities;
 	}
 
 	@JsonIgnore
@@ -96,53 +119,79 @@ public class ProductConfiguration implements Serializable {
 		UnsafeSupplier<BigDecimal[], Exception>
 			allowedOrderQuantitiesUnsafeSupplier) {
 
-		try {
-			allowedOrderQuantities = allowedOrderQuantitiesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		allowedOrderQuantities = null;
+
+		_allowedOrderQuantitiesSupplier = () -> {
+			try {
+				return allowedOrderQuantitiesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected BigDecimal[] allowedOrderQuantities;
 
+	private Supplier<BigDecimal[]> _allowedOrderQuantitiesSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "31130")
 	public Long getAvailabilityEstimateId() {
+		if (availabilityEstimateId != null) {
+			return availabilityEstimateId;
+		}
+
+		availabilityEstimateId = _availabilityEstimateIdSupplier.get();
+
 		return availabilityEstimateId;
 	}
 
 	public void setAvailabilityEstimateId(Long availabilityEstimateId) {
 		this.availabilityEstimateId = availabilityEstimateId;
+
+		_availabilityEstimateIdSupplier = () -> availabilityEstimateId;
 	}
 
 	@JsonIgnore
 	public void setAvailabilityEstimateId(
 		UnsafeSupplier<Long, Exception> availabilityEstimateIdUnsafeSupplier) {
 
-		try {
-			availabilityEstimateId = availabilityEstimateIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		availabilityEstimateId = null;
+
+		_availabilityEstimateIdSupplier = () -> {
+			try {
+				return availabilityEstimateIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long availabilityEstimateId;
 
+	private Supplier<Long> _availabilityEstimateIdSupplier = () -> null;
+
 	@Schema(example = "{en_US=3-5 Days, it_IT=3-5 Giorni}")
 	@Valid
 	public Map<String, String> getAvailabilityEstimateName() {
+		if (availabilityEstimateName != null) {
+			return availabilityEstimateName;
+		}
+
+		availabilityEstimateName = _availabilityEstimateNameSupplier.get();
+
 		return availabilityEstimateName;
 	}
 
@@ -150,6 +199,8 @@ public class ProductConfiguration implements Serializable {
 		Map<String, String> availabilityEstimateName) {
 
 		this.availabilityEstimateName = availabilityEstimateName;
+
+		_availabilityEstimateNameSupplier = () -> availabilityEstimateName;
 	}
 
 	@JsonIgnore
@@ -157,102 +208,148 @@ public class ProductConfiguration implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			availabilityEstimateNameUnsafeSupplier) {
 
-		try {
-			availabilityEstimateName =
-				availabilityEstimateNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		availabilityEstimateName = null;
+
+		_availabilityEstimateNameSupplier = () -> {
+			try {
+				return availabilityEstimateNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> availabilityEstimateName;
 
+	private Supplier<Map<String, String>> _availabilityEstimateNameSupplier =
+		() -> null;
+
 	@Schema(example = "true")
 	public Boolean getDisplayAvailability() {
+		if (displayAvailability != null) {
+			return displayAvailability;
+		}
+
+		displayAvailability = _displayAvailabilitySupplier.get();
+
 		return displayAvailability;
 	}
 
 	public void setDisplayAvailability(Boolean displayAvailability) {
 		this.displayAvailability = displayAvailability;
+
+		_displayAvailabilitySupplier = () -> displayAvailability;
 	}
 
 	@JsonIgnore
 	public void setDisplayAvailability(
 		UnsafeSupplier<Boolean, Exception> displayAvailabilityUnsafeSupplier) {
 
-		try {
-			displayAvailability = displayAvailabilityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		displayAvailability = null;
+
+		_displayAvailabilitySupplier = () -> {
+			try {
+				return displayAvailabilityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean displayAvailability;
 
+	private Supplier<Boolean> _displayAvailabilitySupplier = () -> null;
+
 	@Schema(example = "true")
 	public Boolean getDisplayStockQuantity() {
+		if (displayStockQuantity != null) {
+			return displayStockQuantity;
+		}
+
+		displayStockQuantity = _displayStockQuantitySupplier.get();
+
 		return displayStockQuantity;
 	}
 
 	public void setDisplayStockQuantity(Boolean displayStockQuantity) {
 		this.displayStockQuantity = displayStockQuantity;
+
+		_displayStockQuantitySupplier = () -> displayStockQuantity;
 	}
 
 	@JsonIgnore
 	public void setDisplayStockQuantity(
 		UnsafeSupplier<Boolean, Exception> displayStockQuantityUnsafeSupplier) {
 
-		try {
-			displayStockQuantity = displayStockQuantityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		displayStockQuantity = null;
+
+		_displayStockQuantitySupplier = () -> {
+			try {
+				return displayStockQuantityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean displayStockQuantity;
 
+	private Supplier<Boolean> _displayStockQuantitySupplier = () -> null;
+
 	@Schema(
 		description = "The inventory engine that will be used to manage the product inventory"
 	)
 	public String getInventoryEngine() {
+		if (inventoryEngine != null) {
+			return inventoryEngine;
+		}
+
+		inventoryEngine = _inventoryEngineSupplier.get();
+
 		return inventoryEngine;
 	}
 
 	public void setInventoryEngine(String inventoryEngine) {
 		this.inventoryEngine = inventoryEngine;
+
+		_inventoryEngineSupplier = () -> inventoryEngine;
 	}
 
 	@JsonIgnore
 	public void setInventoryEngine(
 		UnsafeSupplier<String, Exception> inventoryEngineUnsafeSupplier) {
 
-		try {
-			inventoryEngine = inventoryEngineUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		inventoryEngine = null;
+
+		_inventoryEngineSupplier = () -> {
+			try {
+				return inventoryEngineUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -261,30 +358,44 @@ public class ProductConfiguration implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String inventoryEngine;
 
+	private Supplier<String> _inventoryEngineSupplier = () -> null;
+
 	@Schema(
 		description = "The low stock action that will be performed when a product is out of stock"
 	)
 	public String getLowStockAction() {
+		if (lowStockAction != null) {
+			return lowStockAction;
+		}
+
+		lowStockAction = _lowStockActionSupplier.get();
+
 		return lowStockAction;
 	}
 
 	public void setLowStockAction(String lowStockAction) {
 		this.lowStockAction = lowStockAction;
+
+		_lowStockActionSupplier = () -> lowStockAction;
 	}
 
 	@JsonIgnore
 	public void setLowStockAction(
 		UnsafeSupplier<String, Exception> lowStockActionUnsafeSupplier) {
 
-		try {
-			lowStockAction = lowStockActionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		lowStockAction = null;
+
+		_lowStockActionSupplier = () -> {
+			try {
+				return lowStockActionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -293,101 +404,153 @@ public class ProductConfiguration implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String lowStockAction;
 
+	private Supplier<String> _lowStockActionSupplier = () -> null;
+
 	@Schema(example = "10.1")
 	@Valid
 	public BigDecimal getMaxOrderQuantity() {
+		if (maxOrderQuantity != null) {
+			return maxOrderQuantity;
+		}
+
+		maxOrderQuantity = _maxOrderQuantitySupplier.get();
+
 		return maxOrderQuantity;
 	}
 
 	public void setMaxOrderQuantity(BigDecimal maxOrderQuantity) {
 		this.maxOrderQuantity = maxOrderQuantity;
+
+		_maxOrderQuantitySupplier = () -> maxOrderQuantity;
 	}
 
 	@JsonIgnore
 	public void setMaxOrderQuantity(
 		UnsafeSupplier<BigDecimal, Exception> maxOrderQuantityUnsafeSupplier) {
 
-		try {
-			maxOrderQuantity = maxOrderQuantityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		maxOrderQuantity = null;
+
+		_maxOrderQuantitySupplier = () -> {
+			try {
+				return maxOrderQuantityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected BigDecimal maxOrderQuantity;
 
+	private Supplier<BigDecimal> _maxOrderQuantitySupplier = () -> null;
+
 	@Schema(example = "10.1")
 	@Valid
 	public BigDecimal getMinOrderQuantity() {
+		if (minOrderQuantity != null) {
+			return minOrderQuantity;
+		}
+
+		minOrderQuantity = _minOrderQuantitySupplier.get();
+
 		return minOrderQuantity;
 	}
 
 	public void setMinOrderQuantity(BigDecimal minOrderQuantity) {
 		this.minOrderQuantity = minOrderQuantity;
+
+		_minOrderQuantitySupplier = () -> minOrderQuantity;
 	}
 
 	@JsonIgnore
 	public void setMinOrderQuantity(
 		UnsafeSupplier<BigDecimal, Exception> minOrderQuantityUnsafeSupplier) {
 
-		try {
-			minOrderQuantity = minOrderQuantityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		minOrderQuantity = null;
+
+		_minOrderQuantitySupplier = () -> {
+			try {
+				return minOrderQuantityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected BigDecimal minOrderQuantity;
 
+	private Supplier<BigDecimal> _minOrderQuantitySupplier = () -> null;
+
 	@Schema(example = "10.1")
 	@Valid
 	public BigDecimal getMinStockQuantity() {
+		if (minStockQuantity != null) {
+			return minStockQuantity;
+		}
+
+		minStockQuantity = _minStockQuantitySupplier.get();
+
 		return minStockQuantity;
 	}
 
 	public void setMinStockQuantity(BigDecimal minStockQuantity) {
 		this.minStockQuantity = minStockQuantity;
+
+		_minStockQuantitySupplier = () -> minStockQuantity;
 	}
 
 	@JsonIgnore
 	public void setMinStockQuantity(
 		UnsafeSupplier<BigDecimal, Exception> minStockQuantityUnsafeSupplier) {
 
-		try {
-			minStockQuantity = minStockQuantityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		minStockQuantity = null;
+
+		_minStockQuantitySupplier = () -> {
+			try {
+				return minStockQuantityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected BigDecimal minStockQuantity;
 
+	private Supplier<BigDecimal> _minStockQuantitySupplier = () -> null;
+
 	@Schema(example = "10.1")
 	@Valid
 	public BigDecimal getMultipleOrderQuantity() {
+		if (multipleOrderQuantity != null) {
+			return multipleOrderQuantity;
+		}
+
+		multipleOrderQuantity = _multipleOrderQuantitySupplier.get();
+
 		return multipleOrderQuantity;
 	}
 
 	public void setMultipleOrderQuantity(BigDecimal multipleOrderQuantity) {
 		this.multipleOrderQuantity = multipleOrderQuantity;
+
+		_multipleOrderQuantitySupplier = () -> multipleOrderQuantity;
 	}
 
 	@JsonIgnore
@@ -395,20 +558,26 @@ public class ProductConfiguration implements Serializable {
 		UnsafeSupplier<BigDecimal, Exception>
 			multipleOrderQuantityUnsafeSupplier) {
 
-		try {
-			multipleOrderQuantity = multipleOrderQuantityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		multipleOrderQuantity = null;
+
+		_multipleOrderQuantitySupplier = () -> {
+			try {
+				return multipleOrderQuantityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected BigDecimal multipleOrderQuantity;
+
+	private Supplier<BigDecimal> _multipleOrderQuantitySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

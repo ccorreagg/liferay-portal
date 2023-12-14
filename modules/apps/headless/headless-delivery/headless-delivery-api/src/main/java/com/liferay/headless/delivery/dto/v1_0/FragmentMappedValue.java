@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,6 +57,12 @@ public class FragmentMappedValue implements Serializable {
 	@Schema(description = "The default value of the fragment mapped value.")
 	@Valid
 	public FragmentInlineValue getDefaultFragmentInlineValue() {
+		if (defaultFragmentInlineValue != null) {
+			return defaultFragmentInlineValue;
+		}
+
+		defaultFragmentInlineValue = _defaultFragmentInlineValueSupplier.get();
+
 		return defaultFragmentInlineValue;
 	}
 
@@ -63,6 +70,8 @@ public class FragmentMappedValue implements Serializable {
 		FragmentInlineValue defaultFragmentInlineValue) {
 
 		this.defaultFragmentInlineValue = defaultFragmentInlineValue;
+
+		_defaultFragmentInlineValueSupplier = () -> defaultFragmentInlineValue;
 	}
 
 	@JsonIgnore
@@ -70,16 +79,19 @@ public class FragmentMappedValue implements Serializable {
 		UnsafeSupplier<FragmentInlineValue, Exception>
 			defaultFragmentInlineValueUnsafeSupplier) {
 
-		try {
-			defaultFragmentInlineValue =
-				defaultFragmentInlineValueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		defaultFragmentInlineValue = null;
+
+		_defaultFragmentInlineValueSupplier = () -> {
+			try {
+				return defaultFragmentInlineValueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -88,32 +100,47 @@ public class FragmentMappedValue implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentInlineValue defaultFragmentInlineValue;
 
+	private Supplier<FragmentInlineValue> _defaultFragmentInlineValueSupplier =
+		() -> null;
+
 	@Schema(
 		deprecated = true,
 		description = "Deprecated as of Athanasius (7.3.x), replaced by defaultFragmentInlineValue"
 	)
 	@Valid
 	public DefaultValue getDefaultValue() {
+		if (defaultValue != null) {
+			return defaultValue;
+		}
+
+		defaultValue = _defaultValueSupplier.get();
+
 		return defaultValue;
 	}
 
 	public void setDefaultValue(DefaultValue defaultValue) {
 		this.defaultValue = defaultValue;
+
+		_defaultValueSupplier = () -> defaultValue;
 	}
 
 	@JsonIgnore
 	public void setDefaultValue(
 		UnsafeSupplier<DefaultValue, Exception> defaultValueUnsafeSupplier) {
 
-		try {
-			defaultValue = defaultValueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		defaultValue = null;
+
+		_defaultValueSupplier = () -> {
+			try {
+				return defaultValueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@Deprecated
@@ -123,34 +150,50 @@ public class FragmentMappedValue implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected DefaultValue defaultValue;
 
+	private Supplier<DefaultValue> _defaultValueSupplier = () -> null;
+
 	@Schema(description = "The mapping of the fragment mapped value.")
 	@Valid
 	public Mapping getMapping() {
+		if (mapping != null) {
+			return mapping;
+		}
+
+		mapping = _mappingSupplier.get();
+
 		return mapping;
 	}
 
 	public void setMapping(Mapping mapping) {
 		this.mapping = mapping;
+
+		_mappingSupplier = () -> mapping;
 	}
 
 	@JsonIgnore
 	public void setMapping(
 		UnsafeSupplier<Mapping, Exception> mappingUnsafeSupplier) {
 
-		try {
-			mapping = mappingUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		mapping = null;
+
+		_mappingSupplier = () -> {
+			try {
+				return mappingUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The mapping of the fragment mapped value.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Mapping mapping;
+
+	private Supplier<Mapping> _mappingSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

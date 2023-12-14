@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -59,6 +60,12 @@ public class SiteMapSettings implements Serializable {
 	@Schema(description = "Indicates how often a page is updated.")
 	@Valid
 	public ChangeFrequency getChangeFrequency() {
+		if (changeFrequency != null) {
+			return changeFrequency;
+		}
+
+		changeFrequency = _changeFrequencySupplier.get();
+
 		return changeFrequency;
 	}
 
@@ -73,6 +80,8 @@ public class SiteMapSettings implements Serializable {
 
 	public void setChangeFrequency(ChangeFrequency changeFrequency) {
 		this.changeFrequency = changeFrequency;
+
+		_changeFrequencySupplier = () -> changeFrequency;
 	}
 
 	@JsonIgnore
@@ -80,45 +89,63 @@ public class SiteMapSettings implements Serializable {
 		UnsafeSupplier<ChangeFrequency, Exception>
 			changeFrequencyUnsafeSupplier) {
 
-		try {
-			changeFrequency = changeFrequencyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		changeFrequency = null;
+
+		_changeFrequencySupplier = () -> {
+			try {
+				return changeFrequencyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Indicates how often a page is updated.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ChangeFrequency changeFrequency;
 
+	private Supplier<ChangeFrequency> _changeFrequencySupplier = () -> null;
+
 	@Schema(
 		description = "Whether search engines should crawl and index the page."
 	)
 	public Boolean getInclude() {
+		if (include != null) {
+			return include;
+		}
+
+		include = _includeSupplier.get();
+
 		return include;
 	}
 
 	public void setInclude(Boolean include) {
 		this.include = include;
+
+		_includeSupplier = () -> include;
 	}
 
 	@JsonIgnore
 	public void setInclude(
 		UnsafeSupplier<Boolean, Exception> includeUnsafeSupplier) {
 
-		try {
-			include = includeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		include = null;
+
+		_includeSupplier = () -> {
+			try {
+				return includeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -127,32 +154,46 @@ public class SiteMapSettings implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean include;
 
+	private Supplier<Boolean> _includeSupplier = () -> null;
+
 	@DecimalMax("1")
 	@DecimalMin("0")
 	@Schema(
 		description = "How the page should be prioritized relative to other pages."
 	)
 	public Double getPagePriority() {
+		if (pagePriority != null) {
+			return pagePriority;
+		}
+
+		pagePriority = _pagePrioritySupplier.get();
+
 		return pagePriority;
 	}
 
 	public void setPagePriority(Double pagePriority) {
 		this.pagePriority = pagePriority;
+
+		_pagePrioritySupplier = () -> pagePriority;
 	}
 
 	@JsonIgnore
 	public void setPagePriority(
 		UnsafeSupplier<Double, Exception> pagePriorityUnsafeSupplier) {
 
-		try {
-			pagePriority = pagePriorityUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		pagePriority = null;
+
+		_pagePrioritySupplier = () -> {
+			try {
+				return pagePriorityUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -160,6 +201,8 @@ public class SiteMapSettings implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Double pagePriority;
+
+	private Supplier<Double> _pagePrioritySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

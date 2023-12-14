@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,31 +50,45 @@ public class SearchRequest implements Serializable {
 
 	@Schema
 	public String getQueryString() {
+		if (queryString != null) {
+			return queryString;
+		}
+
+		queryString = _queryStringSupplier.get();
+
 		return queryString;
 	}
 
 	public void setQueryString(String queryString) {
 		this.queryString = queryString;
+
+		_queryStringSupplier = () -> queryString;
 	}
 
 	@JsonIgnore
 	public void setQueryString(
 		UnsafeSupplier<String, Exception> queryStringUnsafeSupplier) {
 
-		try {
-			queryString = queryStringUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		queryString = null;
+
+		_queryStringSupplier = () -> {
+			try {
+				return queryStringUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String queryString;
+
+	private Supplier<String> _queryStringSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

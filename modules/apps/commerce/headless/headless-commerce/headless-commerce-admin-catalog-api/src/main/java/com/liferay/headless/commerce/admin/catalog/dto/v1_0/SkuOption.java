@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,115 +52,171 @@ public class SkuOption implements Serializable {
 
 	@Schema
 	public String getKey() {
+		if (key != null) {
+			return key;
+		}
+
+		key = _keySupplier.get();
+
 		return key;
 	}
 
 	public void setKey(String key) {
 		this.key = key;
+
+		_keySupplier = () -> key;
 	}
 
 	@JsonIgnore
 	public void setKey(UnsafeSupplier<String, Exception> keyUnsafeSupplier) {
-		try {
-			key = keyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		key = null;
+
+		_keySupplier = () -> {
+			try {
+				return keyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String key;
 
+	private Supplier<String> _keySupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "31130")
 	public Long getOptionId() {
+		if (optionId != null) {
+			return optionId;
+		}
+
+		optionId = _optionIdSupplier.get();
+
 		return optionId;
 	}
 
 	public void setOptionId(Long optionId) {
 		this.optionId = optionId;
+
+		_optionIdSupplier = () -> optionId;
 	}
 
 	@JsonIgnore
 	public void setOptionId(
 		UnsafeSupplier<Long, Exception> optionIdUnsafeSupplier) {
 
-		try {
-			optionId = optionIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		optionId = null;
+
+		_optionIdSupplier = () -> {
+			try {
+				return optionIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long optionId;
 
+	private Supplier<Long> _optionIdSupplier = () -> null;
+
 	@DecimalMin("0")
 	@Schema(example = "31130")
 	public Long getOptionValueId() {
+		if (optionValueId != null) {
+			return optionValueId;
+		}
+
+		optionValueId = _optionValueIdSupplier.get();
+
 		return optionValueId;
 	}
 
 	public void setOptionValueId(Long optionValueId) {
 		this.optionValueId = optionValueId;
+
+		_optionValueIdSupplier = () -> optionValueId;
 	}
 
 	@JsonIgnore
 	public void setOptionValueId(
 		UnsafeSupplier<Long, Exception> optionValueIdUnsafeSupplier) {
 
-		try {
-			optionValueId = optionValueIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		optionValueId = null;
+
+		_optionValueIdSupplier = () -> {
+			try {
+				return optionValueIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long optionValueId;
 
+	private Supplier<Long> _optionValueIdSupplier = () -> null;
+
 	@Schema
 	public String getValue() {
+		if (value != null) {
+			return value;
+		}
+
+		value = _valueSupplier.get();
+
 		return value;
 	}
 
 	public void setValue(String value) {
 		this.value = value;
+
+		_valueSupplier = () -> value;
 	}
 
 	@JsonIgnore
 	public void setValue(
 		UnsafeSupplier<String, Exception> valueUnsafeSupplier) {
 
-		try {
-			value = valueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		value = null;
+
+		_valueSupplier = () -> {
+			try {
+				return valueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String value;
+
+	private Supplier<String> _valueSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

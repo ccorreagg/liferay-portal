@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,26 +54,38 @@ public class FileEntry implements Serializable {
 		description = "optional field with the content of the document in Base64, can be embedded with nestedFields (the format of the nested field must be `<attachment field name>.fileBase64`)"
 	)
 	public String getFileBase64() {
+		if (fileBase64 != null) {
+			return fileBase64;
+		}
+
+		fileBase64 = _fileBase64Supplier.get();
+
 		return fileBase64;
 	}
 
 	public void setFileBase64(String fileBase64) {
 		this.fileBase64 = fileBase64;
+
+		_fileBase64Supplier = () -> fileBase64;
 	}
 
 	@JsonIgnore
 	public void setFileBase64(
 		UnsafeSupplier<String, Exception> fileBase64UnsafeSupplier) {
 
-		try {
-			fileBase64 = fileBase64UnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fileBase64 = null;
+
+		_fileBase64Supplier = () -> {
+			try {
+				return fileBase64UnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -81,113 +94,171 @@ public class FileEntry implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String fileBase64;
 
+	private Supplier<String> _fileBase64Supplier = () -> null;
+
 	@Schema
 	@Valid
 	public Folder getFolder() {
+		if (folder != null) {
+			return folder;
+		}
+
+		folder = _folderSupplier.get();
+
 		return folder;
 	}
 
 	public void setFolder(Folder folder) {
 		this.folder = folder;
+
+		_folderSupplier = () -> folder;
 	}
 
 	@JsonIgnore
 	public void setFolder(
 		UnsafeSupplier<Folder, Exception> folderUnsafeSupplier) {
 
-		try {
-			folder = folderUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		folder = null;
+
+		_folderSupplier = () -> {
+			try {
+				return folderUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Folder folder;
 
+	private Supplier<Folder> _folderSupplier = () -> null;
+
 	@Schema
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Link getLink() {
+		if (link != null) {
+			return link;
+		}
+
+		link = _linkSupplier.get();
+
 		return link;
 	}
 
 	public void setLink(Link link) {
 		this.link = link;
+
+		_linkSupplier = () -> link;
 	}
 
 	@JsonIgnore
 	public void setLink(UnsafeSupplier<Link, Exception> linkUnsafeSupplier) {
-		try {
-			link = linkUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		link = null;
+
+		_linkSupplier = () -> {
+			try {
+				return linkUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Link link;
 
+	private Supplier<Link> _linkSupplier = () -> null;
+
 	@Schema
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
+
+	private Supplier<String> _nameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

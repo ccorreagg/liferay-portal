@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,31 +50,45 @@ public class InnerCollapse implements Serializable {
 
 	@Schema
 	public String getField() {
+		if (field != null) {
+			return field;
+		}
+
+		field = _fieldSupplier.get();
+
 		return field;
 	}
 
 	public void setField(String field) {
 		this.field = field;
+
+		_fieldSupplier = () -> field;
 	}
 
 	@JsonIgnore
 	public void setField(
 		UnsafeSupplier<String, Exception> fieldUnsafeSupplier) {
 
-		try {
-			field = fieldUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		field = null;
+
+		_fieldSupplier = () -> {
+			try {
+				return fieldUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String field;
+
+	private Supplier<String> _fieldSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

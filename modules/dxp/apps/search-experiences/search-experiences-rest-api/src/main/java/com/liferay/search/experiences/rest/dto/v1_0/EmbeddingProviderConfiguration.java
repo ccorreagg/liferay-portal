@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,34 +56,54 @@ public class EmbeddingProviderConfiguration implements Serializable {
 	@Schema
 	@Valid
 	public Object getAttributes() {
+		if (attributes != null) {
+			return attributes;
+		}
+
+		attributes = _attributesSupplier.get();
+
 		return attributes;
 	}
 
 	public void setAttributes(Object attributes) {
 		this.attributes = attributes;
+
+		_attributesSupplier = () -> attributes;
 	}
 
 	@JsonIgnore
 	public void setAttributes(
 		UnsafeSupplier<Object, Exception> attributesUnsafeSupplier) {
 
-		try {
-			attributes = attributesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		attributes = null;
+
+		_attributesSupplier = () -> {
+			try {
+				return attributesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object attributes;
 
+	private Supplier<Object> _attributesSupplier = () -> null;
+
 	@Schema
 	public Integer getEmbeddingVectorDimensions() {
+		if (embeddingVectorDimensions != null) {
+			return embeddingVectorDimensions;
+		}
+
+		embeddingVectorDimensions = _embeddingVectorDimensionsSupplier.get();
+
 		return embeddingVectorDimensions;
 	}
 
@@ -90,6 +111,8 @@ public class EmbeddingProviderConfiguration implements Serializable {
 		Integer embeddingVectorDimensions) {
 
 		this.embeddingVectorDimensions = embeddingVectorDimensions;
+
+		_embeddingVectorDimensionsSupplier = () -> embeddingVectorDimensions;
 	}
 
 	@JsonIgnore
@@ -97,105 +120,152 @@ public class EmbeddingProviderConfiguration implements Serializable {
 		UnsafeSupplier<Integer, Exception>
 			embeddingVectorDimensionsUnsafeSupplier) {
 
-		try {
-			embeddingVectorDimensions =
-				embeddingVectorDimensionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		embeddingVectorDimensions = null;
+
+		_embeddingVectorDimensionsSupplier = () -> {
+			try {
+				return embeddingVectorDimensionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer embeddingVectorDimensions;
 
+	private Supplier<Integer> _embeddingVectorDimensionsSupplier = () -> null;
+
 	@Schema
 	public String[] getLanguageIds() {
+		if (languageIds != null) {
+			return languageIds;
+		}
+
+		languageIds = _languageIdsSupplier.get();
+
 		return languageIds;
 	}
 
 	public void setLanguageIds(String[] languageIds) {
 		this.languageIds = languageIds;
+
+		_languageIdsSupplier = () -> languageIds;
 	}
 
 	@JsonIgnore
 	public void setLanguageIds(
 		UnsafeSupplier<String[], Exception> languageIdsUnsafeSupplier) {
 
-		try {
-			languageIds = languageIdsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		languageIds = null;
+
+		_languageIdsSupplier = () -> {
+			try {
+				return languageIdsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] languageIds;
 
+	private Supplier<String[]> _languageIdsSupplier = () -> null;
+
 	@Schema
 	public String[] getModelClassNames() {
+		if (modelClassNames != null) {
+			return modelClassNames;
+		}
+
+		modelClassNames = _modelClassNamesSupplier.get();
+
 		return modelClassNames;
 	}
 
 	public void setModelClassNames(String[] modelClassNames) {
 		this.modelClassNames = modelClassNames;
+
+		_modelClassNamesSupplier = () -> modelClassNames;
 	}
 
 	@JsonIgnore
 	public void setModelClassNames(
 		UnsafeSupplier<String[], Exception> modelClassNamesUnsafeSupplier) {
 
-		try {
-			modelClassNames = modelClassNamesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		modelClassNames = null;
+
+		_modelClassNamesSupplier = () -> {
+			try {
+				return modelClassNamesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] modelClassNames;
 
+	private Supplier<String[]> _modelClassNamesSupplier = () -> null;
+
 	@Schema
 	public String getProviderName() {
+		if (providerName != null) {
+			return providerName;
+		}
+
+		providerName = _providerNameSupplier.get();
+
 		return providerName;
 	}
 
 	public void setProviderName(String providerName) {
 		this.providerName = providerName;
+
+		_providerNameSupplier = () -> providerName;
 	}
 
 	@JsonIgnore
 	public void setProviderName(
 		UnsafeSupplier<String, Exception> providerNameUnsafeSupplier) {
 
-		try {
-			providerName = providerNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		providerName = null;
+
+		_providerNameSupplier = () -> {
+			try {
+				return providerNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String providerName;
+
+	private Supplier<String> _providerNameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

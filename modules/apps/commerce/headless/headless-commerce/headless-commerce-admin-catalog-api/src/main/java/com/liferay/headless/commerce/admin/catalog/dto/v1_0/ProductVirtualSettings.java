@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,254 +55,380 @@ public class ProductVirtualSettings implements Serializable {
 	@DecimalMin("0")
 	@Schema(example = "0")
 	public Integer getActivationStatus() {
+		if (activationStatus != null) {
+			return activationStatus;
+		}
+
+		activationStatus = _activationStatusSupplier.get();
+
 		return activationStatus;
 	}
 
 	public void setActivationStatus(Integer activationStatus) {
 		this.activationStatus = activationStatus;
+
+		_activationStatusSupplier = () -> activationStatus;
 	}
 
 	@JsonIgnore
 	public void setActivationStatus(
 		UnsafeSupplier<Integer, Exception> activationStatusUnsafeSupplier) {
 
-		try {
-			activationStatus = activationStatusUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		activationStatus = null;
+
+		_activationStatusSupplier = () -> {
+			try {
+				return activationStatusUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer activationStatus;
 
+	private Supplier<Integer> _activationStatusSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Status getActivationStatusInfo() {
+		if (activationStatusInfo != null) {
+			return activationStatusInfo;
+		}
+
+		activationStatusInfo = _activationStatusInfoSupplier.get();
+
 		return activationStatusInfo;
 	}
 
 	public void setActivationStatusInfo(Status activationStatusInfo) {
 		this.activationStatusInfo = activationStatusInfo;
+
+		_activationStatusInfoSupplier = () -> activationStatusInfo;
 	}
 
 	@JsonIgnore
 	public void setActivationStatusInfo(
 		UnsafeSupplier<Status, Exception> activationStatusInfoUnsafeSupplier) {
 
-		try {
-			activationStatusInfo = activationStatusInfoUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		activationStatusInfo = null;
+
+		_activationStatusInfoSupplier = () -> {
+			try {
+				return activationStatusInfoUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Status activationStatusInfo;
 
+	private Supplier<Status> _activationStatusInfoSupplier = () -> null;
+
 	@Schema(description = "Base64 encoded file")
 	public String getAttachment() {
+		if (attachment != null) {
+			return attachment;
+		}
+
+		attachment = _attachmentSupplier.get();
+
 		return attachment;
 	}
 
 	public void setAttachment(String attachment) {
 		this.attachment = attachment;
+
+		_attachmentSupplier = () -> attachment;
 	}
 
 	@JsonIgnore
 	public void setAttachment(
 		UnsafeSupplier<String, Exception> attachmentUnsafeSupplier) {
 
-		try {
-			attachment = attachmentUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		attachment = null;
+
+		_attachmentSupplier = () -> {
+			try {
+				return attachmentUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Base64 encoded file")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String attachment;
 
+	private Supplier<String> _attachmentSupplier = () -> null;
+
 	@Schema(description = "Number of days to download the attachment")
 	public Long getDuration() {
+		if (duration != null) {
+			return duration;
+		}
+
+		duration = _durationSupplier.get();
+
 		return duration;
 	}
 
 	public void setDuration(Long duration) {
 		this.duration = duration;
+
+		_durationSupplier = () -> duration;
 	}
 
 	@JsonIgnore
 	public void setDuration(
 		UnsafeSupplier<Long, Exception> durationUnsafeSupplier) {
 
-		try {
-			duration = durationUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		duration = null;
+
+		_durationSupplier = () -> {
+			try {
+				return durationUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Number of days to download the attachment")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long duration;
 
+	private Supplier<Long> _durationSupplier = () -> null;
+
 	@Schema(description = "Number of downloads available for attachment")
 	public Integer getMaxUsages() {
+		if (maxUsages != null) {
+			return maxUsages;
+		}
+
+		maxUsages = _maxUsagesSupplier.get();
+
 		return maxUsages;
 	}
 
 	public void setMaxUsages(Integer maxUsages) {
 		this.maxUsages = maxUsages;
+
+		_maxUsagesSupplier = () -> maxUsages;
 	}
 
 	@JsonIgnore
 	public void setMaxUsages(
 		UnsafeSupplier<Integer, Exception> maxUsagesUnsafeSupplier) {
 
-		try {
-			maxUsages = maxUsagesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		maxUsages = null;
+
+		_maxUsagesSupplier = () -> {
+			try {
+				return maxUsagesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Number of downloads available for attachment")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer maxUsages;
 
+	private Supplier<Integer> _maxUsagesSupplier = () -> null;
+
 	@Schema(description = "Base64 encoded sample file")
 	public String getSampleAttachment() {
+		if (sampleAttachment != null) {
+			return sampleAttachment;
+		}
+
+		sampleAttachment = _sampleAttachmentSupplier.get();
+
 		return sampleAttachment;
 	}
 
 	public void setSampleAttachment(String sampleAttachment) {
 		this.sampleAttachment = sampleAttachment;
+
+		_sampleAttachmentSupplier = () -> sampleAttachment;
 	}
 
 	@JsonIgnore
 	public void setSampleAttachment(
 		UnsafeSupplier<String, Exception> sampleAttachmentUnsafeSupplier) {
 
-		try {
-			sampleAttachment = sampleAttachmentUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		sampleAttachment = null;
+
+		_sampleAttachmentSupplier = () -> {
+			try {
+				return sampleAttachmentUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Base64 encoded sample file")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String sampleAttachment;
 
+	private Supplier<String> _sampleAttachmentSupplier = () -> null;
+
 	@Schema(description = "URL to download the sample file")
 	public String getSampleSrc() {
+		if (sampleSrc != null) {
+			return sampleSrc;
+		}
+
+		sampleSrc = _sampleSrcSupplier.get();
+
 		return sampleSrc;
 	}
 
 	public void setSampleSrc(String sampleSrc) {
 		this.sampleSrc = sampleSrc;
+
+		_sampleSrcSupplier = () -> sampleSrc;
 	}
 
 	@JsonIgnore
 	public void setSampleSrc(
 		UnsafeSupplier<String, Exception> sampleSrcUnsafeSupplier) {
 
-		try {
-			sampleSrc = sampleSrcUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		sampleSrc = null;
+
+		_sampleSrcSupplier = () -> {
+			try {
+				return sampleSrcUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "URL to download the sample file")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String sampleSrc;
 
+	private Supplier<String> _sampleSrcSupplier = () -> null;
+
 	@Schema(description = "URL of the sample file")
 	public String getSampleURL() {
+		if (sampleURL != null) {
+			return sampleURL;
+		}
+
+		sampleURL = _sampleURLSupplier.get();
+
 		return sampleURL;
 	}
 
 	public void setSampleURL(String sampleURL) {
 		this.sampleURL = sampleURL;
+
+		_sampleURLSupplier = () -> sampleURL;
 	}
 
 	@JsonIgnore
 	public void setSampleURL(
 		UnsafeSupplier<String, Exception> sampleURLUnsafeSupplier) {
 
-		try {
-			sampleURL = sampleURLUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		sampleURL = null;
+
+		_sampleURLSupplier = () -> {
+			try {
+				return sampleURLUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "URL of the sample file")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String sampleURL;
 
+	private Supplier<String> _sampleURLSupplier = () -> null;
+
 	@Schema(description = "URL to download the file")
 	public String getSrc() {
+		if (src != null) {
+			return src;
+		}
+
+		src = _srcSupplier.get();
+
 		return src;
 	}
 
 	public void setSrc(String src) {
 		this.src = src;
+
+		_srcSupplier = () -> src;
 	}
 
 	@JsonIgnore
 	public void setSrc(UnsafeSupplier<String, Exception> srcUnsafeSupplier) {
-		try {
-			src = srcUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		src = null;
+
+		_srcSupplier = () -> {
+			try {
+				return srcUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "URL to download the file")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String src;
+
+	private Supplier<String> _srcSupplier = () -> null;
 
 	@Schema(
 		description = "Terms of Use content",
@@ -309,11 +436,19 @@ public class ProductVirtualSettings implements Serializable {
 	)
 	@Valid
 	public Map<String, String> getTermsOfUseContent() {
+		if (termsOfUseContent != null) {
+			return termsOfUseContent;
+		}
+
+		termsOfUseContent = _termsOfUseContentSupplier.get();
+
 		return termsOfUseContent;
 	}
 
 	public void setTermsOfUseContent(Map<String, String> termsOfUseContent) {
 		this.termsOfUseContent = termsOfUseContent;
+
+		_termsOfUseContentSupplier = () -> termsOfUseContent;
 	}
 
 	@JsonIgnore
@@ -321,28 +456,43 @@ public class ProductVirtualSettings implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			termsOfUseContentUnsafeSupplier) {
 
-		try {
-			termsOfUseContent = termsOfUseContentUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		termsOfUseContent = null;
+
+		_termsOfUseContentSupplier = () -> {
+			try {
+				return termsOfUseContentUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Terms of Use content")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> termsOfUseContent;
 
+	private Supplier<Map<String, String>> _termsOfUseContentSupplier =
+		() -> null;
+
 	@Schema(description = "Terms of Use related Article Id")
 	public Long getTermsOfUseJournalArticleId() {
+		if (termsOfUseJournalArticleId != null) {
+			return termsOfUseJournalArticleId;
+		}
+
+		termsOfUseJournalArticleId = _termsOfUseJournalArticleIdSupplier.get();
+
 		return termsOfUseJournalArticleId;
 	}
 
 	public void setTermsOfUseJournalArticleId(Long termsOfUseJournalArticleId) {
 		this.termsOfUseJournalArticleId = termsOfUseJournalArticleId;
+
+		_termsOfUseJournalArticleIdSupplier = () -> termsOfUseJournalArticleId;
 	}
 
 	@JsonIgnore
@@ -350,103 +500,150 @@ public class ProductVirtualSettings implements Serializable {
 		UnsafeSupplier<Long, Exception>
 			termsOfUseJournalArticleIdUnsafeSupplier) {
 
-		try {
-			termsOfUseJournalArticleId =
-				termsOfUseJournalArticleIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		termsOfUseJournalArticleId = null;
+
+		_termsOfUseJournalArticleIdSupplier = () -> {
+			try {
+				return termsOfUseJournalArticleIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Terms of Use related Article Id")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long termsOfUseJournalArticleId;
 
+	private Supplier<Long> _termsOfUseJournalArticleIdSupplier = () -> null;
+
 	@Schema(description = "Terms of Use required")
 	public Boolean getTermsOfUseRequired() {
+		if (termsOfUseRequired != null) {
+			return termsOfUseRequired;
+		}
+
+		termsOfUseRequired = _termsOfUseRequiredSupplier.get();
+
 		return termsOfUseRequired;
 	}
 
 	public void setTermsOfUseRequired(Boolean termsOfUseRequired) {
 		this.termsOfUseRequired = termsOfUseRequired;
+
+		_termsOfUseRequiredSupplier = () -> termsOfUseRequired;
 	}
 
 	@JsonIgnore
 	public void setTermsOfUseRequired(
 		UnsafeSupplier<Boolean, Exception> termsOfUseRequiredUnsafeSupplier) {
 
-		try {
-			termsOfUseRequired = termsOfUseRequiredUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		termsOfUseRequired = null;
+
+		_termsOfUseRequiredSupplier = () -> {
+			try {
+				return termsOfUseRequiredUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Terms of Use required")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean termsOfUseRequired;
 
+	private Supplier<Boolean> _termsOfUseRequiredSupplier = () -> null;
+
 	@Schema(description = "URL of the file")
 	public String getUrl() {
+		if (url != null) {
+			return url;
+		}
+
+		url = _urlSupplier.get();
+
 		return url;
 	}
 
 	public void setUrl(String url) {
 		this.url = url;
+
+		_urlSupplier = () -> url;
 	}
 
 	@JsonIgnore
 	public void setUrl(UnsafeSupplier<String, Exception> urlUnsafeSupplier) {
-		try {
-			url = urlUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		url = null;
+
+		_urlSupplier = () -> {
+			try {
+				return urlUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "URL of the file")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String url;
 
+	private Supplier<String> _urlSupplier = () -> null;
+
 	@Schema(description = "Enable sample file")
 	public Boolean getUseSample() {
+		if (useSample != null) {
+			return useSample;
+		}
+
+		useSample = _useSampleSupplier.get();
+
 		return useSample;
 	}
 
 	public void setUseSample(Boolean useSample) {
 		this.useSample = useSample;
+
+		_useSampleSupplier = () -> useSample;
 	}
 
 	@JsonIgnore
 	public void setUseSample(
 		UnsafeSupplier<Boolean, Exception> useSampleUnsafeSupplier) {
 
-		try {
-			useSample = useSampleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		useSample = null;
+
+		_useSampleSupplier = () -> {
+			try {
+				return useSampleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Enable sample file")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean useSample;
+
+	private Supplier<Boolean> _useSampleSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

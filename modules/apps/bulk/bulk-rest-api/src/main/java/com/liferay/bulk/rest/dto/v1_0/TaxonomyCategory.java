@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,59 +50,87 @@ public class TaxonomyCategory implements Serializable {
 
 	@Schema
 	public Long getTaxonomyCategoryId() {
+		if (taxonomyCategoryId != null) {
+			return taxonomyCategoryId;
+		}
+
+		taxonomyCategoryId = _taxonomyCategoryIdSupplier.get();
+
 		return taxonomyCategoryId;
 	}
 
 	public void setTaxonomyCategoryId(Long taxonomyCategoryId) {
 		this.taxonomyCategoryId = taxonomyCategoryId;
+
+		_taxonomyCategoryIdSupplier = () -> taxonomyCategoryId;
 	}
 
 	@JsonIgnore
 	public void setTaxonomyCategoryId(
 		UnsafeSupplier<Long, Exception> taxonomyCategoryIdUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryId = taxonomyCategoryIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryId = null;
+
+		_taxonomyCategoryIdSupplier = () -> {
+			try {
+				return taxonomyCategoryIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long taxonomyCategoryId;
 
+	private Supplier<Long> _taxonomyCategoryIdSupplier = () -> null;
+
 	@Schema
 	public String getTaxonomyCategoryName() {
+		if (taxonomyCategoryName != null) {
+			return taxonomyCategoryName;
+		}
+
+		taxonomyCategoryName = _taxonomyCategoryNameSupplier.get();
+
 		return taxonomyCategoryName;
 	}
 
 	public void setTaxonomyCategoryName(String taxonomyCategoryName) {
 		this.taxonomyCategoryName = taxonomyCategoryName;
+
+		_taxonomyCategoryNameSupplier = () -> taxonomyCategoryName;
 	}
 
 	@JsonIgnore
 	public void setTaxonomyCategoryName(
 		UnsafeSupplier<String, Exception> taxonomyCategoryNameUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryName = taxonomyCategoryNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryName = null;
+
+		_taxonomyCategoryNameSupplier = () -> {
+			try {
+				return taxonomyCategoryNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String taxonomyCategoryName;
+
+	private Supplier<String> _taxonomyCategoryNameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

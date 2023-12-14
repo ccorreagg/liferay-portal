@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,95 +52,145 @@ public class ElementDefinition implements Serializable {
 
 	@Schema
 	public String getCategory() {
+		if (category != null) {
+			return category;
+		}
+
+		category = _categorySupplier.get();
+
 		return category;
 	}
 
 	public void setCategory(String category) {
 		this.category = category;
+
+		_categorySupplier = () -> category;
 	}
 
 	@JsonIgnore
 	public void setCategory(
 		UnsafeSupplier<String, Exception> categoryUnsafeSupplier) {
 
-		try {
-			category = categoryUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		category = null;
+
+		_categorySupplier = () -> {
+			try {
+				return categoryUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String category;
 
+	private Supplier<String> _categorySupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Configuration getConfiguration() {
+		if (configuration != null) {
+			return configuration;
+		}
+
+		configuration = _configurationSupplier.get();
+
 		return configuration;
 	}
 
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
+
+		_configurationSupplier = () -> configuration;
 	}
 
 	@JsonIgnore
 	public void setConfiguration(
 		UnsafeSupplier<Configuration, Exception> configurationUnsafeSupplier) {
 
-		try {
-			configuration = configurationUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		configuration = null;
+
+		_configurationSupplier = () -> {
+			try {
+				return configurationUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Configuration configuration;
 
+	private Supplier<Configuration> _configurationSupplier = () -> null;
+
 	@Schema
 	public String getIcon() {
+		if (icon != null) {
+			return icon;
+		}
+
+		icon = _iconSupplier.get();
+
 		return icon;
 	}
 
 	public void setIcon(String icon) {
 		this.icon = icon;
+
+		_iconSupplier = () -> icon;
 	}
 
 	@JsonIgnore
 	public void setIcon(UnsafeSupplier<String, Exception> iconUnsafeSupplier) {
-		try {
-			icon = iconUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		icon = null;
+
+		_iconSupplier = () -> {
+			try {
+				return iconUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String icon;
 
+	private Supplier<String> _iconSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public UiConfiguration getUiConfiguration() {
+		if (uiConfiguration != null) {
+			return uiConfiguration;
+		}
+
+		uiConfiguration = _uiConfigurationSupplier.get();
+
 		return uiConfiguration;
 	}
 
 	public void setUiConfiguration(UiConfiguration uiConfiguration) {
 		this.uiConfiguration = uiConfiguration;
+
+		_uiConfigurationSupplier = () -> uiConfiguration;
 	}
 
 	@JsonIgnore
@@ -147,20 +198,26 @@ public class ElementDefinition implements Serializable {
 		UnsafeSupplier<UiConfiguration, Exception>
 			uiConfigurationUnsafeSupplier) {
 
-		try {
-			uiConfiguration = uiConfigurationUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		uiConfiguration = null;
+
+		_uiConfigurationSupplier = () -> {
+			try {
+				return uiConfigurationUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected UiConfiguration uiConfiguration;
+
+	private Supplier<UiConfiguration> _uiConfigurationSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

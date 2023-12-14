@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -59,11 +60,19 @@ public class WorkflowInstance implements Serializable {
 	@Schema
 	@Valid
 	public Map<String, Map<String, String>> getActions() {
+		if (actions != null) {
+			return actions;
+		}
+
+		actions = _actionsSupplier.get();
+
 		return actions;
 	}
 
 	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
+
+		_actionsSupplier = () -> actions;
 	}
 
 	@JsonIgnore
@@ -71,45 +80,64 @@ public class WorkflowInstance implements Serializable {
 		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
 			actionsUnsafeSupplier) {
 
-		try {
-			actions = actionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actions = null;
+
+		_actionsSupplier = () -> {
+			try {
+				return actionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, Map<String, String>> actions;
 
+	private Supplier<Map<String, Map<String, String>>> _actionsSupplier =
+		() -> null;
+
 	@Schema(
 		description = "A flag that indicates whether the instance is complete."
 	)
 	public Boolean getCompleted() {
+		if (completed != null) {
+			return completed;
+		}
+
+		completed = _completedSupplier.get();
+
 		return completed;
 	}
 
 	public void setCompleted(Boolean completed) {
 		this.completed = completed;
+
+		_completedSupplier = () -> completed;
 	}
 
 	@JsonIgnore
 	public void setCompleted(
 		UnsafeSupplier<Boolean, Exception> completedUnsafeSupplier) {
 
-		try {
-			completed = completedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		completed = null;
+
+		_completedSupplier = () -> {
+			try {
+				return completedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -118,126 +146,192 @@ public class WorkflowInstance implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean completed;
 
+	private Supplier<Boolean> _completedSupplier = () -> null;
+
 	@Schema(description = "The instance's current node names.")
 	public String[] getCurrentNodeNames() {
+		if (currentNodeNames != null) {
+			return currentNodeNames;
+		}
+
+		currentNodeNames = _currentNodeNamesSupplier.get();
+
 		return currentNodeNames;
 	}
 
 	public void setCurrentNodeNames(String[] currentNodeNames) {
 		this.currentNodeNames = currentNodeNames;
+
+		_currentNodeNamesSupplier = () -> currentNodeNames;
 	}
 
 	@JsonIgnore
 	public void setCurrentNodeNames(
 		UnsafeSupplier<String[], Exception> currentNodeNamesUnsafeSupplier) {
 
-		try {
-			currentNodeNames = currentNodeNamesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		currentNodeNames = null;
+
+		_currentNodeNamesSupplier = () -> {
+			try {
+				return currentNodeNamesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The instance's current node names.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] currentNodeNames;
 
+	private Supplier<String[]> _currentNodeNamesSupplier = () -> null;
+
 	@Schema(description = "The instance's completion date.")
 	public Date getDateCompletion() {
+		if (dateCompletion != null) {
+			return dateCompletion;
+		}
+
+		dateCompletion = _dateCompletionSupplier.get();
+
 		return dateCompletion;
 	}
 
 	public void setDateCompletion(Date dateCompletion) {
 		this.dateCompletion = dateCompletion;
+
+		_dateCompletionSupplier = () -> dateCompletion;
 	}
 
 	@JsonIgnore
 	public void setDateCompletion(
 		UnsafeSupplier<Date, Exception> dateCompletionUnsafeSupplier) {
 
-		try {
-			dateCompletion = dateCompletionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateCompletion = null;
+
+		_dateCompletionSupplier = () -> {
+			try {
+				return dateCompletionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The instance's completion date.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCompletion;
 
+	private Supplier<Date> _dateCompletionSupplier = () -> null;
+
 	@Schema(description = "The instance's creation date.")
 	public Date getDateCreated() {
+		if (dateCreated != null) {
+			return dateCreated;
+		}
+
+		dateCreated = _dateCreatedSupplier.get();
+
 		return dateCreated;
 	}
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+
+		_dateCreatedSupplier = () -> dateCreated;
 	}
 
 	@JsonIgnore
 	public void setDateCreated(
 		UnsafeSupplier<Date, Exception> dateCreatedUnsafeSupplier) {
 
-		try {
-			dateCreated = dateCreatedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateCreated = null;
+
+		_dateCreatedSupplier = () -> {
+			try {
+				return dateCreatedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The instance's creation date.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
+	private Supplier<Date> _dateCreatedSupplier = () -> null;
+
 	@Schema(description = "The instance's ID.")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The instance's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(
 		description = "The object/asset that the instance's workflow is managing."
 	)
 	@Valid
 	public ObjectReviewed getObjectReviewed() {
+		if (objectReviewed != null) {
+			return objectReviewed;
+		}
+
+		objectReviewed = _objectReviewedSupplier.get();
+
 		return objectReviewed;
 	}
 
 	public void setObjectReviewed(ObjectReviewed objectReviewed) {
 		this.objectReviewed = objectReviewed;
+
+		_objectReviewedSupplier = () -> objectReviewed;
 	}
 
 	@JsonIgnore
@@ -245,15 +339,19 @@ public class WorkflowInstance implements Serializable {
 		UnsafeSupplier<ObjectReviewed, Exception>
 			objectReviewedUnsafeSupplier) {
 
-		try {
-			objectReviewed = objectReviewedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		objectReviewed = null;
+
+		_objectReviewedSupplier = () -> {
+			try {
+				return objectReviewedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -262,13 +360,23 @@ public class WorkflowInstance implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected ObjectReviewed objectReviewed;
 
+	private Supplier<ObjectReviewed> _objectReviewedSupplier = () -> null;
+
 	@Schema(description = "The name of the instance's workflow definition.")
 	public String getWorkflowDefinitionName() {
+		if (workflowDefinitionName != null) {
+			return workflowDefinitionName;
+		}
+
+		workflowDefinitionName = _workflowDefinitionNameSupplier.get();
+
 		return workflowDefinitionName;
 	}
 
 	public void setWorkflowDefinitionName(String workflowDefinitionName) {
 		this.workflowDefinitionName = workflowDefinitionName;
+
+		_workflowDefinitionNameSupplier = () -> workflowDefinitionName;
 	}
 
 	@JsonIgnore
@@ -276,15 +384,19 @@ public class WorkflowInstance implements Serializable {
 		UnsafeSupplier<String, Exception>
 			workflowDefinitionNameUnsafeSupplier) {
 
-		try {
-			workflowDefinitionName = workflowDefinitionNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		workflowDefinitionName = null;
+
+		_workflowDefinitionNameSupplier = () -> {
+			try {
+				return workflowDefinitionNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -293,13 +405,23 @@ public class WorkflowInstance implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String workflowDefinitionName;
 
+	private Supplier<String> _workflowDefinitionNameSupplier = () -> null;
+
 	@Schema
 	public String getWorkflowDefinitionVersion() {
+		if (workflowDefinitionVersion != null) {
+			return workflowDefinitionVersion;
+		}
+
+		workflowDefinitionVersion = _workflowDefinitionVersionSupplier.get();
+
 		return workflowDefinitionVersion;
 	}
 
 	public void setWorkflowDefinitionVersion(String workflowDefinitionVersion) {
 		this.workflowDefinitionVersion = workflowDefinitionVersion;
+
+		_workflowDefinitionVersionSupplier = () -> workflowDefinitionVersion;
 	}
 
 	@JsonIgnore
@@ -307,21 +429,26 @@ public class WorkflowInstance implements Serializable {
 		UnsafeSupplier<String, Exception>
 			workflowDefinitionVersionUnsafeSupplier) {
 
-		try {
-			workflowDefinitionVersion =
-				workflowDefinitionVersionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		workflowDefinitionVersion = null;
+
+		_workflowDefinitionVersionSupplier = () -> {
+			try {
+				return workflowDefinitionVersionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String workflowDefinitionVersion;
+
+	private Supplier<String> _workflowDefinitionVersionSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

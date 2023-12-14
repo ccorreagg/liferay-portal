@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -58,26 +59,38 @@ public class Meta implements Serializable {
 		description = "The \"DateTime\" that the resource was added to the service provider."
 	)
 	public Date getCreated() {
+		if (created != null) {
+			return created;
+		}
+
+		created = _createdSupplier.get();
+
 		return created;
 	}
 
 	public void setCreated(Date created) {
 		this.created = created;
+
+		_createdSupplier = () -> created;
 	}
 
 	@JsonIgnore
 	public void setCreated(
 		UnsafeSupplier<Date, Exception> createdUnsafeSupplier) {
 
-		try {
-			created = createdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		created = null;
+
+		_createdSupplier = () -> {
+			try {
+				return createdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -86,30 +99,44 @@ public class Meta implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date created;
 
+	private Supplier<Date> _createdSupplier = () -> null;
+
 	@Schema(
 		description = "The most recent DateTime that the details of this resource were updated at the service provider."
 	)
 	public Date getLastModified() {
+		if (lastModified != null) {
+			return lastModified;
+		}
+
+		lastModified = _lastModifiedSupplier.get();
+
 		return lastModified;
 	}
 
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
+
+		_lastModifiedSupplier = () -> lastModified;
 	}
 
 	@JsonIgnore
 	public void setLastModified(
 		UnsafeSupplier<Date, Exception> lastModifiedUnsafeSupplier) {
 
-		try {
-			lastModified = lastModifiedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		lastModified = null;
+
+		_lastModifiedSupplier = () -> {
+			try {
+				return lastModifiedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -118,56 +145,84 @@ public class Meta implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date lastModified;
 
+	private Supplier<Date> _lastModifiedSupplier = () -> null;
+
 	@Schema(description = "The URI of the resource being returned.")
 	public String getLocation() {
+		if (location != null) {
+			return location;
+		}
+
+		location = _locationSupplier.get();
+
 		return location;
 	}
 
 	public void setLocation(String location) {
 		this.location = location;
+
+		_locationSupplier = () -> location;
 	}
 
 	@JsonIgnore
 	public void setLocation(
 		UnsafeSupplier<String, Exception> locationUnsafeSupplier) {
 
-		try {
-			location = locationUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		location = null;
+
+		_locationSupplier = () -> {
+			try {
+				return locationUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The URI of the resource being returned.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String location;
 
+	private Supplier<String> _locationSupplier = () -> null;
+
 	@Schema(description = "The name of the resource type of the resource.")
 	public String getResourceType() {
+		if (resourceType != null) {
+			return resourceType;
+		}
+
+		resourceType = _resourceTypeSupplier.get();
+
 		return resourceType;
 	}
 
 	public void setResourceType(String resourceType) {
 		this.resourceType = resourceType;
+
+		_resourceTypeSupplier = () -> resourceType;
 	}
 
 	@JsonIgnore
 	public void setResourceType(
 		UnsafeSupplier<String, Exception> resourceTypeUnsafeSupplier) {
 
-		try {
-			resourceType = resourceTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		resourceType = null;
+
+		_resourceTypeSupplier = () -> {
+			try {
+				return resourceTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -176,33 +231,49 @@ public class Meta implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String resourceType;
 
+	private Supplier<String> _resourceTypeSupplier = () -> null;
+
 	@Schema(description = "The version of the resource being returned.")
 	public String getVersion() {
+		if (version != null) {
+			return version;
+		}
+
+		version = _versionSupplier.get();
+
 		return version;
 	}
 
 	public void setVersion(String version) {
 		this.version = version;
+
+		_versionSupplier = () -> version;
 	}
 
 	@JsonIgnore
 	public void setVersion(
 		UnsafeSupplier<String, Exception> versionUnsafeSupplier) {
 
-		try {
-			version = versionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		version = null;
+
+		_versionSupplier = () -> {
+			try {
+				return versionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The version of the resource being returned.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String version;
+
+	private Supplier<String> _versionSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

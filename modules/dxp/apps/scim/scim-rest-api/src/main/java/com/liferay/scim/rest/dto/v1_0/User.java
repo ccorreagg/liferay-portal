@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,26 +54,38 @@ public class User implements Serializable {
 		description = "A Boolean value indicating the user's administrative status."
 	)
 	public Boolean getActive() {
+		if (active != null) {
+			return active;
+		}
+
+		active = _activeSupplier.get();
+
 		return active;
 	}
 
 	public void setActive(Boolean active) {
 		this.active = active;
+
+		_activeSupplier = () -> active;
 	}
 
 	@JsonIgnore
 	public void setActive(
 		UnsafeSupplier<Boolean, Exception> activeUnsafeSupplier) {
 
-		try {
-			active = activeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		active = null;
+
+		_activeSupplier = () -> {
+			try {
+				return activeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -81,59 +94,87 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean active;
 
+	private Supplier<Boolean> _activeSupplier = () -> null;
+
 	@Schema(description = "A physical mailing address for this user.")
 	@Valid
 	public Object[] getAddresses() {
+		if (addresses != null) {
+			return addresses;
+		}
+
+		addresses = _addressesSupplier.get();
+
 		return addresses;
 	}
 
 	public void setAddresses(Object[] addresses) {
 		this.addresses = addresses;
+
+		_addressesSupplier = () -> addresses;
 	}
 
 	@JsonIgnore
 	public void setAddresses(
 		UnsafeSupplier<Object[], Exception> addressesUnsafeSupplier) {
 
-		try {
-			addresses = addressesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		addresses = null;
+
+		_addressesSupplier = () -> {
+			try {
+				return addressesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "A physical mailing address for this user.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object[] addresses;
 
+	private Supplier<Object[]> _addressesSupplier = () -> null;
+
 	@Schema(
 		description = "The name of the user, suitable for display to end-users."
 	)
 	public String getDisplayName() {
+		if (displayName != null) {
+			return displayName;
+		}
+
+		displayName = _displayNameSupplier.get();
+
 		return displayName;
 	}
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
+
+		_displayNameSupplier = () -> displayName;
 	}
 
 	@JsonIgnore
 	public void setDisplayName(
 		UnsafeSupplier<String, Exception> displayNameUnsafeSupplier) {
 
-		try {
-			displayName = displayNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		displayName = null;
+
+		_displayNameSupplier = () -> {
+			try {
+				return displayNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -142,14 +183,24 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String displayName;
 
+	private Supplier<String> _displayNameSupplier = () -> null;
+
 	@Schema(description = "Email addresses for the User.")
 	@Valid
 	public MultiValuedAttribute[] getEmails() {
+		if (emails != null) {
+			return emails;
+		}
+
+		emails = _emailsSupplier.get();
+
 		return emails;
 	}
 
 	public void setEmails(MultiValuedAttribute[] emails) {
 		this.emails = emails;
+
+		_emailsSupplier = () -> emails;
 	}
 
 	@JsonIgnore
@@ -157,31 +208,45 @@ public class User implements Serializable {
 		UnsafeSupplier<MultiValuedAttribute[], Exception>
 			emailsUnsafeSupplier) {
 
-		try {
-			emails = emailsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		emails = null;
+
+		_emailsSupplier = () -> {
+			try {
+				return emailsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Email addresses for the User.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected MultiValuedAttribute[] emails;
 
+	private Supplier<MultiValuedAttribute[]> _emailsSupplier = () -> null;
+
 	@Schema(
 		description = "A list of entitlements for the user that represent a thing the user has."
 	)
 	@Valid
 	public MultiValuedAttribute[] getEntitlements() {
+		if (entitlements != null) {
+			return entitlements;
+		}
+
+		entitlements = _entitlementsSupplier.get();
+
 		return entitlements;
 	}
 
 	public void setEntitlements(MultiValuedAttribute[] entitlements) {
 		this.entitlements = entitlements;
+
+		_entitlementsSupplier = () -> entitlements;
 	}
 
 	@JsonIgnore
@@ -189,15 +254,19 @@ public class User implements Serializable {
 		UnsafeSupplier<MultiValuedAttribute[], Exception>
 			entitlementsUnsafeSupplier) {
 
-		try {
-			entitlements = entitlementsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		entitlements = null;
+
+		_entitlementsSupplier = () -> {
+			try {
+				return entitlementsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -206,30 +275,44 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected MultiValuedAttribute[] entitlements;
 
+	private Supplier<MultiValuedAttribute[]> _entitlementsSupplier = () -> null;
+
 	@Schema(
 		description = "A String that is an identifier for the resource as defined by the provisioning client."
 	)
 	public String getExternalId() {
+		if (externalId != null) {
+			return externalId;
+		}
+
+		externalId = _externalIdSupplier.get();
+
 		return externalId;
 	}
 
 	public void setExternalId(String externalId) {
 		this.externalId = externalId;
+
+		_externalIdSupplier = () -> externalId;
 	}
 
 	@JsonIgnore
 	public void setExternalId(
 		UnsafeSupplier<String, Exception> externalIdUnsafeSupplier) {
 
-		try {
-			externalId = externalIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		externalId = null;
+
+		_externalIdSupplier = () -> {
+			try {
+				return externalIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -238,16 +321,26 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String externalId;
 
+	private Supplier<String> _externalIdSupplier = () -> null;
+
 	@Schema(
 		description = "A list of groups to which the user belongs, either through direct membership, through nested groups, or dynamically calculated."
 	)
 	@Valid
 	public MultiValuedAttribute[] getGroups() {
+		if (groups != null) {
+			return groups;
+		}
+
+		groups = _groupsSupplier.get();
+
 		return groups;
 	}
 
 	public void setGroups(MultiValuedAttribute[] groups) {
 		this.groups = groups;
+
+		_groupsSupplier = () -> groups;
 	}
 
 	@JsonIgnore
@@ -255,15 +348,19 @@ public class User implements Serializable {
 		UnsafeSupplier<MultiValuedAttribute[], Exception>
 			groupsUnsafeSupplier) {
 
-		try {
-			groups = groupsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		groups = null;
+
+		_groupsSupplier = () -> {
+			try {
+				return groupsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -272,28 +369,42 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected MultiValuedAttribute[] groups;
 
+	private Supplier<MultiValuedAttribute[]> _groupsSupplier = () -> null;
+
 	@Schema(
 		description = "A unique identifier for a SCIM resource as defined by the service provider."
 	)
 	public String getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<String, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -302,59 +413,87 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String id;
 
+	private Supplier<String> _idSupplier = () -> null;
+
 	@Schema(description = "Instant messaging address for the user.")
 	@Valid
 	public MultiValuedAttribute[] getIms() {
+		if (ims != null) {
+			return ims;
+		}
+
+		ims = _imsSupplier.get();
+
 		return ims;
 	}
 
 	public void setIms(MultiValuedAttribute[] ims) {
 		this.ims = ims;
+
+		_imsSupplier = () -> ims;
 	}
 
 	@JsonIgnore
 	public void setIms(
 		UnsafeSupplier<MultiValuedAttribute[], Exception> imsUnsafeSupplier) {
 
-		try {
-			ims = imsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		ims = null;
+
+		_imsSupplier = () -> {
+			try {
+				return imsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Instant messaging address for the user.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected MultiValuedAttribute[] ims;
 
+	private Supplier<MultiValuedAttribute[]> _imsSupplier = () -> null;
+
 	@Schema(
 		description = "Used to indicate the User's default location for purposes of localizing such items as currency, date time format, or numerical representations."
 	)
 	public String getLocale() {
+		if (locale != null) {
+			return locale;
+		}
+
+		locale = _localeSupplier.get();
+
 		return locale;
 	}
 
 	public void setLocale(String locale) {
 		this.locale = locale;
+
+		_localeSupplier = () -> locale;
 	}
 
 	@JsonIgnore
 	public void setLocale(
 		UnsafeSupplier<String, Exception> localeUnsafeSupplier) {
 
-		try {
-			locale = localeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		locale = null;
+
+		_localeSupplier = () -> {
+			try {
+				return localeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -363,84 +502,126 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String locale;
 
+	private Supplier<String> _localeSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Meta getMeta() {
+		if (meta != null) {
+			return meta;
+		}
+
+		meta = _metaSupplier.get();
+
 		return meta;
 	}
 
 	public void setMeta(Meta meta) {
 		this.meta = meta;
+
+		_metaSupplier = () -> meta;
 	}
 
 	@JsonIgnore
 	public void setMeta(UnsafeSupplier<Meta, Exception> metaUnsafeSupplier) {
-		try {
-			meta = metaUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		meta = null;
+
+		_metaSupplier = () -> {
+			try {
+				return metaUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Meta meta;
 
+	private Supplier<Meta> _metaSupplier = () -> null;
+
 	@Schema(description = "The components of the user's name.")
 	@Valid
 	public Name getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(Name name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<Name, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The components of the user's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Name name;
 
+	private Supplier<Name> _nameSupplier = () -> null;
+
 	@Schema(
 		description = "The casual way to address the user in real life, e.g., \"Bob\" or \"Bobby\" instead of \"Robert\"."
 	)
 	public String getNickName() {
+		if (nickName != null) {
+			return nickName;
+		}
+
+		nickName = _nickNameSupplier.get();
+
 		return nickName;
 	}
 
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+
+		_nickNameSupplier = () -> nickName;
 	}
 
 	@JsonIgnore
 	public void setNickName(
 		UnsafeSupplier<String, Exception> nickNameUnsafeSupplier) {
 
-		try {
-			nickName = nickNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		nickName = null;
+
+		_nickNameSupplier = () -> {
+			try {
+				return nickNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -449,30 +630,44 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String nickName;
 
+	private Supplier<String> _nickNameSupplier = () -> null;
+
 	@Schema(
 		description = "This attribute is intended to be used as a means to set, replace, or compare (i.e., filter for equality) a password."
 	)
 	public String getPassword() {
+		if (password != null) {
+			return password;
+		}
+
+		password = _passwordSupplier.get();
+
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+
+		_passwordSupplier = () -> password;
 	}
 
 	@JsonIgnore
 	public void setPassword(
 		UnsafeSupplier<String, Exception> passwordUnsafeSupplier) {
 
-		try {
-			password = passwordUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		password = null;
+
+		_passwordSupplier = () -> {
+			try {
+				return passwordUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -481,14 +676,24 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String password;
 
+	private Supplier<String> _passwordSupplier = () -> null;
+
 	@Schema(description = "Phone numbers for the user.")
 	@Valid
 	public MultiValuedAttribute[] getPhoneNumbers() {
+		if (phoneNumbers != null) {
+			return phoneNumbers;
+		}
+
+		phoneNumbers = _phoneNumbersSupplier.get();
+
 		return phoneNumbers;
 	}
 
 	public void setPhoneNumbers(MultiValuedAttribute[] phoneNumbers) {
 		this.phoneNumbers = phoneNumbers;
+
+		_phoneNumbersSupplier = () -> phoneNumbers;
 	}
 
 	@JsonIgnore
@@ -496,31 +701,45 @@ public class User implements Serializable {
 		UnsafeSupplier<MultiValuedAttribute[], Exception>
 			phoneNumbersUnsafeSupplier) {
 
-		try {
-			phoneNumbers = phoneNumbersUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		phoneNumbers = null;
+
+		_phoneNumbersSupplier = () -> {
+			try {
+				return phoneNumbersUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Phone numbers for the user.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected MultiValuedAttribute[] phoneNumbers;
 
+	private Supplier<MultiValuedAttribute[]> _phoneNumbersSupplier = () -> null;
+
 	@Schema(
 		description = "A URI that is a uniform resource locator that points to a resource location representing the user's image."
 	)
 	@Valid
 	public MultiValuedAttribute[] getPhotos() {
+		if (photos != null) {
+			return photos;
+		}
+
+		photos = _photosSupplier.get();
+
 		return photos;
 	}
 
 	public void setPhotos(MultiValuedAttribute[] photos) {
 		this.photos = photos;
+
+		_photosSupplier = () -> photos;
 	}
 
 	@JsonIgnore
@@ -528,15 +747,19 @@ public class User implements Serializable {
 		UnsafeSupplier<MultiValuedAttribute[], Exception>
 			photosUnsafeSupplier) {
 
-		try {
-			photos = photosUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		photos = null;
+
+		_photosSupplier = () -> {
+			try {
+				return photosUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -545,30 +768,44 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected MultiValuedAttribute[] photos;
 
+	private Supplier<MultiValuedAttribute[]> _photosSupplier = () -> null;
+
 	@Schema(
 		description = "Indicates the user's preferred written or spoken languages and is generally used for selecting a localized user interface."
 	)
 	public String getPreferredLanguage() {
+		if (preferredLanguage != null) {
+			return preferredLanguage;
+		}
+
+		preferredLanguage = _preferredLanguageSupplier.get();
+
 		return preferredLanguage;
 	}
 
 	public void setPreferredLanguage(String preferredLanguage) {
 		this.preferredLanguage = preferredLanguage;
+
+		_preferredLanguageSupplier = () -> preferredLanguage;
 	}
 
 	@JsonIgnore
 	public void setPreferredLanguage(
 		UnsafeSupplier<String, Exception> preferredLanguageUnsafeSupplier) {
 
-		try {
-			preferredLanguage = preferredLanguageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		preferredLanguage = null;
+
+		_preferredLanguageSupplier = () -> {
+			try {
+				return preferredLanguageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -577,30 +814,44 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String preferredLanguage;
 
+	private Supplier<String> _preferredLanguageSupplier = () -> null;
+
 	@Schema(
 		description = "A URI that is a uniform resource locator and that points to a location representing the user's online profile (e.g., a web page)."
 	)
 	public String getProfileUrl() {
+		if (profileUrl != null) {
+			return profileUrl;
+		}
+
+		profileUrl = _profileUrlSupplier.get();
+
 		return profileUrl;
 	}
 
 	public void setProfileUrl(String profileUrl) {
 		this.profileUrl = profileUrl;
+
+		_profileUrlSupplier = () -> profileUrl;
 	}
 
 	@JsonIgnore
 	public void setProfileUrl(
 		UnsafeSupplier<String, Exception> profileUrlUnsafeSupplier) {
 
-		try {
-			profileUrl = profileUrlUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		profileUrl = null;
+
+		_profileUrlSupplier = () -> {
+			try {
+				return profileUrlUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -609,31 +860,45 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String profileUrl;
 
+	private Supplier<String> _profileUrlSupplier = () -> null;
+
 	@Schema(
 		description = "A list of roles for the user that collectively represent who the user is, e.g., \"Student\", \"Faculty\"."
 	)
 	@Valid
 	public MultiValuedAttribute[] getRoles() {
+		if (roles != null) {
+			return roles;
+		}
+
+		roles = _rolesSupplier.get();
+
 		return roles;
 	}
 
 	public void setRoles(MultiValuedAttribute[] roles) {
 		this.roles = roles;
+
+		_rolesSupplier = () -> roles;
 	}
 
 	@JsonIgnore
 	public void setRoles(
 		UnsafeSupplier<MultiValuedAttribute[], Exception> rolesUnsafeSupplier) {
 
-		try {
-			roles = rolesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		roles = null;
+
+		_rolesSupplier = () -> {
+			try {
+				return rolesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -642,30 +907,44 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected MultiValuedAttribute[] roles;
 
+	private Supplier<MultiValuedAttribute[]> _rolesSupplier = () -> null;
+
 	@Schema(
 		description = "A multi-valued list of strings indicating the namespaces of the SCIM schemas that define the attributes present in the current JSON structure."
 	)
 	public String[] getSchemas() {
+		if (schemas != null) {
+			return schemas;
+		}
+
+		schemas = _schemasSupplier.get();
+
 		return schemas;
 	}
 
 	public void setSchemas(String[] schemas) {
 		this.schemas = schemas;
+
+		_schemasSupplier = () -> schemas;
 	}
 
 	@JsonIgnore
 	public void setSchemas(
 		UnsafeSupplier<String[], Exception> schemasUnsafeSupplier) {
 
-		try {
-			schemas = schemasUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		schemas = null;
+
+		_schemasSupplier = () -> {
+			try {
+				return schemasUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -674,30 +953,44 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] schemas;
 
+	private Supplier<String[]> _schemasSupplier = () -> null;
+
 	@Schema(
 		description = "The User's time zone, in IANA Time Zone database format, also known as the \"Olson\" time zone database format (e.g., \"America/Los_Angeles\")."
 	)
 	public String getTimezone() {
+		if (timezone != null) {
+			return timezone;
+		}
+
+		timezone = _timezoneSupplier.get();
+
 		return timezone;
 	}
 
 	public void setTimezone(String timezone) {
 		this.timezone = timezone;
+
+		_timezoneSupplier = () -> timezone;
 	}
 
 	@JsonIgnore
 	public void setTimezone(
 		UnsafeSupplier<String, Exception> timezoneUnsafeSupplier) {
 
-		try {
-			timezone = timezoneUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		timezone = null;
+
+		_timezoneSupplier = () -> {
+			try {
+				return timezoneUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -706,58 +999,86 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String timezone;
 
+	private Supplier<String> _timezoneSupplier = () -> null;
+
 	@Schema(description = "The user's title, such as \"Vice President\".")
 	public String getTitle() {
+		if (title != null) {
+			return title;
+		}
+
+		title = _titleSupplier.get();
+
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
+
+		_titleSupplier = () -> title;
 	}
 
 	@JsonIgnore
 	public void setTitle(
 		UnsafeSupplier<String, Exception> titleUnsafeSupplier) {
 
-		try {
-			title = titleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		title = null;
+
+		_titleSupplier = () -> {
+			try {
+				return titleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The user's title, such as \"Vice President\".")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String title;
 
+	private Supplier<String> _titleSupplier = () -> null;
+
 	@Schema(
 		description = "A service provider's unique identifier for the user, typically used by the user to directly authenticate to the service provider."
 	)
 	public String getUserName() {
+		if (userName != null) {
+			return userName;
+		}
+
+		userName = _userNameSupplier.get();
+
 		return userName;
 	}
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+
+		_userNameSupplier = () -> userName;
 	}
 
 	@JsonIgnore
 	public void setUserName(
 		UnsafeSupplier<String, Exception> userNameUnsafeSupplier) {
 
-		try {
-			userName = userNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		userName = null;
+
+		_userNameSupplier = () -> {
+			try {
+				return userNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -766,30 +1087,44 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String userName;
 
+	private Supplier<String> _userNameSupplier = () -> null;
+
 	@Schema(
 		description = "Used to identify the relationship between the organization and the user."
 	)
 	public String getUserType() {
+		if (userType != null) {
+			return userType;
+		}
+
+		userType = _userTypeSupplier.get();
+
 		return userType;
 	}
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+
+		_userTypeSupplier = () -> userType;
 	}
 
 	@JsonIgnore
 	public void setUserType(
 		UnsafeSupplier<String, Exception> userTypeUnsafeSupplier) {
 
-		try {
-			userType = userTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		userType = null;
+
+		_userTypeSupplier = () -> {
+			try {
+				return userTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -798,16 +1133,26 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String userType;
 
+	private Supplier<String> _userTypeSupplier = () -> null;
+
 	@Schema(
 		description = "A list of certificates associated with the resource (e.g., a User)."
 	)
 	@Valid
 	public MultiValuedAttribute[] getX509Certificates() {
+		if (x509Certificates != null) {
+			return x509Certificates;
+		}
+
+		x509Certificates = _x509CertificatesSupplier.get();
+
 		return x509Certificates;
 	}
 
 	public void setX509Certificates(MultiValuedAttribute[] x509Certificates) {
 		this.x509Certificates = x509Certificates;
+
+		_x509CertificatesSupplier = () -> x509Certificates;
 	}
 
 	@JsonIgnore
@@ -815,15 +1160,19 @@ public class User implements Serializable {
 		UnsafeSupplier<MultiValuedAttribute[], Exception>
 			x509CertificatesUnsafeSupplier) {
 
-		try {
-			x509Certificates = x509CertificatesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		x509Certificates = null;
+
+		_x509CertificatesSupplier = () -> {
+			try {
+				return x509CertificatesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -831,6 +1180,9 @@ public class User implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected MultiValuedAttribute[] x509Certificates;
+
+	private Supplier<MultiValuedAttribute[]> _x509CertificatesSupplier =
+		() -> null;
 
 	@Override
 	public boolean equals(Object object) {

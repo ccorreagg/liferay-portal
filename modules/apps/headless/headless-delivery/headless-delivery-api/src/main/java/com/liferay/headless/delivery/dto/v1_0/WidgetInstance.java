@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,11 +55,19 @@ public class WidgetInstance implements Serializable {
 	@Schema
 	@Valid
 	public Map<String, Object> getWidgetConfig() {
+		if (widgetConfig != null) {
+			return widgetConfig;
+		}
+
+		widgetConfig = _widgetConfigSupplier.get();
+
 		return widgetConfig;
 	}
 
 	public void setWidgetConfig(Map<String, Object> widgetConfig) {
 		this.widgetConfig = widgetConfig;
+
+		_widgetConfigSupplier = () -> widgetConfig;
 	}
 
 	@JsonIgnore
@@ -66,85 +75,127 @@ public class WidgetInstance implements Serializable {
 		UnsafeSupplier<Map<String, Object>, Exception>
 			widgetConfigUnsafeSupplier) {
 
-		try {
-			widgetConfig = widgetConfigUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		widgetConfig = null;
+
+		_widgetConfigSupplier = () -> {
+			try {
+				return widgetConfigUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, Object> widgetConfig;
 
+	private Supplier<Map<String, Object>> _widgetConfigSupplier = () -> null;
+
 	@Schema(description = "The widget instance's ID.")
 	public String getWidgetInstanceId() {
+		if (widgetInstanceId != null) {
+			return widgetInstanceId;
+		}
+
+		widgetInstanceId = _widgetInstanceIdSupplier.get();
+
 		return widgetInstanceId;
 	}
 
 	public void setWidgetInstanceId(String widgetInstanceId) {
 		this.widgetInstanceId = widgetInstanceId;
+
+		_widgetInstanceIdSupplier = () -> widgetInstanceId;
 	}
 
 	@JsonIgnore
 	public void setWidgetInstanceId(
 		UnsafeSupplier<String, Exception> widgetInstanceIdUnsafeSupplier) {
 
-		try {
-			widgetInstanceId = widgetInstanceIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		widgetInstanceId = null;
+
+		_widgetInstanceIdSupplier = () -> {
+			try {
+				return widgetInstanceIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The widget instance's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String widgetInstanceId;
 
+	private Supplier<String> _widgetInstanceIdSupplier = () -> null;
+
 	@Schema(description = "The widget instance's name.")
 	public String getWidgetName() {
+		if (widgetName != null) {
+			return widgetName;
+		}
+
+		widgetName = _widgetNameSupplier.get();
+
 		return widgetName;
 	}
 
 	public void setWidgetName(String widgetName) {
 		this.widgetName = widgetName;
+
+		_widgetNameSupplier = () -> widgetName;
 	}
 
 	@JsonIgnore
 	public void setWidgetName(
 		UnsafeSupplier<String, Exception> widgetNameUnsafeSupplier) {
 
-		try {
-			widgetName = widgetNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		widgetName = null;
+
+		_widgetNameSupplier = () -> {
+			try {
+				return widgetNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The widget instance's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String widgetName;
 
+	private Supplier<String> _widgetNameSupplier = () -> null;
+
 	@Schema(description = "The widget instance's permissions.")
 	@Valid
 	public WidgetPermission[] getWidgetPermissions() {
+		if (widgetPermissions != null) {
+			return widgetPermissions;
+		}
+
+		widgetPermissions = _widgetPermissionsSupplier.get();
+
 		return widgetPermissions;
 	}
 
 	public void setWidgetPermissions(WidgetPermission[] widgetPermissions) {
 		this.widgetPermissions = widgetPermissions;
+
+		_widgetPermissionsSupplier = () -> widgetPermissions;
 	}
 
 	@JsonIgnore
@@ -152,20 +203,27 @@ public class WidgetInstance implements Serializable {
 		UnsafeSupplier<WidgetPermission[], Exception>
 			widgetPermissionsUnsafeSupplier) {
 
-		try {
-			widgetPermissions = widgetPermissionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		widgetPermissions = null;
+
+		_widgetPermissionsSupplier = () -> {
+			try {
+				return widgetPermissionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The widget instance's permissions.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected WidgetPermission[] widgetPermissions;
+
+	private Supplier<WidgetPermission[]> _widgetPermissionsSupplier =
+		() -> null;
 
 	@Override
 	public boolean equals(Object object) {

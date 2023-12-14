@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,113 +53,169 @@ public class ObjectReviewed implements Serializable {
 
 	@Schema
 	public String getAssetTitle() {
+		if (assetTitle != null) {
+			return assetTitle;
+		}
+
+		assetTitle = _assetTitleSupplier.get();
+
 		return assetTitle;
 	}
 
 	public void setAssetTitle(String assetTitle) {
 		this.assetTitle = assetTitle;
+
+		_assetTitleSupplier = () -> assetTitle;
 	}
 
 	@JsonIgnore
 	public void setAssetTitle(
 		UnsafeSupplier<String, Exception> assetTitleUnsafeSupplier) {
 
-		try {
-			assetTitle = assetTitleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		assetTitle = null;
+
+		_assetTitleSupplier = () -> {
+			try {
+				return assetTitleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String assetTitle;
 
+	private Supplier<String> _assetTitleSupplier = () -> null;
+
 	@Schema
 	public String getAssetType() {
+		if (assetType != null) {
+			return assetType;
+		}
+
+		assetType = _assetTypeSupplier.get();
+
 		return assetType;
 	}
 
 	public void setAssetType(String assetType) {
 		this.assetType = assetType;
+
+		_assetTypeSupplier = () -> assetType;
 	}
 
 	@JsonIgnore
 	public void setAssetType(
 		UnsafeSupplier<String, Exception> assetTypeUnsafeSupplier) {
 
-		try {
-			assetType = assetTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		assetType = null;
+
+		_assetTypeSupplier = () -> {
+			try {
+				return assetTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String assetType;
 
+	private Supplier<String> _assetTypeSupplier = () -> null;
+
 	@Schema(description = "The resource's ID.")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The resource's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(description = "The resource's type.")
 	public String getResourceType() {
+		if (resourceType != null) {
+			return resourceType;
+		}
+
+		resourceType = _resourceTypeSupplier.get();
+
 		return resourceType;
 	}
 
 	public void setResourceType(String resourceType) {
 		this.resourceType = resourceType;
+
+		_resourceTypeSupplier = () -> resourceType;
 	}
 
 	@JsonIgnore
 	public void setResourceType(
 		UnsafeSupplier<String, Exception> resourceTypeUnsafeSupplier) {
 
-		try {
-			resourceType = resourceTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		resourceType = null;
+
+		_resourceTypeSupplier = () -> {
+			try {
+				return resourceTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The resource's type.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String resourceType;
+
+	private Supplier<String> _resourceTypeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

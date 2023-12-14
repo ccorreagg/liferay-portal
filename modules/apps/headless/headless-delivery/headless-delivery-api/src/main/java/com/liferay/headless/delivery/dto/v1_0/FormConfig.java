@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,35 +56,56 @@ public class FormConfig implements Serializable {
 	@Schema(description = "The form reference.")
 	@Valid
 	public Object getFormReference() {
+		if (formReference != null) {
+			return formReference;
+		}
+
+		formReference = _formReferenceSupplier.get();
+
 		return formReference;
 	}
 
 	public void setFormReference(Object formReference) {
 		this.formReference = formReference;
+
+		_formReferenceSupplier = () -> formReference;
 	}
 
 	@JsonIgnore
 	public void setFormReference(
 		UnsafeSupplier<Object, Exception> formReferenceUnsafeSupplier) {
 
-		try {
-			formReference = formReferenceUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		formReference = null;
+
+		_formReferenceSupplier = () -> {
+			try {
+				return formReferenceUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The form reference.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object formReference;
 
+	private Supplier<Object> _formReferenceSupplier = () -> null;
+
 	@Schema(description = "The definition for the success message of the form.")
 	@Valid
 	public Object getFormSuccessSubmissionResult() {
+		if (formSuccessSubmissionResult != null) {
+			return formSuccessSubmissionResult;
+		}
+
+		formSuccessSubmissionResult =
+			_formSuccessSubmissionResultSupplier.get();
+
 		return formSuccessSubmissionResult;
 	}
 
@@ -91,6 +113,9 @@ public class FormConfig implements Serializable {
 		Object formSuccessSubmissionResult) {
 
 		this.formSuccessSubmissionResult = formSuccessSubmissionResult;
+
+		_formSuccessSubmissionResultSupplier =
+			() -> formSuccessSubmissionResult;
 	}
 
 	@JsonIgnore
@@ -98,16 +123,19 @@ public class FormConfig implements Serializable {
 		UnsafeSupplier<Object, Exception>
 			formSuccessSubmissionResultUnsafeSupplier) {
 
-		try {
-			formSuccessSubmissionResult =
-				formSuccessSubmissionResultUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		formSuccessSubmissionResult = null;
+
+		_formSuccessSubmissionResultSupplier = () -> {
+			try {
+				return formSuccessSubmissionResultUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -115,6 +143,8 @@ public class FormConfig implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object formSuccessSubmissionResult;
+
+	private Supplier<Object> _formSuccessSubmissionResultSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

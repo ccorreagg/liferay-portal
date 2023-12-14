@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,6 +57,12 @@ public class PageRule implements Serializable {
 	@Schema(description = "The custom name of a Page rule.")
 	@Valid
 	public ConditionType getConditionType() {
+		if (conditionType != null) {
+			return conditionType;
+		}
+
+		conditionType = _conditionTypeSupplier.get();
+
 		return conditionType;
 	}
 
@@ -70,87 +77,131 @@ public class PageRule implements Serializable {
 
 	public void setConditionType(ConditionType conditionType) {
 		this.conditionType = conditionType;
+
+		_conditionTypeSupplier = () -> conditionType;
 	}
 
 	@JsonIgnore
 	public void setConditionType(
 		UnsafeSupplier<ConditionType, Exception> conditionTypeUnsafeSupplier) {
 
-		try {
-			conditionType = conditionTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		conditionType = null;
+
+		_conditionTypeSupplier = () -> {
+			try {
+				return conditionTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The custom name of a Page rule.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ConditionType conditionType;
 
+	private Supplier<ConditionType> _conditionTypeSupplier = () -> null;
+
 	@Schema(description = "The page rule ID.")
 	public String getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<String, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page rule ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String id;
 
+	private Supplier<String> _idSupplier = () -> null;
+
 	@Schema(description = "The custom name of a Page rule.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The custom name of a Page rule.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema(description = "A list of actions of a Page rule.")
 	@Valid
 	public PageRuleAction[] getPageRuleActions() {
+		if (pageRuleActions != null) {
+			return pageRuleActions;
+		}
+
+		pageRuleActions = _pageRuleActionsSupplier.get();
+
 		return pageRuleActions;
 	}
 
 	public void setPageRuleActions(PageRuleAction[] pageRuleActions) {
 		this.pageRuleActions = pageRuleActions;
+
+		_pageRuleActionsSupplier = () -> pageRuleActions;
 	}
 
 	@JsonIgnore
@@ -158,29 +209,43 @@ public class PageRule implements Serializable {
 		UnsafeSupplier<PageRuleAction[], Exception>
 			pageRuleActionsUnsafeSupplier) {
 
-		try {
-			pageRuleActions = pageRuleActionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		pageRuleActions = null;
+
+		_pageRuleActionsSupplier = () -> {
+			try {
+				return pageRuleActionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "A list of actions of a Page rule.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected PageRuleAction[] pageRuleActions;
 
+	private Supplier<PageRuleAction[]> _pageRuleActionsSupplier = () -> null;
+
 	@Schema(description = "A list of conditions of a Page rule.")
 	@Valid
 	public PageRuleCondition[] getPageRuleConditions() {
+		if (pageRuleConditions != null) {
+			return pageRuleConditions;
+		}
+
+		pageRuleConditions = _pageRuleConditionsSupplier.get();
+
 		return pageRuleConditions;
 	}
 
 	public void setPageRuleConditions(PageRuleCondition[] pageRuleConditions) {
 		this.pageRuleConditions = pageRuleConditions;
+
+		_pageRuleConditionsSupplier = () -> pageRuleConditions;
 	}
 
 	@JsonIgnore
@@ -188,20 +253,27 @@ public class PageRule implements Serializable {
 		UnsafeSupplier<PageRuleCondition[], Exception>
 			pageRuleConditionsUnsafeSupplier) {
 
-		try {
-			pageRuleConditions = pageRuleConditionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		pageRuleConditions = null;
+
+		_pageRuleConditionsSupplier = () -> {
+			try {
+				return pageRuleConditionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "A list of conditions of a Page rule.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected PageRuleCondition[] pageRuleConditions;
+
+	private Supplier<PageRuleCondition[]> _pageRuleConditionsSupplier =
+		() -> null;
 
 	@Override
 	public boolean equals(Object object) {

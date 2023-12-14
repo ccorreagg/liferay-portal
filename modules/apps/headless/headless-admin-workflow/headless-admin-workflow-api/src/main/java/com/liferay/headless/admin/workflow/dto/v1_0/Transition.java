@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,113 +53,169 @@ public class Transition implements Serializable {
 
 	@Schema
 	public String getLabel() {
+		if (label != null) {
+			return label;
+		}
+
+		label = _labelSupplier.get();
+
 		return label;
 	}
 
 	public void setLabel(String label) {
 		this.label = label;
+
+		_labelSupplier = () -> label;
 	}
 
 	@JsonIgnore
 	public void setLabel(
 		UnsafeSupplier<String, Exception> labelUnsafeSupplier) {
 
-		try {
-			label = labelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		label = null;
+
+		_labelSupplier = () -> {
+			try {
+				return labelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String label;
 
+	private Supplier<String> _labelSupplier = () -> null;
+
 	@Schema
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema
 	public String getSourceNodeName() {
+		if (sourceNodeName != null) {
+			return sourceNodeName;
+		}
+
+		sourceNodeName = _sourceNodeNameSupplier.get();
+
 		return sourceNodeName;
 	}
 
 	public void setSourceNodeName(String sourceNodeName) {
 		this.sourceNodeName = sourceNodeName;
+
+		_sourceNodeNameSupplier = () -> sourceNodeName;
 	}
 
 	@JsonIgnore
 	public void setSourceNodeName(
 		UnsafeSupplier<String, Exception> sourceNodeNameUnsafeSupplier) {
 
-		try {
-			sourceNodeName = sourceNodeNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		sourceNodeName = null;
+
+		_sourceNodeNameSupplier = () -> {
+			try {
+				return sourceNodeNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String sourceNodeName;
 
+	private Supplier<String> _sourceNodeNameSupplier = () -> null;
+
 	@Schema
 	public String getTargetNodeName() {
+		if (targetNodeName != null) {
+			return targetNodeName;
+		}
+
+		targetNodeName = _targetNodeNameSupplier.get();
+
 		return targetNodeName;
 	}
 
 	public void setTargetNodeName(String targetNodeName) {
 		this.targetNodeName = targetNodeName;
+
+		_targetNodeNameSupplier = () -> targetNodeName;
 	}
 
 	@JsonIgnore
 	public void setTargetNodeName(
 		UnsafeSupplier<String, Exception> targetNodeNameUnsafeSupplier) {
 
-		try {
-			targetNodeName = targetNodeNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		targetNodeName = null;
+
+		_targetNodeNameSupplier = () -> {
+			try {
+				return targetNodeNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String targetNodeName;
+
+	private Supplier<String> _targetNodeNameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

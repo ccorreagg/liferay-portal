@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,88 +53,130 @@ public class SimpleCaptcha implements Serializable {
 
 	@Schema
 	public String getAnswer() {
+		if (answer != null) {
+			return answer;
+		}
+
+		answer = _answerSupplier.get();
+
 		return answer;
 	}
 
 	public void setAnswer(String answer) {
 		this.answer = answer;
+
+		_answerSupplier = () -> answer;
 	}
 
 	@JsonIgnore
 	public void setAnswer(
 		UnsafeSupplier<String, Exception> answerUnsafeSupplier) {
 
-		try {
-			answer = answerUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		answer = null;
+
+		_answerSupplier = () -> {
+			try {
+				return answerUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String answer;
 
+	private Supplier<String> _answerSupplier = () -> null;
+
 	@Schema
 	public String getImage() {
+		if (image != null) {
+			return image;
+		}
+
+		image = _imageSupplier.get();
+
 		return image;
 	}
 
 	public void setImage(String image) {
 		this.image = image;
+
+		_imageSupplier = () -> image;
 	}
 
 	@JsonIgnore
 	public void setImage(
 		UnsafeSupplier<String, Exception> imageUnsafeSupplier) {
 
-		try {
-			image = imageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		image = null;
+
+		_imageSupplier = () -> {
+			try {
+				return imageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String image;
 
+	private Supplier<String> _imageSupplier = () -> null;
+
 	@Schema
 	public String getToken() {
+		if (token != null) {
+			return token;
+		}
+
+		token = _tokenSupplier.get();
+
 		return token;
 	}
 
 	public void setToken(String token) {
 		this.token = token;
+
+		_tokenSupplier = () -> token;
 	}
 
 	@JsonIgnore
 	public void setToken(
 		UnsafeSupplier<String, Exception> tokenUnsafeSupplier) {
 
-		try {
-			token = tokenUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		token = null;
+
+		_tokenSupplier = () -> {
+			try {
+				return tokenUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotEmpty
 	protected String token;
+
+	private Supplier<String> _tokenSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

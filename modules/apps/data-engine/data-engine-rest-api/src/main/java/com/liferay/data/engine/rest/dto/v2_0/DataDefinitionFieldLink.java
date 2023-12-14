@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,11 +54,19 @@ public class DataDefinitionFieldLink implements Serializable {
 	@Schema
 	@Valid
 	public DataDefinition getDataDefinition() {
+		if (dataDefinition != null) {
+			return dataDefinition;
+		}
+
+		dataDefinition = _dataDefinitionSupplier.get();
+
 		return dataDefinition;
 	}
 
 	public void setDataDefinition(DataDefinition dataDefinition) {
 		this.dataDefinition = dataDefinition;
+
+		_dataDefinitionSupplier = () -> dataDefinition;
 	}
 
 	@JsonIgnore
@@ -65,78 +74,112 @@ public class DataDefinitionFieldLink implements Serializable {
 		UnsafeSupplier<DataDefinition, Exception>
 			dataDefinitionUnsafeSupplier) {
 
-		try {
-			dataDefinition = dataDefinitionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dataDefinition = null;
+
+		_dataDefinitionSupplier = () -> {
+			try {
+				return dataDefinitionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected DataDefinition dataDefinition;
 
+	private Supplier<DataDefinition> _dataDefinitionSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public DataLayout[] getDataLayouts() {
+		if (dataLayouts != null) {
+			return dataLayouts;
+		}
+
+		dataLayouts = _dataLayoutsSupplier.get();
+
 		return dataLayouts;
 	}
 
 	public void setDataLayouts(DataLayout[] dataLayouts) {
 		this.dataLayouts = dataLayouts;
+
+		_dataLayoutsSupplier = () -> dataLayouts;
 	}
 
 	@JsonIgnore
 	public void setDataLayouts(
 		UnsafeSupplier<DataLayout[], Exception> dataLayoutsUnsafeSupplier) {
 
-		try {
-			dataLayouts = dataLayoutsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dataLayouts = null;
+
+		_dataLayoutsSupplier = () -> {
+			try {
+				return dataLayoutsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected DataLayout[] dataLayouts;
 
+	private Supplier<DataLayout[]> _dataLayoutsSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public DataListView[] getDataListViews() {
+		if (dataListViews != null) {
+			return dataListViews;
+		}
+
+		dataListViews = _dataListViewsSupplier.get();
+
 		return dataListViews;
 	}
 
 	public void setDataListViews(DataListView[] dataListViews) {
 		this.dataListViews = dataListViews;
+
+		_dataListViewsSupplier = () -> dataListViews;
 	}
 
 	@JsonIgnore
 	public void setDataListViews(
 		UnsafeSupplier<DataListView[], Exception> dataListViewsUnsafeSupplier) {
 
-		try {
-			dataListViews = dataListViewsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dataListViews = null;
+
+		_dataListViewsSupplier = () -> {
+			try {
+				return dataListViewsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected DataListView[] dataListViews;
+
+	private Supplier<DataListView[]> _dataListViewsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

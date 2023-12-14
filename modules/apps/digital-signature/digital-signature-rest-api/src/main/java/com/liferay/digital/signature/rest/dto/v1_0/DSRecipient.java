@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,166 +53,250 @@ public class DSRecipient implements Serializable {
 
 	@Schema
 	public String getDsClientUserId() {
+		if (dsClientUserId != null) {
+			return dsClientUserId;
+		}
+
+		dsClientUserId = _dsClientUserIdSupplier.get();
+
 		return dsClientUserId;
 	}
 
 	public void setDsClientUserId(String dsClientUserId) {
 		this.dsClientUserId = dsClientUserId;
+
+		_dsClientUserIdSupplier = () -> dsClientUserId;
 	}
 
 	@JsonIgnore
 	public void setDsClientUserId(
 		UnsafeSupplier<String, Exception> dsClientUserIdUnsafeSupplier) {
 
-		try {
-			dsClientUserId = dsClientUserIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dsClientUserId = null;
+
+		_dsClientUserIdSupplier = () -> {
+			try {
+				return dsClientUserIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String dsClientUserId;
 
+	private Supplier<String> _dsClientUserIdSupplier = () -> null;
+
 	@Schema
 	public String getEmailAddress() {
+		if (emailAddress != null) {
+			return emailAddress;
+		}
+
+		emailAddress = _emailAddressSupplier.get();
+
 		return emailAddress;
 	}
 
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
+
+		_emailAddressSupplier = () -> emailAddress;
 	}
 
 	@JsonIgnore
 	public void setEmailAddress(
 		UnsafeSupplier<String, Exception> emailAddressUnsafeSupplier) {
 
-		try {
-			emailAddress = emailAddressUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		emailAddress = null;
+
+		_emailAddressSupplier = () -> {
+			try {
+				return emailAddressUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String emailAddress;
 
+	private Supplier<String> _emailAddressSupplier = () -> null;
+
 	@Schema
 	public String getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<String, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String id;
 
+	private Supplier<String> _idSupplier = () -> null;
+
 	@Schema
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema
 	public String getStatus() {
+		if (status != null) {
+			return status;
+		}
+
+		status = _statusSupplier.get();
+
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+
+		_statusSupplier = () -> status;
 	}
 
 	@JsonIgnore
 	public void setStatus(
 		UnsafeSupplier<String, Exception> statusUnsafeSupplier) {
 
-		try {
-			status = statusUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		status = null;
+
+		_statusSupplier = () -> {
+			try {
+				return statusUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String status;
 
+	private Supplier<String> _statusSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getTabs() {
+		if (tabs != null) {
+			return tabs;
+		}
+
+		tabs = _tabsSupplier.get();
+
 		return tabs;
 	}
 
 	public void setTabs(Object tabs) {
 		this.tabs = tabs;
+
+		_tabsSupplier = () -> tabs;
 	}
 
 	@JsonIgnore
 	public void setTabs(UnsafeSupplier<Object, Exception> tabsUnsafeSupplier) {
-		try {
-			tabs = tabsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		tabs = null;
+
+		_tabsSupplier = () -> {
+			try {
+				return tabsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object tabs;
+
+	private Supplier<Object> _tabsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

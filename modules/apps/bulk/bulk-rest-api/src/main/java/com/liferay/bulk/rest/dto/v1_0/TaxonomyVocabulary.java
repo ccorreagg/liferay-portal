@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,94 +52,144 @@ public class TaxonomyVocabulary implements Serializable {
 
 	@Schema
 	public Boolean getMultiValued() {
+		if (multiValued != null) {
+			return multiValued;
+		}
+
+		multiValued = _multiValuedSupplier.get();
+
 		return multiValued;
 	}
 
 	public void setMultiValued(Boolean multiValued) {
 		this.multiValued = multiValued;
+
+		_multiValuedSupplier = () -> multiValued;
 	}
 
 	@JsonIgnore
 	public void setMultiValued(
 		UnsafeSupplier<Boolean, Exception> multiValuedUnsafeSupplier) {
 
-		try {
-			multiValued = multiValuedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		multiValued = null;
+
+		_multiValuedSupplier = () -> {
+			try {
+				return multiValuedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean multiValued;
 
+	private Supplier<Boolean> _multiValuedSupplier = () -> null;
+
 	@Schema
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema
 	public Boolean getRequired() {
+		if (required != null) {
+			return required;
+		}
+
+		required = _requiredSupplier.get();
+
 		return required;
 	}
 
 	public void setRequired(Boolean required) {
 		this.required = required;
+
+		_requiredSupplier = () -> required;
 	}
 
 	@JsonIgnore
 	public void setRequired(
 		UnsafeSupplier<Boolean, Exception> requiredUnsafeSupplier) {
 
-		try {
-			required = requiredUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		required = null;
+
+		_requiredSupplier = () -> {
+			try {
+				return requiredUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean required;
 
+	private Supplier<Boolean> _requiredSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public TaxonomyCategory[] getTaxonomyCategories() {
+		if (taxonomyCategories != null) {
+			return taxonomyCategories;
+		}
+
+		taxonomyCategories = _taxonomyCategoriesSupplier.get();
+
 		return taxonomyCategories;
 	}
 
 	public void setTaxonomyCategories(TaxonomyCategory[] taxonomyCategories) {
 		this.taxonomyCategories = taxonomyCategories;
+
+		_taxonomyCategoriesSupplier = () -> taxonomyCategories;
 	}
 
 	@JsonIgnore
@@ -146,48 +197,69 @@ public class TaxonomyVocabulary implements Serializable {
 		UnsafeSupplier<TaxonomyCategory[], Exception>
 			taxonomyCategoriesUnsafeSupplier) {
 
-		try {
-			taxonomyCategories = taxonomyCategoriesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategories = null;
+
+		_taxonomyCategoriesSupplier = () -> {
+			try {
+				return taxonomyCategoriesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected TaxonomyCategory[] taxonomyCategories;
 
+	private Supplier<TaxonomyCategory[]> _taxonomyCategoriesSupplier =
+		() -> null;
+
 	@Schema
 	public Long getTaxonomyVocabularyId() {
+		if (taxonomyVocabularyId != null) {
+			return taxonomyVocabularyId;
+		}
+
+		taxonomyVocabularyId = _taxonomyVocabularyIdSupplier.get();
+
 		return taxonomyVocabularyId;
 	}
 
 	public void setTaxonomyVocabularyId(Long taxonomyVocabularyId) {
 		this.taxonomyVocabularyId = taxonomyVocabularyId;
+
+		_taxonomyVocabularyIdSupplier = () -> taxonomyVocabularyId;
 	}
 
 	@JsonIgnore
 	public void setTaxonomyVocabularyId(
 		UnsafeSupplier<Long, Exception> taxonomyVocabularyIdUnsafeSupplier) {
 
-		try {
-			taxonomyVocabularyId = taxonomyVocabularyIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyVocabularyId = null;
+
+		_taxonomyVocabularyIdSupplier = () -> {
+			try {
+				return taxonomyVocabularyIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long taxonomyVocabularyId;
+
+	private Supplier<Long> _taxonomyVocabularyIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

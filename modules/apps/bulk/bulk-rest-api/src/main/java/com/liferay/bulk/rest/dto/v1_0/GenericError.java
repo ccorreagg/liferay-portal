@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,31 +52,45 @@ public class GenericError implements Serializable {
 
 	@Schema
 	public String getMessage() {
+		if (message != null) {
+			return message;
+		}
+
+		message = _messageSupplier.get();
+
 		return message;
 	}
 
 	public void setMessage(String message) {
 		this.message = message;
+
+		_messageSupplier = () -> message;
 	}
 
 	@JsonIgnore
 	public void setMessage(
 		UnsafeSupplier<String, Exception> messageUnsafeSupplier) {
 
-		try {
-			message = messageUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		message = null;
+
+		_messageSupplier = () -> {
+			try {
+				return messageUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String message;
+
+	private Supplier<String> _messageSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

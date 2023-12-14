@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,11 +53,19 @@ public class DataLayoutRow implements Serializable {
 	@Schema
 	@Valid
 	public DataLayoutColumn[] getDataLayoutColumns() {
+		if (dataLayoutColumns != null) {
+			return dataLayoutColumns;
+		}
+
+		dataLayoutColumns = _dataLayoutColumnsSupplier.get();
+
 		return dataLayoutColumns;
 	}
 
 	public void setDataLayoutColumns(DataLayoutColumn[] dataLayoutColumns) {
 		this.dataLayoutColumns = dataLayoutColumns;
+
+		_dataLayoutColumnsSupplier = () -> dataLayoutColumns;
 	}
 
 	@JsonIgnore
@@ -64,20 +73,27 @@ public class DataLayoutRow implements Serializable {
 		UnsafeSupplier<DataLayoutColumn[], Exception>
 			dataLayoutColumnsUnsafeSupplier) {
 
-		try {
-			dataLayoutColumns = dataLayoutColumnsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dataLayoutColumns = null;
+
+		_dataLayoutColumnsSupplier = () -> {
+			try {
+				return dataLayoutColumnsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected DataLayoutColumn[] dataLayoutColumns;
+
+	private Supplier<DataLayoutColumn[]> _dataLayoutColumnsSupplier =
+		() -> null;
 
 	@Override
 	public boolean equals(Object object) {

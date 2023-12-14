@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,26 +58,38 @@ public class ContentStructureField implements Serializable {
 		description = "The form field's type (e.g., date, geolocation, text, etc.)."
 	)
 	public String getDataType() {
+		if (dataType != null) {
+			return dataType;
+		}
+
+		dataType = _dataTypeSupplier.get();
+
 		return dataType;
 	}
 
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
+
+		_dataTypeSupplier = () -> dataType;
 	}
 
 	@JsonIgnore
 	public void setDataType(
 		UnsafeSupplier<String, Exception> dataTypeUnsafeSupplier) {
 
-		try {
-			dataType = dataTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dataType = null;
+
+		_dataTypeSupplier = () -> {
+			try {
+				return dataTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -85,30 +98,44 @@ public class ContentStructureField implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String dataType;
 
+	private Supplier<String> _dataTypeSupplier = () -> null;
+
 	@Schema(
 		description = "The form field's input control type (e.g., text, textarea, select field, etc.)."
 	)
 	public String getInputControl() {
+		if (inputControl != null) {
+			return inputControl;
+		}
+
+		inputControl = _inputControlSupplier.get();
+
 		return inputControl;
 	}
 
 	public void setInputControl(String inputControl) {
 		this.inputControl = inputControl;
+
+		_inputControlSupplier = () -> inputControl;
 	}
 
 	@JsonIgnore
 	public void setInputControl(
 		UnsafeSupplier<String, Exception> inputControlUnsafeSupplier) {
 
-		try {
-			inputControl = inputControlUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		inputControl = null;
+
+		_inputControlSupplier = () -> {
+			try {
+				return inputControlUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -117,42 +144,66 @@ public class ContentStructureField implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String inputControl;
 
+	private Supplier<String> _inputControlSupplier = () -> null;
+
 	@Schema(description = "The form field's label.")
 	public String getLabel() {
+		if (label != null) {
+			return label;
+		}
+
+		label = _labelSupplier.get();
+
 		return label;
 	}
 
 	public void setLabel(String label) {
 		this.label = label;
+
+		_labelSupplier = () -> label;
 	}
 
 	@JsonIgnore
 	public void setLabel(
 		UnsafeSupplier<String, Exception> labelUnsafeSupplier) {
 
-		try {
-			label = labelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		label = null;
+
+		_labelSupplier = () -> {
+			try {
+				return labelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The form field's label.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String label;
 
+	private Supplier<String> _labelSupplier = () -> null;
+
 	@Schema(description = "The form field's labels.")
 	@Valid
 	public Map<String, String> getLabel_i18n() {
+		if (label_i18n != null) {
+			return label_i18n;
+		}
+
+		label_i18n = _label_i18nSupplier.get();
+
 		return label_i18n;
 	}
 
 	public void setLabel_i18n(Map<String, String> label_i18n) {
 		this.label_i18n = label_i18n;
+
+		_label_i18nSupplier = () -> label_i18n;
 	}
 
 	@JsonIgnore
@@ -160,45 +211,63 @@ public class ContentStructureField implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			label_i18nUnsafeSupplier) {
 
-		try {
-			label_i18n = label_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		label_i18n = null;
+
+		_label_i18nSupplier = () -> {
+			try {
+				return label_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The form field's labels.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, String> label_i18n;
 
+	private Supplier<Map<String, String>> _label_i18nSupplier = () -> null;
+
 	@Schema(
 		description = "A flag that indicates whether the content is accessible in different languages."
 	)
 	public Boolean getLocalizable() {
+		if (localizable != null) {
+			return localizable;
+		}
+
+		localizable = _localizableSupplier.get();
+
 		return localizable;
 	}
 
 	public void setLocalizable(Boolean localizable) {
 		this.localizable = localizable;
+
+		_localizableSupplier = () -> localizable;
 	}
 
 	@JsonIgnore
 	public void setLocalizable(
 		UnsafeSupplier<Boolean, Exception> localizableUnsafeSupplier) {
 
-		try {
-			localizable = localizableUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		localizable = null;
+
+		_localizableSupplier = () -> {
+			try {
+				return localizableUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -207,30 +276,44 @@ public class ContentStructureField implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean localizable;
 
+	private Supplier<Boolean> _localizableSupplier = () -> null;
+
 	@Schema(
 		description = "A flag that indicates whether the form field can have several values."
 	)
 	public Boolean getMultiple() {
+		if (multiple != null) {
+			return multiple;
+		}
+
+		multiple = _multipleSupplier.get();
+
 		return multiple;
 	}
 
 	public void setMultiple(Boolean multiple) {
 		this.multiple = multiple;
+
+		_multipleSupplier = () -> multiple;
 	}
 
 	@JsonIgnore
 	public void setMultiple(
 		UnsafeSupplier<Boolean, Exception> multipleUnsafeSupplier) {
 
-		try {
-			multiple = multipleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		multiple = null;
+
+		_multipleSupplier = () -> {
+			try {
+				return multipleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -239,37 +322,60 @@ public class ContentStructureField implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean multiple;
 
+	private Supplier<Boolean> _multipleSupplier = () -> null;
+
 	@Schema(description = "The form field's name.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The form field's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema(
 		description = "The child content structure fields that depend on this form field."
 	)
 	@Valid
 	public ContentStructureField[] getNestedContentStructureFields() {
+		if (nestedContentStructureFields != null) {
+			return nestedContentStructureFields;
+		}
+
+		nestedContentStructureFields =
+			_nestedContentStructureFieldsSupplier.get();
+
 		return nestedContentStructureFields;
 	}
 
@@ -277,6 +383,9 @@ public class ContentStructureField implements Serializable {
 		ContentStructureField[] nestedContentStructureFields) {
 
 		this.nestedContentStructureFields = nestedContentStructureFields;
+
+		_nestedContentStructureFieldsSupplier =
+			() -> nestedContentStructureFields;
 	}
 
 	@JsonIgnore
@@ -284,16 +393,19 @@ public class ContentStructureField implements Serializable {
 		UnsafeSupplier<ContentStructureField[], Exception>
 			nestedContentStructureFieldsUnsafeSupplier) {
 
-		try {
-			nestedContentStructureFields =
-				nestedContentStructureFieldsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		nestedContentStructureFields = null;
+
+		_nestedContentStructureFieldsSupplier = () -> {
+			try {
+				return nestedContentStructureFieldsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -302,66 +414,103 @@ public class ContentStructureField implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected ContentStructureField[] nestedContentStructureFields;
 
+	private Supplier<ContentStructureField[]>
+		_nestedContentStructureFieldsSupplier = () -> null;
+
 	@Schema(description = "The list of different possible values.")
 	@Valid
 	public Option[] getOptions() {
+		if (options != null) {
+			return options;
+		}
+
+		options = _optionsSupplier.get();
+
 		return options;
 	}
 
 	public void setOptions(Option[] options) {
 		this.options = options;
+
+		_optionsSupplier = () -> options;
 	}
 
 	@JsonIgnore
 	public void setOptions(
 		UnsafeSupplier<Option[], Exception> optionsUnsafeSupplier) {
 
-		try {
-			options = optionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		options = null;
+
+		_optionsSupplier = () -> {
+			try {
+				return optionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The list of different possible values.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Option[] options;
 
+	private Supplier<Option[]> _optionsSupplier = () -> null;
+
 	@Schema(description = "The form field's default value.")
 	public String getPredefinedValue() {
+		if (predefinedValue != null) {
+			return predefinedValue;
+		}
+
+		predefinedValue = _predefinedValueSupplier.get();
+
 		return predefinedValue;
 	}
 
 	public void setPredefinedValue(String predefinedValue) {
 		this.predefinedValue = predefinedValue;
+
+		_predefinedValueSupplier = () -> predefinedValue;
 	}
 
 	@JsonIgnore
 	public void setPredefinedValue(
 		UnsafeSupplier<String, Exception> predefinedValueUnsafeSupplier) {
 
-		try {
-			predefinedValue = predefinedValueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		predefinedValue = null;
+
+		_predefinedValueSupplier = () -> {
+			try {
+				return predefinedValueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The form field's default value.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String predefinedValue;
 
+	private Supplier<String> _predefinedValueSupplier = () -> null;
+
 	@Schema(description = "The localized form field's default values.")
 	@Valid
 	public Map<String, String> getPredefinedValue_i18n() {
+		if (predefinedValue_i18n != null) {
+			return predefinedValue_i18n;
+		}
+
+		predefinedValue_i18n = _predefinedValue_i18nSupplier.get();
+
 		return predefinedValue_i18n;
 	}
 
@@ -369,6 +518,8 @@ public class ContentStructureField implements Serializable {
 		Map<String, String> predefinedValue_i18n) {
 
 		this.predefinedValue_i18n = predefinedValue_i18n;
+
+		_predefinedValue_i18nSupplier = () -> predefinedValue_i18n;
 	}
 
 	@JsonIgnore
@@ -376,45 +527,64 @@ public class ContentStructureField implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			predefinedValue_i18nUnsafeSupplier) {
 
-		try {
-			predefinedValue_i18n = predefinedValue_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		predefinedValue_i18n = null;
+
+		_predefinedValue_i18nSupplier = () -> {
+			try {
+				return predefinedValue_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The localized form field's default values.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, String> predefinedValue_i18n;
 
+	private Supplier<Map<String, String>> _predefinedValue_i18nSupplier =
+		() -> null;
+
 	@Schema(
 		description = "A flag that indicates whether this content can be rendered (and answered) several times."
 	)
 	public Boolean getRepeatable() {
+		if (repeatable != null) {
+			return repeatable;
+		}
+
+		repeatable = _repeatableSupplier.get();
+
 		return repeatable;
 	}
 
 	public void setRepeatable(Boolean repeatable) {
 		this.repeatable = repeatable;
+
+		_repeatableSupplier = () -> repeatable;
 	}
 
 	@JsonIgnore
 	public void setRepeatable(
 		UnsafeSupplier<Boolean, Exception> repeatableUnsafeSupplier) {
 
-		try {
-			repeatable = repeatableUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		repeatable = null;
+
+		_repeatableSupplier = () -> {
+			try {
+				return repeatableUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -423,30 +593,44 @@ public class ContentStructureField implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean repeatable;
 
+	private Supplier<Boolean> _repeatableSupplier = () -> null;
+
 	@Schema(
 		description = "A flag that indicates whether this form field is required."
 	)
 	public Boolean getRequired() {
+		if (required != null) {
+			return required;
+		}
+
+		required = _requiredSupplier.get();
+
 		return required;
 	}
 
 	public void setRequired(Boolean required) {
 		this.required = required;
+
+		_requiredSupplier = () -> required;
 	}
 
 	@JsonIgnore
 	public void setRequired(
 		UnsafeSupplier<Boolean, Exception> requiredUnsafeSupplier) {
 
-		try {
-			required = requiredUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		required = null;
+
+		_requiredSupplier = () -> {
+			try {
+				return requiredUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -455,30 +639,44 @@ public class ContentStructureField implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean required;
 
+	private Supplier<Boolean> _requiredSupplier = () -> null;
+
 	@Schema(
 		description = "A flag that indicates whether the structure's end target should render the field label."
 	)
 	public Boolean getShowLabel() {
+		if (showLabel != null) {
+			return showLabel;
+		}
+
+		showLabel = _showLabelSupplier.get();
+
 		return showLabel;
 	}
 
 	public void setShowLabel(Boolean showLabel) {
 		this.showLabel = showLabel;
+
+		_showLabelSupplier = () -> showLabel;
 	}
 
 	@JsonIgnore
 	public void setShowLabel(
 		UnsafeSupplier<Boolean, Exception> showLabelUnsafeSupplier) {
 
-		try {
-			showLabel = showLabelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		showLabel = null;
+
+		_showLabelSupplier = () -> {
+			try {
+				return showLabelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -486,6 +684,8 @@ public class ContentStructureField implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean showLabel;
+
+	private Supplier<Boolean> _showLabelSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

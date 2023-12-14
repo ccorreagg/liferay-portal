@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,86 +53,128 @@ public class Grid implements Serializable {
 	@Schema
 	@Valid
 	public FormFieldOption[] getColumns() {
+		if (columns != null) {
+			return columns;
+		}
+
+		columns = _columnsSupplier.get();
+
 		return columns;
 	}
 
 	public void setColumns(FormFieldOption[] columns) {
 		this.columns = columns;
+
+		_columnsSupplier = () -> columns;
 	}
 
 	@JsonIgnore
 	public void setColumns(
 		UnsafeSupplier<FormFieldOption[], Exception> columnsUnsafeSupplier) {
 
-		try {
-			columns = columnsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		columns = null;
+
+		_columnsSupplier = () -> {
+			try {
+				return columnsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FormFieldOption[] columns;
 
+	private Supplier<FormFieldOption[]> _columnsSupplier = () -> null;
+
 	@Schema
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public FormFieldOption[] getRows() {
+		if (rows != null) {
+			return rows;
+		}
+
+		rows = _rowsSupplier.get();
+
 		return rows;
 	}
 
 	public void setRows(FormFieldOption[] rows) {
 		this.rows = rows;
+
+		_rowsSupplier = () -> rows;
 	}
 
 	@JsonIgnore
 	public void setRows(
 		UnsafeSupplier<FormFieldOption[], Exception> rowsUnsafeSupplier) {
 
-		try {
-			rows = rowsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		rows = null;
+
+		_rowsSupplier = () -> {
+			try {
+				return rowsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FormFieldOption[] rows;
+
+	private Supplier<FormFieldOption[]> _rowsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

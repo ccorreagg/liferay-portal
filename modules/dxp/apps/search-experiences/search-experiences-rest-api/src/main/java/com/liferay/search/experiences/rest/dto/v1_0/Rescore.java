@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,146 +54,216 @@ public class Rescore implements Serializable {
 	@Schema
 	@Valid
 	public Object getQuery() {
+		if (query != null) {
+			return query;
+		}
+
+		query = _querySupplier.get();
+
 		return query;
 	}
 
 	public void setQuery(Object query) {
 		this.query = query;
+
+		_querySupplier = () -> query;
 	}
 
 	@JsonIgnore
 	public void setQuery(
 		UnsafeSupplier<Object, Exception> queryUnsafeSupplier) {
 
-		try {
-			query = queryUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		query = null;
+
+		_querySupplier = () -> {
+			try {
+				return queryUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object query;
 
+	private Supplier<Object> _querySupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getQueryWeight() {
+		if (queryWeight != null) {
+			return queryWeight;
+		}
+
+		queryWeight = _queryWeightSupplier.get();
+
 		return queryWeight;
 	}
 
 	public void setQueryWeight(Object queryWeight) {
 		this.queryWeight = queryWeight;
+
+		_queryWeightSupplier = () -> queryWeight;
 	}
 
 	@JsonIgnore
 	public void setQueryWeight(
 		UnsafeSupplier<Object, Exception> queryWeightUnsafeSupplier) {
 
-		try {
-			queryWeight = queryWeightUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		queryWeight = null;
+
+		_queryWeightSupplier = () -> {
+			try {
+				return queryWeightUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object queryWeight;
 
+	private Supplier<Object> _queryWeightSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getRescoreQueryWeight() {
+		if (rescoreQueryWeight != null) {
+			return rescoreQueryWeight;
+		}
+
+		rescoreQueryWeight = _rescoreQueryWeightSupplier.get();
+
 		return rescoreQueryWeight;
 	}
 
 	public void setRescoreQueryWeight(Object rescoreQueryWeight) {
 		this.rescoreQueryWeight = rescoreQueryWeight;
+
+		_rescoreQueryWeightSupplier = () -> rescoreQueryWeight;
 	}
 
 	@JsonIgnore
 	public void setRescoreQueryWeight(
 		UnsafeSupplier<Object, Exception> rescoreQueryWeightUnsafeSupplier) {
 
-		try {
-			rescoreQueryWeight = rescoreQueryWeightUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		rescoreQueryWeight = null;
+
+		_rescoreQueryWeightSupplier = () -> {
+			try {
+				return rescoreQueryWeightUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object rescoreQueryWeight;
 
+	private Supplier<Object> _rescoreQueryWeightSupplier = () -> null;
+
 	@Schema
 	public String getScoreMode() {
+		if (scoreMode != null) {
+			return scoreMode;
+		}
+
+		scoreMode = _scoreModeSupplier.get();
+
 		return scoreMode;
 	}
 
 	public void setScoreMode(String scoreMode) {
 		this.scoreMode = scoreMode;
+
+		_scoreModeSupplier = () -> scoreMode;
 	}
 
 	@JsonIgnore
 	public void setScoreMode(
 		UnsafeSupplier<String, Exception> scoreModeUnsafeSupplier) {
 
-		try {
-			scoreMode = scoreModeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		scoreMode = null;
+
+		_scoreModeSupplier = () -> {
+			try {
+				return scoreModeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String scoreMode;
 
+	private Supplier<String> _scoreModeSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getWindowSize() {
+		if (windowSize != null) {
+			return windowSize;
+		}
+
+		windowSize = _windowSizeSupplier.get();
+
 		return windowSize;
 	}
 
 	public void setWindowSize(Object windowSize) {
 		this.windowSize = windowSize;
+
+		_windowSizeSupplier = () -> windowSize;
 	}
 
 	@JsonIgnore
 	public void setWindowSize(
 		UnsafeSupplier<Object, Exception> windowSizeUnsafeSupplier) {
 
-		try {
-			windowSize = windowSizeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		windowSize = null;
+
+		_windowSizeSupplier = () -> {
+			try {
+				return windowSizeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object windowSize;
+
+	private Supplier<Object> _windowSizeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

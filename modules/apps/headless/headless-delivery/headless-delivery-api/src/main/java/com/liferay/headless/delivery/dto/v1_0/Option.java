@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,40 +54,62 @@ public class Option implements Serializable {
 
 	@Schema(description = "The option's label.")
 	public String getLabel() {
+		if (label != null) {
+			return label;
+		}
+
+		label = _labelSupplier.get();
+
 		return label;
 	}
 
 	public void setLabel(String label) {
 		this.label = label;
+
+		_labelSupplier = () -> label;
 	}
 
 	@JsonIgnore
 	public void setLabel(
 		UnsafeSupplier<String, Exception> labelUnsafeSupplier) {
 
-		try {
-			label = labelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		label = null;
+
+		_labelSupplier = () -> {
+			try {
+				return labelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The option's label.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String label;
 
+	private Supplier<String> _labelSupplier = () -> null;
+
 	@Schema(description = "The localized option's labels.")
 	@Valid
 	public Map<String, String> getLabel_i18n() {
+		if (label_i18n != null) {
+			return label_i18n;
+		}
+
+		label_i18n = _label_i18nSupplier.get();
+
 		return label_i18n;
 	}
 
 	public void setLabel_i18n(Map<String, String> label_i18n) {
 		this.label_i18n = label_i18n;
+
+		_label_i18nSupplier = () -> label_i18n;
 	}
 
 	@JsonIgnore
@@ -94,48 +117,68 @@ public class Option implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			label_i18nUnsafeSupplier) {
 
-		try {
-			label_i18n = label_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		label_i18n = null;
+
+		_label_i18nSupplier = () -> {
+			try {
+				return label_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The localized option's labels.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> label_i18n;
 
+	private Supplier<Map<String, String>> _label_i18nSupplier = () -> null;
+
 	@Schema(description = "The internal value of the field option.")
 	public String getValue() {
+		if (value != null) {
+			return value;
+		}
+
+		value = _valueSupplier.get();
+
 		return value;
 	}
 
 	public void setValue(String value) {
 		this.value = value;
+
+		_valueSupplier = () -> value;
 	}
 
 	@JsonIgnore
 	public void setValue(
 		UnsafeSupplier<String, Exception> valueUnsafeSupplier) {
 
-		try {
-			value = valueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		value = null;
+
+		_valueSupplier = () -> {
+			try {
+				return valueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The internal value of the field option.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String value;
+
+	private Supplier<String> _valueSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

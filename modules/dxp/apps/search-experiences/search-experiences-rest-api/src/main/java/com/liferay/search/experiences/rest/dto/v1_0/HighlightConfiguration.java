@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,11 +54,19 @@ public class HighlightConfiguration implements Serializable {
 	@Schema
 	@Valid
 	public Map<String, HighlightField> getFields() {
+		if (fields != null) {
+			return fields;
+		}
+
+		fields = _fieldsSupplier.get();
+
 		return fields;
 	}
 
 	public void setFields(Map<String, HighlightField> fields) {
 		this.fields = fields;
+
+		_fieldsSupplier = () -> fields;
 	}
 
 	@JsonIgnore
@@ -65,186 +74,276 @@ public class HighlightConfiguration implements Serializable {
 		UnsafeSupplier<Map<String, HighlightField>, Exception>
 			fieldsUnsafeSupplier) {
 
-		try {
-			fields = fieldsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fields = null;
+
+		_fieldsSupplier = () -> {
+			try {
+				return fieldsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, HighlightField> fields;
 
+	private Supplier<Map<String, HighlightField>> _fieldsSupplier = () -> null;
+
 	@Schema
 	public Integer getFragment_size() {
+		if (fragment_size != null) {
+			return fragment_size;
+		}
+
+		fragment_size = _fragment_sizeSupplier.get();
+
 		return fragment_size;
 	}
 
 	public void setFragment_size(Integer fragment_size) {
 		this.fragment_size = fragment_size;
+
+		_fragment_sizeSupplier = () -> fragment_size;
 	}
 
 	@JsonIgnore
 	public void setFragment_size(
 		UnsafeSupplier<Integer, Exception> fragment_sizeUnsafeSupplier) {
 
-		try {
-			fragment_size = fragment_sizeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragment_size = null;
+
+		_fragment_sizeSupplier = () -> {
+			try {
+				return fragment_sizeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer fragment_size;
 
+	private Supplier<Integer> _fragment_sizeSupplier = () -> null;
+
 	@Schema
 	public Integer getNumber_of_fragments() {
+		if (number_of_fragments != null) {
+			return number_of_fragments;
+		}
+
+		number_of_fragments = _number_of_fragmentsSupplier.get();
+
 		return number_of_fragments;
 	}
 
 	public void setNumber_of_fragments(Integer number_of_fragments) {
 		this.number_of_fragments = number_of_fragments;
+
+		_number_of_fragmentsSupplier = () -> number_of_fragments;
 	}
 
 	@JsonIgnore
 	public void setNumber_of_fragments(
 		UnsafeSupplier<Integer, Exception> number_of_fragmentsUnsafeSupplier) {
 
-		try {
-			number_of_fragments = number_of_fragmentsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		number_of_fragments = null;
+
+		_number_of_fragmentsSupplier = () -> {
+			try {
+				return number_of_fragmentsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer number_of_fragments;
 
+	private Supplier<Integer> _number_of_fragmentsSupplier = () -> null;
+
 	@Schema
 	public String[] getPost_tags() {
+		if (post_tags != null) {
+			return post_tags;
+		}
+
+		post_tags = _post_tagsSupplier.get();
+
 		return post_tags;
 	}
 
 	public void setPost_tags(String[] post_tags) {
 		this.post_tags = post_tags;
+
+		_post_tagsSupplier = () -> post_tags;
 	}
 
 	@JsonIgnore
 	public void setPost_tags(
 		UnsafeSupplier<String[], Exception> post_tagsUnsafeSupplier) {
 
-		try {
-			post_tags = post_tagsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		post_tags = null;
+
+		_post_tagsSupplier = () -> {
+			try {
+				return post_tagsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] post_tags;
 
+	private Supplier<String[]> _post_tagsSupplier = () -> null;
+
 	@Schema
 	public String[] getPre_tags() {
+		if (pre_tags != null) {
+			return pre_tags;
+		}
+
+		pre_tags = _pre_tagsSupplier.get();
+
 		return pre_tags;
 	}
 
 	public void setPre_tags(String[] pre_tags) {
 		this.pre_tags = pre_tags;
+
+		_pre_tagsSupplier = () -> pre_tags;
 	}
 
 	@JsonIgnore
 	public void setPre_tags(
 		UnsafeSupplier<String[], Exception> pre_tagsUnsafeSupplier) {
 
-		try {
-			pre_tags = pre_tagsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		pre_tags = null;
+
+		_pre_tagsSupplier = () -> {
+			try {
+				return pre_tagsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] pre_tags;
 
+	private Supplier<String[]> _pre_tagsSupplier = () -> null;
+
 	@Schema
 	public Boolean getRequire_field_match() {
+		if (require_field_match != null) {
+			return require_field_match;
+		}
+
+		require_field_match = _require_field_matchSupplier.get();
+
 		return require_field_match;
 	}
 
 	public void setRequire_field_match(Boolean require_field_match) {
 		this.require_field_match = require_field_match;
+
+		_require_field_matchSupplier = () -> require_field_match;
 	}
 
 	@JsonIgnore
 	public void setRequire_field_match(
 		UnsafeSupplier<Boolean, Exception> require_field_matchUnsafeSupplier) {
 
-		try {
-			require_field_match = require_field_matchUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		require_field_match = null;
+
+		_require_field_matchSupplier = () -> {
+			try {
+				return require_field_matchUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean require_field_match;
 
+	private Supplier<Boolean> _require_field_matchSupplier = () -> null;
+
 	@Schema
 	public String getType() {
+		if (type != null) {
+			return type;
+		}
+
+		type = _typeSupplier.get();
+
 		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
+
+		_typeSupplier = () -> type;
 	}
 
 	@JsonIgnore
 	public void setType(UnsafeSupplier<String, Exception> typeUnsafeSupplier) {
-		try {
-			type = typeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		type = null;
+
+		_typeSupplier = () -> {
+			try {
+				return typeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String type;
+
+	private Supplier<String> _typeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

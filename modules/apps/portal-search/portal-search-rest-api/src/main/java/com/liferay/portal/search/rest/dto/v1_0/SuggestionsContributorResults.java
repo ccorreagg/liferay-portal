@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,88 +56,130 @@ public class SuggestionsContributorResults implements Serializable {
 	@Schema
 	@Valid
 	public Object getAttributes() {
+		if (attributes != null) {
+			return attributes;
+		}
+
+		attributes = _attributesSupplier.get();
+
 		return attributes;
 	}
 
 	public void setAttributes(Object attributes) {
 		this.attributes = attributes;
+
+		_attributesSupplier = () -> attributes;
 	}
 
 	@JsonIgnore
 	public void setAttributes(
 		UnsafeSupplier<Object, Exception> attributesUnsafeSupplier) {
 
-		try {
-			attributes = attributesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		attributes = null;
+
+		_attributesSupplier = () -> {
+			try {
+				return attributesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object attributes;
 
+	private Supplier<Object> _attributesSupplier = () -> null;
+
 	@Schema
 	public String getDisplayGroupName() {
+		if (displayGroupName != null) {
+			return displayGroupName;
+		}
+
+		displayGroupName = _displayGroupNameSupplier.get();
+
 		return displayGroupName;
 	}
 
 	public void setDisplayGroupName(String displayGroupName) {
 		this.displayGroupName = displayGroupName;
+
+		_displayGroupNameSupplier = () -> displayGroupName;
 	}
 
 	@JsonIgnore
 	public void setDisplayGroupName(
 		UnsafeSupplier<String, Exception> displayGroupNameUnsafeSupplier) {
 
-		try {
-			displayGroupName = displayGroupNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		displayGroupName = null;
+
+		_displayGroupNameSupplier = () -> {
+			try {
+				return displayGroupNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String displayGroupName;
 
+	private Supplier<String> _displayGroupNameSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Suggestion[] getSuggestions() {
+		if (suggestions != null) {
+			return suggestions;
+		}
+
+		suggestions = _suggestionsSupplier.get();
+
 		return suggestions;
 	}
 
 	public void setSuggestions(Suggestion[] suggestions) {
 		this.suggestions = suggestions;
+
+		_suggestionsSupplier = () -> suggestions;
 	}
 
 	@JsonIgnore
 	public void setSuggestions(
 		UnsafeSupplier<Suggestion[], Exception> suggestionsUnsafeSupplier) {
 
-		try {
-			suggestions = suggestionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		suggestions = null;
+
+		_suggestionsSupplier = () -> {
+			try {
+				return suggestionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Suggestion[] suggestions;
+
+	private Supplier<Suggestion[]> _suggestionsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

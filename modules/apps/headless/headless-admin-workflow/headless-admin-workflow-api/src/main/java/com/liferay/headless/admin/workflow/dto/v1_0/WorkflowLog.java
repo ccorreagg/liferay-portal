@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -63,26 +64,38 @@ public class WorkflowLog implements Serializable {
 	)
 	@Valid
 	public Creator getAuditPerson() {
+		if (auditPerson != null) {
+			return auditPerson;
+		}
+
+		auditPerson = _auditPersonSupplier.get();
+
 		return auditPerson;
 	}
 
 	public void setAuditPerson(Creator auditPerson) {
 		this.auditPerson = auditPerson;
+
+		_auditPersonSupplier = () -> auditPerson;
 	}
 
 	@JsonIgnore
 	public void setAuditPerson(
 		UnsafeSupplier<Creator, Exception> auditPersonUnsafeSupplier) {
 
-		try {
-			auditPerson = auditPersonUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		auditPerson = null;
+
+		_auditPersonSupplier = () -> {
+			try {
+				return auditPersonUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -91,345 +104,521 @@ public class WorkflowLog implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator auditPerson;
 
+	private Supplier<Creator> _auditPersonSupplier = () -> null;
+
 	@Schema(description = "The log's comments.")
 	public String getCommentLog() {
+		if (commentLog != null) {
+			return commentLog;
+		}
+
+		commentLog = _commentLogSupplier.get();
+
 		return commentLog;
 	}
 
 	public void setCommentLog(String commentLog) {
 		this.commentLog = commentLog;
+
+		_commentLogSupplier = () -> commentLog;
 	}
 
 	@JsonIgnore
 	public void setCommentLog(
 		UnsafeSupplier<String, Exception> commentLogUnsafeSupplier) {
 
-		try {
-			commentLog = commentLogUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		commentLog = null;
+
+		_commentLogSupplier = () -> {
+			try {
+				return commentLogUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The log's comments.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String commentLog;
 
+	private Supplier<String> _commentLogSupplier = () -> null;
+
 	@Schema(description = "The log's creation date.")
 	public Date getDateCreated() {
+		if (dateCreated != null) {
+			return dateCreated;
+		}
+
+		dateCreated = _dateCreatedSupplier.get();
+
 		return dateCreated;
 	}
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+
+		_dateCreatedSupplier = () -> dateCreated;
 	}
 
 	@JsonIgnore
 	public void setDateCreated(
 		UnsafeSupplier<Date, Exception> dateCreatedUnsafeSupplier) {
 
-		try {
-			dateCreated = dateCreatedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateCreated = null;
+
+		_dateCreatedSupplier = () -> {
+			try {
+				return dateCreatedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The log's creation date.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
+	private Supplier<Date> _dateCreatedSupplier = () -> null;
+
 	@Schema(description = "The log's description.")
 	public String getDescription() {
+		if (description != null) {
+			return description;
+		}
+
+		description = _descriptionSupplier.get();
+
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+
+		_descriptionSupplier = () -> description;
 	}
 
 	@JsonIgnore
 	public void setDescription(
 		UnsafeSupplier<String, Exception> descriptionUnsafeSupplier) {
 
-		try {
-			description = descriptionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description = null;
+
+		_descriptionSupplier = () -> {
+			try {
+				return descriptionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The log's description.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String description;
 
+	private Supplier<String> _descriptionSupplier = () -> null;
+
 	@Schema(description = "The log's ID.")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The log's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(description = "The person assigned to the workflow.")
 	@Valid
 	public Creator getPerson() {
+		if (person != null) {
+			return person;
+		}
+
+		person = _personSupplier.get();
+
 		return person;
 	}
 
 	public void setPerson(Creator person) {
 		this.person = person;
+
+		_personSupplier = () -> person;
 	}
 
 	@JsonIgnore
 	public void setPerson(
 		UnsafeSupplier<Creator, Exception> personUnsafeSupplier) {
 
-		try {
-			person = personUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		person = null;
+
+		_personSupplier = () -> {
+			try {
+				return personUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The person assigned to the workflow.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator person;
 
+	private Supplier<Creator> _personSupplier = () -> null;
+
 	@Schema(description = "The previous person assigned to the workflow.")
 	@Valid
 	public Creator getPreviousPerson() {
+		if (previousPerson != null) {
+			return previousPerson;
+		}
+
+		previousPerson = _previousPersonSupplier.get();
+
 		return previousPerson;
 	}
 
 	public void setPreviousPerson(Creator previousPerson) {
 		this.previousPerson = previousPerson;
+
+		_previousPersonSupplier = () -> previousPerson;
 	}
 
 	@JsonIgnore
 	public void setPreviousPerson(
 		UnsafeSupplier<Creator, Exception> previousPersonUnsafeSupplier) {
 
-		try {
-			previousPerson = previousPersonUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		previousPerson = null;
+
+		_previousPersonSupplier = () -> {
+			try {
+				return previousPersonUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The previous person assigned to the workflow.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator previousPerson;
 
+	private Supplier<Creator> _previousPersonSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Role getPreviousRole() {
+		if (previousRole != null) {
+			return previousRole;
+		}
+
+		previousRole = _previousRoleSupplier.get();
+
 		return previousRole;
 	}
 
 	public void setPreviousRole(Role previousRole) {
 		this.previousRole = previousRole;
+
+		_previousRoleSupplier = () -> previousRole;
 	}
 
 	@JsonIgnore
 	public void setPreviousRole(
 		UnsafeSupplier<Role, Exception> previousRoleUnsafeSupplier) {
 
-		try {
-			previousRole = previousRoleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		previousRole = null;
+
+		_previousRoleSupplier = () -> {
+			try {
+				return previousRoleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Role previousRole;
 
+	private Supplier<Role> _previousRoleSupplier = () -> null;
+
 	@Schema(description = "The workflow's previous state.")
 	public String getPreviousState() {
+		if (previousState != null) {
+			return previousState;
+		}
+
+		previousState = _previousStateSupplier.get();
+
 		return previousState;
 	}
 
 	public void setPreviousState(String previousState) {
 		this.previousState = previousState;
+
+		_previousStateSupplier = () -> previousState;
 	}
 
 	@JsonIgnore
 	public void setPreviousState(
 		UnsafeSupplier<String, Exception> previousStateUnsafeSupplier) {
 
-		try {
-			previousState = previousStateUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		previousState = null;
+
+		_previousStateSupplier = () -> {
+			try {
+				return previousStateUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The workflow's previous state.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String previousState;
 
+	private Supplier<String> _previousStateSupplier = () -> null;
+
 	@Schema(description = "The workflow's previous state Label.")
 	public String getPreviousStateLabel() {
+		if (previousStateLabel != null) {
+			return previousStateLabel;
+		}
+
+		previousStateLabel = _previousStateLabelSupplier.get();
+
 		return previousStateLabel;
 	}
 
 	public void setPreviousStateLabel(String previousStateLabel) {
 		this.previousStateLabel = previousStateLabel;
+
+		_previousStateLabelSupplier = () -> previousStateLabel;
 	}
 
 	@JsonIgnore
 	public void setPreviousStateLabel(
 		UnsafeSupplier<String, Exception> previousStateLabelUnsafeSupplier) {
 
-		try {
-			previousStateLabel = previousStateLabelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		previousStateLabel = null;
+
+		_previousStateLabelSupplier = () -> {
+			try {
+				return previousStateLabelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The workflow's previous state Label.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String previousStateLabel;
 
+	private Supplier<String> _previousStateLabelSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Role getRole() {
+		if (role != null) {
+			return role;
+		}
+
+		role = _roleSupplier.get();
+
 		return role;
 	}
 
 	public void setRole(Role role) {
 		this.role = role;
+
+		_roleSupplier = () -> role;
 	}
 
 	@JsonIgnore
 	public void setRole(UnsafeSupplier<Role, Exception> roleUnsafeSupplier) {
-		try {
-			role = roleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		role = null;
+
+		_roleSupplier = () -> {
+			try {
+				return roleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Role role;
 
+	private Supplier<Role> _roleSupplier = () -> null;
+
 	@Schema(description = "The workflow's current state.")
 	public String getState() {
+		if (state != null) {
+			return state;
+		}
+
+		state = _stateSupplier.get();
+
 		return state;
 	}
 
 	public void setState(String state) {
 		this.state = state;
+
+		_stateSupplier = () -> state;
 	}
 
 	@JsonIgnore
 	public void setState(
 		UnsafeSupplier<String, Exception> stateUnsafeSupplier) {
 
-		try {
-			state = stateUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		state = null;
+
+		_stateSupplier = () -> {
+			try {
+				return stateUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The workflow's current state.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String state;
 
+	private Supplier<String> _stateSupplier = () -> null;
+
 	@Schema(description = "The workflow's current state Label.")
 	public String getStateLabel() {
+		if (stateLabel != null) {
+			return stateLabel;
+		}
+
+		stateLabel = _stateLabelSupplier.get();
+
 		return stateLabel;
 	}
 
 	public void setStateLabel(String stateLabel) {
 		this.stateLabel = stateLabel;
+
+		_stateLabelSupplier = () -> stateLabel;
 	}
 
 	@JsonIgnore
 	public void setStateLabel(
 		UnsafeSupplier<String, Exception> stateLabelUnsafeSupplier) {
 
-		try {
-			stateLabel = stateLabelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		stateLabel = null;
+
+		_stateLabelSupplier = () -> {
+			try {
+				return stateLabelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The workflow's current state Label.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String stateLabel;
 
+	private Supplier<String> _stateLabelSupplier = () -> null;
+
 	@Schema(description = "The workflow log's type.")
 	@Valid
 	public Type getType() {
+		if (type != null) {
+			return type;
+		}
+
+		type = _typeSupplier.get();
+
 		return type;
 	}
 
@@ -444,52 +633,74 @@ public class WorkflowLog implements Serializable {
 
 	public void setType(Type type) {
 		this.type = type;
+
+		_typeSupplier = () -> type;
 	}
 
 	@JsonIgnore
 	public void setType(UnsafeSupplier<Type, Exception> typeUnsafeSupplier) {
-		try {
-			type = typeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		type = null;
+
+		_typeSupplier = () -> {
+			try {
+				return typeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The workflow log's type.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Type type;
 
+	private Supplier<Type> _typeSupplier = () -> null;
+
 	@Schema(description = "The task associated with this workflow log.")
 	public Long getWorkflowTaskId() {
+		if (workflowTaskId != null) {
+			return workflowTaskId;
+		}
+
+		workflowTaskId = _workflowTaskIdSupplier.get();
+
 		return workflowTaskId;
 	}
 
 	public void setWorkflowTaskId(Long workflowTaskId) {
 		this.workflowTaskId = workflowTaskId;
+
+		_workflowTaskIdSupplier = () -> workflowTaskId;
 	}
 
 	@JsonIgnore
 	public void setWorkflowTaskId(
 		UnsafeSupplier<Long, Exception> workflowTaskIdUnsafeSupplier) {
 
-		try {
-			workflowTaskId = workflowTaskIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		workflowTaskId = null;
+
+		_workflowTaskIdSupplier = () -> {
+			try {
+				return workflowTaskIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The task associated with this workflow log.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long workflowTaskId;
+
+	private Supplier<Long> _workflowTaskIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

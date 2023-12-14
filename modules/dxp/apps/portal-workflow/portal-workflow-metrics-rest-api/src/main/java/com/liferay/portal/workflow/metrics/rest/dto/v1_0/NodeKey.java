@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,57 +50,85 @@ public class NodeKey implements Serializable {
 
 	@Schema
 	public String getExecutionType() {
+		if (executionType != null) {
+			return executionType;
+		}
+
+		executionType = _executionTypeSupplier.get();
+
 		return executionType;
 	}
 
 	public void setExecutionType(String executionType) {
 		this.executionType = executionType;
+
+		_executionTypeSupplier = () -> executionType;
 	}
 
 	@JsonIgnore
 	public void setExecutionType(
 		UnsafeSupplier<String, Exception> executionTypeUnsafeSupplier) {
 
-		try {
-			executionType = executionTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		executionType = null;
+
+		_executionTypeSupplier = () -> {
+			try {
+				return executionTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String executionType;
 
+	private Supplier<String> _executionTypeSupplier = () -> null;
+
 	@Schema
 	public String getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<String, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String id;
+
+	private Supplier<String> _idSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

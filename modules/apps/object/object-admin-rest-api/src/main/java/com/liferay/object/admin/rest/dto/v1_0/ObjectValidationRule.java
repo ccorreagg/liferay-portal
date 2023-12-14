@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -59,11 +60,19 @@ public class ObjectValidationRule implements Serializable {
 	@Schema
 	@Valid
 	public Map<String, Map<String, String>> getActions() {
+		if (actions != null) {
+			return actions;
+		}
+
+		actions = _actionsSupplier.get();
+
 		return actions;
 	}
 
 	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
+
+		_actionsSupplier = () -> actions;
 	}
 
 	@JsonIgnore
@@ -71,169 +80,254 @@ public class ObjectValidationRule implements Serializable {
 		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
 			actionsUnsafeSupplier) {
 
-		try {
-			actions = actionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actions = null;
+
+		_actionsSupplier = () -> {
+			try {
+				return actionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, Map<String, String>> actions;
 
+	private Supplier<Map<String, Map<String, String>>> _actionsSupplier =
+		() -> null;
+
 	@Schema
 	public Boolean getActive() {
+		if (active != null) {
+			return active;
+		}
+
+		active = _activeSupplier.get();
+
 		return active;
 	}
 
 	public void setActive(Boolean active) {
 		this.active = active;
+
+		_activeSupplier = () -> active;
 	}
 
 	@JsonIgnore
 	public void setActive(
 		UnsafeSupplier<Boolean, Exception> activeUnsafeSupplier) {
 
-		try {
-			active = activeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		active = null;
+
+		_activeSupplier = () -> {
+			try {
+				return activeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean active;
 
+	private Supplier<Boolean> _activeSupplier = () -> null;
+
 	@Schema
 	public Date getDateCreated() {
+		if (dateCreated != null) {
+			return dateCreated;
+		}
+
+		dateCreated = _dateCreatedSupplier.get();
+
 		return dateCreated;
 	}
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+
+		_dateCreatedSupplier = () -> dateCreated;
 	}
 
 	@JsonIgnore
 	public void setDateCreated(
 		UnsafeSupplier<Date, Exception> dateCreatedUnsafeSupplier) {
 
-		try {
-			dateCreated = dateCreatedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateCreated = null;
+
+		_dateCreatedSupplier = () -> {
+			try {
+				return dateCreatedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
+	private Supplier<Date> _dateCreatedSupplier = () -> null;
+
 	@Schema
 	public Date getDateModified() {
+		if (dateModified != null) {
+			return dateModified;
+		}
+
+		dateModified = _dateModifiedSupplier.get();
+
 		return dateModified;
 	}
 
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
+
+		_dateModifiedSupplier = () -> dateModified;
 	}
 
 	@JsonIgnore
 	public void setDateModified(
 		UnsafeSupplier<Date, Exception> dateModifiedUnsafeSupplier) {
 
-		try {
-			dateModified = dateModifiedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateModified = null;
+
+		_dateModifiedSupplier = () -> {
+			try {
+				return dateModifiedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
+	private Supplier<Date> _dateModifiedSupplier = () -> null;
+
 	@Schema
 	public String getEngine() {
+		if (engine != null) {
+			return engine;
+		}
+
+		engine = _engineSupplier.get();
+
 		return engine;
 	}
 
 	public void setEngine(String engine) {
 		this.engine = engine;
+
+		_engineSupplier = () -> engine;
 	}
 
 	@JsonIgnore
 	public void setEngine(
 		UnsafeSupplier<String, Exception> engineUnsafeSupplier) {
 
-		try {
-			engine = engineUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		engine = null;
+
+		_engineSupplier = () -> {
+			try {
+				return engineUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String engine;
 
+	private Supplier<String> _engineSupplier = () -> null;
+
 	@Schema
 	public String getEngineLabel() {
+		if (engineLabel != null) {
+			return engineLabel;
+		}
+
+		engineLabel = _engineLabelSupplier.get();
+
 		return engineLabel;
 	}
 
 	public void setEngineLabel(String engineLabel) {
 		this.engineLabel = engineLabel;
+
+		_engineLabelSupplier = () -> engineLabel;
 	}
 
 	@JsonIgnore
 	public void setEngineLabel(
 		UnsafeSupplier<String, Exception> engineLabelUnsafeSupplier) {
 
-		try {
-			engineLabel = engineLabelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		engineLabel = null;
+
+		_engineLabelSupplier = () -> {
+			try {
+				return engineLabelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String engineLabel;
 
+	private Supplier<String> _engineLabelSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, String> getErrorLabel() {
+		if (errorLabel != null) {
+			return errorLabel;
+		}
+
+		errorLabel = _errorLabelSupplier.get();
+
 		return errorLabel;
 	}
 
 	public void setErrorLabel(Map<String, String> errorLabel) {
 		this.errorLabel = errorLabel;
+
+		_errorLabelSupplier = () -> errorLabel;
 	}
 
 	@JsonIgnore
@@ -241,106 +335,161 @@ public class ObjectValidationRule implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			errorLabelUnsafeSupplier) {
 
-		try {
-			errorLabel = errorLabelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		errorLabel = null;
+
+		_errorLabelSupplier = () -> {
+			try {
+				return errorLabelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> errorLabel;
 
+	private Supplier<Map<String, String>> _errorLabelSupplier = () -> null;
+
 	@Schema
 	public String getExternalReferenceCode() {
+		if (externalReferenceCode != null) {
+			return externalReferenceCode;
+		}
+
+		externalReferenceCode = _externalReferenceCodeSupplier.get();
+
 		return externalReferenceCode;
 	}
 
 	public void setExternalReferenceCode(String externalReferenceCode) {
 		this.externalReferenceCode = externalReferenceCode;
+
+		_externalReferenceCodeSupplier = () -> externalReferenceCode;
 	}
 
 	@JsonIgnore
 	public void setExternalReferenceCode(
 		UnsafeSupplier<String, Exception> externalReferenceCodeUnsafeSupplier) {
 
-		try {
-			externalReferenceCode = externalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		externalReferenceCode = null;
+
+		_externalReferenceCodeSupplier = () -> {
+			try {
+				return externalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String externalReferenceCode;
 
+	private Supplier<String> _externalReferenceCodeSupplier = () -> null;
+
 	@Schema
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, String> getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(Map<String, String> name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(
 		UnsafeSupplier<Map<String, String>, Exception> nameUnsafeSupplier) {
 
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> name;
 
+	private Supplier<Map<String, String>> _nameSupplier = () -> null;
+
 	@Schema
 	public String getObjectDefinitionExternalReferenceCode() {
+		if (objectDefinitionExternalReferenceCode != null) {
+			return objectDefinitionExternalReferenceCode;
+		}
+
+		objectDefinitionExternalReferenceCode =
+			_objectDefinitionExternalReferenceCodeSupplier.get();
+
 		return objectDefinitionExternalReferenceCode;
 	}
 
@@ -349,6 +498,9 @@ public class ObjectValidationRule implements Serializable {
 
 		this.objectDefinitionExternalReferenceCode =
 			objectDefinitionExternalReferenceCode;
+
+		_objectDefinitionExternalReferenceCodeSupplier =
+			() -> objectDefinitionExternalReferenceCode;
 	}
 
 	@JsonIgnore
@@ -356,53 +508,81 @@ public class ObjectValidationRule implements Serializable {
 		UnsafeSupplier<String, Exception>
 			objectDefinitionExternalReferenceCodeUnsafeSupplier) {
 
-		try {
-			objectDefinitionExternalReferenceCode =
-				objectDefinitionExternalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		objectDefinitionExternalReferenceCode = null;
+
+		_objectDefinitionExternalReferenceCodeSupplier = () -> {
+			try {
+				return objectDefinitionExternalReferenceCodeUnsafeSupplier.
+					get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String objectDefinitionExternalReferenceCode;
 
+	private Supplier<String> _objectDefinitionExternalReferenceCodeSupplier =
+		() -> null;
+
 	@Schema
 	public Long getObjectDefinitionId() {
+		if (objectDefinitionId != null) {
+			return objectDefinitionId;
+		}
+
+		objectDefinitionId = _objectDefinitionIdSupplier.get();
+
 		return objectDefinitionId;
 	}
 
 	public void setObjectDefinitionId(Long objectDefinitionId) {
 		this.objectDefinitionId = objectDefinitionId;
+
+		_objectDefinitionIdSupplier = () -> objectDefinitionId;
 	}
 
 	@JsonIgnore
 	public void setObjectDefinitionId(
 		UnsafeSupplier<Long, Exception> objectDefinitionIdUnsafeSupplier) {
 
-		try {
-			objectDefinitionId = objectDefinitionIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		objectDefinitionId = null;
+
+		_objectDefinitionIdSupplier = () -> {
+			try {
+				return objectDefinitionIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long objectDefinitionId;
 
+	private Supplier<Long> _objectDefinitionIdSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public ObjectValidationRuleSetting[] getObjectValidationRuleSettings() {
+		if (objectValidationRuleSettings != null) {
+			return objectValidationRuleSettings;
+		}
+
+		objectValidationRuleSettings =
+			_objectValidationRuleSettingsSupplier.get();
+
 		return objectValidationRuleSettings;
 	}
 
@@ -410,6 +590,9 @@ public class ObjectValidationRule implements Serializable {
 		ObjectValidationRuleSetting[] objectValidationRuleSettings) {
 
 		this.objectValidationRuleSettings = objectValidationRuleSettings;
+
+		_objectValidationRuleSettingsSupplier =
+			() -> objectValidationRuleSettings;
 	}
 
 	@JsonIgnore
@@ -417,25 +600,37 @@ public class ObjectValidationRule implements Serializable {
 		UnsafeSupplier<ObjectValidationRuleSetting[], Exception>
 			objectValidationRuleSettingsUnsafeSupplier) {
 
-		try {
-			objectValidationRuleSettings =
-				objectValidationRuleSettingsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		objectValidationRuleSettings = null;
+
+		_objectValidationRuleSettingsSupplier = () -> {
+			try {
+				return objectValidationRuleSettingsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ObjectValidationRuleSetting[] objectValidationRuleSettings;
 
+	private Supplier<ObjectValidationRuleSetting[]>
+		_objectValidationRuleSettingsSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public OutputType getOutputType() {
+		if (outputType != null) {
+			return outputType;
+		}
+
+		outputType = _outputTypeSupplier.get();
+
 		return outputType;
 	}
 
@@ -450,82 +645,118 @@ public class ObjectValidationRule implements Serializable {
 
 	public void setOutputType(OutputType outputType) {
 		this.outputType = outputType;
+
+		_outputTypeSupplier = () -> outputType;
 	}
 
 	@JsonIgnore
 	public void setOutputType(
 		UnsafeSupplier<OutputType, Exception> outputTypeUnsafeSupplier) {
 
-		try {
-			outputType = outputTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		outputType = null;
+
+		_outputTypeSupplier = () -> {
+			try {
+				return outputTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected OutputType outputType;
 
+	private Supplier<OutputType> _outputTypeSupplier = () -> null;
+
 	@Schema
 	public String getScript() {
+		if (script != null) {
+			return script;
+		}
+
+		script = _scriptSupplier.get();
+
 		return script;
 	}
 
 	public void setScript(String script) {
 		this.script = script;
+
+		_scriptSupplier = () -> script;
 	}
 
 	@JsonIgnore
 	public void setScript(
 		UnsafeSupplier<String, Exception> scriptUnsafeSupplier) {
 
-		try {
-			script = scriptUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		script = null;
+
+		_scriptSupplier = () -> {
+			try {
+				return scriptUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String script;
 
+	private Supplier<String> _scriptSupplier = () -> null;
+
 	@Schema
 	public Boolean getSystem() {
+		if (system != null) {
+			return system;
+		}
+
+		system = _systemSupplier.get();
+
 		return system;
 	}
 
 	public void setSystem(Boolean system) {
 		this.system = system;
+
+		_systemSupplier = () -> system;
 	}
 
 	@JsonIgnore
 	public void setSystem(
 		UnsafeSupplier<Boolean, Exception> systemUnsafeSupplier) {
 
-		try {
-			system = systemUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		system = null;
+
+		_systemSupplier = () -> {
+			try {
+				return systemUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean system;
+
+	private Supplier<Boolean> _systemSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,87 +50,129 @@ public class PortraitMobile implements Serializable {
 
 	@Schema
 	public Integer getModulesPerRow() {
+		if (modulesPerRow != null) {
+			return modulesPerRow;
+		}
+
+		modulesPerRow = _modulesPerRowSupplier.get();
+
 		return modulesPerRow;
 	}
 
 	public void setModulesPerRow(Integer modulesPerRow) {
 		this.modulesPerRow = modulesPerRow;
+
+		_modulesPerRowSupplier = () -> modulesPerRow;
 	}
 
 	@JsonIgnore
 	public void setModulesPerRow(
 		UnsafeSupplier<Integer, Exception> modulesPerRowUnsafeSupplier) {
 
-		try {
-			modulesPerRow = modulesPerRowUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		modulesPerRow = null;
+
+		_modulesPerRowSupplier = () -> {
+			try {
+				return modulesPerRowUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer modulesPerRow;
 
+	private Supplier<Integer> _modulesPerRowSupplier = () -> null;
+
 	@Schema
 	public Boolean getReverseOrder() {
+		if (reverseOrder != null) {
+			return reverseOrder;
+		}
+
+		reverseOrder = _reverseOrderSupplier.get();
+
 		return reverseOrder;
 	}
 
 	public void setReverseOrder(Boolean reverseOrder) {
 		this.reverseOrder = reverseOrder;
+
+		_reverseOrderSupplier = () -> reverseOrder;
 	}
 
 	@JsonIgnore
 	public void setReverseOrder(
 		UnsafeSupplier<Boolean, Exception> reverseOrderUnsafeSupplier) {
 
-		try {
-			reverseOrder = reverseOrderUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		reverseOrder = null;
+
+		_reverseOrderSupplier = () -> {
+			try {
+				return reverseOrderUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean reverseOrder;
 
+	private Supplier<Boolean> _reverseOrderSupplier = () -> null;
+
 	@Schema
 	public String getVerticalAlignment() {
+		if (verticalAlignment != null) {
+			return verticalAlignment;
+		}
+
+		verticalAlignment = _verticalAlignmentSupplier.get();
+
 		return verticalAlignment;
 	}
 
 	public void setVerticalAlignment(String verticalAlignment) {
 		this.verticalAlignment = verticalAlignment;
+
+		_verticalAlignmentSupplier = () -> verticalAlignment;
 	}
 
 	@JsonIgnore
 	public void setVerticalAlignment(
 		UnsafeSupplier<String, Exception> verticalAlignmentUnsafeSupplier) {
 
-		try {
-			verticalAlignment = verticalAlignmentUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		verticalAlignment = null;
+
+		_verticalAlignmentSupplier = () -> {
+			try {
+				return verticalAlignmentUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String verticalAlignment;
+
+	private Supplier<String> _verticalAlignmentSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

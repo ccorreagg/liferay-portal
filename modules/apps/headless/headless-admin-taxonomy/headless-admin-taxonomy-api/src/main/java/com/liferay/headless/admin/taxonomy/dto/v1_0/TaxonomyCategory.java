@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -66,11 +67,19 @@ public class TaxonomyCategory implements Serializable {
 	@Schema
 	@Valid
 	public Map<String, Map<String, String>> getActions() {
+		if (actions != null) {
+			return actions;
+		}
+
+		actions = _actionsSupplier.get();
+
 		return actions;
 	}
 
 	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
+
+		_actionsSupplier = () -> actions;
 	}
 
 	@JsonIgnore
@@ -78,45 +87,64 @@ public class TaxonomyCategory implements Serializable {
 		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
 			actionsUnsafeSupplier) {
 
-		try {
-			actions = actionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actions = null;
+
+		_actionsSupplier = () -> {
+			try {
+				return actionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, Map<String, String>> actions;
 
+	private Supplier<Map<String, Map<String, String>>> _actionsSupplier =
+		() -> null;
+
 	@Schema(
 		description = "A list of languages the category has a translation for."
 	)
 	public String[] getAvailableLanguages() {
+		if (availableLanguages != null) {
+			return availableLanguages;
+		}
+
+		availableLanguages = _availableLanguagesSupplier.get();
+
 		return availableLanguages;
 	}
 
 	public void setAvailableLanguages(String[] availableLanguages) {
 		this.availableLanguages = availableLanguages;
+
+		_availableLanguagesSupplier = () -> availableLanguages;
 	}
 
 	@JsonIgnore
 	public void setAvailableLanguages(
 		UnsafeSupplier<String[], Exception> availableLanguagesUnsafeSupplier) {
 
-		try {
-			availableLanguages = availableLanguagesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		availableLanguages = null;
+
+		_availableLanguagesSupplier = () -> {
+			try {
+				return availableLanguagesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -125,127 +153,193 @@ public class TaxonomyCategory implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String[] availableLanguages;
 
+	private Supplier<String[]> _availableLanguagesSupplier = () -> null;
+
 	@Schema(description = "The category's creator.")
 	@Valid
 	public Creator getCreator() {
+		if (creator != null) {
+			return creator;
+		}
+
+		creator = _creatorSupplier.get();
+
 		return creator;
 	}
 
 	public void setCreator(Creator creator) {
 		this.creator = creator;
+
+		_creatorSupplier = () -> creator;
 	}
 
 	@JsonIgnore
 	public void setCreator(
 		UnsafeSupplier<Creator, Exception> creatorUnsafeSupplier) {
 
-		try {
-			creator = creatorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		creator = null;
+
+		_creatorSupplier = () -> {
+			try {
+				return creatorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The category's creator.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
+	private Supplier<Creator> _creatorSupplier = () -> null;
+
 	@Schema(description = "The category's creation date.")
 	public Date getDateCreated() {
+		if (dateCreated != null) {
+			return dateCreated;
+		}
+
+		dateCreated = _dateCreatedSupplier.get();
+
 		return dateCreated;
 	}
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+
+		_dateCreatedSupplier = () -> dateCreated;
 	}
 
 	@JsonIgnore
 	public void setDateCreated(
 		UnsafeSupplier<Date, Exception> dateCreatedUnsafeSupplier) {
 
-		try {
-			dateCreated = dateCreatedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateCreated = null;
+
+		_dateCreatedSupplier = () -> {
+			try {
+				return dateCreatedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The category's creation date.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
+	private Supplier<Date> _dateCreatedSupplier = () -> null;
+
 	@Schema(description = "The category's most recent modification date.")
 	public Date getDateModified() {
+		if (dateModified != null) {
+			return dateModified;
+		}
+
+		dateModified = _dateModifiedSupplier.get();
+
 		return dateModified;
 	}
 
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
+
+		_dateModifiedSupplier = () -> dateModified;
 	}
 
 	@JsonIgnore
 	public void setDateModified(
 		UnsafeSupplier<Date, Exception> dateModifiedUnsafeSupplier) {
 
-		try {
-			dateModified = dateModifiedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateModified = null;
+
+		_dateModifiedSupplier = () -> {
+			try {
+				return dateModifiedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The category's most recent modification date.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
+	private Supplier<Date> _dateModifiedSupplier = () -> null;
+
 	@Schema(description = "The category's text description.")
 	public String getDescription() {
+		if (description != null) {
+			return description;
+		}
+
+		description = _descriptionSupplier.get();
+
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+
+		_descriptionSupplier = () -> description;
 	}
 
 	@JsonIgnore
 	public void setDescription(
 		UnsafeSupplier<String, Exception> descriptionUnsafeSupplier) {
 
-		try {
-			description = descriptionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description = null;
+
+		_descriptionSupplier = () -> {
+			try {
+				return descriptionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The category's text description.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
+	private Supplier<String> _descriptionSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, String> getDescription_i18n() {
+		if (description_i18n != null) {
+			return description_i18n;
+		}
+
+		description_i18n = _description_i18nSupplier.get();
+
 		return description_i18n;
 	}
 
 	public void setDescription_i18n(Map<String, String> description_i18n) {
 		this.description_i18n = description_i18n;
+
+		_description_i18nSupplier = () -> description_i18n;
 	}
 
 	@JsonIgnore
@@ -253,95 +347,142 @@ public class TaxonomyCategory implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			description_i18nUnsafeSupplier) {
 
-		try {
-			description_i18n = description_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		description_i18n = null;
+
+		_description_i18nSupplier = () -> {
+			try {
+				return description_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> description_i18n;
 
+	private Supplier<Map<String, String>> _description_i18nSupplier =
+		() -> null;
+
 	@Schema(description = "The category's external reference code")
 	public String getExternalReferenceCode() {
+		if (externalReferenceCode != null) {
+			return externalReferenceCode;
+		}
+
+		externalReferenceCode = _externalReferenceCodeSupplier.get();
+
 		return externalReferenceCode;
 	}
 
 	public void setExternalReferenceCode(String externalReferenceCode) {
 		this.externalReferenceCode = externalReferenceCode;
+
+		_externalReferenceCodeSupplier = () -> externalReferenceCode;
 	}
 
 	@JsonIgnore
 	public void setExternalReferenceCode(
 		UnsafeSupplier<String, Exception> externalReferenceCodeUnsafeSupplier) {
 
-		try {
-			externalReferenceCode = externalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		externalReferenceCode = null;
+
+		_externalReferenceCodeSupplier = () -> {
+			try {
+				return externalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The category's external reference code")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String externalReferenceCode;
 
+	private Supplier<String> _externalReferenceCodeSupplier = () -> null;
+
 	@Schema(description = "The category's ID.")
 	public String getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<String, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The category's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String id;
 
+	private Supplier<String> _idSupplier = () -> null;
+
 	@Schema(description = "The category's name.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The category's name.")
@@ -349,14 +490,24 @@ public class TaxonomyCategory implements Serializable {
 	@NotEmpty
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Map<String, String> getName_i18n() {
+		if (name_i18n != null) {
+			return name_i18n;
+		}
+
+		name_i18n = _name_i18nSupplier.get();
+
 		return name_i18n;
 	}
 
 	public void setName_i18n(Map<String, String> name_i18n) {
 		this.name_i18n = name_i18n;
+
+		_name_i18nSupplier = () -> name_i18n;
 	}
 
 	@JsonIgnore
@@ -364,25 +515,37 @@ public class TaxonomyCategory implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			name_i18nUnsafeSupplier) {
 
-		try {
-			name_i18n = name_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name_i18n = null;
+
+		_name_i18nSupplier = () -> {
+			try {
+				return name_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> name_i18n;
 
+	private Supplier<Map<String, String>> _name_i18nSupplier = () -> null;
+
 	@Schema(
 		description = "The number of times this category has been used in other assets."
 	)
 	public Integer getNumberOfTaxonomyCategories() {
+		if (numberOfTaxonomyCategories != null) {
+			return numberOfTaxonomyCategories;
+		}
+
+		numberOfTaxonomyCategories = _numberOfTaxonomyCategoriesSupplier.get();
+
 		return numberOfTaxonomyCategories;
 	}
 
@@ -390,6 +553,8 @@ public class TaxonomyCategory implements Serializable {
 		Integer numberOfTaxonomyCategories) {
 
 		this.numberOfTaxonomyCategories = numberOfTaxonomyCategories;
+
+		_numberOfTaxonomyCategoriesSupplier = () -> numberOfTaxonomyCategories;
 	}
 
 	@JsonIgnore
@@ -397,16 +562,19 @@ public class TaxonomyCategory implements Serializable {
 		UnsafeSupplier<Integer, Exception>
 			numberOfTaxonomyCategoriesUnsafeSupplier) {
 
-		try {
-			numberOfTaxonomyCategories =
-				numberOfTaxonomyCategoriesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		numberOfTaxonomyCategories = null;
+
+		_numberOfTaxonomyCategoriesSupplier = () -> {
+			try {
+				return numberOfTaxonomyCategoriesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -415,9 +583,17 @@ public class TaxonomyCategory implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfTaxonomyCategories;
 
+	private Supplier<Integer> _numberOfTaxonomyCategoriesSupplier = () -> null;
+
 	@Schema(description = "The category's parent category, if it exists.")
 	@Valid
 	public ParentTaxonomyCategory getParentTaxonomyCategory() {
+		if (parentTaxonomyCategory != null) {
+			return parentTaxonomyCategory;
+		}
+
+		parentTaxonomyCategory = _parentTaxonomyCategorySupplier.get();
+
 		return parentTaxonomyCategory;
 	}
 
@@ -425,6 +601,8 @@ public class TaxonomyCategory implements Serializable {
 		ParentTaxonomyCategory parentTaxonomyCategory) {
 
 		this.parentTaxonomyCategory = parentTaxonomyCategory;
+
+		_parentTaxonomyCategorySupplier = () -> parentTaxonomyCategory;
 	}
 
 	@JsonIgnore
@@ -432,26 +610,39 @@ public class TaxonomyCategory implements Serializable {
 		UnsafeSupplier<ParentTaxonomyCategory, Exception>
 			parentTaxonomyCategoryUnsafeSupplier) {
 
-		try {
-			parentTaxonomyCategory = parentTaxonomyCategoryUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		parentTaxonomyCategory = null;
+
+		_parentTaxonomyCategorySupplier = () -> {
+			try {
+				return parentTaxonomyCategoryUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The category's parent category, if it exists.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ParentTaxonomyCategory parentTaxonomyCategory;
 
+	private Supplier<ParentTaxonomyCategory> _parentTaxonomyCategorySupplier =
+		() -> null;
+
 	@Schema(
 		description = "The parent category's `TaxonomyVocabulary`, if such a parent category exists."
 	)
 	@Valid
 	public ParentTaxonomyVocabulary getParentTaxonomyVocabulary() {
+		if (parentTaxonomyVocabulary != null) {
+			return parentTaxonomyVocabulary;
+		}
+
+		parentTaxonomyVocabulary = _parentTaxonomyVocabularySupplier.get();
+
 		return parentTaxonomyVocabulary;
 	}
 
@@ -459,6 +650,8 @@ public class TaxonomyCategory implements Serializable {
 		ParentTaxonomyVocabulary parentTaxonomyVocabulary) {
 
 		this.parentTaxonomyVocabulary = parentTaxonomyVocabulary;
+
+		_parentTaxonomyVocabularySupplier = () -> parentTaxonomyVocabulary;
 	}
 
 	@JsonIgnore
@@ -466,16 +659,19 @@ public class TaxonomyCategory implements Serializable {
 		UnsafeSupplier<ParentTaxonomyVocabulary, Exception>
 			parentTaxonomyVocabularyUnsafeSupplier) {
 
-		try {
-			parentTaxonomyVocabulary =
-				parentTaxonomyVocabularyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		parentTaxonomyVocabulary = null;
+
+		_parentTaxonomyVocabularySupplier = () -> {
+			try {
+				return parentTaxonomyVocabularyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -484,30 +680,45 @@ public class TaxonomyCategory implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected ParentTaxonomyVocabulary parentTaxonomyVocabulary;
 
+	private Supplier<ParentTaxonomyVocabulary>
+		_parentTaxonomyVocabularySupplier = () -> null;
+
 	@Schema(
 		description = "The ID of the site to which this category is scoped."
 	)
 	public Long getSiteId() {
+		if (siteId != null) {
+			return siteId;
+		}
+
+		siteId = _siteIdSupplier.get();
+
 		return siteId;
 	}
 
 	public void setSiteId(Long siteId) {
 		this.siteId = siteId;
+
+		_siteIdSupplier = () -> siteId;
 	}
 
 	@JsonIgnore
 	public void setSiteId(
 		UnsafeSupplier<Long, Exception> siteIdUnsafeSupplier) {
 
-		try {
-			siteId = siteIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		siteId = null;
+
+		_siteIdSupplier = () -> {
+			try {
+				return siteIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -516,9 +727,17 @@ public class TaxonomyCategory implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long siteId;
 
+	private Supplier<Long> _siteIdSupplier = () -> null;
+
 	@Schema(description = "The category's properties.")
 	@Valid
 	public TaxonomyCategoryProperty[] getTaxonomyCategoryProperties() {
+		if (taxonomyCategoryProperties != null) {
+			return taxonomyCategoryProperties;
+		}
+
+		taxonomyCategoryProperties = _taxonomyCategoryPropertiesSupplier.get();
+
 		return taxonomyCategoryProperties;
 	}
 
@@ -526,6 +745,8 @@ public class TaxonomyCategory implements Serializable {
 		TaxonomyCategoryProperty[] taxonomyCategoryProperties) {
 
 		this.taxonomyCategoryProperties = taxonomyCategoryProperties;
+
+		_taxonomyCategoryPropertiesSupplier = () -> taxonomyCategoryProperties;
 	}
 
 	@JsonIgnore
@@ -533,24 +754,36 @@ public class TaxonomyCategory implements Serializable {
 		UnsafeSupplier<TaxonomyCategoryProperty[], Exception>
 			taxonomyCategoryPropertiesUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryProperties =
-				taxonomyCategoryPropertiesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryProperties = null;
+
+		_taxonomyCategoryPropertiesSupplier = () -> {
+			try {
+				return taxonomyCategoryPropertiesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The category's properties.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected TaxonomyCategoryProperty[] taxonomyCategoryProperties;
 
+	private Supplier<TaxonomyCategoryProperty[]>
+		_taxonomyCategoryPropertiesSupplier = () -> null;
+
 	@Schema
 	public Integer getTaxonomyCategoryUsageCount() {
+		if (taxonomyCategoryUsageCount != null) {
+			return taxonomyCategoryUsageCount;
+		}
+
+		taxonomyCategoryUsageCount = _taxonomyCategoryUsageCountSupplier.get();
+
 		return taxonomyCategoryUsageCount;
 	}
 
@@ -558,6 +791,8 @@ public class TaxonomyCategory implements Serializable {
 		Integer taxonomyCategoryUsageCount) {
 
 		this.taxonomyCategoryUsageCount = taxonomyCategoryUsageCount;
+
+		_taxonomyCategoryUsageCountSupplier = () -> taxonomyCategoryUsageCount;
 	}
 
 	@JsonIgnore
@@ -565,46 +800,63 @@ public class TaxonomyCategory implements Serializable {
 		UnsafeSupplier<Integer, Exception>
 			taxonomyCategoryUsageCountUnsafeSupplier) {
 
-		try {
-			taxonomyCategoryUsageCount =
-				taxonomyCategoryUsageCountUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyCategoryUsageCount = null;
+
+		_taxonomyCategoryUsageCountSupplier = () -> {
+			try {
+				return taxonomyCategoryUsageCountUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer taxonomyCategoryUsageCount;
 
+	private Supplier<Integer> _taxonomyCategoryUsageCountSupplier = () -> null;
+
 	@Schema(
 		description = "The `TaxonomyVocabulary` id, only if the category does not have a parent category."
 	)
 	public Long getTaxonomyVocabularyId() {
+		if (taxonomyVocabularyId != null) {
+			return taxonomyVocabularyId;
+		}
+
+		taxonomyVocabularyId = _taxonomyVocabularyIdSupplier.get();
+
 		return taxonomyVocabularyId;
 	}
 
 	public void setTaxonomyVocabularyId(Long taxonomyVocabularyId) {
 		this.taxonomyVocabularyId = taxonomyVocabularyId;
+
+		_taxonomyVocabularyIdSupplier = () -> taxonomyVocabularyId;
 	}
 
 	@JsonIgnore
 	public void setTaxonomyVocabularyId(
 		UnsafeSupplier<Long, Exception> taxonomyVocabularyIdUnsafeSupplier) {
 
-		try {
-			taxonomyVocabularyId = taxonomyVocabularyIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taxonomyVocabularyId = null;
+
+		_taxonomyVocabularyIdSupplier = () -> {
+			try {
+				return taxonomyVocabularyIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -613,11 +865,19 @@ public class TaxonomyCategory implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long taxonomyVocabularyId;
 
+	private Supplier<Long> _taxonomyVocabularyIdSupplier = () -> null;
+
 	@Schema(
 		description = "A write-only property that specifies the category's default permissions."
 	)
 	@Valid
 	public ViewableBy getViewableBy() {
+		if (viewableBy != null) {
+			return viewableBy;
+		}
+
+		viewableBy = _viewableBySupplier.get();
+
 		return viewableBy;
 	}
 
@@ -632,21 +892,27 @@ public class TaxonomyCategory implements Serializable {
 
 	public void setViewableBy(ViewableBy viewableBy) {
 		this.viewableBy = viewableBy;
+
+		_viewableBySupplier = () -> viewableBy;
 	}
 
 	@JsonIgnore
 	public void setViewableBy(
 		UnsafeSupplier<ViewableBy, Exception> viewableByUnsafeSupplier) {
 
-		try {
-			viewableBy = viewableByUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		viewableBy = null;
+
+		_viewableBySupplier = () -> {
+			try {
+				return viewableByUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -654,6 +920,8 @@ public class TaxonomyCategory implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected ViewableBy viewableBy;
+
+	private Supplier<ViewableBy> _viewableBySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

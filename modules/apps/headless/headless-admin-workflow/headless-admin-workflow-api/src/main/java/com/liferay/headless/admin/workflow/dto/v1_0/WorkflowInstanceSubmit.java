@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,95 +54,145 @@ public class WorkflowInstanceSubmit implements Serializable {
 	@Schema
 	@Valid
 	public Map<String, ?> getContext() {
+		if (context != null) {
+			return context;
+		}
+
+		context = _contextSupplier.get();
+
 		return context;
 	}
 
 	public void setContext(Map<String, ?> context) {
 		this.context = context;
+
+		_contextSupplier = () -> context;
 	}
 
 	@JsonIgnore
 	public void setContext(
 		UnsafeSupplier<Map<String, ?>, Exception> contextUnsafeSupplier) {
 
-		try {
-			context = contextUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		context = null;
+
+		_contextSupplier = () -> {
+			try {
+				return contextUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Map<String, ?> context;
 
+	private Supplier<Map<String, ?>> _contextSupplier = () -> null;
+
 	@Schema
 	public Long getSiteId() {
+		if (siteId != null) {
+			return siteId;
+		}
+
+		siteId = _siteIdSupplier.get();
+
 		return siteId;
 	}
 
 	public void setSiteId(Long siteId) {
 		this.siteId = siteId;
+
+		_siteIdSupplier = () -> siteId;
 	}
 
 	@JsonIgnore
 	public void setSiteId(
 		UnsafeSupplier<Long, Exception> siteIdUnsafeSupplier) {
 
-		try {
-			siteId = siteIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		siteId = null;
+
+		_siteIdSupplier = () -> {
+			try {
+				return siteIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Long siteId;
 
+	private Supplier<Long> _siteIdSupplier = () -> null;
+
 	@Schema
 	public String getTransitionName() {
+		if (transitionName != null) {
+			return transitionName;
+		}
+
+		transitionName = _transitionNameSupplier.get();
+
 		return transitionName;
 	}
 
 	public void setTransitionName(String transitionName) {
 		this.transitionName = transitionName;
+
+		_transitionNameSupplier = () -> transitionName;
 	}
 
 	@JsonIgnore
 	public void setTransitionName(
 		UnsafeSupplier<String, Exception> transitionNameUnsafeSupplier) {
 
-		try {
-			transitionName = transitionNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		transitionName = null;
+
+		_transitionNameSupplier = () -> {
+			try {
+				return transitionNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String transitionName;
 
+	private Supplier<String> _transitionNameSupplier = () -> null;
+
 	@Schema
 	public String getWorkflowDefinitionName() {
+		if (workflowDefinitionName != null) {
+			return workflowDefinitionName;
+		}
+
+		workflowDefinitionName = _workflowDefinitionNameSupplier.get();
+
 		return workflowDefinitionName;
 	}
 
 	public void setWorkflowDefinitionName(String workflowDefinitionName) {
 		this.workflowDefinitionName = workflowDefinitionName;
+
+		_workflowDefinitionNameSupplier = () -> workflowDefinitionName;
 	}
 
 	@JsonIgnore
@@ -149,28 +200,42 @@ public class WorkflowInstanceSubmit implements Serializable {
 		UnsafeSupplier<String, Exception>
 			workflowDefinitionNameUnsafeSupplier) {
 
-		try {
-			workflowDefinitionName = workflowDefinitionNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		workflowDefinitionName = null;
+
+		_workflowDefinitionNameSupplier = () -> {
+			try {
+				return workflowDefinitionNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String workflowDefinitionName;
 
+	private Supplier<String> _workflowDefinitionNameSupplier = () -> null;
+
 	@Schema
 	public String getWorkflowDefinitionVersion() {
+		if (workflowDefinitionVersion != null) {
+			return workflowDefinitionVersion;
+		}
+
+		workflowDefinitionVersion = _workflowDefinitionVersionSupplier.get();
+
 		return workflowDefinitionVersion;
 	}
 
 	public void setWorkflowDefinitionVersion(String workflowDefinitionVersion) {
 		this.workflowDefinitionVersion = workflowDefinitionVersion;
+
+		_workflowDefinitionVersionSupplier = () -> workflowDefinitionVersion;
 	}
 
 	@JsonIgnore
@@ -178,21 +243,26 @@ public class WorkflowInstanceSubmit implements Serializable {
 		UnsafeSupplier<String, Exception>
 			workflowDefinitionVersionUnsafeSupplier) {
 
-		try {
-			workflowDefinitionVersion =
-				workflowDefinitionVersionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		workflowDefinitionVersion = null;
+
+		_workflowDefinitionVersionSupplier = () -> {
+			try {
+				return workflowDefinitionVersionUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String workflowDefinitionVersion;
+
+	private Supplier<String> _workflowDefinitionVersionSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

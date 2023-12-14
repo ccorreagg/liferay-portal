@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,82 +56,122 @@ public class CustomField implements Serializable {
 	@Schema
 	@Valid
 	public CustomValue getCustomValue() {
+		if (customValue != null) {
+			return customValue;
+		}
+
+		customValue = _customValueSupplier.get();
+
 		return customValue;
 	}
 
 	public void setCustomValue(CustomValue customValue) {
 		this.customValue = customValue;
+
+		_customValueSupplier = () -> customValue;
 	}
 
 	@JsonIgnore
 	public void setCustomValue(
 		UnsafeSupplier<CustomValue, Exception> customValueUnsafeSupplier) {
 
-		try {
-			customValue = customValueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		customValue = null;
+
+		_customValueSupplier = () -> {
+			try {
+				return customValueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected CustomValue customValue;
 
+	private Supplier<CustomValue> _customValueSupplier = () -> null;
+
 	@Schema(description = "The field type (e.g., image, text, etc.).")
 	public String getDataType() {
+		if (dataType != null) {
+			return dataType;
+		}
+
+		dataType = _dataTypeSupplier.get();
+
 		return dataType;
 	}
 
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
+
+		_dataTypeSupplier = () -> dataType;
 	}
 
 	@JsonIgnore
 	public void setDataType(
 		UnsafeSupplier<String, Exception> dataTypeUnsafeSupplier) {
 
-		try {
-			dataType = dataTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dataType = null;
+
+		_dataTypeSupplier = () -> {
+			try {
+				return dataTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The field type (e.g., image, text, etc.).")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String dataType;
 
+	private Supplier<String> _dataTypeSupplier = () -> null;
+
 	@Schema(
 		description = "The field's internal name. This is valid for comparisons and unique in the structured content."
 	)
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -138,6 +179,8 @@ public class CustomField implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String name;
+
+	private Supplier<String> _nameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

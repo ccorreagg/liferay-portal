@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,26 +57,38 @@ public class BaseScim implements Serializable {
 		description = "A String that is an identifier for the resource as defined by the provisioning client."
 	)
 	public String getExternalId() {
+		if (externalId != null) {
+			return externalId;
+		}
+
+		externalId = _externalIdSupplier.get();
+
 		return externalId;
 	}
 
 	public void setExternalId(String externalId) {
 		this.externalId = externalId;
+
+		_externalIdSupplier = () -> externalId;
 	}
 
 	@JsonIgnore
 	public void setExternalId(
 		UnsafeSupplier<String, Exception> externalIdUnsafeSupplier) {
 
-		try {
-			externalId = externalIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		externalId = null;
+
+		_externalIdSupplier = () -> {
+			try {
+				return externalIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -84,28 +97,42 @@ public class BaseScim implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String externalId;
 
+	private Supplier<String> _externalIdSupplier = () -> null;
+
 	@Schema(
 		description = "A unique identifier for a SCIM resource as defined by the service provider."
 	)
 	public String getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<String, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -114,57 +141,85 @@ public class BaseScim implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String id;
 
+	private Supplier<String> _idSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Meta getMeta() {
+		if (meta != null) {
+			return meta;
+		}
+
+		meta = _metaSupplier.get();
+
 		return meta;
 	}
 
 	public void setMeta(Meta meta) {
 		this.meta = meta;
+
+		_metaSupplier = () -> meta;
 	}
 
 	@JsonIgnore
 	public void setMeta(UnsafeSupplier<Meta, Exception> metaUnsafeSupplier) {
-		try {
-			meta = metaUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		meta = null;
+
+		_metaSupplier = () -> {
+			try {
+				return metaUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Meta meta;
 
+	private Supplier<Meta> _metaSupplier = () -> null;
+
 	@Schema(
 		description = "A multi-valued list of strings indicating the namespaces of the SCIM schemas that define the attributes present in the current JSON structure."
 	)
 	public String[] getSchemas() {
+		if (schemas != null) {
+			return schemas;
+		}
+
+		schemas = _schemasSupplier.get();
+
 		return schemas;
 	}
 
 	public void setSchemas(String[] schemas) {
 		this.schemas = schemas;
+
+		_schemasSupplier = () -> schemas;
 	}
 
 	@JsonIgnore
 	public void setSchemas(
 		UnsafeSupplier<String[], Exception> schemasUnsafeSupplier) {
 
-		try {
-			schemas = schemasUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		schemas = null;
+
+		_schemasSupplier = () -> {
+			try {
+				return schemasUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -172,6 +227,8 @@ public class BaseScim implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] schemas;
+
+	private Supplier<String[]> _schemasSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

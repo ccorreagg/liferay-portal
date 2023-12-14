@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,40 +55,62 @@ public class FormPageContext implements Serializable {
 
 	@Schema
 	public Boolean getEnabled() {
+		if (enabled != null) {
+			return enabled;
+		}
+
+		enabled = _enabledSupplier.get();
+
 		return enabled;
 	}
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+
+		_enabledSupplier = () -> enabled;
 	}
 
 	@JsonIgnore
 	public void setEnabled(
 		UnsafeSupplier<Boolean, Exception> enabledUnsafeSupplier) {
 
-		try {
-			enabled = enabledUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		enabled = null;
+
+		_enabledSupplier = () -> {
+			try {
+				return enabledUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean enabled;
 
+	private Supplier<Boolean> _enabledSupplier = () -> null;
+
 	@Schema(description = "https://www.schema.org/FormFieldContext")
 	@Valid
 	public FormFieldContext[] getFormFieldContexts() {
+		if (formFieldContexts != null) {
+			return formFieldContexts;
+		}
+
+		formFieldContexts = _formFieldContextsSupplier.get();
+
 		return formFieldContexts;
 	}
 
 	public void setFormFieldContexts(FormFieldContext[] formFieldContexts) {
 		this.formFieldContexts = formFieldContexts;
+
+		_formFieldContextsSupplier = () -> formFieldContexts;
 	}
 
 	@JsonIgnore
@@ -95,23 +118,36 @@ public class FormPageContext implements Serializable {
 		UnsafeSupplier<FormFieldContext[], Exception>
 			formFieldContextsUnsafeSupplier) {
 
-		try {
-			formFieldContexts = formFieldContextsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		formFieldContexts = null;
+
+		_formFieldContextsSupplier = () -> {
+			try {
+				return formFieldContextsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "https://www.schema.org/FormFieldContext")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FormFieldContext[] formFieldContexts;
 
+	private Supplier<FormFieldContext[]> _formFieldContextsSupplier =
+		() -> null;
+
 	@Schema
 	public Boolean getShowRequiredFieldsWarning() {
+		if (showRequiredFieldsWarning != null) {
+			return showRequiredFieldsWarning;
+		}
+
+		showRequiredFieldsWarning = _showRequiredFieldsWarningSupplier.get();
+
 		return showRequiredFieldsWarning;
 	}
 
@@ -119,6 +155,8 @@ public class FormPageContext implements Serializable {
 		Boolean showRequiredFieldsWarning) {
 
 		this.showRequiredFieldsWarning = showRequiredFieldsWarning;
+
+		_showRequiredFieldsWarningSupplier = () -> showRequiredFieldsWarning;
 	}
 
 	@JsonIgnore
@@ -126,21 +164,26 @@ public class FormPageContext implements Serializable {
 		UnsafeSupplier<Boolean, Exception>
 			showRequiredFieldsWarningUnsafeSupplier) {
 
-		try {
-			showRequiredFieldsWarning =
-				showRequiredFieldsWarningUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		showRequiredFieldsWarning = null;
+
+		_showRequiredFieldsWarningSupplier = () -> {
+			try {
+				return showRequiredFieldsWarningUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean showRequiredFieldsWarning;
+
+	private Supplier<Boolean> _showRequiredFieldsWarningSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,29 +50,43 @@ public class CouponCode implements Serializable {
 
 	@Schema
 	public String getCode() {
+		if (code != null) {
+			return code;
+		}
+
+		code = _codeSupplier.get();
+
 		return code;
 	}
 
 	public void setCode(String code) {
 		this.code = code;
+
+		_codeSupplier = () -> code;
 	}
 
 	@JsonIgnore
 	public void setCode(UnsafeSupplier<String, Exception> codeUnsafeSupplier) {
-		try {
-			code = codeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		code = null;
+
+		_codeSupplier = () -> {
+			try {
+				return codeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String code;
+
+	private Supplier<String> _codeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

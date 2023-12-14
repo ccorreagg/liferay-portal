@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,26 +58,38 @@ public class ExperimentRun implements Serializable {
 	@DecimalMin("80")
 	@Schema
 	public Double getConfidenceLevel() {
+		if (confidenceLevel != null) {
+			return confidenceLevel;
+		}
+
+		confidenceLevel = _confidenceLevelSupplier.get();
+
 		return confidenceLevel;
 	}
 
 	public void setConfidenceLevel(Double confidenceLevel) {
 		this.confidenceLevel = confidenceLevel;
+
+		_confidenceLevelSupplier = () -> confidenceLevel;
 	}
 
 	@JsonIgnore
 	public void setConfidenceLevel(
 		UnsafeSupplier<Double, Exception> confidenceLevelUnsafeSupplier) {
 
-		try {
-			confidenceLevel = confidenceLevelUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		confidenceLevel = null;
+
+		_confidenceLevelSupplier = () -> {
+			try {
+				return confidenceLevelUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
@@ -84,14 +97,24 @@ public class ExperimentRun implements Serializable {
 	@NotNull
 	protected Double confidenceLevel;
 
+	private Supplier<Double> _confidenceLevelSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public ExperimentVariant[] getExperimentVariants() {
+		if (experimentVariants != null) {
+			return experimentVariants;
+		}
+
+		experimentVariants = _experimentVariantsSupplier.get();
+
 		return experimentVariants;
 	}
 
 	public void setExperimentVariants(ExperimentVariant[] experimentVariants) {
 		this.experimentVariants = experimentVariants;
+
+		_experimentVariantsSupplier = () -> experimentVariants;
 	}
 
 	@JsonIgnore
@@ -99,15 +122,19 @@ public class ExperimentRun implements Serializable {
 		UnsafeSupplier<ExperimentVariant[], Exception>
 			experimentVariantsUnsafeSupplier) {
 
-		try {
-			experimentVariants = experimentVariantsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		experimentVariants = null;
+
+		_experimentVariantsSupplier = () -> {
+			try {
+				return experimentVariantsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
@@ -115,33 +142,50 @@ public class ExperimentRun implements Serializable {
 	@NotNull
 	protected ExperimentVariant[] experimentVariants;
 
+	private Supplier<ExperimentVariant[]> _experimentVariantsSupplier =
+		() -> null;
+
 	@Schema
 	public String getStatus() {
+		if (status != null) {
+			return status;
+		}
+
+		status = _statusSupplier.get();
+
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+
+		_statusSupplier = () -> status;
 	}
 
 	@JsonIgnore
 	public void setStatus(
 		UnsafeSupplier<String, Exception> statusUnsafeSupplier) {
 
-		try {
-			status = statusUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		status = null;
+
+		_statusSupplier = () -> {
+			try {
+				return statusUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String status;
+
+	private Supplier<String> _statusSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

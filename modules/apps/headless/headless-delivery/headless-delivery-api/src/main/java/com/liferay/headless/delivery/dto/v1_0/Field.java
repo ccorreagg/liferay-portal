@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,59 +52,87 @@ public class Field implements Serializable {
 
 	@Schema(description = "The name of the field.")
 	public String getFieldName() {
+		if (fieldName != null) {
+			return fieldName;
+		}
+
+		fieldName = _fieldNameSupplier.get();
+
 		return fieldName;
 	}
 
 	public void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
+
+		_fieldNameSupplier = () -> fieldName;
 	}
 
 	@JsonIgnore
 	public void setFieldName(
 		UnsafeSupplier<String, Exception> fieldNameUnsafeSupplier) {
 
-		try {
-			fieldName = fieldNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fieldName = null;
+
+		_fieldNameSupplier = () -> {
+			try {
+				return fieldNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The name of the field.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String fieldName;
 
+	private Supplier<String> _fieldNameSupplier = () -> null;
+
 	@Schema(description = "The internal value of the field.")
 	public String getFieldValue() {
+		if (fieldValue != null) {
+			return fieldValue;
+		}
+
+		fieldValue = _fieldValueSupplier.get();
+
 		return fieldValue;
 	}
 
 	public void setFieldValue(String fieldValue) {
 		this.fieldValue = fieldValue;
+
+		_fieldValueSupplier = () -> fieldValue;
 	}
 
 	@JsonIgnore
 	public void setFieldValue(
 		UnsafeSupplier<String, Exception> fieldValueUnsafeSupplier) {
 
-		try {
-			fieldValue = fieldValueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fieldValue = null;
+
+		_fieldValueSupplier = () -> {
+			try {
+				return fieldValueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The internal value of the field.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String fieldValue;
+
+	private Supplier<String> _fieldValueSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

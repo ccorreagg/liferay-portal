@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,6 +57,12 @@ public class ContextReference implements Serializable {
 	@Schema
 	@Valid
 	public ContextSource getContextSource() {
+		if (contextSource != null) {
+			return contextSource;
+		}
+
+		contextSource = _contextSourceSupplier.get();
+
 		return contextSource;
 	}
 
@@ -70,27 +77,35 @@ public class ContextReference implements Serializable {
 
 	public void setContextSource(ContextSource contextSource) {
 		this.contextSource = contextSource;
+
+		_contextSourceSupplier = () -> contextSource;
 	}
 
 	@JsonIgnore
 	public void setContextSource(
 		UnsafeSupplier<ContextSource, Exception> contextSourceUnsafeSupplier) {
 
-		try {
-			contextSource = contextSourceUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contextSource = null;
+
+		_contextSourceSupplier = () -> {
+			try {
+				return contextSourceUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected ContextSource contextSource;
+
+	private Supplier<ContextSource> _contextSourceSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

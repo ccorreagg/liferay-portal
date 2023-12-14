@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,26 +57,38 @@ public class FragmentImageConfiguration implements Serializable {
 		description = "The landscape mobile configuration of the fragment image."
 	)
 	public String getLandscapeMobile() {
+		if (landscapeMobile != null) {
+			return landscapeMobile;
+		}
+
+		landscapeMobile = _landscapeMobileSupplier.get();
+
 		return landscapeMobile;
 	}
 
 	public void setLandscapeMobile(String landscapeMobile) {
 		this.landscapeMobile = landscapeMobile;
+
+		_landscapeMobileSupplier = () -> landscapeMobile;
 	}
 
 	@JsonIgnore
 	public void setLandscapeMobile(
 		UnsafeSupplier<String, Exception> landscapeMobileUnsafeSupplier) {
 
-		try {
-			landscapeMobile = landscapeMobileUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		landscapeMobile = null;
+
+		_landscapeMobileSupplier = () -> {
+			try {
+				return landscapeMobileUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -84,30 +97,44 @@ public class FragmentImageConfiguration implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String landscapeMobile;
 
+	private Supplier<String> _landscapeMobileSupplier = () -> null;
+
 	@Schema(
 		description = "The portrait mobile configuration of the fragment image."
 	)
 	public String getPortraitMobile() {
+		if (portraitMobile != null) {
+			return portraitMobile;
+		}
+
+		portraitMobile = _portraitMobileSupplier.get();
+
 		return portraitMobile;
 	}
 
 	public void setPortraitMobile(String portraitMobile) {
 		this.portraitMobile = portraitMobile;
+
+		_portraitMobileSupplier = () -> portraitMobile;
 	}
 
 	@JsonIgnore
 	public void setPortraitMobile(
 		UnsafeSupplier<String, Exception> portraitMobileUnsafeSupplier) {
 
-		try {
-			portraitMobile = portraitMobileUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		portraitMobile = null;
+
+		_portraitMobileSupplier = () -> {
+			try {
+				return portraitMobileUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -116,28 +143,42 @@ public class FragmentImageConfiguration implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String portraitMobile;
 
+	private Supplier<String> _portraitMobileSupplier = () -> null;
+
 	@Schema(description = "The tablet configuration of the fragment image.")
 	public String getTablet() {
+		if (tablet != null) {
+			return tablet;
+		}
+
+		tablet = _tabletSupplier.get();
+
 		return tablet;
 	}
 
 	public void setTablet(String tablet) {
 		this.tablet = tablet;
+
+		_tabletSupplier = () -> tablet;
 	}
 
 	@JsonIgnore
 	public void setTablet(
 		UnsafeSupplier<String, Exception> tabletUnsafeSupplier) {
 
-		try {
-			tablet = tabletUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		tablet = null;
+
+		_tabletSupplier = () -> {
+			try {
+				return tabletUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -145,6 +186,8 @@ public class FragmentImageConfiguration implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String tablet;
+
+	private Supplier<String> _tabletSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,24 +56,36 @@ public class MultiValuedAttribute implements Serializable {
 		description = "The reference URI of a target resource, if the attribute is a reference."
 	)
 	public String get$ref() {
+		if ($ref != null) {
+			return $ref;
+		}
+
+		$ref = _$refSupplier.get();
+
 		return $ref;
 	}
 
 	public void set$ref(String $ref) {
 		this.$ref = $ref;
+
+		_$refSupplier = () -> $ref;
 	}
 
 	@JsonIgnore
 	public void set$ref(UnsafeSupplier<String, Exception> $refUnsafeSupplier) {
-		try {
-			$ref = $refUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		$ref = null;
+
+		_$refSupplier = () -> {
+			try {
+				return $refUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -81,30 +94,44 @@ public class MultiValuedAttribute implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String $ref;
 
+	private Supplier<String> _$refSupplier = () -> null;
+
 	@Schema(
 		description = "A human-readable name, primarily used for display purposes and having a mutability of \"immutable\"."
 	)
 	public String getDisplay() {
+		if (display != null) {
+			return display;
+		}
+
+		display = _displaySupplier.get();
+
 		return display;
 	}
 
 	public void setDisplay(String display) {
 		this.display = display;
+
+		_displaySupplier = () -> display;
 	}
 
 	@JsonIgnore
 	public void setDisplay(
 		UnsafeSupplier<String, Exception> displayUnsafeSupplier) {
 
-		try {
-			display = displayUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		display = null;
+
+		_displaySupplier = () -> {
+			try {
+				return displayUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -113,30 +140,44 @@ public class MultiValuedAttribute implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String display;
 
+	private Supplier<String> _displaySupplier = () -> null;
+
 	@Schema(
 		description = "Boolean value indicating the 'primary' or preferred attribute value for this attribute, e.g., the preferred mailing address or the primary email address."
 	)
 	public Boolean getPrimary() {
+		if (primary != null) {
+			return primary;
+		}
+
+		primary = _primarySupplier.get();
+
 		return primary;
 	}
 
 	public void setPrimary(Boolean primary) {
 		this.primary = primary;
+
+		_primarySupplier = () -> primary;
 	}
 
 	@JsonIgnore
 	public void setPrimary(
 		UnsafeSupplier<Boolean, Exception> primaryUnsafeSupplier) {
 
-		try {
-			primary = primaryUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		primary = null;
+
+		_primarySupplier = () -> {
+			try {
+				return primaryUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -145,28 +186,42 @@ public class MultiValuedAttribute implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean primary;
 
+	private Supplier<Boolean> _primarySupplier = () -> null;
+
 	@Schema(
 		description = "A label indicating the attribute's function, e.g., \"work\" or \"home\"."
 	)
 	public String getType() {
+		if (type != null) {
+			return type;
+		}
+
+		type = _typeSupplier.get();
+
 		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
+
+		_typeSupplier = () -> type;
 	}
 
 	@JsonIgnore
 	public void setType(UnsafeSupplier<String, Exception> typeUnsafeSupplier) {
-		try {
-			type = typeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		type = null;
+
+		_typeSupplier = () -> {
+			try {
+				return typeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -175,30 +230,44 @@ public class MultiValuedAttribute implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String type;
 
+	private Supplier<String> _typeSupplier = () -> null;
+
 	@Schema(
 		description = "The attribute's significant value, e.g., email address, phone number."
 	)
 	public String getValue() {
+		if (value != null) {
+			return value;
+		}
+
+		value = _valueSupplier.get();
+
 		return value;
 	}
 
 	public void setValue(String value) {
 		this.value = value;
+
+		_valueSupplier = () -> value;
 	}
 
 	@JsonIgnore
 	public void setValue(
 		UnsafeSupplier<String, Exception> valueUnsafeSupplier) {
 
-		try {
-			value = valueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		value = null;
+
+		_valueSupplier = () -> {
+			try {
+				return valueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -206,6 +275,8 @@ public class MultiValuedAttribute implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String value;
+
+	private Supplier<String> _valueSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

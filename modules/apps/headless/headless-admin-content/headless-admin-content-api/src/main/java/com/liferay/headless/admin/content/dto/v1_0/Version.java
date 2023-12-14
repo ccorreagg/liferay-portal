@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -51,60 +52,88 @@ public class Version implements Serializable {
 
 	@Schema(description = "The version of a resource")
 	public Double getNumber() {
+		if (number != null) {
+			return number;
+		}
+
+		number = _numberSupplier.get();
+
 		return number;
 	}
 
 	public void setNumber(Double number) {
 		this.number = number;
+
+		_numberSupplier = () -> number;
 	}
 
 	@JsonIgnore
 	public void setNumber(
 		UnsafeSupplier<Double, Exception> numberUnsafeSupplier) {
 
-		try {
-			number = numberUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		number = null;
+
+		_numberSupplier = () -> {
+			try {
+				return numberUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The version of a resource")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Double number;
 
+	private Supplier<Double> _numberSupplier = () -> null;
+
 	@Schema(description = "Represents the status of a resource")
 	@Valid
 	public Status getStatus() {
+		if (status != null) {
+			return status;
+		}
+
+		status = _statusSupplier.get();
+
 		return status;
 	}
 
 	public void setStatus(Status status) {
 		this.status = status;
+
+		_statusSupplier = () -> status;
 	}
 
 	@JsonIgnore
 	public void setStatus(
 		UnsafeSupplier<Status, Exception> statusUnsafeSupplier) {
 
-		try {
-			status = statusUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		status = null;
+
+		_statusSupplier = () -> {
+			try {
+				return statusUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Represents the status of a resource")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Status status;
+
+	private Supplier<Status> _statusSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

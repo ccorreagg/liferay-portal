@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -53,40 +54,62 @@ public class CustomValue implements Serializable {
 	@Schema(description = "The field's content value for simple types.")
 	@Valid
 	public Object getData() {
+		if (data != null) {
+			return data;
+		}
+
+		data = _dataSupplier.get();
+
 		return data;
 	}
 
 	public void setData(Object data) {
 		this.data = data;
+
+		_dataSupplier = () -> data;
 	}
 
 	@JsonIgnore
 	public void setData(UnsafeSupplier<Object, Exception> dataUnsafeSupplier) {
-		try {
-			data = dataUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		data = null;
+
+		_dataSupplier = () -> {
+			try {
+				return dataUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The field's content value for simple types.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object data;
 
+	private Supplier<Object> _dataSupplier = () -> null;
+
 	@Schema(
 		description = "The localized field's content values for simple types."
 	)
 	@Valid
 	public Map<String, String> getData_i18n() {
+		if (data_i18n != null) {
+			return data_i18n;
+		}
+
+		data_i18n = _data_i18nSupplier.get();
+
 		return data_i18n;
 	}
 
 	public void setData_i18n(Map<String, String> data_i18n) {
 		this.data_i18n = data_i18n;
+
+		_data_i18nSupplier = () -> data_i18n;
 	}
 
 	@JsonIgnore
@@ -94,15 +117,19 @@ public class CustomValue implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			data_i18nUnsafeSupplier) {
 
-		try {
-			data_i18n = data_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		data_i18n = null;
+
+		_data_i18nSupplier = () -> {
+			try {
+				return data_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -111,32 +138,48 @@ public class CustomValue implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> data_i18n;
 
+	private Supplier<Map<String, String>> _data_i18nSupplier = () -> null;
+
 	@Schema(description = "A point determined by latitude and longitude.")
 	@Valid
 	public Geo getGeo() {
+		if (geo != null) {
+			return geo;
+		}
+
+		geo = _geoSupplier.get();
+
 		return geo;
 	}
 
 	public void setGeo(Geo geo) {
 		this.geo = geo;
+
+		_geoSupplier = () -> geo;
 	}
 
 	@JsonIgnore
 	public void setGeo(UnsafeSupplier<Geo, Exception> geoUnsafeSupplier) {
-		try {
-			geo = geoUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		geo = null;
+
+		_geoSupplier = () -> {
+			try {
+				return geoUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "A point determined by latitude and longitude.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Geo geo;
+
+	private Supplier<Geo> _geoSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

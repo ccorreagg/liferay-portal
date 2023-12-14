@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,26 +58,38 @@ public class WorkflowTaskAssignToUser implements Serializable {
 
 	@Schema(description = "The ID of the user to assign the workflow task.")
 	public Long getAssigneeId() {
+		if (assigneeId != null) {
+			return assigneeId;
+		}
+
+		assigneeId = _assigneeIdSupplier.get();
+
 		return assigneeId;
 	}
 
 	public void setAssigneeId(Long assigneeId) {
 		this.assigneeId = assigneeId;
+
+		_assigneeIdSupplier = () -> assigneeId;
 	}
 
 	@JsonIgnore
 	public void setAssigneeId(
 		UnsafeSupplier<Long, Exception> assigneeIdUnsafeSupplier) {
 
-		try {
-			assigneeId = assigneeIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		assigneeId = null;
+
+		_assigneeIdSupplier = () -> {
+			try {
+				return assigneeIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -85,30 +98,44 @@ public class WorkflowTaskAssignToUser implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Long assigneeId;
 
+	private Supplier<Long> _assigneeIdSupplier = () -> null;
+
 	@Schema(
 		description = "An optional comment to add when assigning the workflow task."
 	)
 	public String getComment() {
+		if (comment != null) {
+			return comment;
+		}
+
+		comment = _commentSupplier.get();
+
 		return comment;
 	}
 
 	public void setComment(String comment) {
 		this.comment = comment;
+
+		_commentSupplier = () -> comment;
 	}
 
 	@JsonIgnore
 	public void setComment(
 		UnsafeSupplier<String, Exception> commentUnsafeSupplier) {
 
-		try {
-			comment = commentUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		comment = null;
+
+		_commentSupplier = () -> {
+			try {
+				return commentUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -117,30 +144,44 @@ public class WorkflowTaskAssignToUser implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected String comment;
 
+	private Supplier<String> _commentSupplier = () -> null;
+
 	@Schema(
 		description = "The date on which the workflow task should be executed."
 	)
 	public Date getDueDate() {
+		if (dueDate != null) {
+			return dueDate;
+		}
+
+		dueDate = _dueDateSupplier.get();
+
 		return dueDate;
 	}
 
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
+
+		_dueDateSupplier = () -> dueDate;
 	}
 
 	@JsonIgnore
 	public void setDueDate(
 		UnsafeSupplier<Date, Exception> dueDateUnsafeSupplier) {
 
-		try {
-			dueDate = dueDateUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dueDate = null;
+
+		_dueDateSupplier = () -> {
+			try {
+				return dueDateUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -149,33 +190,49 @@ public class WorkflowTaskAssignToUser implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Date dueDate;
 
+	private Supplier<Date> _dueDateSupplier = () -> null;
+
 	@Schema
 	public Long getWorkflowTaskId() {
+		if (workflowTaskId != null) {
+			return workflowTaskId;
+		}
+
+		workflowTaskId = _workflowTaskIdSupplier.get();
+
 		return workflowTaskId;
 	}
 
 	public void setWorkflowTaskId(Long workflowTaskId) {
 		this.workflowTaskId = workflowTaskId;
+
+		_workflowTaskIdSupplier = () -> workflowTaskId;
 	}
 
 	@JsonIgnore
 	public void setWorkflowTaskId(
 		UnsafeSupplier<Long, Exception> workflowTaskIdUnsafeSupplier) {
 
-		try {
-			workflowTaskId = workflowTaskIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		workflowTaskId = null;
+
+		_workflowTaskIdSupplier = () -> {
+			try {
+				return workflowTaskIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long workflowTaskId;
+
+	private Supplier<Long> _workflowTaskIdSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

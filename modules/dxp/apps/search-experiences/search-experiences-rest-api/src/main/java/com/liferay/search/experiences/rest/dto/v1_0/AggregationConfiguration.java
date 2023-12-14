@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,29 +55,43 @@ public class AggregationConfiguration implements Serializable {
 	@Schema
 	@Valid
 	public Object getAggs() {
+		if (aggs != null) {
+			return aggs;
+		}
+
+		aggs = _aggsSupplier.get();
+
 		return aggs;
 	}
 
 	public void setAggs(Object aggs) {
 		this.aggs = aggs;
+
+		_aggsSupplier = () -> aggs;
 	}
 
 	@JsonIgnore
 	public void setAggs(UnsafeSupplier<Object, Exception> aggsUnsafeSupplier) {
-		try {
-			aggs = aggsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		aggs = null;
+
+		_aggsSupplier = () -> {
+			try {
+				return aggsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object aggs;
+
+	private Supplier<Object> _aggsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -57,168 +58,252 @@ public class ProductContentRecommendation implements Serializable {
 
 	@Schema(example = "2017-07-21")
 	public Date getCreateDate() {
+		if (createDate != null) {
+			return createDate;
+		}
+
+		createDate = _createDateSupplier.get();
+
 		return createDate;
 	}
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+
+		_createDateSupplier = () -> createDate;
 	}
 
 	@JsonIgnore
 	public void setCreateDate(
 		UnsafeSupplier<Date, Exception> createDateUnsafeSupplier) {
 
-		try {
-			createDate = createDateUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		createDate = null;
+
+		_createDateSupplier = () -> {
+			try {
+				return createDateUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date createDate;
 
+	private Supplier<Date> _createDateSupplier = () -> null;
+
 	@Schema
 	public String getJobId() {
+		if (jobId != null) {
+			return jobId;
+		}
+
+		jobId = _jobIdSupplier.get();
+
 		return jobId;
 	}
 
 	public void setJobId(String jobId) {
 		this.jobId = jobId;
+
+		_jobIdSupplier = () -> jobId;
 	}
 
 	@JsonIgnore
 	public void setJobId(
 		UnsafeSupplier<String, Exception> jobIdUnsafeSupplier) {
 
-		try {
-			jobId = jobIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		jobId = null;
+
+		_jobIdSupplier = () -> {
+			try {
+				return jobIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String jobId;
 
+	private Supplier<String> _jobIdSupplier = () -> null;
+
 	@Schema(description = "The product identifier.")
 	public Long getProductId() {
+		if (productId != null) {
+			return productId;
+		}
+
+		productId = _productIdSupplier.get();
+
 		return productId;
 	}
 
 	public void setProductId(Long productId) {
 		this.productId = productId;
+
+		_productIdSupplier = () -> productId;
 	}
 
 	@JsonIgnore
 	public void setProductId(
 		UnsafeSupplier<Long, Exception> productIdUnsafeSupplier) {
 
-		try {
-			productId = productIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		productId = null;
+
+		_productIdSupplier = () -> {
+			try {
+				return productIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The product identifier.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long productId;
 
+	private Supplier<Long> _productIdSupplier = () -> null;
+
 	@Schema(description = "The recommendation rank.")
 	public Integer getRank() {
+		if (rank != null) {
+			return rank;
+		}
+
+		rank = _rankSupplier.get();
+
 		return rank;
 	}
 
 	public void setRank(Integer rank) {
 		this.rank = rank;
+
+		_rankSupplier = () -> rank;
 	}
 
 	@JsonIgnore
 	public void setRank(UnsafeSupplier<Integer, Exception> rankUnsafeSupplier) {
-		try {
-			rank = rankUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		rank = null;
+
+		_rankSupplier = () -> {
+			try {
+				return rankUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The recommendation rank.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer rank;
 
+	private Supplier<Integer> _rankSupplier = () -> null;
+
 	@Schema(description = "The recommended product identifier.")
 	public Long getRecommendedProductId() {
+		if (recommendedProductId != null) {
+			return recommendedProductId;
+		}
+
+		recommendedProductId = _recommendedProductIdSupplier.get();
+
 		return recommendedProductId;
 	}
 
 	public void setRecommendedProductId(Long recommendedProductId) {
 		this.recommendedProductId = recommendedProductId;
+
+		_recommendedProductIdSupplier = () -> recommendedProductId;
 	}
 
 	@JsonIgnore
 	public void setRecommendedProductId(
 		UnsafeSupplier<Long, Exception> recommendedProductIdUnsafeSupplier) {
 
-		try {
-			recommendedProductId = recommendedProductIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		recommendedProductId = null;
+
+		_recommendedProductIdSupplier = () -> {
+			try {
+				return recommendedProductIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The recommended product identifier.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long recommendedProductId;
 
+	private Supplier<Long> _recommendedProductIdSupplier = () -> null;
+
 	@Schema(description = "The recommendation score.")
 	@Valid
 	public Float getScore() {
+		if (score != null) {
+			return score;
+		}
+
+		score = _scoreSupplier.get();
+
 		return score;
 	}
 
 	public void setScore(Float score) {
 		this.score = score;
+
+		_scoreSupplier = () -> score;
 	}
 
 	@JsonIgnore
 	public void setScore(UnsafeSupplier<Float, Exception> scoreUnsafeSupplier) {
-		try {
-			score = scoreUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		score = null;
+
+		_scoreSupplier = () -> {
+			try {
+				return scoreUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The recommendation score.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Float score;
+
+	private Supplier<Float> _scoreSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

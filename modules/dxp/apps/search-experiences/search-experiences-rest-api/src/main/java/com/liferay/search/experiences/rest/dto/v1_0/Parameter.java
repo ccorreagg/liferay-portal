@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,117 +56,179 @@ public class Parameter implements Serializable {
 	@Schema
 	@Valid
 	public Object getDefaultValue() {
+		if (defaultValue != null) {
+			return defaultValue;
+		}
+
+		defaultValue = _defaultValueSupplier.get();
+
 		return defaultValue;
 	}
 
 	public void setDefaultValue(Object defaultValue) {
 		this.defaultValue = defaultValue;
+
+		_defaultValueSupplier = () -> defaultValue;
 	}
 
 	@JsonIgnore
 	public void setDefaultValue(
 		UnsafeSupplier<Object, Exception> defaultValueUnsafeSupplier) {
 
-		try {
-			defaultValue = defaultValueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		defaultValue = null;
+
+		_defaultValueSupplier = () -> {
+			try {
+				return defaultValueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object defaultValue;
 
+	private Supplier<Object> _defaultValueSupplier = () -> null;
+
 	@Schema
 	public String getFormat() {
+		if (format != null) {
+			return format;
+		}
+
+		format = _formatSupplier.get();
+
 		return format;
 	}
 
 	public void setFormat(String format) {
 		this.format = format;
+
+		_formatSupplier = () -> format;
 	}
 
 	@JsonIgnore
 	public void setFormat(
 		UnsafeSupplier<String, Exception> formatUnsafeSupplier) {
 
-		try {
-			format = formatUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		format = null;
+
+		_formatSupplier = () -> {
+			try {
+				return formatUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String format;
 
+	private Supplier<String> _formatSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getMax() {
+		if (max != null) {
+			return max;
+		}
+
+		max = _maxSupplier.get();
+
 		return max;
 	}
 
 	public void setMax(Object max) {
 		this.max = max;
+
+		_maxSupplier = () -> max;
 	}
 
 	@JsonIgnore
 	public void setMax(UnsafeSupplier<Object, Exception> maxUnsafeSupplier) {
-		try {
-			max = maxUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		max = null;
+
+		_maxSupplier = () -> {
+			try {
+				return maxUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object max;
 
+	private Supplier<Object> _maxSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getMin() {
+		if (min != null) {
+			return min;
+		}
+
+		min = _minSupplier.get();
+
 		return min;
 	}
 
 	public void setMin(Object min) {
 		this.min = min;
+
+		_minSupplier = () -> min;
 	}
 
 	@JsonIgnore
 	public void setMin(UnsafeSupplier<Object, Exception> minUnsafeSupplier) {
-		try {
-			min = minUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		min = null;
+
+		_minSupplier = () -> {
+			try {
+				return minUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object min;
 
+	private Supplier<Object> _minSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Type getType() {
+		if (type != null) {
+			return type;
+		}
+
+		type = _typeSupplier.get();
+
 		return type;
 	}
 
@@ -180,24 +243,32 @@ public class Parameter implements Serializable {
 
 	public void setType(Type type) {
 		this.type = type;
+
+		_typeSupplier = () -> type;
 	}
 
 	@JsonIgnore
 	public void setType(UnsafeSupplier<Type, Exception> typeUnsafeSupplier) {
-		try {
-			type = typeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		type = null;
+
+		_typeSupplier = () -> {
+			try {
+				return typeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Type type;
+
+	private Supplier<Type> _typeSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,31 +50,45 @@ public class Exists implements Serializable {
 
 	@Schema
 	public String getParameterName() {
+		if (parameterName != null) {
+			return parameterName;
+		}
+
+		parameterName = _parameterNameSupplier.get();
+
 		return parameterName;
 	}
 
 	public void setParameterName(String parameterName) {
 		this.parameterName = parameterName;
+
+		_parameterNameSupplier = () -> parameterName;
 	}
 
 	@JsonIgnore
 	public void setParameterName(
 		UnsafeSupplier<String, Exception> parameterNameUnsafeSupplier) {
 
-		try {
-			parameterName = parameterNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		parameterName = null;
+
+		_parameterNameSupplier = () -> {
+			try {
+				return parameterNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String parameterName;
+
+	private Supplier<String> _parameterNameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

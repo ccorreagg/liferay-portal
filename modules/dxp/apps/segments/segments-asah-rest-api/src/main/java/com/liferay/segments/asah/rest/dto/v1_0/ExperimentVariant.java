@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,59 +53,87 @@ public class ExperimentVariant implements Serializable {
 
 	@Schema
 	public String getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<String, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String id;
 
+	private Supplier<String> _idSupplier = () -> null;
+
 	@DecimalMax("99")
 	@DecimalMin("1")
 	@Schema
 	public Double getTrafficSplit() {
+		if (trafficSplit != null) {
+			return trafficSplit;
+		}
+
+		trafficSplit = _trafficSplitSupplier.get();
+
 		return trafficSplit;
 	}
 
 	public void setTrafficSplit(Double trafficSplit) {
 		this.trafficSplit = trafficSplit;
+
+		_trafficSplitSupplier = () -> trafficSplit;
 	}
 
 	@JsonIgnore
 	public void setTrafficSplit(
 		UnsafeSupplier<Double, Exception> trafficSplitUnsafeSupplier) {
 
-		try {
-			trafficSplit = trafficSplitUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		trafficSplit = null;
+
+		_trafficSplitSupplier = () -> {
+			try {
+				return trafficSplitUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Double trafficSplit;
+
+	private Supplier<Double> _trafficSplitSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -64,11 +65,19 @@ public class MessageBoardMessage implements Serializable {
 	)
 	@Valid
 	public Map<String, Map<String, String>> getActions() {
+		if (actions != null) {
+			return actions;
+		}
+
+		actions = _actionsSupplier.get();
+
 		return actions;
 	}
 
 	public void setActions(Map<String, Map<String, String>> actions) {
 		this.actions = actions;
+
+		_actionsSupplier = () -> actions;
 	}
 
 	@JsonIgnore
@@ -76,15 +85,19 @@ public class MessageBoardMessage implements Serializable {
 		UnsafeSupplier<Map<String, Map<String, String>>, Exception>
 			actionsUnsafeSupplier) {
 
-		try {
-			actions = actionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		actions = null;
+
+		_actionsSupplier = () -> {
+			try {
+				return actionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -93,14 +106,25 @@ public class MessageBoardMessage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Map<String, Map<String, String>> actions;
 
+	private Supplier<Map<String, Map<String, String>>> _actionsSupplier =
+		() -> null;
+
 	@Schema(description = "The message's average rating.")
 	@Valid
 	public AggregateRating getAggregateRating() {
+		if (aggregateRating != null) {
+			return aggregateRating;
+		}
+
+		aggregateRating = _aggregateRatingSupplier.get();
+
 		return aggregateRating;
 	}
 
 	public void setAggregateRating(AggregateRating aggregateRating) {
 		this.aggregateRating = aggregateRating;
+
+		_aggregateRatingSupplier = () -> aggregateRating;
 	}
 
 	@JsonIgnore
@@ -108,45 +132,63 @@ public class MessageBoardMessage implements Serializable {
 		UnsafeSupplier<AggregateRating, Exception>
 			aggregateRatingUnsafeSupplier) {
 
-		try {
-			aggregateRating = aggregateRatingUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		aggregateRating = null;
+
+		_aggregateRatingSupplier = () -> {
+			try {
+				return aggregateRatingUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The message's average rating.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected AggregateRating aggregateRating;
 
+	private Supplier<AggregateRating> _aggregateRatingSupplier = () -> null;
+
 	@Schema(
 		description = "A flag that indicates whether the message's author is anonymous."
 	)
 	public Boolean getAnonymous() {
+		if (anonymous != null) {
+			return anonymous;
+		}
+
+		anonymous = _anonymousSupplier.get();
+
 		return anonymous;
 	}
 
 	public void setAnonymous(Boolean anonymous) {
 		this.anonymous = anonymous;
+
+		_anonymousSupplier = () -> anonymous;
 	}
 
 	@JsonIgnore
 	public void setAnonymous(
 		UnsafeSupplier<Boolean, Exception> anonymousUnsafeSupplier) {
 
-		try {
-			anonymous = anonymousUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		anonymous = null;
+
+		_anonymousSupplier = () -> {
+			try {
+				return anonymousUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -155,73 +197,111 @@ public class MessageBoardMessage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean anonymous;
 
+	private Supplier<Boolean> _anonymousSupplier = () -> null;
+
 	@Schema(description = "The message's main content.")
 	public String getArticleBody() {
+		if (articleBody != null) {
+			return articleBody;
+		}
+
+		articleBody = _articleBodySupplier.get();
+
 		return articleBody;
 	}
 
 	public void setArticleBody(String articleBody) {
 		this.articleBody = articleBody;
+
+		_articleBodySupplier = () -> articleBody;
 	}
 
 	@JsonIgnore
 	public void setArticleBody(
 		UnsafeSupplier<String, Exception> articleBodyUnsafeSupplier) {
 
-		try {
-			articleBody = articleBodyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		articleBody = null;
+
+		_articleBodySupplier = () -> {
+			try {
+				return articleBodyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The message's main content.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String articleBody;
 
+	private Supplier<String> _articleBodySupplier = () -> null;
+
 	@Schema(description = "The message's author.")
 	@Valid
 	public Creator getCreator() {
+		if (creator != null) {
+			return creator;
+		}
+
+		creator = _creatorSupplier.get();
+
 		return creator;
 	}
 
 	public void setCreator(Creator creator) {
 		this.creator = creator;
+
+		_creatorSupplier = () -> creator;
 	}
 
 	@JsonIgnore
 	public void setCreator(
 		UnsafeSupplier<Creator, Exception> creatorUnsafeSupplier) {
 
-		try {
-			creator = creatorUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		creator = null;
+
+		_creatorSupplier = () -> {
+			try {
+				return creatorUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The message's author.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Creator creator;
 
+	private Supplier<Creator> _creatorSupplier = () -> null;
+
 	@Schema(
 		description = "The message's creator statistics (rank, join date, number of posts, ...)"
 	)
 	@Valid
 	public CreatorStatistics getCreatorStatistics() {
+		if (creatorStatistics != null) {
+			return creatorStatistics;
+		}
+
+		creatorStatistics = _creatorStatisticsSupplier.get();
+
 		return creatorStatistics;
 	}
 
 	public void setCreatorStatistics(CreatorStatistics creatorStatistics) {
 		this.creatorStatistics = creatorStatistics;
+
+		_creatorStatisticsSupplier = () -> creatorStatistics;
 	}
 
 	@JsonIgnore
@@ -229,15 +309,19 @@ public class MessageBoardMessage implements Serializable {
 		UnsafeSupplier<CreatorStatistics, Exception>
 			creatorStatisticsUnsafeSupplier) {
 
-		try {
-			creatorStatistics = creatorStatisticsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		creatorStatistics = null;
+
+		_creatorStatisticsSupplier = () -> {
+			try {
+				return creatorStatisticsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -246,31 +330,45 @@ public class MessageBoardMessage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected CreatorStatistics creatorStatistics;
 
+	private Supplier<CreatorStatistics> _creatorStatisticsSupplier = () -> null;
+
 	@Schema(
 		description = "A list of the custom fields associated with the blog post."
 	)
 	@Valid
 	public CustomField[] getCustomFields() {
+		if (customFields != null) {
+			return customFields;
+		}
+
+		customFields = _customFieldsSupplier.get();
+
 		return customFields;
 	}
 
 	public void setCustomFields(CustomField[] customFields) {
 		this.customFields = customFields;
+
+		_customFieldsSupplier = () -> customFields;
 	}
 
 	@JsonIgnore
 	public void setCustomFields(
 		UnsafeSupplier<CustomField[], Exception> customFieldsUnsafeSupplier) {
 
-		try {
-			customFields = customFieldsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		customFields = null;
+
+		_customFieldsSupplier = () -> {
+			try {
+				return customFieldsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -279,58 +377,86 @@ public class MessageBoardMessage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected CustomField[] customFields;
 
+	private Supplier<CustomField[]> _customFieldsSupplier = () -> null;
+
 	@Schema(description = "The date the message was created.")
 	public Date getDateCreated() {
+		if (dateCreated != null) {
+			return dateCreated;
+		}
+
+		dateCreated = _dateCreatedSupplier.get();
+
 		return dateCreated;
 	}
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+
+		_dateCreatedSupplier = () -> dateCreated;
 	}
 
 	@JsonIgnore
 	public void setDateCreated(
 		UnsafeSupplier<Date, Exception> dateCreatedUnsafeSupplier) {
 
-		try {
-			dateCreated = dateCreatedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateCreated = null;
+
+		_dateCreatedSupplier = () -> {
+			try {
+				return dateCreatedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The date the message was created.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
+	private Supplier<Date> _dateCreatedSupplier = () -> null;
+
 	@Schema(
 		description = "The last time the content or metadata of the message was changed."
 	)
 	public Date getDateModified() {
+		if (dateModified != null) {
+			return dateModified;
+		}
+
+		dateModified = _dateModifiedSupplier.get();
+
 		return dateModified;
 	}
 
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
+
+		_dateModifiedSupplier = () -> dateModified;
 	}
 
 	@JsonIgnore
 	public void setDateModified(
 		UnsafeSupplier<Date, Exception> dateModifiedUnsafeSupplier) {
 
-		try {
-			dateModified = dateModifiedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		dateModified = null;
+
+		_dateModifiedSupplier = () -> {
+			try {
+				return dateModifiedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -339,30 +465,44 @@ public class MessageBoardMessage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateModified;
 
+	private Supplier<Date> _dateModifiedSupplier = () -> null;
+
 	@Schema(
 		description = "The message's media format (e.g., HTML, BBCode, etc.)."
 	)
 	public String getEncodingFormat() {
+		if (encodingFormat != null) {
+			return encodingFormat;
+		}
+
+		encodingFormat = _encodingFormatSupplier.get();
+
 		return encodingFormat;
 	}
 
 	public void setEncodingFormat(String encodingFormat) {
 		this.encodingFormat = encodingFormat;
+
+		_encodingFormatSupplier = () -> encodingFormat;
 	}
 
 	@JsonIgnore
 	public void setEncodingFormat(
 		UnsafeSupplier<String, Exception> encodingFormatUnsafeSupplier) {
 
-		try {
-			encodingFormat = encodingFormatUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		encodingFormat = null;
+
+		_encodingFormatSupplier = () -> {
+			try {
+				return encodingFormatUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -371,196 +511,294 @@ public class MessageBoardMessage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String encodingFormat;
 
+	private Supplier<String> _encodingFormatSupplier = () -> null;
+
 	@Schema(description = "The message's external reference code.")
 	public String getExternalReferenceCode() {
+		if (externalReferenceCode != null) {
+			return externalReferenceCode;
+		}
+
+		externalReferenceCode = _externalReferenceCodeSupplier.get();
+
 		return externalReferenceCode;
 	}
 
 	public void setExternalReferenceCode(String externalReferenceCode) {
 		this.externalReferenceCode = externalReferenceCode;
+
+		_externalReferenceCodeSupplier = () -> externalReferenceCode;
 	}
 
 	@JsonIgnore
 	public void setExternalReferenceCode(
 		UnsafeSupplier<String, Exception> externalReferenceCodeUnsafeSupplier) {
 
-		try {
-			externalReferenceCode = externalReferenceCodeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		externalReferenceCode = null;
+
+		_externalReferenceCodeSupplier = () -> {
+			try {
+				return externalReferenceCodeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The message's external reference code.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String externalReferenceCode;
 
+	private Supplier<String> _externalReferenceCodeSupplier = () -> null;
+
 	@Schema
 	public String getFriendlyUrlPath() {
+		if (friendlyUrlPath != null) {
+			return friendlyUrlPath;
+		}
+
+		friendlyUrlPath = _friendlyUrlPathSupplier.get();
+
 		return friendlyUrlPath;
 	}
 
 	public void setFriendlyUrlPath(String friendlyUrlPath) {
 		this.friendlyUrlPath = friendlyUrlPath;
+
+		_friendlyUrlPathSupplier = () -> friendlyUrlPath;
 	}
 
 	@JsonIgnore
 	public void setFriendlyUrlPath(
 		UnsafeSupplier<String, Exception> friendlyUrlPathUnsafeSupplier) {
 
-		try {
-			friendlyUrlPath = friendlyUrlPathUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		friendlyUrlPath = null;
+
+		_friendlyUrlPathSupplier = () -> {
+			try {
+				return friendlyUrlPathUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String friendlyUrlPath;
 
+	private Supplier<String> _friendlyUrlPathSupplier = () -> null;
+
 	@Schema
 	public Boolean getHasCompanyMx() {
+		if (hasCompanyMx != null) {
+			return hasCompanyMx;
+		}
+
+		hasCompanyMx = _hasCompanyMxSupplier.get();
+
 		return hasCompanyMx;
 	}
 
 	public void setHasCompanyMx(Boolean hasCompanyMx) {
 		this.hasCompanyMx = hasCompanyMx;
+
+		_hasCompanyMxSupplier = () -> hasCompanyMx;
 	}
 
 	@JsonIgnore
 	public void setHasCompanyMx(
 		UnsafeSupplier<Boolean, Exception> hasCompanyMxUnsafeSupplier) {
 
-		try {
-			hasCompanyMx = hasCompanyMxUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		hasCompanyMx = null;
+
+		_hasCompanyMxSupplier = () -> {
+			try {
+				return hasCompanyMxUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean hasCompanyMx;
 
+	private Supplier<Boolean> _hasCompanyMxSupplier = () -> null;
+
 	@Schema(description = "The message's main title.")
 	public String getHeadline() {
+		if (headline != null) {
+			return headline;
+		}
+
+		headline = _headlineSupplier.get();
+
 		return headline;
 	}
 
 	public void setHeadline(String headline) {
 		this.headline = headline;
+
+		_headlineSupplier = () -> headline;
 	}
 
 	@JsonIgnore
 	public void setHeadline(
 		UnsafeSupplier<String, Exception> headlineUnsafeSupplier) {
 
-		try {
-			headline = headlineUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		headline = null;
+
+		_headlineSupplier = () -> {
+			try {
+				return headlineUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The message's main title.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String headline;
 
+	private Supplier<String> _headlineSupplier = () -> null;
+
 	@Schema(description = "The message's ID.")
 	public Long getId() {
+		if (id != null) {
+			return id;
+		}
+
+		id = _idSupplier.get();
+
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+
+		_idSupplier = () -> id;
 	}
 
 	@JsonIgnore
 	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		id = null;
+
+		_idSupplier = () -> {
+			try {
+				return idUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The message's ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
+	private Supplier<Long> _idSupplier = () -> null;
+
 	@Schema(description = "A list of keywords describing the message.")
 	public String[] getKeywords() {
+		if (keywords != null) {
+			return keywords;
+		}
+
+		keywords = _keywordsSupplier.get();
+
 		return keywords;
 	}
 
 	public void setKeywords(String[] keywords) {
 		this.keywords = keywords;
+
+		_keywordsSupplier = () -> keywords;
 	}
 
 	@JsonIgnore
 	public void setKeywords(
 		UnsafeSupplier<String[], Exception> keywordsUnsafeSupplier) {
 
-		try {
-			keywords = keywordsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		keywords = null;
+
+		_keywordsSupplier = () -> {
+			try {
+				return keywordsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "A list of keywords describing the message.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] keywords;
 
+	private Supplier<String[]> _keywordsSupplier = () -> null;
+
 	@Schema(
 		description = "The ID of the Message Board Section to which this message is scoped."
 	)
 	public Long getMessageBoardSectionId() {
+		if (messageBoardSectionId != null) {
+			return messageBoardSectionId;
+		}
+
+		messageBoardSectionId = _messageBoardSectionIdSupplier.get();
+
 		return messageBoardSectionId;
 	}
 
 	public void setMessageBoardSectionId(Long messageBoardSectionId) {
 		this.messageBoardSectionId = messageBoardSectionId;
+
+		_messageBoardSectionIdSupplier = () -> messageBoardSectionId;
 	}
 
 	@JsonIgnore
 	public void setMessageBoardSectionId(
 		UnsafeSupplier<Long, Exception> messageBoardSectionIdUnsafeSupplier) {
 
-		try {
-			messageBoardSectionId = messageBoardSectionIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		messageBoardSectionId = null;
+
+		_messageBoardSectionIdSupplier = () -> {
+			try {
+				return messageBoardSectionIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -569,30 +807,44 @@ public class MessageBoardMessage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long messageBoardSectionId;
 
+	private Supplier<Long> _messageBoardSectionIdSupplier = () -> null;
+
 	@Schema(
 		description = "The ID of the Message Board Thread to which this message is scoped."
 	)
 	public Long getMessageBoardThreadId() {
+		if (messageBoardThreadId != null) {
+			return messageBoardThreadId;
+		}
+
+		messageBoardThreadId = _messageBoardThreadIdSupplier.get();
+
 		return messageBoardThreadId;
 	}
 
 	public void setMessageBoardThreadId(Long messageBoardThreadId) {
 		this.messageBoardThreadId = messageBoardThreadId;
+
+		_messageBoardThreadIdSupplier = () -> messageBoardThreadId;
 	}
 
 	@JsonIgnore
 	public void setMessageBoardThreadId(
 		UnsafeSupplier<Long, Exception> messageBoardThreadIdUnsafeSupplier) {
 
-		try {
-			messageBoardThreadId = messageBoardThreadIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		messageBoardThreadId = null;
+
+		_messageBoardThreadIdSupplier = () -> {
+			try {
+				return messageBoardThreadIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -601,36 +853,59 @@ public class MessageBoardMessage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long messageBoardThreadId;
 
+	private Supplier<Long> _messageBoardThreadIdSupplier = () -> null;
+
 	@Schema
 	public Boolean getModified() {
+		if (modified != null) {
+			return modified;
+		}
+
+		modified = _modifiedSupplier.get();
+
 		return modified;
 	}
 
 	public void setModified(Boolean modified) {
 		this.modified = modified;
+
+		_modifiedSupplier = () -> modified;
 	}
 
 	@JsonIgnore
 	public void setModified(
 		UnsafeSupplier<Boolean, Exception> modifiedUnsafeSupplier) {
 
-		try {
-			modified = modifiedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		modified = null;
+
+		_modifiedSupplier = () -> {
+			try {
+				return modifiedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean modified;
 
+	private Supplier<Boolean> _modifiedSupplier = () -> null;
+
 	@Schema(description = "The number of the message's attachments.")
 	public Integer getNumberOfMessageBoardAttachments() {
+		if (numberOfMessageBoardAttachments != null) {
+			return numberOfMessageBoardAttachments;
+		}
+
+		numberOfMessageBoardAttachments =
+			_numberOfMessageBoardAttachmentsSupplier.get();
+
 		return numberOfMessageBoardAttachments;
 	}
 
@@ -638,6 +913,9 @@ public class MessageBoardMessage implements Serializable {
 		Integer numberOfMessageBoardAttachments) {
 
 		this.numberOfMessageBoardAttachments = numberOfMessageBoardAttachments;
+
+		_numberOfMessageBoardAttachmentsSupplier =
+			() -> numberOfMessageBoardAttachments;
 	}
 
 	@JsonIgnore
@@ -645,24 +923,37 @@ public class MessageBoardMessage implements Serializable {
 		UnsafeSupplier<Integer, Exception>
 			numberOfMessageBoardAttachmentsUnsafeSupplier) {
 
-		try {
-			numberOfMessageBoardAttachments =
-				numberOfMessageBoardAttachmentsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		numberOfMessageBoardAttachments = null;
+
+		_numberOfMessageBoardAttachmentsSupplier = () -> {
+			try {
+				return numberOfMessageBoardAttachmentsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The number of the message's attachments.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfMessageBoardAttachments;
 
+	private Supplier<Integer> _numberOfMessageBoardAttachmentsSupplier =
+		() -> null;
+
 	@Schema(description = "The number of the message's child messages.")
 	public Integer getNumberOfMessageBoardMessages() {
+		if (numberOfMessageBoardMessages != null) {
+			return numberOfMessageBoardMessages;
+		}
+
+		numberOfMessageBoardMessages =
+			_numberOfMessageBoardMessagesSupplier.get();
+
 		return numberOfMessageBoardMessages;
 	}
 
@@ -670,6 +961,9 @@ public class MessageBoardMessage implements Serializable {
 		Integer numberOfMessageBoardMessages) {
 
 		this.numberOfMessageBoardMessages = numberOfMessageBoardMessages;
+
+		_numberOfMessageBoardMessagesSupplier =
+			() -> numberOfMessageBoardMessages;
 	}
 
 	@JsonIgnore
@@ -677,24 +971,37 @@ public class MessageBoardMessage implements Serializable {
 		UnsafeSupplier<Integer, Exception>
 			numberOfMessageBoardMessagesUnsafeSupplier) {
 
-		try {
-			numberOfMessageBoardMessages =
-				numberOfMessageBoardMessagesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		numberOfMessageBoardMessages = null;
+
+		_numberOfMessageBoardMessagesSupplier = () -> {
+			try {
+				return numberOfMessageBoardMessagesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The number of the message's child messages.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfMessageBoardMessages;
 
+	private Supplier<Integer> _numberOfMessageBoardMessagesSupplier =
+		() -> null;
+
 	@Schema(description = "The ID of the message's parent, if it exists.")
 	public Long getParentMessageBoardMessageId() {
+		if (parentMessageBoardMessageId != null) {
+			return parentMessageBoardMessageId;
+		}
+
+		parentMessageBoardMessageId =
+			_parentMessageBoardMessageIdSupplier.get();
+
 		return parentMessageBoardMessageId;
 	}
 
@@ -702,6 +1009,9 @@ public class MessageBoardMessage implements Serializable {
 		Long parentMessageBoardMessageId) {
 
 		this.parentMessageBoardMessageId = parentMessageBoardMessageId;
+
+		_parentMessageBoardMessageIdSupplier =
+			() -> parentMessageBoardMessageId;
 	}
 
 	@JsonIgnore
@@ -709,30 +1019,43 @@ public class MessageBoardMessage implements Serializable {
 		UnsafeSupplier<Long, Exception>
 			parentMessageBoardMessageIdUnsafeSupplier) {
 
-		try {
-			parentMessageBoardMessageId =
-				parentMessageBoardMessageIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		parentMessageBoardMessageId = null;
+
+		_parentMessageBoardMessageIdSupplier = () -> {
+			try {
+				return parentMessageBoardMessageIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The ID of the message's parent, if it exists.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long parentMessageBoardMessageId;
 
+	private Supplier<Long> _parentMessageBoardMessageIdSupplier = () -> null;
+
 	@Schema(description = "A list of related contents to this message.")
 	@Valid
 	public RelatedContent[] getRelatedContents() {
+		if (relatedContents != null) {
+			return relatedContents;
+		}
+
+		relatedContents = _relatedContentsSupplier.get();
+
 		return relatedContents;
 	}
 
 	public void setRelatedContents(RelatedContent[] relatedContents) {
 		this.relatedContents = relatedContents;
+
+		_relatedContentsSupplier = () -> relatedContents;
 	}
 
 	@JsonIgnore
@@ -740,45 +1063,63 @@ public class MessageBoardMessage implements Serializable {
 		UnsafeSupplier<RelatedContent[], Exception>
 			relatedContentsUnsafeSupplier) {
 
-		try {
-			relatedContents = relatedContentsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		relatedContents = null;
+
+		_relatedContentsSupplier = () -> {
+			try {
+				return relatedContentsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "A list of related contents to this message.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected RelatedContent[] relatedContents;
 
+	private Supplier<RelatedContent[]> _relatedContentsSupplier = () -> null;
+
 	@Schema(
 		description = "A flag that indicates whether the message is answering a question."
 	)
 	public Boolean getShowAsAnswer() {
+		if (showAsAnswer != null) {
+			return showAsAnswer;
+		}
+
+		showAsAnswer = _showAsAnswerSupplier.get();
+
 		return showAsAnswer;
 	}
 
 	public void setShowAsAnswer(Boolean showAsAnswer) {
 		this.showAsAnswer = showAsAnswer;
+
+		_showAsAnswerSupplier = () -> showAsAnswer;
 	}
 
 	@JsonIgnore
 	public void setShowAsAnswer(
 		UnsafeSupplier<Boolean, Exception> showAsAnswerUnsafeSupplier) {
 
-		try {
-			showAsAnswer = showAsAnswerUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		showAsAnswer = null;
+
+		_showAsAnswerSupplier = () -> {
+			try {
+				return showAsAnswerUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -787,28 +1128,42 @@ public class MessageBoardMessage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean showAsAnswer;
 
+	private Supplier<Boolean> _showAsAnswerSupplier = () -> null;
+
 	@Schema(description = "The ID of the site to which this message is scoped.")
 	public Long getSiteId() {
+		if (siteId != null) {
+			return siteId;
+		}
+
+		siteId = _siteIdSupplier.get();
+
 		return siteId;
 	}
 
 	public void setSiteId(Long siteId) {
 		this.siteId = siteId;
+
+		_siteIdSupplier = () -> siteId;
 	}
 
 	@JsonIgnore
 	public void setSiteId(
 		UnsafeSupplier<Long, Exception> siteIdUnsafeSupplier) {
 
-		try {
-			siteId = siteIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		siteId = null;
+
+		_siteIdSupplier = () -> {
+			try {
+				return siteIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -817,58 +1172,86 @@ public class MessageBoardMessage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long siteId;
 
+	private Supplier<Long> _siteIdSupplier = () -> null;
+
 	@Schema(description = "The message's status.")
 	public String getStatus() {
+		if (status != null) {
+			return status;
+		}
+
+		status = _statusSupplier.get();
+
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+
+		_statusSupplier = () -> status;
 	}
 
 	@JsonIgnore
 	public void setStatus(
 		UnsafeSupplier<String, Exception> statusUnsafeSupplier) {
 
-		try {
-			status = statusUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		status = null;
+
+		_statusSupplier = () -> {
+			try {
+				return statusUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The message's status.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String status;
 
+	private Supplier<String> _statusSupplier = () -> null;
+
 	@Schema(
 		description = "A flag that indicates whether the user making the requests is subscribed to this message."
 	)
 	public Boolean getSubscribed() {
+		if (subscribed != null) {
+			return subscribed;
+		}
+
+		subscribed = _subscribedSupplier.get();
+
 		return subscribed;
 	}
 
 	public void setSubscribed(Boolean subscribed) {
 		this.subscribed = subscribed;
+
+		_subscribedSupplier = () -> subscribed;
 	}
 
 	@JsonIgnore
 	public void setSubscribed(
 		UnsafeSupplier<Boolean, Exception> subscribedUnsafeSupplier) {
 
-		try {
-			subscribed = subscribedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		subscribed = null;
+
+		_subscribedSupplier = () -> {
+			try {
+				return subscribedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -877,11 +1260,19 @@ public class MessageBoardMessage implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Boolean subscribed;
 
+	private Supplier<Boolean> _subscribedSupplier = () -> null;
+
 	@Schema(
 		description = "A write-only property that specifies the default permissions."
 	)
 	@Valid
 	public ViewableBy getViewableBy() {
+		if (viewableBy != null) {
+			return viewableBy;
+		}
+
+		viewableBy = _viewableBySupplier.get();
+
 		return viewableBy;
 	}
 
@@ -896,21 +1287,27 @@ public class MessageBoardMessage implements Serializable {
 
 	public void setViewableBy(ViewableBy viewableBy) {
 		this.viewableBy = viewableBy;
+
+		_viewableBySupplier = () -> viewableBy;
 	}
 
 	@JsonIgnore
 	public void setViewableBy(
 		UnsafeSupplier<ViewableBy, Exception> viewableByUnsafeSupplier) {
 
-		try {
-			viewableBy = viewableByUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		viewableBy = null;
+
+		_viewableBySupplier = () -> {
+			try {
+				return viewableByUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -918,6 +1315,8 @@ public class MessageBoardMessage implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected ViewableBy viewableBy;
+
+	private Supplier<ViewableBy> _viewableBySupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

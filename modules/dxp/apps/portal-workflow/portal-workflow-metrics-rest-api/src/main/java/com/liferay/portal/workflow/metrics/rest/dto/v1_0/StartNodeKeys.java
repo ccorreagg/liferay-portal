@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,59 +53,87 @@ public class StartNodeKeys implements Serializable {
 	@Schema
 	@Valid
 	public NodeKey[] getNodeKeys() {
+		if (nodeKeys != null) {
+			return nodeKeys;
+		}
+
+		nodeKeys = _nodeKeysSupplier.get();
+
 		return nodeKeys;
 	}
 
 	public void setNodeKeys(NodeKey[] nodeKeys) {
 		this.nodeKeys = nodeKeys;
+
+		_nodeKeysSupplier = () -> nodeKeys;
 	}
 
 	@JsonIgnore
 	public void setNodeKeys(
 		UnsafeSupplier<NodeKey[], Exception> nodeKeysUnsafeSupplier) {
 
-		try {
-			nodeKeys = nodeKeysUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		nodeKeys = null;
+
+		_nodeKeysSupplier = () -> {
+			try {
+				return nodeKeysUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected NodeKey[] nodeKeys;
 
+	private Supplier<NodeKey[]> _nodeKeysSupplier = () -> null;
+
 	@Schema
 	public Integer getStatus() {
+		if (status != null) {
+			return status;
+		}
+
+		status = _statusSupplier.get();
+
 		return status;
 	}
 
 	public void setStatus(Integer status) {
 		this.status = status;
+
+		_statusSupplier = () -> status;
 	}
 
 	@JsonIgnore
 	public void setStatus(
 		UnsafeSupplier<Integer, Exception> statusUnsafeSupplier) {
 
-		try {
-			status = statusUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		status = null;
+
+		_statusSupplier = () -> {
+			try {
+				return statusUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer status;
+
+	private Supplier<Integer> _statusSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

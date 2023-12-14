@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -52,279 +53,419 @@ public class TypeOptions implements Serializable {
 
 	@Schema
 	public Boolean getBoost() {
+		if (boost != null) {
+			return boost;
+		}
+
+		boost = _boostSupplier.get();
+
 		return boost;
 	}
 
 	public void setBoost(Boolean boost) {
 		this.boost = boost;
+
+		_boostSupplier = () -> boost;
 	}
 
 	@JsonIgnore
 	public void setBoost(
 		UnsafeSupplier<Boolean, Exception> boostUnsafeSupplier) {
 
-		try {
-			boost = boostUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		boost = null;
+
+		_boostSupplier = () -> {
+			try {
+				return boostUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean boost;
 
+	private Supplier<Boolean> _boostSupplier = () -> null;
+
 	@Schema
 	public String getFormat() {
+		if (format != null) {
+			return format;
+		}
+
+		format = _formatSupplier.get();
+
 		return format;
 	}
 
 	public void setFormat(String format) {
 		this.format = format;
+
+		_formatSupplier = () -> format;
 	}
 
 	@JsonIgnore
 	public void setFormat(
 		UnsafeSupplier<String, Exception> formatUnsafeSupplier) {
 
-		try {
-			format = formatUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		format = null;
+
+		_formatSupplier = () -> {
+			try {
+				return formatUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String format;
 
+	private Supplier<String> _formatSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getMax() {
+		if (max != null) {
+			return max;
+		}
+
+		max = _maxSupplier.get();
+
 		return max;
 	}
 
 	public void setMax(Object max) {
 		this.max = max;
+
+		_maxSupplier = () -> max;
 	}
 
 	@JsonIgnore
 	public void setMax(UnsafeSupplier<Object, Exception> maxUnsafeSupplier) {
-		try {
-			max = maxUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		max = null;
+
+		_maxSupplier = () -> {
+			try {
+				return maxUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object max;
 
+	private Supplier<Object> _maxSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getMin() {
+		if (min != null) {
+			return min;
+		}
+
+		min = _minSupplier.get();
+
 		return min;
 	}
 
 	public void setMin(Object min) {
 		this.min = min;
+
+		_minSupplier = () -> min;
 	}
 
 	@JsonIgnore
 	public void setMin(UnsafeSupplier<Object, Exception> minUnsafeSupplier) {
-		try {
-			min = minUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		min = null;
+
+		_minSupplier = () -> {
+			try {
+				return minUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object min;
 
+	private Supplier<Object> _minSupplier = () -> null;
+
 	@Schema
 	public Boolean getNullable() {
+		if (nullable != null) {
+			return nullable;
+		}
+
+		nullable = _nullableSupplier.get();
+
 		return nullable;
 	}
 
 	public void setNullable(Boolean nullable) {
 		this.nullable = nullable;
+
+		_nullableSupplier = () -> nullable;
 	}
 
 	@JsonIgnore
 	public void setNullable(
 		UnsafeSupplier<Boolean, Exception> nullableUnsafeSupplier) {
 
-		try {
-			nullable = nullableUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		nullable = null;
+
+		_nullableSupplier = () -> {
+			try {
+				return nullableUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean nullable;
 
+	private Supplier<Boolean> _nullableSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Option[] getOptions() {
+		if (options != null) {
+			return options;
+		}
+
+		options = _optionsSupplier.get();
+
 		return options;
 	}
 
 	public void setOptions(Option[] options) {
 		this.options = options;
+
+		_optionsSupplier = () -> options;
 	}
 
 	@JsonIgnore
 	public void setOptions(
 		UnsafeSupplier<Option[], Exception> optionsUnsafeSupplier) {
 
-		try {
-			options = optionsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		options = null;
+
+		_optionsSupplier = () -> {
+			try {
+				return optionsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Option[] options;
 
+	private Supplier<Option[]> _optionsSupplier = () -> null;
+
 	@Schema
 	public Boolean getRequired() {
+		if (required != null) {
+			return required;
+		}
+
+		required = _requiredSupplier.get();
+
 		return required;
 	}
 
 	public void setRequired(Boolean required) {
 		this.required = required;
+
+		_requiredSupplier = () -> required;
 	}
 
 	@JsonIgnore
 	public void setRequired(
 		UnsafeSupplier<Boolean, Exception> requiredUnsafeSupplier) {
 
-		try {
-			required = requiredUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		required = null;
+
+		_requiredSupplier = () -> {
+			try {
+				return requiredUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean required;
 
+	private Supplier<Boolean> _requiredSupplier = () -> null;
+
 	@Schema
 	@Valid
 	public Object getStep() {
+		if (step != null) {
+			return step;
+		}
+
+		step = _stepSupplier.get();
+
 		return step;
 	}
 
 	public void setStep(Object step) {
 		this.step = step;
+
+		_stepSupplier = () -> step;
 	}
 
 	@JsonIgnore
 	public void setStep(UnsafeSupplier<Object, Exception> stepUnsafeSupplier) {
-		try {
-			step = stepUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		step = null;
+
+		_stepSupplier = () -> {
+			try {
+				return stepUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Object step;
 
+	private Supplier<Object> _stepSupplier = () -> null;
+
 	@Schema
 	public String getUnit() {
+		if (unit != null) {
+			return unit;
+		}
+
+		unit = _unitSupplier.get();
+
 		return unit;
 	}
 
 	public void setUnit(String unit) {
 		this.unit = unit;
+
+		_unitSupplier = () -> unit;
 	}
 
 	@JsonIgnore
 	public void setUnit(UnsafeSupplier<String, Exception> unitUnsafeSupplier) {
-		try {
-			unit = unitUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		unit = null;
+
+		_unitSupplier = () -> {
+			try {
+				return unitUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String unit;
 
+	private Supplier<String> _unitSupplier = () -> null;
+
 	@Schema
 	public String getUnitSuffix() {
+		if (unitSuffix != null) {
+			return unitSuffix;
+		}
+
+		unitSuffix = _unitSuffixSupplier.get();
+
 		return unitSuffix;
 	}
 
 	public void setUnitSuffix(String unitSuffix) {
 		this.unitSuffix = unitSuffix;
+
+		_unitSuffixSupplier = () -> unitSuffix;
 	}
 
 	@JsonIgnore
 	public void setUnitSuffix(
 		UnsafeSupplier<String, Exception> unitSuffixUnsafeSupplier) {
 
-		try {
-			unitSuffix = unitSuffixUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		unitSuffix = null;
+
+		_unitSuffixSupplier = () -> {
+			try {
+				return unitSuffixUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String unitSuffix;
+
+	private Supplier<String> _unitSuffixSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

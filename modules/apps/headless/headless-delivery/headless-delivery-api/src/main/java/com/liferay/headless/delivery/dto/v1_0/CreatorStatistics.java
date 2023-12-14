@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -55,113 +56,169 @@ public class CreatorStatistics implements Serializable {
 
 	@Schema(description = "Join date of the author.")
 	public Date getJoinDate() {
+		if (joinDate != null) {
+			return joinDate;
+		}
+
+		joinDate = _joinDateSupplier.get();
+
 		return joinDate;
 	}
 
 	public void setJoinDate(Date joinDate) {
 		this.joinDate = joinDate;
+
+		_joinDateSupplier = () -> joinDate;
 	}
 
 	@JsonIgnore
 	public void setJoinDate(
 		UnsafeSupplier<Date, Exception> joinDateUnsafeSupplier) {
 
-		try {
-			joinDate = joinDateUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		joinDate = null;
+
+		_joinDateSupplier = () -> {
+			try {
+				return joinDateUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Join date of the author.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date joinDate;
 
+	private Supplier<Date> _joinDateSupplier = () -> null;
+
 	@Schema(description = "Last post created by the author.")
 	public Date getLastPostDate() {
+		if (lastPostDate != null) {
+			return lastPostDate;
+		}
+
+		lastPostDate = _lastPostDateSupplier.get();
+
 		return lastPostDate;
 	}
 
 	public void setLastPostDate(Date lastPostDate) {
 		this.lastPostDate = lastPostDate;
+
+		_lastPostDateSupplier = () -> lastPostDate;
 	}
 
 	@JsonIgnore
 	public void setLastPostDate(
 		UnsafeSupplier<Date, Exception> lastPostDateUnsafeSupplier) {
 
-		try {
-			lastPostDate = lastPostDateUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		lastPostDate = null;
+
+		_lastPostDateSupplier = () -> {
+			try {
+				return lastPostDateUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Last post created by the author.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date lastPostDate;
 
+	private Supplier<Date> _lastPostDateSupplier = () -> null;
+
 	@Schema(description = "Number of posts publicated by the author.")
 	public Integer getPostsNumber() {
+		if (postsNumber != null) {
+			return postsNumber;
+		}
+
+		postsNumber = _postsNumberSupplier.get();
+
 		return postsNumber;
 	}
 
 	public void setPostsNumber(Integer postsNumber) {
 		this.postsNumber = postsNumber;
+
+		_postsNumberSupplier = () -> postsNumber;
 	}
 
 	@JsonIgnore
 	public void setPostsNumber(
 		UnsafeSupplier<Integer, Exception> postsNumberUnsafeSupplier) {
 
-		try {
-			postsNumber = postsNumberUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		postsNumber = null;
+
+		_postsNumberSupplier = () -> {
+			try {
+				return postsNumberUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Number of posts publicated by the author.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer postsNumber;
 
+	private Supplier<Integer> _postsNumberSupplier = () -> null;
+
 	@Schema(description = "The rank of the author.")
 	public String getRank() {
+		if (rank != null) {
+			return rank;
+		}
+
+		rank = _rankSupplier.get();
+
 		return rank;
 	}
 
 	public void setRank(String rank) {
 		this.rank = rank;
+
+		_rankSupplier = () -> rank;
 	}
 
 	@JsonIgnore
 	public void setRank(UnsafeSupplier<String, Exception> rankUnsafeSupplier) {
-		try {
-			rank = rankUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		rank = null;
+
+		_rankSupplier = () -> {
+			try {
+				return rankUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The rank of the author.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String rank;
+
+	private Supplier<String> _rankSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

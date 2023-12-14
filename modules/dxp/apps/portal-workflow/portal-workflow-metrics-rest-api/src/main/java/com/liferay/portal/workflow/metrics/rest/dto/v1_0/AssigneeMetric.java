@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -54,143 +55,213 @@ public class AssigneeMetric implements Serializable {
 	@Schema
 	@Valid
 	public Assignee getAssignee() {
+		if (assignee != null) {
+			return assignee;
+		}
+
+		assignee = _assigneeSupplier.get();
+
 		return assignee;
 	}
 
 	public void setAssignee(Assignee assignee) {
 		this.assignee = assignee;
+
+		_assigneeSupplier = () -> assignee;
 	}
 
 	@JsonIgnore
 	public void setAssignee(
 		UnsafeSupplier<Assignee, Exception> assigneeUnsafeSupplier) {
 
-		try {
-			assignee = assigneeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		assignee = null;
+
+		_assigneeSupplier = () -> {
+			try {
+				return assigneeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Assignee assignee;
 
+	private Supplier<Assignee> _assigneeSupplier = () -> null;
+
 	@Schema
 	public Long getDurationTaskAvg() {
+		if (durationTaskAvg != null) {
+			return durationTaskAvg;
+		}
+
+		durationTaskAvg = _durationTaskAvgSupplier.get();
+
 		return durationTaskAvg;
 	}
 
 	public void setDurationTaskAvg(Long durationTaskAvg) {
 		this.durationTaskAvg = durationTaskAvg;
+
+		_durationTaskAvgSupplier = () -> durationTaskAvg;
 	}
 
 	@JsonIgnore
 	public void setDurationTaskAvg(
 		UnsafeSupplier<Long, Exception> durationTaskAvgUnsafeSupplier) {
 
-		try {
-			durationTaskAvg = durationTaskAvgUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		durationTaskAvg = null;
+
+		_durationTaskAvgSupplier = () -> {
+			try {
+				return durationTaskAvgUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long durationTaskAvg;
 
+	private Supplier<Long> _durationTaskAvgSupplier = () -> null;
+
 	@Schema
 	public Long getOnTimeTaskCount() {
+		if (onTimeTaskCount != null) {
+			return onTimeTaskCount;
+		}
+
+		onTimeTaskCount = _onTimeTaskCountSupplier.get();
+
 		return onTimeTaskCount;
 	}
 
 	public void setOnTimeTaskCount(Long onTimeTaskCount) {
 		this.onTimeTaskCount = onTimeTaskCount;
+
+		_onTimeTaskCountSupplier = () -> onTimeTaskCount;
 	}
 
 	@JsonIgnore
 	public void setOnTimeTaskCount(
 		UnsafeSupplier<Long, Exception> onTimeTaskCountUnsafeSupplier) {
 
-		try {
-			onTimeTaskCount = onTimeTaskCountUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		onTimeTaskCount = null;
+
+		_onTimeTaskCountSupplier = () -> {
+			try {
+				return onTimeTaskCountUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long onTimeTaskCount;
 
+	private Supplier<Long> _onTimeTaskCountSupplier = () -> null;
+
 	@Schema
 	public Long getOverdueTaskCount() {
+		if (overdueTaskCount != null) {
+			return overdueTaskCount;
+		}
+
+		overdueTaskCount = _overdueTaskCountSupplier.get();
+
 		return overdueTaskCount;
 	}
 
 	public void setOverdueTaskCount(Long overdueTaskCount) {
 		this.overdueTaskCount = overdueTaskCount;
+
+		_overdueTaskCountSupplier = () -> overdueTaskCount;
 	}
 
 	@JsonIgnore
 	public void setOverdueTaskCount(
 		UnsafeSupplier<Long, Exception> overdueTaskCountUnsafeSupplier) {
 
-		try {
-			overdueTaskCount = overdueTaskCountUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		overdueTaskCount = null;
+
+		_overdueTaskCountSupplier = () -> {
+			try {
+				return overdueTaskCountUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long overdueTaskCount;
 
+	private Supplier<Long> _overdueTaskCountSupplier = () -> null;
+
 	@Schema
 	public Long getTaskCount() {
+		if (taskCount != null) {
+			return taskCount;
+		}
+
+		taskCount = _taskCountSupplier.get();
+
 		return taskCount;
 	}
 
 	public void setTaskCount(Long taskCount) {
 		this.taskCount = taskCount;
+
+		_taskCountSupplier = () -> taskCount;
 	}
 
 	@JsonIgnore
 	public void setTaskCount(
 		UnsafeSupplier<Long, Exception> taskCountUnsafeSupplier) {
 
-		try {
-			taskCount = taskCountUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		taskCount = null;
+
+		_taskCountSupplier = () -> {
+			try {
+				return taskCountUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long taskCount;
+
+	private Supplier<Long> _taskCountSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

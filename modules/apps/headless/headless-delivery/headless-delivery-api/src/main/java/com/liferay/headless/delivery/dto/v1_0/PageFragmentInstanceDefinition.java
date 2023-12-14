@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -58,26 +59,38 @@ public class PageFragmentInstanceDefinition implements Serializable {
 		description = "A list of CSS Classes that are applied to the element."
 	)
 	public String[] getCssClasses() {
+		if (cssClasses != null) {
+			return cssClasses;
+		}
+
+		cssClasses = _cssClassesSupplier.get();
+
 		return cssClasses;
 	}
 
 	public void setCssClasses(String[] cssClasses) {
 		this.cssClasses = cssClasses;
+
+		_cssClassesSupplier = () -> cssClasses;
 	}
 
 	@JsonIgnore
 	public void setCssClasses(
 		UnsafeSupplier<String[], Exception> cssClassesUnsafeSupplier) {
 
-		try {
-			cssClasses = cssClassesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		cssClasses = null;
+
+		_cssClassesSupplier = () -> {
+			try {
+				return cssClassesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -86,42 +99,66 @@ public class PageFragmentInstanceDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] cssClasses;
 
+	private Supplier<String[]> _cssClassesSupplier = () -> null;
+
 	@Schema(description = "Custom CSS that is applied on the fragment.")
 	public String getCustomCSS() {
+		if (customCSS != null) {
+			return customCSS;
+		}
+
+		customCSS = _customCSSSupplier.get();
+
 		return customCSS;
 	}
 
 	public void setCustomCSS(String customCSS) {
 		this.customCSS = customCSS;
+
+		_customCSSSupplier = () -> customCSS;
 	}
 
 	@JsonIgnore
 	public void setCustomCSS(
 		UnsafeSupplier<String, Exception> customCSSUnsafeSupplier) {
 
-		try {
-			customCSS = customCSSUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		customCSS = null;
+
+		_customCSSSupplier = () -> {
+			try {
+				return customCSSUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "Custom CSS that is applied on the fragment.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String customCSS;
 
+	private Supplier<String> _customCSSSupplier = () -> null;
+
 	@Schema(description = "The custom CSS viewports of the page collection.")
 	@Valid
 	public CustomCSSViewport[] getCustomCSSViewports() {
+		if (customCSSViewports != null) {
+			return customCSSViewports;
+		}
+
+		customCSSViewports = _customCSSViewportsSupplier.get();
+
 		return customCSSViewports;
 	}
 
 	public void setCustomCSSViewports(CustomCSSViewport[] customCSSViewports) {
 		this.customCSSViewports = customCSSViewports;
+
+		_customCSSViewportsSupplier = () -> customCSSViewports;
 	}
 
 	@JsonIgnore
@@ -129,15 +166,19 @@ public class PageFragmentInstanceDefinition implements Serializable {
 		UnsafeSupplier<CustomCSSViewport[], Exception>
 			customCSSViewportsUnsafeSupplier) {
 
-		try {
-			customCSSViewports = customCSSViewportsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		customCSSViewports = null;
+
+		_customCSSViewportsSupplier = () -> {
+			try {
+				return customCSSViewportsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -146,43 +187,68 @@ public class PageFragmentInstanceDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected CustomCSSViewport[] customCSSViewports;
 
+	private Supplier<CustomCSSViewport[]> _customCSSViewportsSupplier =
+		() -> null;
+
 	@Schema(description = "The fragment of the page fragment instance.")
 	@Valid
 	public Fragment getFragment() {
+		if (fragment != null) {
+			return fragment;
+		}
+
+		fragment = _fragmentSupplier.get();
+
 		return fragment;
 	}
 
 	public void setFragment(Fragment fragment) {
 		this.fragment = fragment;
+
+		_fragmentSupplier = () -> fragment;
 	}
 
 	@JsonIgnore
 	public void setFragment(
 		UnsafeSupplier<Fragment, Exception> fragmentUnsafeSupplier) {
 
-		try {
-			fragment = fragmentUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragment = null;
+
+		_fragmentSupplier = () -> {
+			try {
+				return fragmentUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The fragment of the page fragment instance.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Fragment fragment;
 
+	private Supplier<Fragment> _fragmentSupplier = () -> null;
+
 	@Schema(description = "The page fragment instance's configuration.")
 	@Valid
 	public Map<String, Object> getFragmentConfig() {
+		if (fragmentConfig != null) {
+			return fragmentConfig;
+		}
+
+		fragmentConfig = _fragmentConfigSupplier.get();
+
 		return fragmentConfig;
 	}
 
 	public void setFragmentConfig(Map<String, Object> fragmentConfig) {
 		this.fragmentConfig = fragmentConfig;
+
+		_fragmentConfigSupplier = () -> fragmentConfig;
 	}
 
 	@JsonIgnore
@@ -190,29 +256,43 @@ public class PageFragmentInstanceDefinition implements Serializable {
 		UnsafeSupplier<Map<String, Object>, Exception>
 			fragmentConfigUnsafeSupplier) {
 
-		try {
-			fragmentConfig = fragmentConfigUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragmentConfig = null;
+
+		_fragmentConfigSupplier = () -> {
+			try {
+				return fragmentConfigUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The page fragment instance's configuration.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, Object> fragmentConfig;
 
+	private Supplier<Map<String, Object>> _fragmentConfigSupplier = () -> null;
+
 	@Schema(description = "The fragment fields of the page fragment instance.")
 	@Valid
 	public FragmentField[] getFragmentFields() {
+		if (fragmentFields != null) {
+			return fragmentFields;
+		}
+
+		fragmentFields = _fragmentFieldsSupplier.get();
+
 		return fragmentFields;
 	}
 
 	public void setFragmentFields(FragmentField[] fragmentFields) {
 		this.fragmentFields = fragmentFields;
+
+		_fragmentFieldsSupplier = () -> fragmentFields;
 	}
 
 	@JsonIgnore
@@ -220,15 +300,19 @@ public class PageFragmentInstanceDefinition implements Serializable {
 		UnsafeSupplier<FragmentField[], Exception>
 			fragmentFieldsUnsafeSupplier) {
 
-		try {
-			fragmentFields = fragmentFieldsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragmentFields = null;
+
+		_fragmentFieldsSupplier = () -> {
+			try {
+				return fragmentFieldsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -237,29 +321,43 @@ public class PageFragmentInstanceDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentField[] fragmentFields;
 
+	private Supplier<FragmentField[]> _fragmentFieldsSupplier = () -> null;
+
 	@Schema(description = "The fragment style of the page fragment instance.")
 	@Valid
 	public FragmentStyle getFragmentStyle() {
+		if (fragmentStyle != null) {
+			return fragmentStyle;
+		}
+
+		fragmentStyle = _fragmentStyleSupplier.get();
+
 		return fragmentStyle;
 	}
 
 	public void setFragmentStyle(FragmentStyle fragmentStyle) {
 		this.fragmentStyle = fragmentStyle;
+
+		_fragmentStyleSupplier = () -> fragmentStyle;
 	}
 
 	@JsonIgnore
 	public void setFragmentStyle(
 		UnsafeSupplier<FragmentStyle, Exception> fragmentStyleUnsafeSupplier) {
 
-		try {
-			fragmentStyle = fragmentStyleUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragmentStyle = null;
+
+		_fragmentStyleSupplier = () -> {
+			try {
+				return fragmentStyleUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -268,16 +366,26 @@ public class PageFragmentInstanceDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentStyle fragmentStyle;
 
+	private Supplier<FragmentStyle> _fragmentStyleSupplier = () -> null;
+
 	@Schema(
 		description = "A list of fragment viewports of the page fragment instance."
 	)
 	@Valid
 	public FragmentViewport[] getFragmentViewports() {
+		if (fragmentViewports != null) {
+			return fragmentViewports;
+		}
+
+		fragmentViewports = _fragmentViewportsSupplier.get();
+
 		return fragmentViewports;
 	}
 
 	public void setFragmentViewports(FragmentViewport[] fragmentViewports) {
 		this.fragmentViewports = fragmentViewports;
+
+		_fragmentViewportsSupplier = () -> fragmentViewports;
 	}
 
 	@JsonIgnore
@@ -285,15 +393,19 @@ public class PageFragmentInstanceDefinition implements Serializable {
 		UnsafeSupplier<FragmentViewport[], Exception>
 			fragmentViewportsUnsafeSupplier) {
 
-		try {
-			fragmentViewports = fragmentViewportsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		fragmentViewports = null;
+
+		_fragmentViewportsSupplier = () -> {
+			try {
+				return fragmentViewportsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -302,30 +414,45 @@ public class PageFragmentInstanceDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected FragmentViewport[] fragmentViewports;
 
+	private Supplier<FragmentViewport[]> _fragmentViewportsSupplier =
+		() -> null;
+
 	@Schema(
 		description = "A flag that indicates whether the page fragment instance is indexed or not."
 	)
 	public Boolean getIndexed() {
+		if (indexed != null) {
+			return indexed;
+		}
+
+		indexed = _indexedSupplier.get();
+
 		return indexed;
 	}
 
 	public void setIndexed(Boolean indexed) {
 		this.indexed = indexed;
+
+		_indexedSupplier = () -> indexed;
 	}
 
 	@JsonIgnore
 	public void setIndexed(
 		UnsafeSupplier<Boolean, Exception> indexedUnsafeSupplier) {
 
-		try {
-			indexed = indexedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		indexed = null;
+
+		_indexedSupplier = () -> {
+			try {
+				return indexedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -334,42 +461,66 @@ public class PageFragmentInstanceDefinition implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean indexed;
 
+	private Supplier<Boolean> _indexedSupplier = () -> null;
+
 	@Schema(description = "The custom name of a Page Fragment Instance.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The custom name of a Page Fragment Instance.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
+	private Supplier<String> _nameSupplier = () -> null;
+
 	@Schema(
 		description = "A list of widget instances of the page fragment instance."
 	)
 	@Valid
 	public WidgetInstance[] getWidgetInstances() {
+		if (widgetInstances != null) {
+			return widgetInstances;
+		}
+
+		widgetInstances = _widgetInstancesSupplier.get();
+
 		return widgetInstances;
 	}
 
 	public void setWidgetInstances(WidgetInstance[] widgetInstances) {
 		this.widgetInstances = widgetInstances;
+
+		_widgetInstancesSupplier = () -> widgetInstances;
 	}
 
 	@JsonIgnore
@@ -377,15 +528,19 @@ public class PageFragmentInstanceDefinition implements Serializable {
 		UnsafeSupplier<WidgetInstance[], Exception>
 			widgetInstancesUnsafeSupplier) {
 
-		try {
-			widgetInstances = widgetInstancesUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		widgetInstances = null;
+
+		_widgetInstancesSupplier = () -> {
+			try {
+				return widgetInstancesUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -393,6 +548,8 @@ public class PageFragmentInstanceDefinition implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected WidgetInstance[] widgetInstances;
+
+	private Supplier<WidgetInstance[]> _widgetInstancesSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

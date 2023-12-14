@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,31 +57,45 @@ public class FragmentSettingsAllowed implements Serializable {
 	@Schema(description = "A list of allowed fragments.")
 	@Valid
 	public Fragment[] getAllowedFragments() {
+		if (allowedFragments != null) {
+			return allowedFragments;
+		}
+
+		allowedFragments = _allowedFragmentsSupplier.get();
+
 		return allowedFragments;
 	}
 
 	public void setAllowedFragments(Fragment[] allowedFragments) {
 		this.allowedFragments = allowedFragments;
+
+		_allowedFragmentsSupplier = () -> allowedFragments;
 	}
 
 	@JsonIgnore
 	public void setAllowedFragments(
 		UnsafeSupplier<Fragment[], Exception> allowedFragmentsUnsafeSupplier) {
 
-		try {
-			allowedFragments = allowedFragmentsUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		allowedFragments = null;
+
+		_allowedFragmentsSupplier = () -> {
+			try {
+				return allowedFragmentsUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "A list of allowed fragments.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Fragment[] allowedFragments;
+
+	private Supplier<Fragment[]> _allowedFragmentsSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

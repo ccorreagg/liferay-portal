@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,26 +57,38 @@ public class RenderedContent implements Serializable {
 		description = "The ID of the template or display page used to render the content."
 	)
 	public String getContentTemplateId() {
+		if (contentTemplateId != null) {
+			return contentTemplateId;
+		}
+
+		contentTemplateId = _contentTemplateIdSupplier.get();
+
 		return contentTemplateId;
 	}
 
 	public void setContentTemplateId(String contentTemplateId) {
 		this.contentTemplateId = contentTemplateId;
+
+		_contentTemplateIdSupplier = () -> contentTemplateId;
 	}
 
 	@JsonIgnore
 	public void setContentTemplateId(
 		UnsafeSupplier<String, Exception> contentTemplateIdUnsafeSupplier) {
 
-		try {
-			contentTemplateId = contentTemplateIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentTemplateId = null;
+
+		_contentTemplateIdSupplier = () -> {
+			try {
+				return contentTemplateIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -84,30 +97,44 @@ public class RenderedContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String contentTemplateId;
 
+	private Supplier<String> _contentTemplateIdSupplier = () -> null;
+
 	@Schema(
 		description = "The name of the template or display page used to render the content."
 	)
 	public String getContentTemplateName() {
+		if (contentTemplateName != null) {
+			return contentTemplateName;
+		}
+
+		contentTemplateName = _contentTemplateNameSupplier.get();
+
 		return contentTemplateName;
 	}
 
 	public void setContentTemplateName(String contentTemplateName) {
 		this.contentTemplateName = contentTemplateName;
+
+		_contentTemplateNameSupplier = () -> contentTemplateName;
 	}
 
 	@JsonIgnore
 	public void setContentTemplateName(
 		UnsafeSupplier<String, Exception> contentTemplateNameUnsafeSupplier) {
 
-		try {
-			contentTemplateName = contentTemplateNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentTemplateName = null;
+
+		_contentTemplateNameSupplier = () -> {
+			try {
+				return contentTemplateNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -116,11 +143,19 @@ public class RenderedContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String contentTemplateName;
 
+	private Supplier<String> _contentTemplateNameSupplier = () -> null;
+
 	@Schema(
 		description = "The localized names of the template or display page used to render the content."
 	)
 	@Valid
 	public Map<String, String> getContentTemplateName_i18n() {
+		if (contentTemplateName_i18n != null) {
+			return contentTemplateName_i18n;
+		}
+
+		contentTemplateName_i18n = _contentTemplateName_i18nSupplier.get();
+
 		return contentTemplateName_i18n;
 	}
 
@@ -128,6 +163,8 @@ public class RenderedContent implements Serializable {
 		Map<String, String> contentTemplateName_i18n) {
 
 		this.contentTemplateName_i18n = contentTemplateName_i18n;
+
+		_contentTemplateName_i18nSupplier = () -> contentTemplateName_i18n;
 	}
 
 	@JsonIgnore
@@ -135,16 +172,19 @@ public class RenderedContent implements Serializable {
 		UnsafeSupplier<Map<String, String>, Exception>
 			contentTemplateName_i18nUnsafeSupplier) {
 
-		try {
-			contentTemplateName_i18n =
-				contentTemplateName_i18nUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentTemplateName_i18n = null;
+
+		_contentTemplateName_i18nSupplier = () -> {
+			try {
+				return contentTemplateName_i18nUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -153,30 +193,45 @@ public class RenderedContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Map<String, String> contentTemplateName_i18n;
 
+	private Supplier<Map<String, String>> _contentTemplateName_i18nSupplier =
+		() -> null;
+
 	@Schema(
 		description = "Specifies if the template or display page are marked as default to display the content."
 	)
 	public Boolean getMarkedAsDefault() {
+		if (markedAsDefault != null) {
+			return markedAsDefault;
+		}
+
+		markedAsDefault = _markedAsDefaultSupplier.get();
+
 		return markedAsDefault;
 	}
 
 	public void setMarkedAsDefault(Boolean markedAsDefault) {
 		this.markedAsDefault = markedAsDefault;
+
+		_markedAsDefaultSupplier = () -> markedAsDefault;
 	}
 
 	@JsonIgnore
 	public void setMarkedAsDefault(
 		UnsafeSupplier<Boolean, Exception> markedAsDefaultUnsafeSupplier) {
 
-		try {
-			markedAsDefault = markedAsDefaultUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		markedAsDefault = null;
+
+		_markedAsDefaultSupplier = () -> {
+			try {
+				return markedAsDefaultUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -185,58 +240,86 @@ public class RenderedContent implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean markedAsDefault;
 
+	private Supplier<Boolean> _markedAsDefaultSupplier = () -> null;
+
 	@Schema(description = "An absolute URL to the rendered content.")
 	public String getRenderedContentURL() {
+		if (renderedContentURL != null) {
+			return renderedContentURL;
+		}
+
+		renderedContentURL = _renderedContentURLSupplier.get();
+
 		return renderedContentURL;
 	}
 
 	public void setRenderedContentURL(String renderedContentURL) {
 		this.renderedContentURL = renderedContentURL;
+
+		_renderedContentURLSupplier = () -> renderedContentURL;
 	}
 
 	@JsonIgnore
 	public void setRenderedContentURL(
 		UnsafeSupplier<String, Exception> renderedContentURLUnsafeSupplier) {
 
-		try {
-			renderedContentURL = renderedContentURLUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		renderedContentURL = null;
+
+		_renderedContentURLSupplier = () -> {
+			try {
+				return renderedContentURLUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "An absolute URL to the rendered content.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String renderedContentURL;
 
+	private Supplier<String> _renderedContentURLSupplier = () -> null;
+
 	@Schema(
 		description = "Optional field with the rendered content, can be embedded with nestedFields."
 	)
 	public String getRenderedContentValue() {
+		if (renderedContentValue != null) {
+			return renderedContentValue;
+		}
+
+		renderedContentValue = _renderedContentValueSupplier.get();
+
 		return renderedContentValue;
 	}
 
 	public void setRenderedContentValue(String renderedContentValue) {
 		this.renderedContentValue = renderedContentValue;
+
+		_renderedContentValueSupplier = () -> renderedContentValue;
 	}
 
 	@JsonIgnore
 	public void setRenderedContentValue(
 		UnsafeSupplier<String, Exception> renderedContentValueUnsafeSupplier) {
 
-		try {
-			renderedContentValue = renderedContentValueUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		renderedContentValue = null;
+
+		_renderedContentValueSupplier = () -> {
+			try {
+				return renderedContentValueUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -244,6 +327,8 @@ public class RenderedContent implements Serializable {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String renderedContentValue;
+
+	private Supplier<String> _renderedContentValueSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -56,11 +57,19 @@ public class DisplayPageTemplate implements Serializable {
 	@Schema(description = "The display page template's content subtype.")
 	@Valid
 	public ContentSubtype getContentSubtype() {
+		if (contentSubtype != null) {
+			return contentSubtype;
+		}
+
+		contentSubtype = _contentSubtypeSupplier.get();
+
 		return contentSubtype;
 	}
 
 	public void setContentSubtype(ContentSubtype contentSubtype) {
 		this.contentSubtype = contentSubtype;
+
+		_contentSubtypeSupplier = () -> contentSubtype;
 	}
 
 	@JsonIgnore
@@ -68,74 +77,106 @@ public class DisplayPageTemplate implements Serializable {
 		UnsafeSupplier<ContentSubtype, Exception>
 			contentSubtypeUnsafeSupplier) {
 
-		try {
-			contentSubtype = contentSubtypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentSubtype = null;
+
+		_contentSubtypeSupplier = () -> {
+			try {
+				return contentSubtypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The display page template's content subtype.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ContentSubtype contentSubtype;
 
+	private Supplier<ContentSubtype> _contentSubtypeSupplier = () -> null;
+
 	@Schema(description = "The type of content.")
 	@Valid
 	public ContentType getContentType() {
+		if (contentType != null) {
+			return contentType;
+		}
+
+		contentType = _contentTypeSupplier.get();
+
 		return contentType;
 	}
 
 	public void setContentType(ContentType contentType) {
 		this.contentType = contentType;
+
+		_contentTypeSupplier = () -> contentType;
 	}
 
 	@JsonIgnore
 	public void setContentType(
 		UnsafeSupplier<ContentType, Exception> contentTypeUnsafeSupplier) {
 
-		try {
-			contentType = contentTypeUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		contentType = null;
+
+		_contentTypeSupplier = () -> {
+			try {
+				return contentTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The type of content.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected ContentType contentType;
 
+	private Supplier<ContentType> _contentTypeSupplier = () -> null;
+
 	@Schema(
 		description = "Specifies if the page template should be the default for the given content type/subtype."
 	)
 	public Boolean getDefaultTemplate() {
+		if (defaultTemplate != null) {
+			return defaultTemplate;
+		}
+
+		defaultTemplate = _defaultTemplateSupplier.get();
+
 		return defaultTemplate;
 	}
 
 	public void setDefaultTemplate(Boolean defaultTemplate) {
 		this.defaultTemplate = defaultTemplate;
+
+		_defaultTemplateSupplier = () -> defaultTemplate;
 	}
 
 	@JsonIgnore
 	public void setDefaultTemplate(
 		UnsafeSupplier<Boolean, Exception> defaultTemplateUnsafeSupplier) {
 
-		try {
-			defaultTemplate = defaultTemplateUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		defaultTemplate = null;
+
+		_defaultTemplateSupplier = () -> {
+			try {
+				return defaultTemplateUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(
@@ -144,57 +185,87 @@ public class DisplayPageTemplate implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean defaultTemplate;
 
+	private Supplier<Boolean> _defaultTemplateSupplier = () -> null;
+
 	@Schema(description = "The display page template's key.")
 	public String getKey() {
+		if (key != null) {
+			return key;
+		}
+
+		key = _keySupplier.get();
+
 		return key;
 	}
 
 	public void setKey(String key) {
 		this.key = key;
+
+		_keySupplier = () -> key;
 	}
 
 	@JsonIgnore
 	public void setKey(UnsafeSupplier<String, Exception> keyUnsafeSupplier) {
-		try {
-			key = keyUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		key = null;
+
+		_keySupplier = () -> {
+			try {
+				return keyUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The display page template's key.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String key;
 
+	private Supplier<String> _keySupplier = () -> null;
+
 	@Schema(description = "The display page template's name.")
 	public String getName() {
+		if (name != null) {
+			return name;
+		}
+
+		name = _nameSupplier.get();
+
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+
+		_nameSupplier = () -> name;
 	}
 
 	@JsonIgnore
 	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		name = null;
+
+		_nameSupplier = () -> {
+			try {
+				return nameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField(description = "The display page template's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
+
+	private Supplier<String> _nameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {

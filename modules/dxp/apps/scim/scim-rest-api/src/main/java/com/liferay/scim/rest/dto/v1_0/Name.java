@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -49,171 +50,255 @@ public class Name implements Serializable {
 
 	@Schema
 	public String getFamilyName() {
+		if (familyName != null) {
+			return familyName;
+		}
+
+		familyName = _familyNameSupplier.get();
+
 		return familyName;
 	}
 
 	public void setFamilyName(String familyName) {
 		this.familyName = familyName;
+
+		_familyNameSupplier = () -> familyName;
 	}
 
 	@JsonIgnore
 	public void setFamilyName(
 		UnsafeSupplier<String, Exception> familyNameUnsafeSupplier) {
 
-		try {
-			familyName = familyNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		familyName = null;
+
+		_familyNameSupplier = () -> {
+			try {
+				return familyNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String familyName;
 
+	private Supplier<String> _familyNameSupplier = () -> null;
+
 	@Schema
 	public String getFormatted() {
+		if (formatted != null) {
+			return formatted;
+		}
+
+		formatted = _formattedSupplier.get();
+
 		return formatted;
 	}
 
 	public void setFormatted(String formatted) {
 		this.formatted = formatted;
+
+		_formattedSupplier = () -> formatted;
 	}
 
 	@JsonIgnore
 	public void setFormatted(
 		UnsafeSupplier<String, Exception> formattedUnsafeSupplier) {
 
-		try {
-			formatted = formattedUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		formatted = null;
+
+		_formattedSupplier = () -> {
+			try {
+				return formattedUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String formatted;
 
+	private Supplier<String> _formattedSupplier = () -> null;
+
 	@Schema
 	public String getGivenName() {
+		if (givenName != null) {
+			return givenName;
+		}
+
+		givenName = _givenNameSupplier.get();
+
 		return givenName;
 	}
 
 	public void setGivenName(String givenName) {
 		this.givenName = givenName;
+
+		_givenNameSupplier = () -> givenName;
 	}
 
 	@JsonIgnore
 	public void setGivenName(
 		UnsafeSupplier<String, Exception> givenNameUnsafeSupplier) {
 
-		try {
-			givenName = givenNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		givenName = null;
+
+		_givenNameSupplier = () -> {
+			try {
+				return givenNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String givenName;
 
+	private Supplier<String> _givenNameSupplier = () -> null;
+
 	@Schema
 	public String getHonorificPrefix() {
+		if (honorificPrefix != null) {
+			return honorificPrefix;
+		}
+
+		honorificPrefix = _honorificPrefixSupplier.get();
+
 		return honorificPrefix;
 	}
 
 	public void setHonorificPrefix(String honorificPrefix) {
 		this.honorificPrefix = honorificPrefix;
+
+		_honorificPrefixSupplier = () -> honorificPrefix;
 	}
 
 	@JsonIgnore
 	public void setHonorificPrefix(
 		UnsafeSupplier<String, Exception> honorificPrefixUnsafeSupplier) {
 
-		try {
-			honorificPrefix = honorificPrefixUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		honorificPrefix = null;
+
+		_honorificPrefixSupplier = () -> {
+			try {
+				return honorificPrefixUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String honorificPrefix;
 
+	private Supplier<String> _honorificPrefixSupplier = () -> null;
+
 	@Schema
 	public String getHonorificSuffix() {
+		if (honorificSuffix != null) {
+			return honorificSuffix;
+		}
+
+		honorificSuffix = _honorificSuffixSupplier.get();
+
 		return honorificSuffix;
 	}
 
 	public void setHonorificSuffix(String honorificSuffix) {
 		this.honorificSuffix = honorificSuffix;
+
+		_honorificSuffixSupplier = () -> honorificSuffix;
 	}
 
 	@JsonIgnore
 	public void setHonorificSuffix(
 		UnsafeSupplier<String, Exception> honorificSuffixUnsafeSupplier) {
 
-		try {
-			honorificSuffix = honorificSuffixUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		honorificSuffix = null;
+
+		_honorificSuffixSupplier = () -> {
+			try {
+				return honorificSuffixUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String honorificSuffix;
 
+	private Supplier<String> _honorificSuffixSupplier = () -> null;
+
 	@Schema
 	public String getMiddleName() {
+		if (middleName != null) {
+			return middleName;
+		}
+
+		middleName = _middleNameSupplier.get();
+
 		return middleName;
 	}
 
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
+
+		_middleNameSupplier = () -> middleName;
 	}
 
 	@JsonIgnore
 	public void setMiddleName(
 		UnsafeSupplier<String, Exception> middleNameUnsafeSupplier) {
 
-		try {
-			middleName = middleNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		middleName = null;
+
+		_middleNameSupplier = () -> {
+			try {
+				return middleNameUnsafeSupplier.get();
+			}
+			catch (RuntimeException re) {
+				throw re;
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 	}
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String middleName;
+
+	private Supplier<String> _middleNameSupplier = () -> null;
 
 	@Override
 	public boolean equals(Object object) {
