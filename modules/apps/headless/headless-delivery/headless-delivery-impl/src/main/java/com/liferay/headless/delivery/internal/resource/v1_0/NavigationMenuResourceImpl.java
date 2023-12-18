@@ -506,6 +506,9 @@ public class NavigationMenuResourceImpl extends BaseNavigationMenuResourceImpl {
 		Map<Locale, String> localizedMap = _getLocalizedNamesFromProperties(
 			unicodeProperties);
 
+		final String siteNavigationMenuItemType = _toType(
+			siteNavigationMenuItem.getType());
+
 		return new NavigationMenuItem() {
 			{
 				creator = CreatorUtil.toCreator(
@@ -524,7 +527,7 @@ public class NavigationMenuResourceImpl extends BaseNavigationMenuResourceImpl {
 					item -> _toNavigationMenuItem(
 						item, siteNavigationMenuItemsMap),
 					NavigationMenuItem.class);
-				type = _toType(siteNavigationMenuItem.getType());
+
 				url = unicodeProperties.getProperty("url");
 
 				useCustomName = Boolean.valueOf(
@@ -539,7 +542,12 @@ public class NavigationMenuResourceImpl extends BaseNavigationMenuResourceImpl {
 					});
 				setContentURL(
 					() -> {
-						if (Objects.equals(type, FileEntry.class.getName())) {
+						String type = siteNavigationMenuItemType;
+
+						if (Objects.equals(
+								siteNavigationMenuItemType,
+								FileEntry.class.getName())) {
+
 							type = DLFileEntry.class.getName();
 						}
 
@@ -591,6 +599,15 @@ public class NavigationMenuResourceImpl extends BaseNavigationMenuResourceImpl {
 					});
 				setName(
 					() -> {
+						String type = siteNavigationMenuItemType;
+
+						if (Objects.equals(
+								siteNavigationMenuItemType,
+								FileEntry.class.getName())) {
+
+							type = DLFileEntry.class.getName();
+						}
+
 						String name = _getName(
 							type, unicodeProperties, useCustomName);
 
@@ -639,6 +656,15 @@ public class NavigationMenuResourceImpl extends BaseNavigationMenuResourceImpl {
 					});
 				setType(
 					() -> {
+						String type = siteNavigationMenuItemType;
+
+						if (Objects.equals(
+								siteNavigationMenuItemType,
+								FileEntry.class.getName())) {
+
+							type = DLFileEntry.class.getName();
+						}
+
 						DTOConverter<?, ?> dtoConverter =
 							_dtoConverterRegistry.getDTOConverter(type);
 
