@@ -44,7 +44,7 @@ import javax.ws.rs.core.UriInfo;
  * @generated
  */
 @Generated("")
-@javax.ws.rs.Path("/1.0.0")
+@javax.ws.rs.Path("/v1.0")
 public abstract class BaseTestResourceImpl implements TestResource {
 
 	/**

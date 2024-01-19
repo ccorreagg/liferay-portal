@@ -44,7 +44,7 @@ import org.osgi.service.component.annotations.Reference;
 @OpenAPIDefinition(
 	info = @Info(license = @License(name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html"), title = "", version = "1.0.0")
 )
-@Path("/1.0.0")
+@Path("/v1.0")
 public class OpenAPIResourceImpl {
 
 	@GET
