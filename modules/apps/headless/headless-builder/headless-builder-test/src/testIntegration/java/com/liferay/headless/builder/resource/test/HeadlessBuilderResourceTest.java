@@ -8,6 +8,7 @@ package com.liferay.headless.builder.resource.test;
 import com.liferay.headless.builder.application.APIApplication;
 import com.liferay.headless.builder.constants.HeadlessBuilderConstants;
 import com.liferay.headless.builder.test.BaseTestCase;
+import com.liferay.headless.builder.test.util.APIApplicationTestUtil;
 import com.liferay.headless.delivery.client.dto.v1_0.Document;
 import com.liferay.headless.delivery.client.resource.v1_0.DocumentResource;
 import com.liferay.list.type.entry.util.ListTypeEntryUtil;
@@ -223,11 +224,9 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 			"test@able.com", "test"
 		).apply(
 			() -> {
-				Assert.assertEquals(
-					404,
-					HTTPTestUtil.invokeToHttpCode(
-						null, "c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1,
-						Http.Method.GET));
+				APIApplicationTestUtil.assertNotFound(
+					null, "c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1,
+					Http.Method.GET);
 				Assert.assertFalse(
 					HTTPTestUtil.invokeToJSONObject(
 						null, "openapi", Http.Method.GET
@@ -836,15 +835,11 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 
 		String endpoint1 = "c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1;
 
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(null, endpoint1, Http.Method.GET));
+		APIApplicationTestUtil.assertNotFound(null, endpoint1, Http.Method.GET);
 
 		String endpoint2 = "c/" + _BASE_URL_2 + _API_APPLICATION_PATH_2;
 
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(null, endpoint2, Http.Method.GET));
+		APIApplicationTestUtil.assertNotFound(null, endpoint2, Http.Method.GET);
 
 		_publishAPIApplication(_API_APPLICATION_ERC_1);
 		_publishAPIApplication(_API_APPLICATION_ERC_2);
@@ -855,22 +850,18 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 		Assert.assertEquals(
 			200,
 			HTTPTestUtil.invokeToHttpCode(null, endpoint2, Http.Method.GET));
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(
-				null,
-				StringBundler.concat(
-					"c/", _BASE_URL_1, "/scopes/", TestPropsValues.getGroupId(),
-					_API_APPLICATION_PATH_1),
-				Http.Method.GET));
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(
-				null,
-				StringBundler.concat(
-					"c/", _BASE_URL_2, "/scopes/", TestPropsValues.getGroupId(),
-					_API_APPLICATION_PATH_2),
-				Http.Method.GET));
+		APIApplicationTestUtil.assertNotFound(
+			null,
+			StringBundler.concat(
+				"c/", _BASE_URL_1, "/scopes/", TestPropsValues.getGroupId(),
+				_API_APPLICATION_PATH_1),
+			Http.Method.GET);
+		APIApplicationTestUtil.assertNotFound(
+			null,
+			StringBundler.concat(
+				"c/", _BASE_URL_2, "/scopes/", TestPropsValues.getGroupId(),
+				_API_APPLICATION_PATH_2),
+			Http.Method.GET);
 
 		ObjectEntry objectEntry1 = _addCustomObjectEntry(
 			1, null, _objectDefinition1, "value1",
@@ -924,22 +915,18 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 			).toString(),
 			JSONCompareMode.LENIENT);
 
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(
-				null,
-				StringBundler.concat(
-					"c/", _BASE_URL_1, StringPool.SLASH,
-					RandomTestUtil.randomString()),
-				Http.Method.GET));
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(
-				null,
-				StringBundler.concat(
-					"c/", _BASE_URL_2, StringPool.SLASH,
-					RandomTestUtil.randomString()),
-				Http.Method.GET));
+		APIApplicationTestUtil.assertNotFound(
+			null,
+			StringBundler.concat(
+				"c/", _BASE_URL_1, StringPool.SLASH,
+				RandomTestUtil.randomString()),
+			Http.Method.GET);
+		APIApplicationTestUtil.assertNotFound(
+			null,
+			StringBundler.concat(
+				"c/", _BASE_URL_2, StringPool.SLASH,
+				RandomTestUtil.randomString()),
+			Http.Method.GET);
 
 		HTTPTestUtil.invokeToJSONObject(
 			JSONUtil.put(
@@ -949,9 +936,7 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 				_API_APPLICATION_ERC_1,
 			Http.Method.PATCH);
 
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(null, endpoint1, Http.Method.GET));
+		APIApplicationTestUtil.assertNotFound(null, endpoint1, Http.Method.GET);
 		Assert.assertEquals(
 			200,
 			HTTPTestUtil.invokeToHttpCode(null, endpoint2, Http.Method.GET));
@@ -1755,24 +1740,20 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 
 		String endpointPath = "c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1;
 
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(null, endpointPath, Http.Method.GET));
+		APIApplicationTestUtil.assertNotFound(
+			null, endpointPath, Http.Method.GET);
 
 		String scopedEndpointPath = StringBundler.concat(
 			"c/", _BASE_URL_1, "/scopes/", TestPropsValues.getGroupId(),
 			_API_APPLICATION_PATH_1);
 
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(
-				null, scopedEndpointPath, Http.Method.GET));
+		APIApplicationTestUtil.assertNotFound(
+			null, scopedEndpointPath, Http.Method.GET);
 
 		_publishAPIApplication(_API_APPLICATION_ERC_1);
 
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(null, endpointPath, Http.Method.GET));
+		APIApplicationTestUtil.assertNotFound(
+			null, endpointPath, Http.Method.GET);
 		Assert.assertEquals(
 			200,
 			HTTPTestUtil.invokeToHttpCode(
@@ -1837,13 +1818,10 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 				_API_APPLICATION_ERC_1,
 			Http.Method.PATCH);
 
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(null, endpointPath, Http.Method.GET));
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(
-				null, scopedEndpointPath, Http.Method.GET));
+		APIApplicationTestUtil.assertNotFound(
+			null, endpointPath, Http.Method.GET);
+		APIApplicationTestUtil.assertNotFound(
+			null, scopedEndpointPath, Http.Method.GET);
 	}
 
 	@Test

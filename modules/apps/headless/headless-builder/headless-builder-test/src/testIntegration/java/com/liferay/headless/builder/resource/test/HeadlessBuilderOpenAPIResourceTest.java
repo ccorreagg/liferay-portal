@@ -9,6 +9,7 @@ import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.headless.builder.application.APIApplication;
 import com.liferay.headless.builder.constants.HeadlessBuilderConstants;
 import com.liferay.headless.builder.test.BaseTestCase;
+import com.liferay.headless.builder.test.util.APIApplicationTestUtil;
 import com.liferay.list.type.entry.util.ListTypeEntryUtil;
 import com.liferay.list.type.model.ListTypeDefinition;
 import com.liferay.list.type.model.ListTypeEntry;
@@ -364,10 +365,8 @@ public class HeadlessBuilderOpenAPIResourceTest extends BaseTestCase {
 
 		Assert.assertFalse(jsonObject.has("/" + _API_BASE_URL));
 
-		Assert.assertEquals(
-			404,
-			HTTPTestUtil.invokeToHttpCode(
-				null, apiApplicationURL + "/openapi.json", Http.Method.GET));
+		APIApplicationTestUtil.assertNotFound(
+			null, apiApplicationURL + "/openapi.json", Http.Method.GET);
 
 		assertSuccessfulJSONObject(
 			JSONUtil.put(
