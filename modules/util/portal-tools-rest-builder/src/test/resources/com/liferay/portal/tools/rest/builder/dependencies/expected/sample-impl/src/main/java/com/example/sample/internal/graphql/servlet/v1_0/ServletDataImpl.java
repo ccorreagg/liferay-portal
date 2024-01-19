@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.example.sample.internal.graphql.servlet.v1_0_0;
+package com.example.sample.internal.graphql.servlet.v1_0;
 
-import com.example.sample.internal.graphql.mutation.v1_0_0.Mutation;
-import com.example.sample.internal.graphql.query.v1_0_0.Query;
-import com.example.sample.internal.resource.v1_0_0.DocumentResourceImpl;
-import com.example.sample.internal.resource.v1_0_0.FolderResourceImpl;
-import com.example.sample.internal.resource.v1_0_0.TestResourceImpl;
-import com.example.sample.resource.v1_0_0.DocumentResource;
-import com.example.sample.resource.v1_0_0.FolderResource;
-import com.example.sample.resource.v1_0_0.TestResource;
+import com.example.sample.internal.graphql.mutation.v1_0.Mutation;
+import com.example.sample.internal.graphql.query.v1_0.Query;
+import com.example.sample.internal.resource.v1_0.DocumentResourceImpl;
+import com.example.sample.internal.resource.v1_0.FolderResourceImpl;
+import com.example.sample.internal.resource.v1_0.TestResourceImpl;
+import com.example.sample.resource.v1_0.DocumentResource;
+import com.example.sample.resource.v1_0.FolderResource;
+import com.example.sample.resource.v1_0.TestResource;
 
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.vulcan.graphql.servlet.ServletData;
@@ -58,7 +58,7 @@ public class ServletDataImpl implements ServletData {
 
 	@Override
 	public String getPath() {
-		return "/sample-graphql/v1_0_0";
+		return "/sample-graphql/v1_0";
 	}
 
 	@Override

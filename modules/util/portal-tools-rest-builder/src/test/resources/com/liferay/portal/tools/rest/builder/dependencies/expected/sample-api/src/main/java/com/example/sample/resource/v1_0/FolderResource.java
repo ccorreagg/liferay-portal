@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.example.sample.resource.v1_0_0;
+package com.example.sample.resource.v1_0;
 
-import com.example.sample.dto.v1_0_0.Folder;
+import com.example.sample.dto.v1_0.Folder;
 
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
@@ -37,7 +37,7 @@ import org.osgi.annotation.versioning.ProviderType;
 /**
  * To access this resource, run:
  *
- *     curl -u your@email.com:yourpassword -D - http://localhost:8080/o/sample/1.0.0
+ *     curl -u your@email.com:yourpassword -D - http://localhost:8080/o/sample/v1.0
  *
  * @author John Doe
  * @generated

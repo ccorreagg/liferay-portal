@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.example.sample.dto.v1_0_0;
+package com.example.sample.dto.v1_0;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -254,8 +254,7 @@ public class Test implements Serializable {
 
 	@Schema(
 		accessMode = Schema.AccessMode.READ_ONLY,
-		defaultValue = "com.example.sample.dto.v1_0_0.Test",
-		name = "x-class-name"
+		defaultValue = "com.example.sample.dto.v1_0.Test", name = "x-class-name"
 	)
 	public String xClassName;
 
