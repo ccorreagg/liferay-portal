@@ -14,5 +14,5 @@ components:
                     type: string
 info:
     title: ""
-    version: "1.0.0"
-openapi: "3.0.1"
+    version: v1.0
+openapi: 3.0.1
