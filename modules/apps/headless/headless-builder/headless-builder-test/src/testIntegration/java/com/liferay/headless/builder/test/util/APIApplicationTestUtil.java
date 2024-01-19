@@ -9,6 +9,8 @@ import com.liferay.osgi.util.ServiceTrackerFactory;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.test.util.HTTPTestUtil;
 import com.liferay.portal.kernel.util.Http;
+import com.liferay.portal.test.log.LogCapture;
+import com.liferay.portal.test.log.LoggerTestUtil;
 
 import javax.ws.rs.core.Application;
 
@@ -52,13 +54,24 @@ public class APIApplicationTestUtil {
 		try {
 			Assert.assertEquals(
 				"The API application is deployed", 0, serviceTracker.size());
-			Assert.assertEquals(
-				404,
-				HTTPTestUtil.invokeToHttpCode(
-					null, "c/" + baseURL + "/openapi.json", Http.Method.GET));
+
+			assertNotFound(
+				null, "c/" + baseURL + "/openapi.json", Http.Method.GET);
 		}
 		finally {
 			serviceTracker.close();
+		}
+	}
+
+	public static void assertNotFound(
+			String body, String endpoint, Http.Method httpMethod)
+		throws Exception {
+
+		try (LogCapture logCapture = LoggerTestUtil.configureLog4JLogger(
+				"portal_web.docroot.errors.code_jsp", LoggerTestUtil.WARN)) {
+
+			Assert.assertEquals(
+				404, HTTPTestUtil.invokeToHttpCode(body, endpoint, httpMethod));
 		}
 	}
 
