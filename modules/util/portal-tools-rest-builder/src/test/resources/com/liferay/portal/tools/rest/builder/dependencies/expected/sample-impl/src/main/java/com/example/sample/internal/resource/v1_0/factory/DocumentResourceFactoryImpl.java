@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.example.sample.internal.resource.v1_0_0.factory;
+package com.example.sample.internal.resource.v1_0.factory;
 
 import com.example.sample.internal.security.permission.LiberalPermissionChecker;
-import com.example.sample.resource.v1_0_0.DocumentResource;
+import com.example.sample.resource.v1_0.DocumentResource;
 
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
@@ -56,7 +56,7 @@ import org.osgi.service.component.annotations.ReferenceScope;
  * @generated
  */
 @Component(
-	property = "resource.locator.key=/sample/1.0.0/Document",
+	property = "resource.locator.key=/sample/v1.0/Document",
 	service = DocumentResource.Factory.class
 )
 @Generated("")

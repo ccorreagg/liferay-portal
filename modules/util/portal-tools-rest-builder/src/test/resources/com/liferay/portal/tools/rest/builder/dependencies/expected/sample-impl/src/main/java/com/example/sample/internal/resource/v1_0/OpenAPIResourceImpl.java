@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.example.sample.internal.resource.v1_0_0;
+package com.example.sample.internal.resource.v1_0;
 
 import com.liferay.portal.vulcan.resource.OpenAPIResource;
 
@@ -37,12 +37,12 @@ import org.osgi.service.component.annotations.Reference;
  * @generated
  */
 @Component(
-	properties = "OSGI-INF/liferay/rest/v1_0_0/openapi.properties",
+	properties = "OSGI-INF/liferay/rest/v1_0/openapi.properties",
 	service = OpenAPIResourceImpl.class
 )
 @Generated("")
 @OpenAPIDefinition(
-	info = @Info(license = @License(name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html"), title = "", version = "1.0.0")
+	info = @Info(license = @License(name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html"), title = "", version = "v1.0")
 )
 @Path("/v1.0")
 public class OpenAPIResourceImpl {

@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.example.sample.internal.resource.v1_0_0;
+package com.example.sample.internal.resource.v1_0;
 
-import com.example.sample.dto.v1_0_0.Document;
-import com.example.sample.resource.v1_0_0.DocumentResource;
+import com.example.sample.dto.v1_0.Document;
+import com.example.sample.resource.v1_0.DocumentResource;
 
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.string.StringPool;
@@ -50,7 +50,7 @@ public abstract class BaseDocumentResourceImpl implements DocumentResource {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/sample/1.0.0/document/{documentId}'  -u 'test@liferay.com:test'
+	 * curl -X 'GET' 'http://localhost:8080/o/sample/v1.0/document/{documentId}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
