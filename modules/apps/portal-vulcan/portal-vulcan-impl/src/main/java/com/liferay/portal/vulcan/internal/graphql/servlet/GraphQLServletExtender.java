@@ -1704,6 +1704,9 @@ public class GraphQLServletExtender {
 				continue;
 			}
 
+			Map<Method, LiferayMethodDataFetcher> liferayMethodDataFetchers =
+				new HashMap<>();
+
 			for (String graphQLNamespace : graphQLNamespaces) {
 				GraphQLObjectType.Builder builder =
 					new GraphQLObjectType.Builder();
@@ -1732,11 +1735,15 @@ public class GraphQLServletExtender {
 						graphQLCodeRegistryBuilder.dataFetcher(
 							FieldCoordinates.coordinates(
 								graphQLNamespace, method.getName()),
-							new LiferayMethodDataFetcher(
-								new ServletDataRequestContext(
-									_companyId, method, mutation, servletData),
-								_graphQLRequestContextValidators,
-								_liferayMethodDataFetchingProcessor, method)
+							liferayMethodDataFetchers.computeIfAbsent(
+								method,
+								key -> new LiferayMethodDataFetcher(
+									new ServletDataRequestContext(
+										_companyId, method, mutation,
+										servletData),
+									_graphQLRequestContextValidators,
+									_liferayMethodDataFetchingProcessor,
+									method))
 						).build());
 				}
 
