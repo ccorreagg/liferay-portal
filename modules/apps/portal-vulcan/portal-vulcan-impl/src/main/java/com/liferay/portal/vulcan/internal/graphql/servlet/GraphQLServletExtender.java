@@ -17,7 +17,6 @@ import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapListener;
 import com.liferay.petra.function.transform.TransformUtil;
-import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
@@ -693,9 +692,14 @@ public class GraphQLServletExtender {
 
 						};
 
-						Servlet servlet = _createServlet(
+						Map<Long, Servlet> servlets = _createServlets(
 							_portal.getCompanyId(
 								(HttpServletRequest)arguments[0]));
+
+						long graphQLVersion = GetterUtil.getLong(
+							httpServletRequest.getHeader("graphql-version"), 1);
+
+						Servlet servlet = servlets.get(graphQLVersion);
 
 						servlet.init(_servletConfig);
 
@@ -971,11 +975,154 @@ public class GraphQLServletExtender {
 		return interfaceBuilder.build();
 	}
 
-	private Servlet _createServlet(long companyId) throws Exception {
-		Servlet servlet = _servlets.get(companyId);
+	private Servlet _createServlet(long companyId, long version)
+		throws Exception {
 
-		if (servlet != null) {
-			return servlet;
+		_registeredClassNames.clear();
+		_servletDataMap.clear();
+
+		GraphQLObjectType.Builder mutationGraphQLObjectTypeBuilder =
+			GraphQLObjectType.newObject();
+
+		mutationGraphQLObjectTypeBuilder.name(
+			GraphQLConstants.NAMESPACE_MUTATION);
+
+		ProcessingElementsContainer processingElementsContainer =
+			new ProcessingElementsContainer(_defaultTypeFunction);
+
+		Map<Class<?>, Set<Class<?>>> classesMap =
+			processingElementsContainer.getExtensionsTypeRegistry();
+
+		List<ServletData> servletDatas = new ArrayList<>();
+
+		for (ServletData servletData : _servletDataServiceTrackerList) {
+			if (_isGraphQLEnabled(servletData)) {
+				servletDatas.add(servletData);
+			}
+
+			Object query = servletData.getQuery();
+
+			Class<?> queryClass = query.getClass();
+
+			for (Class<?> innerClasses : queryClass.getClasses()) {
+				if (innerClasses.isAnnotationPresent(
+						GraphQLTypeExtension.class)) {
+
+					GraphQLTypeExtension graphQLTypeExtension =
+						innerClasses.getAnnotation(GraphQLTypeExtension.class);
+
+					Class<?> clazz = graphQLTypeExtension.value();
+
+					if (!classesMap.containsKey(clazz)) {
+						classesMap.put(clazz, new HashSet<>());
+					}
+
+					Set<Class<?>> classes = classesMap.get(clazz);
+
+					classes.add(innerClasses);
+
+					for (Method method : innerClasses.getMethods()) {
+						_servletDataMap.put(method, servletData);
+					}
+				}
+			}
+		}
+
+		if (version == 1) {
+			_collectObjectFields(
+				ServletData::getMutation, mutationGraphQLObjectTypeBuilder,
+				processingElementsContainer, servletDatas);
+		}
+
+		GraphQLObjectType.Builder queryGraphQLObjectTypeBuilder =
+			GraphQLObjectType.newObject();
+
+		queryGraphQLObjectTypeBuilder.name(GraphQLConstants.NAMESPACE_QUERY);
+
+		if (version == 1) {
+			_collectObjectFields(
+				ServletData::getQuery, queryGraphQLObjectTypeBuilder,
+				processingElementsContainer, servletDatas);
+		}
+
+		GraphQLSchema.Builder graphQLSchemaBuilder = GraphQLSchema.newSchema();
+
+		_registerCustomTypes(processingElementsContainer);
+		_registerGraphQLDTOContributors(
+			companyId, graphQLSchemaBuilder, processingElementsContainer,
+			mutationGraphQLObjectTypeBuilder, queryGraphQLObjectTypeBuilder);
+
+		GraphQLInterfaceType graphQLInterfaceType = _registerInterfaces(
+			graphQLSchemaBuilder, processingElementsContainer,
+			queryGraphQLObjectTypeBuilder);
+
+		_registerNamespace(
+			ServletData::getMutation, mutationGraphQLObjectTypeBuilder,
+			graphQLSchemaBuilder, true, processingElementsContainer,
+			servletDatas, version);
+		_registerNamespace(
+			ServletData::getQuery, queryGraphQLObjectTypeBuilder,
+			graphQLSchemaBuilder, false, processingElementsContainer,
+			servletDatas, version);
+
+		graphQLSchemaBuilder.mutation(mutationGraphQLObjectTypeBuilder.build());
+		graphQLSchemaBuilder.query(queryGraphQLObjectTypeBuilder.build());
+
+		GraphQLConfiguration.Builder graphQLConfigurationBuilder =
+			GraphQLConfiguration.with(
+				SchemaTransformer.transformSchema(
+					graphQLSchemaBuilder.build(),
+					new LiferayGraphQLTypeVisitor(graphQLInterfaceType)));
+
+		ExecutionStrategy executionStrategy = new AsyncExecutionStrategy(
+			new SanitizedDataFetcherExceptionHandler());
+
+		ExecutionStrategyProvider executionStrategyProvider =
+			new DefaultExecutionStrategyProvider(executionStrategy);
+
+		GraphQLQueryInvoker graphQLQueryInvoker =
+			GraphQLQueryInvoker.newBuilder(
+			).withExecutionStrategyProvider(
+				executionStrategyProvider
+			).withInstrumentation(
+				() -> _getQueryDepthLimitInstrumentation(companyId)
+			).build();
+
+		graphQLConfigurationBuilder.with(graphQLQueryInvoker);
+
+		GraphQLObjectMapper.Builder objectMapperBuilder =
+			GraphQLObjectMapper.newBuilder();
+
+		objectMapperBuilder.withGraphQLErrorHandler(
+			new LiferayGraphQLErrorHandler());
+		objectMapperBuilder.withObjectMapperProvider(
+			() -> {
+				ObjectMapper objectMapper = new ObjectMapper();
+
+				objectMapper.setFilterProvider(
+					new SimpleFilterProvider() {
+						{
+							addFilter(
+								"Liferay.Vulcan",
+								SimpleBeanPropertyFilter.serializeAll());
+						}
+					});
+
+				return objectMapper;
+			});
+
+		graphQLConfigurationBuilder.with(objectMapperBuilder.build());
+
+		return GraphQLHttpServlet.with(graphQLConfigurationBuilder.build());
+	}
+
+	private Map<Long, Servlet> _createServlets(long companyId)
+		throws Exception {
+
+		Map<Long, Servlet> servlets = _servlets.get(companyId);
+
+		if (servlets != null) {
+			return servlets;
 		}
 
 		synchronized (_servletDataServiceTrackerList) {
@@ -986,148 +1133,16 @@ public class GraphQLServletExtender {
 			PropertyDataFetcher.clearReflectionCache();
 
 			_companyId = companyId;
-			_registeredClassNames.clear();
-			_servletDataMap.clear();
 
-			GraphQLObjectType.Builder mutationGraphQLObjectTypeBuilder =
-				GraphQLObjectType.newObject();
+			servlets = HashMapBuilder.put(
+				1L, _createServlet(companyId, 1)
+			).put(
+				2L, _createServlet(companyId, 2)
+			).build();
 
-			mutationGraphQLObjectTypeBuilder.name(
-				GraphQLConstants.NAMESPACE_MUTATION);
+			_servlets.put(companyId, servlets);
 
-			ProcessingElementsContainer processingElementsContainer =
-				new ProcessingElementsContainer(_defaultTypeFunction);
-
-			Map<Class<?>, Set<Class<?>>> classesMap =
-				processingElementsContainer.getExtensionsTypeRegistry();
-
-			List<ServletData> servletDatas = new ArrayList<>();
-
-			for (ServletData servletData : _servletDataServiceTrackerList) {
-				if (_isGraphQLEnabled(servletData)) {
-					servletDatas.add(servletData);
-				}
-
-				Object query = servletData.getQuery();
-
-				Class<?> queryClass = query.getClass();
-
-				for (Class<?> innerClasses : queryClass.getClasses()) {
-					if (innerClasses.isAnnotationPresent(
-							GraphQLTypeExtension.class)) {
-
-						GraphQLTypeExtension graphQLTypeExtension =
-							innerClasses.getAnnotation(
-								GraphQLTypeExtension.class);
-
-						Class<?> clazz = graphQLTypeExtension.value();
-
-						if (!classesMap.containsKey(clazz)) {
-							classesMap.put(clazz, new HashSet<>());
-						}
-
-						Set<Class<?>> classes = classesMap.get(clazz);
-
-						classes.add(innerClasses);
-
-						for (Method method : innerClasses.getMethods()) {
-							_servletDataMap.put(method, servletData);
-						}
-					}
-				}
-			}
-
-			_collectObjectFields(
-				ServletData::getMutation, mutationGraphQLObjectTypeBuilder,
-				processingElementsContainer, servletDatas);
-
-			GraphQLObjectType.Builder queryGraphQLObjectTypeBuilder =
-				GraphQLObjectType.newObject();
-
-			queryGraphQLObjectTypeBuilder.name(
-				GraphQLConstants.NAMESPACE_QUERY);
-
-			_collectObjectFields(
-				ServletData::getQuery, queryGraphQLObjectTypeBuilder,
-				processingElementsContainer, servletDatas);
-
-			GraphQLSchema.Builder graphQLSchemaBuilder =
-				GraphQLSchema.newSchema();
-
-			_registerCustomTypes(processingElementsContainer);
-			_registerGraphQLDTOContributors(
-				companyId, graphQLSchemaBuilder, processingElementsContainer,
-				mutationGraphQLObjectTypeBuilder,
-				queryGraphQLObjectTypeBuilder);
-
-			GraphQLInterfaceType graphQLInterfaceType = _registerInterfaces(
-				graphQLSchemaBuilder, processingElementsContainer,
-				queryGraphQLObjectTypeBuilder);
-
-			_registerNamespace(
-				ServletData::getMutation, mutationGraphQLObjectTypeBuilder,
-				graphQLSchemaBuilder, true, processingElementsContainer,
-				servletDatas);
-			_registerNamespace(
-				ServletData::getQuery, queryGraphQLObjectTypeBuilder,
-				graphQLSchemaBuilder, false, processingElementsContainer,
-				servletDatas);
-
-			graphQLSchemaBuilder.mutation(
-				mutationGraphQLObjectTypeBuilder.build());
-			graphQLSchemaBuilder.query(queryGraphQLObjectTypeBuilder.build());
-
-			GraphQLConfiguration.Builder graphQLConfigurationBuilder =
-				GraphQLConfiguration.with(
-					SchemaTransformer.transformSchema(
-						graphQLSchemaBuilder.build(),
-						new LiferayGraphQLTypeVisitor(graphQLInterfaceType)));
-
-			ExecutionStrategy executionStrategy = new AsyncExecutionStrategy(
-				new SanitizedDataFetcherExceptionHandler());
-
-			ExecutionStrategyProvider executionStrategyProvider =
-				new DefaultExecutionStrategyProvider(executionStrategy);
-
-			GraphQLQueryInvoker graphQLQueryInvoker =
-				GraphQLQueryInvoker.newBuilder(
-				).withExecutionStrategyProvider(
-					executionStrategyProvider
-				).withInstrumentation(
-					() -> _getQueryDepthLimitInstrumentation(companyId)
-				).build();
-
-			graphQLConfigurationBuilder.with(graphQLQueryInvoker);
-
-			GraphQLObjectMapper.Builder objectMapperBuilder =
-				GraphQLObjectMapper.newBuilder();
-
-			objectMapperBuilder.withGraphQLErrorHandler(
-				new LiferayGraphQLErrorHandler());
-			objectMapperBuilder.withObjectMapperProvider(
-				() -> {
-					ObjectMapper objectMapper = new ObjectMapper();
-
-					objectMapper.setFilterProvider(
-						new SimpleFilterProvider() {
-							{
-								addFilter(
-									"Liferay.Vulcan",
-									SimpleBeanPropertyFilter.serializeAll());
-							}
-						});
-
-					return objectMapper;
-				});
-
-			graphQLConfigurationBuilder.with(objectMapperBuilder.build());
-
-			servlet = GraphQLHttpServlet.with(
-				graphQLConfigurationBuilder.build());
-
-			_servlets.put(companyId, servlet);
-
-			return servlet;
+			return servlets;
 		}
 	}
 
@@ -1664,29 +1679,45 @@ public class GraphQLServletExtender {
 		GraphQLObjectType.Builder graphQLObjectTypeBuilder,
 		GraphQLSchema.Builder graphQLSchemaBuilder, boolean mutation,
 		ProcessingElementsContainer processingElementsContainer,
-		List<ServletData> servletDatas) {
+		List<ServletData> servletDatas, long version) {
 
 		for (ServletData servletData : servletDatas) {
-			Set<String> graphQLNamespaces = new HashSet<>();
+			String graphQLNamespace = null;
 
-			if (servletData.getApplicationName() != null) {
-				graphQLNamespaces.add(
-					CamelCaseUtil.toCamelCase(
-						StringUtil.lowerCaseFirstLetter(
-							StringUtil.removeLast(
-								servletData.getApplicationName(), ".REST")),
-						CharPool.PERIOD));
+			if ((version == 1) && (servletData.getGraphQLNamespace() != null)) {
+				graphQLNamespace = servletData.getGraphQLNamespace();
+			}
+			else if ((version == 2) && (servletData.getPath() != null)) {
+				String path = servletData.getPath();
+
+				if (path.startsWith("/")) {
+					path = path.substring(1);
+				}
+
+				String[] pathParts = path.split("/");
+
+				String firstPathPart = StringUtil.removeLast(
+					pathParts[0], "-graphql");
+
+				int index = firstPathPart.indexOf("-rest");
+
+				if (index != -1) {
+					firstPathPart = firstPathPart.substring(0, index);
+				}
+
+				graphQLNamespace = CamelCaseUtil.toCamelCase(
+					firstPathPart + "_" + pathParts[1]);
 			}
 
-			if (servletData.getGraphQLNamespace() != null) {
-				graphQLNamespaces.add(servletData.getGraphQLNamespace());
-			}
-
-			if (graphQLNamespaces.isEmpty()) {
+			if (graphQLNamespace == null) {
 				continue;
 			}
 
 			Object query = function.apply(servletData);
+
+			if (query == null) {
+				continue;
+			}
 
 			Class<?> clazz = query.getClass();
 
@@ -1707,63 +1738,56 @@ public class GraphQLServletExtender {
 			Map<Method, LiferayMethodDataFetcher> liferayMethodDataFetchers =
 				new HashMap<>();
 
-			for (String graphQLNamespace : graphQLNamespaces) {
-				GraphQLObjectType.Builder builder =
-					new GraphQLObjectType.Builder();
+			GraphQLObjectType.Builder builder = new GraphQLObjectType.Builder();
 
-				String prefix = "";
+			String prefix = "";
 
-				if (mutation) {
-					prefix = "Mutation";
-				}
+			if (mutation) {
+				prefix = "Mutation";
+			}
 
-				builder.name(
-					prefix + StringUtil.upperCaseFirstLetter(graphQLNamespace));
+			builder.name(
+				prefix + StringUtil.upperCaseFirstLetter(graphQLNamespace));
 
-				GraphQLCodeRegistry.Builder graphQLCodeRegistryBuilder =
-					processingElementsContainer.getCodeRegistryBuilder();
+			GraphQLCodeRegistry.Builder graphQLCodeRegistryBuilder =
+				processingElementsContainer.getCodeRegistryBuilder();
 
-				for (Method method : methods) {
-					_servletDataMap.put(method, servletData);
+			for (Method method : methods) {
+				_servletDataMap.put(method, servletData);
 
-					builder.field(
-						_graphQLFieldRetriever.getField(
-							clazz.getSimpleName(), method,
-							processingElementsContainer));
-
-					graphQLSchemaBuilder.codeRegistry(
-						graphQLCodeRegistryBuilder.dataFetcher(
-							FieldCoordinates.coordinates(
-								graphQLNamespace, method.getName()),
-							liferayMethodDataFetchers.computeIfAbsent(
-								method,
-								key -> new LiferayMethodDataFetcher(
-									new ServletDataRequestContext(
-										_companyId, method, mutation,
-										servletData),
-									_graphQLRequestContextValidators,
-									_liferayMethodDataFetchingProcessor,
-									method))
-						).build());
-				}
-
-				graphQLObjectTypeBuilder.field(
-					_addField(builder.build(), graphQLNamespace));
-
-				String parentField = GraphQLConstants.NAMESPACE_QUERY;
-
-				if (mutation) {
-					parentField = GraphQLConstants.NAMESPACE_MUTATION;
-				}
+				builder.field(
+					_graphQLFieldRetriever.getField(
+						clazz.getSimpleName(), method,
+						processingElementsContainer));
 
 				graphQLSchemaBuilder.codeRegistry(
 					graphQLCodeRegistryBuilder.dataFetcher(
 						FieldCoordinates.coordinates(
-							parentField, graphQLNamespace),
-						(DataFetcher<Object>)
-							dataFetchingEnvironment -> new Object()
+							graphQLNamespace, method.getName()),
+						liferayMethodDataFetchers.computeIfAbsent(
+							method,
+							key -> new LiferayMethodDataFetcher(
+								new ServletDataRequestContext(
+									_companyId, method, mutation, servletData),
+								_graphQLRequestContextValidators,
+								_liferayMethodDataFetchingProcessor, method))
 					).build());
 			}
+
+			graphQLObjectTypeBuilder.field(
+				_addField(builder.build(), graphQLNamespace));
+
+			String parentField = GraphQLConstants.NAMESPACE_QUERY;
+
+			if (mutation) {
+				parentField = GraphQLConstants.NAMESPACE_MUTATION;
+			}
+
+			graphQLSchemaBuilder.codeRegistry(
+				graphQLCodeRegistryBuilder.dataFetcher(
+					FieldCoordinates.coordinates(parentField, graphQLNamespace),
+					(DataFetcher<Object>)dataFetchingEnvironment -> new Object()
+				).build());
 		}
 	}
 
@@ -2072,7 +2096,8 @@ public class GraphQLServletExtender {
 		_servletContextHelperServiceRegistration;
 	private final Map<Method, ServletData> _servletDataMap = new HashMap<>();
 	private ServiceTrackerList<ServletData> _servletDataServiceTrackerList;
-	private final Map<Long, Servlet> _servlets = new ConcurrentHashMap<>();
+	private final Map<Long, Map<Long, Servlet>> _servlets =
+		new ConcurrentHashMap<>();
 	private ServiceRegistration<Servlet> _servletServiceRegistration;
 
 	@Reference
