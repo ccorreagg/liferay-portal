@@ -87,6 +87,8 @@ import {config as marketplaceConfig} from './tests/workspaces/liferay-workspace-
 
 const setupProjects = [pageManagementSiteSetup, pageManagementSiteTeardown];
 
+import 'dotenv/config';
+
 export default defineConfig({
 	expect: {
 		timeout: 15 * 1000,
