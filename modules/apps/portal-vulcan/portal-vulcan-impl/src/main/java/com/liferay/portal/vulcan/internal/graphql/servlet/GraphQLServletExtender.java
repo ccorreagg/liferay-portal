@@ -1048,9 +1048,6 @@ public class GraphQLServletExtender {
 		GraphQLSchema.Builder graphQLSchemaBuilder = GraphQLSchema.newSchema();
 
 		_registerCustomTypes(processingElementsContainer);
-		_registerGraphQLDTOContributors(
-			companyId, graphQLSchemaBuilder, processingElementsContainer,
-			mutationGraphQLObjectTypeBuilder, queryGraphQLObjectTypeBuilder);
 
 		GraphQLInterfaceType graphQLInterfaceType = _registerInterfaces(
 			graphQLSchemaBuilder, processingElementsContainer,
@@ -1064,6 +1061,10 @@ public class GraphQLServletExtender {
 			ServletData::getQuery, queryGraphQLObjectTypeBuilder,
 			graphQLSchemaBuilder, false, processingElementsContainer,
 			servletDatas, version);
+
+		_registerGraphQLDTOContributors(
+			companyId, graphQLSchemaBuilder, processingElementsContainer,
+			mutationGraphQLObjectTypeBuilder, queryGraphQLObjectTypeBuilder);
 
 		graphQLSchemaBuilder.mutation(mutationGraphQLObjectTypeBuilder.build());
 		graphQLSchemaBuilder.query(queryGraphQLObjectTypeBuilder.build());
