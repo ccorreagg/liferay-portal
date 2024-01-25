@@ -13,6 +13,33 @@ components:
                 - properties:
                       property2:
                           type: string
+        Folder:
+            description:
+                "https://www.schema.org/Folder"
+            properties:
+                dateCreated:
+                    format: date-time
+                    type: string
+                dateModified:
+                    format: date-time
+                    type: string
+                description:
+                    type: string
+                documentsRepository:
+                    $ref: "#/components/schemas/Folder"
+                externalField:
+                    items:
+                        $ref: "src/test/resources/com/liferay/portal/tools/rest/builder/external-dependencies/rest-openapi.yaml#/components/schemas/ExternalReferenceElement1"
+                    type: array
+                id:
+                    format: int64
+                    type: integer
+                name:
+                    type: string
+                self:
+                    type: string
+                subFolders:
+                    $ref: "#/components/schemas/Folder"
             type: object
         ChildTestEntity3:
             allOf:
@@ -71,6 +98,10 @@ components:
                     type: string
                 description:
                     type: string
+                external-reference-field:
+                    items:
+                        $ref: "src/test/resources/com/liferay/portal/tools/rest/builder/external-dependencies/rest-openapi.yaml#/components/schemas/ExternalReferenceElement2"
+                    type: array
                 id:
                     format: int64
                     type: integer
