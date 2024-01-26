@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegateRegistry;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -158,8 +159,7 @@ public class VulcanBatchEngineTaskItemDelegateRegistryImpl
 				serviceReference.getProperty("batch.planner.export.enabled"));
 			boolean batchPlannerImportEnabled = GetterUtil.getBoolean(
 				serviceReference.getProperty("batch.planner.import.enabled"));
-			List<String> companyIdStrings = (List)serviceReference.getProperty(
-				"companyId");
+			List<String> companyIdStrings = _getCompanyIds(serviceReference);
 			String entityClassName = (String)serviceReference.getProperty(
 				"entity.class.name");
 			VulcanBatchEngineTaskItemDelegate<?>
@@ -229,8 +229,7 @@ public class VulcanBatchEngineTaskItemDelegateRegistryImpl
 			VulcanBatchEngineTaskItemDelegate<?>
 				vulcanBatchEngineTaskItemDelegate) {
 
-			List<String> companyIdStrings = (List)serviceReference.getProperty(
-				"companyId");
+			List<String> companyIdStrings = _getCompanyIds(serviceReference);
 
 			if (companyIdStrings == null) {
 				return;
@@ -293,8 +292,7 @@ public class VulcanBatchEngineTaskItemDelegateRegistryImpl
 			VulcanBatchEngineTaskItemDelegate<?>
 				vulcanBatchEngineTaskItemDelegate) {
 
-			List<String> companyIdStrings = (List)serviceReference.getProperty(
-				"companyId");
+			List<String> companyIdStrings = _getCompanyIds(serviceReference);
 			String entityClassName = (String)serviceReference.getProperty(
 				"entity.class.name");
 
@@ -336,6 +334,22 @@ public class VulcanBatchEngineTaskItemDelegateRegistryImpl
 			BundleContext bundleContext) {
 
 			_bundleContext = bundleContext;
+		}
+
+		private List<String> _getCompanyIds(
+			ServiceReference<?> serviceReference) {
+
+			Object companyIdObject = serviceReference.getProperty("companyId");
+
+			if (companyIdObject == null) {
+				return null;
+			}
+
+			if (companyIdObject instanceof List) {
+				return (List)companyIdObject;
+			}
+
+			return Collections.singletonList(String.valueOf(companyIdObject));
 		}
 
 		private final BundleContext _bundleContext;
