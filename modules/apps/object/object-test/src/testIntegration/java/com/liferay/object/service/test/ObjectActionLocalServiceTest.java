@@ -2007,7 +2007,7 @@ public class ObjectActionLocalServiceTest {
 						com.liferay.object.rest.dto.v1_0.ObjectEntry.class.
 							getName(),
 						StringPool.POUND,
-						_objectDefinition.getOSGiJaxRsName()));
+						_objectDefinition.getName()));
 
 			objectEntryResource.setContextAcceptLanguage(
 				new AcceptLanguage() {
