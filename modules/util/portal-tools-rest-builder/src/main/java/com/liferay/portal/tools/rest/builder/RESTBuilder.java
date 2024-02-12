@@ -1858,7 +1858,7 @@ public class RESTBuilder {
 	}
 
 	private void _invokeJSClientGenerator(
-			OpenAPIYAML openAPIYAML, File openApiYamlFile)
+			OpenAPIYAML openAPIYAML, File openAPIYAMLFile)
 		throws Exception {
 
 		String baseClientDir =
@@ -1880,8 +1880,8 @@ public class RESTBuilder {
 
 		String clientName = sb.toString();
 
-		openApiYamlFile = _prepareForJSClientGenerator(
-			openApiYamlFile, openAPIYAML, _configYAML);
+		openAPIYAMLFile = _prepareForJSClientGenerator(
+			openAPIYAMLFile, openAPIYAML, _configYAML);
 
 		Path packajeJsonPath = Paths.get(baseClientDir, "package.json");
 
@@ -1904,7 +1904,7 @@ public class RESTBuilder {
 			List<String> args = new ArrayList<>(
 				Arrays.asList(
 					"npx", "openapi-typescript-codegen@0.27.0", "--input",
-					openApiYamlFile.getPath(), "--output",
+					openAPIYAMLFile.getPath(), "--output",
 					outputDirPath.toString(), "--client", target));
 
 			args.add("--name");
@@ -1941,7 +1941,7 @@ public class RESTBuilder {
 			}
 		}
 
-		FileUtil.delete(openApiYamlFile);
+		FileUtil.delete(openAPIYAMLFile);
 	}
 
 	private OpenAPIYAML _loadOpenAPIYAML(String yamlString) {
@@ -2016,14 +2016,14 @@ public class RESTBuilder {
 	}
 
 	private File _prepareForJSClientGenerator(
-			File openApiYamlFile, OpenAPIYAML openAPIYAML,
+			File openAPIYAMLFile, OpenAPIYAML openAPIYAML,
 			ConfigYAML configYAML)
 		throws Exception {
 
 		File outputOpenApiYamlFile = new File("openapi-js.yaml");
 
 		try (BufferedReader bufferedReader = new BufferedReader(
-				new FileReader(openApiYamlFile));
+				new FileReader(openAPIYAMLFile));
 			BufferedWriter bufferedWriter = new BufferedWriter(
 				new FileWriter(outputOpenApiYamlFile))) {
 
