@@ -36,7 +36,6 @@ import com.liferay.portal.vulcan.internal.jaxrs.context.provider.CompanyContextP
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.FieldsQueryParamContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.PaginationContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.RestrictFieldsQueryParamContextProvider;
-import com.liferay.portal.vulcan.internal.jaxrs.context.provider.SortContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.provider.UserContextProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.context.resolver.EntityExtensionHandlerContextResolver;
 import com.liferay.portal.vulcan.internal.jaxrs.context.resolver.ObjectMapperContextResolver;
@@ -181,8 +180,6 @@ public class VulcanFeature implements Feature {
 		featureContext.register(
 			new SiteParamConverterProvider(
 				_depotEntryLocalService, _groupLocalService));
-		featureContext.register(
-			new SortContextProvider(_language, _portal, _sortParserProvider));
 		featureContext.register(new UserContextProvider(_portal));
 
 		return false;
