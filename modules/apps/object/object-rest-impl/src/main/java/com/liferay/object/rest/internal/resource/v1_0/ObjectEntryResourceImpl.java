@@ -199,8 +199,8 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 
 		return objectEntryManager.getObjectEntries(
 			contextCompany.getCompanyId(), _objectDefinition, null, aggregation,
-			_getDTOConverterContext(null), _getFilterString(), pagination,
-			search, sorts);
+			_getDTOConverterContext(null), _getParameterString("filter"), pagination,
+			search, _getParameterString("sort"));
 	}
 
 	@Override
@@ -242,7 +242,7 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 
 		return objectEntryManager.getObjectEntries(
 			contextCompany.getCompanyId(), _objectDefinition, scopeKey,
-			aggregation, _getDTOConverterContext(null), _getFilterString(),
+			aggregation, _getDTOConverterContext(null), _getParameterString("filter"),
 			pagination, search, sorts);
 	}
 
@@ -537,12 +537,12 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			contextUser);
 	}
 
-	private String _getFilterString() {
+	private String _getParameterString(String parameterName) {
 		if (contextHttpServletRequest == null) {
 			return null;
 		}
 
-		return ParamUtil.getString(contextHttpServletRequest, "filter");
+		return ParamUtil.getString(contextHttpServletRequest, parameterName);
 	}
 
 	private long _getPrimaryKey(

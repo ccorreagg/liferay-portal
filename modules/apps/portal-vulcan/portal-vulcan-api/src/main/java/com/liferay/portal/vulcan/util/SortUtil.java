@@ -15,6 +15,7 @@ import com.liferay.portal.odata.sort.SortParser;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Luis Miguel Barcos
@@ -22,8 +23,8 @@ import java.util.List;
 public class SortUtil {
 
 	public static Sort[] getSorts(
-		AcceptLanguage acceptLanguage, EntityModel entityModel,
-		SortParser sortParser, String sortString) {
+		EntityModel entityModel, Locale locale, SortParser sortParser,
+		String sortString) {
 
 		if (_log.isDebugEnabled()) {
 			_log.debug("Sort parameter value: " + sortString);
@@ -62,11 +63,19 @@ public class SortUtil {
 
 			sorts[i] = new Sort(
 				sortField.getSortableFieldName(
-					acceptLanguage.getPreferredLocale()),
+					locale),
 				!sortField.isAscending());
 		}
 
 		return sorts;
+	}
+
+	@Deprecated
+	public static Sort[] getSorts(
+		AcceptLanguage acceptLanguage, EntityModel entityModel,
+		SortParser sortParser, String sortString) {
+
+		return getSorts(entityModel, acceptLanguage.getPreferredLocale(), sortParser, sortString);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(SortUtil.class);

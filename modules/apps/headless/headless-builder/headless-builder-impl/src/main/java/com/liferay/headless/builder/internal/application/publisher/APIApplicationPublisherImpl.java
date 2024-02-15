@@ -201,6 +201,8 @@ public class APIApplicationPublisherImpl
 		).put(
 			"liferay.objects.exception.mapper", true
 		).put(
+			"liferay.sort.disabled", true
+		).put(
 			"osgi.jaxrs.application.base",
 			HeadlessBuilderConstants.BASE_PATH_SUFFIX + baseURL
 		).put(

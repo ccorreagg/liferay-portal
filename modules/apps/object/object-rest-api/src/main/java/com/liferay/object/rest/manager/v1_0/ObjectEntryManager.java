@@ -8,6 +8,7 @@ package com.liferay.object.rest.manager.v1_0;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.aggregation.Aggregation;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterContext;
 import com.liferay.portal.vulcan.pagination.Page;
@@ -39,6 +40,16 @@ public interface ObjectEntryManager {
 			String filterString, Pagination pagination, String search,
 			Sort[] sorts)
 		throws Exception;
+
+	public default Page<ObjectEntry> getObjectEntries(
+			long companyId, ObjectDefinition objectDefinition, String scopeKey,
+			Aggregation aggregation, DTOConverterContext dtoConverterContext,
+			String filterString, Pagination pagination, String search,
+			String sortString) throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
 
 	public ObjectEntry getObjectEntry(
 			long companyId, DTOConverterContext dtoConverterContext,

@@ -41,6 +41,7 @@ import com.liferay.object.rest.manager.v1_0.ObjectEntryManager;
 import com.liferay.object.rest.manager.v1_0.ObjectEntryManagerRegistry;
 import com.liferay.object.rest.manager.v1_0.ObjectRelationshipElementsParser;
 import com.liferay.object.rest.manager.v1_0.ObjectRelationshipElementsParserRegistry;
+import com.liferay.object.rest.odata.entity.v1_0.provider.EntityModelProvider;
 import com.liferay.object.service.ObjectActionLocalService;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryService;
@@ -79,10 +80,13 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.GroupThreadLocal;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.odata.filter.expression.Expression;
+import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.search.aggregation.Aggregations;
 import com.liferay.portal.search.aggregation.bucket.FilterAggregation;
 import com.liferay.portal.search.aggregation.bucket.NestedAggregation;
@@ -90,6 +94,7 @@ import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.query.Queries;
 import com.liferay.portal.search.searcher.SearchRequestBuilder;
 import com.liferay.portal.service.PersistedModelLocalServiceRegistryUtil;
+import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.aggregation.Aggregation;
 import com.liferay.portal.vulcan.aggregation.Facet;
 import com.liferay.portal.vulcan.dto.converter.DTOConverter;
@@ -117,9 +122,11 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
+import com.liferay.portal.vulcan.util.SortUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -527,6 +534,39 @@ public class DefaultObjectEntryManagerImpl
 				dtoConverterContext, objectDefinition,
 				GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK))));
 	}
+
+	@Override
+	public Page<ObjectEntry> getObjectEntries(
+		long companyId, ObjectDefinition objectDefinition, String scopeKey,
+		Aggregation aggregation, DTOConverterContext dtoConverterContext,
+		String filterString, Pagination pagination, String search,
+		String sortString)
+		throws Exception {
+
+		Sort[] sorts = null;
+
+		if (sortString != null) {
+			EntityModel entityModel =
+				_entityModelProvider.getEntityModel(objectDefinition);
+
+			sorts = SortUtil.getSorts(
+				entityModel, dtoConverterContext.getLocale(),
+				_sortParserProvider.provide(entityModel), sortString);
+		}
+
+		return getObjectEntries(
+			companyId, objectDefinition, scopeKey, aggregation,
+			dtoConverterContext,
+			_objectDefinitionFilterParser.parse(filterString, objectDefinition),
+			pagination, search, sorts);
+	}
+
+	@Reference
+	private SortParserProvider _sortParserProvider;
+
+
+	@Reference
+	private EntityModelProvider _entityModelProvider;
 
 	@Override
 	public Page<ObjectEntry> getObjectEntries(

@@ -15,6 +15,7 @@ import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.relationship.util.ObjectRelationshipUtil;
 import com.liferay.object.service.ObjectFieldLocalServiceUtil;
 import com.liferay.object.service.ObjectRelationshipLocalServiceUtil;
+import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.util.HashMapBuilder;
@@ -49,7 +50,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 		throws Exception {
 
 		_entityFieldsMap = _getStringEntityFieldsMap(
-			objectDefinition, objectFields);
+			objectDefinition, objectFields, null);
 
 		List<ObjectRelationship> objectRelationships =
 			ObjectRelationshipLocalServiceUtil.getAllObjectRelationships(
@@ -158,7 +159,8 @@ public class ObjectEntryEntityModel implements EntityModel {
 			_getStringEntityFieldsMap(
 				objectDefinition,
 				ObjectFieldLocalServiceUtil.getObjectFields(
-					relatedObjectDefinition.getObjectDefinitionId()));
+					relatedObjectDefinition.getObjectDefinitionId()),
+				objectRelationship);
 
 		List<EntityField> relatedObjectDefinitionEntityFields = new ArrayList<>(
 			relatedObjectDefinitionEntityFieldsMap.values());
@@ -199,31 +201,41 @@ public class ObjectEntryEntityModel implements EntityModel {
 		return relatedObjectDefinitionEntityFields;
 	}
 
+	private String _getSortablePrefix(ObjectRelationship objectRelationship) {
+		if (objectRelationship == null) {
+			return "";
+		}
+
+		return objectRelationship.getName() + StringPool.SLASH;
+	}
+
 	private Map<String, EntityField> _getStringEntityFieldsMap(
-		ObjectDefinition objectDefinition, List<ObjectField> objectFields) {
+		ObjectDefinition objectDefinition, List<ObjectField> objectFields, ObjectRelationship objectRelationship) {
+
+		String sortablePrefix = _getSortablePrefix(objectRelationship);
 
 		Map<String, EntityField> entityFieldsMap =
 			HashMapBuilder.<String, EntityField>put(
-				"creator", new StringEntityField("creator", locale -> "creator")
+				"creator", new StringEntityField("creator", locale -> sortablePrefix + "creator", locale -> "creator")
 			).put(
 				"creatorId",
 				new IntegerEntityField("creatorId", locale -> Field.USER_ID)
 			).put(
 				"dateCreated",
 				new DateTimeEntityField(
-					"dateCreated", locale -> Field.CREATE_DATE,
+					"dateCreated", locale -> sortablePrefix + Field.CREATE_DATE,
 					locale -> Field.CREATE_DATE)
 			).put(
 				"dateModified",
 				new DateTimeEntityField(
-					"dateModified", locale -> "modifiedDate",
+					"dateModified", locale -> sortablePrefix + "modifiedDate",
 					locale -> "modifiedDate")
 			).put(
 				"externalReferenceCode",
 				() -> new StringEntityField(
-					"externalReferenceCode", locale -> "externalReferenceCode")
+					"externalReferenceCode", locale -> sortablePrefix + "externalReferenceCode", locale -> "externalReferenceCode")
 			).put(
-				"id", new IdEntityField("id", locale -> "id", String::valueOf)
+				"id", new IdEntityField("id", locale -> sortablePrefix + "id", String::valueOf)
 			).put(
 				"keywords",
 				new CollectionEntityField(
