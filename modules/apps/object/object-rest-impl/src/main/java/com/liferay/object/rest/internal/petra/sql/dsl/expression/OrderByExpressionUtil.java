@@ -7,7 +7,9 @@ package com.liferay.object.rest.internal.petra.sql.dsl.expression;
 
 import com.liferay.object.constants.ObjectFieldConstants;
 import com.liferay.object.model.ObjectField;
+import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.service.ObjectFieldLocalService;
+import com.liferay.object.service.ObjectRelationshipLocalService;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.sql.dsl.Column;
 import com.liferay.petra.sql.dsl.DSLFunctionFactoryUtil;
@@ -15,6 +17,7 @@ import com.liferay.petra.sql.dsl.Table;
 import com.liferay.petra.sql.dsl.expression.Expression;
 import com.liferay.petra.sql.dsl.query.sort.OrderByExpression;
 import com.liferay.petra.string.CharPool;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.util.StringUtil;
 
@@ -28,7 +31,9 @@ public class OrderByExpressionUtil {
 
 	public static OrderByExpression[] getOrderByExpressions(
 		long objectDefinitionId,
-		ObjectFieldLocalService objectFieldLocalService, Sort[] sorts) {
+		ObjectFieldLocalService objectFieldLocalService,
+		ObjectRelationshipLocalService objectRelationshipLocalService,
+		Sort[] sorts) {
 
 		if (sorts == null) {
 			return null;
@@ -46,9 +51,33 @@ public class OrderByExpressionUtil {
 					fieldName = parts[1];
 				}
 
-				ObjectField objectField =
-					objectFieldLocalService.fetchObjectField(
+				ObjectField objectField = null;
+
+				if (fieldName.contains(StringPool.SLASH)) {
+
+					String[] parts = StringUtil.split(
+						fieldName, CharPool.SLASH);
+
+					ObjectRelationship objectRelationship =
+						objectRelationshipLocalService.getObjectRelationshipByObjectDefinitionId(
+							objectDefinitionId, parts[0]);
+
+					long relatedObjectDefinitionId;
+
+					if (objectRelationship.getObjectDefinitionId1() == objectDefinitionId) {
+						relatedObjectDefinitionId = objectRelationship.getObjectDefinitionId2();
+					} else {
+						relatedObjectDefinitionId = objectRelationship.getObjectDefinitionId1();
+					}
+
+					Column<?, ?> column = objectFieldLocalService.getColumn(relatedObjectDefinitionId, parts[1]);
+
+					return _getOrderByExpression(column, sort);
+
+				} else {
+					objectField = objectFieldLocalService.fetchObjectField(
 						objectDefinitionId, fieldName);
+				}
 
 				if (objectField.compareBusinessType(
 						ObjectFieldConstants.BUSINESS_TYPE_AUTO_INCREMENT)) {

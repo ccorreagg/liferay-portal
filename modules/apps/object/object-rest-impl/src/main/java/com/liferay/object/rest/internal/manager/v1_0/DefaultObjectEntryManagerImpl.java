@@ -451,7 +451,8 @@ public class DefaultObjectEntryManagerImpl
 					start, end,
 					OrderByExpressionUtil.getOrderByExpressions(
 						objectDefinition.getObjectDefinitionId(),
-						objectFieldLocalService, sorts)),
+						objectFieldLocalService,
+						_objectRelationshipLocalService, sorts)),
 				values -> _getObjectEntry(
 					dtoConverterContext, objectDefinition, values)),
 			pagination,
