@@ -72,6 +72,7 @@ import com.liferay.object.scope.ObjectScopeProvider;
 import com.liferay.object.scope.ObjectScopeProviderRegistry;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.service.ObjectFieldSettingLocalService;
+import com.liferay.object.service.ObjectRelationshipLocalServiceUtil;
 import com.liferay.object.service.ObjectStateFlowLocalService;
 import com.liferay.object.service.ObjectStateLocalService;
 import com.liferay.object.service.base.ObjectEntryLocalServiceBaseImpl;
@@ -135,6 +136,7 @@ import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.security.auth.GuestOrUserUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
@@ -1145,7 +1147,7 @@ public class ObjectEntryLocalServiceImpl
 	public List<Map<String, Serializable>> getValuesList(
 			long groupId, long companyId, long userId, long objectDefinitionId,
 			Predicate predicate, String search, int start, int end,
-			OrderByExpression[] orderByExpressions)
+			Sort[] sorts)
 		throws PortalException {
 
 		DynamicObjectDefinitionLocalizationTable
@@ -1169,49 +1171,113 @@ public class ObjectEntryLocalServiceImpl
 				extensionDynamicObjectDefinitionTable.getPrimaryKeyColumn()),
 			_EXPRESSIONS);
 
-		List<Object[]> rows = _list(
-			DSLQueryFactoryUtil.select(
-				selectExpressions
-			).from(
-				dynamicObjectDefinitionTable
-			).innerJoinON(
-				extensionDynamicObjectDefinitionTable,
-				extensionDynamicObjectDefinitionTable.getPrimaryKeyColumn(
-				).eq(
-					dynamicObjectDefinitionTable.getPrimaryKeyColumn()
-				)
-			).innerJoinON(
-				ObjectEntryTable.INSTANCE,
-				ObjectEntryTable.INSTANCE.objectEntryId.eq(
-					dynamicObjectDefinitionTable.getPrimaryKeyColumn())
-			).innerJoinON(
-				rootDynamicObjectDefinitionTable,
-				_getInnerJoinRootObjectDefinitionTablePredicate(
-					rootDynamicObjectDefinitionTable)
-			).leftJoinOn(
+		JoinStep joinStep = DSLQueryFactoryUtil.select(
+			selectExpressions
+		).from(
+			dynamicObjectDefinitionTable
+		).innerJoinON(
+			extensionDynamicObjectDefinitionTable,
+			extensionDynamicObjectDefinitionTable.getPrimaryKeyColumn(
+			).eq(
+				dynamicObjectDefinitionTable.getPrimaryKeyColumn()
+			)
+		).innerJoinON(
+			ObjectEntryTable.INSTANCE,
+			ObjectEntryTable.INSTANCE.objectEntryId.eq(
+				dynamicObjectDefinitionTable.getPrimaryKeyColumn())
+		).innerJoinON(
+			rootDynamicObjectDefinitionTable,
+			_getInnerJoinRootObjectDefinitionTablePredicate(
+				rootDynamicObjectDefinitionTable)
+		).leftJoinOn(
+			dynamicObjectDefinitionLocalizationTable,
+			_getLeftJoinLocalizationTablePredicate(
 				dynamicObjectDefinitionLocalizationTable,
-				_getLeftJoinLocalizationTablePredicate(
-					dynamicObjectDefinitionLocalizationTable,
-					dynamicObjectDefinitionTable)
-			).where(
-				ObjectEntryTable.INSTANCE.objectDefinitionId.eq(
-					objectDefinitionId
-				).and(
-					() -> {
-						if (groupId == 0) {
-							return null;
-						}
+				dynamicObjectDefinitionTable)
+		);
 
-						return ObjectEntryTable.INSTANCE.groupId.eq(groupId);
+		Predicate wherePredicate =
+			ObjectEntryTable.INSTANCE.objectDefinitionId.eq(
+				objectDefinitionId
+			).and(
+				() -> {
+					if (groupId == 0) {
+						return null;
 					}
-				).and(
-					_fillPredicate(objectDefinitionId, predicate, search)
-				).and(
-					_getPermissionWherePredicate(
-						dynamicObjectDefinitionTable, groupId)
-				)
+
+					return ObjectEntryTable.INSTANCE.groupId.eq(groupId);
+				}
+			).and(
+				_fillPredicate(objectDefinitionId, predicate, search)
+			).and(
+				_getPermissionWherePredicate(
+					dynamicObjectDefinitionTable, groupId)
+			);
+
+		List<OrderByExpression> orderByExpressions = new ArrayList<>();
+
+		if (sorts != null) {
+			for (Sort sort : sorts) {
+				String fieldName = sort.getFieldName();
+
+				Column<?, ?> column = null;
+
+				if (fieldName.contains("/")) {
+					String[] parts = StringUtil.split(fieldName, "/");
+
+					fieldName = parts[1];
+
+					String relationshipName = parts[0];
+
+					ObjectRelationship objectRelationship =
+						ObjectRelationshipLocalServiceUtil.
+							fetchObjectRelationshipByObjectDefinitionId(
+								objectDefinitionId, relationshipName);
+
+					long relatedObjectDefinitionId;
+
+					if (objectRelationship.getObjectDefinitionId1() ==
+							objectDefinitionId) {
+
+						relatedObjectDefinitionId =
+							objectRelationship.getObjectDefinitionId2();
+					}
+					else {
+						relatedObjectDefinitionId =
+							objectRelationship.getObjectDefinitionId1();
+					}
+
+					DynamicObjectDefinitionTable
+						relatedDynamicObjectDefinitionTable =
+							_getDynamicObjectDefinitionTable(
+								relatedObjectDefinitionId);
+
+					joinStep = joinStep.innerJoinON(
+						relatedDynamicObjectDefinitionTable,
+						relatedDynamicObjectDefinitionTable.getPrimaryKeyColumn(
+						).eq(
+							(Column)
+								extensionDynamicObjectDefinitionTable.getColumn(
+									"r_universityStudents_c_universityId")
+						));
+
+					column = _objectFieldLocalService.getColumn(
+						relatedObjectDefinitionId, fieldName);
+				}
+				else {
+					column = _objectFieldLocalService.getColumn(
+						objectDefinitionId, fieldName);
+				}
+
+				orderByExpressions.add(_getOrderByExpression(column, sort));
+			}
+		}
+
+		List<Object[]> rows = _list(
+			joinStep.where(
+				wherePredicate
 			).orderBy(
-				orderByExpressions
+				orderByExpressions.toArray(new OrderByExpression[0])
 			).limit(
 				start, end
 			),
@@ -2803,6 +2869,16 @@ public class ObjectEntryLocalServiceImpl
 					dynamicObjectDefinitionTable)
 			)
 		);
+	}
+
+	private OrderByExpression _getOrderByExpression(
+		Expression<?> expression, Sort sort) {
+
+		if (sort.isReverse()) {
+			return expression.descending();
+		}
+
+		return expression.ascending();
 	}
 
 	private Predicate _getPermissionWherePredicate(
