@@ -49,7 +49,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 		throws Exception {
 
 		_entityFieldsMap = _getStringEntityFieldsMap(
-			objectDefinition, objectFields);
+			objectDefinition, objectFields, null);
 
 		List<ObjectRelationship> objectRelationships =
 			ObjectRelationshipLocalServiceUtil.getAllObjectRelationships(
@@ -72,7 +72,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 		return _entityFieldsMap;
 	}
 
-	private EntityField _getEntityField(ObjectField objectField) {
+	private EntityField _getEntityField(ObjectField objectField, String sortablePrefix) {
 		if (_unsupportedBusinessTypes.contains(objectField.getBusinessType())) {
 			return null;
 		}
@@ -82,7 +82,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 				ObjectFieldConstants.BUSINESS_TYPE_DATE_TIME)) {
 
 			return new DateTimeEntityField(
-				objectField.getName(), locale -> objectField.getName(),
+				objectField.getName(), locale -> sortablePrefix + objectField.getName(),
 				locale -> objectField.getName());
 		}
 		else if (Objects.equals(
@@ -91,7 +91,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 
 			return new CollectionEntityField(
 				new StringEntityField(
-					objectField.getName(), locale -> objectField.getName()));
+					objectField.getName(), locale -> sortablePrefix + objectField.getName(), locale -> objectField.getName()));
 		}
 
 		if (Objects.equals(
@@ -118,14 +118,14 @@ public class ObjectEntryEntityModel implements EntityModel {
 					 ObjectFieldConstants.DB_TYPE_STRING)) {
 
 			return new StringEntityField(
-				objectField.getName(), locale -> objectField.getName());
+				objectField.getName(), locale -> sortablePrefix + objectField.getName(), locale -> objectField.getName());
 		}
 		else if (Objects.equals(
 					objectField.getDBType(),
 					ObjectFieldConstants.DB_TYPE_DATE)) {
 
 			return new DateEntityField(
-				objectField.getName(), locale -> objectField.getName(),
+				objectField.getName(), locale -> sortablePrefix + objectField.getName(),
 				locale -> objectField.getName());
 		}
 		else if (Objects.equals(
@@ -158,7 +158,8 @@ public class ObjectEntryEntityModel implements EntityModel {
 			_getStringEntityFieldsMap(
 				objectDefinition,
 				ObjectFieldLocalServiceUtil.getObjectFields(
-					relatedObjectDefinition.getObjectDefinitionId()));
+					relatedObjectDefinition.getObjectDefinitionId()),
+				objectRelationship);
 
 		List<EntityField> relatedObjectDefinitionEntityFields = new ArrayList<>(
 			relatedObjectDefinitionEntityFieldsMap.values());
@@ -199,31 +200,41 @@ public class ObjectEntryEntityModel implements EntityModel {
 		return relatedObjectDefinitionEntityFields;
 	}
 
+	private String _getSortablePrefix(ObjectRelationship objectRelationship) {
+		if (objectRelationship == null) {
+			return "";
+		}
+
+		return objectRelationship.getName() + StringPool.SLASH;
+	}
+
 	private Map<String, EntityField> _getStringEntityFieldsMap(
-		ObjectDefinition objectDefinition, List<ObjectField> objectFields) {
+		ObjectDefinition objectDefinition, List<ObjectField> objectFields, ObjectRelationship objectRelationship) {
+
+		String sortablePrefix = _getSortablePrefix(objectRelationship);
 
 		Map<String, EntityField> entityFieldsMap =
 			HashMapBuilder.<String, EntityField>put(
-				"creator", new StringEntityField("creator", locale -> "creator")
+				"creator", new StringEntityField("creator", locale -> sortablePrefix + "creator", locale -> "creator")
 			).put(
 				"creatorId",
 				new IntegerEntityField("creatorId", locale -> Field.USER_ID)
 			).put(
 				"dateCreated",
 				new DateTimeEntityField(
-					"dateCreated", locale -> Field.CREATE_DATE,
+					"dateCreated", locale -> sortablePrefix + Field.CREATE_DATE,
 					locale -> Field.CREATE_DATE)
 			).put(
 				"dateModified",
 				new DateTimeEntityField(
-					"dateModified", locale -> "modifiedDate",
+					"dateModified", locale -> sortablePrefix + "modifiedDate",
 					locale -> "modifiedDate")
 			).put(
 				"externalReferenceCode",
 				() -> new StringEntityField(
-					"externalReferenceCode", locale -> "externalReferenceCode")
+					"externalReferenceCode", locale -> sortablePrefix + "externalReferenceCode", locale -> "externalReferenceCode")
 			).put(
-				"id", new IdEntityField("id", locale -> "id", String::valueOf)
+				"id", new IdEntityField("id", locale -> sortablePrefix + "id", String::valueOf)
 			).put(
 				"keywords",
 				new CollectionEntityField(
@@ -262,7 +273,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 					objectField.getRelationshipType(),
 					ObjectRelationshipConstants.TYPE_ONE_TO_MANY)) {
 
-				EntityField entityField = _getEntityField(objectField);
+				EntityField entityField = _getEntityField(objectField, sortablePrefix);
 
 				if (entityField != null) {
 					entityFieldsMap.putIfAbsent(
