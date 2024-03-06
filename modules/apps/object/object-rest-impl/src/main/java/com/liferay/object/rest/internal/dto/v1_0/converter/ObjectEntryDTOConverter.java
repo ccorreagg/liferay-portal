@@ -627,22 +627,63 @@ public class ObjectEntryDTOConverter
 							Object.class)));
 			}
 			else {
+				// Llamada inicial de la PR
+//				nestedFieldValues.put(
+//					nestedFieldName,
+//					NestedFieldsSupplier.supply(
+//					() ->
+//						TransformUtil.transformToArray(
+//						relatedModels,
+//						relatedModel -> {
+//							com.liferay.object.model.ObjectEntry objectEntry =
+//								(com.liferay.object.model.ObjectEntry)
+//									relatedModel;
+//
+//							return toDTO(
+//								_getDTOConverterContext(
+//									dtoConverterContext,
+//									objectEntry.getObjectEntryId()),
+//								objectEntry);
+//						},
+//						ObjectEntry.class)));
+//				nestedFieldValues.put(
+//					nestedFieldName,
+//					NestedFieldsSupplier.supply(
+//					() ->
+//						NestedFieldsSupplier.supply(nestedFieldName,
+//							(fieldName) ->
+//						TransformUtil.transformToArray(
+//						relatedModels,
+//						relatedModel -> {
+//							com.liferay.object.model.ObjectEntry objectEntry =
+//								(com.liferay.object.model.ObjectEntry)
+//									relatedModel;
+//
+//							return toDTO(
+//								_getDTOConverterContext(
+//									dtoConverterContext,
+//									objectEntry.getObjectEntryId()),
+//								objectEntry);
+//						},
+//						ObjectEntry.class))));
 				nestedFieldValues.put(
 					nestedFieldName,
-					() -> TransformUtil.transformToArray(
-						relatedModels,
-						relatedModel -> {
-							com.liferay.object.model.ObjectEntry objectEntry =
-								(com.liferay.object.model.ObjectEntry)
-									relatedModel;
+						NestedFieldsSupplier.mysupply(nestedFieldName,
+							(fieldName) ->
+								TransformUtil.transformToArray(
+									relatedModels,
+									relatedModel -> {
+										com.liferay.object.model.ObjectEntry objectEntry =
+											(com.liferay.object.model.ObjectEntry)
+												relatedModel;
 
-							return toDTO(
-								_getDTOConverterContext(
-									dtoConverterContext,
-									objectEntry.getObjectEntryId()),
-								objectEntry);
-						},
-						ObjectEntry.class));
+										return toDTO(
+											_getDTOConverterContext(
+												dtoConverterContext,
+												objectEntry.getObjectEntryId()),
+											objectEntry);
+									},
+									ObjectEntry.class)));
 			}
 		}
 

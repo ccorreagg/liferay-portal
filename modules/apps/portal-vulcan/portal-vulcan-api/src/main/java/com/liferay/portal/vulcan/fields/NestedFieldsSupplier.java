@@ -27,7 +27,7 @@ public class NestedFieldsSupplier<T> {
 		}
 	}
 
-	public static <T> T supply(
+	public static <T> UnsafeSupplier<T, Exception> mysupply(
 			String fieldName,
 			UnsafeFunction<String, T, Exception> unsafeFunction)
 		throws Exception {
@@ -45,9 +45,109 @@ public class NestedFieldsSupplier<T> {
 			return null;
 		}
 
+		NestedFieldsContext clonedNestedFieldsContext =
+			nestedFieldsContext.clone();
+
+		return () -> {
+			NestedFieldsContext oldNestedFieldsContext =
+				NestedFieldsContextThreadLocal.getAndSetNestedFieldsContext(
+					clonedNestedFieldsContext);
+
+			try {
+				clonedNestedFieldsContext.incrementCurrentDepth();
+
+				try {
+					System.out.println(
+						"Calling the supplier with the current depth " +
+							clonedNestedFieldsContext.getCurrentDepth());
+
+					return unsafeFunction.apply(fieldName);
+				}
+				finally {
+					clonedNestedFieldsContext.decrementCurrentDepth();
+				}
+			}
+			finally {
+				NestedFieldsContextThreadLocal.setNestedFieldsContext(
+					oldNestedFieldsContext);
+			}
+		};
+	}
+
+	public static <T> UnsafeSupplier<T, Exception> mysupply2(
+			String fieldName,
+			UnsafeFunction<String, T, Exception> unsafeFunction)
+		throws Exception {
+
+		NestedFieldsContext nestedFieldsContext =
+			NestedFieldsContextThreadLocal.getNestedFieldsContext();
+
+		NestedFieldsContext clonedNestedFieldsContext =
+			nestedFieldsContext.clone();
+
+		return () -> {
+			NestedFieldsContext oldNestedFieldsContext =
+				NestedFieldsContextThreadLocal.getAndSetNestedFieldsContext(
+					clonedNestedFieldsContext);
+
+			if (!_mustProcessNestedFields(clonedNestedFieldsContext)) {
+				return null;
+			}
+
+			List<String> fieldNames = clonedNestedFieldsContext.getFieldNames();
+
+			if (!fieldNames.contains(fieldName)) {
+				return null;
+			}
+
+			try {
+				clonedNestedFieldsContext.incrementCurrentDepth();
+
+				try {
+					System.out.println(
+						"Calling the supplier with the current depth " +
+							clonedNestedFieldsContext.getCurrentDepth());
+
+					return unsafeFunction.apply(fieldName);
+				}
+				finally {
+					clonedNestedFieldsContext.decrementCurrentDepth();
+				}
+			}
+			finally {
+				NestedFieldsContextThreadLocal.setNestedFieldsContext(
+					oldNestedFieldsContext);
+			}
+		};
+	}
+
+	public static <T> T supply(
+			String fieldName,
+			UnsafeFunction<String, T, Exception> unsafeFunction)
+		throws Exception {
+
+		System.out.println("Calling supply for the fieldName " + fieldName);
+
+		NestedFieldsContext nestedFieldsContext =
+			NestedFieldsContextThreadLocal.getNestedFieldsContext();
+
+		if (!_mustProcessNestedFields(nestedFieldsContext)) {
+			return null;
+		}
+
+		List<String> fieldNames = nestedFieldsContext.getFieldNames();
+
+		if (!fieldNames.contains(fieldName)) {
+			return null;
+		}
+
 		nestedFieldsContext.incrementCurrentDepth();
 
 		try {
+			System.out.println(
+				"Calling the supplier with the current depth " +
+					nestedFieldsContext.getCurrentDepth());
+
 			return unsafeFunction.apply(fieldName);
 		}
 		finally {
@@ -89,6 +189,10 @@ public class NestedFieldsSupplier<T> {
 
 		NestedFieldsContext nestedFieldsContext =
 			NestedFieldsContextThreadLocal.getNestedFieldsContext();
+
+		if (!_mustProcessNestedFields(nestedFieldsContext)) {
+			return null;
+		}
 
 		NestedFieldsContext clonedNestedFieldsContext =
 			nestedFieldsContext.clone();
