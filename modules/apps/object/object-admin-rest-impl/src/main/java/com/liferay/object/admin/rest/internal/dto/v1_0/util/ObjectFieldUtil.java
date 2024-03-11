@@ -152,27 +152,24 @@ public class ObjectFieldUtil {
 			return 0;
 		}
 
-		long listTypeDefinitionId = GetterUtil.getLong(
-			objectField.getListTypeDefinitionId());
-
-		if ((listTypeDefinitionId != 0) ||
-			Validator.isNull(
+		if (Validator.isNotNull(
 				objectField.getListTypeDefinitionExternalReferenceCode())) {
 
-			return listTypeDefinitionId;
+			ListTypeDefinition listTypeDefinition =
+				listTypeDefinitionLocalService.
+					fetchListTypeDefinitionByExternalReferenceCode(
+						objectField.
+							getListTypeDefinitionExternalReferenceCode(),
+						companyId);
+
+			if (listTypeDefinition == null) {
+				return 0;
+			}
+
+			return listTypeDefinition.getListTypeDefinitionId();
 		}
 
-		ListTypeDefinition listTypeDefinition =
-			listTypeDefinitionLocalService.
-				fetchListTypeDefinitionByExternalReferenceCode(
-					objectField.getListTypeDefinitionExternalReferenceCode(),
-					companyId);
-
-		if (listTypeDefinition == null) {
-			return 0;
-		}
-
-		return listTypeDefinition.getListTypeDefinitionId();
+		return GetterUtil.getLong(objectField.getListTypeDefinitionId());
 	}
 
 	public static com.liferay.object.model.ObjectField toObjectField(
