@@ -70,6 +70,14 @@ public class ObjectStateLocalServiceImpl
 	}
 
 	@Override
+	public ObjectState fetchObjectStateFlowObjectState(
+		long listTypeEntryId, long objectStateFlowId) {
+
+		return objectStatePersistence.fetchByLTEI_OSFI(
+			listTypeEntryId, objectStateFlowId);
+	}
+
+	@Override
 	public List<ObjectState> getNextObjectStates(long sourceObjectStateId) {
 		return TransformUtil.transform(
 			_objectStateTransitionPersistence.findBySourceObjectStateId(
