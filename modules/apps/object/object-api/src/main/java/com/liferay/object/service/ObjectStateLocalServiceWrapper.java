@@ -263,6 +263,14 @@ public class ObjectStateLocalServiceWrapper
 	}
 
 	@Override
+	public com.liferay.object.model.ObjectState fetchObjectStateFlowObjectState(
+		long listTypeEntryId, long objectStateFlowId) {
+
+		return _objectStateLocalService.fetchObjectStateFlowObjectState(
+			listTypeEntryId, objectStateFlowId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

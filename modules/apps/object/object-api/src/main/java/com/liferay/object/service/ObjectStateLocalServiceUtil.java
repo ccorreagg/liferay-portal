@@ -230,6 +230,13 @@ public class ObjectStateLocalServiceUtil {
 		return getService().fetchObjectStateByUuidAndCompanyId(uuid, companyId);
 	}
 
+	public static ObjectState fetchObjectStateFlowObjectState(
+		long listTypeEntryId, long objectStateFlowId) {
+
+		return getService().fetchObjectStateFlowObjectState(
+			listTypeEntryId, objectStateFlowId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
