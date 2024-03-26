@@ -110,21 +110,22 @@ public class NestedFieldsSupplier<T> {
 				unsafeFunction.apply(fieldName);
 
 			if (unsafeSupplier != null) {
-				nestedFieldValues.put(fieldName, () -> {
-					NestedFieldsContext oldNestedFieldsContext =
-						NestedFieldsContextThreadLocal.getAndSetNestedFieldsContext(
-							clonedNestedFieldsContext);
+				nestedFieldValues.put(
+					fieldName,
+					() -> {
+						NestedFieldsContext oldNestedFieldsContext =
+							NestedFieldsContextThreadLocal.
+								getAndSetNestedFieldsContext(
+									clonedNestedFieldsContext);
 
-					try {
-						clonedNestedFieldsContext.incrementCurrentDepth();
-
-						return unsafeSupplier.get();
-					}
-					finally {
-						NestedFieldsContextThreadLocal.setNestedFieldsContext(
-							oldNestedFieldsContext);
-					}
-				});
+						try {
+							return unsafeSupplier.get();
+						}
+						finally {
+							NestedFieldsContextThreadLocal.
+								setNestedFieldsContext(oldNestedFieldsContext);
+						}
+					});
 			}
 		}
 
