@@ -141,19 +141,19 @@ definition {
 
 		task ("Then new Student item with name 'John', subjectStudents 'Math', diploma 'Example.jpg' is created") {
 			var response = ObjectDefinitionAPI.getObjectEntries(en_US_plural_label = "students");
-			var actualValueList = ListUtil.newList();
+			var fieldNameList = "name,r_subjectStudents_c_subjectERC,diploma.name";
 
-			for (var fieldNameList : list "name,r_subjectStudents_c_subjectERC,diploma.name") {
-				var actualValue = JSONUtil.getWithJSONPath(${response}, "$..items..[0]${fieldNameList}");
-
-				ListUtil.add(${actualValueList}, ${actualValue});
-			}
-
-			var actualValueList = ListUtil.toString(${actualValueList});
+			var actualValue = JSONUtil.getWithJSONPath(${response}, "$..items..[0]${fieldNameList}");
 
 			TestUtils.assertEquals(
-				actual = ${actualValueList},
-				expected = "Jane,John,Math,Math,Document_1.jpg,Document_1.jpg");
+				actual = ${actualValue},
+				expected = "Jane,Math,Document_1.jpg");
+
+			var actualValue = JSONUtil.getWithJSONPath(${response}, "$..items..[1]${fieldNameList}");
+
+			TestUtils.assertEquals(
+				actual = ${actualValue},
+				expected = "John,Math,Document_1.jpg");
 		}
 	}
 
