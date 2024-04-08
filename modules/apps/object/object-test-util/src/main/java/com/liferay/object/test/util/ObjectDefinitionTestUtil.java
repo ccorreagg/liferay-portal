@@ -170,7 +170,7 @@ public class ObjectDefinitionTestUtil {
 	}
 
 	public static ObjectDefinition publishObjectDefinition(
-			String name, boolean localized, List<ObjectField> objectFields,
+			boolean localized, String name, List<ObjectField> objectFields,
 			String scope, long userId)
 		throws Exception {
 
@@ -201,7 +201,7 @@ public class ObjectDefinitionTestUtil {
 		throws Exception {
 
 		return publishObjectDefinition(
-			name, false, objectFields, scope, userId);
+			false, name, objectFields, scope, userId);
 	}
 
 }
