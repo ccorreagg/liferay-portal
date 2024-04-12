@@ -7,6 +7,7 @@ package com.liferay.headless.commerce.delivery.order.internal.resource.v1_0.fact
 
 import com.liferay.headless.commerce.delivery.order.internal.security.permission.LiberalPermissionChecker;
 import com.liferay.headless.commerce.delivery.order.resource.v1_0.PlacedOrderItemResource;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.filter.Filter;
@@ -20,6 +21,7 @@ import com.liferay.portal.kernel.service.ResourceActionLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.servlet.ServletContextPool;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -204,6 +206,13 @@ public class PlacedOrderItemResourceFactoryImpl
 		Company company = _companyLocalService.getCompany(user.getCompanyId());
 
 		placedOrderItemResource.setContextCompany(company);
+
+		if ((httpServletRequest != null) &&
+			(httpServletRequest.getAttribute(WebKeys.CTX) == null)) {
+
+			httpServletRequest.setAttribute(
+				WebKeys.CTX, ServletContextPool.get(StringPool.BLANK));
+		}
 
 		placedOrderItemResource.setContextHttpServletRequest(
 			httpServletRequest);
