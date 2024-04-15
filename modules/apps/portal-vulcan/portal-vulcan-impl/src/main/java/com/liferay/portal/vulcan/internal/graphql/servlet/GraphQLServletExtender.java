@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.kernel.servlet.ServletContextPool;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.CamelCaseUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -41,6 +42,7 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.TextFormatter;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
@@ -682,6 +684,14 @@ public class GraphQLServletExtender {
 
 						HttpServletRequest httpServletRequest =
 							(HttpServletRequest)arguments[0];
+
+						if (httpServletRequest.getAttribute(WebKeys.CTX) ==
+								null) {
+
+							httpServletRequest.setAttribute(
+								WebKeys.CTX,
+								ServletContextPool.get(StringPool.BLANK));
+						}
 
 						arguments[0] = new HttpServletRequestWrapper(
 							httpServletRequest) {
