@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
@@ -34,6 +35,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.NotFoundException;
 
@@ -539,8 +542,12 @@ public class GraphQLServletTest {
 
 		@com.liferay.portal.vulcan.graphql.annotation.GraphQLField
 		public TestDTO createTestDTO(@GraphQLName("testDTO") TestDTO testDTO) {
+			Assert.assertNotNull(_httpServletRequest.getAttribute(WebKeys.CTX));
+
 			return testDTO;
 		}
+
+		private HttpServletRequest _httpServletRequest;
 
 	}
 
@@ -555,6 +562,8 @@ public class GraphQLServletTest {
 
 		@com.liferay.portal.vulcan.graphql.annotation.GraphQLField
 		public TestDTO testDTO() {
+			Assert.assertNotNull(_httpServletRequest.getAttribute(WebKeys.CTX));
+
 			return _testDTO;
 		}
 
@@ -562,6 +571,8 @@ public class GraphQLServletTest {
 		public TestDTOPage testDTOPage(
 			@GraphQLName("page") int page,
 			@GraphQLName("pageSize") int pageSize) {
+
+			Assert.assertNotNull(_httpServletRequest.getAttribute(WebKeys.CTX));
 
 			return new TestDTOPage(page, pageSize);
 		}
@@ -589,6 +600,8 @@ public class GraphQLServletTest {
 
 		private static TestDTO _testDTO;
 		private static TestDTOPage _testDTOPage;
+
+		private HttpServletRequest _httpServletRequest;
 
 	}
 
