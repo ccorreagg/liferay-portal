@@ -40,7 +40,7 @@ if (layoutRevision.isApproved()) {
 			}
 			%>
 
-			<aui:workflow-status markupView="lexicon" showIcon="<%= true %>" showLabel="<%= true %>" status="<%= status %>" statusMessage="<%= _getStatusMessage(layoutRevision, GetterUtil.getLong(liveLayoutRevisionId)) %>" />
+			<aui:workflow-status markupView="lexicon" showIcon="<%= false %>" showLabel="<%= false %>" status="<%= status %>" statusMessage="<%= _getStatusMessage(layoutRevision, GetterUtil.getLong(liveLayoutRevisionId)) %>" />
 		</div>
 	</div>
 </span>
