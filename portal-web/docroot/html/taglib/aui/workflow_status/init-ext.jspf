@@ -31,7 +31,12 @@ if (Validator.isNull(statusMessage)) {
 			additionalText = sb.toString();
 		}
 		catch (NoSuchWorkflowInstanceLinkException nswile) {
+			echo("NoSuchWorkflowInstanceLinkException with companyId: " + companyId + " groupId: " + groupId + " modelName: " + model.getName() + " classPK: " + classPK);
 		}
+	} else if (status == WorkflowConstants.STATUS_PENDING) {
+		echo("Status pending with status: " + status + " bean: " + (bean != null) + " model: " + (model != null));
+	} else {
+		echo("Other status: " + status);
 	}
 }
 %>
