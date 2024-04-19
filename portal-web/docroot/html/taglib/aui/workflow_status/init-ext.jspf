@@ -31,12 +31,14 @@ if (Validator.isNull(statusMessage)) {
 			additionalText = sb.toString();
 		}
 		catch (NoSuchWorkflowInstanceLinkException nswile) {
-			echo("NoSuchWorkflowInstanceLinkException with companyId: " + companyId + " groupId: " + groupId + " modelName: " + model.getName() + " classPK: " + classPK);
+			_log.error(nswile);
 		}
 	} else if (status == WorkflowConstants.STATUS_PENDING) {
-		echo("Status pending with status: " + status + " bean: " + (bean != null) + " model: " + (model != null));
+		_log.error("Status pending with status: " + status + " bean: " + (bean != null) + " model: " + (model != null));
 	} else {
-		echo("Other status: " + status);
+		_log.error("Other status: " + status);
 	}
 }
+
+private static final Log _log = LogFactoryUtil.getLog("com_liferay_workflow_status.init_ext_jspf");
 %>
