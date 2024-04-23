@@ -53,6 +53,7 @@
 				"en_US": "API Sorts"
 			},
 			"portlet": false,
+			"rootObjectDefinitionExternalReferenceCode": "L_API_APPLICATION",
 			"scope": "company",
 			"status": {
 				"code": 0
@@ -98,6 +99,7 @@
 				"en_US": "API Filters"
 			},
 			"portlet": false,
+			"rootObjectDefinitionExternalReferenceCode": "L_API_APPLICATION",
 			"scope": "company",
 			"status": {
 				"code": 0
@@ -318,6 +320,7 @@
 			"objectRelationships": [
 				{
 					"deletionType": "cascade",
+					"edge": true,
 					"externalReferenceCode": "L_API_ENDPOINT_TO_API_FILTERS",
 					"label": {
 						"en_US": "API Endpoint to API Filters"
@@ -334,6 +337,7 @@
 				},
 				{
 					"deletionType": "cascade",
+					"edge": true,
 					"externalReferenceCode": "L_API_ENDPOINT_TO_API_SORTS",
 					"label": {
 						"en_US": "API Endpoint API Sorts"
@@ -355,6 +359,7 @@
 				"en_US": "API Endpoints"
 			},
 			"portlet": false,
+			"rootObjectDefinitionExternalReferenceCode": "L_API_APPLICATION",
 			"scope": "company",
 			"status": {
 				"code": 0
@@ -473,6 +478,7 @@
 				"en_US": "API Properties"
 			},
 			"portlet": false,
+			"rootObjectDefinitionExternalReferenceCode": "L_API_APPLICATION",
 			"scope": "company",
 			"status": {
 				"code": 0
@@ -537,6 +543,7 @@
 			"objectRelationships": [
 				{
 					"deletionType": "cascade",
+					"edge": true,
 					"externalReferenceCode": "L_API_SCHEMA_TO_API_PROPERTIES",
 					"label": {
 						"en_US": "API Schema to API Properties"
@@ -590,6 +597,7 @@
 				"en_US": "API Schemas"
 			},
 			"portlet": false,
+			"rootObjectDefinitionExternalReferenceCode": "L_API_APPLICATION",
 			"scope": "company",
 			"status": {
 				"code": 0
@@ -727,6 +735,7 @@
 			"objectRelationships": [
 				{
 					"deletionType": "cascade",
+					"edge": true,
 					"externalReferenceCode": "L_API_APPLICATION_TO_API_ENDPOINTS",
 					"label": {
 						"en_US": "API Application to API Endpoints"
@@ -743,6 +752,7 @@
 				},
 				{
 					"deletionType": "cascade",
+					"edge": true,
 					"externalReferenceCode": "L_API_APPLICATION_TO_API_SCHEMAS",
 					"label": {
 						"en_US": "API Application to API Schemas"
