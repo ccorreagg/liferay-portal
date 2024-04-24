@@ -123,8 +123,31 @@ public class ObjectDefinitionImpl extends ObjectDefinitionBaseImpl {
 		}
 
 		if (isModifiable() && isSystem()) {
-			return ObjectDefinitionUtil.
-				getModifiableSystemObjectDefinitionRESTContextPath(getName());
+			String restContextPath =
+				ObjectDefinitionUtil.
+					getModifiableSystemObjectDefinitionRESTContextPath(
+						getName());
+
+			if (!isRootDescendantNode()) {
+				return restContextPath;
+			}
+
+			ObjectDefinition rootObjectDefinition =
+				ObjectDefinitionLocalServiceUtil.fetchObjectDefinition(
+					getRootObjectDefinitionId());
+
+			String rootRESTContextPath =
+				rootObjectDefinition.getRESTContextPath();
+
+			if (StringUtil.count(restContextPath, StringPool.SLASH) <= 1) {
+				return rootRESTContextPath + restContextPath;
+			}
+
+			return rootRESTContextPath +
+				StringUtil.removeFirst(
+					restContextPath,
+					restContextPath.substring(
+						0, restContextPath.indexOf(StringPool.SLASH, 1)));
 		}
 
 		String shortName = TextFormatter.formatPlural(
@@ -138,11 +161,8 @@ public class ObjectDefinitionImpl extends ObjectDefinitionBaseImpl {
 			ObjectDefinitionLocalServiceUtil.fetchObjectDefinition(
 				getRootObjectDefinitionId());
 
-		return StringBundler.concat(
-			"/c/",
-			TextFormatter.formatPlural(
-				StringUtil.toLowerCase(rootObjectDefinition.getShortName())),
-			StringPool.SLASH, shortName);
+		return rootObjectDefinition.getRESTContextPath() + StringPool.SLASH +
+			shortName;
 	}
 
 	@Override
