@@ -26,11 +26,13 @@ import com.liferay.portal.kernel.service.VirtualHostLocalService;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -48,7 +50,12 @@ public class OAuth2ProviderApplicationUserAgentConfigurationFactory
 	extends BaseConfigurationFactory {
 
 	@Activate
-	protected void activate(Map<String, Object> properties) throws Exception {
+	protected void activate(
+			BundleContext bundleContext, Map<String, Object> properties)
+		throws Exception {
+
+		super.activate(bundleContext);
+
 		if (_log.isDebugEnabled()) {
 			_log.debug("Activate " + properties);
 		}
@@ -69,8 +76,12 @@ public class OAuth2ProviderApplicationUserAgentConfigurationFactory
 
 				Company company = companyLocalService.getCompanyById(companyId);
 
-				List<String> scopeAliasesList = ListUtil.fromArray(
-					oAuth2ProviderApplicationUserAgentConfiguration.scopes());
+				List<String> scopeAliasesList = ListUtil.fromCollection(
+					mapScopeAliases(
+						companyId,
+						SetUtil.fromArray(
+							oAuth2ProviderApplicationUserAgentConfiguration.
+								scopes())));
 
 				oAuth2Application = _addOrUpdateOAuth2Application(
 					companyId, externalReferenceCode,

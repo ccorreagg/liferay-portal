@@ -8,8 +8,12 @@ package com.liferay.oauth2.provider.internal.configuration;
 import com.liferay.oauth2.provider.model.OAuth2Application;
 import com.liferay.oauth2.provider.model.OAuth2ApplicationScopeAliases;
 import com.liferay.oauth2.provider.scope.liferay.ScopeLocator;
+import com.liferay.oauth2.provider.scope.spi.scope.mapper.ScopeAliasMapper;
 import com.liferay.oauth2.provider.service.OAuth2ApplicationLocalService;
 import com.liferay.oauth2.provider.service.OAuth2ApplicationScopeAliasesLocalService;
+import com.liferay.osgi.service.tracker.collections.map.PropertyServiceReferenceMapper;
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.osgi.util.configuration.ConfigurationFactoryUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -24,6 +28,7 @@ import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Http;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Collection;
@@ -32,7 +37,9 @@ import java.util.Map;
 
 import javax.ws.rs.core.Application;
 
+import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentConstants;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
@@ -43,8 +50,19 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
  */
 public abstract class BaseConfigurationFactory {
 
+	@Activate
+	protected void activate(BundleContext bundleContext) {
+		_serviceTrackerMap = ServiceTrackerMapFactory.openMultiValueMap(
+			bundleContext, ScopeAliasMapper.class, "(companyId=*)",
+			new PropertyServiceReferenceMapper<>("companyId"));
+	}
+
 	@Deactivate
 	protected void deactivate(Integer reason) throws PortalException {
+		if (_serviceTrackerMap != null) {
+			_serviceTrackerMap.close();
+		}
+
 		if (reason !=
 				ComponentConstants.DEACTIVATION_REASON_CONFIGURATION_DELETED) {
 
@@ -110,6 +128,23 @@ public abstract class BaseConfigurationFactory {
 
 	protected String getServiceAddress(Company company) {
 		return Http.HTTPS_WITH_SLASH.concat(company.getVirtualHostname());
+	}
+
+	protected Collection<String> mapScopeAliases(
+		long companyId, Collection<String> scopeAliases) {
+
+		List<ScopeAliasMapper> scopeAliasMappers =
+			_serviceTrackerMap.getService(companyId);
+
+		if (ListUtil.isEmpty(scopeAliasMappers)) {
+			return scopeAliases;
+		}
+
+		for (ScopeAliasMapper scopeAliasMapper : scopeAliasMappers) {
+			scopeAliases = scopeAliasMapper.map(scopeAliases);
+		}
+
+		return scopeAliases;
 	}
 
 	protected void modifyConfigMap(
@@ -251,6 +286,7 @@ public abstract class BaseConfigurationFactory {
 	private volatile String _configMapName;
 	private volatile Map<String, String> _extensionProperties;
 	private volatile String _projectName;
+	private ServiceTrackerMap<Long, List<ScopeAliasMapper>> _serviceTrackerMap;
 	private volatile String _virtualInstanceId;
 
 }
