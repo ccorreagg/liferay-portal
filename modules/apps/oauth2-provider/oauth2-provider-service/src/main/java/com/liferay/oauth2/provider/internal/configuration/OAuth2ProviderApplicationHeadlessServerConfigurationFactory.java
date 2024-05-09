@@ -9,10 +9,9 @@ import com.liferay.oauth2.provider.configuration.OAuth2ProviderApplicationHeadle
 import com.liferay.oauth2.provider.constants.ClientProfile;
 import com.liferay.oauth2.provider.constants.GrantType;
 import com.liferay.oauth2.provider.model.OAuth2Application;
-import com.liferay.oauth2.provider.scope.liferay.ScopeLocator;
+import com.liferay.oauth2.provider.scope.spi.scope.mapper.ScopeAliasMapper;
 import com.liferay.oauth2.provider.util.OAuth2SecureRandomGenerator;
 import com.liferay.osgi.util.configuration.ConfigurationFactoryUtil;
-import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.petra.string.StringUtil;
@@ -27,7 +26,6 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PropsValues;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -68,25 +66,12 @@ public class OAuth2ProviderApplicationHeadlessServerConfigurationFactory
 							OAuth2ProviderApplicationHeadlessServerConfiguration.class,
 							properties);
 
-				Collection<String> scopeAliases = _scopeLocator.getScopeAliases(
-					companyId);
-
-				List<String> scopeAliasesList = TransformUtil.transformToList(
-					oAuth2ProviderApplicationHeadlessServerConfiguration.
-						scopes(),
-					scopeAlias -> {
-						if (!scopeAliases.contains(scopeAlias)) {
-							for (String curScopeAlias : scopeAliases) {
-								if (StringUtil.equalsIgnoreCase(
-										curScopeAlias, scopeAlias)) {
-
-									return curScopeAlias;
-								}
-							}
-						}
-
-						return scopeAlias;
-					});
+				List<String> scopeAliasesList = ListUtil.fromCollection(
+					_scopeAliasMapper.map(
+						companyId,
+						ListUtil.fromArray(
+							oAuth2ProviderApplicationHeadlessServerConfiguration.
+								scopes())));
 
 				oAuth2Application = _addOrUpdateOAuth2Application(
 					companyId, externalReferenceCode,
@@ -252,6 +237,6 @@ public class OAuth2ProviderApplicationHeadlessServerConfigurationFactory
 		OAuth2ProviderApplicationHeadlessServerConfigurationFactory.class);
 
 	@Reference
-	private ScopeLocator _scopeLocator;
+	private ScopeAliasMapper _scopeAliasMapper;
 
 }
