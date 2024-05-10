@@ -31,6 +31,9 @@ import org.junit.Test;
 import org.mockito.AdditionalMatchers;
 import org.mockito.Mockito;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.Filter;
+
 /**
  * @author Raymond Augé
  */
@@ -51,6 +54,14 @@ public class ConfigurationFactoryTest {
 		_serviceId = RandomTestUtil.randomString();
 		_serviceUid = RandomTestUtil.randomString();
 		_webId = RandomTestUtil.randomString();
+
+		_bundleContext = Mockito.mock(BundleContext.class);
+
+		Mockito.when(
+			_bundleContext.createFilter(Mockito.anyString())
+		).thenReturn(
+			Mockito.mock(Filter.class)
+		);
 
 		_company = Mockito.mock(Company.class);
 
@@ -243,6 +254,7 @@ public class ConfigurationFactoryTest {
 			oa2pahscf, "_portalK8sConfigMapModifierSnapshot", _snapshot);
 
 		oa2pahscf.activate(
+			_bundleContext,
 			HashMapBuilder.<String, Object>put(
 				"baseURL", "http://localhost"
 			).put(
@@ -301,6 +313,7 @@ public class ConfigurationFactoryTest {
 			oa2pauacf, "_portalK8sConfigMapModifierSnapshot", _snapshot);
 
 		oa2pauacf.activate(
+			_bundleContext,
 			HashMapBuilder.<String, Object>put(
 				"baseURL", "http://localhost"
 			).put(
@@ -343,6 +356,7 @@ public class ConfigurationFactoryTest {
 			"ext-init", _labels.get("lxc.liferay.com/metadataType"));
 	}
 
+	private BundleContext _bundleContext;
 	private Company _company;
 	private long _companyId;
 	private CompanyLocalService _companyLocalService;
