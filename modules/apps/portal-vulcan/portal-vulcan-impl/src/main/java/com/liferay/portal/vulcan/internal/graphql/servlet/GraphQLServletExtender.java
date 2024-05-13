@@ -1136,10 +1136,6 @@ public class GraphQLServletExtender {
 		return graphQLInputObjectTypeBuilder.build();
 	}
 
-	private String _getGraphQLNamespace(ServletData servletData) {
-		return _getGraphQLNamespace(servletData, true);
-	}
-
 	private String _getGraphQLNamespace(
 		ServletData servletData, boolean version) {
 
@@ -1397,6 +1393,10 @@ public class GraphQLServletExtender {
 		String version = packageNames[packageNames.length - 1];
 
 		return GetterUtil.getInteger(version.replaceAll("\\D", ""), 1);
+	}
+
+	private String _getVersionedGraphQLNamespace(ServletData servletData) {
+		return _getGraphQLNamespace(servletData, true);
 	}
 
 	private boolean _isGraphQLEnabled(ServletData servletData)
@@ -1857,10 +1857,11 @@ public class GraphQLServletExtender {
 		for (ServletData servletData : servletDatas) {
 			Set<String> servletDataGraphQLNamespaces = new HashSet<>();
 
-			String namespace = _getGraphQLNamespace(servletData);
+			String versionedGraphQLNamespace = _getVersionedGraphQLNamespace(
+				servletData);
 
-			if (namespace != null) {
-				servletDataGraphQLNamespaces.add(namespace);
+			if (versionedGraphQLNamespace != null) {
+				servletDataGraphQLNamespaces.add(versionedGraphQLNamespace);
 			}
 
 			if (servletData.getGraphQLNamespace() != null) {
@@ -2881,8 +2882,9 @@ public class GraphQLServletExtender {
 					StringBundler.concat(
 						"This field is deprecated. Access to ", fieldType,
 						" is available at ", fieldType, "/",
-						_getGraphQLNamespace(_servletDataMap.get(method)), "/",
-						method.getName()));
+						_getVersionedGraphQLNamespace(
+							_servletDataMap.get(method)),
+						"/", method.getName()));
 			}
 
 			return graphQLFieldDefinitionBuilder.build();
