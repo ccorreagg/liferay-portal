@@ -5,6 +5,7 @@
 
 package com.liferay.object.rest.internal.deployer;
 
+import com.liferay.oauth2.provider.scope.spi.prefix.handler.PrefixHandlerFactory;
 import com.liferay.object.deployer.ObjectDefinitionDeployer;
 import com.liferay.object.exception.NoSuchObjectDefinitionException;
 import com.liferay.object.model.ObjectDefinition;
@@ -411,6 +412,16 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 								objectDefinition),
 							HashMapDictionaryBuilder.<String, Object>put(
 								"companyId", objectDefinition.getCompanyId()
+							).build()),
+						_bundleContext.registerService(
+							PrefixHandlerFactory.class,
+							new ObjectDefinitionPrefixHandlerFactory(
+								objectDefinition),
+							HashMapDictionaryBuilder.<String, Object>put(
+								"companyId",
+								String.valueOf(objectDefinition.getCompanyId())
+							).put(
+								"osgi.jaxrs.name", osgiJaxRsName
 							).build())));
 
 				return serviceRegistrationsMap;
