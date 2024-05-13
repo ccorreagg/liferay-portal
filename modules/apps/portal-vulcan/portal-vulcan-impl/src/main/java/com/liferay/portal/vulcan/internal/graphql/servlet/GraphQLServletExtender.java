@@ -1858,30 +1858,28 @@ public class GraphQLServletExtender {
 		for (Map.Entry<String, SortedMap<String, TreeSet<Method>>> entry :
 				simpleNamespaceMethods.entrySet()) {
 
-			
 			List<Method> sortedMethods = new ArrayList<>();
-			Set<String> methodNames = new HashSet<String>();
+			Set<String> methodNames = new HashSet<>();
 
 			for (TreeSet<Method> methods :
 					entry.getValue(
 					).values()) {
 
 				for (Method method : methods) {
-					if (!methodNames.contains(method.getName())){
+					if (!methodNames.contains(method.getName())) {
 						sortedMethods.add(method);
 						methodNames.add(method.getName());
 					}
 				}
 			}
 
-			Map<Method, LiferayMethodDataFetcher>
-				liferayMethodDataFetchers = new HashMap<>();
+			Map<Method, LiferayMethodDataFetcher> liferayMethodDataFetchers =
+				new HashMap<>();
 
 			_addMethodsToNamespace(
 				sortedMethods, graphQLNamespaces, entry.getKey(), null,
 				processingElementsContainer, graphQLSchemaBuilder,
-				graphQLObjectTypeBuilder, mutation,
-				liferayMethodDataFetchers);
+				graphQLObjectTypeBuilder, mutation, liferayMethodDataFetchers);
 		}
 
 		return graphQLNamespaces;
