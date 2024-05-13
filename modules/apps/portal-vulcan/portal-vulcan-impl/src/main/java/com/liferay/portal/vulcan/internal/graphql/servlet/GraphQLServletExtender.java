@@ -934,95 +934,13 @@ public class GraphQLServletExtender {
 		ProcessingElementsContainer processingElementsContainer,
 		List<ServletData> servletDatas) {
 
-		Map<String, SortedMap<String, TreeSet<Method>>> methods =
-			new HashMap<>();
+		Map<ServletData, List<Method>> uniqueMethods = _getUniqueMethods(
+			function, servletDatas);
 
-		for (ServletData servletData : servletDatas) {
-			if (servletData.getGraphQLNamespace() != null) {
-				continue;
-			}
-
-			Object object = function.apply(servletData);
-
-			if (object == null) {
-				continue;
-			}
-
-			Class<?> clazz = object.getClass();
-
-			for (Method method : clazz.getMethods()) {
-				if (!_isMethodEnabled(method, servletData)) {
-					continue;
-				}
-
-				_servletDataMap.put(method, servletData);
-
-				SortedMap<String, TreeSet<Method>> methodsSortedMap =
-					methods.computeIfAbsent(
-						method.getName(),
-						key -> new TreeMap<>(Comparator.naturalOrder()));
-
-				TreeSet<Method> methodsTreeSet =
-					methodsSortedMap.computeIfAbsent(
-						_getPath(servletData),
-						key -> new TreeSet<>(
-							Comparator.comparing(
-								this::_getVersion
-							).reversed()));
-
-				methodsTreeSet.add(method);
-			}
-		}
-
-		for (SortedMap<String, TreeSet<Method>> methodsSortedMap :
-				methods.values()) {
-
-			String firstPath = methodsSortedMap.firstKey();
-
-			for (Map.Entry<String, TreeSet<Method>> entry :
-					methodsSortedMap.entrySet()) {
-
-				String path = entry.getKey();
-				TreeSet<Method> methodsTreeSet = entry.getValue();
-
-				if (StringUtil.equals(firstPath, path)) {
-					Method firstMethod = methodsTreeSet.first();
-
-					for (Method method : methodsTreeSet) {
-						GraphQLFieldDefinition field =
-							_liferayGraphQLFieldRetriever.getField(
-								true, method, mutation,
-								processingElementsContainer);
-
-						if (firstMethod == method) {
-							graphQLObjectTypeBuilder.field(field);
-						}
-						else if (_log.isDebugEnabled()) {
-							_log.debug(
-								StringBundler.concat(
-									"There is already a field called \"",
-									field.getName(),
-									"\" in the same application with path \"",
-									path, "\". The field with version \"",
-									_getVersion(method),
-									"\" will be ignored."));
-						}
-					}
-				}
-				else if (_log.isDebugEnabled()) {
-					MethodNameBuilder methodNameBuilder = new MethodNameBuilder(
-						methodsTreeSet.first());
-
-					_log.debug(
-						StringBundler.concat(
-							"There is already a field called \"",
-							methodNameBuilder.build(),
-							"\" in the application with the path \"", firstPath,
-							"\". The field with the path \"", path,
-							"\" will be ignored."));
-				}
-			}
-		}
+		uniqueMethods.forEach(
+			(servletData, methods) -> _registerMethods(
+				graphQLObjectTypeBuilder, methods, mutation,
+				processingElementsContainer, servletData));
 	}
 
 	private GraphQLFieldDefinition _createNodeGraphQLFieldDefinition(
@@ -1376,6 +1294,115 @@ public class GraphQLServletExtender {
 		catch (Exception exception) {
 			throw new RuntimeException(exception);
 		}
+	}
+
+	private Map<ServletData, List<Method>> _getUniqueMethods(
+		Function<ServletData, Object> function,
+		List<ServletData> servletDatas) {
+
+		Map<String, SortedMap<String, TreeSet<Method>>> methods =
+			new HashMap<>();
+
+		Map<Method, ServletData> servletDataMap = new HashMap<>();
+
+		for (ServletData servletData : servletDatas) {
+			if (servletData.getGraphQLNamespace() != null) {
+				continue;
+			}
+
+			Object object = function.apply(servletData);
+
+			if (object == null) {
+				continue;
+			}
+
+			Class<?> clazz = object.getClass();
+
+			for (Method method : clazz.getMethods()) {
+				if (!_isMethodEnabled(method, servletData)) {
+					continue;
+				}
+
+				servletDataMap.put(method, servletData);
+
+				SortedMap<String, TreeSet<Method>> methodsSortedMap =
+					methods.computeIfAbsent(
+						method.getName(),
+						key -> new TreeMap<>(Comparator.naturalOrder()));
+
+				TreeSet<Method> methodsTreeSet =
+					methodsSortedMap.computeIfAbsent(
+						_getPath(servletData),
+						key -> new TreeSet<>(
+							Comparator.comparing(
+								this::_getVersion
+							).reversed()));
+
+				methodsTreeSet.add(method);
+			}
+		}
+
+		Map<ServletData, List<Method>> uniqueMethods = new HashMap<>();
+
+		for (SortedMap<String, TreeSet<Method>> methodsSortedMap :
+				methods.values()) {
+
+			String firstPath = methodsSortedMap.firstKey();
+
+			for (Map.Entry<String, TreeSet<Method>> entry :
+					methodsSortedMap.entrySet()) {
+
+				String path = entry.getKey();
+				TreeSet<Method> methodsTreeSet = entry.getValue();
+
+				if (StringUtil.equals(firstPath, path)) {
+					Method firstMethod = methodsTreeSet.first();
+
+					for (Method method : methodsTreeSet) {
+						if (firstMethod == method) {
+							uniqueMethods.compute(
+								servletDataMap.get(method),
+								(key, list) -> {
+									if (list == null) {
+										list = new ArrayList<>();
+									}
+
+									list.add(method);
+
+									return list;
+								});
+						}
+						else if (_log.isDebugEnabled()) {
+							MethodNameBuilder methodNameBuilder =
+								new MethodNameBuilder(method);
+
+							_log.debug(
+								StringBundler.concat(
+									"There is already a field called \"",
+									methodNameBuilder.build(),
+									"\" in the same application with path \"",
+									path, "\". The field with version \"",
+									_getVersion(method),
+									"\" will be ignored."));
+						}
+					}
+				}
+				else if (_log.isDebugEnabled()) {
+					MethodNameBuilder methodNameBuilder = new MethodNameBuilder(
+						methodsTreeSet.first());
+
+					_log.debug(
+						StringBundler.concat(
+							"There is already a field called \"",
+							methodNameBuilder.build(),
+							"\" in the application with the path \"", firstPath,
+							"\". The field with the path \"", path,
+							"\" will be ignored."));
+				}
+			}
+		}
+
+		return uniqueMethods;
 	}
 
 	private Integer _getVersion(Method method) {
@@ -1771,6 +1798,21 @@ public class GraphQLServletExtender {
 		}
 		catch (Exception exception) {
 			throw new RuntimeException(exception);
+		}
+	}
+
+	private void _registerMethods(
+		GraphQLObjectType.Builder graphQLObjectTypeBuilder,
+		List<Method> methods, boolean mutation,
+		ProcessingElementsContainer processingElementsContainer,
+		ServletData servletData) {
+
+		for (Method method : methods) {
+			_servletDataMap.put(method, servletData);
+
+			graphQLObjectTypeBuilder.field(
+				_liferayGraphQLFieldRetriever.getField(
+					true, method, mutation, processingElementsContainer));
 		}
 	}
 
