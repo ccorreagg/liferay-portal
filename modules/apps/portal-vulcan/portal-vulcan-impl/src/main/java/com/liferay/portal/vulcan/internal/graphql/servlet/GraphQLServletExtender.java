@@ -939,6 +939,8 @@ public class GraphQLServletExtender {
 				}
 			}
 
+			Set<String> graphQLNamespaces = new HashSet<>();
+
 			GraphQLSchema.Builder graphQLSchemaBuilder =
 				GraphQLSchema.newSchema();
 
@@ -965,6 +967,20 @@ public class GraphQLServletExtender {
 
 							return methodList;
 						});
+				});
+
+			mutationUnversionedGraphQLNamespaceMethods.forEach(
+				(namespace, methods) -> {
+					_registerNamespace(
+						namespace, graphQLSchemaBuilder, true,
+						processingElementsContainer);
+
+					_registerMethodsIntoNamespace(
+						namespace, mutationGraphQLObjectTypeBuilder,
+						graphQLSchemaBuilder, methods, true,
+						processingElementsContainer);
+
+					graphQLNamespaces.add(namespace);
 				});
 
 			GraphQLObjectType.Builder queryGraphQLObjectTypeBuilder =
@@ -998,44 +1014,6 @@ public class GraphQLServletExtender {
 						});
 				});
 
-			_registerCustomTypes(processingElementsContainer);
-			_registerGraphQLDTOContributors(
-				companyId, graphQLSchemaBuilder, processingElementsContainer,
-				mutationGraphQLObjectTypeBuilder,
-				queryGraphQLObjectTypeBuilder);
-
-			GraphQLInterfaceType graphQLInterfaceType = _registerInterfaces(
-				graphQLSchemaBuilder, processingElementsContainer,
-				queryGraphQLObjectTypeBuilder);
-
-			Set<String> graphQLNamespaces = new HashSet<>();
-
-			graphQLNamespaces.addAll(
-				_registerNamespace(
-					ServletData::getMutation, mutationGraphQLObjectTypeBuilder,
-					graphQLSchemaBuilder, true, processingElementsContainer,
-					servletDatas));
-
-			graphQLNamespaces.addAll(
-				_registerNamespace(
-					ServletData::getQuery, queryGraphQLObjectTypeBuilder,
-					graphQLSchemaBuilder, false, processingElementsContainer,
-					servletDatas));
-
-			mutationUnversionedGraphQLNamespaceMethods.forEach(
-				(namespace, methods) -> {
-					_registerNamespace(
-						namespace, graphQLSchemaBuilder, true,
-						processingElementsContainer);
-
-					_registerMethodsIntoNamespace(
-						namespace, mutationGraphQLObjectTypeBuilder,
-						graphQLSchemaBuilder, methods, true,
-						processingElementsContainer);
-
-					graphQLNamespaces.add(namespace);
-				});
-
 			queryUnversionedGraphQLNamespaceMethods.forEach(
 				(namespace, methods) -> {
 					_registerNamespace(
@@ -1049,6 +1027,28 @@ public class GraphQLServletExtender {
 
 					graphQLNamespaces.add(namespace);
 				});
+
+			_registerCustomTypes(processingElementsContainer);
+			_registerGraphQLDTOContributors(
+				companyId, graphQLSchemaBuilder, processingElementsContainer,
+				mutationGraphQLObjectTypeBuilder,
+				queryGraphQLObjectTypeBuilder);
+
+			GraphQLInterfaceType graphQLInterfaceType = _registerInterfaces(
+				graphQLSchemaBuilder, processingElementsContainer,
+				queryGraphQLObjectTypeBuilder);
+
+			graphQLNamespaces.addAll(
+				_registerNamespace(
+					ServletData::getMutation, mutationGraphQLObjectTypeBuilder,
+					graphQLSchemaBuilder, true, processingElementsContainer,
+					servletDatas));
+
+			graphQLNamespaces.addAll(
+				_registerNamespace(
+					ServletData::getQuery, queryGraphQLObjectTypeBuilder,
+					graphQLSchemaBuilder, false, processingElementsContainer,
+					servletDatas));
 
 			graphQLSchemaBuilder.mutation(
 				mutationGraphQLObjectTypeBuilder.build());
