@@ -1899,6 +1899,10 @@ public class GraphQLServletExtender {
 				new HashMap<>();
 
 			for (String graphQLNamespace : servletDataGraphQLNamespaces) {
+				_registerNamespace(
+					graphQLNamespace, graphQLSchemaBuilder, mutation,
+					processingElementsContainer);
+
 				GraphQLObjectType.Builder builder =
 					new GraphQLObjectType.Builder();
 
@@ -1948,20 +1952,6 @@ public class GraphQLServletExtender {
 
 				graphQLObjectTypeBuilder.field(
 					_addField(builder.build(), graphQLNamespace));
-
-				String parentField = GraphQLConstants.NAMESPACE_QUERY;
-
-				if (mutation) {
-					parentField = GraphQLConstants.NAMESPACE_MUTATION;
-				}
-
-				graphQLSchemaBuilder.codeRegistry(
-					graphQLCodeRegistryBuilder.dataFetcher(
-						FieldCoordinates.coordinates(
-							parentField, graphQLNamespace),
-						(DataFetcher<Object>)
-							dataFetchingEnvironment -> new Object()
-					).build());
 
 				graphQLNamespaces.add(graphQLNamespace);
 			}
