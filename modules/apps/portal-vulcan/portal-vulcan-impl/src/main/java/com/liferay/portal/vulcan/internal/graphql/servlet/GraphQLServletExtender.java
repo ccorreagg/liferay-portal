@@ -976,7 +976,7 @@ public class GraphQLServletExtender {
 						processingElementsContainer);
 
 					_registerMethodsIntoNamespace(
-						namespace, mutationGraphQLObjectTypeBuilder,
+						false, namespace, mutationGraphQLObjectTypeBuilder,
 						graphQLSchemaBuilder, methods, true,
 						processingElementsContainer);
 
@@ -1021,7 +1021,7 @@ public class GraphQLServletExtender {
 						processingElementsContainer);
 
 					_registerMethodsIntoNamespace(
-						namespace, queryGraphQLObjectTypeBuilder,
+						false, namespace, queryGraphQLObjectTypeBuilder,
 						graphQLSchemaBuilder, methods, false,
 						processingElementsContainer);
 
@@ -1799,7 +1799,7 @@ public class GraphQLServletExtender {
 	}
 
 	private void _registerMethodsIntoNamespace(
-		String graphQLNamespace,
+		boolean deprecated, String graphQLNamespace,
 		GraphQLObjectType.Builder graphQLObjectTypeBuilder,
 		GraphQLSchema.Builder graphQLSchemaBuilder, List<Method> methods,
 		boolean mutation,
@@ -1826,7 +1826,7 @@ public class GraphQLServletExtender {
 		for (Method method : methods) {
 			builder.field(
 				_liferayGraphQLFieldRetriever.getField(
-					false, method, mutation, processingElementsContainer));
+					deprecated, method, mutation, processingElementsContainer));
 
 			graphQLSchemaBuilder.codeRegistry(
 				graphQLCodeRegistryBuilder.dataFetcher(
@@ -1885,6 +1885,8 @@ public class GraphQLServletExtender {
 				clazz.getMethods(),
 				method -> {
 					if (_isMethodEnabled(method, servletData)) {
+						_servletDataMap.put(method, servletData);
+
 						return method;
 					}
 
@@ -1895,63 +1897,17 @@ public class GraphQLServletExtender {
 				continue;
 			}
 
-			Map<Method, LiferayMethodDataFetcher> liferayMethodDataFetchers =
-				new HashMap<>();
-
 			for (String graphQLNamespace : servletDataGraphQLNamespaces) {
 				_registerNamespace(
 					graphQLNamespace, graphQLSchemaBuilder, mutation,
 					processingElementsContainer);
 
-				GraphQLObjectType.Builder builder =
-					new GraphQLObjectType.Builder();
-
-				String prefix = "";
-
-				if (mutation) {
-					prefix = "Mutation";
-				}
-
-				builder.name(
-					prefix + StringUtil.upperCaseFirstLetter(graphQLNamespace));
-
-				boolean deprecated = false;
-
-				if (StringUtil.equals(
-						graphQLNamespace, servletData.getGraphQLNamespace())) {
-
-					deprecated = true;
-				}
-
-				GraphQLCodeRegistry.Builder graphQLCodeRegistryBuilder =
-					processingElementsContainer.getCodeRegistryBuilder();
-
-				for (Method method : methods) {
-					_servletDataMap.put(method, servletData);
-
-					builder.field(
-						_liferayGraphQLFieldRetriever.getField(
-							deprecated, method, mutation,
-							processingElementsContainer));
-
-					graphQLSchemaBuilder.codeRegistry(
-						graphQLCodeRegistryBuilder.dataFetcher(
-							FieldCoordinates.coordinates(
-								graphQLNamespace, method.getName()),
-							liferayMethodDataFetchers.computeIfAbsent(
-								method,
-								key -> new LiferayMethodDataFetcher(
-									new ServletDataRequestContext(
-										_companyId, method, mutation,
-										servletData),
-									_graphQLRequestContextValidators,
-									_liferayMethodDataFetchingProcessor,
-									method))
-						).build());
-				}
-
-				graphQLObjectTypeBuilder.field(
-					_addField(builder.build(), graphQLNamespace));
+				_registerMethodsIntoNamespace(
+					StringUtil.equals(
+						graphQLNamespace, servletData.getGraphQLNamespace()),
+					graphQLNamespace, graphQLObjectTypeBuilder,
+					graphQLSchemaBuilder, methods, mutation,
+					processingElementsContainer);
 
 				graphQLNamespaces.add(graphQLNamespace);
 			}
