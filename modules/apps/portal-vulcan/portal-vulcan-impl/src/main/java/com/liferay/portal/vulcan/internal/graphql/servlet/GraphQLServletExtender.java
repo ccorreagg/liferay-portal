@@ -944,44 +944,11 @@ public class GraphQLServletExtender {
 			GraphQLSchema.Builder graphQLSchemaBuilder =
 				GraphQLSchema.newSchema();
 
-			Map<ServletData, List<Method>> mutationUniqueMethods =
-				_getUniqueMethods(ServletData::getMutation, servletDatas);
-
-			Map<String, List<Method>>
-				mutationUnversionedGraphQLNamespaceMethods = new HashMap<>();
-
-			mutationUniqueMethods.forEach(
-				(servletData, methods) -> {
-					_registerMethods(
-						mutationGraphQLObjectTypeBuilder, methods, true,
-						processingElementsContainer, servletData);
-
-					mutationUnversionedGraphQLNamespaceMethods.compute(
-						_getUnversionedGraphQLNamespace(servletData),
-						(namespace, methodList) -> {
-							if (methodList == null) {
-								methodList = new ArrayList<>();
-							}
-
-							methodList.addAll(methods);
-
-							return methodList;
-						});
-				});
-
-			mutationUnversionedGraphQLNamespaceMethods.forEach(
-				(namespace, methods) -> {
-					_registerNamespace(
-						namespace, graphQLSchemaBuilder, true,
-						processingElementsContainer);
-
-					_registerMethodsIntoNamespace(
-						false, namespace, mutationGraphQLObjectTypeBuilder,
-						graphQLSchemaBuilder, methods, true,
-						processingElementsContainer);
-
-					graphQLNamespaces.add(namespace);
-				});
+			graphQLNamespaces.addAll(
+				_registerUnversionedMethods(
+					ServletData::getMutation, mutationGraphQLObjectTypeBuilder,
+					graphQLSchemaBuilder, true, processingElementsContainer,
+					servletDatas));
 
 			GraphQLObjectType.Builder queryGraphQLObjectTypeBuilder =
 				GraphQLObjectType.newObject();
@@ -989,44 +956,11 @@ public class GraphQLServletExtender {
 			queryGraphQLObjectTypeBuilder.name(
 				GraphQLConstants.NAMESPACE_QUERY);
 
-			Map<ServletData, List<Method>> queryUniqueMethods =
-				_getUniqueMethods(ServletData::getQuery, servletDatas);
-
-			Map<String, List<Method>> queryUnversionedGraphQLNamespaceMethods =
-				new HashMap<>();
-
-			queryUniqueMethods.forEach(
-				(servletData, methods) -> {
-					_registerMethods(
-						queryGraphQLObjectTypeBuilder, methods, false,
-						processingElementsContainer, servletData);
-
-					queryUnversionedGraphQLNamespaceMethods.compute(
-						_getUnversionedGraphQLNamespace(servletData),
-						(namespace, methodList) -> {
-							if (methodList == null) {
-								methodList = new ArrayList<>();
-							}
-
-							methodList.addAll(methods);
-
-							return methodList;
-						});
-				});
-
-			queryUnversionedGraphQLNamespaceMethods.forEach(
-				(namespace, methods) -> {
-					_registerNamespace(
-						namespace, graphQLSchemaBuilder, false,
-						processingElementsContainer);
-
-					_registerMethodsIntoNamespace(
-						false, namespace, queryGraphQLObjectTypeBuilder,
-						graphQLSchemaBuilder, methods, false,
-						processingElementsContainer);
-
-					graphQLNamespaces.add(namespace);
-				});
+			graphQLNamespaces.addAll(
+				_registerUnversionedMethods(
+					ServletData::getMutation, queryGraphQLObjectTypeBuilder,
+					graphQLSchemaBuilder, false, processingElementsContainer,
+					servletDatas));
 
 			_registerCustomTypes(processingElementsContainer);
 			_registerGraphQLDTOContributors(
@@ -1039,13 +973,13 @@ public class GraphQLServletExtender {
 				queryGraphQLObjectTypeBuilder);
 
 			graphQLNamespaces.addAll(
-				_registerNamespace(
+				_registerVersionedMethods(
 					ServletData::getMutation, mutationGraphQLObjectTypeBuilder,
 					graphQLSchemaBuilder, true, processingElementsContainer,
 					servletDatas));
 
 			graphQLNamespaces.addAll(
-				_registerNamespace(
+				_registerVersionedMethods(
 					ServletData::getQuery, queryGraphQLObjectTypeBuilder,
 					graphQLSchemaBuilder, false, processingElementsContainer,
 					servletDatas));
@@ -1845,7 +1779,58 @@ public class GraphQLServletExtender {
 			_addField(builder.build(), graphQLNamespace));
 	}
 
-	private Set<String> _registerNamespace(
+	private Set<String> _registerUnversionedMethods(
+		Function<ServletData, Object> function,
+		GraphQLObjectType.Builder graphQLObjectTypeBuilder,
+		GraphQLSchema.Builder graphQLSchemaBuilder, boolean mutation,
+		ProcessingElementsContainer processingElementsContainer,
+		List<ServletData> servletDatas) {
+
+		Set<String> graphQLNamespaces = new HashSet<>();
+
+		Map<ServletData, List<Method>> uniqueMethods = _getUniqueMethods(
+			function, servletDatas);
+
+		Map<String, List<Method>> unversionedGraphQLNamespaceMethods =
+			new HashMap<>();
+
+		uniqueMethods.forEach(
+			(servletData, methods) -> {
+				_registerMethods(
+					graphQLObjectTypeBuilder, methods, mutation,
+					processingElementsContainer, servletData);
+
+				unversionedGraphQLNamespaceMethods.compute(
+					_getUnversionedGraphQLNamespace(servletData),
+					(namespace, methodList) -> {
+						if (methodList == null) {
+							methodList = new ArrayList<>();
+						}
+
+						methodList.addAll(methods);
+
+						return methodList;
+					});
+			});
+
+		unversionedGraphQLNamespaceMethods.forEach(
+			(namespace, methods) -> {
+				_registerVersionedMethods(
+					namespace, graphQLSchemaBuilder, mutation,
+					processingElementsContainer);
+
+				_registerMethodsIntoNamespace(
+					false, namespace, graphQLObjectTypeBuilder,
+					graphQLSchemaBuilder, methods, mutation,
+					processingElementsContainer);
+
+				graphQLNamespaces.add(namespace);
+			});
+
+		return graphQLNamespaces;
+	}
+
+	private Set<String> _registerVersionedMethods(
 		Function<ServletData, Object> function,
 		GraphQLObjectType.Builder graphQLObjectTypeBuilder,
 		GraphQLSchema.Builder graphQLSchemaBuilder, boolean mutation,
@@ -1898,7 +1883,7 @@ public class GraphQLServletExtender {
 			}
 
 			for (String graphQLNamespace : servletDataGraphQLNamespaces) {
-				_registerNamespace(
+				_registerVersionedMethods(
 					graphQLNamespace, graphQLSchemaBuilder, mutation,
 					processingElementsContainer);
 
@@ -1916,7 +1901,7 @@ public class GraphQLServletExtender {
 		return graphQLNamespaces;
 	}
 
-	private void _registerNamespace(
+	private void _registerVersionedMethods(
 		String graphQLNamespace, GraphQLSchema.Builder graphQLSchemaBuilder,
 		boolean mutation,
 		ProcessingElementsContainer processingElementsContainer) {
