@@ -1821,10 +1821,6 @@ public class GraphQLServletExtender {
 						return null;
 					}
 
-					if (!mutation) {
-						return method;
-					}
-
 					SortedMap<String, TreeSet<Method>> methodsSortedMap =
 						simpleNamespaceMethods.computeIfAbsent(
 							simpleGraphQLNamespace,
@@ -1859,32 +1855,33 @@ public class GraphQLServletExtender {
 			}
 		}
 
-		if (mutation) {
-			for (Map.Entry<String, SortedMap<String, TreeSet<Method>>> entry :
-					simpleNamespaceMethods.entrySet()) {
+		for (Map.Entry<String, SortedMap<String, TreeSet<Method>>> entry :
+				simpleNamespaceMethods.entrySet()) {
 
-				List<Method> sortedMethods = new ArrayList<>();
+			
+			List<Method> sortedMethods = new ArrayList<>();
+			Set<String> methodNames = new HashSet<String>();
 
-				for (TreeSet<Method> methods :
-						entry.getValue(
-						).values()) {
+			for (TreeSet<Method> methods :
+					entry.getValue(
+					).values()) {
 
-					for (Method method : methods) {
-						if (!sortedMethods.contains(methods)) {
-							sortedMethods.add(method);
-						}
+				for (Method method : methods) {
+					if (!methodNames.contains(method.getName())){
+						sortedMethods.add(method);
+						methodNames.add(method.getName());
 					}
 				}
-
-				Map<Method, LiferayMethodDataFetcher>
-					liferayMethodDataFetchers = new HashMap<>();
-
-				_addMethodsToNamespace(
-					sortedMethods, graphQLNamespaces, entry.getKey(), null,
-					processingElementsContainer, graphQLSchemaBuilder,
-					graphQLObjectTypeBuilder, mutation,
-					liferayMethodDataFetchers);
 			}
+
+			Map<Method, LiferayMethodDataFetcher>
+				liferayMethodDataFetchers = new HashMap<>();
+
+			_addMethodsToNamespace(
+				sortedMethods, graphQLNamespaces, entry.getKey(), null,
+				processingElementsContainer, graphQLSchemaBuilder,
+				graphQLObjectTypeBuilder, mutation,
+				liferayMethodDataFetchers);
 		}
 
 		return graphQLNamespaces;
