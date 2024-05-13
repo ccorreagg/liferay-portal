@@ -854,53 +854,6 @@ public class GraphQLServletExtender {
 		).build();
 	}
 
-	private Set<String> _collectObjectFields(
-		Function<ServletData, Object> function,
-		GraphQLSchema.Builder graphQLSchemaBuilder,
-		GraphQLObjectType.Builder graphQLObjectTypeBuilder, boolean mutation,
-		ProcessingElementsContainer processingElementsContainer,
-		List<ServletData> servletDatas) {
-
-		Map<ServletData, List<Method>> uniqueMethods = _getUniqueMethods(
-			function, servletDatas);
-
-		Map<String, List<Method>> graphQLSimpleNamespaceMethods =
-			new HashMap<>();
-
-		uniqueMethods.forEach(
-			(servletData, methods) -> {
-				_registerMethods(
-					graphQLObjectTypeBuilder, methods, mutation,
-					processingElementsContainer, servletData);
-
-				graphQLSimpleNamespaceMethods.compute(
-					_getGraphQLSimpleNamespace(servletData),
-					(namespace, methodList) -> {
-						if (methodList == null) {
-							methodList = new ArrayList<>();
-						}
-
-						methodList.addAll(methods);
-
-						return methodList;
-					});
-			});
-
-		graphQLSimpleNamespaceMethods.forEach(
-			(namespace, methods) -> {
-				_registerGraphQLNamespace(
-					namespace, graphQLSchemaBuilder, mutation,
-					processingElementsContainer);
-
-				_registerMethods(
-					false, namespace, graphQLObjectTypeBuilder,
-					graphQLSchemaBuilder, methods, mutation,
-					processingElementsContainer);
-			});
-
-		return graphQLSimpleNamespaceMethods.keySet();
-	}
-
 	private GraphQLFieldDefinition _createNodeGraphQLFieldDefinition(
 		GraphQLOutputType graphQLOutputType) {
 
@@ -992,7 +945,7 @@ public class GraphQLServletExtender {
 				GraphQLSchema.newSchema();
 
 			graphQLNamespaces.addAll(
-				_collectObjectFields(
+				_registerUnversionedMethods(
 					ServletData::getMutation, graphQLSchemaBuilder,
 					mutationGraphQLObjectTypeBuilder, true,
 					processingElementsContainer, servletDatas));
@@ -1004,7 +957,7 @@ public class GraphQLServletExtender {
 				GraphQLConstants.NAMESPACE_QUERY);
 
 			graphQLNamespaces.addAll(
-				_collectObjectFields(
+				_registerUnversionedMethods(
 					ServletData::getQuery, graphQLSchemaBuilder,
 					queryGraphQLObjectTypeBuilder, false,
 					processingElementsContainer, servletDatas));
@@ -1020,12 +973,12 @@ public class GraphQLServletExtender {
 				queryGraphQLObjectTypeBuilder);
 
 			graphQLNamespaces.addAll(
-				_registerNamespace(
+				_registerVersionedMethods(
 					ServletData::getMutation, mutationGraphQLObjectTypeBuilder,
 					graphQLSchemaBuilder, true, processingElementsContainer,
 					servletDatas));
 			graphQLNamespaces.addAll(
-				_registerNamespace(
+				_registerVersionedMethods(
 					ServletData::getQuery, queryGraphQLObjectTypeBuilder,
 					graphQLSchemaBuilder, false, processingElementsContainer,
 					servletDatas));
@@ -1116,12 +1069,8 @@ public class GraphQLServletExtender {
 		return graphQLInputObjectTypeBuilder.build();
 	}
 
-	private String _getGraphQLNamespace(ServletData servletData) {
-		return _getGraphQLNamespace(servletData, false);
-	}
-
 	private String _getGraphQLNamespace(
-		ServletData servletData, boolean useSimpleName) {
+		ServletData servletData, boolean useVersion) {
 
 		String path = servletData.getPath();
 
@@ -1143,7 +1092,7 @@ public class GraphQLServletExtender {
 			firstPathPart = firstPathPart.substring(0, index);
 		}
 
-		if (useSimpleName) {
+		if (!useVersion) {
 			return CamelCaseUtil.toCamelCase(firstPathPart);
 		}
 
@@ -1204,10 +1153,6 @@ public class GraphQLServletExtender {
 		}
 
 		return graphQLObjectTypeBuilder.build();
-	}
-
-	private String _getGraphQLSimpleNamespace(ServletData servletData) {
-		return _getGraphQLNamespace(servletData, true);
 	}
 
 	private GraphQLObjectType _getPageGraphQLObjectType(
@@ -1367,6 +1312,10 @@ public class GraphQLServletExtender {
 		return uniqueMethods;
 	}
 
+	private String _getUnversionedGraphQLNamespace(ServletData servletData) {
+		return _getGraphQLNamespace(servletData, false);
+	}
+
 	private Integer _getVersion(Method method) {
 		Class<?> clazz = method.getDeclaringClass();
 
@@ -1377,6 +1326,10 @@ public class GraphQLServletExtender {
 		String version = packageNames[packageNames.length - 1];
 
 		return GetterUtil.getInteger(version.replaceAll("\\D", ""), 1);
+	}
+
+	private String _getVersionedGraphQLNamespace(ServletData servletData) {
+		return _getGraphQLNamespace(servletData, true);
 	}
 
 	private boolean _isGraphQLEnabled(ServletData servletData)
@@ -1846,7 +1799,53 @@ public class GraphQLServletExtender {
 		}
 	}
 
-	private Set<String> _registerNamespace(
+	private Set<String> _registerUnversionedMethods(
+		Function<ServletData, Object> function,
+		GraphQLSchema.Builder graphQLSchemaBuilder,
+		GraphQLObjectType.Builder graphQLObjectTypeBuilder, boolean mutation,
+		ProcessingElementsContainer processingElementsContainer,
+		List<ServletData> servletDatas) {
+
+		Map<ServletData, List<Method>> uniqueMethods = _getUniqueMethods(
+			function, servletDatas);
+
+		Map<String, List<Method>> graphQLNamespaceMethods = new HashMap<>();
+
+		uniqueMethods.forEach(
+			(servletData, methods) -> {
+				_registerMethods(
+					graphQLObjectTypeBuilder, methods, mutation,
+					processingElementsContainer, servletData);
+
+				graphQLNamespaceMethods.compute(
+					_getUnversionedGraphQLNamespace(servletData),
+					(namespace, methodList) -> {
+						if (methodList == null) {
+							methodList = new ArrayList<>();
+						}
+
+						methodList.addAll(methods);
+
+						return methodList;
+					});
+			});
+
+		graphQLNamespaceMethods.forEach(
+			(namespace, methods) -> {
+				_registerGraphQLNamespace(
+					namespace, graphQLSchemaBuilder, mutation,
+					processingElementsContainer);
+
+				_registerMethods(
+					false, namespace, graphQLObjectTypeBuilder,
+					graphQLSchemaBuilder, methods, mutation,
+					processingElementsContainer);
+			});
+
+		return graphQLNamespaceMethods.keySet();
+	}
+
+	private Set<String> _registerVersionedMethods(
 		Function<ServletData, Object> function,
 		GraphQLObjectType.Builder graphQLObjectTypeBuilder,
 		GraphQLSchema.Builder graphQLSchemaBuilder, boolean mutation,
@@ -1858,10 +1857,11 @@ public class GraphQLServletExtender {
 		for (ServletData servletData : servletDatas) {
 			Set<String> servletDataGraphQLNamespaces = new HashSet<>();
 
-			String namespace = _getGraphQLNamespace(servletData);
+			String versionedGraphQLNamespace = _getVersionedGraphQLNamespace(
+				servletData);
 
-			if (namespace != null) {
-				servletDataGraphQLNamespaces.add(namespace);
+			if (versionedGraphQLNamespace != null) {
+				servletDataGraphQLNamespaces.add(versionedGraphQLNamespace);
 			}
 
 			if (servletData.getGraphQLNamespace() != null) {
@@ -2861,8 +2861,9 @@ public class GraphQLServletExtender {
 					StringBundler.concat(
 						"This field is deprecated. Access to ", fieldType,
 						" is available at ", fieldType, "/",
-						_getGraphQLNamespace(_servletDataMap.get(method)), "/",
-						method.getName()));
+						_getVersionedGraphQLNamespace(
+							_servletDataMap.get(method)),
+						"/", method.getName()));
 			}
 
 			return graphQLFieldDefinitionBuilder.build();
