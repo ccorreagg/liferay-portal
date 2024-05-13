@@ -888,6 +888,7 @@ public class GraphQLServletExtender {
 			PropertyDataFetcher.clearReflectionCache();
 
 			_companyId = companyId;
+			_liferayMethodDataFetcherMap.clear();
 			_registeredClassNames.clear();
 			_servletDataMap.clear();
 
@@ -1740,9 +1741,8 @@ public class GraphQLServletExtender {
 	private void _registerMethods(
 		boolean deprecated, String graphQLNamespace,
 		GraphQLObjectType.Builder graphQLObjectTypeBuilder,
-		GraphQLSchema.Builder graphQLSchemaBuilder,
-		Map<Method, LiferayMethodDataFetcher> liferayMethodDataFetchers,
-		List<Method> methods, boolean mutation,
+		GraphQLSchema.Builder graphQLSchemaBuilder, List<Method> methods,
+		boolean mutation,
 		ProcessingElementsContainer processingElementsContainer) {
 
 		if (ListUtil.isEmpty(methods)) {
@@ -1772,7 +1772,7 @@ public class GraphQLServletExtender {
 				graphQLCodeRegistryBuilder.dataFetcher(
 					FieldCoordinates.coordinates(
 						graphQLNamespace, method.getName()),
-					liferayMethodDataFetchers.computeIfAbsent(
+					_liferayMethodDataFetcherMap.computeIfAbsent(
 						method,
 						key -> new LiferayMethodDataFetcher(
 							new ServletDataRequestContext(
@@ -1833,9 +1833,6 @@ public class GraphQLServletExtender {
 					});
 			});
 
-		Map<Method, LiferayMethodDataFetcher> liferayMethodDataFetchers =
-			new HashMap<>();
-
 		graphQLNamespaceMethods.forEach(
 			(namespace, methods) -> {
 				_registerGraphQLNamespace(
@@ -1844,8 +1841,8 @@ public class GraphQLServletExtender {
 
 				_registerMethods(
 					false, namespace, graphQLObjectTypeBuilder,
-					graphQLSchemaBuilder, liferayMethodDataFetchers, methods,
-					mutation, processingElementsContainer);
+					graphQLSchemaBuilder, methods, mutation,
+					processingElementsContainer);
 			});
 
 		return graphQLNamespaceMethods.keySet();
@@ -1903,9 +1900,6 @@ public class GraphQLServletExtender {
 				continue;
 			}
 
-			Map<Method, LiferayMethodDataFetcher> liferayMethodDataFetchers =
-				new HashMap<>();
-
 			for (String graphQLNamespace : servletDataGraphQLNamespaces) {
 				_registerGraphQLNamespace(
 					graphQLNamespace, graphQLSchemaBuilder, mutation,
@@ -1915,8 +1909,8 @@ public class GraphQLServletExtender {
 					StringUtil.equals(
 						graphQLNamespace, servletData.getGraphQLNamespace()),
 					graphQLNamespace, graphQLObjectTypeBuilder,
-					graphQLSchemaBuilder, liferayMethodDataFetchers, methods,
-					mutation, processingElementsContainer);
+					graphQLSchemaBuilder, methods, mutation,
+					processingElementsContainer);
 			}
 
 			graphQLNamespaces.addAll(servletDataGraphQLNamespaces);
@@ -2205,6 +2199,8 @@ public class GraphQLServletExtender {
 	private Language _language;
 
 	private LiferayGraphQLFieldRetriever _liferayGraphQLFieldRetriever;
+	private final Map<Method, LiferayMethodDataFetcher>
+		_liferayMethodDataFetcherMap = new HashMap<>();
 	private LiferayMethodDataFetchingProcessor
 		_liferayMethodDataFetchingProcessor;
 
