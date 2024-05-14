@@ -11,6 +11,7 @@ import com.liferay.oauth2.provider.scope.liferay.LiferayOAuth2Scope;
 import com.liferay.oauth2.provider.scope.liferay.ScopeLocator;
 import com.liferay.oauth2.provider.scope.spi.prefix.handler.PrefixHandler;
 import com.liferay.oauth2.provider.scope.spi.prefix.handler.PrefixHandlerFactory;
+import com.liferay.oauth2.provider.scope.spi.scope.alias.mapper.ScopeAliasMapper;
 import com.liferay.oauth2.provider.scope.spi.scope.finder.ScopeFinder;
 import com.liferay.oauth2.provider.scope.spi.scope.mapper.ScopeMapper;
 import com.liferay.oauth2.provider.scope.spi.scope.matcher.ScopeMatcher;
@@ -156,9 +157,15 @@ public class ScopeLocatorImpl implements ScopeLocator {
 
 		Map<String, Set<String>> mappedScopeToUnmappedScopes = new HashMap<>();
 		Map<String, Boolean> matchCache = new HashMap<>();
+
 		PrefixHandler prefixHandler = prefixHandlerFactory.create(
 			serviceReference::getProperty);
+
 		Queue<String> queue = new LinkedList<>();
+
+		ScopeAliasMapper scopeAliasMapper =
+			_scopeAliasMapperScopedServiceTrackerMap.getService(
+				companyId, applicationName);
 		ScopeMapper scopeMapper =
 			_scopeMappersScopedServiceTrackerMap.getService(
 				companyId, applicationName);
@@ -170,7 +177,8 @@ public class ScopeLocatorImpl implements ScopeLocator {
 				boolean matched = matchCache.computeIfAbsent(
 					mappedScope,
 					key -> _scopeMatchesScopesAlias(
-						key, scopeMatcherFactory, prefixHandler, scopesAlias));
+						key, scopeAliasMapper, scopeMatcherFactory,
+						prefixHandler, scopesAlias));
 
 				if (matched) {
 					queue.add(scope);
@@ -313,6 +321,11 @@ public class ScopeLocatorImpl implements ScopeLocator {
 					return propertyAccessor ->
 						PrefixHandler.PASS_THROUGH_PREFIX_HANDLER;
 				}));
+		setScopeAliasMapperScopedServiceTrackerMap(
+			ScopedServiceTrackerMapFactory.create(
+				bundleContext, ScopeAliasMapper.class,
+				OAuth2ProviderScopeConstants.OSGI_JAXRS_NAME,
+				() -> ScopeAliasMapper.PASS_THROUGH_SCOPE_ALIAS_MAPPER));
 		setScopeFindersScopedServiceTrackerMap(
 			ScopedServiceTrackerMapFactory.create(
 				bundleContext, ScopeFinder.class,
@@ -344,6 +357,7 @@ public class ScopeLocatorImpl implements ScopeLocator {
 
 	@Deactivate
 	protected void deactivate() {
+		_scopeAliasMapperScopedServiceTrackerMap.close();
 		_scopeFinderByNameServiceTrackerMap.close();
 		_prefixHandlerFactoriesScopedServiceTrackerMap.close();
 		_scopeFindersScopedServiceTrackerMap.close();
@@ -380,6 +394,14 @@ public class ScopeLocatorImpl implements ScopeLocator {
 
 		_prefixHandlerFactoriesScopedServiceTrackerMap =
 			prefixHandlerFactoriesScopedServiceTrackerMap;
+	}
+
+	protected void setScopeAliasMapperScopedServiceTrackerMap(
+		ScopedServiceTrackerMap<ScopeAliasMapper>
+			scopeAliasMapperScopedServiceTrackerMap) {
+
+		_scopeAliasMapperScopedServiceTrackerMap =
+			scopeAliasMapperScopedServiceTrackerMap;
 	}
 
 	protected void setScopeFinderByNameServiceTrackerMap(
@@ -427,8 +449,9 @@ public class ScopeLocatorImpl implements ScopeLocator {
 	}
 
 	private boolean _scopeMatchesScopesAlias(
-		String scope, ScopeMatcherFactory scopeMatcherFactory,
-		PrefixHandler prefixHandler, String scopesAlias) {
+		String scope, ScopeAliasMapper scopeAliasMapper,
+		ScopeMatcherFactory scopeMatcherFactory, PrefixHandler prefixHandler,
+		String scopesAlias) {
 
 		String prefixedScope = prefixHandler.addPrefix(scope);
 
@@ -439,12 +462,14 @@ public class ScopeLocatorImpl implements ScopeLocator {
 		String prefix = prefixedScope.substring(
 			0, prefixedScope.length() - scope.length());
 
-		if (!scopesAlias.startsWith(prefix)) {
+		String mappedScopeAlias = scopeAliasMapper.map(scopesAlias);
+
+		if (!mappedScopeAlias.startsWith(prefix)) {
 			return false;
 		}
 
 		ScopeMatcher scopeMatcher = scopeMatcherFactory.create(
-			scopesAlias.substring(prefix.length()));
+			mappedScopeAlias.substring(prefix.length()));
 
 		return scopeMatcher.match(scope);
 	}
@@ -468,6 +493,8 @@ public class ScopeLocatorImpl implements ScopeLocator {
 
 	private ScopedServiceTrackerMap<PrefixHandlerFactory>
 		_prefixHandlerFactoriesScopedServiceTrackerMap;
+	private ScopedServiceTrackerMap<ScopeAliasMapper>
+		_scopeAliasMapperScopedServiceTrackerMap;
 	private ServiceTrackerMap
 		<String, ServiceReferenceServiceTuple<?, ScopeFinder>>
 			_scopeFinderByNameServiceTrackerMap;
