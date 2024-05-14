@@ -5,6 +5,7 @@
 
 package com.liferay.object.rest.internal.deployer;
 
+import com.liferay.oauth2.provider.scope.spi.scope.alias.mapper.ScopeAliasMapper;
 import com.liferay.object.deployer.ObjectDefinitionDeployer;
 import com.liferay.object.exception.NoSuchObjectDefinitionException;
 import com.liferay.object.model.ObjectDefinition;
@@ -26,6 +27,7 @@ import com.liferay.object.rest.internal.manager.v1_0.ObjectEntry1toMObjectRelati
 import com.liferay.object.rest.internal.manager.v1_0.ObjectEntryMtoMObjectRelationshipElementsParserImpl;
 import com.liferay.object.rest.internal.manager.v1_0.SystemObjectEntry1toMObjectRelationshipElementsParserImpl;
 import com.liferay.object.rest.internal.manager.v1_0.SystemObjectEntryMtoMObjectRelationshipElementsParserImpl;
+import com.liferay.object.rest.internal.oauth2.scope.alias.mapper.ObjectDefinitionScopeAliasMapper;
 import com.liferay.object.rest.internal.openapi.v1_0.ObjectEntryOpenAPIResourceImpl;
 import com.liferay.object.rest.internal.resource.v1_0.BaseObjectEntryResourceImpl;
 import com.liferay.object.rest.internal.resource.v1_0.ObjectEntryRelatedObjectsResourceImpl;
@@ -411,6 +413,16 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 								objectDefinition),
 							HashMapDictionaryBuilder.<String, Object>put(
 								"companyId", objectDefinition.getCompanyId()
+							).build()),
+						_bundleContext.registerService(
+							ScopeAliasMapper.class,
+							new ObjectDefinitionScopeAliasMapper(
+								objectDefinition),
+							HashMapDictionaryBuilder.<String, Object>put(
+								"companyId",
+								String.valueOf(objectDefinition.getCompanyId())
+							).put(
+								"osgi.jaxrs.name", osgiJaxRsName
 							).build())));
 
 				return serviceRegistrationsMap;
