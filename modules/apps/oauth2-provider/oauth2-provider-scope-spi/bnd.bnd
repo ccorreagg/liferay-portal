@@ -4,6 +4,7 @@ Bundle-Version: 4.0.7
 Export-Package:\
 	com.liferay.oauth2.provider.scope.spi.application.descriptor,\
 	com.liferay.oauth2.provider.scope.spi.prefix.handler,\
+	com.liferay.oauth2.provider.scope.spi.scope.alias.mapper,\
 	com.liferay.oauth2.provider.scope.spi.scope.descriptor,\
 	com.liferay.oauth2.provider.scope.spi.scope.finder,\
 	com.liferay.oauth2.provider.scope.spi.scope.mapper,\
