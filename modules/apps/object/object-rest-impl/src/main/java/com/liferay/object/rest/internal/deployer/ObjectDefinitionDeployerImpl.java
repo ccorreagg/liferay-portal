@@ -5,6 +5,7 @@
 
 package com.liferay.object.rest.internal.deployer;
 
+import com.liferay.oauth2.provider.scope.liferay.ScopeLocator;
 import com.liferay.oauth2.provider.scope.spi.scope.alias.mapper.ScopeAliasMapper;
 import com.liferay.object.deployer.ObjectDefinitionDeployer;
 import com.liferay.object.exception.NoSuchObjectDefinitionException;
@@ -417,7 +418,7 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 						_bundleContext.registerService(
 							ScopeAliasMapper.class,
 							new ObjectDefinitionScopeAliasMapper(
-								objectDefinition),
+								objectDefinition, _scopeLocator),
 							HashMapDictionaryBuilder.<String, Object>put(
 								"companyId",
 								String.valueOf(objectDefinition.getCompanyId())
@@ -946,6 +947,10 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 
 	private final Map<String, Map<Long, List<ServiceRegistration<?>>>>
 		_scopedServiceRegistrationsMap = new HashMap<>();
+
+	@Reference
+	private ScopeLocator _scopeLocator;
+
 	private final Map<String, List<ServiceRegistration<?>>>
 		_serviceRegistrationsMap = new HashMap<>();
 
