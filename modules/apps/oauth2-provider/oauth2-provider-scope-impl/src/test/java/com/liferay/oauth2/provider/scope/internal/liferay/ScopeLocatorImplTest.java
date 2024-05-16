@@ -20,6 +20,7 @@ import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.portal.kernel.module.util.SystemBundleUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.remote.jaxrs.whiteboard.lifecycle.JAXRSLifecycle;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 import com.liferay.portal.util.PropsImpl;
@@ -170,6 +171,98 @@ public class ScopeLocatorImplTest {
 				application2ScopeAliases,
 				CoreMatchers.hasItem(companyPrefixHandler.addPrefix(scope)));
 		}
+	}
+
+	@Test
+	public void testScopeAliasMapperByNameAndCompany() throws Exception {
+		PrefixHandlerFactory testPrefixHandlerFactory =
+			propertyAccessor -> target -> "test/" + target;
+
+		ScopeMatcherFactory scopeMatcherFactory = Mockito.spy(
+			new StrictScopeMatcherFactory());
+
+		String applicationName2 = "com.liferay.test2";
+
+		ScopeAliasMapper scopeAliasMapper = StringUtil::toLowerCase;
+
+		ScopeLocatorImpl scopeLocatorImpl = new Builder(
+		).withPrefixHandlerFactories(
+			propertyAccessor -> PrefixHandler.PASS_THROUGH_PREFIX_HANDLER,
+			registrator -> {
+				registrator.register(
+					_COMPANY_ID, _APPLICATION_NAME, testPrefixHandlerFactory);
+				registrator.register(
+					_COMPANY_ID, applicationName2, testPrefixHandlerFactory);
+			}
+		).withScopeAliasMappers(
+			ScopeAliasMapper.PASS_THROUGH_SCOPE_ALIAS_MAPPER,
+			registrator -> registrator.register(
+				_COMPANY_ID, _APPLICATION_NAME, scopeAliasMapper)
+		).withScopeMatcherFactories(
+			scopeAlias -> scopeAlias::equals,
+			registrator -> registrator.register(
+				String.valueOf(_COMPANY_ID), scopeMatcherFactory)
+		).withScopeFinders(
+			registrator -> {
+				registrator.register(
+					_COMPANY_ID, _APPLICATION_NAME, () -> scopesSet1);
+				registrator.register(
+					_COMPANY_ID, applicationName2, () -> scopesSet1);
+			}
+		).build();
+
+		Collection<LiferayOAuth2Scope> matchedLiferayOAuth2Scopes =
+			scopeLocatorImpl.getLiferayOAuth2Scopes(
+				_COMPANY_ID, "TEST/everything", _APPLICATION_NAME);
+
+		Mockito.verify(
+			scopeMatcherFactory, Mockito.atLeast(1)
+		).create(
+			"everything"
+		);
+
+		Set<String> matchedScopes = _getScopes(matchedLiferayOAuth2Scopes);
+
+		Assert.assertTrue(matchedScopes.contains("everything"));
+
+		matchedLiferayOAuth2Scopes = scopeLocatorImpl.getLiferayOAuth2Scopes(
+			_COMPANY_ID, "test/everything", _APPLICATION_NAME);
+
+		Mockito.verify(
+			scopeMatcherFactory, Mockito.atLeast(1)
+		).create(
+			"everything"
+		);
+
+		matchedScopes = _getScopes(matchedLiferayOAuth2Scopes);
+
+		Assert.assertTrue(matchedScopes.contains("everything"));
+
+		matchedLiferayOAuth2Scopes = scopeLocatorImpl.getLiferayOAuth2Scopes(
+			_COMPANY_ID, "TEST/everything", applicationName2);
+
+		Mockito.verify(
+			scopeMatcherFactory, Mockito.atLeast(1)
+		).create(
+			"everything"
+		);
+
+		matchedScopes = _getScopes(matchedLiferayOAuth2Scopes);
+
+		Assert.assertFalse(matchedScopes.contains("everything"));
+
+		matchedLiferayOAuth2Scopes = scopeLocatorImpl.getLiferayOAuth2Scopes(
+			_COMPANY_ID, "test/everything", applicationName2);
+
+		Mockito.verify(
+			scopeMatcherFactory, Mockito.atLeast(1)
+		).create(
+			"everything"
+		);
+
+		matchedScopes = _getScopes(matchedLiferayOAuth2Scopes);
+
+		Assert.assertTrue(matchedScopes.contains("everything"));
 	}
 
 	@Test
