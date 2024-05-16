@@ -10,6 +10,7 @@ import com.liferay.oauth2.provider.scope.internal.spi.scope.matcher.StrictScopeM
 import com.liferay.oauth2.provider.scope.liferay.LiferayOAuth2Scope;
 import com.liferay.oauth2.provider.scope.spi.prefix.handler.PrefixHandler;
 import com.liferay.oauth2.provider.scope.spi.prefix.handler.PrefixHandlerFactory;
+import com.liferay.oauth2.provider.scope.spi.scope.alias.mapper.ScopeAliasMapper;
 import com.liferay.oauth2.provider.scope.spi.scope.finder.ScopeFinder;
 import com.liferay.oauth2.provider.scope.spi.scope.mapper.ScopeMapper;
 import com.liferay.oauth2.provider.scope.spi.scope.matcher.ScopeMatcherFactory;
@@ -420,6 +421,13 @@ public class ScopeLocatorImplTest {
 					});
 			}
 
+			if (!_scopeAliasMappersInitialized) {
+				withScopeAliasMappers(
+					ScopeAliasMapper.PASS_THROUGH_SCOPE_ALIAS_MAPPER,
+					registrator -> {
+					});
+			}
+
 			if (!_scopeMappersInitialized) {
 				withScopeMappers(
 					ScopeMapper.PASS_THROUGH_SCOPE_MAPPER,
@@ -459,6 +467,19 @@ public class ScopeLocatorImplTest {
 					defaultPrefixHandlerFactory, configurator));
 
 			_prefixHandlerFactoriesInitialized = true;
+
+			return this;
+		}
+
+		public Builder withScopeAliasMappers(
+			ScopeAliasMapper defaultScopeAliasMapper,
+			CompanyAndKeyConfigurator<ScopeAliasMapper> configurator) {
+
+			_scopeLocatorImpl.setScopeAliasMapperScopedServiceTrackerMap(
+				_prepareScopedServiceTrackerMapMock(
+					defaultScopeAliasMapper, configurator));
+
+			_scopeAliasMappersInitialized = true;
 
 			return this;
 		}
@@ -580,6 +601,7 @@ public class ScopeLocatorImplTest {
 		}
 
 		private boolean _prefixHandlerFactoriesInitialized;
+		private boolean _scopeAliasMappersInitialized;
 		private boolean _scopeFindersInitialized;
 		private final ScopeLocatorImpl _scopeLocatorImpl =
 			new ScopeLocatorImpl();
