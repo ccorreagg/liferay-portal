@@ -27,6 +27,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import java.io.File;
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,24 +45,30 @@ public class RESTDTOSetCallCheck extends BaseCheck {
 	protected void doVisitToken(DetailAST detailAST) {
 		String absolutePath = getAbsolutePath();
 
-		if ((!absolutePath.contains("/modules/") &&
-			 !absolutePath.contains("/workspaces/")) ||
-			absolutePath.contains("/test/") ||
-			absolutePath.contains("/testIntegration/")) {
+		if (!absolutePath.contains("/modules/") &&
+			!absolutePath.contains("/workspaces/")) {
 
 			return;
 		}
 
+		boolean test = false;
+
+		if (absolutePath.contains("/test/") ||
+			absolutePath.contains("/testIntegration/")) {
+
+			test = true;
+		}
+
 		if (detailAST.getType() == TokenTypes.CLASS_DEF) {
-			_checkClassDeclaration(detailAST, absolutePath);
+			_checkClassDeclaration(detailAST, absolutePath, test);
 		}
 		else if (detailAST.getType() == TokenTypes.INSTANCE_INIT) {
-			_checkInstanceInitializer(detailAST, absolutePath);
+			_checkInstanceInitializer(detailAST, absolutePath, test);
 		}
 	}
 
 	private void _checkClassDeclaration(
-		DetailAST detailAST, String absolutePath) {
+		DetailAST detailAST, String absolutePath, boolean test) {
 
 		DetailAST parentDetailAST = detailAST.getParent();
 
@@ -107,12 +114,12 @@ public class RESTDTOSetCallCheck extends BaseCheck {
 
 			_checkSetCall(
 				absolutePath, methodCallDetailAST, methodName,
-				fullyQualifiedTypeName);
+				fullyQualifiedTypeName, test);
 		}
 	}
 
 	private void _checkInstanceInitializer(
-		DetailAST detailAST, String absolutePath) {
+		DetailAST detailAST, String absolutePath, boolean test) {
 
 		DetailAST parentDetailAST = detailAST.getParent();
 
@@ -199,7 +206,7 @@ public class RESTDTOSetCallCheck extends BaseCheck {
 
 				_checkSetCall(
 					absolutePath, childDetailAST, methodName,
-					fullyQualifiedTypeName);
+					fullyQualifiedTypeName, test);
 			}
 			else {
 				DetailAST dotDetailAST = childDetailAST.findFirstToken(
@@ -217,14 +224,14 @@ public class RESTDTOSetCallCheck extends BaseCheck {
 
 				_checkSetCall(
 					absolutePath, childDetailAST, methodName,
-					fullyQualifiedTypeName);
+					fullyQualifiedTypeName, test);
 			}
 		}
 	}
 
 	private void _checkSetCall(
 		String absolutePath, DetailAST detailAST, String methodName,
-		String fullyQualifiedTypeName) {
+		String fullyQualifiedTypeName, boolean test) {
 
 		File javaFile = JavaSourceUtil.getJavaFile(
 			fullyQualifiedTypeName, _getRootDirName(absolutePath),
@@ -267,7 +274,7 @@ public class RESTDTOSetCallCheck extends BaseCheck {
 
 			DetailAST childDetailAST = elistDetailAST.getFirstChild();
 
-			if ((childDetailAST == null) ||
+			if (test || (childDetailAST == null) ||
 				(childDetailAST.getType() == TokenTypes.LAMBDA) ||
 				(childDetailAST.findFirstToken(TokenTypes.METHOD_REF) !=
 					null)) {
@@ -276,7 +283,21 @@ public class RESTDTOSetCallCheck extends BaseCheck {
 			}
 		}
 
-		log(detailAST, _MSG_USE_SET_METHOD_INSTEAD, methodName);
+		String type = "UnsafeSupplier";
+
+		if (test) {
+			for (String parameterType :
+					_getParameterTypes(methodName, javaClass)) {
+
+				if (!parameterType.startsWith("UnsafeSupplier")) {
+					type = parameterType;
+
+					break;
+				}
+			}
+		}
+
+		log(detailAST, _MSG_USE_SET_METHOD_INSTEAD, methodName, type);
 	}
 
 	private synchronized Map<String, String> _getBundleSymbolicNamesMap(
@@ -306,18 +327,10 @@ public class RESTDTOSetCallCheck extends BaseCheck {
 			SourceUtil.getAbsolutePath(javaFile), FileUtil.read(javaFile));
 	}
 
-	private synchronized String _getRootDirName(String absolutePath) {
-		if (_rootDirName != null) {
-			return _rootDirName;
-		}
-
-		_rootDirName = SourceUtil.getRootDirName(absolutePath);
-
-		return _rootDirName;
-	}
-
-	private boolean _hasReplacableMethodSignature(
+	private List<String> _getParameterTypes(
 		String methodName, JavaClass javaClass) {
+
+		List<String> parameterTypes = new ArrayList<>();
 
 		for (JavaTerm javaTerm : javaClass.getChildJavaTerms()) {
 			if (!javaTerm.isJavaMethod() || javaTerm.isPrivate()) {
@@ -340,8 +353,28 @@ public class RESTDTOSetCallCheck extends BaseCheck {
 
 			JavaParameter javaParameter = javaParameters.get(0);
 
-			String parameterType = javaParameter.getParameterType();
+			parameterTypes.add(javaParameter.getParameterType());
+		}
 
+		return parameterTypes;
+	}
+
+	private synchronized String _getRootDirName(String absolutePath) {
+		if (_rootDirName != null) {
+			return _rootDirName;
+		}
+
+		_rootDirName = SourceUtil.getRootDirName(absolutePath);
+
+		return _rootDirName;
+	}
+
+	private boolean _hasReplacableMethodSignature(
+		String methodName, JavaClass javaClass) {
+
+		List<String> parameterTypes = _getParameterTypes(methodName, javaClass);
+
+		for (String parameterType : parameterTypes) {
 			if (parameterType.startsWith("UnsafeSupplier")) {
 				return true;
 			}
