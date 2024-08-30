@@ -41,13 +41,6 @@ public class TestEntityResourceImpl extends BaseTestEntityResourceImpl {
 	}
 
 	@Override
-	public TestEntity patchTestEntity(
-		Long testEntityId, Long optionalParameter, TestEntity testEntity) {
-
-		return putTestEntity(testEntityId, optionalParameter, testEntity);
-	}
-
-	@Override
 	public TestEntity postTestEntity(TestEntity testEntity) {
 		_testEntities.add(testEntity);
 
