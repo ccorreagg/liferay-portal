@@ -12,11 +12,26 @@ import createTempFile, {
 } from '../utils/createTempFile';
 import performLogin, {LoginScreenName} from '../utils/performLogin';
 
+import type {ApiRequestOptions} from '../../../apps/object/object-admin-rest-client-js/src/main/resources/META-INF/resources/node/core/ApiRequestOptions';
+
 export interface LoginOptions {
 	screenName?: LoginScreenName;
 }
 
+type Resolver<T> = (options: ApiRequestOptions) => Promise<T>;
+type Headers = Record<string, string>;
+
+interface HeadlessClientConfig {
+	BASE: string;
+	HEADERS: Headers | Resolver<Headers> | undefined;
+}
+
 export interface Login {
+	authenticate: <
+		T extends new (config: HeadlessClientConfig) => InstanceType<T>,
+	>(
+		HeadlessClient: T
+	) => InstanceType<T>;
 	login: {
 		screenName: LoginScreenName;
 		sessionId: string;
@@ -45,6 +60,15 @@ export interface Login {
  */
 function loginTest(options: LoginOptions = {}) {
 	const fixtureImpl = test.extend<Login>({
+		authenticate: async ({login}, use) => {
+			await use(
+				(HeadlessClient) =>
+					new HeadlessClient({
+						BASE: liferayConfig.environment.baseUrl + '/o',
+						HEADERS: {Cookie: `JSESSIONID=${login.sessionId};`},
+					})
+			);
+		},
 		login: [
 			async ({page}, use) => {
 				const screenName = options.screenName || 'test';
