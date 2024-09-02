@@ -5,6 +5,7 @@
 
 import {expect, mergeTests} from '@playwright/test';
 
+import {ObjectAdminRestClient} from '../../../../apps/object/object-admin-rest-client-js/src/main/resources/META-INF/resources/node';
 import {apiHelpersTest} from '../../fixtures/apiHelpersTest';
 import {headlessDiscoveryPagesTest} from '../../fixtures/headlessDiscoveryWebPagesTest';
 import {loginTest} from '../../fixtures/loginTest';
@@ -236,11 +237,14 @@ test('can see schema unique fields as path parameter properties', async ({
 test('can list site scoped endpoint', async ({
 	apiHelpers,
 	applicationPage,
+	authenticate,
 	headlessBuilderPage,
 	page,
 }) => {
-	const studentSiteDefinition =
-		await apiHelpers.objectAdmin.postObjectDefinition({
+	const studentSiteDefinition = await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.postObjectDefinition({
+		requestBody: {
 			active: true,
 			externalReferenceCode: 'site-student-definition',
 			label: {
@@ -275,7 +279,8 @@ test('can list site scoped endpoint', async ({
 			status: {
 				code: 0,
 			},
-		});
+		},
+	});
 
 	const studentApplication = await apiHelpers.objectEntry.postObjectEntry(
 		{
@@ -332,7 +337,10 @@ test('can list site scoped endpoint', async ({
 		'headless-builder/applications',
 		studentApplication.externalReferenceCode
 	);
-	await apiHelpers.objectAdmin.deleteObjectDefinition(
-		studentSiteDefinition.id
-	);
+
+	await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.deleteObjectDefinition({
+		objectDefinitionId: studentSiteDefinition.id,
+	});
 });
