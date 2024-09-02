@@ -369,7 +369,9 @@ public class RESTBuilder {
 				}
 			}
 
-			if (Validator.isNotNull(_configYAML.getClientDir())) {
+			if (_configYAML.isGenerateJSClient() &&
+				Validator.isNotNull(_configYAML.getClientDir())) {
+
 				_invokeJSClientGenerator(openAPIYAML, openAPIYAMLFile);
 			}
 		}
