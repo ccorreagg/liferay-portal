@@ -8,4 +8,5 @@ author: "Rafael Praxedes"
 clientDir: "../portal-workflow-metrics-rest-client/src/main/java"
 compatibilityVersion: 6
 forcePredictableOperationId: true
+generateJSClient: true
 testDir: "../portal-workflow-metrics-rest-test/src/testIntegration/java"

@@ -8,4 +8,5 @@ author: "Gabriel Albuquerque"
 clientDir: "../headless-admin-list-type-client/src/main/java"
 compatibilityVersion: 6
 forcePredictableOperationId: true
+generateJSClient: true
 testDir: "../headless-admin-list-type-test/src/testIntegration/java"

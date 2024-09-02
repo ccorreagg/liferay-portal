@@ -8,4 +8,5 @@ author: "Carlos Correa"
 clientDir: "../headless-user-notification-client/src/main/java"
 compatibilityVersion: 6
 forcePredictableOperationId: true
+generateJSClient: true
 testDir: "../headless-user-notification-test/src/testIntegration/java"

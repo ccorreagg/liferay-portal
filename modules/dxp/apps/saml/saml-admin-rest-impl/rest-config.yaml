@@ -8,4 +8,5 @@ author: "Stian Sigvartsen"
 clientDir: "../saml-admin-rest-client/src/main/java"
 compatibilityVersion: 6
 forcePredictableOperationId: true
+generateJSClient: true
 testDir: "../saml-admin-rest-test/src/testIntegration/java"

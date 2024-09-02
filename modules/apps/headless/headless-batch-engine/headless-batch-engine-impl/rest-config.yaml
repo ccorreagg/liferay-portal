@@ -10,3 +10,4 @@ compatibilityVersion: 6
 forcePredictableOperationId: true
 generateBatch: false
 generateGraphQL: false
+generateJSClient: true

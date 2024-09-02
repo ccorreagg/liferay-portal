@@ -8,4 +8,5 @@ author: "Jeyvison Nascimento"
 clientDir: "../data-engine-rest-client/src/main/java"
 compatibilityVersion: 6
 forcePredictableOperationId: true
+generateJSClient: true
 testDir: "../data-engine-rest-test/src/testIntegration/java"

@@ -8,4 +8,5 @@ author: "Alessio Antonio Rendina"
 clientDir: "../headless-commerce-admin-account-client/src/main/java"
 compatibilityVersion: 6
 forcePredictableOperationId: false
+generateJSClient: true
 testDir: "../headless-commerce-admin-account-test/src/testIntegration/java"

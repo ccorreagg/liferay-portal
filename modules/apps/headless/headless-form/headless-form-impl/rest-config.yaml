@@ -8,4 +8,5 @@ author: "Javier Gamarra"
 clientDir: "../headless-form-client/src/main/java"
 compatibilityVersion: 6
 forcePredictableOperationId: true
+generateJSClient: true
 testDir: "../headless-form-test/src/testIntegration/java"

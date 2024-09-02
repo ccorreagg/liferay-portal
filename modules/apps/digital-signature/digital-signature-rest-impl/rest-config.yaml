@@ -8,4 +8,5 @@ author: "José Abelenda"
 clientDir: "../digital-signature-rest-client/src/main/java"
 compatibilityVersion: 6
 forcePredictableOperationId: true
+generateJSClient: true
 testDir: "../digital-signature-rest-test/src/testIntegration/java"

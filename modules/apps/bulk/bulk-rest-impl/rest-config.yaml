@@ -9,4 +9,5 @@ clientDir: "../bulk-rest-client/src/main/java"
 compatibilityVersion: 6
 forcePredictableOperationId: true
 generateBatch: false
+generateJSClient: true
 testDir: "../bulk-rest-test/src/testIntegration/java"

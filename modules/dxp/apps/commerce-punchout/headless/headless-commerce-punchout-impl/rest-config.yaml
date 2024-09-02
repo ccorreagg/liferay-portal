@@ -8,3 +8,4 @@ author: "Jaclyn Ong"
 compatibilityVersion: 6
 forcePredictableSchemaPropertyName: false
 generateGraphQL: false
+generateJSClient: true
