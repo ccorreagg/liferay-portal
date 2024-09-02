@@ -13,6 +13,16 @@ components:
                 - properties:
                       property2:
                           type: string
+        ChildTestEntity3:
+            allOf:
+                - $ref: "#/components/schemas/TestEntity"
+            type: object
+        EnumTestEntity:
+            properties:
+                testEnum:
+                    enum: [-1em, -0.95em, 1em, 0.95em]
+                    type: string
+            type: object
         Folder:
             description:
                 "https://www.schema.org/Folder"
@@ -40,16 +50,6 @@ components:
                     type: string
                 subFolders:
                     $ref: "#/components/schemas/Folder"
-            type: object
-        ChildTestEntity3:
-            allOf:
-                - $ref: "#/components/schemas/TestEntity"
-            type: object
-        EnumTestEntity:
-            properties:
-                testEnum:
-                    enum: [-1em, -0.95em, 1em, 0.95em]
-                    type: string
             type: object
         JSONMapAttributeTestEntity:
             description:
