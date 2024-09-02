@@ -5,6 +5,11 @@
 
 import {expect, mergeTests} from '@playwright/test';
 
+import {HeadlessAdminListTypeClient} from '../../../../apps/headless/headless-admin-list-type/headless-admin-list-type-client-js/src/main/resources/META-INF/resources/node';
+import {
+	ObjectAdminRestClient,
+	ObjectDefinition,
+} from '../../../../apps/object/object-admin-rest-client-js/src/main/resources/META-INF/resources/node';
 import {apiHelpersTest} from '../../fixtures/apiHelpersTest';
 import {featureFlagsTest} from '../../fixtures/featureFlagsTest';
 import {loginTest} from '../../fixtures/loginTest';
@@ -19,7 +24,7 @@ export const test = mergeTests(
 	loginTest()
 );
 
-const stockObjectDefinition = {
+const stockObjectDefinition: ObjectDefinition = {
 	active: true,
 	externalReferenceCode: 'stockERC',
 	label: {
@@ -55,10 +60,16 @@ const stockObjectEntry = {
 	name: 'Stock Entry',
 };
 
-test('can export as JSONT', async ({apiHelpers, dataMigrationCenterPage}) => {
-	const objectDefinition = await apiHelpers.objectAdmin.postObjectDefinition(
-		stockObjectDefinition
-	);
+test('can export as JSONT', async ({
+	apiHelpers,
+	authenticate,
+	dataMigrationCenterPage,
+}) => {
+	const objectDefinition = await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.postObjectDefinition({
+		requestBody: stockObjectDefinition,
+	});
 
 	await apiHelpers.objectEntry.postObjectEntry(stockObjectEntry, 'c/stocks');
 
@@ -107,16 +118,23 @@ test('can export as JSONT', async ({apiHelpers, dataMigrationCenterPage}) => {
 		],
 	});
 
-	await apiHelpers.objectAdmin.deleteObjectDefinition(objectDefinition.id);
+	await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.deleteObjectDefinition({
+		objectDefinitionId: objectDefinition.id,
+	});
 });
 
 test('can export as JSON with excluded fields', async ({
 	apiHelpers,
+	authenticate,
 	dataMigrationCenterPage,
 }) => {
-	const objectDefinition = await apiHelpers.objectAdmin.postObjectDefinition(
-		stockObjectDefinition
-	);
+	const objectDefinition = await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.postObjectDefinition({
+		requestBody: stockObjectDefinition,
+	});
 
 	await apiHelpers.objectEntry.postObjectEntry(stockObjectEntry, 'c/stocks');
 
@@ -134,154 +152,163 @@ test('can export as JSON with excluded fields', async ({
 		},
 	]);
 
-	await apiHelpers.objectAdmin.deleteObjectDefinition(objectDefinition.id);
+	await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.deleteObjectDefinition({
+		objectDefinitionId: objectDefinition.id,
+	});
 });
 
 test('can export as JSON with all field types mapped', async ({
 	apiHelpers,
+	authenticate,
 	dataMigrationCenterPage,
 }) => {
-	const picklist = await apiHelpers.post(
-		'/o/headless-admin-list-type/v1.0/list-type-definitions',
-		{
-			data: {
-				externalReferenceCode: 'customPicklistERC',
-				name: 'customPicklist',
-				name_i18n: {
-					en_US: 'customPicklist',
-				},
+	const picklist = await authenticate(
+		HeadlessAdminListTypeClient
+	).listTypeDefinition.postListTypeDefinition({
+		requestBody: {
+			externalReferenceCode: 'customPicklistERC',
+			name: 'customPicklist',
+			name_i18n: {
+				en_US: 'customPicklist',
 			},
-		}
-	);
-
-	await apiHelpers.post(
-		`/o/headless-admin-list-type/v1.0/list-type-definitions/${picklist.id}/list-type-entries`,
-		{
-			data: {
-				key: 'distance1',
-				name: 'distance1',
-				name_i18n: {
-					en_US: 'distance1',
-				},
-			},
-		}
-	);
-
-	const objectDefinition = await apiHelpers.objectAdmin.postObjectDefinition({
-		active: true,
-		externalReferenceCode: 'stockERC',
-		label: {
-			en_US: 'stock',
-		},
-		name: 'Stock',
-		objectFields: [
-			{
-				DBType: 'String',
-				businessType: 'Text',
-				externalReferenceCode: 'nameERC',
-				indexed: true,
-				indexedAsKeyword: true,
-				label: {
-					en_US: 'name',
-				},
-				name: 'name',
-				required: true,
-			},
-			{
-				DBType: 'Boolean',
-				businessType: 'Boolean',
-				externalReferenceCode: 'customBoolean',
-				indexed: true,
-				indexedAsKeyword: false,
-				indexedLanguageId: '',
-				label: {en_US: 'customBoolean'},
-				listTypeDefinitionId: 0,
-				name: 'customBoolean',
-				required: false,
-				system: false,
-				type: 'Boolean',
-			},
-			{
-				DBType: 'Clob',
-				businessType: 'LongText',
-				externalReferenceCode: 'customLongText',
-				indexed: true,
-				indexedAsKeyword: false,
-				indexedLanguageId: '',
-				label: {en_US: 'customLongText'},
-				listTypeDefinitionId: 0,
-				name: 'customLongText',
-				required: false,
-				system: false,
-				type: 'Clob',
-			},
-			{
-				DBType: 'BigDecimal',
-				businessType: 'PrecisionDecimal',
-				externalReferenceCode: 'customPrecisionDecimal',
-				indexed: true,
-				indexedAsKeyword: false,
-				indexedLanguageId: '',
-				label: {en_US: 'customPrecisionDecimal'},
-				listTypeDefinitionId: 0,
-				name: 'customPrecisionDecimal',
-				required: false,
-				system: false,
-				type: 'BigDecimal',
-			},
-			{
-				DBType: 'String',
-				businessType: 'Picklist',
-				externalReferenceCode: 'customPicklist',
-				indexed: true,
-				indexedAsKeyword: false,
-				indexedLanguageId: 'en_US',
-				label: {
-					en_US: 'customPicklist',
-				},
-				listTypeDefinitionExternalReferenceCode: 'customPicklistERC',
-				name: 'customPicklist',
-				required: false,
-				state: false,
-			},
-			{
-				DBType: 'Long',
-				businessType: 'Attachment',
-				indexed: true,
-				indexedAsKeyword: false,
-				label: {
-					en_US: 'customAttachment',
-				},
-				name: 'customAttachment',
-				objectFieldSettings: [
-					{
-						name: 'acceptedFileExtensions',
-						value: 'jpeg, jpg, pdf, png',
-					},
-					{
-						name: 'fileSource',
-						value: 'documentsAndMedia',
-					},
-					{
-						name: 'maximumFileSize',
-						value: '100',
-					},
-				],
-				required: false,
-				type: 'Long',
-			},
-		],
-		pluralLabel: {
-			en_US: 'stocks',
-		},
-		portlet: true,
-		scope: 'company',
-		status: {
-			code: 0,
 		},
 	});
 
-	const objectEntry = await apiHelpers.objectEntry.postObjectEntry(
+	await authenticate(
+		HeadlessAdminListTypeClient
+	).listTypeEntry.postListTypeDefinitionListTypeEntry({
+		listTypeDefinitionId: picklist.id,
+		requestBody: {
+			key: 'distance1',
+			name: 'distance1',
+			name_i18n: {
+				en_US: 'distance1',
+			},
+		},
+	});
+
+	const objectDefinition = await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.postObjectDefinition({
+		requestBody: {
+			active: true,
+			externalReferenceCode: 'stockERC',
+			label: {
+				en_US: 'stock',
+			},
+			name: 'Stock',
+			objectFields: [
+				{
+					DBType: 'String',
+					businessType: 'Text',
+					externalReferenceCode: 'nameERC',
+					indexed: true,
+					indexedAsKeyword: true,
+					label: {
+						en_US: 'name',
+					},
+					name: 'name',
+					required: true,
+				},
+				{
+					DBType: 'Boolean',
+					businessType: 'Boolean',
+					externalReferenceCode: 'customBoolean',
+					indexed: true,
+					indexedAsKeyword: false,
+					indexedLanguageId: '',
+					label: {en_US: 'customBoolean'},
+					listTypeDefinitionId: 0,
+					name: 'customBoolean',
+					required: false,
+					system: false,
+					type: 'Boolean',
+				},
+				{
+					DBType: 'Clob',
+					businessType: 'LongText',
+					externalReferenceCode: 'customLongText',
+					indexed: true,
+					indexedAsKeyword: false,
+					indexedLanguageId: '',
+					label: {en_US: 'customLongText'},
+					listTypeDefinitionId: 0,
+					name: 'customLongText',
+					required: false,
+					system: false,
+					type: 'Clob',
+				},
+				{
+					DBType: 'BigDecimal',
+					businessType: 'PrecisionDecimal',
+					externalReferenceCode: 'customPrecisionDecimal',
+					indexed: true,
+					indexedAsKeyword: false,
+					indexedLanguageId: '',
+					label: {en_US: 'customPrecisionDecimal'},
+					listTypeDefinitionId: 0,
+					name: 'customPrecisionDecimal',
+					required: false,
+					system: false,
+					type: 'BigDecimal',
+				},
+				{
+					DBType: 'String',
+					businessType: 'Picklist',
+					externalReferenceCode: 'customPicklist',
+					indexed: true,
+					indexedAsKeyword: false,
+					indexedLanguageId: 'en_US',
+					label: {
+						en_US: 'customPicklist',
+					},
+					listTypeDefinitionExternalReferenceCode:
+						'customPicklistERC',
+					name: 'customPicklist',
+					required: false,
+					state: false,
+				},
+				{
+					DBType: 'Long',
+					businessType: 'Attachment',
+					indexed: true,
+					indexedAsKeyword: false,
+					label: {
+						en_US: 'customAttachment',
+					},
+					name: 'customAttachment',
+					objectFieldSettings: [
+						{
+							name: 'acceptedFileExtensions',
+							value: 'jpeg, jpg, pdf, png',
+						} as any,
+						{
+							name: 'fileSource',
+							value: 'documentsAndMedia',
+						} as any,
+						{
+							name: 'maximumFileSize',
+							value: '100',
+						} as any,
+					],
+					required: false,
+					type: 'Long',
+				},
+			],
+			pluralLabel: {
+				en_US: 'stocks',
+			},
+			portlet: true,
+			scope: 'company',
+			status: {
+				code: 0,
+			},
+		},
+	});
+
+	await apiHelpers.objectEntry.postObjectEntry(
 		{
 			customAttachment: {
 				fileBase64:
@@ -347,19 +374,29 @@ test('can export as JSON with all field types mapped', async ({
 		},
 	]);
 
-	await apiHelpers.delete(
-		`o/headless-delivery/v1.0/documents/${objectEntry.customAttachment.id}`
-	);
-	await apiHelpers.objectAdmin.deleteObjectDefinition(objectDefinition.id);
+	await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.deleteObjectDefinition({
+		objectDefinitionId: objectDefinition.id,
+	});
+
+	await authenticate(
+		HeadlessAdminListTypeClient
+	).listTypeDefinition.deleteListTypeDefinition({
+		listTypeDefinitionId: picklist.id,
+	});
 });
 
 test('can export as JSONL with excluded fields', async ({
 	apiHelpers,
+	authenticate,
 	dataMigrationCenterPage,
 }) => {
-	const objectDefinition = await apiHelpers.objectAdmin.postObjectDefinition(
-		stockObjectDefinition
-	);
+	const objectDefinition = await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.postObjectDefinition({
+		requestBody: stockObjectDefinition,
+	});
 
 	await apiHelpers.objectEntry.postObjectEntry(stockObjectEntry, 'c/stocks');
 
@@ -371,16 +408,26 @@ test('can export as JSONL with excluded fields', async ({
 		)
 	).toBe('{"name":"Stock Entry"}\n');
 
+	await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.deleteObjectDefinition({
+		objectDefinitionId: objectDefinition.id,
+	});
+
 	await apiHelpers.objectAdmin.deleteObjectDefinition(objectDefinition.id);
 });
 
 test('can see correct custom object name in dropdown', async ({
 	apiHelpers,
+	authenticate,
 	dataMigrationCenterPage,
 }) => {
-	const objectDefinition = await apiHelpers.objectAdmin.postObjectDefinition(
-		stockObjectDefinition
-	);
+	const objectDefinition = await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.postObjectDefinition({
+		requestBody: stockObjectDefinition,
+	});
+
 	await apiHelpers.objectEntry.postObjectEntry(stockObjectEntry, 'c/stocks');
 
 	await dataMigrationCenterPage.goto();
@@ -392,5 +439,9 @@ test('can see correct custom object name in dropdown', async ({
 			.textContent()
 	).toContain('Stock (v1.0 - Liferay Object REST)');
 
-	await apiHelpers.objectAdmin.deleteObjectDefinition(objectDefinition.id);
+	await authenticate(
+		ObjectAdminRestClient
+	).objectDefinition.deleteObjectDefinition({
+		objectDefinitionId: objectDefinition.id,
+	});
 });
