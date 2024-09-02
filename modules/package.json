@@ -1,4 +1,7 @@
 {
+	"dependencies": {
+		"openapi-typescript-codegen": "0.27.0"
+	},
 	"devDependencies": {
 		"@liferay/eslint-plugin": "1.5.0",
 		"@liferay/npm-scripts": "51.1.0",
