@@ -241,46 +241,47 @@ test('can list site scoped endpoint', async ({
 	headlessBuilderPage,
 	page,
 }) => {
-	const studentSiteDefinition = await authenticate(
-		ObjectAdminRestClient
-	).objectDefinition.postObjectDefinition({
-		requestBody: {
-			active: true,
-			externalReferenceCode: 'site-student-definition',
-			label: {
-				en_US: 'Student',
-			},
-			name: 'Student',
-			objectFields: [
-				{
-					DBType: 'String',
-					businessType: 'Text',
-					externalReferenceCode: 'student-name-field',
-					indexed: true,
-					indexedAsKeyword: false,
-					indexedLanguageId: 'en_US',
-					label: {
-						en_US: 'Student name',
-					},
-					listTypeDefinitionId: 0,
-					name: 'studentName',
-					required: true,
-					state: false,
-					system: false,
-					type: 'String',
+	const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+
+	const studentSiteDefinition =
+		await objectAdminRestClient.objectDefinition.postObjectDefinition({
+			requestBody: {
+				active: true,
+				externalReferenceCode: 'site-student-definition',
+				label: {
+					en_US: 'Student',
 				},
-			],
-			pluralLabel: {
-				en_US: 'Students',
+				name: 'Student',
+				objectFields: [
+					{
+						DBType: 'String',
+						businessType: 'Text',
+						externalReferenceCode: 'student-name-field',
+						indexed: true,
+						indexedAsKeyword: false,
+						indexedLanguageId: 'en_US',
+						label: {
+							en_US: 'Student name',
+						},
+						listTypeDefinitionId: 0,
+						name: 'studentName',
+						required: true,
+						state: false,
+						system: false,
+						type: 'String',
+					},
+				],
+				pluralLabel: {
+					en_US: 'Students',
+				},
+				portlet: true,
+				restContextPath: '/o/c/students',
+				scope: 'site',
+				status: {
+					code: 0,
+				},
 			},
-			portlet: true,
-			restContextPath: '/o/c/students',
-			scope: 'site',
-			status: {
-				code: 0,
-			},
-		},
-	});
+		});
 
 	const studentApplication = await apiHelpers.objectEntry.postObjectEntry(
 		{
@@ -338,9 +339,7 @@ test('can list site scoped endpoint', async ({
 		studentApplication.externalReferenceCode
 	);
 
-	await authenticate(
-		ObjectAdminRestClient
-	).objectDefinition.deleteObjectDefinition({
+	await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
 		objectDefinitionId: studentSiteDefinition.id,
 	});
 });

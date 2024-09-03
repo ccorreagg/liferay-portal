@@ -193,47 +193,49 @@ testFeatureFlagsDisabled(
 	}) => {
 		const objectDefinitions = [];
 
+		const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+
 		for (let i = 0; i <= 21; i++) {
 			objectDefinitions.push(
-				await authenticate(
-					ObjectAdminRestClient
-				).objectDefinition.postObjectDefinition({
-					requestBody: {
-						active: true,
-						externalReferenceCode: `objectDefinition${i}`,
-						label: {
-							en_US: `objectDefinition${i}`,
-						},
-						name: `ObjectDefinition${i}`,
-						objectFields: [
-							{
-								DBType: 'String',
-								businessType: 'Text',
-								externalReferenceCode: 'ObjectFieldERC',
-								indexed: true,
-								indexedAsKeyword: false,
-								indexedLanguageId: 'en_US',
-								label: {
-									en_US: 'Object Field',
-								},
-								listTypeDefinitionId: 0,
-								name: 'objectField',
-								required: false,
-								state: false,
-								system: false,
-								type: 'String',
+				await objectAdminRestClient.objectDefinition.postObjectDefinition(
+					{
+						requestBody: {
+							active: true,
+							externalReferenceCode: `objectDefinition${i}`,
+							label: {
+								en_US: `objectDefinition${i}`,
 							},
-						],
-						pluralLabel: {
-							en_US: `objectDefinitions${i}`,
+							name: `ObjectDefinition${i}`,
+							objectFields: [
+								{
+									DBType: 'String',
+									businessType: 'Text',
+									externalReferenceCode: 'ObjectFieldERC',
+									indexed: true,
+									indexedAsKeyword: false,
+									indexedLanguageId: 'en_US',
+									label: {
+										en_US: 'Object Field',
+									},
+									listTypeDefinitionId: 0,
+									name: 'objectField',
+									required: false,
+									state: false,
+									system: false,
+									type: 'String',
+								},
+							],
+							pluralLabel: {
+								en_US: `objectDefinitions${i}`,
+							},
+							portlet: true,
+							scope: 'company',
+							status: {
+								code: 0,
+							},
 						},
-						portlet: true,
-						scope: 'company',
-						status: {
-							code: 0,
-						},
-					},
-				})
+					}
+				)
 			);
 		}
 
@@ -273,11 +275,11 @@ testFeatureFlagsDisabled(
 
 		for (const objectDefinition of objectDefinitions) {
 			expect(async () => {
-				await authenticate(
-					ObjectAdminRestClient
-				).objectDefinition.deleteObjectDefinition({
-					objectDefinitionId: objectDefinition.id,
-				});
+				await objectAdminRestClient.objectDefinition.deleteObjectDefinition(
+					{
+						objectDefinitionId: objectDefinition.id,
+					}
+				);
 			}).not.toThrow();
 		}
 
@@ -296,11 +298,12 @@ testFeatureFlagsDisabled(
 		authenticate,
 		headlessBuilderPage,
 	}) => {
-		const objectDefinition = await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.postObjectDefinition({
-			requestBody: objectDefinitionData,
-		});
+		const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+
+		const objectDefinition =
+			await objectAdminRestClient.objectDefinition.postObjectDefinition({
+				requestBody: objectDefinitionData,
+			});
 
 		const application = await apiHelpers.objectEntry.postObjectEntry(
 			applicationData,
@@ -335,9 +338,7 @@ testFeatureFlagsDisabled(
 			application.externalReferenceCode
 		);
 
-		await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.deleteObjectDefinition({
+		await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
 			objectDefinitionId: objectDefinition.id,
 		});
 	}
@@ -351,11 +352,12 @@ testFeatureFlagsEnabled(
 		authenticate,
 		headlessBuilderPage,
 	}) => {
-		const objectDefinition = await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.postObjectDefinition({
-			requestBody: objectDefinitionData,
-		});
+		const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+
+		const objectDefinition =
+			await objectAdminRestClient.objectDefinition.postObjectDefinition({
+				requestBody: objectDefinitionData,
+			});
 
 		const application = await apiHelpers.objectEntry.postObjectEntry(
 			applicationData,
@@ -392,9 +394,7 @@ testFeatureFlagsEnabled(
 			application.externalReferenceCode
 		);
 
-		await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.deleteObjectDefinition({
+		await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
 			objectDefinitionId: objectDefinition.id,
 		});
 	}
@@ -409,17 +409,17 @@ testFeatureFlagsDisabled(
 		headlessBuilderPage,
 		schemaPage,
 	}) => {
-		const objectDefinition = await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.postObjectDefinition({
-			requestBody: objectDefinitionData,
-		});
+		const objectAdminRestClient = authenticate(ObjectAdminRestClient);
 
-		const objectDefinition1 = await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.postObjectDefinition({
-			requestBody: objectDefinition1Data,
-		});
+		const objectDefinition =
+			await objectAdminRestClient.objectDefinition.postObjectDefinition({
+				requestBody: objectDefinitionData,
+			});
+
+		const objectDefinition1 =
+			await objectAdminRestClient.objectDefinition.postObjectDefinition({
+				requestBody: objectDefinition1Data,
+			});
 
 		const application = await apiHelpers.objectEntry.postObjectEntry(
 			{
@@ -522,23 +522,19 @@ testFeatureFlagsDisabled(
 
 		objectDefinition1.objectRelationships.forEach(
 			async (objectRelationship) => {
-				await authenticate(
-					ObjectAdminRestClient
-				).objectRelationship.deleteObjectRelationship({
-					objectRelationshipId: objectRelationship.id,
-				});
+				await objectAdminRestClient.objectRelationship.deleteObjectRelationship(
+					{
+						objectRelationshipId: objectRelationship.id,
+					}
+				);
 			}
 		);
 
-		await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.deleteObjectDefinition({
+		await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
 			objectDefinitionId: objectDefinition.id,
 		});
 
-		await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.deleteObjectDefinition({
+		await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
 			objectDefinitionId: objectDefinition1.id,
 		});
 	}
@@ -553,17 +549,17 @@ testFeatureFlagsEnabled(
 		headlessBuilderPage,
 		schemaPage,
 	}) => {
-		const objectDefinition = await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.postObjectDefinition({
-			requestBody: objectDefinitionData,
-		});
+		const objectAdminRestClient = authenticate(ObjectAdminRestClient);
 
-		const objectDefinition1 = await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.postObjectDefinition({
-			requestBody: objectDefinition1Data,
-		});
+		const objectDefinition =
+			await objectAdminRestClient.objectDefinition.postObjectDefinition({
+				requestBody: objectDefinitionData,
+			});
+
+		const objectDefinition1 =
+			await objectAdminRestClient.objectDefinition.postObjectDefinition({
+				requestBody: objectDefinition1Data,
+			});
 
 		const application = await apiHelpers.objectEntry.postObjectEntry(
 			{
@@ -670,22 +666,18 @@ testFeatureFlagsEnabled(
 
 		objectDefinition1.objectRelationships.forEach(
 			async (objectRelationship) => {
-				await authenticate(
-					ObjectAdminRestClient
-				).objectRelationship.deleteObjectRelationship({
-					objectRelationshipId: objectRelationship.id,
-				});
+				await objectAdminRestClient.objectRelationship.deleteObjectRelationship(
+					{
+						objectRelationshipId: objectRelationship.id,
+					}
+				);
 			}
 		);
 
-		await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.deleteObjectDefinition({
+		await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
 			objectDefinitionId: objectDefinition.id,
 		});
-		await authenticate(
-			ObjectAdminRestClient
-		).objectDefinition.deleteObjectDefinition({
+		await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
 			objectDefinitionId: objectDefinition1.id,
 		});
 	}
