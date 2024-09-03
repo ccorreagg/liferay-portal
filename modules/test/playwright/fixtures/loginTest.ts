@@ -60,12 +60,17 @@ export interface Login {
  */
 function loginTest(options: LoginOptions = {}) {
 	const fixtureImpl = test.extend<Login>({
-		authenticate: async ({login}, use) => {
+		authenticate: async ({login, page}, use) => {
+			const authToken = await page.evaluate(() => Liferay.authToken);
+
 			await use(
 				(HeadlessClient) =>
 					new HeadlessClient({
 						BASE: liferayConfig.environment.baseUrl + '/o',
-						HEADERS: {Cookie: `JSESSIONID=${login.sessionId};`},
+						HEADERS: {
+							'Cookie': `JSESSIONID=${login.sessionId};`,
+							'x-csrf-token': authToken,
+						},
 					})
 			);
 		},
