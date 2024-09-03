@@ -8,7 +8,53 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AddressService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * Retrive cart billing address.
+     * Retrieve cart billing address.
+     * @returns Address
+     * @throws ApiError
+     */
+    public getHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCodeBillingAddress({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Address> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/billing-address',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieve cart billing address.
+     * @returns Address
+     * @throws ApiError
+     */
+    public getHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCodeShippingAddress({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Address> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/shipping-address',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieve cart billing address.
      * @returns Address
      * @throws ApiError
      */
@@ -31,7 +77,7 @@ export class AddressService {
         });
     }
     /**
-     * Retrive cart billing address.
+     * Retrieve cart billing address.
      * @returns Address
      * @throws ApiError
      */

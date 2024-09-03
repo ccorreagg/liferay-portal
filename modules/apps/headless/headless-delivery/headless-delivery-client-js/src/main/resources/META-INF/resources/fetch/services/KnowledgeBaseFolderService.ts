@@ -158,16 +158,16 @@ export class KnowledgeBaseFolderService {
         parentKnowledgeBaseFolderId,
         fields,
         nestedFields,
-        restrictFields,
         page,
         pageSize,
+        restrictFields,
     }: {
         parentKnowledgeBaseFolderId: number,
         fields?: string,
         nestedFields?: number,
-        restrictFields?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
     }): CancelablePromise<Array<KnowledgeBaseFolder>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -178,9 +178,9 @@ export class KnowledgeBaseFolderService {
             query: {
                 'fields': fields,
                 'nestedFields': nestedFields,
-                'restrictFields': restrictFields,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
             },
         });
     }
@@ -215,16 +215,16 @@ export class KnowledgeBaseFolderService {
         siteId,
         fields,
         nestedFields,
-        restrictFields,
         page,
         pageSize,
+        restrictFields,
     }: {
         siteId: number,
         fields?: string,
         nestedFields?: number,
-        restrictFields?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
     }): CancelablePromise<Array<KnowledgeBaseFolder>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -235,9 +235,9 @@ export class KnowledgeBaseFolderService {
             query: {
                 'fields': fields,
                 'nestedFields': nestedFields,
-                'restrictFields': restrictFields,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
             },
         });
     }

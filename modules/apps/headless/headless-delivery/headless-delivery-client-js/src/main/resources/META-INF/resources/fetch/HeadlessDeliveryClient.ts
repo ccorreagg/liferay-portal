@@ -14,6 +14,7 @@ import { ContentStructureService } from './services/ContentStructureService';
 import { ContentTemplateService } from './services/ContentTemplateService';
 import { DocumentService } from './services/DocumentService';
 import { DocumentFolderService } from './services/DocumentFolderService';
+import { DocumentShortcutService } from './services/DocumentShortcutService';
 import { KnowledgeBaseArticleService } from './services/KnowledgeBaseArticleService';
 import { KnowledgeBaseAttachmentService } from './services/KnowledgeBaseAttachmentService';
 import { KnowledgeBaseFolderService } from './services/KnowledgeBaseFolderService';
@@ -40,6 +41,7 @@ export class HeadlessDeliveryClient {
     public readonly contentTemplate: ContentTemplateService;
     public readonly document: DocumentService;
     public readonly documentFolder: DocumentFolderService;
+    public readonly documentShortcut: DocumentShortcutService;
     public readonly knowledgeBaseArticle: KnowledgeBaseArticleService;
     public readonly knowledgeBaseAttachment: KnowledgeBaseAttachmentService;
     public readonly knowledgeBaseFolder: KnowledgeBaseFolderService;
@@ -77,6 +79,7 @@ export class HeadlessDeliveryClient {
         this.contentTemplate = new ContentTemplateService(this.request);
         this.document = new DocumentService(this.request);
         this.documentFolder = new DocumentFolderService(this.request);
+        this.documentShortcut = new DocumentShortcutService(this.request);
         this.knowledgeBaseArticle = new KnowledgeBaseArticleService(this.request);
         this.knowledgeBaseAttachment = new KnowledgeBaseAttachmentService(this.request);
         this.knowledgeBaseFolder = new KnowledgeBaseFolderService(this.request);

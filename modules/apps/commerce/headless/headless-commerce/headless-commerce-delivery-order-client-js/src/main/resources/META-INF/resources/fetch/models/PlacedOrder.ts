@@ -17,9 +17,11 @@ export type PlacedOrder = {
     readonly currencyCode?: string;
     readonly customFields?: Record<string, any>;
     readonly errorMessages?: Array<string>;
+    readonly externalReferenceCode?: string;
     readonly id?: number;
     readonly lastPriceUpdateDate?: string;
     readonly modifiedDate?: string;
+    name?: string;
     readonly orderStatusInfo?: Status;
     readonly orderTypeExternalReferenceCode?: string;
     readonly orderTypeId?: number;

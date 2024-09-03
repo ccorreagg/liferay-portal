@@ -4,6 +4,7 @@
 /* eslint-disable */
 export type OptionCategory = {
     description?: Record<string, string>;
+    externalReferenceCode?: string;
     id?: number;
     key: string;
     priority?: number;

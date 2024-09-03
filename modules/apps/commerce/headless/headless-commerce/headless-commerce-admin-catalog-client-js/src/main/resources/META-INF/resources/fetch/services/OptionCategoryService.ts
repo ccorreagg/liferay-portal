@@ -64,6 +64,80 @@ export class OptionCategoryService {
         });
     }
     /**
+     * Deletes a option category by external reference code.
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteOptionCategoryByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/headless-commerce-admin-catalog/v1.0/optionCategories/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+            },
+        });
+    }
+    /**
+     * Gets a option category by external reference code.
+     * @returns OptionCategory Successful operation
+     * @throws ApiError
+     */
+    public getOptionCategoryByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<OptionCategory> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-admin-catalog/v1.0/optionCategories/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Updates a option category by external reference code.
+     * @returns OptionCategory Updated
+     * @returns any Async
+     * @throws ApiError
+     */
+    public patchOptionCategoryByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: OptionCategory,
+    }): CancelablePromise<OptionCategory | any> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/headless-commerce-admin-catalog/v1.0/optionCategories/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
      * Deletes a option category by ID.
      * @returns void
      * @throws ApiError

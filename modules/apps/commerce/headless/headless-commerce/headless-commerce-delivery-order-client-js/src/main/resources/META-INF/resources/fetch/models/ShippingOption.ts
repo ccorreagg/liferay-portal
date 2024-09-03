@@ -5,6 +5,7 @@
 export type ShippingOption = {
     readonly amount?: number;
     readonly amountFormatted?: string;
+    readonly externalReferenceCode?: string;
     readonly label?: string;
     readonly name?: string;
 };

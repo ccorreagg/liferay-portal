@@ -14,18 +14,18 @@ export class UserNotificationService {
      */
     public getMyUserNotificationsPage({
         fields,
-        restrictFields,
         filter,
         page,
         pageSize,
+        restrictFields,
         search,
         sort,
     }: {
         fields?: string,
-        restrictFields?: string,
         filter?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
         search?: string,
         sort?: string,
     }): CancelablePromise<Array<UserNotification>> {
@@ -34,10 +34,10 @@ export class UserNotificationService {
             url: '/headless-user-notification/v1.0/my-user-notifications',
             query: {
                 'fields': fields,
-                'restrictFields': restrictFields,
                 'filter': filter,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
                 'search': search,
                 'sort': sort,
             },
@@ -51,19 +51,19 @@ export class UserNotificationService {
     public getUserAccountUserNotificationsPage({
         userAccountId,
         fields,
-        restrictFields,
         filter,
         page,
         pageSize,
+        restrictFields,
         search,
         sort,
     }: {
         userAccountId: number,
         fields?: string,
-        restrictFields?: string,
         filter?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
         search?: string,
         sort?: string,
     }): CancelablePromise<Array<UserNotification>> {
@@ -75,10 +75,10 @@ export class UserNotificationService {
             },
             query: {
                 'fields': fields,
-                'restrictFields': restrictFields,
                 'filter': filter,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
                 'search': search,
                 'sort': sort,
             },

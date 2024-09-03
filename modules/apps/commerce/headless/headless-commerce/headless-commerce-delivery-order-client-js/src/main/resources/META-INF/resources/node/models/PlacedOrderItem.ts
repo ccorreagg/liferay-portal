@@ -10,6 +10,7 @@ export type PlacedOrderItem = {
     readonly adaptiveMediaImageHTMLTag?: string;
     readonly customFields?: Record<string, any>;
     readonly errorMessages?: Array<string>;
+    readonly externalReferenceCode?: string;
     readonly id?: number;
     readonly name?: string;
     readonly options?: string;

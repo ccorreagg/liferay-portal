@@ -15,15 +15,15 @@ export class RelatedProductService {
     public getChannelProductRelatedProductsPage({
         channelId,
         productId,
-        type,
         page,
         pageSize,
+        type,
     }: {
         channelId: number,
         productId: number,
-        type?: string,
         page?: number,
         pageSize?: number,
+        type?: string,
     }): CancelablePromise<Array<RelatedProduct>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -33,9 +33,9 @@ export class RelatedProductService {
                 'productId': productId,
             },
             query: {
-                'type': type,
                 'page': page,
                 'pageSize': pageSize,
+                'type': type,
             },
             errors: {
                 401: `Authentication information is missing or invalid`,

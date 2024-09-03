@@ -13,12 +13,20 @@ export class DsEnvelopeService {
      */
     public getSiteDsEnvelopesPage({
         siteId,
+        fromDate,
+        keywords,
+        order,
         page,
         pageSize,
+        status,
     }: {
         siteId: number,
+        fromDate?: string,
+        keywords?: string,
+        order?: string,
         page?: number,
         pageSize?: number,
+        status?: string,
     }): CancelablePromise<Array<DSEnvelope>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -27,8 +35,12 @@ export class DsEnvelopeService {
                 'siteId': siteId,
             },
             query: {
+                'fromDate': fromDate,
+                'keywords': keywords,
+                'order': order,
                 'page': page,
                 'pageSize': pageSize,
+                'status': status,
             },
         });
     }

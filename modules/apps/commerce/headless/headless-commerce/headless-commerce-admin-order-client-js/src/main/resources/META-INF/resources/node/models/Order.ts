@@ -15,6 +15,7 @@ export type Order = {
     readonly actions?: Record<string, Record<string, string>>;
     advanceStatus?: string;
     billingAddress?: BillingAddress;
+    billingAddressExternalReferenceCode?: string;
     billingAddressId?: number;
     readonly channel?: Channel;
     channelExternalReferenceCode?: string;
@@ -25,12 +26,14 @@ export type Order = {
     currencyCode: string;
     customFields?: Record<string, any>;
     readonly deliveryTermDescription?: string;
+    deliveryTermExternalReferenceCode?: string;
     deliveryTermId?: number;
     readonly deliveryTermName?: string;
     externalReferenceCode?: string;
     id?: number;
     lastPriceUpdateDate?: string;
     modifiedDate?: string;
+    name?: string;
     orderDate?: string;
     orderItems?: Array<OrderItem>;
     orderStatus?: number;
@@ -41,12 +44,14 @@ export type Order = {
     paymentStatus?: number;
     readonly paymentStatusInfo?: Status;
     readonly paymentTermDescription?: string;
+    paymentTermExternalReferenceCode?: string;
     paymentTermId?: number;
     readonly paymentTermName?: string;
     printedNote?: string;
     purchaseOrderNumber?: string;
     requestedDeliveryDate?: string;
     shippingAddress?: ShippingAddress;
+    shippingAddressExternalReferenceCode?: string;
     shippingAddressId?: number;
     shippingAmount?: number;
     shippingAmountFormatted?: string;

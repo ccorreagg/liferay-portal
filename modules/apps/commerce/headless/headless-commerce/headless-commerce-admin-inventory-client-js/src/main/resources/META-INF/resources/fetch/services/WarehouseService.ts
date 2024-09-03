@@ -16,11 +16,13 @@ export class WarehouseService {
         filter,
         page,
         pageSize,
+        search,
         sort,
     }: {
         filter?: string,
         page?: number,
         pageSize?: number,
+        search?: string,
         sort?: string,
     }): CancelablePromise<Array<Warehouse>> {
         return this.httpRequest.request({
@@ -30,6 +32,7 @@ export class WarehouseService {
                 'filter': filter,
                 'page': page,
                 'pageSize': pageSize,
+                'search': search,
                 'sort': sort,
             },
             errors: {

@@ -10,6 +10,9 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { EmbeddingModel } from './models/EmbeddingModel';
+export type { EmbeddingProviderConfiguration } from './models/EmbeddingProviderConfiguration';
+export type { EmbeddingProviderValidationResult } from './models/EmbeddingProviderValidationResult';
 export type { FacetConfiguration } from './models/FacetConfiguration';
 export type { SearchRequestBody } from './models/SearchRequestBody';
 export type { SearchResult } from './models/SearchResult';
@@ -17,5 +20,7 @@ export type { Suggestion } from './models/Suggestion';
 export type { SuggestionsContributorConfiguration } from './models/SuggestionsContributorConfiguration';
 export type { SuggestionsContributorResults } from './models/SuggestionsContributorResults';
 
+export { EmbeddingModelService } from './services/EmbeddingModelService';
+export { EmbeddingProviderValidationResultService } from './services/EmbeddingProviderValidationResultService';
 export { SearchResultService } from './services/SearchResultService';
 export { SuggestionService } from './services/SuggestionService';

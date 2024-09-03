@@ -12,6 +12,40 @@ export class ProductOptionService {
      * @returns ProductOption Successful operation
      * @throws ApiError
      */
+    public getChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeProductOptionsPage({
+        channelExternalReferenceCode,
+        productExternalReferenceCode,
+        page,
+        pageSize,
+    }: {
+        channelExternalReferenceCode: string,
+        productExternalReferenceCode: string,
+        page?: number,
+        pageSize?: number,
+    }): CancelablePromise<Array<ProductOption>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/product-options',
+            path: {
+                'channelExternalReferenceCode': channelExternalReferenceCode,
+                'productExternalReferenceCode': productExternalReferenceCode,
+            },
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Gets Product Options.
+     * @returns ProductOption Successful operation
+     * @throws ApiError
+     */
     public getChannelProductProductOptionsPage({
         channelId,
         productId,

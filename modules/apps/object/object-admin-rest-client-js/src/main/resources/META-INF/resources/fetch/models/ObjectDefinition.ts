@@ -19,6 +19,7 @@ export type ObjectDefinition = {
     defaultLanguageId?: string;
     enableCategorization?: boolean;
     enableComments?: boolean;
+    enableIndexSearch?: boolean;
     enableLocalization?: boolean;
     enableObjectEntryDraft?: boolean;
     enableObjectEntryHistory?: boolean;

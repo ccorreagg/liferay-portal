@@ -16,16 +16,16 @@ export class SkuForecastService {
         forecastLength,
         forecastStartDate,
         historyLength,
-        skus,
         page,
         pageSize,
+        skus,
     }: {
         forecastLength?: number,
         forecastStartDate?: string,
         historyLength?: number,
-        skus?: Array<string>,
         page?: number,
         pageSize?: number,
+        skus?: Array<string>,
     }): CancelablePromise<Array<SkuForecast>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -34,9 +34,9 @@ export class SkuForecastService {
                 'forecastLength': forecastLength,
                 'forecastStartDate': forecastStartDate,
                 'historyLength': historyLength,
-                'skus': skus,
                 'page': page,
                 'pageSize': pageSize,
+                'skus': skus,
             },
             errors: {
                 400: `Invalid input`,

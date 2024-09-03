@@ -2,12 +2,17 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Creator } from './Creator';
 import type { Node } from './Node';
 import type { Transition } from './Transition';
 export type WorkflowDefinition = {
     readonly actions?: Record<string, Record<string, string>>;
     active?: boolean;
     content?: string;
+    /**
+     * The workflow's creator.
+     */
+    readonly creator?: Creator;
     readonly dateCreated?: string;
     readonly dateModified?: string;
     readonly description?: string;

@@ -199,9 +199,9 @@ export class WorkflowTaskService {
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-role',
             query: {
-                'roleId': roleId,
                 'page': page,
                 'pageSize': pageSize,
+                'roleId': roleId,
             },
         });
     }

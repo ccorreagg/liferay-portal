@@ -12,6 +12,50 @@ export class PinService {
      * @returns Pin Successful operation
      * @throws ApiError
      */
+    public getChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodePinsPage({
+        channelExternalReferenceCode,
+        productExternalReferenceCode,
+        accountId,
+        page,
+        pageSize,
+        search,
+        sort,
+    }: {
+        channelExternalReferenceCode: string,
+        productExternalReferenceCode: string,
+        accountId?: number,
+        page?: number,
+        pageSize?: number,
+        search?: string,
+        sort?: string,
+    }): CancelablePromise<Array<Pin>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/pins',
+            path: {
+                'channelExternalReferenceCode': channelExternalReferenceCode,
+                'productExternalReferenceCode': productExternalReferenceCode,
+            },
+            query: {
+                'accountId': accountId,
+                'page': page,
+                'pageSize': pageSize,
+                'search': search,
+                'sort': sort,
+            },
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Gets a list of pin.
+     * @returns Pin Successful operation
+     * @throws ApiError
+     */
     public getChannelProductPinsPage({
         channelId,
         productId,

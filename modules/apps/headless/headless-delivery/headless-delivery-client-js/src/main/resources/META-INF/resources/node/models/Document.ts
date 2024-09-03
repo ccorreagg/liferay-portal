@@ -75,9 +75,17 @@ export type Document = {
      */
     readonly dateCreated?: string;
     /**
+     * The expiration date of the document.
+     */
+    dateExpired?: string;
+    /**
      * The last time a field of the document changed.
      */
     readonly dateModified?: string;
+    /**
+     * The document's most recent publication date.
+     */
+    datePublished?: string;
     /**
      * The document's description.
      */
@@ -128,6 +136,10 @@ export type Document = {
      * The document's file name.
      */
     fileName?: string;
+    /**
+     * The document's file relative URL.
+     */
+    friendlyUrlPath?: string;
     /**
      * The document's ID.
      */

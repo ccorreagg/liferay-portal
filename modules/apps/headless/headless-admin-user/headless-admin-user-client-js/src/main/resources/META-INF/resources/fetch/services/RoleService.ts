@@ -13,24 +13,30 @@ export class RoleService {
      * @throws ApiError
      */
     public getRolesPage({
-        types,
+        fields,
         page,
         pageSize,
+        restrictFields,
         search,
+        types,
     }: {
-        types?: Array<number>,
+        fields?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
         search?: string,
+        types?: Array<number>,
     }): CancelablePromise<Array<Role>> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/roles',
             query: {
-                'types': types,
+                'fields': fields,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
                 'search': search,
+                'types': types,
             },
         });
     }
@@ -47,6 +53,46 @@ export class RoleService {
         return this.httpRequest.request({
             method: 'POST',
             url: '/headless-admin-user/v1.0/roles',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * Retrieves the role by its external reference code.
+     * @returns Role
+     * @throws ApiError
+     */
+    public getRoleByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Role> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+        });
+    }
+    /**
+     * update the given Role
+     * @returns Role
+     * @throws ApiError
+     */
+    public patchRoleByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody?: Role,
+    }): CancelablePromise<Role> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -71,6 +117,144 @@ export class RoleService {
             },
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * Unassociates a role by external reference code with a user account
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteRoleByExternalReferenceCodeUserAccountAssociation({
+        externalReferenceCode,
+        userAccountId,
+    }: {
+        externalReferenceCode: string,
+        userAccountId: number,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+                'userAccountId': userAccountId,
+            },
+        });
+    }
+    /**
+     * Associates a role by external reference code with a user account
+     * @returns any
+     * @throws ApiError
+     */
+    public postRoleByExternalReferenceCodeUserAccountAssociation({
+        externalReferenceCode,
+        userAccountId,
+    }: {
+        externalReferenceCode: string,
+        userAccountId: number,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+                'userAccountId': userAccountId,
+            },
+        });
+    }
+    /**
+     * Unassociates an organization role by external reference code with a user account
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteOrganizationRoleByExternalReferenceCodeUserAccountAssociation({
+        externalReferenceCode,
+        userAccountId,
+        organizationId,
+    }: {
+        externalReferenceCode: string,
+        userAccountId: number,
+        organizationId: number,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}/organization/{organizationId}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+                'userAccountId': userAccountId,
+                'organizationId': organizationId,
+            },
+        });
+    }
+    /**
+     * Associates a organization role by external reference code with a user account
+     * @returns any
+     * @throws ApiError
+     */
+    public postOrganizationRoleByExternalReferenceCodeUserAccountAssociation({
+        externalReferenceCode,
+        userAccountId,
+        organizationId,
+    }: {
+        externalReferenceCode: string,
+        userAccountId: number,
+        organizationId: number,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}/organization/{organizationId}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+                'userAccountId': userAccountId,
+                'organizationId': organizationId,
+            },
+        });
+    }
+    /**
+     * Unassociates a site role by external reference code with a user account
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteSiteRoleByExternalReferenceCodeUserAccountAssociation({
+        externalReferenceCode,
+        userAccountId,
+        siteId,
+    }: {
+        externalReferenceCode: string,
+        userAccountId: number,
+        siteId: number,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}/site/{siteId}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+                'userAccountId': userAccountId,
+                'siteId': siteId,
+            },
+        });
+    }
+    /**
+     * Associates a site role by external reference code with a user account
+     * @returns any
+     * @throws ApiError
+     */
+    public postSiteRoleByExternalReferenceCodeUserAccountAssociation({
+        externalReferenceCode,
+        userAccountId,
+        siteId,
+    }: {
+        externalReferenceCode: string,
+        userAccountId: number,
+        siteId: number,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}/site/{siteId}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+                'userAccountId': userAccountId,
+                'siteId': siteId,
+            },
         });
     }
     /**

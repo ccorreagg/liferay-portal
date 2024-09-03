@@ -14,14 +14,14 @@ export class RelatedProductService {
      */
     public getProductByExternalReferenceCodeRelatedProductsPage({
         externalReferenceCode,
-        type,
         page,
         pageSize,
+        type,
     }: {
         externalReferenceCode: string,
-        type?: string,
         page?: number,
         pageSize?: number,
+        type?: string,
     }): CancelablePromise<Array<RelatedProduct>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -30,9 +30,9 @@ export class RelatedProductService {
                 'externalReferenceCode': externalReferenceCode,
             },
             query: {
-                'type': type,
                 'page': page,
                 'pageSize': pageSize,
+                'type': type,
             },
             errors: {
                 401: `Authentication information is missing or invalid`,
@@ -77,14 +77,14 @@ export class RelatedProductService {
      */
     public getProductIdRelatedProductsPage({
         id,
-        type,
         page,
         pageSize,
+        type,
     }: {
         id: number,
-        type?: string,
         page?: number,
         pageSize?: number,
+        type?: string,
     }): CancelablePromise<Array<RelatedProduct>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -93,9 +93,9 @@ export class RelatedProductService {
                 'id': id,
             },
             query: {
-                'type': type,
                 'page': page,
                 'pageSize': pageSize,
+                'type': type,
             },
             errors: {
                 401: `Authentication information is missing or invalid`,

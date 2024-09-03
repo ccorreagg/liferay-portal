@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Address } from './Address';
 import type { Price } from './Price';
 import type { Settings } from './Settings';
 import type { SkuUnitOfMeasure } from './SkuUnitOfMeasure';
@@ -10,6 +11,7 @@ export type CartItem = {
     cartItems?: Array<CartItem>;
     customFields?: Record<string, any>;
     errorMessages?: Array<string>;
+    readonly externalReferenceCode?: string;
     readonly id?: number;
     readonly name?: string;
     options?: string;
@@ -19,8 +21,12 @@ export type CartItem = {
     readonly productURLs?: Record<string, string>;
     quantity?: number;
     readonly replacedSku?: string;
+    replacedSkuExternalReferenceCode?: string;
     replacedSkuId?: number;
     settings?: Settings;
+    shippingAddress?: Address;
+    shippingAddressExternalReferenceCode?: string;
+    shippingAddressId?: number;
     readonly sku?: string;
     skuId: number;
     skuUnitOfMeasure?: SkuUnitOfMeasure;

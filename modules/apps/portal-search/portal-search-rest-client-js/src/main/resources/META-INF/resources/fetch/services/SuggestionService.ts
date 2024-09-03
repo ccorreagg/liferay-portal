@@ -25,6 +25,10 @@ export class SuggestionService {
         search: string,
         currentUrl?: string,
         destinationFriendlyUrl?: string,
+        /**
+         * Deprecated as of Cavanaugh (7.4.x), replaced by scope
+         * @deprecated
+         */
         groupId?: number,
         keywordsParameterName?: string,
         plid?: number,
@@ -33,7 +37,7 @@ export class SuggestionService {
     }): CancelablePromise<Array<SuggestionsContributorResults>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/portal-search-rest/v1.0/suggestions',
+            url: '/search/v1.0/suggestions',
             query: {
                 'currentURL': currentUrl,
                 'destinationFriendlyURL': destinationFriendlyUrl,

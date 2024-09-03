@@ -12,6 +12,40 @@ export class ProductSpecificationService {
      * @returns ProductSpecification Successful operation
      * @throws ApiError
      */
+    public getChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeProductSpecificationsPage({
+        channelExternalReferenceCode,
+        productExternalReferenceCode,
+        page,
+        pageSize,
+    }: {
+        channelExternalReferenceCode: string,
+        productExternalReferenceCode: string,
+        page?: number,
+        pageSize?: number,
+    }): CancelablePromise<Array<ProductSpecification>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/product-specifications',
+            path: {
+                'channelExternalReferenceCode': channelExternalReferenceCode,
+                'productExternalReferenceCode': productExternalReferenceCode,
+            },
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Gets a list of Values related to a Specification.
+     * @returns ProductSpecification Successful operation
+     * @throws ApiError
+     */
     public getChannelProductProductSpecificationsPage({
         channelId,
         productId,

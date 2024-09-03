@@ -14,6 +14,158 @@ export class SkuService {
      * @returns Sku
      * @throws ApiError
      */
+    public getChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeSkusPage({
+        channelExternalReferenceCode,
+        productExternalReferenceCode,
+        accountId,
+        page,
+        pageSize,
+    }: {
+        channelExternalReferenceCode: string,
+        productExternalReferenceCode: string,
+        accountId?: number,
+        page?: number,
+        pageSize?: number,
+    }): CancelablePromise<Array<Sku>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/skus',
+            path: {
+                'channelExternalReferenceCode': channelExternalReferenceCode,
+                'productExternalReferenceCode': productExternalReferenceCode,
+            },
+            query: {
+                'accountId': accountId,
+                'page': page,
+                'pageSize': pageSize,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Posts an SKU with selected channel and product external reference code.
+     * @returns Sku Created
+     * @throws ApiError
+     */
+    public postChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeSku({
+        channelExternalReferenceCode,
+        productExternalReferenceCode,
+        requestBody,
+        accountId,
+        quantity,
+    }: {
+        channelExternalReferenceCode: string,
+        productExternalReferenceCode: string,
+        requestBody: Array<DDMOption>,
+        accountId?: number,
+        quantity?: number,
+    }): CancelablePromise<Sku> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/skus',
+            path: {
+                'channelExternalReferenceCode': channelExternalReferenceCode,
+                'productExternalReferenceCode': productExternalReferenceCode,
+            },
+            query: {
+                'accountId': accountId,
+                'quantity': quantity,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieves a product from selected channel.
+     * @returns Sku
+     * @throws ApiError
+     */
+    public getChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeSkuByExternalReferenceCodeSkuExternalReferenceCode({
+        channelExternalReferenceCode,
+        productExternalReferenceCode,
+        skuExternalReferenceCode,
+        accountId,
+    }: {
+        channelExternalReferenceCode: string,
+        productExternalReferenceCode: string,
+        skuExternalReferenceCode: string,
+        accountId?: number,
+    }): CancelablePromise<Sku> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/skus/by-externalReferenceCode/{skuExternalReferenceCode}',
+            path: {
+                'channelExternalReferenceCode': channelExternalReferenceCode,
+                'productExternalReferenceCode': productExternalReferenceCode,
+                'skuExternalReferenceCode': skuExternalReferenceCode,
+            },
+            query: {
+                'accountId': accountId,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieves a SKU from selected channel and product using their external reference code.
+     * @returns Sku Created
+     * @throws ApiError
+     */
+    public postChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeSkuBySkuOption({
+        channelExternalReferenceCode,
+        productExternalReferenceCode,
+        requestBody,
+        accountId,
+        quantity,
+        skuUnitOfMeasureKey,
+    }: {
+        channelExternalReferenceCode: string,
+        productExternalReferenceCode: string,
+        requestBody: Array<SkuOption>,
+        accountId?: number,
+        quantity?: number,
+        skuUnitOfMeasureKey?: string,
+    }): CancelablePromise<Sku> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/skus/by-sku-option',
+            path: {
+                'channelExternalReferenceCode': channelExternalReferenceCode,
+                'productExternalReferenceCode': productExternalReferenceCode,
+            },
+            query: {
+                'accountId': accountId,
+                'quantity': quantity,
+                'skuUnitOfMeasureKey': skuUnitOfMeasureKey,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieves products from selected channel.
+     * @returns Sku
+     * @throws ApiError
+     */
     public getChannelProductSkusPage({
         channelId,
         productId,

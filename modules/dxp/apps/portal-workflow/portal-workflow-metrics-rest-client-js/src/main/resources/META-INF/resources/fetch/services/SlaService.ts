@@ -13,14 +13,14 @@ export class SlaService {
      */
     public getProcessSlAsPage({
         processId,
-        status,
         page,
         pageSize,
+        status,
     }: {
         processId: number,
-        status?: number,
         page?: number,
         pageSize?: number,
+        status?: number,
     }): CancelablePromise<Array<SLA>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -29,9 +29,9 @@ export class SlaService {
                 'processId': processId,
             },
             query: {
-                'status': status,
                 'page': page,
                 'pageSize': pageSize,
+                'status': status,
             },
         });
     }

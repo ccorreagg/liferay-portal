@@ -191,6 +191,35 @@ export class ShipmentItemService {
      * @returns any Async
      * @throws ApiError
      */
+    public postShipmentItemByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: ShipmentItem,
+    }): CancelablePromise<ShipmentItem | any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}/items',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Creates a Shipment Item.
+     * @returns ShipmentItem Created
+     * @returns any Async
+     * @throws ApiError
+     */
     public putHeadlessCommerceAdminShipmentV10ShipmentsByExternalReferenceCodeItems({
         externalReferenceCode,
         requestBody,

@@ -12,6 +12,7 @@ export type Cart = {
     accountId?: number;
     readonly author?: string;
     billingAddress?: Address;
+    billingAddressExternalReferenceCode?: string;
     billingAddressId?: number;
     cartItems?: Array<CartItem>;
     readonly channelId?: number;
@@ -20,9 +21,11 @@ export type Cart = {
     currencyCode?: string;
     customFields?: Record<string, any>;
     errorMessages?: Array<string>;
+    readonly externalReferenceCode?: string;
     readonly id?: number;
     readonly lastPriceUpdateDate?: string;
     readonly modifiedDate?: string;
+    name?: string;
     notes?: Array<CartComment>;
     readonly orderStatusInfo?: Status;
     orderTypeExternalReferenceCode?: string;
@@ -36,6 +39,7 @@ export type Cart = {
     printedNote?: string;
     purchaseOrderNumber?: string;
     shippingAddress?: Address;
+    shippingAddressExternalReferenceCode?: string;
     shippingAddressId?: number;
     shippingMethod?: string;
     shippingOption?: string;

@@ -11,6 +11,7 @@ export type SkuUnitOfMeasure = {
     key?: string;
     name?: Record<string, string>;
     precision?: number;
+    pricingQuantity?: number;
     primary?: boolean;
     priority?: number;
     promoPrice?: number;

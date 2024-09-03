@@ -5,6 +5,7 @@
 export type CartComment = {
     readonly author?: string;
     content?: string;
+    readonly externalReferenceCode?: string;
     readonly id?: number;
     readonly orderId?: number;
     restricted?: boolean;

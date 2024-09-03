@@ -134,16 +134,16 @@ export class NavigationMenuService {
         siteId,
         fields,
         nestedFields,
-        restrictFields,
         page,
         pageSize,
+        restrictFields,
     }: {
         siteId: number,
         fields?: string,
         nestedFields?: number,
-        restrictFields?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
     }): CancelablePromise<Array<NavigationMenu>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -154,9 +154,9 @@ export class NavigationMenuService {
             query: {
                 'fields': fields,
                 'nestedFields': nestedFields,
-                'restrictFields': restrictFields,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
             },
         });
     }

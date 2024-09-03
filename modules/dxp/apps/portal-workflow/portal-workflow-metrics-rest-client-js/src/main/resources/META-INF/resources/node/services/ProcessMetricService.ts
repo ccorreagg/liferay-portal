@@ -12,24 +12,24 @@ export class ProcessMetricService {
      * @throws ApiError
      */
     public getProcessMetricsPage({
-        title,
         page,
         pageSize,
         sort,
+        title,
     }: {
-        title?: string,
         page?: number,
         pageSize?: number,
         sort?: string,
+        title?: string,
     }): CancelablePromise<Array<ProcessMetric>> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/portal-workflow-metrics/v1.0/processes/metrics',
             query: {
-                'title': title,
                 'page': page,
                 'pageSize': pageSize,
                 'sort': sort,
+                'title': title,
             },
         });
     }

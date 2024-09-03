@@ -17,6 +17,7 @@ export type { MultiValuedAttribute } from './models/MultiValuedAttribute';
 export type { QueryAttributes } from './models/QueryAttributes';
 export type { QueryResponse } from './models/QueryResponse';
 export type { User } from './models/User';
+export type { UserSchemaExtension } from './models/UserSchemaExtension';
 
 export { GroupService } from './services/GroupService';
 export { UserService } from './services/UserService';

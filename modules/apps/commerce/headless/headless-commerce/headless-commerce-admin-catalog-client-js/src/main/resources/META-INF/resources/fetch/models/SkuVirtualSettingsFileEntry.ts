@@ -3,10 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export type SkuVirtualSettingsFileEntry = {
+    readonly actions?: Record<string, Record<string, string>>;
     /**
      * Base64 encoded file
      */
     attachment?: string;
+    readonly id?: number;
     /**
      * URL to download the file
      */

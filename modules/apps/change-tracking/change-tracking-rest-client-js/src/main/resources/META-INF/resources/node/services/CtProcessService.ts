@@ -12,30 +12,30 @@ export class CtProcessService {
      * @throws ApiError
      */
     public getCtProcessesPage({
-        status,
         filter,
         page,
         pageSize,
         search,
         sort,
+        status,
     }: {
-        status?: Array<number>,
         filter?: string,
         page?: number,
         pageSize?: number,
         search?: string,
         sort?: string,
+        status?: Array<number>,
     }): CancelablePromise<Array<CTProcess>> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/change-tracking-rest/v1.0/ct-processes',
             query: {
-                'status': status,
                 'filter': filter,
                 'page': page,
                 'pageSize': pageSize,
                 'search': search,
                 'sort': sort,
+                'status': status,
             },
         });
     }

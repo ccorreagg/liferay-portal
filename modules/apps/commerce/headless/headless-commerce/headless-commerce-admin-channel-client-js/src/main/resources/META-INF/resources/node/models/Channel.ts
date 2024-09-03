@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type Channel = {
+    accountExternalReferenceCode?: string;
     accountId?: number;
     currencyCode: string;
     externalReferenceCode?: string;

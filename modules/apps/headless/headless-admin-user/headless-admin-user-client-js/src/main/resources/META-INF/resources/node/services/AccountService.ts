@@ -8,6 +8,76 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
+     * Retrieves the list of accounts in an account group.
+     * @returns Account
+     * @throws ApiError
+     */
+    public getAccountGroupByExternalReferenceCodeAccountsPage({
+        accountGroupExternalReferenceCode,
+        filter,
+        page,
+        pageSize,
+        search,
+        sort,
+    }: {
+        accountGroupExternalReferenceCode: string,
+        filter?: string,
+        page?: number,
+        pageSize?: number,
+        search?: string,
+        sort?: string,
+    }): CancelablePromise<Array<Account>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/account-groups/by-external-reference-code/{accountGroupExternalReferenceCode}/accounts',
+            path: {
+                'accountGroupExternalReferenceCode': accountGroupExternalReferenceCode,
+            },
+            query: {
+                'filter': filter,
+                'page': page,
+                'pageSize': pageSize,
+                'search': search,
+                'sort': sort,
+            },
+        });
+    }
+    /**
+     * Retrieves the list of accounts in an account group.
+     * @returns Account
+     * @throws ApiError
+     */
+    public getAccountGroupAccountsPage({
+        accountGroupId,
+        filter,
+        page,
+        pageSize,
+        search,
+        sort,
+    }: {
+        accountGroupId: number,
+        filter?: string,
+        page?: number,
+        pageSize?: number,
+        search?: string,
+        sort?: string,
+    }): CancelablePromise<Array<Account>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/account-groups/{accountGroupId}/accounts',
+            path: {
+                'accountGroupId': accountGroupId,
+            },
+            query: {
+                'filter': filter,
+                'page': page,
+                'pageSize': pageSize,
+                'search': search,
+                'sort': sort,
+            },
+        });
+    }
+    /**
      * Retrieves the accounts. Results can be paginated, filtered, searched, and sorted.
      * @returns Account
      * @throws ApiError

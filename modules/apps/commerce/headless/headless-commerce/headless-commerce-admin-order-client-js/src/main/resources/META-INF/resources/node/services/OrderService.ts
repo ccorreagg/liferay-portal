@@ -114,7 +114,7 @@ export class OrderService {
     }
     /**
      * Updates an Order by external reference code.
-     * @returns any Async
+     * @returns Order Updated
      * @throws ApiError
      */
     public patchOrderByExternalReferenceCode({
@@ -123,7 +123,7 @@ export class OrderService {
     }: {
         externalReferenceCode: string,
         requestBody: Order,
-    }): CancelablePromise<any> {
+    }): CancelablePromise<Order> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}',
@@ -187,7 +187,7 @@ export class OrderService {
     }
     /**
      * Updates an Order by ID.
-     * @returns any Async
+     * @returns Order Updated
      * @throws ApiError
      */
     public patchOrder({
@@ -196,7 +196,7 @@ export class OrderService {
     }: {
         id: number,
         requestBody: Order,
-    }): CancelablePromise<any> {
+    }): CancelablePromise<Order> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/headless-commerce-admin-order/v1.0/orders/{id}',

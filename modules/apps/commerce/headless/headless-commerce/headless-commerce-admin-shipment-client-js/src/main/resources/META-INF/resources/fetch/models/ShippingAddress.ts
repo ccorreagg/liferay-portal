@@ -6,7 +6,7 @@ export type ShippingAddress = {
     city: string;
     countryISOCode: string;
     description?: string;
-    readonly externalReferenceCode?: string;
+    externalReferenceCode?: string;
     id?: number;
     latitude?: number;
     longitude?: number;

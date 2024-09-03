@@ -12,14 +12,14 @@ export class EmbeddingProviderValidationResultService {
      * @returns EmbeddingProviderValidationResult
      * @throws ApiError
      */
-    public postTextEmbeddingValidateProviderConfiguration({
+    public postEmbeddingValidateProviderConfiguration({
         requestBody,
     }: {
         requestBody?: EmbeddingProviderConfiguration,
     }): CancelablePromise<EmbeddingProviderValidationResult> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/search-experiences-rest/v1.0/text-embeddings/validate-provider-configuration',
+            url: '/search/v1.0/embeddings/validate-provider-configuration',
             body: requestBody,
             mediaType: 'application/json',
         });

@@ -5,6 +5,7 @@
 import type { ShippingOption } from './ShippingOption';
 export type ShippingMethod = {
     readonly description?: string;
+    readonly externalReferenceCode?: string;
     readonly id?: number;
     readonly name?: string;
     readonly shippingOption?: ShippingOption;

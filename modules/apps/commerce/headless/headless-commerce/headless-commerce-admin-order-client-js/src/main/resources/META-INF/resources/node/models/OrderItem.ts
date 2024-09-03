@@ -36,10 +36,12 @@ export type OrderItem = {
     promoPriceWithTaxAmount?: number;
     quantity?: number;
     readonly replacedSku?: string;
+    replacedSkuExternalReferenceCode?: string;
     replacedSkuId?: number;
     requestedDeliveryDate?: string;
     shippedQuantity?: number;
     shippingAddress?: ShippingAddress;
+    shippingAddressExternalReferenceCode?: string;
     shippingAddressId?: number;
     sku?: string;
     skuExternalReferenceCode?: string;

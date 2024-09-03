@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { BaseScim } from './BaseScim';
 import type { MultiValuedAttribute } from './MultiValuedAttribute';
+import type { UserSchemaExtension } from './UserSchemaExtension';
 export type User = (BaseScim & {
     /**
      * A Boolean value indicating the user's administrative status.
@@ -109,6 +110,10 @@ export type User = (BaseScim & {
      * The user's title, such as "Vice President".
      */
     title?: string;
+    /**
+     * The components of the Liferay's User Schema Extension.
+     */
+    'urn:ietf:params:scim:schemas:extension:liferay:2.0:User'?: UserSchemaExtension;
     /**
      * A service provider's unique identifier for the user, typically used by the user to directly authenticate to the service provider.
      */

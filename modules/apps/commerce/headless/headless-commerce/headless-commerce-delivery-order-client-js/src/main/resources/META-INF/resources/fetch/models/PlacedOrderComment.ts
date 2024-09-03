@@ -5,6 +5,7 @@
 export type PlacedOrderComment = {
     readonly author?: string;
     readonly content?: string;
+    readonly externalReferenceCode?: string;
     readonly id?: number;
     readonly orderId?: number;
     readonly restricted?: boolean;

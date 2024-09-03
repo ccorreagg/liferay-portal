@@ -61,6 +61,23 @@ export class SiteService {
         });
     }
     /**
+     * @returns Site default response
+     * @throws ApiError
+     */
+    public getSiteByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Site> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-site/v1.0/sites/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+        });
+    }
+    /**
      * Adds or update a new site
      * @returns Site default response
      * @throws ApiError
@@ -82,6 +99,23 @@ export class SiteService {
             },
             formData: formData,
             mediaType: 'multipart/form-data',
+        });
+    }
+    /**
+     * @returns binary
+     * @throws ApiError
+     */
+    public getSiteByExternalReferenceCodeSiteInitializer({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Blob> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-site/v1.0/sites/by-external-reference-code/{externalReferenceCode}/site-initializer',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
         });
     }
 }

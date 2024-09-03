@@ -8,7 +8,30 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class PaymentMethodService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * Retrive payment methods available for the Cart.
+     * Retrieve payment methods available for the Cart.
+     * @returns PaymentMethod
+     * @throws ApiError
+     */
+    public getHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCodePaymentMethods({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Array<PaymentMethod>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/payment-methods',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieve payment methods available for the Cart.
      * @returns PaymentMethod
      * @throws ApiError
      */

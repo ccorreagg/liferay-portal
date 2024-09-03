@@ -11,6 +11,8 @@ export type Price = {
     price?: number;
     priceFormatted?: string;
     readonly priceOnApplication?: boolean;
+    pricingQuantityPrice?: number;
+    pricingQuantityPriceFormatted?: string;
     promoPrice?: number;
     promoPriceFormatted?: string;
     tierPrice?: number;

@@ -29,5 +29,9 @@ export type CTCollection = {
      */
     readonly ownerName?: string;
     readonly status?: Status;
+    /**
+     * Info on when a publication was last published or modified.
+     */
+    readonly statusMessage?: string;
 };
 

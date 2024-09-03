@@ -27,7 +27,8 @@ export type Product = {
     active: boolean;
     attachments?: Array<Attachment>;
     readonly catalog?: Catalog;
-    catalogId: number;
+    catalogExternalReferenceCode?: string;
+    catalogId?: number;
     categories?: Array<Category>;
     createDate?: string;
     customFields?: Array<CustomField>;

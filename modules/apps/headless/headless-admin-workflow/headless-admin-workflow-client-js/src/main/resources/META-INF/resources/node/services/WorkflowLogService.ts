@@ -13,14 +13,14 @@ export class WorkflowLogService {
      */
     public getWorkflowInstanceWorkflowLogsPage({
         workflowInstanceId,
-        types,
         page,
         pageSize,
+        types,
     }: {
         workflowInstanceId: number,
-        types?: Array<'NodeEntry' | 'TaskAssign' | 'TaskCompletion' | 'TaskUpdate' | 'Transition'>,
         page?: number,
         pageSize?: number,
+        types?: Array<'NodeEntry' | 'TaskAssign' | 'TaskCompletion' | 'TaskUpdate' | 'Transition'>,
     }): CancelablePromise<Array<WorkflowLog>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -29,9 +29,9 @@ export class WorkflowLogService {
                 'workflowInstanceId': workflowInstanceId,
             },
             query: {
-                'types': types,
                 'page': page,
                 'pageSize': pageSize,
+                'types': types,
             },
         });
     }
@@ -58,14 +58,14 @@ export class WorkflowLogService {
      */
     public getWorkflowTaskWorkflowLogsPage({
         workflowTaskId,
-        types,
         page,
         pageSize,
+        types,
     }: {
         workflowTaskId: number,
-        types?: Array<'TaskAssign' | 'TaskCompletion' | 'TaskUpdate' | 'Transition'>,
         page?: number,
         pageSize?: number,
+        types?: Array<'TaskAssign' | 'TaskCompletion' | 'TaskUpdate' | 'Transition'>,
     }): CancelablePromise<Array<WorkflowLog>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -74,9 +74,9 @@ export class WorkflowLogService {
                 'workflowTaskId': workflowTaskId,
             },
             query: {
-                'types': types,
                 'page': page,
                 'pageSize': pageSize,
+                'types': types,
             },
         });
     }

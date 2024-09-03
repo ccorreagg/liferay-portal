@@ -12,27 +12,27 @@ export class CtCollectionService {
      * @throws ApiError
      */
     public getCtCollectionsPage({
-        status,
         page,
         pageSize,
         search,
         sort,
+        status,
     }: {
-        status?: Array<number>,
         page?: number,
         pageSize?: number,
         search?: string,
         sort?: string,
+        status?: Array<number>,
     }): CancelablePromise<Array<CTCollection>> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/change-tracking-rest/v1.0/ct-collections',
             query: {
-                'status': status,
                 'page': page,
                 'pageSize': pageSize,
                 'search': search,
                 'sort': sort,
+                'status': status,
             },
         });
     }

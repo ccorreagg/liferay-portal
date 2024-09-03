@@ -24,6 +24,10 @@ export type PostalAddress = {
      */
     addressType?: string;
     /**
+     * The optional external key of this address.
+     */
+    externalReferenceCode?: string;
+    /**
      * The address's ID.
      */
     readonly id?: number;

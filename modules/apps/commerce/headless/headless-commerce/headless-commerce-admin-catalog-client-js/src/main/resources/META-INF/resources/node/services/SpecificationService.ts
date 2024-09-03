@@ -67,6 +67,79 @@ export class SpecificationService {
         });
     }
     /**
+     * Deletes a specification by external reference code.
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteSpecificationByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/headless-commerce-admin-catalog/v1.0/specifications/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+            },
+        });
+    }
+    /**
+     * Gets a specification by external reference code.
+     * @returns Specification Successful operation
+     * @throws ApiError
+     */
+    public getSpecificationByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Specification> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-admin-catalog/v1.0/specifications/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Updates a specification by external reference code.
+     * @returns Specification Updated
+     * @throws ApiError
+     */
+    public patchSpecificationByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: Specification,
+    }): CancelablePromise<Specification> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/headless-commerce-admin-catalog/v1.0/specifications/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
      * Deletes a specification by ID.
      * @returns void
      * @throws ApiError
@@ -113,7 +186,7 @@ export class SpecificationService {
     }
     /**
      * Updates a specification by ID.
-     * @returns any Async
+     * @returns Specification Updated
      * @throws ApiError
      */
     public patchSpecification({
@@ -122,7 +195,7 @@ export class SpecificationService {
     }: {
         id: number,
         requestBody: Specification,
-    }): CancelablePromise<any> {
+    }): CancelablePromise<Specification> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/headless-commerce-admin-catalog/v1.0/specifications/{id}',

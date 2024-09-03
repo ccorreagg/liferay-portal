@@ -10,6 +10,7 @@ export type PlacedOrderItemShipment = {
     readonly createDate?: string;
     readonly estimatedDeliveryDate?: string;
     readonly estimatedShippingDate?: string;
+    readonly externalReferenceCode?: string;
     readonly id?: number;
     readonly modifiedDate?: string;
     readonly orderId?: number;

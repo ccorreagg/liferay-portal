@@ -15,16 +15,16 @@ export class ContentSetElementService {
         assetLibraryId,
         key,
         fields,
-        restrictFields,
         page,
         pageSize,
+        restrictFields,
     }: {
         assetLibraryId: number,
         key: string,
         fields?: string,
-        restrictFields?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
     }): CancelablePromise<Array<ContentSetElement>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -35,9 +35,9 @@ export class ContentSetElementService {
             },
             query: {
                 'fields': fields,
-                'restrictFields': restrictFields,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
             },
         });
     }
@@ -49,16 +49,16 @@ export class ContentSetElementService {
         assetLibraryId,
         uuid,
         fields,
-        restrictFields,
         page,
         pageSize,
+        restrictFields,
     }: {
         assetLibraryId: number,
         uuid: string,
         fields?: string,
-        restrictFields?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
     }): CancelablePromise<Array<ContentSetElement>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -69,9 +69,9 @@ export class ContentSetElementService {
             },
             query: {
                 'fields': fields,
-                'restrictFields': restrictFields,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
             },
         });
     }
@@ -83,15 +83,15 @@ export class ContentSetElementService {
     public getContentSetContentSetElementsPage({
         contentSetId,
         fields,
-        restrictFields,
         page,
         pageSize,
+        restrictFields,
     }: {
         contentSetId: number,
         fields?: string,
-        restrictFields?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
     }): CancelablePromise<Array<ContentSetElement>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -101,9 +101,43 @@ export class ContentSetElementService {
             },
             query: {
                 'fields': fields,
-                'restrictFields': restrictFields,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
+            },
+        });
+    }
+    /**
+     * @returns ContentSetElement
+     * @throws ApiError
+     */
+    public getSiteContentSetProviderByKeyContentSetElementsPage({
+        siteId,
+        key,
+        fields,
+        page,
+        pageSize,
+        restrictFields,
+    }: {
+        siteId: number,
+        key: string,
+        fields?: string,
+        page?: number,
+        pageSize?: number,
+        restrictFields?: string,
+    }): CancelablePromise<Array<ContentSetElement>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-delivery/v1.0/sites/{siteId}/content-set-providers/by-key/{key}/content-set-elements',
+            path: {
+                'siteId': siteId,
+                'key': key,
+            },
+            query: {
+                'fields': fields,
+                'page': page,
+                'pageSize': pageSize,
+                'restrictFields': restrictFields,
             },
         });
     }
@@ -116,16 +150,16 @@ export class ContentSetElementService {
         siteId,
         key,
         fields,
-        restrictFields,
         page,
         pageSize,
+        restrictFields,
     }: {
         siteId: number,
         key: string,
         fields?: string,
-        restrictFields?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
     }): CancelablePromise<Array<ContentSetElement>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -136,9 +170,9 @@ export class ContentSetElementService {
             },
             query: {
                 'fields': fields,
-                'restrictFields': restrictFields,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
             },
         });
     }
@@ -151,16 +185,16 @@ export class ContentSetElementService {
         siteId,
         uuid,
         fields,
-        restrictFields,
         page,
         pageSize,
+        restrictFields,
     }: {
         siteId: number,
         uuid: string,
         fields?: string,
-        restrictFields?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
     }): CancelablePromise<Array<ContentSetElement>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -171,9 +205,9 @@ export class ContentSetElementService {
             },
             query: {
                 'fields': fields,
-                'restrictFields': restrictFields,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
             },
         });
     }

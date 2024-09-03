@@ -7,6 +7,7 @@ export type Address = {
     country?: string;
     countryISOCode: string;
     description?: string;
+    readonly externalReferenceCode?: string;
     id?: number;
     latitude?: number;
     longitude?: number;

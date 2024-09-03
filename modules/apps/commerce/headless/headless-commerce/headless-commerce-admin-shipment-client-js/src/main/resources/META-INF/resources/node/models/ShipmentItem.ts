@@ -8,13 +8,15 @@ export type ShipmentItem = {
     externalReferenceCode?: string;
     readonly id?: number;
     readonly modifiedDate?: string;
-    orderItemId: number;
+    orderItemExternalReferenceCode?: string;
+    orderItemId?: number;
     quantity: number;
     shipmentExternalReferenceCode?: string;
     readonly shipmentId?: number;
     unitOfMeasureKey?: string;
     readonly userName?: string;
     validateInventory?: boolean;
-    warehouseId: number;
+    warehouseExternalReferenceCode?: string;
+    warehouseId?: number;
 };
 

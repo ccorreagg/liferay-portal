@@ -204,15 +204,15 @@ export class OrganizationService {
      * @throws ApiError
      */
     public getOrganizationsPage({
-        flatten,
         filter,
+        flatten,
         page,
         pageSize,
         search,
         sort,
     }: {
-        flatten?: boolean,
         filter?: string,
+        flatten?: boolean,
         page?: number,
         pageSize?: number,
         search?: string,
@@ -222,8 +222,8 @@ export class OrganizationService {
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations',
             query: {
-                'flatten': flatten,
                 'filter': filter,
+                'flatten': flatten,
                 'page': page,
                 'pageSize': pageSize,
                 'search': search,
@@ -414,16 +414,16 @@ export class OrganizationService {
      */
     public getOrganizationChildOrganizationsPage({
         organizationId,
-        flatten,
         filter,
+        flatten,
         page,
         pageSize,
         search,
         sort,
     }: {
         organizationId: string,
-        flatten?: boolean,
         filter?: string,
+        flatten?: boolean,
         page?: number,
         pageSize?: number,
         search?: string,
@@ -436,8 +436,8 @@ export class OrganizationService {
                 'organizationId': organizationId,
             },
             query: {
-                'flatten': flatten,
                 'filter': filter,
+                'flatten': flatten,
                 'page': page,
                 'pageSize': pageSize,
                 'search': search,
@@ -549,16 +549,16 @@ export class OrganizationService {
      */
     public getOrganizationOrganizationsPage({
         parentOrganizationId,
-        flatten,
         filter,
+        flatten,
         page,
         pageSize,
         search,
         sort,
     }: {
         parentOrganizationId: string,
-        flatten?: boolean,
         filter?: string,
+        flatten?: boolean,
         page?: number,
         pageSize?: number,
         search?: string,
@@ -571,8 +571,8 @@ export class OrganizationService {
                 'parentOrganizationId': parentOrganizationId,
             },
             query: {
-                'flatten': flatten,
                 'filter': filter,
+                'flatten': flatten,
                 'page': page,
                 'pageSize': pageSize,
                 'search': search,

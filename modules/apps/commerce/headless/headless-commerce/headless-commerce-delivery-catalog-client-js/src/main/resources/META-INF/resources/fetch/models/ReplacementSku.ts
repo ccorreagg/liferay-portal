@@ -10,6 +10,7 @@ export type ReplacementSku = {
     readonly price?: Price;
     readonly productConfiguration?: ProductConfiguration;
     readonly sku?: string;
+    skuExternalReferenceCode?: string;
     readonly skuId?: number;
     readonly skuOptions?: Array<SkuOption>;
     skuUnitOfMeasures?: Array<SkuUnitOfMeasure>;

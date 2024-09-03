@@ -9,27 +9,28 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SearchResponseService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
+     * This API is only for the Blueprints application's preview. For a search API, use search/v1.0/search instead.
      * @returns SearchResponse
      * @throws ApiError
      */
     public postSearch({
-        query,
         page,
         pageSize,
+        query,
         requestBody,
     }: {
-        query?: string,
         page?: number,
         pageSize?: number,
+        query?: string,
         requestBody?: SXPBlueprint,
     }): CancelablePromise<SearchResponse> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/search-experiences-rest/v1.0/search',
             query: {
-                'query': query,
                 'page': page,
                 'pageSize': pageSize,
+                'query': query,
             },
             body: requestBody,
             mediaType: 'application/json',

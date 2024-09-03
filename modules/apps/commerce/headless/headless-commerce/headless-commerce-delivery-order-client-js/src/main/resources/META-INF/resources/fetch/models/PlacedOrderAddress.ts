@@ -7,6 +7,7 @@ export type PlacedOrderAddress = {
     readonly country?: string;
     readonly countryISOCode?: string;
     readonly description?: string;
+    readonly externalReferenceCode?: string;
     readonly id?: number;
     readonly latitude?: number;
     readonly longitude?: number;

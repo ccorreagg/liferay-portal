@@ -21,6 +21,6 @@ export type UtilityPageTemplate = {
     /**
      * The utility page template type.
      */
-    type?: 'Error' | 'ErrorCode404' | 'ErrorCode500' | 'TermsOfUse';
+    type?: 'CookiePolicy' | 'CreateAccount' | 'Error' | 'ErrorCode404' | 'ErrorCode500' | 'ForgotPassword' | 'Login' | 'TermsOfUse';
 };
 

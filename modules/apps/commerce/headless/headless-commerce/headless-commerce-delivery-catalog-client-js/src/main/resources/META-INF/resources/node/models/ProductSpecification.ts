@@ -11,6 +11,7 @@ export type ProductSpecification = {
     specificationGroupTitle?: string;
     specificationId?: number;
     specificationKey?: string;
+    specificationPriority?: number;
     specificationTitle?: string;
     value?: string;
 };

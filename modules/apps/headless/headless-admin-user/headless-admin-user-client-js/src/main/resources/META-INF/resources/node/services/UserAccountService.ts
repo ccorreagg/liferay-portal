@@ -754,4 +754,39 @@ export class UserAccountService {
             },
         });
     }
+    /**
+     * Retrieves the list of users in a user group.
+     * @returns UserAccount
+     * @throws ApiError
+     */
+    public getUserGroupUsersPage({
+        userGroupId,
+        filter,
+        page,
+        pageSize,
+        search,
+        sort,
+    }: {
+        userGroupId: number,
+        filter?: string,
+        page?: number,
+        pageSize?: number,
+        search?: string,
+        sort?: string,
+    }): CancelablePromise<Array<UserAccount>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/user-groups/{userGroupId}/user-group-users',
+            path: {
+                'userGroupId': userGroupId,
+            },
+            query: {
+                'filter': filter,
+                'page': page,
+                'pageSize': pageSize,
+                'search': search,
+                'sort': sort,
+            },
+        });
+    }
 }

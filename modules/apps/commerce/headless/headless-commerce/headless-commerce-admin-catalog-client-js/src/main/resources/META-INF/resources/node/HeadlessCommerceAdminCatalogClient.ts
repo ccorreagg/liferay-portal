@@ -12,6 +12,7 @@ import { CurrencyService } from './services/CurrencyService';
 import { DiagramService } from './services/DiagramService';
 import { GroupedProductService } from './services/GroupedProductService';
 import { LinkedProductService } from './services/LinkedProductService';
+import { ListTypeDefinitionService } from './services/ListTypeDefinitionService';
 import { LowStockActionService } from './services/LowStockActionService';
 import { MappedProductService } from './services/MappedProductService';
 import { OptionService } from './services/OptionService';
@@ -31,11 +32,13 @@ import { ProductSpecificationService } from './services/ProductSpecificationServ
 import { ProductSubscriptionConfigurationService } from './services/ProductSubscriptionConfigurationService';
 import { ProductTaxConfigurationService } from './services/ProductTaxConfigurationService';
 import { ProductVirtualSettingsService } from './services/ProductVirtualSettingsService';
+import { ProductVirtualSettingsFileEntryService } from './services/ProductVirtualSettingsFileEntryService';
 import { RelatedProductService } from './services/RelatedProductService';
 import { SkuService } from './services/SkuService';
 import { SkuSubscriptionConfigurationService } from './services/SkuSubscriptionConfigurationService';
 import { SkuUnitOfMeasureService } from './services/SkuUnitOfMeasureService';
 import { SkuVirtualSettingsService } from './services/SkuVirtualSettingsService';
+import { SkuVirtualSettingsFileEntryService } from './services/SkuVirtualSettingsFileEntryService';
 import { SpecificationService } from './services/SpecificationService';
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 export class HeadlessCommerceAdminCatalogClient {
@@ -46,6 +49,7 @@ export class HeadlessCommerceAdminCatalogClient {
     public readonly diagram: DiagramService;
     public readonly groupedProduct: GroupedProductService;
     public readonly linkedProduct: LinkedProductService;
+    public readonly listTypeDefinition: ListTypeDefinitionService;
     public readonly lowStockAction: LowStockActionService;
     public readonly mappedProduct: MappedProductService;
     public readonly option: OptionService;
@@ -65,11 +69,13 @@ export class HeadlessCommerceAdminCatalogClient {
     public readonly productSubscriptionConfiguration: ProductSubscriptionConfigurationService;
     public readonly productTaxConfiguration: ProductTaxConfigurationService;
     public readonly productVirtualSettings: ProductVirtualSettingsService;
+    public readonly productVirtualSettingsFileEntry: ProductVirtualSettingsFileEntryService;
     public readonly relatedProduct: RelatedProductService;
     public readonly sku: SkuService;
     public readonly skuSubscriptionConfiguration: SkuSubscriptionConfigurationService;
     public readonly skuUnitOfMeasure: SkuUnitOfMeasureService;
     public readonly skuVirtualSettings: SkuVirtualSettingsService;
+    public readonly skuVirtualSettingsFileEntry: SkuVirtualSettingsFileEntryService;
     public readonly specification: SpecificationService;
     public readonly request: BaseHttpRequest;
     constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = NodeHttpRequest) {
@@ -91,6 +97,7 @@ export class HeadlessCommerceAdminCatalogClient {
         this.diagram = new DiagramService(this.request);
         this.groupedProduct = new GroupedProductService(this.request);
         this.linkedProduct = new LinkedProductService(this.request);
+        this.listTypeDefinition = new ListTypeDefinitionService(this.request);
         this.lowStockAction = new LowStockActionService(this.request);
         this.mappedProduct = new MappedProductService(this.request);
         this.option = new OptionService(this.request);
@@ -110,11 +117,13 @@ export class HeadlessCommerceAdminCatalogClient {
         this.productSubscriptionConfiguration = new ProductSubscriptionConfigurationService(this.request);
         this.productTaxConfiguration = new ProductTaxConfigurationService(this.request);
         this.productVirtualSettings = new ProductVirtualSettingsService(this.request);
+        this.productVirtualSettingsFileEntry = new ProductVirtualSettingsFileEntryService(this.request);
         this.relatedProduct = new RelatedProductService(this.request);
         this.sku = new SkuService(this.request);
         this.skuSubscriptionConfiguration = new SkuSubscriptionConfigurationService(this.request);
         this.skuUnitOfMeasure = new SkuUnitOfMeasureService(this.request);
         this.skuVirtualSettings = new SkuVirtualSettingsService(this.request);
+        this.skuVirtualSettingsFileEntry = new SkuVirtualSettingsFileEntryService(this.request);
         this.specification = new SpecificationService(this.request);
     }
 }

@@ -12,6 +12,40 @@ export class PlacedOrderService {
      * @returns PlacedOrder Successful operation
      * @throws ApiError
      */
+    public getHeadlessCommerceDeliveryOrderV10ChannelsByExternalReferenceCodeAccountsByExternalReferenceCodePlacedOrders({
+        accountExternalReferenceCode,
+        channelExternalReferenceCode,
+        page,
+        pageSize,
+    }: {
+        accountExternalReferenceCode: string,
+        channelExternalReferenceCode: string,
+        page?: number,
+        pageSize?: number,
+    }): CancelablePromise<Array<PlacedOrder>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-order/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/accounts/by-externalReferenceCode/{accountExternalReferenceCode}/placed-orders',
+            path: {
+                'accountExternalReferenceCode': accountExternalReferenceCode,
+                'channelExternalReferenceCode': channelExternalReferenceCode,
+            },
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieves placed orders for specific account in the given channel.
+     * @returns PlacedOrder Successful operation
+     * @throws ApiError
+     */
     public getHeadlessCommerceDeliveryOrderV10ChannelsAccountsPlacedOrders({
         accountId,
         channelId,
@@ -38,6 +72,51 @@ export class PlacedOrderService {
                 401: `Authentication information is missing or invalid`,
                 404: `The specified resource was not found`,
                 500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieve information of the given Placed Order.
+     * @returns PlacedOrder
+     * @throws ApiError
+     */
+    public getPlacedOrderByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<PlacedOrder> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * @returns string
+     * @throws ApiError
+     */
+    public getPlacedOrderByExternalReferenceCodePaymentUrl({
+        externalReferenceCode,
+        callbackUrl,
+    }: {
+        externalReferenceCode: string,
+        callbackUrl?: string,
+    }): CancelablePromise<string> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}/payment-url',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            query: {
+                'callbackURL': callbackUrl,
             },
         });
     }

@@ -5,10 +5,14 @@
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
 import { FetchHttpRequest } from './core/FetchHttpRequest';
+import { EmbeddingModelService } from './services/EmbeddingModelService';
+import { EmbeddingProviderValidationResultService } from './services/EmbeddingProviderValidationResultService';
 import { SearchResultService } from './services/SearchResultService';
 import { SuggestionService } from './services/SuggestionService';
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 export class PortalSearchRestClient {
+    public readonly embeddingModel: EmbeddingModelService;
+    public readonly embeddingProviderValidationResult: EmbeddingProviderValidationResultService;
     public readonly searchResult: SearchResultService;
     public readonly suggestion: SuggestionService;
     public readonly request: BaseHttpRequest;
@@ -24,6 +28,8 @@ export class PortalSearchRestClient {
             HEADERS: config?.HEADERS,
             ENCODE_PATH: config?.ENCODE_PATH,
         });
+        this.embeddingModel = new EmbeddingModelService(this.request);
+        this.embeddingProviderValidationResult = new EmbeddingProviderValidationResultService(this.request);
         this.searchResult = new SearchResultService(this.request);
         this.suggestion = new SuggestionService(this.request);
     }

@@ -15,6 +15,7 @@ export type ProductVirtualSettings = {
      * Number of days to download the attachment
      */
     duration?: number;
+    id?: number;
     /**
      * Number of downloads available for attachment
      */

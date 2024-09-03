@@ -21,7 +21,9 @@ export type ObjectField = {
     listTypeDefinitionId?: number;
     localized?: boolean;
     name?: string;
+    objectDefinitionExternalReferenceCode1?: string;
     objectFieldSettings?: Array<ObjectFieldSetting>;
+    objectRelationshipExternalReferenceCode?: string;
     readOnly?: 'conditional';
     readOnlyConditionExpression?: string;
     readonly relationshipType?: 'oneToMany' | 'oneToOne';

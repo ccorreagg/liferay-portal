@@ -10,6 +10,7 @@ export type ProductOption = {
     readonly id?: number;
     key?: string;
     name?: string;
+    optionExternalReferenceCode?: string;
     optionId?: number;
     priority?: number;
     productOptionValues?: Array<ProductOptionValue>;

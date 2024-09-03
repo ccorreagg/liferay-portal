@@ -118,23 +118,23 @@ export class WarehouseItemService {
      */
     public getWarehouseItemsUpdatedPage({
         end,
-        start,
         page,
         pageSize,
+        start,
     }: {
         end?: string,
-        start?: string,
         page?: number,
         pageSize?: number,
+        start?: string,
     }): CancelablePromise<Array<WarehouseItem>> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-inventory/v1.0/warehouseItems/updated',
             query: {
                 'end': end,
-                'start': start,
                 'page': page,
                 'pageSize': pageSize,
+                'start': start,
             },
             errors: {
                 400: `Invalid input. Happens if the search parameters are not passed

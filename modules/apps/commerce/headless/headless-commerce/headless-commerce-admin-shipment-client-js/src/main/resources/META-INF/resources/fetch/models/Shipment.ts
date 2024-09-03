@@ -16,6 +16,7 @@ export type Shipment = {
     externalReferenceCode?: string;
     readonly id?: number;
     readonly modifiedDate?: string;
+    orderExternalReferenceCode?: string;
     orderId?: number;
     shipmentItems?: Array<ShipmentItem>;
     shippingAddress?: ShippingAddress;

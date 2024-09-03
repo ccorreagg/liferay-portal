@@ -17,9 +17,9 @@ export class NodeMetricService {
         dateEnd,
         dateStart,
         key,
-        processVersion,
         page,
         pageSize,
+        processVersion,
         sort,
     }: {
         processId: number,
@@ -27,9 +27,9 @@ export class NodeMetricService {
         dateEnd?: string,
         dateStart?: string,
         key?: string,
-        processVersion?: string,
         page?: number,
         pageSize?: number,
+        processVersion?: string,
         sort?: string,
     }): CancelablePromise<Array<NodeMetric>> {
         return this.httpRequest.request({
@@ -43,9 +43,9 @@ export class NodeMetricService {
                 'dateEnd': dateEnd,
                 'dateStart': dateStart,
                 'key': key,
-                'processVersion': processVersion,
                 'page': page,
                 'pageSize': pageSize,
+                'processVersion': processVersion,
                 'sort': sort,
             },
         });

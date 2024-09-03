@@ -9,6 +9,172 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CartService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
+     * Deletes a Cart by by external reference code.
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+            },
+        });
+    }
+    /**
+     * Retrieve information of the given Cart by external reference code.
+     * @returns Cart
+     * @throws ApiError
+     */
+    public getHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Cart> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Updates a Cart by external reference code.
+     * @returns Cart Updated
+     * @throws ApiError
+     */
+    public patchHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: Cart,
+    }): CancelablePromise<Cart> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Updates a Cart.
+     * @returns Cart Updated
+     * @throws ApiError
+     */
+    public putHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: Cart,
+    }): CancelablePromise<Cart> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * @returns Cart
+     * @throws ApiError
+     */
+    public postHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCodeCheckout({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Cart> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/checkout',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+        });
+    }
+    /**
+     * Add a coupon code to a Cart, return the whole Cart updated.
+     * @returns Cart Coupon applied to the Cart
+     * @throws ApiError
+     */
+    public postHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCodeCouponCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: CouponCode,
+    }): CancelablePromise<Cart> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/coupon-code',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * @returns string
+     * @throws ApiError
+     */
+    public getHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCodePaymentUrl({
+        externalReferenceCode,
+        callbackUrl,
+    }: {
+        externalReferenceCode: string,
+        callbackUrl?: string,
+    }): CancelablePromise<string> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/payment-url',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            query: {
+                'callbackURL': callbackUrl,
+            },
+        });
+    }
+    /**
      * Deletes a Cart by ID.
      * @returns void
      * @throws ApiError
@@ -30,7 +196,7 @@ export class CartService {
         });
     }
     /**
-     * Retrive information of the given Cart.
+     * Retrieve information of the given Cart.
      * @returns Cart
      * @throws ApiError
      */
@@ -126,8 +292,8 @@ export class CartService {
         });
     }
     /**
-     * Add new Items to a Cart, return the whole Cart updated.
-     * @returns Cart Coupon applied to the order
+     * Add a coupon code to a Cart, return the whole Cart updated.
+     * @returns Cart Coupon applied to the cart
      * @throws ApiError
      */
     public postCartCouponCode({
@@ -171,6 +337,71 @@ export class CartService {
             },
             query: {
                 'callbackURL': callbackUrl,
+            },
+        });
+    }
+    /**
+     * Retrieves carts for specific account in the given channel.
+     * @returns Cart Successful operation
+     * @throws ApiError
+     */
+    public getChannelByExternalReferenceCodeChannelExternalReferenceCodeAccountByExternalReferenceCodeAccountExternalReferenceCodeCartsPage({
+        accountExternalReferenceCode,
+        channelExternalReferenceCode,
+        page,
+        pageSize,
+        search,
+    }: {
+        accountExternalReferenceCode: string,
+        channelExternalReferenceCode: string,
+        page?: number,
+        pageSize?: number,
+        search?: string,
+    }): CancelablePromise<Array<Cart>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-cart/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/account/by-externalReferenceCode/{accountExternalReferenceCode}/carts',
+            path: {
+                'accountExternalReferenceCode': accountExternalReferenceCode,
+                'channelExternalReferenceCode': channelExternalReferenceCode,
+            },
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+                'search': search,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Creates a Cart.
+     * @returns Cart Created
+     * @throws ApiError
+     */
+    public postChannelCartByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: Cart,
+    }): CancelablePromise<Cart> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-commerce-delivery-cart/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/carts',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
             },
         });
     }

@@ -12,6 +12,24 @@ export class PostalAddressService {
      * @returns PostalAddress
      * @throws ApiError
      */
+    public getAccountByExternalReferenceCodePostalAddressesPage({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Array<PostalAddress>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/postal-addresses',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+        });
+    }
+    /**
+     * Retrieves the account's postal addresses.
+     * @returns PostalAddress
+     * @throws ApiError
+     */
     public getAccountPostalAddressesPage({
         accountId,
     }: {
@@ -51,6 +69,24 @@ export class PostalAddressService {
      * @returns PostalAddress
      * @throws ApiError
      */
+    public getOrganizationByExternalReferenceCodePostalAddressesPage({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Array<PostalAddress>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/postal-addresses',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+        });
+    }
+    /**
+     * Retrieves the organization's postal addresses.
+     * @returns PostalAddress
+     * @throws ApiError
+     */
     public getOrganizationPostalAddressesPage({
         organizationId,
     }: {
@@ -62,6 +98,86 @@ export class PostalAddressService {
             path: {
                 'organizationId': organizationId,
             },
+        });
+    }
+    /**
+     * Deletes the postal address using external reference code.
+     * @returns void
+     * @throws ApiError
+     */
+    public deletePostalAddressByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/headless-admin-user/v1.0/postal-addresses/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+        });
+    }
+    /**
+     * Retrieves the postal address using external reference code.
+     * @returns PostalAddress
+     * @throws ApiError
+     */
+    public getPostalAddressByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<PostalAddress> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/postal-addresses/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+        });
+    }
+    /**
+     * Updates the postal address using external reference code.
+     * @returns PostalAddress
+     * @throws ApiError
+     */
+    public patchPostalAddressByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody?: PostalAddress,
+    }): CancelablePromise<PostalAddress> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/headless-admin-user/v1.0/postal-addresses/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * Updates the postal address using external reference code.
+     * @returns PostalAddress
+     * @throws ApiError
+     */
+    public putPostalAddressByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody?: PostalAddress,
+    }): CancelablePromise<PostalAddress> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/headless-admin-user/v1.0/postal-addresses/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -140,6 +256,24 @@ export class PostalAddressService {
             },
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * Retrieves the user's postal addresses.
+     * @returns PostalAddress
+     * @throws ApiError
+     */
+    public getUserAccountByExternalReferenceCodePostalAddressesPage({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Array<PostalAddress>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}/postal-addresses',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
         });
     }
     /**

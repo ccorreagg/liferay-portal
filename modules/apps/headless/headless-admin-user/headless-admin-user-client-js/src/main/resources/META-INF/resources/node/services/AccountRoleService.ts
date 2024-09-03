@@ -12,6 +12,54 @@ export class AccountRoleService {
      * @returns void
      * @throws ApiError
      */
+    public deleteAccountByExternalReferenceCodeAccountRoleByExternalReferenceCodeUserAccountByExternalReferenceCode({
+        accountExternalReferenceCode,
+        accountRoleExternalReferenceCode,
+        externalReferenceCode,
+    }: {
+        accountExternalReferenceCode: string,
+        accountRoleExternalReferenceCode: string,
+        externalReferenceCode: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-roles/by-external-reference-code/{accountRoleExternalReferenceCode}/user-accounts/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'accountExternalReferenceCode': accountExternalReferenceCode,
+                'accountRoleExternalReferenceCode': accountRoleExternalReferenceCode,
+                'externalReferenceCode': externalReferenceCode,
+            },
+        });
+    }
+    /**
+     * Assigns account users by external reference code to the account role
+     * @returns void
+     * @throws ApiError
+     */
+    public postAccountByExternalReferenceCodeAccountRoleByExternalReferenceCodeUserAccountByExternalReferenceCode({
+        accountExternalReferenceCode,
+        accountRoleExternalReferenceCode,
+        externalReferenceCode,
+    }: {
+        accountExternalReferenceCode: string,
+        accountRoleExternalReferenceCode: string,
+        externalReferenceCode: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-roles/by-external-reference-code/{accountRoleExternalReferenceCode}/user-accounts/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'accountExternalReferenceCode': accountExternalReferenceCode,
+                'accountRoleExternalReferenceCode': accountRoleExternalReferenceCode,
+                'externalReferenceCode': externalReferenceCode,
+            },
+        });
+    }
+    /**
+     * Unassigns account users by external reference code from the account role
+     * @returns void
+     * @throws ApiError
+     */
     public deleteAccountByExternalReferenceCodeAccountRoleUserAccountByExternalReferenceCode({
         accountExternalReferenceCode,
         accountRoleId,
@@ -83,15 +131,15 @@ export class AccountRoleService {
      */
     public getAccountAccountRolesByExternalReferenceCodePage({
         externalReferenceCode,
-        keywords,
         filter,
+        keywords,
         page,
         pageSize,
         sort,
     }: {
         externalReferenceCode: string,
-        keywords?: string,
         filter?: string,
+        keywords?: string,
         page?: number,
         pageSize?: number,
         sort?: string,
@@ -103,8 +151,8 @@ export class AccountRoleService {
                 'externalReferenceCode': externalReferenceCode,
             },
             query: {
-                'keywords': keywords,
                 'filter': filter,
+                'keywords': keywords,
                 'page': page,
                 'pageSize': pageSize,
                 'sort': sort,
@@ -131,6 +179,54 @@ export class AccountRoleService {
             },
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * Unassigns account users by email address from the account role
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteAccountByExternalReferenceCodeAccountRoleByExternalReferenceCodeUserAccountByEmailAddress({
+        externalReferenceCode,
+        accountRoleExternalReferenceCode,
+        emailAddress,
+    }: {
+        externalReferenceCode: string,
+        accountRoleExternalReferenceCode: string,
+        emailAddress: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles/by-external-reference-code/{accountRoleExternalReferenceCode}/user-accounts/by-email-address/{emailAddress}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+                'accountRoleExternalReferenceCode': accountRoleExternalReferenceCode,
+                'emailAddress': emailAddress,
+            },
+        });
+    }
+    /**
+     * Assigns account users by email address to the account role
+     * @returns void
+     * @throws ApiError
+     */
+    public postAccountByExternalReferenceCodeAccountRoleByExternalReferenceCodeUserAccountByEmailAddress({
+        externalReferenceCode,
+        accountRoleExternalReferenceCode,
+        emailAddress,
+    }: {
+        externalReferenceCode: string,
+        accountRoleExternalReferenceCode: string,
+        emailAddress: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles/by-external-reference-code/{accountRoleExternalReferenceCode}/user-accounts/by-email-address/{emailAddress}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+                'accountRoleExternalReferenceCode': accountRoleExternalReferenceCode,
+                'emailAddress': emailAddress,
+            },
         });
     }
     /**
@@ -209,15 +305,15 @@ export class AccountRoleService {
      */
     public getAccountAccountRolesPage({
         accountId,
-        keywords,
         filter,
+        keywords,
         page,
         pageSize,
         sort,
     }: {
         accountId: number,
-        keywords?: string,
         filter?: string,
+        keywords?: string,
         page?: number,
         pageSize?: number,
         sort?: string,
@@ -229,8 +325,8 @@ export class AccountRoleService {
                 'accountId': accountId,
             },
             query: {
-                'keywords': keywords,
                 'filter': filter,
+                'keywords': keywords,
                 'page': page,
                 'pageSize': pageSize,
                 'sort': sort,

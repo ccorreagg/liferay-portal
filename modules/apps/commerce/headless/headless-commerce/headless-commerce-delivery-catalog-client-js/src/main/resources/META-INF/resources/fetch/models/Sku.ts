@@ -23,6 +23,7 @@ export type Sku = {
     displayDate?: string;
     displayDiscountLevels?: boolean;
     expirationDate?: string;
+    externalReferenceCode?: string;
     gtin?: string;
     height?: number;
     readonly id?: number;

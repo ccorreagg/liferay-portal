@@ -5,6 +5,7 @@
 export type RelatedProduct = {
     readonly id?: number;
     priority?: number;
+    productExternalReferenceCode?: string;
     productId?: number;
     type?: string;
 };

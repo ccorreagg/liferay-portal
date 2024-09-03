@@ -13,19 +13,19 @@ export class CtEntryService {
      */
     public getCtCollectionCtEntriesPage({
         ctCollectionId,
-        showHideable,
         filter,
         page,
         pageSize,
         search,
+        showHideable,
         sort,
     }: {
         ctCollectionId: number,
-        showHideable?: boolean,
         filter?: string,
         page?: number,
         pageSize?: number,
         search?: string,
+        showHideable?: boolean,
         sort?: string,
     }): CancelablePromise<Array<CTEntry>> {
         return this.httpRequest.request({
@@ -35,12 +35,35 @@ export class CtEntryService {
                 'ctCollectionId': ctCollectionId,
             },
             query: {
-                'showHideable': showHideable,
                 'filter': filter,
                 'page': page,
                 'pageSize': pageSize,
                 'search': search,
+                'showHideable': showHideable,
                 'sort': sort,
+            },
+        });
+    }
+    /**
+     * @returns CTEntry
+     * @throws ApiError
+     */
+    public getCtCollectionCtEntryByModelClassNameByModelClassPkModelClassPk({
+        ctCollectionId,
+        modelClassNameId,
+        modelClassPk,
+    }: {
+        ctCollectionId: number,
+        modelClassNameId: number,
+        modelClassPk: number,
+    }): CancelablePromise<CTEntry> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/ct-entries/by-model-class-name-id/{modelClassNameId}/by-model-class-pk/{modelClassPK}',
+            path: {
+                'ctCollectionId': ctCollectionId,
+                'modelClassNameId': modelClassNameId,
+                'modelClassPK': modelClassPk,
             },
         });
     }

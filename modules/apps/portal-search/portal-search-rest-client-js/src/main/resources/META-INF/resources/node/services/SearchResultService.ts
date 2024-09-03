@@ -9,18 +9,76 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SearchResultService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * Search the company index for matching content. This endpoint is beta and requires setting the portal property 'feature.flag.LPS-179669' to true or enabling via Instance Settings > Feature Flags: Beta.
+     * Search the company index for matching content. This endpoint is development and requires setting the portal property 'feature.flag.LPD-11232' to true or enabling via Instance Settings > Feature Flags: Developer.
+     * @returns SearchResult
+     * @throws ApiError
+     */
+    public getSearchPage({
+        blueprintExternalReferenceCode,
+        emptySearch,
+        entryClassNames,
+        fields,
+        filter,
+        nestedFields,
+        page,
+        pageSize,
+        restrictFields,
+        scope,
+        search,
+        sort,
+    }: {
+        blueprintExternalReferenceCode?: string,
+        emptySearch?: boolean,
+        /**
+         * Model class names to be searched for. Defaults to all.
+         */
+        entryClassNames?: string,
+        /**
+         * The list of fields to be returned.
+         */
+        fields?: string,
+        filter?: string,
+        nestedFields?: string,
+        page?: number,
+        pageSize?: number,
+        restrictFields?: string,
+        scope?: string,
+        search?: string,
+        sort?: string,
+    }): CancelablePromise<Array<SearchResult>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/search/v1.0/search',
+            query: {
+                'blueprintExternalReferenceCode': blueprintExternalReferenceCode,
+                'emptySearch': emptySearch,
+                'entryClassNames': entryClassNames,
+                'fields': fields,
+                'filter': filter,
+                'nestedFields': nestedFields,
+                'page': page,
+                'pageSize': pageSize,
+                'restrictFields': restrictFields,
+                'scope': scope,
+                'search': search,
+                'sort': sort,
+            },
+        });
+    }
+    /**
+     * Search the company index for matching content. This endpoint requires setting the portal property 'feature.flag.LPS-179669' to true or enabling via Instance Settings > Feature Flags: Release.
      * @returns SearchResult
      * @throws ApiError
      */
     public postSearchPage({
         entryClassNames,
         fields,
-        nestedFields,
-        restrictFields,
         filter,
+        nestedFields,
         page,
         pageSize,
+        restrictFields,
+        scope,
         search,
         sort,
         requestBody,
@@ -33,26 +91,28 @@ export class SearchResultService {
          * The list of fields to be returned.
          */
         fields?: string,
-        nestedFields?: string,
-        restrictFields?: string,
         filter?: string,
+        nestedFields?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
+        scope?: string,
         search?: string,
         sort?: string,
         requestBody?: SearchRequestBody,
     }): CancelablePromise<Array<SearchResult>> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/portal-search-rest/v1.0/search',
+            url: '/search/v1.0/search',
             query: {
                 'entryClassNames': entryClassNames,
                 'fields': fields,
-                'nestedFields': nestedFields,
-                'restrictFields': restrictFields,
                 'filter': filter,
+                'nestedFields': nestedFields,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
+                'scope': scope,
                 'search': search,
                 'sort': sort,
             },

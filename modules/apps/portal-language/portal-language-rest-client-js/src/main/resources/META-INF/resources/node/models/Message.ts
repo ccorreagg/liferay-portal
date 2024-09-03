@@ -2,6 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type MLModel = {
+export type Message = {
+    key?: string;
+    languageId?: string;
+    value?: string;
 };
 

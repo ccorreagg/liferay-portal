@@ -38,6 +38,14 @@ export type PageFormDefinition = {
          * The definition for the success message of the form.
          */
         formSuccessSubmissionResult?: (MessageFormSubmissionResult | SitePageFormSubmissionResult | URLFormSubmissionResult);
+        /**
+         * A flag that indicates whether the page form instance is multi step or not.
+         */
+        formType?: 'simple' | 'multistep';
+        /**
+         * The definition for the number of steps of the form.
+         */
+        numberOfSteps?: number;
     };
     /**
      * The fragment style of a Page form.

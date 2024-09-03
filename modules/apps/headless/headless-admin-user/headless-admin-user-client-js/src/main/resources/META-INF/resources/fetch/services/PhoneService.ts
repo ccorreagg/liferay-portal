@@ -8,6 +8,60 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class PhoneService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
+     * Retrieves the account's phone numbers.
+     * @returns Phone
+     * @throws ApiError
+     */
+    public getAccountByExternalReferenceCodePhonesPage({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Array<Phone>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/phones',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+        });
+    }
+    /**
+     * Retrieves the account's phone numbers.
+     * @returns Phone
+     * @throws ApiError
+     */
+    public getAccountPhonesPage({
+        accountId,
+    }: {
+        accountId: number,
+    }): CancelablePromise<Array<Phone>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/accounts/{accountId}/phones',
+            path: {
+                'accountId': accountId,
+            },
+        });
+    }
+    /**
+     * Retrieves the organization's phone numbers.
+     * @returns Phone
+     * @throws ApiError
+     */
+    public getOrganizationByExternalReferenceCodePhonesPage({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Array<Phone>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/phones',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+        });
+    }
+    /**
      * Retrieves the organization's phone numbers.
      * @returns Phone
      * @throws ApiError
@@ -40,6 +94,24 @@ export class PhoneService {
             url: '/headless-admin-user/v1.0/phones/{phoneId}',
             path: {
                 'phoneId': phoneId,
+            },
+        });
+    }
+    /**
+     * Retrieves the user's phone numbers.
+     * @returns Phone
+     * @throws ApiError
+     */
+    public getUserAccountByExternalReferenceCodePhonesPage({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Array<Phone>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}/phones',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
             },
         });
     }

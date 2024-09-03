@@ -11,7 +11,7 @@ export type Option = {
     description?: Record<string, string>;
     externalReferenceCode?: string;
     facetable?: boolean;
-    fieldType: 'checkbox' | 'checkbox_multiple' | 'date' | 'numeric' | 'radio' | 'select' | 'text';
+    fieldType: 'checkbox' | 'checkbox_multiple' | 'date' | 'numeric' | 'radio' | 'select' | 'select_date' | 'text';
     readonly id?: number;
     key: string;
     name: Record<string, string>;

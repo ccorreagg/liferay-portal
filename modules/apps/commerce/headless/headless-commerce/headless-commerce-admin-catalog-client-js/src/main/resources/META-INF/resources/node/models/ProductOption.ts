@@ -15,6 +15,7 @@ export type ProductOption = {
     infoItemServiceKey?: string;
     key: string;
     name: Record<string, string>;
+    optionExternalReferenceCode?: string;
     optionId: number;
     priceType?: string;
     priority?: number;

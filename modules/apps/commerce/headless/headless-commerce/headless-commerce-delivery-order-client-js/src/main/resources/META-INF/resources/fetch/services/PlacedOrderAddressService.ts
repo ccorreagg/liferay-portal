@@ -12,6 +12,52 @@ export class PlacedOrderAddressService {
      * @returns PlacedOrderAddress
      * @throws ApiError
      */
+    public getPlacedOrderByExternalReferenceCodePlacedOrderBillingAddress({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<PlacedOrderAddress> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}/placed-order-billing-address',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieve placed order shipping address.
+     * @returns PlacedOrderAddress
+     * @throws ApiError
+     */
+    public getPlacedOrderByExternalReferenceCodePlacedOrderShippingAddress({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<PlacedOrderAddress> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}/placed-order-shipping-address',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieve placed order billing address.
+     * @returns PlacedOrderAddress
+     * @throws ApiError
+     */
     public getHeadlessCommerceDeliveryOrderV10PlacedOrdersPlacedOrderBillingAddress({
         placedOrderId,
     }: {

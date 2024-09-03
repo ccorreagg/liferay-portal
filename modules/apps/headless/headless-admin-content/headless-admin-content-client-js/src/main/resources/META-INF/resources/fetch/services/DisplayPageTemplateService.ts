@@ -16,17 +16,17 @@ export class DisplayPageTemplateService {
         siteId,
         fields,
         nestedFields,
-        restrictFields,
         page,
         pageSize,
+        restrictFields,
         sort,
     }: {
         siteId: number,
         fields?: string,
         nestedFields?: string,
-        restrictFields?: string,
         page?: number,
         pageSize?: number,
+        restrictFields?: string,
         sort?: string,
     }): CancelablePromise<Array<DisplayPageTemplate>> {
         return this.httpRequest.request({
@@ -38,9 +38,9 @@ export class DisplayPageTemplateService {
             query: {
                 'fields': fields,
                 'nestedFields': nestedFields,
-                'restrictFields': restrictFields,
                 'page': page,
                 'pageSize': pageSize,
+                'restrictFields': restrictFields,
                 'sort': sort,
             },
         });

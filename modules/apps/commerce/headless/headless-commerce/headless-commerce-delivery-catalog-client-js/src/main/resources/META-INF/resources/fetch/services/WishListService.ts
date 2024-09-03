@@ -12,6 +12,73 @@ export class WishListService {
      * @returns WishList Successful operation
      * @throws ApiError
      */
+    public getChannelByExternalReferenceCodeWishListsPage({
+        externalReferenceCode,
+        accountId,
+        page,
+        pageSize,
+    }: {
+        externalReferenceCode: string,
+        accountId?: number,
+        page?: number,
+        pageSize?: number,
+    }): CancelablePromise<Array<WishList>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/wishlists',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            query: {
+                'accountId': accountId,
+                'page': page,
+                'pageSize': pageSize,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Creates a WishList.
+     * @returns WishList Created
+     * @throws ApiError
+     */
+    public postChannelByExternalReferenceCodeWishList({
+        externalReferenceCode,
+        requestBody,
+        accountId,
+    }: {
+        externalReferenceCode: string,
+        requestBody: WishList,
+        accountId?: number,
+    }): CancelablePromise<WishList> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/wishlists',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            query: {
+                'accountId': accountId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieves wishlists for a given channel.
+     * @returns WishList Successful operation
+     * @throws ApiError
+     */
     public getChannelWishListsPage({
         channelId,
         accountId,

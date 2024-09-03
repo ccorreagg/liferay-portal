@@ -10,6 +10,7 @@ export type Category = {
      */
     name?: string;
     siteId?: number;
+    title?: Record<string, string>;
     readonly vocabulary?: string;
 };
 
