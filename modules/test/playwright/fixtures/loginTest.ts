@@ -12,18 +12,13 @@ import createTempFile, {
 } from '../utils/createTempFile';
 import performLogin, {LoginScreenName} from '../utils/performLogin';
 
-import type {ApiRequestOptions} from '../../../apps/object/object-admin-rest-client-js/src/main/resources/META-INF/resources/node/core/ApiRequestOptions';
-
 export interface LoginOptions {
 	screenName?: LoginScreenName;
 }
 
-type Resolver<T> = (options: ApiRequestOptions) => Promise<T>;
-type Headers = Record<string, string>;
-
 interface HeadlessClientConfig {
 	BASE: string;
-	HEADERS: Headers | Resolver<Headers> | undefined;
+	HEADERS: Record<string, string>;
 }
 
 export interface Login {
