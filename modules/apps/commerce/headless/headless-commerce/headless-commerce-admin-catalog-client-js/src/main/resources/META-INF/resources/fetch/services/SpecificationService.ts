@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageSpecification } from '../models/PageSpecification';
 import type { Specification } from '../models/Specification';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class SpecificationService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of specifications.
-     * @returns Specification Successful operation
+     * @returns PageSpecification Successful operation
      * @throws ApiError
      */
     public getSpecificationsPage({
@@ -24,7 +25,7 @@ export class SpecificationService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Specification>> {
+    }): CancelablePromise<PageSpecification> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/specifications',

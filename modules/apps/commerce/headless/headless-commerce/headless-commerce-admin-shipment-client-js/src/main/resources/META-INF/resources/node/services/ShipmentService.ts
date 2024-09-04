@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageShipment } from '../models/PageShipment';
 import type { Shipment } from '../models/Shipment';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class ShipmentService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a List of Shipments.
-     * @returns Shipment Successful operation
+     * @returns PageShipment Successful operation
      * @throws ApiError
      */
     public getShipmentsPage({
@@ -24,7 +25,7 @@ export class ShipmentService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Shipment>> {
+    }): CancelablePromise<PageShipment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-shipment/v1.0/shipments',

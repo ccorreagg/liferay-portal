@@ -3,20 +3,21 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { EmailAddress } from '../models/EmailAddress';
+import type { PageEmailAddress } from '../models/PageEmailAddress';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class EmailAddressService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the account's email addresses.
-     * @returns EmailAddress
+     * @returns PageEmailAddress
      * @throws ApiError
      */
     public getAccountByExternalReferenceCodeEmailAddressesPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<EmailAddress>> {
+    }): CancelablePromise<PageEmailAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/email-addresses',
@@ -27,14 +28,14 @@ export class EmailAddressService {
     }
     /**
      * Retrieves the account's email addresses.
-     * @returns EmailAddress
+     * @returns PageEmailAddress
      * @throws ApiError
      */
     public getAccountEmailAddressesPage({
         accountId,
     }: {
         accountId: number,
-    }): CancelablePromise<Array<EmailAddress>> {
+    }): CancelablePromise<PageEmailAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/{accountId}/email-addresses',
@@ -63,14 +64,14 @@ export class EmailAddressService {
     }
     /**
      * Retrieves the organization's email addresses.
-     * @returns EmailAddress
+     * @returns PageEmailAddress
      * @throws ApiError
      */
     public getOrganizationByExternalReferenceCodeEmailAddressesPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<EmailAddress>> {
+    }): CancelablePromise<PageEmailAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/email-addresses',
@@ -81,14 +82,14 @@ export class EmailAddressService {
     }
     /**
      * Retrieves the organization's email addresses.
-     * @returns EmailAddress
+     * @returns PageEmailAddress
      * @throws ApiError
      */
     public getOrganizationEmailAddressesPage({
         organizationId,
     }: {
         organizationId: string,
-    }): CancelablePromise<Array<EmailAddress>> {
+    }): CancelablePromise<PageEmailAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/{organizationId}/email-addresses',
@@ -99,14 +100,14 @@ export class EmailAddressService {
     }
     /**
      * Retrieves the user's email addresses.
-     * @returns EmailAddress
+     * @returns PageEmailAddress
      * @throws ApiError
      */
     public getUserAccountByExternalReferenceCodeEmailAddressesPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<EmailAddress>> {
+    }): CancelablePromise<PageEmailAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}/email-addresses',
@@ -117,14 +118,14 @@ export class EmailAddressService {
     }
     /**
      * Retrieves the user's email addresses.
-     * @returns EmailAddress
+     * @returns PageEmailAddress
      * @throws ApiError
      */
     public getUserAccountEmailAddressesPage({
         userAccountId,
     }: {
         userAccountId: number,
-    }): CancelablePromise<Array<EmailAddress>> {
+    }): CancelablePromise<PageEmailAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/email-addresses',

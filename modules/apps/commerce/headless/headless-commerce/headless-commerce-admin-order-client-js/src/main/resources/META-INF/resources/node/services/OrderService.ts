@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Order } from '../models/Order';
+import type { PageOrder } from '../models/PageOrder';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class OrderService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a List of Orders.
-     * @returns Order Successful operation
+     * @returns PageOrder Successful operation
      * @throws ApiError
      */
     public getOrdersPage({
@@ -24,7 +25,7 @@ export class OrderService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Order>> {
+    }): CancelablePromise<PageOrder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/orders',

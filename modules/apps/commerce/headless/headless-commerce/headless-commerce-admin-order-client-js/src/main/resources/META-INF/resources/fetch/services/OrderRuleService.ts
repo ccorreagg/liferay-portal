@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OrderRule } from '../models/OrderRule';
+import type { PageOrderRule } from '../models/PageOrderRule';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class OrderRuleService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Order Rules.
-     * @returns OrderRule Successful operation
+     * @returns PageOrderRule Successful operation
      * @throws ApiError
      */
     public getOrderRulesPage({
@@ -24,7 +25,7 @@ export class OrderRuleService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<OrderRule>> {
+    }): CancelablePromise<PageOrderRule> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/order-rules',

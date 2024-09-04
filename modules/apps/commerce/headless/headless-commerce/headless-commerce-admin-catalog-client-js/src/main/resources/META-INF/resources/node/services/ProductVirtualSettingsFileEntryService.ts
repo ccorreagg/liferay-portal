@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageProductVirtualSettingsFileEntry } from '../models/PageProductVirtualSettingsFileEntry';
 import type { ProductVirtualSettingsFileEntry } from '../models/ProductVirtualSettingsFileEntry';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -85,7 +86,7 @@ export class ProductVirtualSettingsFileEntryService {
     }
     /**
      * Gets a list of virtual settings file entries.
-     * @returns ProductVirtualSettingsFileEntry Successful operation
+     * @returns PageProductVirtualSettingsFileEntry Successful operation
      * @throws ApiError
      */
     public getProductVirtualSettingIdProductVirtualSettingsFileEntriesPage({
@@ -96,7 +97,7 @@ export class ProductVirtualSettingsFileEntryService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ProductVirtualSettingsFileEntry>> {
+    }): CancelablePromise<PageProductVirtualSettingsFileEntry> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/product-virtual-settings/{id}/product-virtual-settings-file-entries',

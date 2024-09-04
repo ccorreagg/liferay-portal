@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BlogPostingImage } from '../models/BlogPostingImage';
+import type { PageBlogPostingImage } from '../models/PageBlogPostingImage';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class BlogPostingImageService {
@@ -56,7 +57,7 @@ export class BlogPostingImageService {
     }
     /**
      * Retrieves the site's blog post images. Results can be paginated, filtered, searched, and sorted.
-     * @returns BlogPostingImage
+     * @returns PageBlogPostingImage
      * @throws ApiError
      */
     public getSiteBlogPostingImagesPage({
@@ -81,7 +82,7 @@ export class BlogPostingImageService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<BlogPostingImage>> {
+    }): CancelablePromise<PageBlogPostingImage> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/blog-posting-images',

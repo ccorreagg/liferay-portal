@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ObjectField } from '../models/ObjectField';
+import type { PageObjectField } from '../models/PageObjectField';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ObjectFieldService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ObjectField
+     * @returns PageObjectField
      * @throws ApiError
      */
     public getObjectDefinitionByExternalReferenceCodeObjectFieldsPage({
@@ -25,7 +26,7 @@ export class ObjectFieldService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ObjectField>> {
+    }): CancelablePromise<PageObjectField> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-fields',
@@ -63,7 +64,7 @@ export class ObjectFieldService {
         });
     }
     /**
-     * @returns ObjectField
+     * @returns PageObjectField
      * @throws ApiError
      */
     public getObjectDefinitionObjectFieldsPage({
@@ -80,7 +81,7 @@ export class ObjectFieldService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ObjectField>> {
+    }): CancelablePromise<PageObjectField> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-fields',

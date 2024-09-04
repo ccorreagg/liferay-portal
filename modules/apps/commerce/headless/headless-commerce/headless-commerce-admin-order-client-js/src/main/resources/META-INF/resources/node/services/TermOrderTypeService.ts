@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageTermOrderType } from '../models/PageTermOrderType';
 import type { TermOrderType } from '../models/TermOrderType';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -30,7 +31,7 @@ export class TermOrderTypeService {
     }
     /**
      * Gets a list of Term Order Types.
-     * @returns TermOrderType Successful operation
+     * @returns PageTermOrderType Successful operation
      * @throws ApiError
      */
     public getTermByExternalReferenceCodeTermOrderTypesPage({
@@ -41,7 +42,7 @@ export class TermOrderTypeService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<TermOrderType>> {
+    }): CancelablePromise<PageTermOrderType> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/terms/by-externalReferenceCode/{externalReferenceCode}/term-order-types',
@@ -90,7 +91,7 @@ export class TermOrderTypeService {
     }
     /**
      * Gets a list of Term Order Types.
-     * @returns TermOrderType Successful operation
+     * @returns PageTermOrderType Successful operation
      * @throws ApiError
      */
     public getTermIdTermOrderTypesPage({
@@ -103,7 +104,7 @@ export class TermOrderTypeService {
         page?: number,
         pageSize?: number,
         search?: string,
-    }): CancelablePromise<Array<TermOrderType>> {
+    }): CancelablePromise<PageTermOrderType> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/terms/{id}/term-order-types',

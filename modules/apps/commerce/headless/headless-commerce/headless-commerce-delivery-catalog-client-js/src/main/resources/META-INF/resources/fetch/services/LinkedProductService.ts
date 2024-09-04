@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { LinkedProduct } from '../models/LinkedProduct';
+import type { PageLinkedProduct } from '../models/PageLinkedProduct';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class LinkedProductService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of grouped product.
-     * @returns LinkedProduct Successful operation
+     * @returns PageLinkedProduct Successful operation
      * @throws ApiError
      */
     public getChannelProductLinkedProductsPage({
@@ -24,7 +24,7 @@ export class LinkedProductService {
         accountId?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<LinkedProduct>> {
+    }): CancelablePromise<PageLinkedProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/linked-products',

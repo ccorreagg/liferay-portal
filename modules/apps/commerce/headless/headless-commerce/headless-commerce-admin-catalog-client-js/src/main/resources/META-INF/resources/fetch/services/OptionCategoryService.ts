@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OptionCategory } from '../models/OptionCategory';
+import type { PageOptionCategory } from '../models/PageOptionCategory';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class OptionCategoryService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of option categories.
-     * @returns OptionCategory Successful operation
+     * @returns PageOptionCategory Successful operation
      * @throws ApiError
      */
     public getOptionCategoriesPage({
@@ -22,7 +23,7 @@ export class OptionCategoryService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<OptionCategory>> {
+    }): CancelablePromise<PageOptionCategory> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/optionCategories',

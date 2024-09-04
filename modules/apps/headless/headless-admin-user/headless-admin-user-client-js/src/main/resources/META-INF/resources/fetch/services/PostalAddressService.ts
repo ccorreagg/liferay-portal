@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePostalAddress } from '../models/PagePostalAddress';
 import type { PostalAddress } from '../models/PostalAddress';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,14 +10,14 @@ export class PostalAddressService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the account's postal addresses.
-     * @returns PostalAddress
+     * @returns PagePostalAddress
      * @throws ApiError
      */
     public getAccountByExternalReferenceCodePostalAddressesPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<PostalAddress>> {
+    }): CancelablePromise<PagePostalAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/postal-addresses',
@@ -27,14 +28,14 @@ export class PostalAddressService {
     }
     /**
      * Retrieves the account's postal addresses.
-     * @returns PostalAddress
+     * @returns PagePostalAddress
      * @throws ApiError
      */
     public getAccountPostalAddressesPage({
         accountId,
     }: {
         accountId: number,
-    }): CancelablePromise<Array<PostalAddress>> {
+    }): CancelablePromise<PagePostalAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/{accountId}/postal-addresses',
@@ -66,14 +67,14 @@ export class PostalAddressService {
     }
     /**
      * Retrieves the organization's postal addresses.
-     * @returns PostalAddress
+     * @returns PagePostalAddress
      * @throws ApiError
      */
     public getOrganizationByExternalReferenceCodePostalAddressesPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<PostalAddress>> {
+    }): CancelablePromise<PagePostalAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/postal-addresses',
@@ -84,14 +85,14 @@ export class PostalAddressService {
     }
     /**
      * Retrieves the organization's postal addresses.
-     * @returns PostalAddress
+     * @returns PagePostalAddress
      * @throws ApiError
      */
     public getOrganizationPostalAddressesPage({
         organizationId,
     }: {
         organizationId: string,
-    }): CancelablePromise<Array<PostalAddress>> {
+    }): CancelablePromise<PagePostalAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/{organizationId}/postal-addresses',
@@ -260,14 +261,14 @@ export class PostalAddressService {
     }
     /**
      * Retrieves the user's postal addresses.
-     * @returns PostalAddress
+     * @returns PagePostalAddress
      * @throws ApiError
      */
     public getUserAccountByExternalReferenceCodePostalAddressesPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<PostalAddress>> {
+    }): CancelablePromise<PagePostalAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}/postal-addresses',
@@ -278,14 +279,14 @@ export class PostalAddressService {
     }
     /**
      * Retrieves the user's postal addresses.
-     * @returns PostalAddress
+     * @returns PagePostalAddress
      * @throws ApiError
      */
     public getUserAccountPostalAddressesPage({
         userAccountId,
     }: {
         userAccountId: number,
-    }): CancelablePromise<Array<PostalAddress>> {
+    }): CancelablePromise<PagePostalAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/postal-addresses',

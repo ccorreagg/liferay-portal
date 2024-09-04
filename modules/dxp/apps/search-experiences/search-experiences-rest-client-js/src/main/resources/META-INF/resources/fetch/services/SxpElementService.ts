@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageSXPElement } from '../models/PageSXPElement';
 import type { SXPElement } from '../models/SXPElement';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SxpElementService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns SXPElement
+     * @returns PageSXPElement
      * @throws ApiError
      */
     public getSxpElementsPage({
@@ -23,7 +24,7 @@ export class SxpElementService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<SXPElement>> {
+    }): CancelablePromise<PageSXPElement> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/search-experiences-rest/v1.0/sxp-elements',

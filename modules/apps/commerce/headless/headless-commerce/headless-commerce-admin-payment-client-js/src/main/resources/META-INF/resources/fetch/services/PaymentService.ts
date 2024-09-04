@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePayment } from '../models/PagePayment';
 import type { Payment } from '../models/Payment';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class PaymentService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a List of Payments.
-     * @returns Payment Successful operation
+     * @returns PagePayment Successful operation
      * @throws ApiError
      */
     public getPaymentsPage({
@@ -24,7 +25,7 @@ export class PaymentService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Payment>> {
+    }): CancelablePromise<PagePayment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-payment/v1.0/payments',

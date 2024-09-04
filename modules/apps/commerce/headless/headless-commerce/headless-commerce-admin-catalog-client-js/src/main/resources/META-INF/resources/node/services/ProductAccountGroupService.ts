@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageProductAccountGroup } from '../models/PageProductAccountGroup';
 import type { ProductAccountGroup } from '../models/ProductAccountGroup';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -54,7 +55,7 @@ export class ProductAccountGroupService {
     }
     /**
      * Gets a list of channel related to a product.
-     * @returns ProductAccountGroup Successful operation
+     * @returns PageProductAccountGroup Successful operation
      * @throws ApiError
      */
     public getProductByExternalReferenceCodeProductAccountGroupsPage({
@@ -65,7 +66,7 @@ export class ProductAccountGroupService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ProductAccountGroup>> {
+    }): CancelablePromise<PageProductAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/product-account-groups',
@@ -85,7 +86,7 @@ export class ProductAccountGroupService {
     }
     /**
      * Gets a list of channel related to a product.
-     * @returns ProductAccountGroup Successful operation
+     * @returns PageProductAccountGroup Successful operation
      * @throws ApiError
      */
     public getProductIdProductAccountGroupsPage({
@@ -96,7 +97,7 @@ export class ProductAccountGroupService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ProductAccountGroup>> {
+    }): CancelablePromise<PageProductAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/product-account-groups',

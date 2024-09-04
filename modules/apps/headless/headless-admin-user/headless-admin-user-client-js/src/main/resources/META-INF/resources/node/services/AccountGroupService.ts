@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AccountGroup } from '../models/AccountGroup';
+import type { PageAccountGroup } from '../models/PageAccountGroup';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountGroupService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the account groups. Results can be paginated, filtered, searched, and sorted.
-     * @returns AccountGroup
+     * @returns PageAccountGroup
      * @throws ApiError
      */
     public getAccountGroupsPage({
@@ -24,7 +25,7 @@ export class AccountGroupService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<AccountGroup>> {
+    }): CancelablePromise<PageAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/account-groups',
@@ -255,7 +256,7 @@ export class AccountGroupService {
         });
     }
     /**
-     * @returns AccountGroup
+     * @returns PageAccountGroup
      * @throws ApiError
      */
     public getHeadlessAdminUserV10AccountsByExternalReferenceCodeAccountGroups({
@@ -266,7 +267,7 @@ export class AccountGroupService {
         accountExternalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountGroup>> {
+    }): CancelablePromise<PageAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-groups',
@@ -280,7 +281,7 @@ export class AccountGroupService {
         });
     }
     /**
-     * @returns AccountGroup
+     * @returns PageAccountGroup
      * @throws ApiError
      */
     public getHeadlessAdminUserV10AccountsAccountGroups({
@@ -291,7 +292,7 @@ export class AccountGroupService {
         accountId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountGroup>> {
+    }): CancelablePromise<PageAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/{accountId}/account-groups',

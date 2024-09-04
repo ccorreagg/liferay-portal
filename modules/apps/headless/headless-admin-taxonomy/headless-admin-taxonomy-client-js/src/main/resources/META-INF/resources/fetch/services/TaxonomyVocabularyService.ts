@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageTaxonomyVocabulary } from '../models/PageTaxonomyVocabulary';
 import type { TaxonomyVocabulary } from '../models/TaxonomyVocabulary';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class TaxonomyVocabularyService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns TaxonomyVocabulary
+     * @returns PageTaxonomyVocabulary
      * @throws ApiError
      */
     public getAssetLibraryTaxonomyVocabulariesPage({
@@ -31,7 +32,7 @@ export class TaxonomyVocabularyService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<TaxonomyVocabulary>> {
+    }): CancelablePromise<PageTaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies',
@@ -196,7 +197,7 @@ export class TaxonomyVocabularyService {
     }
     /**
      * Retrieves a Site's taxonomy vocabularies. Results can be paginated, filtered, searched, and sorted.
-     * @returns TaxonomyVocabulary
+     * @returns PageTaxonomyVocabulary
      * @throws ApiError
      */
     public getSiteTaxonomyVocabulariesPage({
@@ -219,7 +220,7 @@ export class TaxonomyVocabularyService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<TaxonomyVocabulary>> {
+    }): CancelablePromise<PageTaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies',

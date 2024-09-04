@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DataRecordCollection } from '../models/DataRecordCollection';
+import type { PageDataRecordCollection } from '../models/PageDataRecordCollection';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DataRecordCollectionService {
@@ -25,7 +26,7 @@ export class DataRecordCollectionService {
         });
     }
     /**
-     * @returns DataRecordCollection
+     * @returns PageDataRecordCollection
      * @throws ApiError
      */
     public getDataDefinitionDataRecordCollectionsPage({
@@ -38,7 +39,7 @@ export class DataRecordCollectionService {
         keywords?: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<DataRecordCollection>> {
+    }): CancelablePromise<PageDataRecordCollection> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-record-collections',

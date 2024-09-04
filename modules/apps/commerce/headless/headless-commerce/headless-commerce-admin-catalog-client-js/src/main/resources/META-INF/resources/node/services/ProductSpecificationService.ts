@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageProductSpecification } from '../models/PageProductSpecification';
 import type { ProductSpecification } from '../models/ProductSpecification';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -83,7 +84,7 @@ export class ProductSpecificationService {
     }
     /**
      * Gets a list of values related to a specification.
-     * @returns ProductSpecification Successful operation
+     * @returns PageProductSpecification Successful operation
      * @throws ApiError
      */
     public getProductIdProductSpecificationsPage({
@@ -94,7 +95,7 @@ export class ProductSpecificationService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ProductSpecification>> {
+    }): CancelablePromise<PageProductSpecification> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/productSpecifications',

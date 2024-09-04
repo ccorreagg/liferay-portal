@@ -11,6 +11,9 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { Error } from './models/Error';
+export type { Facet } from './models/Facet';
+export type { FacetValue } from './models/FacetValue';
+export type { PagePayment } from './models/PagePayment';
 export type { Payment } from './models/Payment';
 export type { Status } from './models/Status';
 

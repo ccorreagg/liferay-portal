@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageReplenishmentItem } from '../models/PageReplenishmentItem';
 import type { ReplenishmentItem } from '../models/ReplenishmentItem';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -155,7 +156,7 @@ export class ReplenishmentItemService {
     }
     /**
      * Gets a list of Replenishment Items related to a SKU.
-     * @returns ReplenishmentItem Successful operation
+     * @returns PageReplenishmentItem Successful operation
      * @throws ApiError
      */
     public getReplenishmentItemsPage({
@@ -166,7 +167,7 @@ export class ReplenishmentItemService {
         sku: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ReplenishmentItem>> {
+    }): CancelablePromise<PageReplenishmentItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-inventory/v1.0/skus/by-sku/{sku}/replenishment-items',
@@ -187,7 +188,7 @@ export class ReplenishmentItemService {
     }
     /**
      * Gets a list of Replenishment Items related to a Warehouse.
-     * @returns ReplenishmentItem Successful operation
+     * @returns PageReplenishmentItem Successful operation
      * @throws ApiError
      */
     public getWarehouseIdReplenishmentItemsPage({
@@ -198,7 +199,7 @@ export class ReplenishmentItemService {
         warehouseId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ReplenishmentItem>> {
+    }): CancelablePromise<PageReplenishmentItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-inventory/v1.0/warehouses/{warehouseId}/replenishment-items',

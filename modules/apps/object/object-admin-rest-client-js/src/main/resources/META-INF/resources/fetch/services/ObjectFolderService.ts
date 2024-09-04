@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ObjectFolder } from '../models/ObjectFolder';
+import type { PageObjectFolder } from '../models/PageObjectFolder';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ObjectFolderService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ObjectFolder
+     * @returns PageObjectFolder
      * @throws ApiError
      */
     public getObjectFoldersPage({
@@ -21,7 +22,7 @@ export class ObjectFolderService {
         pageSize?: number,
         search?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<ObjectFolder>> {
+    }): CancelablePromise<PageObjectFolder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-folders',

@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { MeasurementUnit } from '../models/MeasurementUnit';
+import type { PageMeasurementUnit } from '../models/PageMeasurementUnit';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class MeasurementUnitService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a List of Measurement Unit.
-     * @returns MeasurementUnit Successful operation
+     * @returns PageMeasurementUnit Successful operation
      * @throws ApiError
      */
     public getMeasurementUnitsPage({
@@ -22,7 +23,7 @@ export class MeasurementUnitService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<MeasurementUnit>> {
+    }): CancelablePromise<PageMeasurementUnit> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-site-setting/v1.0/measurement-units',
@@ -212,7 +213,7 @@ export class MeasurementUnitService {
     }
     /**
      * Gets a List of Measurement Unit by type.
-     * @returns MeasurementUnit Successful operation
+     * @returns PageMeasurementUnit Successful operation
      * @throws ApiError
      */
     public getMeasurementUnitsByType({
@@ -225,7 +226,7 @@ export class MeasurementUnitService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<MeasurementUnit>> {
+    }): CancelablePromise<PageMeasurementUnit> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-site-setting/v1.0/measurement-units/by-type/{measurementUnitType}',

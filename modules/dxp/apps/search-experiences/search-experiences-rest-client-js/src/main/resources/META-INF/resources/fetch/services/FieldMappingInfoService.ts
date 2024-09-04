@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { FieldMappingInfo } from '../models/FieldMappingInfo';
+import type { PageFieldMappingInfo } from '../models/PageFieldMappingInfo';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class FieldMappingInfoService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns FieldMappingInfo
+     * @returns PageFieldMappingInfo
      * @throws ApiError
      */
     public getFieldMappingInfosPage({
@@ -19,7 +19,7 @@ export class FieldMappingInfoService {
         external?: boolean,
         indexName?: string,
         query?: string,
-    }): CancelablePromise<Array<FieldMappingInfo>> {
+    }): CancelablePromise<PageFieldMappingInfo> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/search-experiences-rest/v1.0/field-mapping-infos',

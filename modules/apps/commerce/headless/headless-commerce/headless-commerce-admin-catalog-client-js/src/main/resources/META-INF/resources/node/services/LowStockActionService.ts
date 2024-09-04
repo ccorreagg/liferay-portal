@@ -2,17 +2,17 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { LowStockAction } from '../models/LowStockAction';
+import type { PageLowStockAction } from '../models/PageLowStockAction';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class LowStockActionService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrive low stock actions for products.
-     * @returns LowStockAction
+     * @returns PageLowStockAction
      * @throws ApiError
      */
-    public getLowStockActionsPage(): CancelablePromise<Array<LowStockAction>> {
+    public getLowStockActionsPage(): CancelablePromise<PageLowStockAction> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/low-stock-actions',

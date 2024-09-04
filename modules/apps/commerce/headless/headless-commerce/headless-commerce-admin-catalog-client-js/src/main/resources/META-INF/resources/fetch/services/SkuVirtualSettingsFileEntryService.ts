@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageSkuVirtualSettingsFileEntry } from '../models/PageSkuVirtualSettingsFileEntry';
 import type { SkuVirtualSettingsFileEntry } from '../models/SkuVirtualSettingsFileEntry';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -85,7 +86,7 @@ export class SkuVirtualSettingsFileEntryService {
     }
     /**
      * Gets a list of sku virtual settings file entries.
-     * @returns SkuVirtualSettingsFileEntry Successful operation
+     * @returns PageSkuVirtualSettingsFileEntry Successful operation
      * @throws ApiError
      */
     public getSkuVirtualSettingIdSkuVirtualSettingsFileEntriesPage({
@@ -96,7 +97,7 @@ export class SkuVirtualSettingsFileEntryService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<SkuVirtualSettingsFileEntry>> {
+    }): CancelablePromise<PageSkuVirtualSettingsFileEntry> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/sku-virtual-settings/{id}/sku-virtual-settings-file-entries',

@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ChangeTransition } from '../models/ChangeTransition';
+import type { PageWorkflowInstance } from '../models/PageWorkflowInstance';
 import type { WorkflowInstance } from '../models/WorkflowInstance';
 import type { WorkflowInstanceSubmit } from '../models/WorkflowInstanceSubmit';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -10,7 +11,7 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class WorkflowInstanceService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns WorkflowInstance
+     * @returns PageWorkflowInstance
      * @throws ApiError
      */
     public getWorkflowInstancesPage({
@@ -25,7 +26,7 @@ export class WorkflowInstanceService {
         completed?: boolean,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WorkflowInstance>> {
+    }): CancelablePromise<PageWorkflowInstance> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-instances',

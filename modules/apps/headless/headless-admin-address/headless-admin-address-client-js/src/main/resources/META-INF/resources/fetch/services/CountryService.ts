@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Country } from '../models/Country';
+import type { PageCountry } from '../models/PageCountry';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CountryService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Country
+     * @returns PageCountry
      * @throws ApiError
      */
     public getCountriesPage({
@@ -23,7 +24,7 @@ export class CountryService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Country>> {
+    }): CancelablePromise<PageCountry> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-address/v1.0/countries',

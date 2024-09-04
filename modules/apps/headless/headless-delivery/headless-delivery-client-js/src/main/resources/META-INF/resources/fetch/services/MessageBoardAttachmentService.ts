@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { MessageBoardAttachment } from '../models/MessageBoardAttachment';
+import type { PageMessageBoardAttachment } from '../models/PageMessageBoardAttachment';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class MessageBoardAttachmentService {
@@ -56,7 +57,7 @@ export class MessageBoardAttachmentService {
     }
     /**
      * Retrieves the message board message's attachments.
-     * @returns MessageBoardAttachment
+     * @returns PageMessageBoardAttachment
      * @throws ApiError
      */
     public getMessageBoardMessageMessageBoardAttachmentsPage({
@@ -69,7 +70,7 @@ export class MessageBoardAttachmentService {
         fields?: string,
         nestedFields?: string,
         restrictFields?: string,
-    }): CancelablePromise<Array<MessageBoardAttachment>> {
+    }): CancelablePromise<PageMessageBoardAttachment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/message-board-attachments',
@@ -110,7 +111,7 @@ export class MessageBoardAttachmentService {
     }
     /**
      * Retrieves the message board thread's attachments.
-     * @returns MessageBoardAttachment
+     * @returns PageMessageBoardAttachment
      * @throws ApiError
      */
     public getMessageBoardThreadMessageBoardAttachmentsPage({
@@ -123,7 +124,7 @@ export class MessageBoardAttachmentService {
         fields?: string,
         nestedFields?: string,
         restrictFields?: string,
-    }): CancelablePromise<Array<MessageBoardAttachment>> {
+    }): CancelablePromise<PageMessageBoardAttachment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/message-board-threads/{messageBoardThreadId}/message-board-attachments',

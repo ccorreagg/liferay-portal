@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { MessageBoardThread } from '../models/MessageBoardThread';
+import type { PageMessageBoardThread } from '../models/PageMessageBoardThread';
 import type { Rating } from '../models/Rating';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -10,7 +11,7 @@ export class MessageBoardThreadService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the message board section's threads. Results can be paginated, filtered, searched, and sorted.
-     * @returns MessageBoardThread
+     * @returns PageMessageBoardThread
      * @throws ApiError
      */
     public getMessageBoardSectionMessageBoardThreadsPage({
@@ -35,7 +36,7 @@ export class MessageBoardThreadService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<MessageBoardThread>> {
+    }): CancelablePromise<PageMessageBoardThread> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/message-board-sections/{messageBoardSectionId}/message-board-threads',
@@ -78,7 +79,7 @@ export class MessageBoardThreadService {
         });
     }
     /**
-     * @returns MessageBoardThread
+     * @returns PageMessageBoardThread
      * @throws ApiError
      */
     public getMessageBoardThreadsRankedPage({
@@ -101,7 +102,7 @@ export class MessageBoardThreadService {
         pageSize?: number,
         restrictFields?: string,
         sort?: string,
-    }): CancelablePromise<Array<MessageBoardThread>> {
+    }): CancelablePromise<PageMessageBoardThread> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/message-board-threads/ranked',
@@ -384,7 +385,7 @@ export class MessageBoardThreadService {
     }
     /**
      * Retrieves the site's message board threads. Results can be paginated, filtered, searched, flattened, and sorted.
-     * @returns MessageBoardThread
+     * @returns PageMessageBoardThread
      * @throws ApiError
      */
     public getSiteMessageBoardThreadsPage({
@@ -411,7 +412,7 @@ export class MessageBoardThreadService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<MessageBoardThread>> {
+    }): CancelablePromise<PageMessageBoardThread> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/message-board-threads',

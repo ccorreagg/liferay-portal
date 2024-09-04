@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { NotificationQueueEntry } from '../models/NotificationQueueEntry';
+import type { PageNotificationQueueEntry } from '../models/PageNotificationQueueEntry';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class NotificationQueueEntryService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns NotificationQueueEntry
+     * @returns PageNotificationQueueEntry
      * @throws ApiError
      */
     public getNotificationQueueEntriesPage({
@@ -25,7 +26,7 @@ export class NotificationQueueEntryService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<NotificationQueueEntry>> {
+    }): CancelablePromise<PageNotificationQueueEntry> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/notification/v1.0/notification-queue-entries',

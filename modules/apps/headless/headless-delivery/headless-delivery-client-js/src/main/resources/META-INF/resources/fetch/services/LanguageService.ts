@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Language } from '../models/Language';
+import type { PageLanguage } from '../models/PageLanguage';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class LanguageService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the asset libraries languages.
-     * @returns Language
+     * @returns PageLanguage
      * @throws ApiError
      */
     public getAssetLibraryLanguagesPage({
@@ -20,7 +20,7 @@ export class LanguageService {
         assetLibraryId: number,
         fields?: string,
         restrictFields?: string,
-    }): CancelablePromise<Array<Language>> {
+    }): CancelablePromise<PageLanguage> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/languages',
@@ -35,7 +35,7 @@ export class LanguageService {
     }
     /**
      * Retrieves the site's languages.
-     * @returns Language
+     * @returns PageLanguage
      * @throws ApiError
      */
     public getSiteLanguagesPage({
@@ -46,7 +46,7 @@ export class LanguageService {
         siteId: number,
         fields?: string,
         restrictFields?: string,
-    }): CancelablePromise<Array<Language>> {
+    }): CancelablePromise<PageLanguage> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/languages',

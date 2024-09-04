@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Document } from '../models/Document';
+import type { PageDocument } from '../models/PageDocument';
 import type { Rating } from '../models/Rating';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DocumentService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Document
+     * @returns PageDocument
      * @throws ApiError
      */
     public getAssetLibraryDocumentsPage({
@@ -36,7 +37,7 @@ export class DocumentService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Document>> {
+    }): CancelablePromise<PageDocument> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/documents',
@@ -215,7 +216,7 @@ export class DocumentService {
     }
     /**
      * Retrieves the documents rated by the user.
-     * @returns Document
+     * @returns PageDocument
      * @throws ApiError
      */
     public getAssetLibraryDocumentsRatedByMePage({
@@ -226,7 +227,7 @@ export class DocumentService {
         assetLibraryId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Document>> {
+    }): CancelablePromise<PageDocument> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/documents/rated-by-me',
@@ -241,7 +242,7 @@ export class DocumentService {
     }
     /**
      * Retrieves the folder's documents. Results can be paginated, filtered, searched, and sorted.
-     * @returns Document
+     * @returns PageDocument
      * @throws ApiError
      */
     public getDocumentFolderDocumentsPage({
@@ -268,7 +269,7 @@ export class DocumentService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Document>> {
+    }): CancelablePromise<PageDocument> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/document-folders/{documentFolderId}/documents',
@@ -584,7 +585,7 @@ export class DocumentService {
     }
     /**
      * Retrieves the documents in the site's root folder. Results can be paginated, filtered, searched, flattened, and sorted.
-     * @returns Document
+     * @returns PageDocument
      * @throws ApiError
      */
     public getSiteDocumentsPage({
@@ -611,7 +612,7 @@ export class DocumentService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Document>> {
+    }): CancelablePromise<PageDocument> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/documents',
@@ -791,7 +792,7 @@ export class DocumentService {
     }
     /**
      * Retrieves the documents rated by the user.
-     * @returns Document
+     * @returns PageDocument
      * @throws ApiError
      */
     public getSiteDocumentsRatedByMePage({
@@ -802,7 +803,7 @@ export class DocumentService {
         siteId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Document>> {
+    }): CancelablePromise<PageDocument> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/documents/rated-by-me',

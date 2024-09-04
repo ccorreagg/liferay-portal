@@ -2,16 +2,16 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { SearchIndex } from '../models/SearchIndex';
+import type { PageSearchIndex } from '../models/PageSearchIndex';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SearchIndexService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns SearchIndex
+     * @returns PageSearchIndex
      * @throws ApiError
      */
-    public getSearchIndexesPage(): CancelablePromise<Array<SearchIndex>> {
+    public getSearchIndexesPage(): CancelablePromise<PageSearchIndex> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/search-experiences-rest/v1.0/search-indexes',

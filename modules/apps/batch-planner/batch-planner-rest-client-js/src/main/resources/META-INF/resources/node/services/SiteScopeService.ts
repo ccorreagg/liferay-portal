@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { SiteScope } from '../models/SiteScope';
+import type { PageSiteScope } from '../models/PageSiteScope';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SiteScopeService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns SiteScope
+     * @returns PageSiteScope
      * @throws ApiError
      */
     public getPlanInternalClassNameKeySiteScopesPage({
@@ -17,7 +17,7 @@ export class SiteScopeService {
     }: {
         internalClassNameKey: string,
         _export?: boolean,
-    }): CancelablePromise<Array<SiteScope>> {
+    }): CancelablePromise<PageSiteScope> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/batch-planner/v1.0/plans/{internalClassNameKey}/site-scopes',

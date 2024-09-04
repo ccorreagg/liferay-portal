@@ -91,6 +91,10 @@ export type Document = {
      */
     description?: string;
     /**
+     * The external reference code of the `DocumentFolder` where this document is stored.
+     */
+    documentFolderExternalReferenceCode?: string;
+    /**
      * The ID of the `DocumentFolder` where this document is stored.
      */
     documentFolderId?: number;

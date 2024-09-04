@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AvailabilityEstimate } from '../models/AvailabilityEstimate';
+import type { PageAvailabilityEstimate } from '../models/PageAvailabilityEstimate';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AvailabilityEstimateService {
@@ -82,7 +83,7 @@ export class AvailabilityEstimateService {
     }
     /**
      * Gets a list of Availability Estimate.
-     * @returns AvailabilityEstimate Successful operation
+     * @returns PageAvailabilityEstimate Successful operation
      * @throws ApiError
      */
     public getCommerceAdminSiteSettingGroupAvailabilityEstimatePage({
@@ -93,7 +94,7 @@ export class AvailabilityEstimateService {
         groupId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AvailabilityEstimate>> {
+    }): CancelablePromise<PageAvailabilityEstimate> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-site-setting/v1.0/commerceAdminSiteSetting/{groupId}/availabilityEstimate',

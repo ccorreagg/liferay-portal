@@ -5,6 +5,7 @@
 import type { Attachment } from '../models/Attachment';
 import type { AttachmentBase64 } from '../models/AttachmentBase64';
 import type { AttachmentUrl } from '../models/AttachmentUrl';
+import type { PageAttachment } from '../models/PageAttachment';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AttachmentService {
@@ -53,7 +54,7 @@ export class AttachmentService {
     }
     /**
      * Gets a list of attachments related to a product.
-     * @returns Attachment Successful operation
+     * @returns PageAttachment Successful operation
      * @throws ApiError
      */
     public getProductByExternalReferenceCodeAttachmentsPage({
@@ -64,7 +65,7 @@ export class AttachmentService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Attachment>> {
+    }): CancelablePromise<PageAttachment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/attachments',
@@ -171,7 +172,7 @@ export class AttachmentService {
     }
     /**
      * Gets a list of images related to a product.
-     * @returns Attachment Successful operation
+     * @returns PageAttachment Successful operation
      * @throws ApiError
      */
     public getProductByExternalReferenceCodeImagesPage({
@@ -182,7 +183,7 @@ export class AttachmentService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Attachment>> {
+    }): CancelablePromise<PageAttachment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/images',
@@ -289,7 +290,7 @@ export class AttachmentService {
     }
     /**
      * Gets a list of attachments related to a product.
-     * @returns Attachment Successful operation
+     * @returns PageAttachment Successful operation
      * @throws ApiError
      */
     public getProductIdAttachmentsPage({
@@ -300,7 +301,7 @@ export class AttachmentService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Attachment>> {
+    }): CancelablePromise<PageAttachment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/attachments',
@@ -407,7 +408,7 @@ export class AttachmentService {
     }
     /**
      * Gets a list of images related to a product.
-     * @returns Attachment Successful operation
+     * @returns PageAttachment Successful operation
      * @throws ApiError
      */
     public getProductIdImagesPage({
@@ -418,7 +419,7 @@ export class AttachmentService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Attachment>> {
+    }): CancelablePromise<PageAttachment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/images',

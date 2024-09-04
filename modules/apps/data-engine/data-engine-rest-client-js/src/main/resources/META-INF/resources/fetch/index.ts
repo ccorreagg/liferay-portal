@@ -22,6 +22,16 @@ export type { DataListView } from './models/DataListView';
 export type { DataRecord } from './models/DataRecord';
 export type { DataRecordCollection } from './models/DataRecordCollection';
 export type { DataRule } from './models/DataRule';
+export type { Facet } from './models/Facet';
+export type { FacetValue } from './models/FacetValue';
+export type { PageDataDefinition } from './models/PageDataDefinition';
+export type { PageDataDefinitionFieldLink } from './models/PageDataDefinitionFieldLink';
+export type { PageDataLayout } from './models/PageDataLayout';
+export type { PageDataListView } from './models/PageDataListView';
+export type { PageDataRecord } from './models/PageDataRecord';
+export type { PageDataRecordCollection } from './models/PageDataRecordCollection';
+export type { PagePermission } from './models/PagePermission';
+export type { Permission } from './models/Permission';
 
 export { DataDefinitionService } from './services/DataDefinitionService';
 export { DataDefinitionFieldLinkService } from './services/DataDefinitionFieldLinkService';

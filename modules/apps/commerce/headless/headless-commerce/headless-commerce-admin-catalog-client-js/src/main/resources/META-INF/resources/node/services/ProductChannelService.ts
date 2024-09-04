@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageProductChannel } from '../models/PageProductChannel';
 import type { ProductChannel } from '../models/ProductChannel';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -54,7 +55,7 @@ export class ProductChannelService {
     }
     /**
      * Gets a list of channel related to a product.
-     * @returns ProductChannel Successful operation
+     * @returns PageProductChannel Successful operation
      * @throws ApiError
      */
     public getProductByExternalReferenceCodeProductChannelsPage({
@@ -65,7 +66,7 @@ export class ProductChannelService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ProductChannel>> {
+    }): CancelablePromise<PageProductChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/product-channels',
@@ -85,7 +86,7 @@ export class ProductChannelService {
     }
     /**
      * Gets a list of channel related to a product.
-     * @returns ProductChannel Successful operation
+     * @returns PageProductChannel Successful operation
      * @throws ApiError
      */
     public getProductIdProductChannelsPage({
@@ -96,7 +97,7 @@ export class ProductChannelService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ProductChannel>> {
+    }): CancelablePromise<PageProductChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/product-channels',

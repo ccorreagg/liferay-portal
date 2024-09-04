@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CTRemote } from '../models/CTRemote';
+import type { PageCTRemote } from '../models/PageCTRemote';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CtRemoteService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns CTRemote
+     * @returns PageCTRemote
      * @throws ApiError
      */
     public getCtRemotesPage({
@@ -21,7 +22,7 @@ export class CtRemoteService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<CTRemote>> {
+    }): CancelablePromise<PageCTRemote> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/change-tracking-rest/v1.0/ct-remotes',

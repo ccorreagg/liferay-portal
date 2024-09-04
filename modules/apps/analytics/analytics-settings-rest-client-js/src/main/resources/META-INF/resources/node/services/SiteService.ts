@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Site } from '../models/Site';
+import type { PageSite } from '../models/PageSite';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SiteService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Site
+     * @returns PageSite
      * @throws ApiError
      */
     public getSitesPage({
@@ -21,7 +21,7 @@ export class SiteService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<Site>> {
+    }): CancelablePromise<PageSite> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/analytics-settings-rest/v1.0/sites',

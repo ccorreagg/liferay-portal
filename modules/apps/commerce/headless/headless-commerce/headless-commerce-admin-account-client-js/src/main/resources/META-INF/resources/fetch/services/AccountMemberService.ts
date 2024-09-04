@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AccountMember } from '../models/AccountMember';
+import type { PageAccountMember } from '../models/PageAccountMember';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountMemberService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Members related to an Account.
-     * @returns AccountMember Successful operation
+     * @returns PageAccountMember Successful operation
      * @throws ApiError
      */
     public getAccountByExternalReferenceCodeAccountMembersPage({
@@ -20,7 +21,7 @@ export class AccountMemberService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountMember>> {
+    }): CancelablePromise<PageAccountMember> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountMembers',
@@ -152,7 +153,7 @@ export class AccountMemberService {
     }
     /**
      * Gets a list of Members related to an Account.
-     * @returns AccountMember Successful operation
+     * @returns PageAccountMember Successful operation
      * @throws ApiError
      */
     public getAccountIdAccountMembersPage({
@@ -163,7 +164,7 @@ export class AccountMemberService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountMember>> {
+    }): CancelablePromise<PageAccountMember> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountMembers',

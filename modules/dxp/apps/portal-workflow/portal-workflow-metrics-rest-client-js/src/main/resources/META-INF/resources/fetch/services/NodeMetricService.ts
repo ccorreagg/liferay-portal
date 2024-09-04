@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { NodeMetric } from '../models/NodeMetric';
+import type { PageNodeMetric } from '../models/PageNodeMetric';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class NodeMetricService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns NodeMetric
+     * @returns PageNodeMetric
      * @throws ApiError
      */
     public getProcessNodeMetricsPage({
@@ -31,7 +31,7 @@ export class NodeMetricService {
         pageSize?: number,
         processVersion?: string,
         sort?: string,
-    }): CancelablePromise<Array<NodeMetric>> {
+    }): CancelablePromise<PageNodeMetric> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/portal-workflow-metrics/v1.0/processes/{processId}/nodes/metrics',

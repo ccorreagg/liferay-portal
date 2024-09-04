@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ContactAccountGroup } from '../models/ContactAccountGroup';
+import type { PageContactAccountGroup } from '../models/PageContactAccountGroup';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ContactAccountGroupService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ContactAccountGroup
+     * @returns PageContactAccountGroup
      * @throws ApiError
      */
     public getContactAccountGroupsPage({
@@ -21,7 +21,7 @@ export class ContactAccountGroupService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<ContactAccountGroup>> {
+    }): CancelablePromise<PageContactAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/analytics-settings-rest/v1.0/contacts/account-groups',

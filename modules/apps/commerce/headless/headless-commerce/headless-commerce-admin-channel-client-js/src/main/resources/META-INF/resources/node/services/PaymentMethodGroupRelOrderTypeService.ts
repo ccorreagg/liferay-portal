@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePaymentMethodGroupRelOrderType } from '../models/PagePaymentMethodGroupRelOrderType';
 import type { PaymentMethodGroupRelOrderType } from '../models/PaymentMethodGroupRelOrderType';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -30,7 +31,7 @@ export class PaymentMethodGroupRelOrderTypeService {
     }
     /**
      * Gets a list of Payment Method Group Rel Order Types.
-     * @returns PaymentMethodGroupRelOrderType Successful operation
+     * @returns PagePaymentMethodGroupRelOrderType Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceAdminChannelV10PaymentMethodGroupRelsPaymentMethodGroupRelOrderTypes({
@@ -47,7 +48,7 @@ export class PaymentMethodGroupRelOrderTypeService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<PaymentMethodGroupRelOrderType>> {
+    }): CancelablePromise<PagePaymentMethodGroupRelOrderType> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-channel/v1.0/payment-method-group-rels/{id}/payment-method-group-rel-order-types',

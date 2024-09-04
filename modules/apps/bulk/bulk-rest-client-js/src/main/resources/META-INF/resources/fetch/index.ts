@@ -11,9 +11,13 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { DocumentBulkSelection } from './models/DocumentBulkSelection';
+export type { Facet } from './models/Facet';
+export type { FacetValue } from './models/FacetValue';
 export type { GenericError } from './models/GenericError';
 export type { Keyword } from './models/Keyword';
 export type { KeywordBulkSelection } from './models/KeywordBulkSelection';
+export type { PageKeyword } from './models/PageKeyword';
+export type { PageTaxonomyVocabulary } from './models/PageTaxonomyVocabulary';
 export type { Selection } from './models/Selection';
 export type { Status } from './models/Status';
 export type { TaxonomyCategory } from './models/TaxonomyCategory';

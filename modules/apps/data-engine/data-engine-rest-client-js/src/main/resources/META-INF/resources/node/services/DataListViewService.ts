@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DataListView } from '../models/DataListView';
+import type { PageDataListView } from '../models/PageDataListView';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DataListViewService {
@@ -25,7 +26,7 @@ export class DataListViewService {
         });
     }
     /**
-     * @returns DataListView
+     * @returns PageDataListView
      * @throws ApiError
      */
     public getDataDefinitionDataListViewsPage({
@@ -40,7 +41,7 @@ export class DataListViewService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<DataListView>> {
+    }): CancelablePromise<PageDataListView> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-list-views',

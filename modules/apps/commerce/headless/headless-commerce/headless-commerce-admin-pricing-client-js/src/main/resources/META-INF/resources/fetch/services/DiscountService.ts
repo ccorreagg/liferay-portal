@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Discount } from '../models/Discount';
+import type { PageDiscount } from '../models/PageDiscount';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DiscountService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Discount.
-     * @returns Discount Successful operation
+     * @returns PageDiscount Successful operation
      * @throws ApiError
      */
     public getDiscountsPage({
@@ -18,7 +19,7 @@ export class DiscountService {
     }: {
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Discount>> {
+    }): CancelablePromise<PageDiscount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/discounts',

@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ObjectView } from '../models/ObjectView';
+import type { PageObjectView } from '../models/PageObjectView';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ObjectViewService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ObjectView
+     * @returns PageObjectView
      * @throws ApiError
      */
     public getObjectDefinitionByExternalReferenceCodeObjectViewsPage({
@@ -25,7 +26,7 @@ export class ObjectViewService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<ObjectView>> {
+    }): CancelablePromise<PageObjectView> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-views',
@@ -65,7 +66,7 @@ export class ObjectViewService {
         });
     }
     /**
-     * @returns ObjectView
+     * @returns PageObjectView
      * @throws ApiError
      */
     public getObjectDefinitionObjectViewsPage({
@@ -82,7 +83,7 @@ export class ObjectViewService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<ObjectView>> {
+    }): CancelablePromise<PageObjectView> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-views',

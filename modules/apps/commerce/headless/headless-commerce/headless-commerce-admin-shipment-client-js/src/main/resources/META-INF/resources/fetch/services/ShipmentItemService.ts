@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageShipmentItem } from '../models/PageShipmentItem';
 import type { ShipmentItem } from '../models/ShipmentItem';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -155,7 +156,7 @@ export class ShipmentItemService {
     }
     /**
      * Gets a list of Shipment Items related to a Shipment.
-     * @returns ShipmentItem Successful operation
+     * @returns PageShipmentItem Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceAdminShipmentV10ShipmentsByExternalReferenceCodeItems({
@@ -166,7 +167,7 @@ export class ShipmentItemService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ShipmentItem>> {
+    }): CancelablePromise<PageShipmentItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}/items',
@@ -245,7 +246,7 @@ export class ShipmentItemService {
     }
     /**
      * Gets a list of Shipment Items related to a Shipment.
-     * @returns ShipmentItem Successful operation
+     * @returns PageShipmentItem Successful operation
      * @throws ApiError
      */
     public getShipmentItemsPage({
@@ -256,7 +257,7 @@ export class ShipmentItemService {
         shipmentId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ShipmentItem>> {
+    }): CancelablePromise<PageShipmentItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}/items',

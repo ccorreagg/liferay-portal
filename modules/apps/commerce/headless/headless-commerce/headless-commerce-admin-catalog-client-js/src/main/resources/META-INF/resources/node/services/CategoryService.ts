@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Category } from '../models/Category';
+import type { PageCategory } from '../models/PageCategory';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CategoryService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of category related to a product.
-     * @returns Category Successful operation
+     * @returns PageCategory Successful operation
      * @throws ApiError
      */
     public getProductByExternalReferenceCodeCategoriesPage({
@@ -20,7 +21,7 @@ export class CategoryService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Category>> {
+    }): CancelablePromise<PageCategory> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/categories',
@@ -68,7 +69,7 @@ export class CategoryService {
     }
     /**
      * Gets a list of category related to a product.
-     * @returns Category Successful operation
+     * @returns PageCategory Successful operation
      * @throws ApiError
      */
     public getProductIdCategoriesPage({
@@ -79,7 +80,7 @@ export class CategoryService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Category>> {
+    }): CancelablePromise<PageCategory> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/categories',

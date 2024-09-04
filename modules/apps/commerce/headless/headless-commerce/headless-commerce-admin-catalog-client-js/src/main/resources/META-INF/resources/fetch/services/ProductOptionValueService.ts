@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageProductOptionValue } from '../models/PageProductOptionValue';
 import type { ProductOptionValue } from '../models/ProductOptionValue';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -81,7 +82,7 @@ export class ProductOptionValueService {
     }
     /**
      * Gets a list of values related to a product option.
-     * @returns ProductOptionValue Successful operation
+     * @returns PageProductOptionValue Successful operation
      * @throws ApiError
      */
     public getProductOptionIdProductOptionValuesPage({
@@ -96,7 +97,7 @@ export class ProductOptionValueService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ProductOptionValue>> {
+    }): CancelablePromise<PageProductOptionValue> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/productOptions/{id}/productOptionValues',

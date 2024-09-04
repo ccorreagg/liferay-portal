@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CommerceChannel } from '../models/CommerceChannel';
+import type { PageCommerceChannel } from '../models/PageCommerceChannel';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CommerceChannelService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns CommerceChannel
+     * @returns PageCommerceChannel
      * @throws ApiError
      */
     public getCommerceChannelsPage({
@@ -21,7 +21,7 @@ export class CommerceChannelService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<CommerceChannel>> {
+    }): CancelablePromise<PageCommerceChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/analytics-settings-rest/v1.0/commerce-channels',

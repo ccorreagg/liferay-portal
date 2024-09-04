@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ContentElement } from '../models/ContentElement';
+import type { PageContentElement } from '../models/PageContentElement';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ContentElementService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ContentElement
+     * @returns PageContentElement
      * @throws ApiError
      */
     public getAssetLibraryContentElementsPage({
@@ -31,7 +31,7 @@ export class ContentElementService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ContentElement>> {
+    }): CancelablePromise<PageContentElement> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-elements',
@@ -51,7 +51,7 @@ export class ContentElementService {
         });
     }
     /**
-     * @returns ContentElement
+     * @returns PageContentElement
      * @throws ApiError
      */
     public getSiteContentElementsPage({
@@ -74,7 +74,7 @@ export class ContentElementService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ContentElement>> {
+    }): CancelablePromise<PageContentElement> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/content-elements',

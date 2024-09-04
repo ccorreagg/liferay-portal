@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageSite } from '../models/PageSite';
 import type { Site } from '../models/Site';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SiteService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Site
+     * @returns PageSite
      * @throws ApiError
      */
     public getMyUserAccountSitesPage({
@@ -17,7 +18,7 @@ export class SiteService {
     }: {
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Site>> {
+    }): CancelablePromise<PageSite> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/my-user-account/sites',

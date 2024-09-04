@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ContactUserGroup } from '../models/ContactUserGroup';
+import type { PageContactUserGroup } from '../models/PageContactUserGroup';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ContactUserGroupService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ContactUserGroup
+     * @returns PageContactUserGroup
      * @throws ApiError
      */
     public getContactUserGroupsPage({
@@ -21,7 +21,7 @@ export class ContactUserGroupService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<ContactUserGroup>> {
+    }): CancelablePromise<PageContactUserGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/analytics-settings-rest/v1.0/contacts/user-groups',

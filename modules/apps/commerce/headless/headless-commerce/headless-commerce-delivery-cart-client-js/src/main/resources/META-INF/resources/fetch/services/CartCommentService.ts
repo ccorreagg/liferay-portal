@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CartComment } from '../models/CartComment';
+import type { PageCartComment } from '../models/PageCartComment';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CartCommentService {
@@ -211,7 +212,7 @@ export class CartCommentService {
     }
     /**
      * Gets a list of Comments related to a Cart.
-     * @returns CartComment Successful operation
+     * @returns PageCartComment Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCodeComments({
@@ -222,7 +223,7 @@ export class CartCommentService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<CartComment>> {
+    }): CancelablePromise<PageCartComment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/comments',
@@ -271,7 +272,7 @@ export class CartCommentService {
     }
     /**
      * Gets a list of Comments related to a Cart.
-     * @returns CartComment Successful operation
+     * @returns PageCartComment Successful operation
      * @throws ApiError
      */
     public getCartCommentsPage({
@@ -282,7 +283,7 @@ export class CartCommentService {
         cartId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<CartComment>> {
+    }): CancelablePromise<PageCartComment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/comments',

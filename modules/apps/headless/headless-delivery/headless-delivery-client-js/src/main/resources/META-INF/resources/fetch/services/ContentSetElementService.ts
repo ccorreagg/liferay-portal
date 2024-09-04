@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ContentSetElement } from '../models/ContentSetElement';
+import type { PageContentSetElement } from '../models/PageContentSetElement';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ContentSetElementService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ContentSetElement
+     * @returns PageContentSetElement
      * @throws ApiError
      */
     public getAssetLibraryContentSetByKeyContentSetElementsPage({
@@ -25,7 +25,7 @@ export class ContentSetElementService {
         page?: number,
         pageSize?: number,
         restrictFields?: string,
-    }): CancelablePromise<Array<ContentSetElement>> {
+    }): CancelablePromise<PageContentSetElement> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-sets/by-key/{key}/content-set-elements',
@@ -42,7 +42,7 @@ export class ContentSetElementService {
         });
     }
     /**
-     * @returns ContentSetElement
+     * @returns PageContentSetElement
      * @throws ApiError
      */
     public getAssetLibraryContentSetByUuidContentSetElementsPage({
@@ -59,7 +59,7 @@ export class ContentSetElementService {
         page?: number,
         pageSize?: number,
         restrictFields?: string,
-    }): CancelablePromise<Array<ContentSetElement>> {
+    }): CancelablePromise<PageContentSetElement> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-sets/by-uuid/{uuid}/content-set-elements',
@@ -77,7 +77,7 @@ export class ContentSetElementService {
     }
     /**
      * Retrieves the content set's elements (e.g., structured content, blogs, etc.). Results can be paginated. The set of available headers are: Accept-Language (string), Host (string), User-Agent (string), X-Browser (string), X-Cookies (collection string), X-Device-Brand (string), X-Device-Model (string), X-Device-Screen-Resolution-Height (double), X-Device-Screen-Resolution-Width (double), X-Last-Sign-In-Date-Time (date time) and X-Signed-In (boolean). Local date will be always present in the request.
-     * @returns ContentSetElement
+     * @returns PageContentSetElement
      * @throws ApiError
      */
     public getContentSetContentSetElementsPage({
@@ -92,7 +92,7 @@ export class ContentSetElementService {
         page?: number,
         pageSize?: number,
         restrictFields?: string,
-    }): CancelablePromise<Array<ContentSetElement>> {
+    }): CancelablePromise<PageContentSetElement> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/content-sets/{contentSetId}/content-set-elements',
@@ -108,7 +108,7 @@ export class ContentSetElementService {
         });
     }
     /**
-     * @returns ContentSetElement
+     * @returns PageContentSetElement
      * @throws ApiError
      */
     public getSiteContentSetProviderByKeyContentSetElementsPage({
@@ -125,7 +125,7 @@ export class ContentSetElementService {
         page?: number,
         pageSize?: number,
         restrictFields?: string,
-    }): CancelablePromise<Array<ContentSetElement>> {
+    }): CancelablePromise<PageContentSetElement> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/content-set-providers/by-key/{key}/content-set-elements',
@@ -143,7 +143,7 @@ export class ContentSetElementService {
     }
     /**
      * Retrieves the content set elements by key. Results can be paginated.
-     * @returns ContentSetElement
+     * @returns PageContentSetElement
      * @throws ApiError
      */
     public getSiteContentSetByKeyContentSetElementsPage({
@@ -160,7 +160,7 @@ export class ContentSetElementService {
         page?: number,
         pageSize?: number,
         restrictFields?: string,
-    }): CancelablePromise<Array<ContentSetElement>> {
+    }): CancelablePromise<PageContentSetElement> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/content-sets/by-key/{key}/content-set-elements',
@@ -178,7 +178,7 @@ export class ContentSetElementService {
     }
     /**
      * Retrieves the content set elements by UUID. Results can be paginated.
-     * @returns ContentSetElement
+     * @returns PageContentSetElement
      * @throws ApiError
      */
     public getSiteContentSetByUuidContentSetElementsPage({
@@ -195,7 +195,7 @@ export class ContentSetElementService {
         page?: number,
         pageSize?: number,
         restrictFields?: string,
-    }): CancelablePromise<Array<ContentSetElement>> {
+    }): CancelablePromise<PageContentSetElement> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/content-sets/by-uuid/{uuid}/content-set-elements',

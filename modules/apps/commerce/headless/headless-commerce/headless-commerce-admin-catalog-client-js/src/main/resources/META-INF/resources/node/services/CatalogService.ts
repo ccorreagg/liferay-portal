@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Catalog } from '../models/Catalog';
+import type { PageCatalog } from '../models/PageCatalog';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CatalogService {
@@ -155,7 +156,7 @@ export class CatalogService {
     }
     /**
      * Gets a list of catalogs.
-     * @returns Catalog Successful operation
+     * @returns PageCatalog Successful operation
      * @throws ApiError
      */
     public getCatalogsPage({
@@ -170,7 +171,7 @@ export class CatalogService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Catalog>> {
+    }): CancelablePromise<PageCatalog> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/catalogs',

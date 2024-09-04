@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OrderNote } from '../models/OrderNote';
+import type { PageOrderNote } from '../models/PageOrderNote';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class OrderNoteService {
@@ -155,7 +156,7 @@ export class OrderNoteService {
     }
     /**
      * Gets a list of Order Notes related to an Order.
-     * @returns OrderNote Successful operation
+     * @returns PageOrderNote Successful operation
      * @throws ApiError
      */
     public getOrderByExternalReferenceCodeOrderNotesPage({
@@ -166,7 +167,7 @@ export class OrderNoteService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<OrderNote>> {
+    }): CancelablePromise<PageOrderNote> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/orderNotes',
@@ -216,7 +217,7 @@ export class OrderNoteService {
     }
     /**
      * Gets a list of Order Notes related to an Order.
-     * @returns OrderNote Successful operation
+     * @returns PageOrderNote Successful operation
      * @throws ApiError
      */
     public getOrderIdOrderNotesPage({
@@ -227,7 +228,7 @@ export class OrderNoteService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<OrderNote>> {
+    }): CancelablePromise<PageOrderNote> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/orders/{id}/orderNotes',

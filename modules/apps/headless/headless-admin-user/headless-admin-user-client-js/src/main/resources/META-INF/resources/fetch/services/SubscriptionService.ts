@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageSubscription } from '../models/PageSubscription';
 import type { Subscription } from '../models/Subscription';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SubscriptionService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Subscription
+     * @returns PageSubscription
      * @throws ApiError
      */
     public getMyUserAccountSubscriptionsPage({
@@ -19,7 +20,7 @@ export class SubscriptionService {
         contentType?: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Subscription>> {
+    }): CancelablePromise<PageSubscription> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/my-user-account/subscriptions',

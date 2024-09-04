@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { GroupedProduct } from '../models/GroupedProduct';
+import type { PageGroupedProduct } from '../models/PageGroupedProduct';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class GroupedProductService {
@@ -55,7 +56,7 @@ export class GroupedProductService {
     }
     /**
      * Gets a list of grouped product by external reference code.
-     * @returns GroupedProduct Successful operation
+     * @returns PageGroupedProduct Successful operation
      * @throws ApiError
      */
     public getProductByExternalReferenceCodeGroupedProductsPage({
@@ -66,7 +67,7 @@ export class GroupedProductService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<GroupedProduct>> {
+    }): CancelablePromise<PageGroupedProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/grouped-products',
@@ -115,7 +116,7 @@ export class GroupedProductService {
     }
     /**
      * Gets a list of grouped product.
-     * @returns GroupedProduct Successful operation
+     * @returns PageGroupedProduct Successful operation
      * @throws ApiError
      */
     public getProductIdGroupedProductsPage({
@@ -126,7 +127,7 @@ export class GroupedProductService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<GroupedProduct>> {
+    }): CancelablePromise<PageGroupedProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/grouped-products',

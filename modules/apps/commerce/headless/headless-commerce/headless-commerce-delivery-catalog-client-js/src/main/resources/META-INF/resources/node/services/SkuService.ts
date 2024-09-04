@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DDMOption } from '../models/DDMOption';
+import type { PageSku } from '../models/PageSku';
 import type { Sku } from '../models/Sku';
 import type { SkuOption } from '../models/SkuOption';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -11,7 +12,7 @@ export class SkuService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves products from selected channel.
-     * @returns Sku
+     * @returns PageSku
      * @throws ApiError
      */
     public getChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeSkusPage({
@@ -26,7 +27,7 @@ export class SkuService {
         accountId?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Sku>> {
+    }): CancelablePromise<PageSku> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/skus',
@@ -163,7 +164,7 @@ export class SkuService {
     }
     /**
      * Retrieves products from selected channel.
-     * @returns Sku
+     * @returns PageSku
      * @throws ApiError
      */
     public getChannelProductSkusPage({
@@ -178,7 +179,7 @@ export class SkuService {
         accountId?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Sku>> {
+    }): CancelablePromise<PageSku> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/skus',

@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Role } from '../models/Role';
+import type { PageRole } from '../models/PageRole';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class RoleService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Role
+     * @returns PageRole
      * @throws ApiError
      */
     public getProcessRolesPage({
@@ -17,7 +17,7 @@ export class RoleService {
     }: {
         processId: number,
         completed?: boolean,
-    }): CancelablePromise<Array<Role>> {
+    }): CancelablePromise<PageRole> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/portal-workflow-metrics/v1.0/processes/{processId}/roles',

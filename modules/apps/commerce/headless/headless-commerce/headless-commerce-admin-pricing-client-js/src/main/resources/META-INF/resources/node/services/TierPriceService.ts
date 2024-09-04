@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageTierPrice } from '../models/PageTierPrice';
 import type { TierPrice } from '../models/TierPrice';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class TierPriceService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Tier Price related to a Price Entry.
-     * @returns TierPrice Successful operation
+     * @returns PageTierPrice Successful operation
      * @throws ApiError
      */
     public getPriceEntryByExternalReferenceCodeTierPricesPage({
@@ -20,7 +21,7 @@ export class TierPriceService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<TierPrice>> {
+    }): CancelablePromise<PageTierPrice> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/priceEntries/by-externalReferenceCode/{externalReferenceCode}/tierPrices',
@@ -70,7 +71,7 @@ export class TierPriceService {
     }
     /**
      * Gets a list of Tier Price related to a Price Entry.
-     * @returns TierPrice Successful operation
+     * @returns PageTierPrice Successful operation
      * @throws ApiError
      */
     public getPriceEntryIdTierPricesPage({
@@ -81,7 +82,7 @@ export class TierPriceService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<TierPrice>> {
+    }): CancelablePromise<PageTierPrice> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/priceEntries/{id}/tierPrices',

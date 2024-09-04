@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ChangeTransition } from '../models/ChangeTransition';
+import type { PageWorkflowTask } from '../models/PageWorkflowTask';
 import type { WorkflowTask } from '../models/WorkflowTask';
 import type { WorkflowTaskAssignToMe } from '../models/WorkflowTaskAssignToMe';
 import type { WorkflowTaskAssignToRole } from '../models/WorkflowTaskAssignToRole';
@@ -13,7 +14,7 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class WorkflowTaskService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns WorkflowTask
+     * @returns PageWorkflowTask
      * @throws ApiError
      */
     public getWorkflowInstanceWorkflowTasksPage({
@@ -26,7 +27,7 @@ export class WorkflowTaskService {
         completed?: boolean,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WorkflowTask>> {
+    }): CancelablePromise<PageWorkflowTask> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-tasks',
@@ -41,7 +42,7 @@ export class WorkflowTaskService {
         });
     }
     /**
-     * @returns WorkflowTask
+     * @returns PageWorkflowTask
      * @throws ApiError
      */
     public getWorkflowInstanceWorkflowTasksAssignedToMePage({
@@ -54,7 +55,7 @@ export class WorkflowTaskService {
         completed?: boolean,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WorkflowTask>> {
+    }): CancelablePromise<PageWorkflowTask> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-tasks/assigned-to-me',
@@ -69,7 +70,7 @@ export class WorkflowTaskService {
         });
     }
     /**
-     * @returns WorkflowTask
+     * @returns PageWorkflowTask
      * @throws ApiError
      */
     public getWorkflowInstanceWorkflowTasksAssignedToUserPage({
@@ -84,7 +85,7 @@ export class WorkflowTaskService {
         completed?: boolean,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WorkflowTask>> {
+    }): CancelablePromise<PageWorkflowTask> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-tasks/assigned-to-user',
@@ -100,7 +101,7 @@ export class WorkflowTaskService {
         });
     }
     /**
-     * @returns WorkflowTask
+     * @returns PageWorkflowTask
      * @throws ApiError
      */
     public postWorkflowTasksPage({
@@ -113,7 +114,7 @@ export class WorkflowTaskService {
         pageSize?: number,
         sort?: string,
         requestBody?: WorkflowTasksBulkSelection,
-    }): CancelablePromise<Array<WorkflowTask>> {
+    }): CancelablePromise<PageWorkflowTask> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/headless-admin-workflow/v1.0/workflow-tasks',
@@ -143,7 +144,7 @@ export class WorkflowTaskService {
         });
     }
     /**
-     * @returns WorkflowTask
+     * @returns PageWorkflowTask
      * @throws ApiError
      */
     public getWorkflowTasksAssignedToMePage({
@@ -152,7 +153,7 @@ export class WorkflowTaskService {
     }: {
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WorkflowTask>> {
+    }): CancelablePromise<PageWorkflowTask> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-me',
@@ -163,7 +164,7 @@ export class WorkflowTaskService {
         });
     }
     /**
-     * @returns WorkflowTask
+     * @returns PageWorkflowTask
      * @throws ApiError
      */
     public getWorkflowTasksAssignedToMyRolesPage({
@@ -172,7 +173,7 @@ export class WorkflowTaskService {
     }: {
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WorkflowTask>> {
+    }): CancelablePromise<PageWorkflowTask> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-my-roles',
@@ -183,7 +184,7 @@ export class WorkflowTaskService {
         });
     }
     /**
-     * @returns WorkflowTask
+     * @returns PageWorkflowTask
      * @throws ApiError
      */
     public getWorkflowTasksAssignedToRolePage({
@@ -194,7 +195,7 @@ export class WorkflowTaskService {
         roleId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WorkflowTask>> {
+    }): CancelablePromise<PageWorkflowTask> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-role',
@@ -206,7 +207,7 @@ export class WorkflowTaskService {
         });
     }
     /**
-     * @returns WorkflowTask
+     * @returns PageWorkflowTask
      * @throws ApiError
      */
     public getWorkflowTasksAssignedToUserPage({
@@ -217,7 +218,7 @@ export class WorkflowTaskService {
         assigneeId?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WorkflowTask>> {
+    }): CancelablePromise<PageWorkflowTask> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-user',
@@ -229,7 +230,7 @@ export class WorkflowTaskService {
         });
     }
     /**
-     * @returns WorkflowTask
+     * @returns PageWorkflowTask
      * @throws ApiError
      */
     public getWorkflowTasksAssignedToUserRolesPage({
@@ -240,7 +241,7 @@ export class WorkflowTaskService {
         assigneeId?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WorkflowTask>> {
+    }): CancelablePromise<PageWorkflowTask> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-user-roles',
@@ -268,7 +269,7 @@ export class WorkflowTaskService {
         });
     }
     /**
-     * @returns WorkflowTask
+     * @returns PageWorkflowTask
      * @throws ApiError
      */
     public getWorkflowTasksSubmittingUserPage({
@@ -279,7 +280,7 @@ export class WorkflowTaskService {
         creatorId?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WorkflowTask>> {
+    }): CancelablePromise<PageWorkflowTask> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-tasks/submitting-user',

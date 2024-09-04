@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OrderItem } from '../models/OrderItem';
+import type { PageOrderItem } from '../models/PageOrderItem';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class OrderItemService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Order Items.
-     * @returns OrderItem Successful operation
+     * @returns PageOrderItem Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceAdminOrderV10OrderItems({
@@ -24,7 +25,7 @@ export class OrderItemService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<OrderItem>> {
+    }): CancelablePromise<PageOrderItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/orderItems',
@@ -246,7 +247,7 @@ export class OrderItemService {
     }
     /**
      * Gets a list of Order Items related to an Order.
-     * @returns OrderItem Successful operation
+     * @returns PageOrderItem Successful operation
      * @throws ApiError
      */
     public getOrderByExternalReferenceCodeOrderItemsPage({
@@ -257,7 +258,7 @@ export class OrderItemService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<OrderItem>> {
+    }): CancelablePromise<PageOrderItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/orderItems',
@@ -307,7 +308,7 @@ export class OrderItemService {
     }
     /**
      * Gets a list of Order Items related to an Order.
-     * @returns OrderItem Successful operation
+     * @returns PageOrderItem Successful operation
      * @throws ApiError
      */
     public getOrderIdOrderItemsPage({
@@ -318,7 +319,7 @@ export class OrderItemService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<OrderItem>> {
+    }): CancelablePromise<PageOrderItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/orders/{id}/orderItems',

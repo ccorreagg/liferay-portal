@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageWishListItem } from '../models/PageWishListItem';
 import type { WishListItem } from '../models/WishListItem';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -59,7 +60,7 @@ export class WishListItemService {
     }
     /**
      * Retrieves wishlist items by wishListId for a specific channel and account
-     * @returns WishListItem Successful operation
+     * @returns PageWishListItem Successful operation
      * @throws ApiError
      */
     public getWishlistWishListWishListItemsPage({
@@ -72,7 +73,7 @@ export class WishListItemService {
         accountId?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WishListItem>> {
+    }): CancelablePromise<PageWishListItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/wishlists/{wishListId}/wishlist-items',

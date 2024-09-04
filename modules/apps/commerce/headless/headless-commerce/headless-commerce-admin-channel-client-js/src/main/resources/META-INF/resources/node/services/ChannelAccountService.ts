@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ChannelAccount } from '../models/ChannelAccount';
+import type { PageChannelAccount } from '../models/PageChannelAccount';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ChannelAccountService {
@@ -30,7 +31,7 @@ export class ChannelAccountService {
     }
     /**
      * Gets a list of Channel Accounts.
-     * @returns ChannelAccount Successful operation
+     * @returns PageChannelAccount Successful operation
      * @throws ApiError
      */
     public getChannelByExternalReferenceCodeChannelAccountsPage({
@@ -41,7 +42,7 @@ export class ChannelAccountService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ChannelAccount>> {
+    }): CancelablePromise<PageChannelAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/channel-accounts',
@@ -90,7 +91,7 @@ export class ChannelAccountService {
     }
     /**
      * Gets a list of Channel Accounts.
-     * @returns ChannelAccount Successful operation
+     * @returns PageChannelAccount Successful operation
      * @throws ApiError
      */
     public getChannelIdChannelAccountsPage({
@@ -107,7 +108,7 @@ export class ChannelAccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ChannelAccount>> {
+    }): CancelablePromise<PageChannelAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-channel/v1.0/channels/{id}/channel-accounts',

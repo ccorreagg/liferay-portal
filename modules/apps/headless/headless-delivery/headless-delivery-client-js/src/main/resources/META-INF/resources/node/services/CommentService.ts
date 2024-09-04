@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Comment } from '../models/Comment';
+import type { PageComment } from '../models/PageComment';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CommentService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the blog post's comments in a list. Results can be paginated, filtered, searched, and sorted.
-     * @returns Comment
+     * @returns PageComment
      * @throws ApiError
      */
     public getBlogPostingCommentsPage({
@@ -34,7 +35,7 @@ export class CommentService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Comment>> {
+    }): CancelablePromise<PageComment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/blog-postings/{blogPostingId}/comments',
@@ -147,7 +148,7 @@ export class CommentService {
     }
     /**
      * Retrieves the parent comment's child comments. Results can be paginated, filtered, searched, and sorted.
-     * @returns Comment
+     * @returns PageComment
      * @throws ApiError
      */
     public getCommentCommentsPage({
@@ -172,7 +173,7 @@ export class CommentService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Comment>> {
+    }): CancelablePromise<PageComment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/comments/{parentCommentId}/comments',
@@ -216,7 +217,7 @@ export class CommentService {
     }
     /**
      * Retrieves the document's comments. Results can be paginated, filtered, searched, and sorted.
-     * @returns Comment
+     * @returns PageComment
      * @throws ApiError
      */
     public getDocumentCommentsPage({
@@ -241,7 +242,7 @@ export class CommentService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Comment>> {
+    }): CancelablePromise<PageComment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/documents/{documentId}/comments',
@@ -633,7 +634,7 @@ export class CommentService {
     }
     /**
      * Retrieves the structured content's comments. Results can be paginated, filtered, searched, and sorted.
-     * @returns Comment
+     * @returns PageComment
      * @throws ApiError
      */
     public getStructuredContentCommentsPage({
@@ -658,7 +659,7 @@ export class CommentService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Comment>> {
+    }): CancelablePromise<PageComment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/structured-contents/{structuredContentId}/comments',

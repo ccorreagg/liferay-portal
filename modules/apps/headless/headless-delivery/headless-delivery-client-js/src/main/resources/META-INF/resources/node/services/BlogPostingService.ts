@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BlogPosting } from '../models/BlogPosting';
+import type { PageBlogPosting } from '../models/PageBlogPosting';
 import type { Rating } from '../models/Rating';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -272,7 +273,7 @@ export class BlogPostingService {
     }
     /**
      * Retrieves the site's blog postings. Results can be paginated, filtered, searched, and sorted.
-     * @returns BlogPosting
+     * @returns PageBlogPosting
      * @throws ApiError
      */
     public getSiteBlogPostingsPage({
@@ -297,7 +298,7 @@ export class BlogPostingService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<BlogPosting>> {
+    }): CancelablePromise<PageBlogPosting> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/blog-postings',

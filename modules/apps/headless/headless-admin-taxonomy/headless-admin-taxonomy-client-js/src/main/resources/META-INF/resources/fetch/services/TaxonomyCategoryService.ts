@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageTaxonomyCategory } from '../models/PageTaxonomyCategory';
 import type { TaxonomyCategory } from '../models/TaxonomyCategory';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class TaxonomyCategoryService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns TaxonomyCategory
+     * @returns PageTaxonomyCategory
      * @throws ApiError
      */
     public getTaxonomyCategoriesRankedPage({
@@ -23,7 +24,7 @@ export class TaxonomyCategoryService {
         pageSize?: number,
         restrictFields?: string,
         siteId?: number,
-    }): CancelablePromise<Array<TaxonomyCategory>> {
+    }): CancelablePromise<PageTaxonomyCategory> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-taxonomy/v1.0/taxonomy-categories/ranked',
@@ -38,7 +39,7 @@ export class TaxonomyCategoryService {
     }
     /**
      * Retrieves a taxonomy category's child taxonomy categories. Results can be paginated, filtered, searched, and sorted.
-     * @returns TaxonomyCategory
+     * @returns PageTaxonomyCategory
      * @throws ApiError
      */
     public getTaxonomyCategoryTaxonomyCategoriesPage({
@@ -61,7 +62,7 @@ export class TaxonomyCategoryService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<TaxonomyCategory>> {
+    }): CancelablePromise<PageTaxonomyCategory> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-taxonomy/v1.0/taxonomy-categories/{parentTaxonomyCategoryId}/taxonomy-categories',
@@ -240,7 +241,7 @@ export class TaxonomyCategoryService {
     }
     /**
      * Retrieves a vocabulary's taxonomy categories. Results can be paginated, filtered, searched, and sorted.
-     * @returns TaxonomyCategory
+     * @returns PageTaxonomyCategory
      * @throws ApiError
      */
     public getTaxonomyVocabularyTaxonomyCategoriesPage({
@@ -265,7 +266,7 @@ export class TaxonomyCategoryService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<TaxonomyCategory>> {
+    }): CancelablePromise<PageTaxonomyCategory> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories',

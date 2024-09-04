@@ -18,8 +18,17 @@ export type { ContactOrganization } from './models/ContactOrganization';
 export type { ContactUserGroup } from './models/ContactUserGroup';
 export type { DataSource } from './models/DataSource';
 export type { DataSourceToken } from './models/DataSourceToken';
+export type { Facet } from './models/Facet';
+export type { FacetValue } from './models/FacetValue';
 export type { Field } from './models/Field';
 export type { FieldSummary } from './models/FieldSummary';
+export type { PageChannel } from './models/PageChannel';
+export type { PageCommerceChannel } from './models/PageCommerceChannel';
+export type { PageContactAccountGroup } from './models/PageContactAccountGroup';
+export type { PageContactOrganization } from './models/PageContactOrganization';
+export type { PageContactUserGroup } from './models/PageContactUserGroup';
+export type { PageField } from './models/PageField';
+export type { PageSite } from './models/PageSite';
 export type { Site } from './models/Site';
 
 export { AnalyticsDxpEntityBatchExporterService } from './services/AnalyticsDxpEntityBatchExporterService';

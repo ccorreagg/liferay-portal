@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageSku } from '../models/PageSku';
 import type { Sku } from '../models/Sku';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class SkuService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of skus related to a product.
-     * @returns Sku Successful operation
+     * @returns PageSku Successful operation
      * @throws ApiError
      */
     public getProductByExternalReferenceCodeSkusPage({
@@ -20,7 +21,7 @@ export class SkuService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Sku>> {
+    }): CancelablePromise<PageSku> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/skus',
@@ -69,7 +70,7 @@ export class SkuService {
     }
     /**
      * Gets a list of skus related to a product.
-     * @returns Sku Successful operation
+     * @returns PageSku Successful operation
      * @throws ApiError
      */
     public getProductIdSkusPage({
@@ -80,7 +81,7 @@ export class SkuService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Sku>> {
+    }): CancelablePromise<PageSku> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/skus',
@@ -129,7 +130,7 @@ export class SkuService {
     }
     /**
      * Gets a list of skus.
-     * @returns Sku Successful operation
+     * @returns PageSku Successful operation
      * @throws ApiError
      */
     public getSkusPage({
@@ -144,7 +145,7 @@ export class SkuService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Sku>> {
+    }): CancelablePromise<PageSku> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/skus',
@@ -313,7 +314,7 @@ export class SkuService {
     }
     /**
      * Gets a list of skus with unit of measure.
-     * @returns Sku Successful operation
+     * @returns PageSku Successful operation
      * @throws ApiError
      */
     public getUnitOfMeasureSkusPage({
@@ -328,7 +329,7 @@ export class SkuService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Sku>> {
+    }): CancelablePromise<PageSku> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/unit-of-measure-skus',

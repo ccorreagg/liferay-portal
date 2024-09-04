@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ProductOptionValue } from '../models/ProductOptionValue';
+import type { PageProductOptionValue } from '../models/PageProductOptionValue';
 import type { SkuOption } from '../models/SkuOption';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -10,7 +10,7 @@ export class ProductOptionValueService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets Product Option Values.
-     * @returns ProductOptionValue Successful operation
+     * @returns PageProductOptionValue Successful operation
      * @throws ApiError
      */
     public getChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeProductOptionByExternalReferenceCodeProductOptionExternalReferenceCodeProductOptionValuesPage({
@@ -31,7 +31,7 @@ export class ProductOptionValueService {
         pageSize?: number,
         productOptionValueId?: number,
         skuId?: number,
-    }): CancelablePromise<Array<ProductOptionValue>> {
+    }): CancelablePromise<PageProductOptionValue> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/product-options/by-externalReferenceCode/{productOptionExternalReferenceCode}/product-option-values',
@@ -56,7 +56,7 @@ export class ProductOptionValueService {
     }
     /**
      * Retrieves a list of ProductOptionValue with selected channel, product and product option external reference code.
-     * @returns ProductOptionValue Created
+     * @returns PageProductOptionValue Created
      * @throws ApiError
      */
     public postChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeProductOptionByExternalReferenceCodeProductOptionExternalReferenceCodeProductOptionValuesPage({
@@ -79,7 +79,7 @@ export class ProductOptionValueService {
         productOptionValueId?: number,
         skuId?: number,
         requestBody?: Array<SkuOption>,
-    }): CancelablePromise<Array<ProductOptionValue>> {
+    }): CancelablePromise<PageProductOptionValue> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/product-options/by-externalReferenceCode/{productOptionExternalReferenceCode}/product-option-values',
@@ -107,7 +107,7 @@ export class ProductOptionValueService {
     }
     /**
      * Gets Product Option Values.
-     * @returns ProductOptionValue Successful operation
+     * @returns PageProductOptionValue Successful operation
      * @throws ApiError
      */
     public getChannelProductProductOptionProductOptionValuesPage({
@@ -128,7 +128,7 @@ export class ProductOptionValueService {
         pageSize?: number,
         productOptionValueId?: number,
         skuId?: number,
-    }): CancelablePromise<Array<ProductOptionValue>> {
+    }): CancelablePromise<PageProductOptionValue> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/product-options/{productOptionId}/product-option-values',
@@ -153,7 +153,7 @@ export class ProductOptionValueService {
     }
     /**
      * Retrieves a list of ProductOptionValue from selected channel, product ID and product option ID.
-     * @returns ProductOptionValue Created
+     * @returns PageProductOptionValue Created
      * @throws ApiError
      */
     public postChannelProductProductOptionProductOptionValuesPage({
@@ -176,7 +176,7 @@ export class ProductOptionValueService {
         productOptionValueId?: number,
         skuId?: number,
         requestBody?: Array<SkuOption>,
-    }): CancelablePromise<Array<ProductOptionValue>> {
+    }): CancelablePromise<PageProductOptionValue> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/product-options/{productOptionId}/product-option-values',

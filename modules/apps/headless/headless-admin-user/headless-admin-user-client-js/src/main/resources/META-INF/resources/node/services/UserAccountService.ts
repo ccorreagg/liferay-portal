@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Image } from '../models/Image';
+import type { PageUserAccount } from '../models/PageUserAccount';
 import type { UserAccount } from '../models/UserAccount';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -73,7 +74,7 @@ export class UserAccountService {
     }
     /**
      * Gets the users assigned to an account
-     * @returns UserAccount
+     * @returns PageUserAccount
      * @throws ApiError
      */
     public getAccountUserAccountsByExternalReferenceCodePage({
@@ -90,7 +91,7 @@ export class UserAccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<UserAccount>> {
+    }): CancelablePromise<PageUserAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/user-accounts',
@@ -222,7 +223,7 @@ export class UserAccountService {
     }
     /**
      * Gets the users assigned to an account
-     * @returns UserAccount
+     * @returns PageUserAccount
      * @throws ApiError
      */
     public getAccountUserAccountsPage({
@@ -239,7 +240,7 @@ export class UserAccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<UserAccount>> {
+    }): CancelablePromise<PageUserAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/{accountId}/user-accounts',
@@ -304,7 +305,7 @@ export class UserAccountService {
     }
     /**
      * Assigns users to an account by their email addresses
-     * @returns UserAccount
+     * @returns PageUserAccount
      * @throws ApiError
      */
     public postAccountUserAccountsByEmailAddress({
@@ -318,7 +319,7 @@ export class UserAccountService {
          */
         requestBody: Array<string>,
         accountRoleIds?: string,
-    }): CancelablePromise<Array<UserAccount>> {
+    }): CancelablePromise<PageUserAccount> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/headless-admin-user/v1.0/accounts/{accountId}/user-accounts/by-email-address',
@@ -429,7 +430,7 @@ export class UserAccountService {
     }
     /**
      * Retrieves the organization's members (users). Results can be paginated, filtered, searched, and sorted.
-     * @returns UserAccount
+     * @returns PageUserAccount
      * @throws ApiError
      */
     public getOrganizationUserAccountsPage({
@@ -446,7 +447,7 @@ export class UserAccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<UserAccount>> {
+    }): CancelablePromise<PageUserAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts',
@@ -464,7 +465,7 @@ export class UserAccountService {
     }
     /**
      * Retrieves the site members' user accounts. Results can be paginated, filtered, searched, and sorted.
-     * @returns UserAccount
+     * @returns PageUserAccount
      * @throws ApiError
      */
     public getSiteUserAccountsPage({
@@ -481,7 +482,7 @@ export class UserAccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<UserAccount>> {
+    }): CancelablePromise<PageUserAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/sites/{siteId}/user-accounts',
@@ -499,7 +500,7 @@ export class UserAccountService {
     }
     /**
      * Retrieves the user accounts. Results can be paginated, filtered, searched, and sorted.
-     * @returns UserAccount
+     * @returns PageUserAccount
      * @throws ApiError
      */
     public getUserAccountsPage({
@@ -514,7 +515,7 @@ export class UserAccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<UserAccount>> {
+    }): CancelablePromise<PageUserAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-accounts',
@@ -617,7 +618,7 @@ export class UserAccountService {
         });
     }
     /**
-     * @returns UserAccount
+     * @returns PageUserAccount
      * @throws ApiError
      */
     public getUserAccountsByStatusPage({
@@ -634,7 +635,7 @@ export class UserAccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<UserAccount>> {
+    }): CancelablePromise<PageUserAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-accounts/by-status/{status}',
@@ -756,7 +757,7 @@ export class UserAccountService {
     }
     /**
      * Retrieves the list of users in a user group.
-     * @returns UserAccount
+     * @returns PageUserAccount
      * @throws ApiError
      */
     public getUserGroupUsersPage({
@@ -773,7 +774,7 @@ export class UserAccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<UserAccount>> {
+    }): CancelablePromise<PageUserAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-groups/{userGroupId}/user-group-users',

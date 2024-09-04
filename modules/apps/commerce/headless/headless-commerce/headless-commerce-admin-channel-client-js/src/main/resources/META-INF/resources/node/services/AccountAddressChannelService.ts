@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AccountAddressChannel } from '../models/AccountAddressChannel';
+import type { PageAccountAddressChannel } from '../models/PageAccountAddressChannel';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountAddressChannelService {
@@ -30,7 +31,7 @@ export class AccountAddressChannelService {
     }
     /**
      * Gets a list of Account Address Channels.
-     * @returns AccountAddressChannel Successful operation
+     * @returns PageAccountAddressChannel Successful operation
      * @throws ApiError
      */
     public getAccountAddressByExternalReferenceCodeAccountAddressChannelsPage({
@@ -41,7 +42,7 @@ export class AccountAddressChannelService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountAddressChannel>> {
+    }): CancelablePromise<PageAccountAddressChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-channel/v1.0/account-addresses/by-externalReferenceCode/{externalReferenceCode}/account-address-channels',
@@ -90,7 +91,7 @@ export class AccountAddressChannelService {
     }
     /**
      * Gets a list of Account Address Channels.
-     * @returns AccountAddressChannel Successful operation
+     * @returns PageAccountAddressChannel Successful operation
      * @throws ApiError
      */
     public getAccountAddressIdAccountAddressChannelsPage({
@@ -107,7 +108,7 @@ export class AccountAddressChannelService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<AccountAddressChannel>> {
+    }): CancelablePromise<PageAccountAddressChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-channel/v1.0/account-addresses/{addressId}/account-address-channels',

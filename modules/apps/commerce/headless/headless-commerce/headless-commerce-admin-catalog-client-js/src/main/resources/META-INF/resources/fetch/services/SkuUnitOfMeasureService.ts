@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageSkuUnitOfMeasure } from '../models/PageSkuUnitOfMeasure';
 import type { SkuUnitOfMeasure } from '../models/SkuUnitOfMeasure';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -83,7 +84,7 @@ export class SkuUnitOfMeasureService {
     }
     /**
      * Gets unit of measures of a sku by external reference code.
-     * @returns SkuUnitOfMeasure Successful operation
+     * @returns PageSkuUnitOfMeasure Successful operation
      * @throws ApiError
      */
     public getSkuByExternalReferenceCodeSkuUnitOfMeasuresPage({
@@ -94,7 +95,7 @@ export class SkuUnitOfMeasureService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<SkuUnitOfMeasure>> {
+    }): CancelablePromise<PageSkuUnitOfMeasure> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}/sku-unit-of-measures',
@@ -144,7 +145,7 @@ export class SkuUnitOfMeasureService {
     }
     /**
      * Gets unit of measures of a sku.
-     * @returns SkuUnitOfMeasure Successful operation
+     * @returns PageSkuUnitOfMeasure Successful operation
      * @throws ApiError
      */
     public getSkuIdSkuUnitOfMeasuresPage({
@@ -155,7 +156,7 @@ export class SkuUnitOfMeasureService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<SkuUnitOfMeasure>> {
+    }): CancelablePromise<PageSkuUnitOfMeasure> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/skus/{id}/sku-unit-of-measures',

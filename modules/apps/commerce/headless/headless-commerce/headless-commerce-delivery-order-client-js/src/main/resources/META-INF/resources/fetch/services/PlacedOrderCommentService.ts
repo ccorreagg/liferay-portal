@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePlacedOrderComment } from '../models/PagePlacedOrderComment';
 import type { PlacedOrderComment } from '../models/PlacedOrderComment';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -57,7 +58,7 @@ export class PlacedOrderCommentService {
     }
     /**
      * Gets a list of Comments related to an Order.
-     * @returns PlacedOrderComment Successful operation
+     * @returns PagePlacedOrderComment Successful operation
      * @throws ApiError
      */
     public getPlacedOrderByExternalReferenceCodePlacedOrderCommentsPage({
@@ -68,7 +69,7 @@ export class PlacedOrderCommentService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<PlacedOrderComment>> {
+    }): CancelablePromise<PagePlacedOrderComment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}/placed-order-comments',
@@ -89,7 +90,7 @@ export class PlacedOrderCommentService {
     }
     /**
      * Gets a list of Comments related to an Order.
-     * @returns PlacedOrderComment Successful operation
+     * @returns PagePlacedOrderComment Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceDeliveryOrderV10PlacedOrdersPlacedOrderComments({
@@ -100,7 +101,7 @@ export class PlacedOrderCommentService {
         placedOrderId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<PlacedOrderComment>> {
+    }): CancelablePromise<PagePlacedOrderComment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/placed-order-comments',

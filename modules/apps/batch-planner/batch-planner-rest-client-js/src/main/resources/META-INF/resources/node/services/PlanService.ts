@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePlan } from '../models/PagePlan';
 import type { Plan } from '../models/Plan';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class PlanService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Plan
+     * @returns PagePlan
      * @throws ApiError
      */
     public getPlansPage({
@@ -17,7 +18,7 @@ export class PlanService {
     }: {
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Plan>> {
+    }): CancelablePromise<PagePlan> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/batch-planner/v1.0/plans',

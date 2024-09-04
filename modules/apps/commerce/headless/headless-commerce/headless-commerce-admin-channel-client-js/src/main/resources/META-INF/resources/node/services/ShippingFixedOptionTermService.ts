@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageShippingFixedOptionTerm } from '../models/PageShippingFixedOptionTerm';
 import type { ShippingFixedOptionTerm } from '../models/ShippingFixedOptionTerm';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -30,7 +31,7 @@ export class ShippingFixedOptionTermService {
     }
     /**
      * Gets a list of Payment Method Group Rel Terms.
-     * @returns ShippingFixedOptionTerm Successful operation
+     * @returns PageShippingFixedOptionTerm Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceAdminChannelV10ShippingFixedOptionsShippingFixedOptionTerms({
@@ -47,7 +48,7 @@ export class ShippingFixedOptionTermService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ShippingFixedOptionTerm>> {
+    }): CancelablePromise<PageShippingFixedOptionTerm> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-channel/v1.0/shipping-fixed-options/{id}/shipping-fixed-option-terms',

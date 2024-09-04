@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageRegion } from '../models/PageRegion';
 import type { Region } from '../models/Region';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class RegionService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Region
+     * @returns PageRegion
      * @throws ApiError
      */
     public getCountryRegionsPage({
@@ -25,7 +26,7 @@ export class RegionService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Region>> {
+    }): CancelablePromise<PageRegion> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-address/v1.0/countries/{countryId}/regions',
@@ -83,7 +84,7 @@ export class RegionService {
         });
     }
     /**
-     * @returns Region
+     * @returns PageRegion
      * @throws ApiError
      */
     public getRegionsPage({
@@ -98,7 +99,7 @@ export class RegionService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Region>> {
+    }): CancelablePromise<PageRegion> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-address/v1.0/regions',

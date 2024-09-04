@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { NotificationTemplate } from '../models/NotificationTemplate';
+import type { PageNotificationTemplate } from '../models/PageNotificationTemplate';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class NotificationTemplateService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns NotificationTemplate
+     * @returns PageNotificationTemplate
      * @throws ApiError
      */
     public getNotificationTemplatesPage({
@@ -27,7 +28,7 @@ export class NotificationTemplateService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<NotificationTemplate>> {
+    }): CancelablePromise<PageNotificationTemplate> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/notification/v1.0/notification-templates',

@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePin } from '../models/PagePin';
 import type { Pin } from '../models/Pin';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -55,7 +56,7 @@ export class PinService {
     }
     /**
      * Gets a list of product by external reference code.
-     * @returns Pin Successful operation
+     * @returns PagePin Successful operation
      * @throws ApiError
      */
     public getProductByExternalReferenceCodePinsPage({
@@ -70,7 +71,7 @@ export class PinService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Pin>> {
+    }): CancelablePromise<PagePin> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/pins',
@@ -121,7 +122,7 @@ export class PinService {
     }
     /**
      * Gets a list of product.
-     * @returns Pin Successful operation
+     * @returns PagePin Successful operation
      * @throws ApiError
      */
     public getProductIdPinsPage({
@@ -136,7 +137,7 @@ export class PinService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Pin>> {
+    }): CancelablePromise<PagePin> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/pins',

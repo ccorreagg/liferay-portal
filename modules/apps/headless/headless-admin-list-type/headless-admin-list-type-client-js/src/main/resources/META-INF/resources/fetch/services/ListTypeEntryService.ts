@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ListTypeEntry } from '../models/ListTypeEntry';
+import type { PageListTypeEntry } from '../models/PageListTypeEntry';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ListTypeEntryService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ListTypeEntry
+     * @returns PageListTypeEntry
      * @throws ApiError
      */
     public getListTypeDefinitionByExternalReferenceCodeListTypeEntriesPage({
@@ -27,7 +28,7 @@ export class ListTypeEntryService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ListTypeEntry>> {
+    }): CancelablePromise<PageListTypeEntry> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/{externalReferenceCode}/list-type-entries',
@@ -66,7 +67,7 @@ export class ListTypeEntryService {
         });
     }
     /**
-     * @returns ListTypeEntry
+     * @returns PageListTypeEntry
      * @throws ApiError
      */
     public getListTypeDefinitionListTypeEntriesPage({
@@ -85,7 +86,7 @@ export class ListTypeEntryService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ListTypeEntry>> {
+    }): CancelablePromise<PageListTypeEntry> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-list-type/v1.0/list-type-definitions/{listTypeDefinitionId}/list-type-entries',

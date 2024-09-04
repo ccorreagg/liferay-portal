@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DocumentBulkSelection } from '../models/DocumentBulkSelection';
-import type { Keyword } from '../models/Keyword';
 import type { KeywordBulkSelection } from '../models/KeywordBulkSelection';
+import type { PageKeyword } from '../models/PageKeyword';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class KeywordService {
@@ -42,14 +42,14 @@ export class KeywordService {
         });
     }
     /**
-     * @returns Keyword
+     * @returns PageKeyword
      * @throws ApiError
      */
     public postKeywordsCommonPage({
         requestBody,
     }: {
         requestBody?: DocumentBulkSelection,
-    }): CancelablePromise<Array<Keyword>> {
+    }): CancelablePromise<PageKeyword> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/bulk/v1.0/keywords/common',

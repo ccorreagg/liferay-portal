@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Currency } from '../models/Currency';
+import type { PageCurrency } from '../models/PageCurrency';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CurrencyService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of currencies.
-     * @returns Currency Successful operation
+     * @returns PageCurrency Successful operation
      * @throws ApiError
      */
     public getCurrenciesPage({
@@ -24,7 +25,7 @@ export class CurrencyService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Currency>> {
+    }): CancelablePromise<PageCurrency> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/currencies',

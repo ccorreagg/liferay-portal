@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageProductOption } from '../models/PageProductOption';
 import type { ProductOption } from '../models/ProductOption';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -82,7 +83,7 @@ export class ProductOptionService {
     }
     /**
      * Gets a product options of a product.
-     * @returns ProductOption Successful operation
+     * @returns PageProductOption Successful operation
      * @throws ApiError
      */
     public getProductByExternalReferenceCodeProductOptionsPage({
@@ -97,7 +98,7 @@ export class ProductOptionService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ProductOption>> {
+    }): CancelablePromise<PageProductOption> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/productOptions',
@@ -120,7 +121,7 @@ export class ProductOptionService {
     }
     /**
      * Creates or updates a list of product options of a product.
-     * @returns ProductOption Created
+     * @returns PageProductOption Created
      * @returns any Async
      * @throws ApiError
      */
@@ -129,8 +130,8 @@ export class ProductOptionService {
         requestBody,
     }: {
         externalReferenceCode: string,
-        requestBody: Array<ProductOption>,
-    }): CancelablePromise<Array<ProductOption> | any> {
+        requestBody: PageProductOption,
+    }): CancelablePromise<PageProductOption | any> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/productOptions',
@@ -149,7 +150,7 @@ export class ProductOptionService {
     }
     /**
      * Gets a product by ID.
-     * @returns ProductOption Successful operation
+     * @returns PageProductOption Successful operation
      * @throws ApiError
      */
     public getProductIdProductOptionsPage({
@@ -164,7 +165,7 @@ export class ProductOptionService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ProductOption>> {
+    }): CancelablePromise<PageProductOption> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/productOptions',
@@ -187,7 +188,7 @@ export class ProductOptionService {
     }
     /**
      * Creates or updates a list of product options related to a product.
-     * @returns ProductOption Created
+     * @returns PageProductOption Created
      * @returns any Async
      * @throws ApiError
      */
@@ -196,8 +197,8 @@ export class ProductOptionService {
         requestBody,
     }: {
         id: number,
-        requestBody: Array<ProductOption>,
-    }): CancelablePromise<Array<ProductOption> | any> {
+        requestBody: PageProductOption,
+    }): CancelablePromise<PageProductOption | any> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/productOptions',

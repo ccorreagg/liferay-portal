@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageWishList } from '../models/PageWishList';
 import type { WishList } from '../models/WishList';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class WishListService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves wishlists for a given channel.
-     * @returns WishList Successful operation
+     * @returns PageWishList Successful operation
      * @throws ApiError
      */
     public getChannelByExternalReferenceCodeWishListsPage({
@@ -22,7 +23,7 @@ export class WishListService {
         accountId?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WishList>> {
+    }): CancelablePromise<PageWishList> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/wishlists',
@@ -76,7 +77,7 @@ export class WishListService {
     }
     /**
      * Retrieves wishlists for a given channel.
-     * @returns WishList Successful operation
+     * @returns PageWishList Successful operation
      * @throws ApiError
      */
     public getChannelWishListsPage({
@@ -89,7 +90,7 @@ export class WishListService {
         accountId?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WishList>> {
+    }): CancelablePromise<PageWishList> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/wishlists',
@@ -194,15 +195,20 @@ export class WishListService {
     public patchWishList({
         wishListId,
         requestBody,
+        accountId,
     }: {
         wishListId: number,
         requestBody: WishList,
+        accountId?: number,
     }): CancelablePromise<WishList> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/headless-commerce-delivery-catalog/v1.0/wishlists/{wishListId}',
             path: {
                 'wishListId': wishListId,
+            },
+            query: {
+                'accountId': accountId,
             },
             body: requestBody,
             mediaType: 'application/json',

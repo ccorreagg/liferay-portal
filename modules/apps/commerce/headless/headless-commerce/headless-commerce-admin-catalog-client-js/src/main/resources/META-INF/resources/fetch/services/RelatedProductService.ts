@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageRelatedProduct } from '../models/PageRelatedProduct';
 import type { RelatedProduct } from '../models/RelatedProduct';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class RelatedProductService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of related products of a product.
-     * @returns RelatedProduct Successful operation
+     * @returns PageRelatedProduct Successful operation
      * @throws ApiError
      */
     public getProductByExternalReferenceCodeRelatedProductsPage({
@@ -22,7 +23,7 @@ export class RelatedProductService {
         page?: number,
         pageSize?: number,
         type?: string,
-    }): CancelablePromise<Array<RelatedProduct>> {
+    }): CancelablePromise<PageRelatedProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/relatedProducts',
@@ -72,7 +73,7 @@ export class RelatedProductService {
     }
     /**
      * Gets a list of related products of a product.
-     * @returns RelatedProduct Successful operation
+     * @returns PageRelatedProduct Successful operation
      * @throws ApiError
      */
     public getProductIdRelatedProductsPage({
@@ -85,7 +86,7 @@ export class RelatedProductService {
         page?: number,
         pageSize?: number,
         type?: string,
-    }): CancelablePromise<Array<RelatedProduct>> {
+    }): CancelablePromise<PageRelatedProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/relatedProducts',

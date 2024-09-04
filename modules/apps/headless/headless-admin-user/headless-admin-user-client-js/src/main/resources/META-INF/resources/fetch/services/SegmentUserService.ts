@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { SegmentUser } from '../models/SegmentUser';
+import type { PageSegmentUser } from '../models/PageSegmentUser';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SegmentUserService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a segment's users.
-     * @returns SegmentUser
+     * @returns PageSegmentUser
      * @throws ApiError
      */
     public getSegmentUserAccountsPage({
@@ -20,7 +20,7 @@ export class SegmentUserService {
         segmentId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<SegmentUser>> {
+    }): CancelablePromise<PageSegmentUser> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/segments/{segmentId}/user-accounts',

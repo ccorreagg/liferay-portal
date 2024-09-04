@@ -11,6 +11,12 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { Error } from './models/Error';
+export type { Facet } from './models/Facet';
+export type { FacetValue } from './models/FacetValue';
+export type { PagePlacedOrder } from './models/PagePlacedOrder';
+export type { PagePlacedOrderComment } from './models/PagePlacedOrderComment';
+export type { PagePlacedOrderItem } from './models/PagePlacedOrderItem';
+export type { PagePlacedOrderItemShipment } from './models/PagePlacedOrderItemShipment';
 export type { PlacedOrder } from './models/PlacedOrder';
 export type { PlacedOrderAddress } from './models/PlacedOrderAddress';
 export type { PlacedOrderComment } from './models/PlacedOrderComment';

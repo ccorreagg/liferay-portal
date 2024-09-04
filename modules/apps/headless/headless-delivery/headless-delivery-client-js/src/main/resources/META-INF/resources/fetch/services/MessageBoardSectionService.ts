@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { MessageBoardSection } from '../models/MessageBoardSection';
+import type { PageMessageBoardSection } from '../models/PageMessageBoardSection';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class MessageBoardSectionService {
@@ -185,7 +186,7 @@ export class MessageBoardSectionService {
     }
     /**
      * Retrieves the parent message board section's subsections. Results can be paginated, filtered, searched, and sorted.
-     * @returns MessageBoardSection
+     * @returns PageMessageBoardSection
      * @throws ApiError
      */
     public getMessageBoardSectionMessageBoardSectionsPage({
@@ -210,7 +211,7 @@ export class MessageBoardSectionService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<MessageBoardSection>> {
+    }): CancelablePromise<PageMessageBoardSection> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/message-board-sections/{parentMessageBoardSectionId}/message-board-sections',
@@ -279,7 +280,7 @@ export class MessageBoardSectionService {
     }
     /**
      * Retrieves the site's message board sections. Results can be paginated, filtered, searched, flattened, and sorted.
-     * @returns MessageBoardSection
+     * @returns PageMessageBoardSection
      * @throws ApiError
      */
     public getSiteMessageBoardSectionsPage({
@@ -306,7 +307,7 @@ export class MessageBoardSectionService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<MessageBoardSection>> {
+    }): CancelablePromise<PageMessageBoardSection> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/message-board-sections',

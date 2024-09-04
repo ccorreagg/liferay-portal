@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageUserGroup } from '../models/PageUserGroup';
 import type { UserGroup } from '../models/UserGroup';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,14 +10,14 @@ export class UserGroupService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the user's user groups.
-     * @returns UserGroup
+     * @returns PageUserGroup
      * @throws ApiError
      */
     public getUserUserGroups({
         userAccountId,
     }: {
         userAccountId: number,
-    }): CancelablePromise<Array<UserGroup>> {
+    }): CancelablePromise<PageUserGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/user-groups',
@@ -26,7 +27,7 @@ export class UserGroupService {
         });
     }
     /**
-     * @returns UserGroup
+     * @returns PageUserGroup
      * @throws ApiError
      */
     public getUserGroupsPage({
@@ -41,7 +42,7 @@ export class UserGroupService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<UserGroup>> {
+    }): CancelablePromise<PageUserGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-groups',

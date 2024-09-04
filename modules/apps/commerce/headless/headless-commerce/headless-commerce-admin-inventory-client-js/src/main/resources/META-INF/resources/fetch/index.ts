@@ -12,7 +12,14 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { Channel } from './models/Channel';
 export type { Error } from './models/Error';
+export type { Facet } from './models/Facet';
+export type { FacetValue } from './models/FacetValue';
 export type { OrderType } from './models/OrderType';
+export type { PageReplenishmentItem } from './models/PageReplenishmentItem';
+export type { PageWarehouse } from './models/PageWarehouse';
+export type { PageWarehouseChannel } from './models/PageWarehouseChannel';
+export type { PageWarehouseItem } from './models/PageWarehouseItem';
+export type { PageWarehouseOrderType } from './models/PageWarehouseOrderType';
 export type { ReplenishmentItem } from './models/ReplenishmentItem';
 export type { Warehouse } from './models/Warehouse';
 export type { WarehouseChannel } from './models/WarehouseChannel';

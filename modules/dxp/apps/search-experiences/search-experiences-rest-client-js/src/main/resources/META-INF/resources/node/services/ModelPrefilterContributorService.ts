@@ -2,16 +2,16 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ModelPrefilterContributor } from '../models/ModelPrefilterContributor';
+import type { PageModelPrefilterContributor } from '../models/PageModelPrefilterContributor';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ModelPrefilterContributorService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ModelPrefilterContributor
+     * @returns PageModelPrefilterContributor
      * @throws ApiError
      */
-    public getModelPrefilterContributorsPage(): CancelablePromise<Array<ModelPrefilterContributor>> {
+    public getModelPrefilterContributorsPage(): CancelablePromise<PageModelPrefilterContributor> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/search-experiences-rest/v1.0/model-prefilter-contributors',

@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePhone } from '../models/PagePhone';
 import type { Phone } from '../models/Phone';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,14 +10,14 @@ export class PhoneService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the account's phone numbers.
-     * @returns Phone
+     * @returns PagePhone
      * @throws ApiError
      */
     public getAccountByExternalReferenceCodePhonesPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<Phone>> {
+    }): CancelablePromise<PagePhone> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/phones',
@@ -27,14 +28,14 @@ export class PhoneService {
     }
     /**
      * Retrieves the account's phone numbers.
-     * @returns Phone
+     * @returns PagePhone
      * @throws ApiError
      */
     public getAccountPhonesPage({
         accountId,
     }: {
         accountId: number,
-    }): CancelablePromise<Array<Phone>> {
+    }): CancelablePromise<PagePhone> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/{accountId}/phones',
@@ -45,14 +46,14 @@ export class PhoneService {
     }
     /**
      * Retrieves the organization's phone numbers.
-     * @returns Phone
+     * @returns PagePhone
      * @throws ApiError
      */
     public getOrganizationByExternalReferenceCodePhonesPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<Phone>> {
+    }): CancelablePromise<PagePhone> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/phones',
@@ -63,14 +64,14 @@ export class PhoneService {
     }
     /**
      * Retrieves the organization's phone numbers.
-     * @returns Phone
+     * @returns PagePhone
      * @throws ApiError
      */
     public getOrganizationPhonesPage({
         organizationId,
     }: {
         organizationId: string,
-    }): CancelablePromise<Array<Phone>> {
+    }): CancelablePromise<PagePhone> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/{organizationId}/phones',
@@ -99,14 +100,14 @@ export class PhoneService {
     }
     /**
      * Retrieves the user's phone numbers.
-     * @returns Phone
+     * @returns PagePhone
      * @throws ApiError
      */
     public getUserAccountByExternalReferenceCodePhonesPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<Phone>> {
+    }): CancelablePromise<PagePhone> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}/phones',
@@ -117,14 +118,14 @@ export class PhoneService {
     }
     /**
      * Retrieves the user's phone numbers.
-     * @returns Phone
+     * @returns PagePhone
      * @throws ApiError
      */
     public getUserAccountPhonesPage({
         userAccountId,
     }: {
         userAccountId: number,
-    }): CancelablePromise<Array<Phone>> {
+    }): CancelablePromise<PagePhone> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/phones',

@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Transition } from '../models/Transition';
+import type { PageTransition } from '../models/PageTransition';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class TransitionService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Transition
+     * @returns PageTransition
      * @throws ApiError
      */
     public getWorkflowInstanceNextTransitionsPage({
@@ -19,7 +19,7 @@ export class TransitionService {
         workflowInstanceId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Transition>> {
+    }): CancelablePromise<PageTransition> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/next-transitions',
@@ -33,7 +33,7 @@ export class TransitionService {
         });
     }
     /**
-     * @returns Transition
+     * @returns PageTransition
      * @throws ApiError
      */
     public getWorkflowTaskNextTransitionsPage({
@@ -44,7 +44,7 @@ export class TransitionService {
         workflowTaskId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Transition>> {
+    }): CancelablePromise<PageTransition> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/next-transitions',

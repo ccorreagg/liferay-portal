@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePriceList } from '../models/PagePriceList';
 import type { PriceList } from '../models/PriceList';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class PriceListService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Price Lists.
-     * @returns PriceList Successful operation
+     * @returns PagePriceList Successful operation
      * @throws ApiError
      */
     public getPriceListsPage({
@@ -22,7 +23,7 @@ export class PriceListService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<PriceList>> {
+    }): CancelablePromise<PagePriceList> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/priceLists',

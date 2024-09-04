@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageWebUrl } from '../models/PageWebUrl';
 import type { WebUrl } from '../models/WebUrl';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,14 +10,14 @@ export class WebUrlService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the account's web URLs.
-     * @returns WebUrl
+     * @returns PageWebUrl
      * @throws ApiError
      */
     public getAccountByExternalReferenceCodeWebUrlsPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<WebUrl>> {
+    }): CancelablePromise<PageWebUrl> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/web-urls',
@@ -27,14 +28,14 @@ export class WebUrlService {
     }
     /**
      * Retrieves the account's web URLs.
-     * @returns WebUrl
+     * @returns PageWebUrl
      * @throws ApiError
      */
     public getAccountWebUrlsPage({
         accountId,
     }: {
         accountId: number,
-    }): CancelablePromise<Array<WebUrl>> {
+    }): CancelablePromise<PageWebUrl> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/{accountId}/web-urls',
@@ -45,14 +46,14 @@ export class WebUrlService {
     }
     /**
      * Retrieves the organization's web URLs.
-     * @returns WebUrl
+     * @returns PageWebUrl
      * @throws ApiError
      */
     public getOrganizationByExternalReferenceCodeWebUrlsPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<WebUrl>> {
+    }): CancelablePromise<PageWebUrl> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/web-urls',
@@ -63,14 +64,14 @@ export class WebUrlService {
     }
     /**
      * Retrieves the organization's URLs.
-     * @returns WebUrl
+     * @returns PageWebUrl
      * @throws ApiError
      */
     public getOrganizationWebUrlsPage({
         organizationId,
     }: {
         organizationId: string,
-    }): CancelablePromise<Array<WebUrl>> {
+    }): CancelablePromise<PageWebUrl> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/{organizationId}/web-urls',
@@ -81,14 +82,14 @@ export class WebUrlService {
     }
     /**
      * Retrieves the user's web URLs.
-     * @returns WebUrl
+     * @returns PageWebUrl
      * @throws ApiError
      */
     public getUserAccountByExternalReferenceCodeWebUrlsPage({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<WebUrl>> {
+    }): CancelablePromise<PageWebUrl> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}/web-urls',
@@ -99,14 +100,14 @@ export class WebUrlService {
     }
     /**
      * Retrieves the user's URLs.
-     * @returns WebUrl
+     * @returns PageWebUrl
      * @throws ApiError
      */
     public getUserAccountWebUrlsPage({
         userAccountId,
     }: {
         userAccountId: number,
-    }): CancelablePromise<Array<WebUrl>> {
+    }): CancelablePromise<PageWebUrl> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/user-accounts/{userAccountId}/web-urls',

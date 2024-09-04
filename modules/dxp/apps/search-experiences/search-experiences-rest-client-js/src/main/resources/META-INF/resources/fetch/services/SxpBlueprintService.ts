@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageSXPBlueprint } from '../models/PageSXPBlueprint';
 import type { SXPBlueprint } from '../models/SXPBlueprint';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SxpBlueprintService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns SXPBlueprint
+     * @returns PageSXPBlueprint
      * @throws ApiError
      */
     public getSxpBlueprintsPage({
@@ -23,7 +24,7 @@ export class SxpBlueprintService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<SXPBlueprint>> {
+    }): CancelablePromise<PageSXPBlueprint> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/search-experiences-rest/v1.0/sxp-blueprints',

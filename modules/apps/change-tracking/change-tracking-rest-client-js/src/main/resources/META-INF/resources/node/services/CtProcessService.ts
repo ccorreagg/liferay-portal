@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CTProcess } from '../models/CTProcess';
+import type { PageCTProcess } from '../models/PageCTProcess';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CtProcessService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns CTProcess
+     * @returns PageCTProcess
      * @throws ApiError
      */
     public getCtProcessesPage({
@@ -25,7 +26,7 @@ export class CtProcessService {
         search?: string,
         sort?: string,
         status?: Array<number>,
-    }): CancelablePromise<Array<CTProcess>> {
+    }): CancelablePromise<PageCTProcess> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/change-tracking-rest/v1.0/ct-processes',

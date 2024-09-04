@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { FormRecord } from '../models/FormRecord';
+import type { PageFormRecord } from '../models/PageFormRecord';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class FormRecordService {
@@ -54,7 +55,7 @@ export class FormRecordService {
     }
     /**
      * @deprecated
-     * @returns FormRecord
+     * @returns PageFormRecord
      * @throws ApiError
      */
     public getFormFormRecordsPage({
@@ -65,7 +66,7 @@ export class FormRecordService {
         formId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<FormRecord>> {
+    }): CancelablePromise<PageFormRecord> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-form/v1.0/forms/{formId}/form-records',

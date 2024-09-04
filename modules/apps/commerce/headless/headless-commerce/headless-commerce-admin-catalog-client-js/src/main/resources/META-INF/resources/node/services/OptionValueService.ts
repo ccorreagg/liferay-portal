@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OptionValue } from '../models/OptionValue';
+import type { PageOptionValue } from '../models/PageOptionValue';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class OptionValueService {
@@ -153,7 +154,7 @@ export class OptionValueService {
     }
     /**
      * Gets a list of values related to an option.
-     * @returns OptionValue Successful operation
+     * @returns PageOptionValue Successful operation
      * @throws ApiError
      */
     public getOptionByExternalReferenceCodeOptionValuesPage({
@@ -168,7 +169,7 @@ export class OptionValueService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<OptionValue>> {
+    }): CancelablePromise<PageOptionValue> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/options/by-externalReferenceCode/{externalReferenceCode}/optionValues',
@@ -219,7 +220,7 @@ export class OptionValueService {
     }
     /**
      * Gets a list of values related to an option.
-     * @returns OptionValue Successful operation
+     * @returns PageOptionValue Successful operation
      * @throws ApiError
      */
     public getOptionIdOptionValuesPage({
@@ -234,7 +235,7 @@ export class OptionValueService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<OptionValue>> {
+    }): CancelablePromise<PageOptionValue> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/options/{id}/optionValues',

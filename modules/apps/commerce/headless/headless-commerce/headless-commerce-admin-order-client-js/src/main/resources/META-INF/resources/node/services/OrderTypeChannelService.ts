@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OrderTypeChannel } from '../models/OrderTypeChannel';
+import type { PageOrderTypeChannel } from '../models/PageOrderTypeChannel';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class OrderTypeChannelService {
@@ -30,7 +31,7 @@ export class OrderTypeChannelService {
     }
     /**
      * Gets a list of Order Type Channels.
-     * @returns OrderTypeChannel Successful operation
+     * @returns PageOrderTypeChannel Successful operation
      * @throws ApiError
      */
     public getOrderTypeByExternalReferenceCodeOrderTypeChannelsPage({
@@ -41,7 +42,7 @@ export class OrderTypeChannelService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<OrderTypeChannel>> {
+    }): CancelablePromise<PageOrderTypeChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/order-types/by-externalReferenceCode/{externalReferenceCode}/order-type-channels',
@@ -90,7 +91,7 @@ export class OrderTypeChannelService {
     }
     /**
      * Gets a list of Order Type Channels.
-     * @returns OrderTypeChannel Successful operation
+     * @returns PageOrderTypeChannel Successful operation
      * @throws ApiError
      */
     public getOrderTypeIdOrderTypeChannelsPage({
@@ -105,7 +106,7 @@ export class OrderTypeChannelService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<OrderTypeChannel>> {
+    }): CancelablePromise<PageOrderTypeChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/order-types/{id}/order-type-channels',

@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { MappedProduct } from '../models/MappedProduct';
+import type { PageMappedProduct } from '../models/PageMappedProduct';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class MappedProductService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of mapped product.
-     * @returns MappedProduct Successful operation
+     * @returns PageMappedProduct Successful operation
      * @throws ApiError
      */
     public getChannelProductMappedProductsPage({
@@ -28,7 +28,7 @@ export class MappedProductService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<MappedProduct>> {
+    }): CancelablePromise<PageMappedProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/mapped-products',

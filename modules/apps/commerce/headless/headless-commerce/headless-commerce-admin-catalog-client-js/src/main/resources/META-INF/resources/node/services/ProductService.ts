@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageProduct } from '../models/PageProduct';
 import type { Product } from '../models/Product';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class ProductService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of products.
-     * @returns Product Successful operation
+     * @returns PageProduct Successful operation
      * @throws ApiError
      */
     public getProductsPage({
@@ -24,7 +25,7 @@ export class ProductService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Product>> {
+    }): CancelablePromise<PageProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products',

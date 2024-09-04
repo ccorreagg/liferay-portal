@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { NavigationMenu } from '../models/NavigationMenu';
+import type { PageNavigationMenu } from '../models/PageNavigationMenu';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class NavigationMenuService {
@@ -127,7 +128,7 @@ export class NavigationMenuService {
         });
     }
     /**
-     * @returns NavigationMenu
+     * @returns PageNavigationMenu
      * @throws ApiError
      */
     public getSiteNavigationMenusPage({
@@ -144,7 +145,7 @@ export class NavigationMenuService {
         page?: number,
         pageSize?: number,
         restrictFields?: string,
-    }): CancelablePromise<Array<NavigationMenu>> {
+    }): CancelablePromise<PageNavigationMenu> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/navigation-menus',

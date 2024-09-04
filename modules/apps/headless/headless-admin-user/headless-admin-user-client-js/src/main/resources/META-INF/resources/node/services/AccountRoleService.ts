@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AccountRole } from '../models/AccountRole';
+import type { PageAccountRole } from '../models/PageAccountRole';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountRoleService {
@@ -105,7 +106,7 @@ export class AccountRoleService {
     }
     /**
      * Gets a user's account roles by their external reference code from an account by external reference code
-     * @returns AccountRole
+     * @returns PageAccountRole
      * @throws ApiError
      */
     public getAccountByExternalReferenceCodeUserAccountByExternalReferenceCodeAccountRolesPage({
@@ -114,7 +115,7 @@ export class AccountRoleService {
     }: {
         accountExternalReferenceCode: string,
         externalReferenceCode: string,
-    }): CancelablePromise<Array<AccountRole>> {
+    }): CancelablePromise<PageAccountRole> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/user-accounts/by-external-reference-code/{externalReferenceCode}/account-roles',
@@ -126,7 +127,7 @@ export class AccountRoleService {
     }
     /**
      * Gets the account's roles
-     * @returns AccountRole
+     * @returns PageAccountRole
      * @throws ApiError
      */
     public getAccountAccountRolesByExternalReferenceCodePage({
@@ -143,7 +144,7 @@ export class AccountRoleService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<AccountRole>> {
+    }): CancelablePromise<PageAccountRole> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles',
@@ -279,7 +280,7 @@ export class AccountRoleService {
     }
     /**
      * Gets a user's account roles by their email address from an account by external reference code
-     * @returns AccountRole
+     * @returns PageAccountRole
      * @throws ApiError
      */
     public getAccountByExternalReferenceCodeUserAccountByEmailAddressAccountRolesPage({
@@ -288,7 +289,7 @@ export class AccountRoleService {
     }: {
         externalReferenceCode: string,
         emailAddress: string,
-    }): CancelablePromise<Array<AccountRole>> {
+    }): CancelablePromise<PageAccountRole> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address/{emailAddress}/account-roles',
@@ -300,7 +301,7 @@ export class AccountRoleService {
     }
     /**
      * Gets the account's roles
-     * @returns AccountRole
+     * @returns PageAccountRole
      * @throws ApiError
      */
     public getAccountAccountRolesPage({
@@ -317,7 +318,7 @@ export class AccountRoleService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<AccountRole>> {
+    }): CancelablePromise<PageAccountRole> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/{accountId}/account-roles',

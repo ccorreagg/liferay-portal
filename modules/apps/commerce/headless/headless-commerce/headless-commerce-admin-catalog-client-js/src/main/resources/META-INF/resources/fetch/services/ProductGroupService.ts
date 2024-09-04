@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageProductGroup } from '../models/PageProductGroup';
 import type { ProductGroup } from '../models/ProductGroup';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class ProductGroupService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of product groups.
-     * @returns ProductGroup Successful operation
+     * @returns PageProductGroup Successful operation
      * @throws ApiError
      */
     public getProductGroupsPage({
@@ -24,7 +25,7 @@ export class ProductGroupService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ProductGroup>> {
+    }): CancelablePromise<PageProductGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/product-groups',

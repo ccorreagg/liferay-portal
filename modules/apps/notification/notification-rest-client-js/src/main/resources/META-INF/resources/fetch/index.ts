@@ -10,8 +10,12 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { Facet } from './models/Facet';
+export type { FacetValue } from './models/FacetValue';
 export type { NotificationQueueEntry } from './models/NotificationQueueEntry';
 export type { NotificationTemplate } from './models/NotificationTemplate';
+export type { PageNotificationQueueEntry } from './models/PageNotificationQueueEntry';
+export type { PageNotificationTemplate } from './models/PageNotificationTemplate';
 
 export { NotificationQueueEntryService } from './services/NotificationQueueEntryService';
 export { NotificationTemplateService } from './services/NotificationTemplateService';

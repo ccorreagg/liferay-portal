@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ObjectDefinition } from '../models/ObjectDefinition';
+import type { PageObjectDefinition } from '../models/PageObjectDefinition';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ObjectDefinitionService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ObjectDefinition
+     * @returns PageObjectDefinition
      * @throws ApiError
      */
     public getObjectDefinitionsPage({
@@ -27,7 +28,7 @@ export class ObjectDefinitionService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<ObjectDefinition>> {
+    }): CancelablePromise<PageObjectDefinition> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions',

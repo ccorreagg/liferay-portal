@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { DataLayout } from '../models/DataLayout';
 import type { DataLayoutRenderingContext } from '../models/DataLayoutRenderingContext';
+import type { PageDataLayout } from '../models/PageDataLayout';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DataLayoutService {
@@ -26,7 +27,7 @@ export class DataLayoutService {
         });
     }
     /**
-     * @returns DataLayout
+     * @returns PageDataLayout
      * @throws ApiError
      */
     public getDataDefinitionDataLayoutsPage({
@@ -41,7 +42,7 @@ export class DataLayoutService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<DataLayout>> {
+    }): CancelablePromise<PageDataLayout> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-layouts',

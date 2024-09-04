@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePriceListAccountGroup } from '../models/PagePriceListAccountGroup';
 import type { PriceListAccountGroup } from '../models/PriceListAccountGroup';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -30,7 +31,7 @@ export class PriceListAccountGroupService {
     }
     /**
      * Gets a list of Price List Account Groups.
-     * @returns PriceListAccountGroup Successful operation
+     * @returns PagePriceListAccountGroup Successful operation
      * @throws ApiError
      */
     public getPriceListByExternalReferenceCodePriceListAccountGroupPage({
@@ -41,7 +42,7 @@ export class PriceListAccountGroupService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<PriceListAccountGroup>> {
+    }): CancelablePromise<PagePriceListAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/priceLists/by-externalReferenceCode/{externalReferenceCode}/priceListAccountGroup',
@@ -90,7 +91,7 @@ export class PriceListAccountGroupService {
     }
     /**
      * Gets a list of Price List Account Groups.
-     * @returns PriceListAccountGroup Successful operation
+     * @returns PagePriceListAccountGroup Successful operation
      * @throws ApiError
      */
     public getPriceListIdPriceListAccountGroupsPage({
@@ -101,7 +102,7 @@ export class PriceListAccountGroupService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<PriceListAccountGroup>> {
+    }): CancelablePromise<PagePriceListAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/priceLists/{id}/priceListAccountGroups',

@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CTCollection } from '../models/CTCollection';
+import type { PageCTCollection } from '../models/PageCTCollection';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CtCollectionService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns CTCollection
+     * @returns PageCTCollection
      * @throws ApiError
      */
     public getCtCollectionsPage({
@@ -23,7 +24,7 @@ export class CtCollectionService {
         search?: string,
         sort?: string,
         status?: Array<number>,
-    }): CancelablePromise<Array<CTCollection>> {
+    }): CancelablePromise<PageCTCollection> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/change-tracking-rest/v1.0/ct-collections',
@@ -181,7 +182,7 @@ export class CtCollectionService {
         });
     }
     /**
-     * @returns CTCollection The array of CTCollections that were retrieved by the supplied classNameId and classPk
+     * @returns PageCTCollection The array of CTCollections that were retrieved by the supplied classNameId and classPk
      * @throws ApiError
      */
     public getCtCollectionsHistoryPage({
@@ -190,7 +191,7 @@ export class CtCollectionService {
     }: {
         classNameId?: number,
         classPk?: number,
-    }): CancelablePromise<Array<CTCollection>> {
+    }): CancelablePromise<PageCTCollection> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/change-tracking-rest/v1.0/ct-collections/history',

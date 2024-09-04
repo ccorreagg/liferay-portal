@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { SkuForecast } from '../models/SkuForecast';
+import type { PageSkuForecast } from '../models/PageSkuForecast';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SkuForecastService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Get the forecast points
-     * @returns SkuForecast Successful operation
+     * @returns PageSkuForecast Successful operation
      * @throws ApiError
      */
     public getSkuForecastsByMonthlyRevenuePage({
@@ -26,7 +26,7 @@ export class SkuForecastService {
         page?: number,
         pageSize?: number,
         skus?: Array<string>,
-    }): CancelablePromise<Array<SkuForecast>> {
+    }): CancelablePromise<PageSkuForecast> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-machine-learning/v1.0/skuForecasts/by-monthlyDemand',

@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { MappedProduct } from '../models/MappedProduct';
+import type { PageMappedProduct } from '../models/PageMappedProduct';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class MappedProductService {
@@ -55,7 +56,7 @@ export class MappedProductService {
     }
     /**
      * Gets a list of product by external reference code.
-     * @returns MappedProduct Successful operation
+     * @returns PageMappedProduct Successful operation
      * @throws ApiError
      */
     public getProductByExternalReferenceCodeMappedProductsPage({
@@ -70,7 +71,7 @@ export class MappedProductService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<MappedProduct>> {
+    }): CancelablePromise<PageMappedProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/mapped-products',
@@ -148,7 +149,7 @@ export class MappedProductService {
     }
     /**
      * Gets a list of product.
-     * @returns MappedProduct Successful operation
+     * @returns PageMappedProduct Successful operation
      * @throws ApiError
      */
     public getProductIdMappedProductsPage({
@@ -163,7 +164,7 @@ export class MappedProductService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<MappedProduct>> {
+    }): CancelablePromise<PageMappedProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/products/{id}/mapped-products',

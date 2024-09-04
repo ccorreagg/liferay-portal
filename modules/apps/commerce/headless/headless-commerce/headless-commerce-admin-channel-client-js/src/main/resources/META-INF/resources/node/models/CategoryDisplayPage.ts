@@ -4,7 +4,9 @@
 /* eslint-disable */
 export type CategoryDisplayPage = {
     readonly actions?: Record<string, Record<string, string>>;
+    categoryExternalReferenceCode?: string;
     categoryId?: number;
+    groupExternalReferenceCode?: string;
     readonly id?: number;
     pageUuid?: string;
 };

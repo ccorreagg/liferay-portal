@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ProductOption } from '../models/ProductOption';
+import type { PageProductOption } from '../models/PageProductOption';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ProductOptionService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets Product Options.
-     * @returns ProductOption Successful operation
+     * @returns PageProductOption Successful operation
      * @throws ApiError
      */
     public getChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeProductOptionsPage({
@@ -22,7 +22,7 @@ export class ProductOptionService {
         productExternalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ProductOption>> {
+    }): CancelablePromise<PageProductOption> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/product-options',
@@ -43,7 +43,7 @@ export class ProductOptionService {
     }
     /**
      * Gets Product Options.
-     * @returns ProductOption Successful operation
+     * @returns PageProductOption Successful operation
      * @throws ApiError
      */
     public getChannelProductProductOptionsPage({
@@ -56,7 +56,7 @@ export class ProductOptionService {
         productId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ProductOption>> {
+    }): CancelablePromise<PageProductOption> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/product-options',

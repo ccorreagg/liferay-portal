@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OrderRuleAccountGroup } from '../models/OrderRuleAccountGroup';
+import type { PageOrderRuleAccountGroup } from '../models/PageOrderRuleAccountGroup';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class OrderRuleAccountGroupService {
@@ -30,7 +31,7 @@ export class OrderRuleAccountGroupService {
     }
     /**
      * Gets a list of Order Rule Account Groups.
-     * @returns OrderRuleAccountGroup Successful operation
+     * @returns PageOrderRuleAccountGroup Successful operation
      * @throws ApiError
      */
     public getOrderRuleByExternalReferenceCodeOrderRuleAccountGroupsPage({
@@ -41,7 +42,7 @@ export class OrderRuleAccountGroupService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<OrderRuleAccountGroup>> {
+    }): CancelablePromise<PageOrderRuleAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-account-groups',
@@ -90,7 +91,7 @@ export class OrderRuleAccountGroupService {
     }
     /**
      * Gets a list of Order rule Account Groups.
-     * @returns OrderRuleAccountGroup Successful operation
+     * @returns PageOrderRuleAccountGroup Successful operation
      * @throws ApiError
      */
     public getOrderRuleIdOrderRuleAccountGroupsPage({
@@ -107,7 +108,7 @@ export class OrderRuleAccountGroupService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<OrderRuleAccountGroup>> {
+    }): CancelablePromise<PageOrderRuleAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-account-groups',

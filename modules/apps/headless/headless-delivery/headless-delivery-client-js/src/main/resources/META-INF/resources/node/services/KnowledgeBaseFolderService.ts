@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { KnowledgeBaseFolder } from '../models/KnowledgeBaseFolder';
+import type { PageKnowledgeBaseFolder } from '../models/PageKnowledgeBaseFolder';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class KnowledgeBaseFolderService {
@@ -151,7 +152,7 @@ export class KnowledgeBaseFolderService {
     }
     /**
      * Retrieves the knowledge base folder's subfolders.
-     * @returns KnowledgeBaseFolder
+     * @returns PageKnowledgeBaseFolder
      * @throws ApiError
      */
     public getKnowledgeBaseFolderKnowledgeBaseFoldersPage({
@@ -168,7 +169,7 @@ export class KnowledgeBaseFolderService {
         page?: number,
         pageSize?: number,
         restrictFields?: string,
-    }): CancelablePromise<Array<KnowledgeBaseFolder>> {
+    }): CancelablePromise<PageKnowledgeBaseFolder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/knowledge-base-folders/{parentKnowledgeBaseFolderId}/knowledge-base-folders',
@@ -208,7 +209,7 @@ export class KnowledgeBaseFolderService {
     }
     /**
      * Retrieves the site's knowledge base folders. Results can be paginated.
-     * @returns KnowledgeBaseFolder
+     * @returns PageKnowledgeBaseFolder
      * @throws ApiError
      */
     public getSiteKnowledgeBaseFoldersPage({
@@ -225,7 +226,7 @@ export class KnowledgeBaseFolderService {
         page?: number,
         pageSize?: number,
         restrictFields?: string,
-    }): CancelablePromise<Array<KnowledgeBaseFolder>> {
+    }): CancelablePromise<PageKnowledgeBaseFolder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders',

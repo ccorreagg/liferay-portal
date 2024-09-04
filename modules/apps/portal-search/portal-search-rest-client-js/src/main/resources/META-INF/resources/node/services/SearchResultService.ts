@@ -2,15 +2,15 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageSearchResult } from '../models/PageSearchResult';
 import type { SearchRequestBody } from '../models/SearchRequestBody';
-import type { SearchResult } from '../models/SearchResult';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SearchResultService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Search the company index for matching content. This endpoint is development and requires setting the portal property 'feature.flag.LPD-11232' to true or enabling via Instance Settings > Feature Flags: Developer.
-     * @returns SearchResult
+     * @returns PageSearchResult
      * @throws ApiError
      */
     public getSearchPage({
@@ -45,7 +45,7 @@ export class SearchResultService {
         scope?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<SearchResult>> {
+    }): CancelablePromise<PageSearchResult> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/search/v1.0/search',
@@ -67,7 +67,7 @@ export class SearchResultService {
     }
     /**
      * Search the company index for matching content. This endpoint requires setting the portal property 'feature.flag.LPS-179669' to true or enabling via Instance Settings > Feature Flags: Release.
-     * @returns SearchResult
+     * @returns PageSearchResult
      * @throws ApiError
      */
     public postSearchPage({
@@ -100,7 +100,7 @@ export class SearchResultService {
         search?: string,
         sort?: string,
         requestBody?: SearchRequestBody,
-    }): CancelablePromise<Array<SearchResult>> {
+    }): CancelablePromise<PageSearchResult> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/search/v1.0/search',

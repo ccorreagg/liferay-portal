@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { KnowledgeBaseArticle } from '../models/KnowledgeBaseArticle';
+import type { PageKnowledgeBaseArticle } from '../models/PageKnowledgeBaseArticle';
 import type { Rating } from '../models/Rating';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -274,7 +275,7 @@ export class KnowledgeBaseArticleService {
     }
     /**
      * Retrieves the parent knowledge base article's child knowledge base articles. Results can be paginated, filtered, searched, and sorted.
-     * @returns KnowledgeBaseArticle
+     * @returns PageKnowledgeBaseArticle
      * @throws ApiError
      */
     public getKnowledgeBaseArticleKnowledgeBaseArticlesPage({
@@ -301,7 +302,7 @@ export class KnowledgeBaseArticleService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<KnowledgeBaseArticle>> {
+    }): CancelablePromise<PageKnowledgeBaseArticle> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/knowledge-base-articles/{parentKnowledgeBaseArticleId}/knowledge-base-articles',
@@ -346,7 +347,7 @@ export class KnowledgeBaseArticleService {
     }
     /**
      * Retrieves the folder's knowledge base articles. Results can be paginated, filtered, searched, flattened, and sorted.
-     * @returns KnowledgeBaseArticle
+     * @returns PageKnowledgeBaseArticle
      * @throws ApiError
      */
     public getKnowledgeBaseFolderKnowledgeBaseArticlesPage({
@@ -373,7 +374,7 @@ export class KnowledgeBaseArticleService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<KnowledgeBaseArticle>> {
+    }): CancelablePromise<PageKnowledgeBaseArticle> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}/knowledge-base-articles',
@@ -418,7 +419,7 @@ export class KnowledgeBaseArticleService {
     }
     /**
      * Retrieves the site's knowledge base articles. Results can be paginated, filtered, searched, flattened, and sorted.
-     * @returns KnowledgeBaseArticle
+     * @returns PageKnowledgeBaseArticle
      * @throws ApiError
      */
     public getSiteKnowledgeBaseArticlesPage({
@@ -445,7 +446,7 @@ export class KnowledgeBaseArticleService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<KnowledgeBaseArticle>> {
+    }): CancelablePromise<PageKnowledgeBaseArticle> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles',

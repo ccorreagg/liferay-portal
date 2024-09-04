@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Channel } from '../models/Channel';
+import type { PageChannel } from '../models/PageChannel';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ChannelService {
@@ -33,7 +34,7 @@ export class ChannelService {
     }
     /**
      * Retrieves channels.
-     * @returns Channel Successful operation
+     * @returns PageChannel Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceAdminChannelV10Channels({
@@ -48,7 +49,7 @@ export class ChannelService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Channel>> {
+    }): CancelablePromise<PageChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-channel/v1.0/channels',

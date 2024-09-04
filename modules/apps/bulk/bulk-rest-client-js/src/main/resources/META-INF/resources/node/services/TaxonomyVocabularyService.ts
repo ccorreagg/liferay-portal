@@ -3,13 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DocumentBulkSelection } from '../models/DocumentBulkSelection';
-import type { TaxonomyVocabulary } from '../models/TaxonomyVocabulary';
+import type { PageTaxonomyVocabulary } from '../models/PageTaxonomyVocabulary';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class TaxonomyVocabularyService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns TaxonomyVocabulary
+     * @returns PageTaxonomyVocabulary
      * @throws ApiError
      */
     public postSiteTaxonomyVocabulariesCommonPage({
@@ -18,7 +18,7 @@ export class TaxonomyVocabularyService {
     }: {
         siteId: number,
         requestBody?: DocumentBulkSelection,
-    }): CancelablePromise<Array<TaxonomyVocabulary>> {
+    }): CancelablePromise<PageTaxonomyVocabulary> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/bulk/v1.0/sites/{siteId}/taxonomy-vocabularies/common',

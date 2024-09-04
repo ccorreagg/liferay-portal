@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageSLA } from '../models/PageSLA';
 import type { SLA } from '../models/SLA';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class SlaService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns SLA
+     * @returns PageSLA
      * @throws ApiError
      */
     public getProcessSlAsPage({
@@ -21,7 +22,7 @@ export class SlaService {
         page?: number,
         pageSize?: number,
         status?: number,
-    }): CancelablePromise<Array<SLA>> {
+    }): CancelablePromise<PageSLA> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/portal-workflow-metrics/v1.0/processes/{processId}/slas',

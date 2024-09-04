@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageTerm } from '../models/PageTerm';
 import type { Term } from '../models/Term';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class TermService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Terms.
-     * @returns Term Successful operation
+     * @returns PageTerm Successful operation
      * @throws ApiError
      */
     public getTermsPage({
@@ -24,7 +25,7 @@ export class TermService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Term>> {
+    }): CancelablePromise<PageTerm> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/terms',

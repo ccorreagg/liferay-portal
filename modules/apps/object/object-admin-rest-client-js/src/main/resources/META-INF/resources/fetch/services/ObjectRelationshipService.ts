@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ObjectRelationship } from '../models/ObjectRelationship';
+import type { PageObjectRelationship } from '../models/PageObjectRelationship';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ObjectRelationshipService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ObjectRelationship
+     * @returns PageObjectRelationship
      * @throws ApiError
      */
     public getObjectDefinitionByExternalReferenceCodeObjectRelationshipsPage({
@@ -25,7 +26,7 @@ export class ObjectRelationshipService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ObjectRelationship>> {
+    }): CancelablePromise<PageObjectRelationship> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-relationships',
@@ -63,7 +64,7 @@ export class ObjectRelationshipService {
         });
     }
     /**
-     * @returns ObjectRelationship
+     * @returns PageObjectRelationship
      * @throws ApiError
      */
     public getObjectDefinitionObjectRelationshipsPage({
@@ -80,7 +81,7 @@ export class ObjectRelationshipService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ObjectRelationship>> {
+    }): CancelablePromise<PageObjectRelationship> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-relationships',

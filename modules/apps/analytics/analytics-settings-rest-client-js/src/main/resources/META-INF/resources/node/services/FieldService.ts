@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Field } from '../models/Field';
+import type { PageField } from '../models/PageField';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class FieldService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Field
+     * @returns PageField
      * @throws ApiError
      */
     public getFieldsAccountsPage({
@@ -21,7 +22,7 @@ export class FieldService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<Field>> {
+    }): CancelablePromise<PageField> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/analytics-settings-rest/v1.0/fields/accounts',
@@ -50,7 +51,7 @@ export class FieldService {
         });
     }
     /**
-     * @returns Field
+     * @returns PageField
      * @throws ApiError
      */
     public getFieldsOrdersPage({
@@ -63,7 +64,7 @@ export class FieldService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<Field>> {
+    }): CancelablePromise<PageField> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/analytics-settings-rest/v1.0/fields/orders',
@@ -92,7 +93,7 @@ export class FieldService {
         });
     }
     /**
-     * @returns Field
+     * @returns PageField
      * @throws ApiError
      */
     public getFieldsPeoplePage({
@@ -105,7 +106,7 @@ export class FieldService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<Field>> {
+    }): CancelablePromise<PageField> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/analytics-settings-rest/v1.0/fields/people',
@@ -134,7 +135,7 @@ export class FieldService {
         });
     }
     /**
-     * @returns Field
+     * @returns PageField
      * @throws ApiError
      */
     public getFieldsProductsPage({
@@ -147,7 +148,7 @@ export class FieldService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<Field>> {
+    }): CancelablePromise<PageField> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/analytics-settings-rest/v1.0/fields/products',

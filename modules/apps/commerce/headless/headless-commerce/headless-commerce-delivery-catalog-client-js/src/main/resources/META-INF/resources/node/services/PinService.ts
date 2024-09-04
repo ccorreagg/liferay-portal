@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Pin } from '../models/Pin';
+import type { PagePin } from '../models/PagePin';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class PinService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of pin.
-     * @returns Pin Successful operation
+     * @returns PagePin Successful operation
      * @throws ApiError
      */
     public getChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodePinsPage({
@@ -28,7 +28,7 @@ export class PinService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Pin>> {
+    }): CancelablePromise<PagePin> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/pins',
@@ -53,7 +53,7 @@ export class PinService {
     }
     /**
      * Gets a list of pin.
-     * @returns Pin Successful operation
+     * @returns PagePin Successful operation
      * @throws ApiError
      */
     public getChannelProductPinsPage({
@@ -72,7 +72,7 @@ export class PinService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Pin>> {
+    }): CancelablePromise<PagePin> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/pins',

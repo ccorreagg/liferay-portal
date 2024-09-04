@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageWarehouseChannel } from '../models/PageWarehouseChannel';
 import type { WarehouseChannel } from '../models/WarehouseChannel';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -30,7 +31,7 @@ export class WarehouseChannelService {
     }
     /**
      * Gets a list of Warehouse Channels.
-     * @returns WarehouseChannel Successful operation
+     * @returns PageWarehouseChannel Successful operation
      * @throws ApiError
      */
     public getWarehouseByExternalReferenceCodeWarehouseChannelsPage({
@@ -41,7 +42,7 @@ export class WarehouseChannelService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WarehouseChannel>> {
+    }): CancelablePromise<PageWarehouseChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-inventory/v1.0/warehouses/by-externalReferenceCode/{externalReferenceCode}/warehouse-channels',
@@ -90,7 +91,7 @@ export class WarehouseChannelService {
     }
     /**
      * Gets a list of Warehouse Channels.
-     * @returns WarehouseChannel Successful operation
+     * @returns PageWarehouseChannel Successful operation
      * @throws ApiError
      */
     public getWarehouseIdWarehouseChannelsPage({
@@ -107,7 +108,7 @@ export class WarehouseChannelService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<WarehouseChannel>> {
+    }): CancelablePromise<PageWarehouseChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-inventory/v1.0/warehouses/{id}/warehouse-channels',

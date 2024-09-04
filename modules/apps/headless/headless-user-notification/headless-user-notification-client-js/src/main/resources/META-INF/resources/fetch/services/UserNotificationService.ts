@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageUserNotification } from '../models/PageUserNotification';
 import type { UserNotification } from '../models/UserNotification';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class UserNotificationService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the current user's notifications. Results can be paginated, filtered, searched and sorted.
-     * @returns UserNotification
+     * @returns PageUserNotification
      * @throws ApiError
      */
     public getMyUserNotificationsPage({
@@ -28,7 +29,7 @@ export class UserNotificationService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<UserNotification>> {
+    }): CancelablePromise<PageUserNotification> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-user-notification/v1.0/my-user-notifications',
@@ -45,7 +46,7 @@ export class UserNotificationService {
     }
     /**
      * Retrieves the user account's notifications. Results can be paginated, filtered, searched and sorted.
-     * @returns UserNotification
+     * @returns PageUserNotification
      * @throws ApiError
      */
     public getUserAccountUserNotificationsPage({
@@ -66,7 +67,7 @@ export class UserNotificationService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<UserNotification>> {
+    }): CancelablePromise<PageUserNotification> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-user-notification/v1.0/user-accounts/{userAccountId}/user-notifications',

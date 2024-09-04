@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePaymentMethodGroupRelTerm } from '../models/PagePaymentMethodGroupRelTerm';
 import type { PaymentMethodGroupRelTerm } from '../models/PaymentMethodGroupRelTerm';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -30,7 +31,7 @@ export class PaymentMethodGroupRelTermService {
     }
     /**
      * Gets a list of Payment Method Group Rel Terms.
-     * @returns PaymentMethodGroupRelTerm Successful operation
+     * @returns PagePaymentMethodGroupRelTerm Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceAdminChannelV10PaymentMethodGroupRelsPaymentMethodGroupRelTerms({
@@ -47,7 +48,7 @@ export class PaymentMethodGroupRelTermService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<PaymentMethodGroupRelTerm>> {
+    }): CancelablePromise<PagePaymentMethodGroupRelTerm> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-channel/v1.0/payment-method-group-rels/{id}/payment-method-group-rel-terms',

@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DisplayPageTemplate } from '../models/DisplayPageTemplate';
+import type { PageDisplayPageTemplate } from '../models/PageDisplayPageTemplate';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DisplayPageTemplateService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the display page templates of a site
-     * @returns DisplayPageTemplate
+     * @returns PageDisplayPageTemplate
      * @throws ApiError
      */
     public getSiteDisplayPageTemplatesPage({
@@ -28,7 +29,7 @@ export class DisplayPageTemplateService {
         pageSize?: number,
         restrictFields?: string,
         sort?: string,
-    }): CancelablePromise<Array<DisplayPageTemplate>> {
+    }): CancelablePromise<PageDisplayPageTemplate> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-content/v1.0/sites/{siteId}/display-page-templates',

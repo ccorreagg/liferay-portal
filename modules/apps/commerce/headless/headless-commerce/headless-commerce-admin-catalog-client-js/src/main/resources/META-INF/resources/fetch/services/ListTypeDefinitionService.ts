@@ -3,20 +3,21 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ListTypeDefinition } from '../models/ListTypeDefinition';
+import type { PageListTypeDefinition } from '../models/PageListTypeDefinition';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ListTypeDefinitionService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets the picklist associated to the specification.
-     * @returns ListTypeDefinition Successful operation
+     * @returns PageListTypeDefinition Successful operation
      * @throws ApiError
      */
     public getSpecificationIdListTypeDefinitionsPage({
         id,
     }: {
         id: number,
-    }): CancelablePromise<Array<ListTypeDefinition>> {
+    }): CancelablePromise<PageListTypeDefinition> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/specifications/{id}/list-type-definitions',

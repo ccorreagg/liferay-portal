@@ -15,6 +15,9 @@ export type { DSEnvelope } from './models/DSEnvelope';
 export type { DSEnvelopeSignatureURL } from './models/DSEnvelopeSignatureURL';
 export type { DSRecipient } from './models/DSRecipient';
 export type { DSRecipientViewDefinition } from './models/DSRecipientViewDefinition';
+export type { Facet } from './models/Facet';
+export type { FacetValue } from './models/FacetValue';
+export type { PageDSEnvelope } from './models/PageDSEnvelope';
 
 export { DsEnvelopeService } from './services/DsEnvelopeService';
 export { DsRecipientViewDefinitionService } from './services/DsRecipientViewDefinitionService';

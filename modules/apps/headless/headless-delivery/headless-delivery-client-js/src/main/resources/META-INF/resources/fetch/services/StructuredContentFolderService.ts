@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageStructuredContentFolder } from '../models/PageStructuredContentFolder';
 import type { StructuredContentFolder } from '../models/StructuredContentFolder';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class StructuredContentFolderService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns StructuredContentFolder
+     * @returns PageStructuredContentFolder
      * @throws ApiError
      */
     public getAssetLibraryStructuredContentFoldersPage({
@@ -35,7 +36,7 @@ export class StructuredContentFolderService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<StructuredContentFolder>> {
+    }): CancelablePromise<PageStructuredContentFolder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-content-folders',
@@ -208,7 +209,7 @@ export class StructuredContentFolderService {
     }
     /**
      * Retrieves the site's structured content folders. Results can be paginated, filtered, searched, flattened, and sorted.
-     * @returns StructuredContentFolder
+     * @returns PageStructuredContentFolder
      * @throws ApiError
      */
     public getSiteStructuredContentFoldersPage({
@@ -235,7 +236,7 @@ export class StructuredContentFolderService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<StructuredContentFolder>> {
+    }): CancelablePromise<PageStructuredContentFolder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/structured-content-folders',
@@ -457,7 +458,7 @@ export class StructuredContentFolderService {
     }
     /**
      * Retrieves the parent structured content folder's subfolders. Results can be paginated, filtered, searched, and sorted.
-     * @returns StructuredContentFolder
+     * @returns PageStructuredContentFolder
      * @throws ApiError
      */
     public getStructuredContentFolderStructuredContentFoldersPage({
@@ -482,7 +483,7 @@ export class StructuredContentFolderService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<StructuredContentFolder>> {
+    }): CancelablePromise<PageStructuredContentFolder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/structured-content-folders/{parentStructuredContentFolderId}/structured-content-folders',

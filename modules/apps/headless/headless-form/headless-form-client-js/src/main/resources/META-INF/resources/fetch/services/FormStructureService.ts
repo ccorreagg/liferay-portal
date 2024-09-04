@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { FormStructure } from '../models/FormStructure';
+import type { PageFormStructure } from '../models/PageFormStructure';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class FormStructureService {
@@ -27,7 +28,7 @@ export class FormStructureService {
     }
     /**
      * @deprecated
-     * @returns FormStructure
+     * @returns PageFormStructure
      * @throws ApiError
      */
     public getSiteFormStructuresPage({
@@ -38,7 +39,7 @@ export class FormStructureService {
         siteId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<FormStructure>> {
+    }): CancelablePromise<PageFormStructure> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-form/v1.0/sites/{siteId}/form-structures',

@@ -3,15 +3,16 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Index } from '../models/Index';
+import type { PageIndex } from '../models/PageIndex';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class IndexService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Index
+     * @returns PageIndex
      * @throws ApiError
      */
-    public getIndexesPage(): CancelablePromise<Array<Index>> {
+    public getIndexesPage(): CancelablePromise<PageIndex> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/portal-workflow-metrics/v1.0/indexes',

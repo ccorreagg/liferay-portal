@@ -5,6 +5,7 @@
 import type { Account } from '../models/Account';
 import type { body } from '../models/body';
 import type { body_1 } from '../models/body_1';
+import type { PageAccount } from '../models/PageAccount';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountService {
@@ -66,7 +67,7 @@ export class AccountService {
     }
     /**
      * Gets a list of Accounts.
-     * @returns Account Successful operation
+     * @returns PageAccount Successful operation
      * @throws ApiError
      */
     public getAccountsPage({
@@ -81,7 +82,7 @@ export class AccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Account>> {
+    }): CancelablePromise<PageAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accounts',

@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DSEnvelope } from '../models/DSEnvelope';
+import type { PageDSEnvelope } from '../models/PageDSEnvelope';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DsEnvelopeService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns DSEnvelope
+     * @returns PageDSEnvelope
      * @throws ApiError
      */
     public getSiteDsEnvelopesPage({
@@ -27,7 +28,7 @@ export class DsEnvelopeService {
         page?: number,
         pageSize?: number,
         status?: string,
-    }): CancelablePromise<Array<DSEnvelope>> {
+    }): CancelablePromise<PageDSEnvelope> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/digital-signature-rest/v1.0/sites/{siteId}/ds-envelopes',

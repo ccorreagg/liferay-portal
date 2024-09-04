@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageWarehouse } from '../models/PageWarehouse';
 import type { Warehouse } from '../models/Warehouse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class WarehouseService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a List of Warehouses.
-     * @returns Warehouse Successful operation
+     * @returns PageWarehouse Successful operation
      * @throws ApiError
      */
     public getWarehousesPage({
@@ -24,7 +25,7 @@ export class WarehouseService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Warehouse>> {
+    }): CancelablePromise<PageWarehouse> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-inventory/v1.0/warehouses',

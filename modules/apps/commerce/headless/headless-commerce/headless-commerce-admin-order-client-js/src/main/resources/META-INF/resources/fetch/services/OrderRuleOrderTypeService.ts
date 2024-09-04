@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OrderRuleOrderType } from '../models/OrderRuleOrderType';
+import type { PageOrderRuleOrderType } from '../models/PageOrderRuleOrderType';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class OrderRuleOrderTypeService {
@@ -30,7 +31,7 @@ export class OrderRuleOrderTypeService {
     }
     /**
      * Gets a list of Order Rule Order Types.
-     * @returns OrderRuleOrderType Successful operation
+     * @returns PageOrderRuleOrderType Successful operation
      * @throws ApiError
      */
     public getOrderRuleByExternalReferenceCodeOrderRuleOrderTypesPage({
@@ -41,7 +42,7 @@ export class OrderRuleOrderTypeService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<OrderRuleOrderType>> {
+    }): CancelablePromise<PageOrderRuleOrderType> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-order-types',
@@ -90,7 +91,7 @@ export class OrderRuleOrderTypeService {
     }
     /**
      * Gets a list of Order rule Order Types.
-     * @returns OrderRuleOrderType Successful operation
+     * @returns PageOrderRuleOrderType Successful operation
      * @throws ApiError
      */
     public getOrderRuleIdOrderRuleOrderTypesPage({
@@ -103,7 +104,7 @@ export class OrderRuleOrderTypeService {
         page?: number,
         pageSize?: number,
         search?: string,
-    }): CancelablePromise<Array<OrderRuleOrderType>> {
+    }): CancelablePromise<PageOrderRuleOrderType> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-order-types',

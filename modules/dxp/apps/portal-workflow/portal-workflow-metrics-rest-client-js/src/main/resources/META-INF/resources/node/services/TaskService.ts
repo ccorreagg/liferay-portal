@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageTask } from '../models/PageTask';
 import type { Task } from '../models/Task';
 import type { TaskBulkSelection } from '../models/TaskBulkSelection';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -9,14 +10,14 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class TaskService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Task
+     * @returns PageTask
      * @throws ApiError
      */
     public getProcessTasksPage({
         processId,
     }: {
         processId: number,
-    }): CancelablePromise<Array<Task>> {
+    }): CancelablePromise<PageTask> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/portal-workflow-metrics/v1.0/processes/{processId}/tasks',
@@ -135,7 +136,7 @@ export class TaskService {
         });
     }
     /**
-     * @returns Task
+     * @returns PageTask
      * @throws ApiError
      */
     public postTasksPage({
@@ -146,7 +147,7 @@ export class TaskService {
         page?: number,
         pageSize?: number,
         requestBody?: TaskBulkSelection,
-    }): CancelablePromise<Array<Task>> {
+    }): CancelablePromise<PageTask> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/portal-workflow-metrics/v1.0/tasks',

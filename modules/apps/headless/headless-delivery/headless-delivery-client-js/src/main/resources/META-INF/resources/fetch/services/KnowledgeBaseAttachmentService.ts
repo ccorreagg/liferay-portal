@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { KnowledgeBaseAttachment } from '../models/KnowledgeBaseAttachment';
+import type { PageKnowledgeBaseAttachment } from '../models/PageKnowledgeBaseAttachment';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class KnowledgeBaseAttachmentService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the knowledge base article's attachments.
-     * @returns KnowledgeBaseAttachment
+     * @returns PageKnowledgeBaseAttachment
      * @throws ApiError
      */
     public getKnowledgeBaseArticleKnowledgeBaseAttachmentsPage({
@@ -22,7 +23,7 @@ export class KnowledgeBaseAttachmentService {
         fields?: string,
         nestedFields?: string,
         restrictFields?: string,
-    }): CancelablePromise<Array<KnowledgeBaseAttachment>> {
+    }): CancelablePromise<PageKnowledgeBaseAttachment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/knowledge-base-attachments',

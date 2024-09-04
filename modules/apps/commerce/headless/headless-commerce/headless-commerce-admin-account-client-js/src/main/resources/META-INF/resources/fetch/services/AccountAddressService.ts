@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AccountAddress } from '../models/AccountAddress';
+import type { PageAccountAddress } from '../models/PageAccountAddress';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountAddressService {
@@ -183,7 +184,7 @@ export class AccountAddressService {
     }
     /**
      * Gets a list of Addresses related to an Account.
-     * @returns AccountAddress Successful operation
+     * @returns PageAccountAddress Successful operation
      * @throws ApiError
      */
     public getAccountByExternalReferenceCodeAccountAddressesPage({
@@ -194,7 +195,7 @@ export class AccountAddressService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountAddress>> {
+    }): CancelablePromise<PageAccountAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountAddresses',
@@ -244,7 +245,7 @@ export class AccountAddressService {
     }
     /**
      * Gets a list of Addresses related to an Account.
-     * @returns AccountAddress Successful operation
+     * @returns PageAccountAddress Successful operation
      * @throws ApiError
      */
     public getAccountIdAccountAddressesPage({
@@ -255,7 +256,7 @@ export class AccountAddressService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountAddress>> {
+    }): CancelablePromise<PageAccountAddress> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountAddresses',

@@ -11,6 +11,9 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { Admin } from './models/Admin';
+export type { Facet } from './models/Facet';
+export type { FacetValue } from './models/FacetValue';
+export type { PagePortalInstance } from './models/PagePortalInstance';
 export type { PortalInstance } from './models/PortalInstance';
 
 export { PortalInstanceService } from './services/PortalInstanceService';

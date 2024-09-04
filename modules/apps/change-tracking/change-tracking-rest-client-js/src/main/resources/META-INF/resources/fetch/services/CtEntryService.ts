@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CTEntry } from '../models/CTEntry';
+import type { PageCTEntry } from '../models/PageCTEntry';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CtEntryService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns CTEntry
+     * @returns PageCTEntry
      * @throws ApiError
      */
     public getCtCollectionCtEntriesPage({
@@ -27,7 +28,7 @@ export class CtEntryService {
         search?: string,
         showHideable?: boolean,
         sort?: string,
-    }): CancelablePromise<Array<CTEntry>> {
+    }): CancelablePromise<PageCTEntry> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/ct-entries',

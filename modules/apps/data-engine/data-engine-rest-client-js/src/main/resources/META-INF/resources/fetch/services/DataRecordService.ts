@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DataRecord } from '../models/DataRecord';
+import type { PageDataRecord } from '../models/PageDataRecord';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DataRecordService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns DataRecord
+     * @returns PageDataRecord
      * @throws ApiError
      */
     public getDataDefinitionDataRecordsPage({
@@ -25,7 +26,7 @@ export class DataRecordService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<DataRecord>> {
+    }): CancelablePromise<PageDataRecord> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-records',
@@ -63,7 +64,7 @@ export class DataRecordService {
         });
     }
     /**
-     * @returns DataRecord
+     * @returns PageDataRecord
      * @throws ApiError
      */
     public getDataRecordCollectionDataRecordsPage({
@@ -80,7 +81,7 @@ export class DataRecordService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<DataRecord>> {
+    }): CancelablePromise<PageDataRecord> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/data-records',

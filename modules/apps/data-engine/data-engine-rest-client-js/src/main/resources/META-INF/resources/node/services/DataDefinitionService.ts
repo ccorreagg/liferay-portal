@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DataDefinition } from '../models/DataDefinition';
+import type { PageDataDefinition } from '../models/PageDataDefinition';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DataDefinitionService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns DataDefinition
+     * @returns PageDataDefinition
      * @throws ApiError
      */
     public getDataDefinitionByContentTypeContentTypePage({
@@ -23,7 +24,7 @@ export class DataDefinitionService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<DataDefinition>> {
+    }): CancelablePromise<PageDataDefinition> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/data-engine/v2.0/data-definitions/by-content-type/{contentType}',
@@ -205,7 +206,7 @@ export class DataDefinitionService {
         });
     }
     /**
-     * @returns DataDefinition
+     * @returns PageDataDefinition
      * @throws ApiError
      */
     public getSiteDataDefinitionByContentTypeContentTypePage({
@@ -222,7 +223,7 @@ export class DataDefinitionService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<DataDefinition>> {
+    }): CancelablePromise<PageDataDefinition> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/data-engine/v2.0/sites/{siteId}/data-definitions/by-content-type/{contentType}',

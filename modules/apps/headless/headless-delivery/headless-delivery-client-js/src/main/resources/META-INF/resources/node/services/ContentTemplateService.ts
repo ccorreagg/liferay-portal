@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ContentTemplate } from '../models/ContentTemplate';
+import type { PageContentTemplate } from '../models/PageContentTemplate';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ContentTemplateService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ContentTemplate
+     * @returns PageContentTemplate
      * @throws ApiError
      */
     public getAssetLibraryContentTemplatesPage({
@@ -33,7 +34,7 @@ export class ContentTemplateService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ContentTemplate>> {
+    }): CancelablePromise<PageContentTemplate> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-templates',
@@ -54,7 +55,7 @@ export class ContentTemplateService {
         });
     }
     /**
-     * @returns ContentTemplate
+     * @returns PageContentTemplate
      * @throws ApiError
      */
     public getSiteContentTemplatesPage({
@@ -79,7 +80,7 @@ export class ContentTemplateService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ContentTemplate>> {
+    }): CancelablePromise<PageContentTemplate> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/content-templates',

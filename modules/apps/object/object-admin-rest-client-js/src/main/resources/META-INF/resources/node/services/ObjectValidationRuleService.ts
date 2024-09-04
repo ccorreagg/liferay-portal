@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ObjectValidationRule } from '../models/ObjectValidationRule';
+import type { PageObjectValidationRule } from '../models/PageObjectValidationRule';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ObjectValidationRuleService {
@@ -65,7 +66,7 @@ export class ObjectValidationRuleService {
         });
     }
     /**
-     * @returns ObjectValidationRule
+     * @returns PageObjectValidationRule
      * @throws ApiError
      */
     public getObjectDefinitionObjectValidationRulesPage({
@@ -82,7 +83,7 @@ export class ObjectValidationRuleService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<ObjectValidationRule>> {
+    }): CancelablePromise<PageObjectValidationRule> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-validation-rules',

@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Organization } from '../models/Organization';
+import type { PageOrganization } from '../models/PageOrganization';
+import type { PageUserAccount } from '../models/PageUserAccount';
 import type { UserAccount } from '../models/UserAccount';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -10,7 +12,7 @@ export class OrganizationService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the account's organizations. Results can be paginated, filtered, searched, and sorted.
-     * @returns Organization
+     * @returns PageOrganization
      * @throws ApiError
      */
     public getHeadlessAdminUserV10AccountsByExternalReferenceCodeOrganizations({
@@ -27,7 +29,7 @@ export class OrganizationService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Organization>> {
+    }): CancelablePromise<PageOrganization> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/organizations',
@@ -105,7 +107,7 @@ export class OrganizationService {
     }
     /**
      * Retrieves the account's organizations. Results can be paginated, filtered, searched, and sorted.
-     * @returns Organization
+     * @returns PageOrganization
      * @throws ApiError
      */
     public getHeadlessAdminUserV10AccountsOrganizations({
@@ -122,7 +124,7 @@ export class OrganizationService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Organization>> {
+    }): CancelablePromise<PageOrganization> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts/{accountId}/organizations',
@@ -200,7 +202,7 @@ export class OrganizationService {
     }
     /**
      * Retrieves the organizations. Results can be paginated, filtered, searched, and sorted.
-     * @returns Organization
+     * @returns PageOrganization
      * @throws ApiError
      */
     public getOrganizationsPage({
@@ -217,7 +219,7 @@ export class OrganizationService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Organization>> {
+    }): CancelablePromise<PageOrganization> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations',
@@ -409,7 +411,7 @@ export class OrganizationService {
     }
     /**
      * Retrieves the parent organization's child organizations. Results can be paginated, filtered, searched, and sorted.
-     * @returns Organization
+     * @returns PageOrganization
      * @throws ApiError
      */
     public getOrganizationChildOrganizationsPage({
@@ -428,7 +430,7 @@ export class OrganizationService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Organization>> {
+    }): CancelablePromise<PageOrganization> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/{organizationId}/child-organizations',
@@ -472,7 +474,7 @@ export class OrganizationService {
     }
     /**
      * Assigns users to an organization by their email addresses
-     * @returns UserAccount
+     * @returns PageUserAccount
      * @throws ApiError
      */
     public postUserAccountsByEmailAddress({
@@ -486,7 +488,7 @@ export class OrganizationService {
          */
         requestBody: Array<string>,
         organizationRoleIds?: string,
-    }): CancelablePromise<Array<UserAccount>> {
+    }): CancelablePromise<PageUserAccount> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts/by-email-address',
@@ -544,7 +546,7 @@ export class OrganizationService {
     }
     /**
      * Retrieves the parent organization's child organizations. Results can be paginated, filtered, searched, and sorted.
-     * @returns Organization
+     * @returns PageOrganization
      * @throws ApiError
      */
     public getOrganizationOrganizationsPage({
@@ -563,7 +565,7 @@ export class OrganizationService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Organization>> {
+    }): CancelablePromise<PageOrganization> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/{parentOrganizationId}/organizations',

@@ -5,6 +5,7 @@
 import type { Form } from '../models/Form';
 import type { FormContext } from '../models/FormContext';
 import type { FormDocument } from '../models/FormDocument';
+import type { PageForm } from '../models/PageForm';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class FormService {
@@ -81,7 +82,7 @@ export class FormService {
     }
     /**
      * @deprecated
-     * @returns Form
+     * @returns PageForm
      * @throws ApiError
      */
     public getSiteFormsPage({
@@ -92,7 +93,7 @@ export class FormService {
         siteId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Form>> {
+    }): CancelablePromise<PageForm> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-form/v1.0/sites/{siteId}/forms',

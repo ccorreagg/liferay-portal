@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageWikiPageAttachment } from '../models/PageWikiPageAttachment';
 import type { WikiPageAttachment } from '../models/WikiPageAttachment';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -112,7 +113,7 @@ export class WikiPageAttachmentService {
     }
     /**
      * Retrieves the wiki page's attachments.
-     * @returns WikiPageAttachment
+     * @returns PageWikiPageAttachment
      * @throws ApiError
      */
     public getWikiPageWikiPageAttachmentsPage({
@@ -125,7 +126,7 @@ export class WikiPageAttachmentService {
         fields?: string,
         nestedFields?: string,
         restrictFields?: string,
-    }): CancelablePromise<Array<WikiPageAttachment>> {
+    }): CancelablePromise<PageWikiPageAttachment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/wiki-pages/{wikiPageId}/wiki-page-attachments',

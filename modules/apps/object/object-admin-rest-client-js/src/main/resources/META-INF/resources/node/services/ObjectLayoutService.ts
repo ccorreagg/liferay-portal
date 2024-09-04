@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ObjectLayout } from '../models/ObjectLayout';
+import type { PageObjectLayout } from '../models/PageObjectLayout';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ObjectLayoutService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ObjectLayout
+     * @returns PageObjectLayout
      * @throws ApiError
      */
     public getObjectDefinitionByExternalReferenceCodeObjectLayoutsPage({
@@ -25,7 +26,7 @@ export class ObjectLayoutService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<ObjectLayout>> {
+    }): CancelablePromise<PageObjectLayout> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-layouts',
@@ -65,7 +66,7 @@ export class ObjectLayoutService {
         });
     }
     /**
-     * @returns ObjectLayout
+     * @returns PageObjectLayout
      * @throws ApiError
      */
     public getObjectDefinitionObjectLayoutsPage({
@@ -82,7 +83,7 @@ export class ObjectLayoutService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<ObjectLayout>> {
+    }): CancelablePromise<PageObjectLayout> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-layouts',

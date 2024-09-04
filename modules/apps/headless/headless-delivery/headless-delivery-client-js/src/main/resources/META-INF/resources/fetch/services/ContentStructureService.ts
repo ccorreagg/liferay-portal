@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ContentStructure } from '../models/ContentStructure';
+import type { PageContentStructure } from '../models/PageContentStructure';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ContentStructureService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ContentStructure
+     * @returns PageContentStructure
      * @throws ApiError
      */
     public getAssetLibraryContentStructuresPage({
@@ -33,7 +34,7 @@ export class ContentStructureService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ContentStructure>> {
+    }): CancelablePromise<PageContentStructure> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-structures',
@@ -186,7 +187,7 @@ export class ContentStructureService {
     }
     /**
      * Retrieves the site's content structures. Results can be paginated, filtered, searched, and sorted.
-     * @returns ContentStructure
+     * @returns PageContentStructure
      * @throws ApiError
      */
     public getSiteContentStructuresPage({
@@ -211,7 +212,7 @@ export class ContentStructureService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ContentStructure>> {
+    }): CancelablePromise<PageContentStructure> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/content-structures',

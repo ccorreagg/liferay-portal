@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DiscountRule } from '../models/DiscountRule';
+import type { PageDiscountRule } from '../models/PageDiscountRule';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DiscountRuleService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Discount Rule related to a Discount.
-     * @returns DiscountRule Successful operation
+     * @returns PageDiscountRule Successful operation
      * @throws ApiError
      */
     public getDiscountByExternalReferenceCodeDiscountRulesPage({
@@ -20,7 +21,7 @@ export class DiscountRuleService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<DiscountRule>> {
+    }): CancelablePromise<PageDiscountRule> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/discount/by-externalReferenceCode/{externalReferenceCode}/discountRules',
@@ -143,7 +144,7 @@ export class DiscountRuleService {
     }
     /**
      * Gets a list of Discount Rule related to a Discount.
-     * @returns DiscountRule Successful operation
+     * @returns PageDiscountRule Successful operation
      * @throws ApiError
      */
     public getDiscountIdDiscountRulesPage({
@@ -154,7 +155,7 @@ export class DiscountRuleService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<DiscountRule>> {
+    }): CancelablePromise<PageDiscountRule> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}/discountRules',

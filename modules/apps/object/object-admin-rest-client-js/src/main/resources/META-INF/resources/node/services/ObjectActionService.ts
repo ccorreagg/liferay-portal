@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ObjectAction } from '../models/ObjectAction';
+import type { PageObjectAction } from '../models/PageObjectAction';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ObjectActionService {
@@ -84,7 +85,7 @@ export class ObjectActionService {
         });
     }
     /**
-     * @returns ObjectAction
+     * @returns PageObjectAction
      * @throws ApiError
      */
     public getObjectDefinitionByExternalReferenceCodeObjectActionsPage({
@@ -99,7 +100,7 @@ export class ObjectActionService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ObjectAction>> {
+    }): CancelablePromise<PageObjectAction> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-actions',
@@ -136,7 +137,7 @@ export class ObjectActionService {
         });
     }
     /**
-     * @returns ObjectAction
+     * @returns PageObjectAction
      * @throws ApiError
      */
     public getObjectDefinitionObjectActionsPage({
@@ -151,7 +152,7 @@ export class ObjectActionService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ObjectAction>> {
+    }): CancelablePromise<PageObjectAction> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-actions',

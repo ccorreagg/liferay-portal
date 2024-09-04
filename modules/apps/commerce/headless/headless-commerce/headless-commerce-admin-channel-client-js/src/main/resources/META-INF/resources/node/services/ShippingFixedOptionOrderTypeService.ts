@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageShippingFixedOptionOrderType } from '../models/PageShippingFixedOptionOrderType';
 import type { ShippingFixedOptionOrderType } from '../models/ShippingFixedOptionOrderType';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -30,7 +31,7 @@ export class ShippingFixedOptionOrderTypeService {
     }
     /**
      * Gets a list of Shipping Fixed Option Order Types.
-     * @returns ShippingFixedOptionOrderType Successful operation
+     * @returns PageShippingFixedOptionOrderType Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceAdminChannelV10ShippingFixedOptionsShippingFixedOptionOrderTypes({
@@ -47,7 +48,7 @@ export class ShippingFixedOptionOrderTypeService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ShippingFixedOptionOrderType>> {
+    }): CancelablePromise<PageShippingFixedOptionOrderType> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-channel/v1.0/shipping-fixed-options/{id}/shipping-fixed-option-order-types',

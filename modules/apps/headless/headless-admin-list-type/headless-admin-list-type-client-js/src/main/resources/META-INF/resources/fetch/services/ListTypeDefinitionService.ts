@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ListTypeDefinition } from '../models/ListTypeDefinition';
+import type { PageListTypeDefinition } from '../models/PageListTypeDefinition';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ListTypeDefinitionService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ListTypeDefinition
+     * @returns PageListTypeDefinition
      * @throws ApiError
      */
     public getListTypeDefinitionsPage({
@@ -25,7 +26,7 @@ export class ListTypeDefinitionService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<ListTypeDefinition>> {
+    }): CancelablePromise<PageListTypeDefinition> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-list-type/v1.0/list-type-definitions',

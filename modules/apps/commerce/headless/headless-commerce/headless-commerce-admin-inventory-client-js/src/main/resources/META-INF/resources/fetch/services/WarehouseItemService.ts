@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageWarehouseItem } from '../models/PageWarehouseItem';
 import type { WarehouseItem } from '../models/WarehouseItem';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -113,7 +114,7 @@ export class WarehouseItemService {
      * Retrieves the list of WarehouseItem that have been updated (added or
      * changed) within the given timespan. If only one parameter is used for searching
      * items a default timespan of 30 days is used.
-     * @returns WarehouseItem Successful operation
+     * @returns PageWarehouseItem Successful operation
      * @throws ApiError
      */
     public getWarehouseItemsUpdatedPage({
@@ -126,7 +127,7 @@ export class WarehouseItemService {
         page?: number,
         pageSize?: number,
         start?: string,
-    }): CancelablePromise<Array<WarehouseItem>> {
+    }): CancelablePromise<PageWarehouseItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-inventory/v1.0/warehouseItems/updated',
@@ -220,7 +221,7 @@ export class WarehouseItemService {
     }
     /**
      * Gets a list of Warehouse Items related to an Warehouse.
-     * @returns WarehouseItem Successful operation
+     * @returns PageWarehouseItem Successful operation
      * @throws ApiError
      */
     public getWarehouseByExternalReferenceCodeWarehouseItemsPage({
@@ -231,7 +232,7 @@ export class WarehouseItemService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WarehouseItem>> {
+    }): CancelablePromise<PageWarehouseItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-inventory/v1.0/warehouses/by-externalReferenceCode/{externalReferenceCode}/warehouseItems',
@@ -281,7 +282,7 @@ export class WarehouseItemService {
     }
     /**
      * Gets a list of Warehouse Items related to a Warehouse.
-     * @returns WarehouseItem Successful operation
+     * @returns PageWarehouseItem Successful operation
      * @throws ApiError
      */
     public getWarehouseIdWarehouseItemsPage({
@@ -292,7 +293,7 @@ export class WarehouseItemService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WarehouseItem>> {
+    }): CancelablePromise<PageWarehouseItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-inventory/v1.0/warehouses/{id}/warehouseItems',

@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Assignee } from '../models/Assignee';
 import type { AssigneeBulkSelection } from '../models/AssigneeBulkSelection';
+import type { PageAssignee } from '../models/PageAssignee';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AssigneeService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Assignee
+     * @returns PageAssignee
      * @throws ApiError
      */
     public postProcessAssigneesPage({
@@ -18,7 +18,7 @@ export class AssigneeService {
     }: {
         processId: number,
         requestBody?: AssigneeBulkSelection,
-    }): CancelablePromise<Array<Assignee>> {
+    }): CancelablePromise<PageAssignee> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/portal-workflow-metrics/v1.0/processes/{processId}/assignees',

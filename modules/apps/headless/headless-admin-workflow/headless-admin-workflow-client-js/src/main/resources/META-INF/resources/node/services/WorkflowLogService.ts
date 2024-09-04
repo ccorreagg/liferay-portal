@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageWorkflowLog } from '../models/PageWorkflowLog';
 import type { WorkflowLog } from '../models/WorkflowLog';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class WorkflowLogService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns WorkflowLog
+     * @returns PageWorkflowLog
      * @throws ApiError
      */
     public getWorkflowInstanceWorkflowLogsPage({
@@ -21,7 +22,7 @@ export class WorkflowLogService {
         page?: number,
         pageSize?: number,
         types?: Array<'NodeEntry' | 'TaskAssign' | 'TaskCompletion' | 'TaskUpdate' | 'Transition'>,
-    }): CancelablePromise<Array<WorkflowLog>> {
+    }): CancelablePromise<PageWorkflowLog> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-logs',
@@ -53,7 +54,7 @@ export class WorkflowLogService {
         });
     }
     /**
-     * @returns WorkflowLog
+     * @returns PageWorkflowLog
      * @throws ApiError
      */
     public getWorkflowTaskWorkflowLogsPage({
@@ -66,7 +67,7 @@ export class WorkflowLogService {
         page?: number,
         pageSize?: number,
         types?: Array<'TaskAssign' | 'TaskCompletion' | 'TaskUpdate' | 'Transition'>,
-    }): CancelablePromise<Array<WorkflowLog>> {
+    }): CancelablePromise<PageWorkflowLog> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/workflow-logs',

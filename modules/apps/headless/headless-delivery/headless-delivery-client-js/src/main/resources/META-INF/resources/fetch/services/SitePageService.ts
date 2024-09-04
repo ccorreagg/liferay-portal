@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageSitePage } from '../models/PageSitePage';
 import type { SitePage } from '../models/SitePage';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class SitePageService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the public pages of the site
-     * @returns SitePage
+     * @returns PageSitePage
      * @throws ApiError
      */
     public getSiteSitePagesPage({
@@ -34,7 +35,7 @@ export class SitePageService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<SitePage>> {
+    }): CancelablePromise<PageSitePage> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/site-pages',
@@ -115,7 +116,7 @@ export class SitePageService {
     }
     /**
      * Retrieves the experiences of a given Page
-     * @returns SitePage
+     * @returns PageSitePage
      * @throws ApiError
      */
     public getSiteSitePagesExperiencesPage({
@@ -132,7 +133,7 @@ export class SitePageService {
         nestedFields?: string,
         restrictFields?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<SitePage>> {
+    }): CancelablePromise<PageSitePage> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/site-pages/{friendlyUrlPath}/experiences',

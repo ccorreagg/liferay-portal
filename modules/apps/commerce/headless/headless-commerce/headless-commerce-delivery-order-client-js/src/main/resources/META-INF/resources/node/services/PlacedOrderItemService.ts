@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePlacedOrderItem } from '../models/PagePlacedOrderItem';
 import type { PlacedOrderItem } from '../models/PlacedOrderItem';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -55,7 +56,7 @@ export class PlacedOrderItemService {
     }
     /**
      * Retrieve placed order items.
-     * @returns PlacedOrderItem Return the items of the placed order
+     * @returns PagePlacedOrderItem Return the items of the placed order
      * @throws ApiError
      */
     public getPlacedOrderByExternalReferenceCodePlacedOrderItemsPage({
@@ -72,7 +73,7 @@ export class PlacedOrderItemService {
         search?: string,
         skuId?: number,
         sort?: string,
-    }): CancelablePromise<Array<PlacedOrderItem>> {
+    }): CancelablePromise<PagePlacedOrderItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}/placed-order-items',
@@ -95,7 +96,7 @@ export class PlacedOrderItemService {
     }
     /**
      * Retrieve placed order items.
-     * @returns PlacedOrderItem Return the items of the placed order
+     * @returns PagePlacedOrderItem Return the items of the placed order
      * @throws ApiError
      */
     public getHeadlessCommerceDeliveryOrderV10PlacedOrdersPlacedOrderItems({
@@ -112,7 +113,7 @@ export class PlacedOrderItemService {
         search?: string,
         skuId?: number,
         sort?: string,
-    }): CancelablePromise<Array<PlacedOrderItem>> {
+    }): CancelablePromise<PagePlacedOrderItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/placed-order-items',

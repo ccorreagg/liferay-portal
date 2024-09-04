@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { MessageBoardMessage } from '../models/MessageBoardMessage';
+import type { PageMessageBoardMessage } from '../models/PageMessageBoardMessage';
 import type { Rating } from '../models/Rating';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -308,7 +309,7 @@ export class MessageBoardMessageService {
     }
     /**
      * Retrieves the parent message board message's child messages. Results can be paginated, filtered, searched, and sorted.
-     * @returns MessageBoardMessage
+     * @returns PageMessageBoardMessage
      * @throws ApiError
      */
     public getMessageBoardMessageMessageBoardMessagesPage({
@@ -335,7 +336,7 @@ export class MessageBoardMessageService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<MessageBoardMessage>> {
+    }): CancelablePromise<PageMessageBoardMessage> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/message-board-messages/{parentMessageBoardMessageId}/message-board-messages',
@@ -380,7 +381,7 @@ export class MessageBoardMessageService {
     }
     /**
      * Retrieves the message board thread's messages. Results can be paginated, filtered, searched, and sorted.
-     * @returns MessageBoardMessage
+     * @returns PageMessageBoardMessage
      * @throws ApiError
      */
     public getMessageBoardThreadMessageBoardMessagesPage({
@@ -405,7 +406,7 @@ export class MessageBoardMessageService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<MessageBoardMessage>> {
+    }): CancelablePromise<PageMessageBoardMessage> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/message-board-threads/{messageBoardThreadId}/message-board-messages',
@@ -449,7 +450,7 @@ export class MessageBoardMessageService {
     }
     /**
      * Retrieves the site's message board messages.
-     * @returns MessageBoardMessage
+     * @returns PageMessageBoardMessage
      * @throws ApiError
      */
     public getSiteMessageBoardMessagesPage({
@@ -476,7 +477,7 @@ export class MessageBoardMessageService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<MessageBoardMessage>> {
+    }): CancelablePromise<PageMessageBoardMessage> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/message-board-messages',
@@ -664,7 +665,7 @@ export class MessageBoardMessageService {
     }
     /**
      * Retrieves the site's message board messages user's activity.
-     * @returns MessageBoardMessage
+     * @returns PageMessageBoardMessage
      * @throws ApiError
      */
     public getSiteUserMessageBoardMessagesActivityPage({
@@ -677,7 +678,7 @@ export class MessageBoardMessageService {
         userId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<MessageBoardMessage>> {
+    }): CancelablePromise<PageMessageBoardMessage> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/{userId}/message-board-messages/activity',

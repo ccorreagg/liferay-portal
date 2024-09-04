@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageTaxCategory } from '../models/PageTaxCategory';
 import type { TaxCategory } from '../models/TaxCategory';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class TaxCategoryService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Tax Category.
-     * @returns TaxCategory Successful operation
+     * @returns PageTaxCategory Successful operation
      * @throws ApiError
      */
     public getCommerceAdminSiteSettingGroupTaxCategoryPage({
@@ -20,7 +21,7 @@ export class TaxCategoryService {
         groupId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<TaxCategory>> {
+    }): CancelablePromise<PageTaxCategory> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-site-setting/v1.0/commerceAdminSiteSetting/{groupId}/taxCategory',

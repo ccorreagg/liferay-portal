@@ -11,6 +11,10 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { Country } from './models/Country';
+export type { Facet } from './models/Facet';
+export type { FacetValue } from './models/FacetValue';
+export type { PageCountry } from './models/PageCountry';
+export type { PageRegion } from './models/PageRegion';
 export type { Region } from './models/Region';
 
 export { CountryService } from './services/CountryService';

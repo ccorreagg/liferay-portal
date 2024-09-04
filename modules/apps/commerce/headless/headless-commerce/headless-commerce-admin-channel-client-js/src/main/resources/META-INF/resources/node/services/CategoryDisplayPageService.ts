@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CategoryDisplayPage } from '../models/CategoryDisplayPage';
+import type { PageCategoryDisplayPage } from '../models/PageCategoryDisplayPage';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CategoryDisplayPageService {
@@ -82,7 +83,7 @@ export class CategoryDisplayPageService {
     }
     /**
      * Gets a list of Channel Category Display Pages.
-     * @returns CategoryDisplayPage Successful operation
+     * @returns PageCategoryDisplayPage Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceAdminChannelV10ChannelsByExternalReferenceCodeCategoryDisplayPages({
@@ -99,7 +100,7 @@ export class CategoryDisplayPageService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<CategoryDisplayPage>> {
+    }): CancelablePromise<PageCategoryDisplayPage> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/category-display-pages',
@@ -151,7 +152,7 @@ export class CategoryDisplayPageService {
     }
     /**
      * Gets a list of Channel Category Display Pages.
-     * @returns CategoryDisplayPage Successful operation
+     * @returns PageCategoryDisplayPage Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceAdminChannelV10ChannelsCategoryDisplayPages({
@@ -168,7 +169,7 @@ export class CategoryDisplayPageService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<CategoryDisplayPage>> {
+    }): CancelablePromise<PageCategoryDisplayPage> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-channel/v1.0/channels/{id}/category-display-pages',

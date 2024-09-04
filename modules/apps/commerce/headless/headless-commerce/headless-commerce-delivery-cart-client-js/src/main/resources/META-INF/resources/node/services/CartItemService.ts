@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CartItem } from '../models/CartItem';
+import type { PageCartItem } from '../models/PageCartItem';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CartItemService {
@@ -205,7 +206,7 @@ export class CartItemService {
     }
     /**
      * Retrieve cart items of a Cart.
-     * @returns CartItem Return the items of the cart
+     * @returns PageCartItem Return the items of the cart
      * @throws ApiError
      */
     public getHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCodeItems({
@@ -218,7 +219,7 @@ export class CartItemService {
         page?: number,
         pageSize?: number,
         skuId?: number,
-    }): CancelablePromise<Array<CartItem>> {
+    }): CancelablePromise<PageCartItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/items',
@@ -266,7 +267,7 @@ export class CartItemService {
     }
     /**
      * Retrieve cart items of a Cart.
-     * @returns CartItem Return the items of the cart
+     * @returns PageCartItem Return the items of the cart
      * @throws ApiError
      */
     public getCartItemsPage({
@@ -279,7 +280,7 @@ export class CartItemService {
         page?: number,
         pageSize?: number,
         skuId?: number,
-    }): CancelablePromise<Array<CartItem>> {
+    }): CancelablePromise<PageCartItem> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/items',

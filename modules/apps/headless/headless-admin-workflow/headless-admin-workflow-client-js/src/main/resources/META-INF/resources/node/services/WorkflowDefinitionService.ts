@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageWorkflowDefinition } from '../models/PageWorkflowDefinition';
 import type { WorkflowDefinition } from '../models/WorkflowDefinition';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class WorkflowDefinitionService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns WorkflowDefinition
+     * @returns PageWorkflowDefinition
      * @throws ApiError
      */
     public getWorkflowDefinitionsPage({
@@ -21,7 +22,7 @@ export class WorkflowDefinitionService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<WorkflowDefinition>> {
+    }): CancelablePromise<PageWorkflowDefinition> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-workflow/v1.0/workflow-definitions',

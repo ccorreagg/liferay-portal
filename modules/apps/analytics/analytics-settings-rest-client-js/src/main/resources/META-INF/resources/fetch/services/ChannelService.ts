@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Channel } from '../models/Channel';
+import type { PageChannel } from '../models/PageChannel';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ChannelService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Channel
+     * @returns PageChannel
      * @throws ApiError
      */
     public getChannelsPage({
@@ -21,7 +22,7 @@ export class ChannelService {
         page?: number,
         pageSize?: number,
         sort?: string,
-    }): CancelablePromise<Array<Channel>> {
+    }): CancelablePromise<PageChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/analytics-settings-rest/v1.0/channels',

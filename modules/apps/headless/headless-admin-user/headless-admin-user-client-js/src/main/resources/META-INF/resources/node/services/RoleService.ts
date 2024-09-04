@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageRole } from '../models/PageRole';
 import type { Role } from '../models/Role';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class RoleService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the portal instance's roles. Results can be paginated.
-     * @returns Role
+     * @returns PageRole
      * @throws ApiError
      */
     public getRolesPage({
@@ -26,7 +27,7 @@ export class RoleService {
         restrictFields?: string,
         search?: string,
         types?: Array<number>,
-    }): CancelablePromise<Array<Role>> {
+    }): CancelablePromise<PageRole> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/roles',

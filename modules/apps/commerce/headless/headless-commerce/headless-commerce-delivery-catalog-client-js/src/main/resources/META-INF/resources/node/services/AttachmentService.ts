@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Attachment } from '../models/Attachment';
+import type { PageAttachment } from '../models/PageAttachment';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AttachmentService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Attachments related to a Product.
-     * @returns Attachment Successful operation
+     * @returns PageAttachment Successful operation
      * @throws ApiError
      */
     public getChannelProductAttachmentsPage({
@@ -24,7 +24,7 @@ export class AttachmentService {
         accountId?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Attachment>> {
+    }): CancelablePromise<PageAttachment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/attachments',
@@ -46,7 +46,7 @@ export class AttachmentService {
     }
     /**
      * Gets a list of Images related to a Product.
-     * @returns Attachment Successful operation
+     * @returns PageAttachment Successful operation
      * @throws ApiError
      */
     public getChannelProductImagesPage({
@@ -61,7 +61,7 @@ export class AttachmentService {
         accountId?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<Attachment>> {
+    }): CancelablePromise<PageAttachment> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/images',

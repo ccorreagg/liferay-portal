@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Keyword } from '../models/Keyword';
+import type { PageKeyword } from '../models/PageKeyword';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class KeywordService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Keyword
+     * @returns PageKeyword
      * @throws ApiError
      */
     public getAssetLibraryKeywordsPage({
@@ -31,7 +32,7 @@ export class KeywordService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Keyword>> {
+    }): CancelablePromise<PageKeyword> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords',
@@ -120,7 +121,7 @@ export class KeywordService {
         });
     }
     /**
-     * @returns Keyword
+     * @returns PageKeyword
      * @throws ApiError
      */
     public getKeywordsRankedPage({
@@ -137,7 +138,7 @@ export class KeywordService {
         restrictFields?: string,
         search?: string,
         siteId?: number,
-    }): CancelablePromise<Array<Keyword>> {
+    }): CancelablePromise<PageKeyword> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-taxonomy/v1.0/keywords/ranked',
@@ -253,7 +254,7 @@ export class KeywordService {
     }
     /**
      * Retrieves a Site's keywords. Results can be paginated, filtered, searched, and sorted.
-     * @returns Keyword
+     * @returns PageKeyword
      * @throws ApiError
      */
     public getSiteKeywordsPage({
@@ -276,7 +277,7 @@ export class KeywordService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Keyword>> {
+    }): CancelablePromise<PageKeyword> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords',

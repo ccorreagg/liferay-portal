@@ -3,19 +3,20 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Node } from '../models/Node';
+import type { PageNode } from '../models/PageNode';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class NodeService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Node
+     * @returns PageNode
      * @throws ApiError
      */
     public getProcessNodesPage({
         processId,
     }: {
         processId: number,
-    }): CancelablePromise<Array<Node>> {
+    }): CancelablePromise<PageNode> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/portal-workflow-metrics/v1.0/processes/{processId}/nodes',

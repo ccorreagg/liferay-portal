@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Account } from '../models/Account';
+import type { PageAccount } from '../models/PageAccount';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Accounts.
-     * @returns Account Successful operation
+     * @returns PageAccount Successful operation
      * @throws ApiError
      */
     public getChannelAccountsPage({
@@ -26,7 +27,7 @@ export class AccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Account>> {
+    }): CancelablePromise<PageAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/accounts',

@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AccountChannelShippingOption } from '../models/AccountChannelShippingOption';
+import type { PageAccountChannelShippingOption } from '../models/PageAccountChannelShippingOption';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountChannelShippingOptionService {
@@ -82,7 +83,7 @@ export class AccountChannelShippingOptionService {
     }
     /**
      * Gets a list of account channel shipping options.
-     * @returns AccountChannelShippingOption Successful operation
+     * @returns PageAccountChannelShippingOption Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceAdminAccountV10AccountsByExternalReferenceCodeAccountChannelShippingOption({
@@ -93,7 +94,7 @@ export class AccountChannelShippingOptionService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountChannelShippingOption>> {
+    }): CancelablePromise<PageAccountChannelShippingOption> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-option',
@@ -143,7 +144,7 @@ export class AccountChannelShippingOptionService {
     }
     /**
      * Gets a list of account channel shipping options.
-     * @returns AccountChannelShippingOption Successful operation
+     * @returns PageAccountChannelShippingOption Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceAdminAccountV10AccountsAccountChannelShippingOption({
@@ -154,7 +155,7 @@ export class AccountChannelShippingOptionService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountChannelShippingOption>> {
+    }): CancelablePromise<PageAccountChannelShippingOption> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-shipping-option',

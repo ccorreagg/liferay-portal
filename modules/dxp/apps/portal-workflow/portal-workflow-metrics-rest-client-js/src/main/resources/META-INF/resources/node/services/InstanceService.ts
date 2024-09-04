@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Instance } from '../models/Instance';
+import type { PageInstance } from '../models/PageInstance';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class InstanceService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns Instance
+     * @returns PageInstance
      * @throws ApiError
      */
     public getProcessInstancesPage({
@@ -35,7 +36,7 @@ export class InstanceService {
         sort?: string,
         statuses?: Array<'Completed' | 'Pending'>,
         taskNames?: Array<string>,
-    }): CancelablePromise<Array<Instance>> {
+    }): CancelablePromise<PageInstance> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/portal-workflow-metrics/v1.0/processes/{processId}/instances',

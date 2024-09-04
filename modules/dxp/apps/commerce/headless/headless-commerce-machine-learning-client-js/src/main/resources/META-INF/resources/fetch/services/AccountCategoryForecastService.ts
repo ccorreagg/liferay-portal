@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AccountCategoryForecast } from '../models/AccountCategoryForecast';
+import type { PageAccountCategoryForecast } from '../models/PageAccountCategoryForecast';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountCategoryForecastService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Get the forecast points
-     * @returns AccountCategoryForecast Successful operation
+     * @returns PageAccountCategoryForecast Successful operation
      * @throws ApiError
      */
     public getAccountCategoryForecastsByMonthlyRevenuePage({
@@ -28,7 +28,7 @@ export class AccountCategoryForecastService {
         historyLength?: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountCategoryForecast>> {
+    }): CancelablePromise<PageAccountCategoryForecast> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-machine-learning/v1.0/accountCategoryForecasts/by-monthlyRevenue',

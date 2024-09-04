@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OrderType } from '../models/OrderType';
+import type { PageOrderType } from '../models/PageOrderType';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class OrderTypeService {
@@ -33,7 +34,7 @@ export class OrderTypeService {
     }
     /**
      * Gets a List of OrderTypes.
-     * @returns OrderType Successful operation
+     * @returns PageOrderType Successful operation
      * @throws ApiError
      */
     public getOrderTypesPage({
@@ -48,7 +49,7 @@ export class OrderTypeService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<OrderType>> {
+    }): CancelablePromise<PageOrderType> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/order-types',

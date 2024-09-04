@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DiscountAccountGroup } from '../models/DiscountAccountGroup';
+import type { PageDiscountAccountGroup } from '../models/PageDiscountAccountGroup';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DiscountAccountGroupService {
@@ -30,7 +31,7 @@ export class DiscountAccountGroupService {
     }
     /**
      * Gets a list of Discount Account Groups.
-     * @returns DiscountAccountGroup Successful operation
+     * @returns PageDiscountAccountGroup Successful operation
      * @throws ApiError
      */
     public getDiscountByExternalReferenceCodeDiscountAccountGroupsPage({
@@ -41,7 +42,7 @@ export class DiscountAccountGroupService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<DiscountAccountGroup>> {
+    }): CancelablePromise<PageDiscountAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/discounts/by-externalReferenceCode/{externalReferenceCode}/discountAccountGroups',
@@ -90,7 +91,7 @@ export class DiscountAccountGroupService {
     }
     /**
      * Gets a list of Discount Account Groups.
-     * @returns DiscountAccountGroup Successful operation
+     * @returns PageDiscountAccountGroup Successful operation
      * @throws ApiError
      */
     public getDiscountIdDiscountAccountGroupsPage({
@@ -101,7 +102,7 @@ export class DiscountAccountGroupService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<DiscountAccountGroup>> {
+    }): CancelablePromise<PageDiscountAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/discounts/{id}/discountAccountGroups',

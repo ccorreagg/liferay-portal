@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePriceEntry } from '../models/PagePriceEntry';
 import type { PriceEntry } from '../models/PriceEntry';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -155,7 +156,7 @@ export class PriceEntryService {
     }
     /**
      * Gets a list of Price Entries.
-     * @returns PriceEntry Successful operation
+     * @returns PagePriceEntry Successful operation
      * @throws ApiError
      */
     public getPriceListByExternalReferenceCodePriceEntriesPage({
@@ -166,7 +167,7 @@ export class PriceEntryService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<PriceEntry>> {
+    }): CancelablePromise<PagePriceEntry> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/priceLists/by-externalReferenceCode/{externalReferenceCode}/priceEntries',
@@ -215,7 +216,7 @@ export class PriceEntryService {
     }
     /**
      * Gets a list of Price Entries.
-     * @returns PriceEntry Successful operation
+     * @returns PagePriceEntry Successful operation
      * @throws ApiError
      */
     public getPriceListIdPriceEntriesPage({
@@ -226,7 +227,7 @@ export class PriceEntryService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<PriceEntry>> {
+    }): CancelablePromise<PagePriceEntry> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-pricing/v1.0/priceLists/{id}/priceEntries',

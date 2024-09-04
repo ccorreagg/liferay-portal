@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OrderRuleChannel } from '../models/OrderRuleChannel';
+import type { PageOrderRuleChannel } from '../models/PageOrderRuleChannel';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class OrderRuleChannelService {
@@ -30,7 +31,7 @@ export class OrderRuleChannelService {
     }
     /**
      * Gets a list of Order Rule Channel.
-     * @returns OrderRuleChannel Successful operation
+     * @returns PageOrderRuleChannel Successful operation
      * @throws ApiError
      */
     public getOrderRuleByExternalReferenceCodeOrderRuleChannelsPage({
@@ -41,7 +42,7 @@ export class OrderRuleChannelService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<OrderRuleChannel>> {
+    }): CancelablePromise<PageOrderRuleChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-channels',
@@ -90,7 +91,7 @@ export class OrderRuleChannelService {
     }
     /**
      * Gets a list of Order rule Channels.
-     * @returns OrderRuleChannel Successful operation
+     * @returns PageOrderRuleChannel Successful operation
      * @throws ApiError
      */
     public getOrderRuleIdOrderRuleChannelsPage({
@@ -107,7 +108,7 @@ export class OrderRuleChannelService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<OrderRuleChannel>> {
+    }): CancelablePromise<PageOrderRuleChannel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-channels',

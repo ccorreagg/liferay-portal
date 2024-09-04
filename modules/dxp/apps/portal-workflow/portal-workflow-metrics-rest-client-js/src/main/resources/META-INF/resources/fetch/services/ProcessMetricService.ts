@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageProcessMetric } from '../models/PageProcessMetric';
 import type { ProcessMetric } from '../models/ProcessMetric';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ProcessMetricService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ProcessMetric
+     * @returns PageProcessMetric
      * @throws ApiError
      */
     public getProcessMetricsPage({
@@ -21,7 +22,7 @@ export class ProcessMetricService {
         pageSize?: number,
         sort?: string,
         title?: string,
-    }): CancelablePromise<Array<ProcessMetric>> {
+    }): CancelablePromise<PageProcessMetric> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/portal-workflow-metrics/v1.0/processes/metrics',

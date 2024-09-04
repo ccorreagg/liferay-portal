@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { RelatedProduct } from '../models/RelatedProduct';
+import type { PageRelatedProduct } from '../models/PageRelatedProduct';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class RelatedProductService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Related Products of a Product.
-     * @returns RelatedProduct Successful operation
+     * @returns PageRelatedProduct Successful operation
      * @throws ApiError
      */
     public getChannelProductRelatedProductsPage({
@@ -24,7 +24,7 @@ export class RelatedProductService {
         page?: number,
         pageSize?: number,
         type?: string,
-    }): CancelablePromise<Array<RelatedProduct>> {
+    }): CancelablePromise<PageRelatedProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/related-products',

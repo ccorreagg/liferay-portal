@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageStructuredContent } from '../models/PageStructuredContent';
 import type { Rating } from '../models/Rating';
 import type { StructuredContent } from '../models/StructuredContent';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -9,7 +10,7 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class StructuredContentService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns StructuredContent
+     * @returns PageStructuredContent
      * @throws ApiError
      */
     public getAssetLibraryStructuredContentsPage({
@@ -38,7 +39,7 @@ export class StructuredContentService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<StructuredContent>> {
+    }): CancelablePromise<PageStructuredContent> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-contents',
@@ -218,7 +219,7 @@ export class StructuredContentService {
     }
     /**
      * Retrieves a list of the content structure's structured content. Results can be paginated, filtered, searched, and sorted.
-     * @returns StructuredContent
+     * @returns PageStructuredContent
      * @throws ApiError
      */
     public getContentStructureStructuredContentsPage({
@@ -245,7 +246,7 @@ export class StructuredContentService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<StructuredContent>> {
+    }): CancelablePromise<PageStructuredContent> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/content-structures/{contentStructureId}/structured-contents',
@@ -270,7 +271,7 @@ export class StructuredContentService {
     }
     /**
      * Retrieves the site's structured content. Results can be paginated, filtered, searched, flattened, and sorted.
-     * @returns StructuredContent
+     * @returns PageStructuredContent
      * @throws ApiError
      */
     public getSiteStructuredContentsPage({
@@ -299,7 +300,7 @@ export class StructuredContentService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<StructuredContent>> {
+    }): CancelablePromise<PageStructuredContent> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/structured-contents',
@@ -555,7 +556,7 @@ export class StructuredContentService {
     }
     /**
      * Retrieves the folder's structured content. Results can be paginated, filtered, searched, and sorted.
-     * @returns StructuredContent
+     * @returns PageStructuredContent
      * @throws ApiError
      */
     public getStructuredContentFolderStructuredContentsPage({
@@ -584,7 +585,7 @@ export class StructuredContentService {
         search?: string,
         sort?: string,
         acceptLanguage?: string,
-    }): CancelablePromise<Array<StructuredContent>> {
+    }): CancelablePromise<PageStructuredContent> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/structured-content-folders/{structuredContentFolderId}/structured-contents',

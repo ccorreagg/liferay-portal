@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AccountOrganization } from '../models/AccountOrganization';
+import type { PageAccountOrganization } from '../models/PageAccountOrganization';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountOrganizationService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of Organizations related to an Account.
-     * @returns AccountOrganization Successful operation
+     * @returns PageAccountOrganization Successful operation
      * @throws ApiError
      */
     public getAccountByExternalReferenceCodeAccountOrganizationsPage({
@@ -20,7 +21,7 @@ export class AccountOrganizationService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountOrganization>> {
+    }): CancelablePromise<PageAccountOrganization> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountOrganizations',
@@ -121,7 +122,7 @@ export class AccountOrganizationService {
     }
     /**
      * Gets a list of Organizations related to an Account.
-     * @returns AccountOrganization Successful operation
+     * @returns PageAccountOrganization Successful operation
      * @throws ApiError
      */
     public getAccountIdAccountOrganizationsPage({
@@ -132,7 +133,7 @@ export class AccountOrganizationService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AccountOrganization>> {
+    }): CancelablePromise<PageAccountOrganization> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountOrganizations',

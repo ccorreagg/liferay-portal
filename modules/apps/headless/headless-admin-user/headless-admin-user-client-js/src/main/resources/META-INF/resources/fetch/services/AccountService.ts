@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Account } from '../models/Account';
+import type { PageAccount } from '../models/PageAccount';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AccountService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the list of accounts in an account group.
-     * @returns Account
+     * @returns PageAccount
      * @throws ApiError
      */
     public getAccountGroupByExternalReferenceCodeAccountsPage({
@@ -26,7 +27,7 @@ export class AccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Account>> {
+    }): CancelablePromise<PageAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/account-groups/by-external-reference-code/{accountGroupExternalReferenceCode}/accounts',
@@ -44,7 +45,7 @@ export class AccountService {
     }
     /**
      * Retrieves the list of accounts in an account group.
-     * @returns Account
+     * @returns PageAccount
      * @throws ApiError
      */
     public getAccountGroupAccountsPage({
@@ -61,7 +62,7 @@ export class AccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Account>> {
+    }): CancelablePromise<PageAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/account-groups/{accountGroupId}/accounts',
@@ -79,7 +80,7 @@ export class AccountService {
     }
     /**
      * Retrieves the accounts. Results can be paginated, filtered, searched, and sorted.
-     * @returns Account
+     * @returns PageAccount
      * @throws ApiError
      */
     public getAccountsPage({
@@ -94,7 +95,7 @@ export class AccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Account>> {
+    }): CancelablePromise<PageAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/accounts',
@@ -362,7 +363,7 @@ export class AccountService {
     }
     /**
      * Retrieves the organization's members (accounts). Results can be paginated, filtered, searched, and sorted.
-     * @returns Account
+     * @returns PageAccount
      * @throws ApiError
      */
     public getOrganizationAccountsPage({
@@ -379,7 +380,7 @@ export class AccountService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<Account>> {
+    }): CancelablePromise<PageAccount> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-admin-user/v1.0/organizations/{organizationId}/accounts',

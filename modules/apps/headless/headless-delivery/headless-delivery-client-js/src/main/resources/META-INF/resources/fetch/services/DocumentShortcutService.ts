@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DocumentShortcut } from '../models/DocumentShortcut';
+import type { PageDocumentShortcut } from '../models/PageDocumentShortcut';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DocumentShortcutService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns DocumentShortcut
+     * @returns PageDocumentShortcut
      * @throws ApiError
      */
     public getAssetLibraryDocumentShortcutsPage({
@@ -23,7 +24,7 @@ export class DocumentShortcutService {
         page?: number,
         pageSize?: number,
         restrictFields?: string,
-    }): CancelablePromise<Array<DocumentShortcut>> {
+    }): CancelablePromise<PageDocumentShortcut> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-shortcuts',
@@ -151,7 +152,7 @@ export class DocumentShortcutService {
         });
     }
     /**
-     * @returns DocumentShortcut
+     * @returns PageDocumentShortcut
      * @throws ApiError
      */
     public getSiteDocumentShortcutsPage({
@@ -166,7 +167,7 @@ export class DocumentShortcutService {
         page?: number,
         pageSize?: number,
         restrictFields?: string,
-    }): CancelablePromise<Array<DocumentShortcut>> {
+    }): CancelablePromise<PageDocumentShortcut> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/document-shortcuts',

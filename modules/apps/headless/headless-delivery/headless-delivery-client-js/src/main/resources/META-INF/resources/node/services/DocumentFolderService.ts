@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DocumentFolder } from '../models/DocumentFolder';
+import type { PageDocumentFolder } from '../models/PageDocumentFolder';
 import type { Rating } from '../models/Rating';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DocumentFolderService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns DocumentFolder
+     * @returns PageDocumentFolder
      * @throws ApiError
      */
     public getAssetLibraryDocumentFoldersPage({
@@ -36,7 +37,7 @@ export class DocumentFolderService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<DocumentFolder>> {
+    }): CancelablePromise<PageDocumentFolder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders',
@@ -131,7 +132,7 @@ export class DocumentFolderService {
     }
     /**
      * Retrieves the document folders rated by the user.
-     * @returns DocumentFolder
+     * @returns PageDocumentFolder
      * @throws ApiError
      */
     public getAssetLibraryDocumentFoldersRatedByMePage({
@@ -142,7 +143,7 @@ export class DocumentFolderService {
         assetLibraryId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<DocumentFolder>> {
+    }): CancelablePromise<PageDocumentFolder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders/rated-by-me',
@@ -421,7 +422,7 @@ export class DocumentFolderService {
     }
     /**
      * Retrieves the folder's subfolders. Results can be paginated, filtered, searched, and sorted.
-     * @returns DocumentFolder
+     * @returns PageDocumentFolder
      * @throws ApiError
      */
     public getDocumentFolderDocumentFoldersPage({
@@ -448,7 +449,7 @@ export class DocumentFolderService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<DocumentFolder>> {
+    }): CancelablePromise<PageDocumentFolder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/document-folders/{parentDocumentFolderId}/document-folders',
@@ -493,7 +494,7 @@ export class DocumentFolderService {
     }
     /**
      * Retrieves the site's document folders. Results can be paginated, filtered, searched, flattened, and sorted.
-     * @returns DocumentFolder
+     * @returns PageDocumentFolder
      * @throws ApiError
      */
     public getSiteDocumentFoldersPage({
@@ -520,7 +521,7 @@ export class DocumentFolderService {
         restrictFields?: string,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<DocumentFolder>> {
+    }): CancelablePromise<PageDocumentFolder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/document-folders',
@@ -616,7 +617,7 @@ export class DocumentFolderService {
     }
     /**
      * Retrieves the document folders rated by the user.
-     * @returns DocumentFolder
+     * @returns PageDocumentFolder
      * @throws ApiError
      */
     public getSiteDocumentFoldersRatedByMePage({
@@ -627,7 +628,7 @@ export class DocumentFolderService {
         siteId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<DocumentFolder>> {
+    }): CancelablePromise<PageDocumentFolder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-delivery/v1.0/sites/{siteId}/document-folders/rated-by-me',

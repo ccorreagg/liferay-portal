@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AdminAccountGroup } from '../models/AdminAccountGroup';
+import type { PageAdminAccountGroup } from '../models/PageAdminAccountGroup';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AdminAccountGroupService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Gets a list of AccountGroups.
-     * @returns AdminAccountGroup Successful operation
+     * @returns PageAdminAccountGroup Successful operation
      * @throws ApiError
      */
     public getAccountGroupsPage({
@@ -24,7 +25,7 @@ export class AdminAccountGroupService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<AdminAccountGroup>> {
+    }): CancelablePromise<PageAdminAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accountGroups',
@@ -214,7 +215,7 @@ export class AdminAccountGroupService {
     }
     /**
      * Gets a list of Account's AccountGroups.
-     * @returns AdminAccountGroup Successful operation
+     * @returns PageAdminAccountGroup Successful operation
      * @throws ApiError
      */
     public getAccountByExternalReferenceCodeAccountGroupsPage({
@@ -225,7 +226,7 @@ export class AdminAccountGroupService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AdminAccountGroup>> {
+    }): CancelablePromise<PageAdminAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountGroups',
@@ -245,7 +246,7 @@ export class AdminAccountGroupService {
     }
     /**
      * Gets a list of Account's AccountGroups.
-     * @returns AdminAccountGroup Successful operation
+     * @returns PageAdminAccountGroup Successful operation
      * @throws ApiError
      */
     public getAccountIdAccountGroupsPage({
@@ -256,7 +257,7 @@ export class AdminAccountGroupService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<AdminAccountGroup>> {
+    }): CancelablePromise<PageAdminAccountGroup> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-account/v1.0/accounts/{id}/accountGroups',

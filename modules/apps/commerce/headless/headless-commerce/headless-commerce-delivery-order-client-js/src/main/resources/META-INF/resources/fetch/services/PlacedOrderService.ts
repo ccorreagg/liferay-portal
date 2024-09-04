@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePlacedOrder } from '../models/PagePlacedOrder';
 import type { PlacedOrder } from '../models/PlacedOrder';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,7 +10,7 @@ export class PlacedOrderService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves placed orders for specific account in the given channel.
-     * @returns PlacedOrder Successful operation
+     * @returns PagePlacedOrder Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceDeliveryOrderV10ChannelsByExternalReferenceCodeAccountsByExternalReferenceCodePlacedOrders({
@@ -22,7 +23,7 @@ export class PlacedOrderService {
         channelExternalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<PlacedOrder>> {
+    }): CancelablePromise<PagePlacedOrder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-order/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/accounts/by-externalReferenceCode/{accountExternalReferenceCode}/placed-orders',
@@ -43,7 +44,7 @@ export class PlacedOrderService {
     }
     /**
      * Retrieves placed orders for specific account in the given channel.
-     * @returns PlacedOrder Successful operation
+     * @returns PagePlacedOrder Successful operation
      * @throws ApiError
      */
     public getHeadlessCommerceDeliveryOrderV10ChannelsAccountsPlacedOrders({
@@ -56,7 +57,7 @@ export class PlacedOrderService {
         channelId: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<PlacedOrder>> {
+    }): CancelablePromise<PagePlacedOrder> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-order/v1.0/channels/{channelId}/accounts/{accountId}/placed-orders',

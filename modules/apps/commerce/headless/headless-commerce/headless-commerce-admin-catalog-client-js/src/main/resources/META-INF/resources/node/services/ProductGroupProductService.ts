@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageProductGroupProduct } from '../models/PageProductGroupProduct';
 import type { ProductGroupProduct } from '../models/ProductGroupProduct';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -30,7 +31,7 @@ export class ProductGroupProductService {
     }
     /**
      * Gets a list of products related to a product group.
-     * @returns ProductGroupProduct Successful operation
+     * @returns PageProductGroupProduct Successful operation
      * @throws ApiError
      */
     public getProductGroupByExternalReferenceCodeProductGroupProductsPage({
@@ -41,7 +42,7 @@ export class ProductGroupProductService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ProductGroupProduct>> {
+    }): CancelablePromise<PageProductGroupProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/product-groups/by-externalReferenceCode/{externalReferenceCode}/product-group-products',
@@ -90,7 +91,7 @@ export class ProductGroupProductService {
     }
     /**
      * Gets a list of products related to a product groups.
-     * @returns ProductGroupProduct Successful operation
+     * @returns PageProductGroupProduct Successful operation
      * @throws ApiError
      */
     public getProductGroupIdProductGroupProductsPage({
@@ -101,7 +102,7 @@ export class ProductGroupProductService {
         id: number,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<ProductGroupProduct>> {
+    }): CancelablePromise<PageProductGroupProduct> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-catalog/v1.0/product-groups/{id}/product-group-products',

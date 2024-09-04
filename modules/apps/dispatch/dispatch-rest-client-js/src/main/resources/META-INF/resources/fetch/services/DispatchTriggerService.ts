@@ -3,15 +3,16 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DispatchTrigger } from '../models/DispatchTrigger';
+import type { PageDispatchTrigger } from '../models/PageDispatchTrigger';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DispatchTriggerService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns DispatchTrigger
+     * @returns PageDispatchTrigger
      * @throws ApiError
      */
-    public getDispatchTriggersPage(): CancelablePromise<Array<DispatchTrigger>> {
+    public getDispatchTriggersPage(): CancelablePromise<PageDispatchTrigger> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/dispatch-rest/v1.0/dispatch-triggers',

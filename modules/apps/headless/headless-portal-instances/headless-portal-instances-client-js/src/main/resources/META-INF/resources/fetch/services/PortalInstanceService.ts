@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PagePortalInstance } from '../models/PagePortalInstance';
 import type { PortalInstance } from '../models/PortalInstance';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -9,14 +10,14 @@ export class PortalInstanceService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieves the portal instances
-     * @returns PortalInstance default response
+     * @returns PagePortalInstance default response
      * @throws ApiError
      */
     public getPortalInstancesPage({
         skipDefault,
     }: {
         skipDefault?: boolean,
-    }): CancelablePromise<Array<PortalInstance>> {
+    }): CancelablePromise<PagePortalInstance> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-portal-instances/v1.0/portal-instances',

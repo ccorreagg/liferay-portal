@@ -10,6 +10,8 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { Facet } from './models/Facet';
+export type { FacetValue } from './models/FacetValue';
 export type { ObjectAction } from './models/ObjectAction';
 export type { ObjectDefinition } from './models/ObjectDefinition';
 export type { ObjectField } from './models/ObjectField';
@@ -31,6 +33,14 @@ export type { ObjectView } from './models/ObjectView';
 export type { ObjectViewColumn } from './models/ObjectViewColumn';
 export type { ObjectViewFilterColumn } from './models/ObjectViewFilterColumn';
 export type { ObjectViewSortColumn } from './models/ObjectViewSortColumn';
+export type { PageObjectAction } from './models/PageObjectAction';
+export type { PageObjectDefinition } from './models/PageObjectDefinition';
+export type { PageObjectField } from './models/PageObjectField';
+export type { PageObjectFolder } from './models/PageObjectFolder';
+export type { PageObjectLayout } from './models/PageObjectLayout';
+export type { PageObjectRelationship } from './models/PageObjectRelationship';
+export type { PageObjectValidationRule } from './models/PageObjectValidationRule';
+export type { PageObjectView } from './models/PageObjectView';
 export type { Status } from './models/Status';
 
 export { ObjectActionService } from './services/ObjectActionService';

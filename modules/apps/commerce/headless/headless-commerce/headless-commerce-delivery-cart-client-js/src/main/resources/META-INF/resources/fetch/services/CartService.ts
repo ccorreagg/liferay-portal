@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { Cart } from '../models/Cart';
 import type { CouponCode } from '../models/CouponCode';
+import type { PageCart } from '../models/PageCart';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CartService {
@@ -342,7 +343,7 @@ export class CartService {
     }
     /**
      * Retrieves carts for specific account in the given channel.
-     * @returns Cart Successful operation
+     * @returns PageCart Successful operation
      * @throws ApiError
      */
     public getChannelByExternalReferenceCodeChannelExternalReferenceCodeAccountByExternalReferenceCodeAccountExternalReferenceCodeCartsPage({
@@ -357,7 +358,7 @@ export class CartService {
         page?: number,
         pageSize?: number,
         search?: string,
-    }): CancelablePromise<Array<Cart>> {
+    }): CancelablePromise<PageCart> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-cart/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/account/by-externalReferenceCode/{accountExternalReferenceCode}/carts',
@@ -407,10 +408,10 @@ export class CartService {
     }
     /**
      * Retrieves carts for specific account in the given channel.
-     * @returns Cart Successful operation
+     * @returns PageCart Successful operation
      * @throws ApiError
      */
-    public getChannelCartsPage({
+    public getChannelAccountCartsPage({
         accountId,
         channelId,
         page,
@@ -422,7 +423,7 @@ export class CartService {
         page?: number,
         pageSize?: number,
         search?: string,
-    }): CancelablePromise<Array<Cart>> {
+    }): CancelablePromise<PageCart> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-cart/v1.0/channels/{channelId}/account/{accountId}/carts',
@@ -434,6 +435,46 @@ export class CartService {
                 'page': page,
                 'pageSize': pageSize,
                 'search': search,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Retrieves carts in the given channel.
+     * @returns PageCart Successful operation
+     * @throws ApiError
+     */
+    public getChannelCartsPage({
+        channelId,
+        filter,
+        page,
+        pageSize,
+        search,
+        sort,
+    }: {
+        channelId: number,
+        filter?: string,
+        page?: number,
+        pageSize?: number,
+        search?: string,
+        sort?: string,
+    }): CancelablePromise<PageCart> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-delivery-cart/v1.0/channels/{channelId}/carts',
+            path: {
+                'channelId': channelId,
+            },
+            query: {
+                'filter': filter,
+                'page': page,
+                'pageSize': pageSize,
+                'search': search,
+                'sort': sort,
             },
             errors: {
                 401: `Authentication information is missing or invalid`,

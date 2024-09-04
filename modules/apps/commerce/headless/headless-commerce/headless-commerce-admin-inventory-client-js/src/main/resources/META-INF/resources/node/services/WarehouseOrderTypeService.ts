@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PageWarehouseOrderType } from '../models/PageWarehouseOrderType';
 import type { WarehouseOrderType } from '../models/WarehouseOrderType';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -30,7 +31,7 @@ export class WarehouseOrderTypeService {
     }
     /**
      * Gets a list of Warehouse Order Types.
-     * @returns WarehouseOrderType Successful operation
+     * @returns PageWarehouseOrderType Successful operation
      * @throws ApiError
      */
     public getWarehouseByExternalReferenceCodeWarehouseOrderTypesPage({
@@ -41,7 +42,7 @@ export class WarehouseOrderTypeService {
         externalReferenceCode: string,
         page?: number,
         pageSize?: number,
-    }): CancelablePromise<Array<WarehouseOrderType>> {
+    }): CancelablePromise<PageWarehouseOrderType> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-inventory/v1.0/warehouses/by-externalReferenceCode/{externalReferenceCode}/warehouse-order-types',
@@ -90,7 +91,7 @@ export class WarehouseOrderTypeService {
     }
     /**
      * Gets a list of Warehouse Order Types.
-     * @returns WarehouseOrderType Successful operation
+     * @returns PageWarehouseOrderType Successful operation
      * @throws ApiError
      */
     public getWarehouseIdWarehouseOrderTypesPage({
@@ -107,7 +108,7 @@ export class WarehouseOrderTypeService {
         pageSize?: number,
         search?: string,
         sort?: string,
-    }): CancelablePromise<Array<WarehouseOrderType>> {
+    }): CancelablePromise<PageWarehouseOrderType> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-admin-inventory/v1.0/warehouses/{id}/warehouse-order-types',

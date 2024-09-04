@@ -2,21 +2,21 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ShippingMethod } from '../models/ShippingMethod';
+import type { PageShippingMethod } from '../models/PageShippingMethod';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class ShippingMethodService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Retrieve payment methods available for the Cart.
-     * @returns ShippingMethod Retrieve the available shipping methods for the order
+     * @returns PageShippingMethod Retrieve the available shipping methods for the order
      * @throws ApiError
      */
     public getHeadlessCommerceDeliveryCartV10CartsByExternalReferenceCodeShippingMethods({
         externalReferenceCode,
     }: {
         externalReferenceCode: string,
-    }): CancelablePromise<Array<ShippingMethod>> {
+    }): CancelablePromise<PageShippingMethod> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/shipping-methods',
@@ -32,14 +32,14 @@ export class ShippingMethodService {
     }
     /**
      * Retrieve payment methods available for the Cart.
-     * @returns ShippingMethod Retrieve the available shipping methods for the order
+     * @returns PageShippingMethod Retrieve the available shipping methods for the order
      * @throws ApiError
      */
     public getCartShippingMethodsPage({
         cartId,
     }: {
         cartId: number,
-    }): CancelablePromise<Array<ShippingMethod>> {
+    }): CancelablePromise<PageShippingMethod> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/headless-commerce-delivery-cart/v1.0/carts/{cartId}/shipping-methods',
