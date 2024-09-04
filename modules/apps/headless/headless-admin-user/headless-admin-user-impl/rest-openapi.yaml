@@ -2391,7 +2391,7 @@ paths:
                         application/json: {}
                         application/xml: {}
             tags: ["AccountRole"]
-    "/accounts/by-external-reference-code/{externalReferenceCode}/email-addresses" :
+    "/accounts/by-external-reference-code/{externalReferenceCode}/email-addresses":
         get:
             description:
                 Retrieves the account's email addresses.
