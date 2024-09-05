@@ -1261,6 +1261,8 @@ public class RESTBuilder {
 
 			String enumItems = yamlString.substring(startIndex, endIndex);
 
+			enumItems = enumItems.replaceAll("((#[ ]+\".*\")|\n)", "");
+
 			String[] enumItemsParts = StringUtil.split(enumItems, ",");
 
 			for (int i = 0; i < enumItemsParts.length; i++) {
