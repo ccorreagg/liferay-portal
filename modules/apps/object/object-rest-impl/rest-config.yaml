@@ -3,5 +3,5 @@ apiPackagePath: "com.liferay.object.rest"
 author: "Javier Gamarra"
 compatibilityVersion: 6
 forcePredictableOperationId: true
-generateJSClient: true
+generateJSClient: false
 generateOpenAPI: false

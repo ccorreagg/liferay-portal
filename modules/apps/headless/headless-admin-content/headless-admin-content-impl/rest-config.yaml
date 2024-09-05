@@ -10,6 +10,6 @@ clientDir: "../headless-admin-content-client/src/main/java"
 compatibilityVersion: 6
 forcePredictableOperationId: true
 generateBatch: false
-generateJSClient: true
+generateJSClient: false
 graphQLNamespace: "admin"
 testDir: "../headless-admin-content-test/src/testIntegration/java"
