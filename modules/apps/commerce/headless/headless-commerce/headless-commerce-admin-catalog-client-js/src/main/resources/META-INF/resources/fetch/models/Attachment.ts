@@ -18,6 +18,8 @@ export type Attachment = {
     displayDate?: string;
     expirationDate?: string;
     externalReferenceCode?: string;
+    fileEntryExternalReferenceCode?: string;
+    fileEntryGroupExternalReferenceCode?: string;
     fileEntryId?: number;
     galleryEnabled?: boolean;
     id?: number;

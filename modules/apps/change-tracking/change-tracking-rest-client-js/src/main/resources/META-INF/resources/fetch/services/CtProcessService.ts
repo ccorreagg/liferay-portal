@@ -41,6 +41,23 @@ export class CtProcessService {
         });
     }
     /**
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteCtProcess({
+        ctProcessId,
+    }: {
+        ctProcessId: number,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/change-tracking-rest/v1.0/ct-processes/{ctProcessId}',
+            path: {
+                'ctProcessId': ctProcessId,
+            },
+        });
+    }
+    /**
      * @returns CTProcess
      * @throws ApiError
      */

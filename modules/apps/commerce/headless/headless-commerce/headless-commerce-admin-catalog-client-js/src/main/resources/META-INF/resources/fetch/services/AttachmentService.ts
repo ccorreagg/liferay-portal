@@ -32,6 +32,59 @@ export class AttachmentService {
         });
     }
     /**
+     * Gets a attachment by external reference code.
+     * @returns Attachment Successful operation
+     * @throws ApiError
+     */
+    public getAttachmentByExternalReferenceCode({
+        externalReferenceCode,
+    }: {
+        externalReferenceCode: string,
+    }): CancelablePromise<Attachment> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-admin-catalog/v1.0/attachment/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Updates a attachment by external reference code.
+     * @returns Attachment Updated
+     * @returns any Async
+     * @throws ApiError
+     */
+    public patchAttachmentByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: Attachment,
+    }): CancelablePromise<Attachment | any> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/headless-commerce-admin-catalog/v1.0/attachment/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
      * Deletes a attachment by ID.
      * @returns void
      * @throws ApiError

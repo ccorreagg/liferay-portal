@@ -74,7 +74,9 @@ export type Account = {
      * The account's most recent modification date.
      */
     readonly dateModified?: string;
+    defaultBillingAddressExternalReferenceCode?: string;
     defaultBillingAddressId?: number;
+    defaultShippingAddressExternalReferenceCode?: string;
     defaultShippingAddressId?: number;
     description?: string;
     /**
@@ -86,6 +88,7 @@ export type Account = {
      */
     externalReferenceCode?: string;
     readonly id?: number;
+    logoExternalReferenceCode?: string;
     logoId?: number;
     logoURL?: string;
     name: string;
@@ -93,7 +96,9 @@ export type Account = {
      * The number of this account's associated users.
      */
     readonly numberOfUsers?: number;
+    organizationExternalReferenceCodes?: Array<string>;
     organizationIds?: Array<number>;
+    parentAccountExternalReferenceCode?: string;
     parentAccountId?: number;
     /**
      * The addresses linked to the account

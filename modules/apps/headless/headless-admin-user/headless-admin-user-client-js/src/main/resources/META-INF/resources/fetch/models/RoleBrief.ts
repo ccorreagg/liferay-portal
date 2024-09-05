@@ -7,6 +7,10 @@
  */
 export type RoleBrief = {
     /**
+     * The role's external reference code.
+     */
+    readonly externalReferenceCode?: string;
+    /**
      * The role's ID.
      */
     readonly id?: number;

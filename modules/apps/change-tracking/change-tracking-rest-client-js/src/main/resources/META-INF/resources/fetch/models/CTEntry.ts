@@ -18,6 +18,10 @@ export type CTEntry = {
     readonly siteId?: number;
     readonly siteName?: string;
     readonly status?: Status;
+    /**
+     * Info on when a change was made.
+     */
+    readonly statusMessage?: string;
     readonly title?: string;
     readonly typeName?: string;
 };

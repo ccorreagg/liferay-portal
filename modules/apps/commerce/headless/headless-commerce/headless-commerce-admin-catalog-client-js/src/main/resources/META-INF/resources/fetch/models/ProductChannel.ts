@@ -6,7 +6,7 @@ export type ProductChannel = {
     channelId?: number;
     currencyCode?: string;
     externalReferenceCode?: string;
-    id: number;
+    id?: number;
     name?: string;
     type?: string;
 };

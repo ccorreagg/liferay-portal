@@ -13,6 +13,10 @@ export type SiteBrief = {
     readonly descriptiveName?: string;
     readonly descriptiveName_i18n?: Record<string, string>;
     /**
+     * The site's external reference code.
+     */
+    readonly externalReferenceCode?: string;
+    /**
      * The site's ID.
      */
     readonly id?: number;

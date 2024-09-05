@@ -5,9 +5,13 @@
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
 import { FetchHttpRequest } from './core/FetchHttpRequest';
+import { AssetAppearsOnHistogramMetricService } from './services/AssetAppearsOnHistogramMetricService';
+import { AssetHistogramMetricService } from './services/AssetHistogramMetricService';
 import { AssetMetricService } from './services/AssetMetricService';
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 export class AnalyticsReportsRestClient {
+    public readonly assetAppearsOnHistogramMetric: AssetAppearsOnHistogramMetricService;
+    public readonly assetHistogramMetric: AssetHistogramMetricService;
     public readonly assetMetric: AssetMetricService;
     public readonly request: BaseHttpRequest;
     constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = FetchHttpRequest) {
@@ -22,6 +26,8 @@ export class AnalyticsReportsRestClient {
             HEADERS: config?.HEADERS,
             ENCODE_PATH: config?.ENCODE_PATH,
         });
+        this.assetAppearsOnHistogramMetric = new AssetAppearsOnHistogramMetricService(this.request);
+        this.assetHistogramMetric = new AssetHistogramMetricService(this.request);
         this.assetMetric = new AssetMetricService(this.request);
     }
 }

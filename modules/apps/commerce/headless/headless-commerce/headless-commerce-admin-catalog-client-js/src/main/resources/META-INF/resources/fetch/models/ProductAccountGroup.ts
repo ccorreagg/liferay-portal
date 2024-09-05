@@ -5,7 +5,7 @@
 export type ProductAccountGroup = {
     accountGroupId?: number;
     externalReferenceCode?: string;
-    id: number;
+    id?: number;
     name?: string;
 };
 

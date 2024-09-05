@@ -15,7 +15,7 @@ export type PlacedOrder = {
     readonly couponCode?: string;
     readonly createDate?: string;
     readonly currencyCode?: string;
-    readonly customFields?: Record<string, any>;
+    customFields?: Record<string, any>;
     readonly errorMessages?: Array<string>;
     readonly externalReferenceCode?: string;
     readonly id?: number;
@@ -37,8 +37,8 @@ export type PlacedOrder = {
     readonly placedOrderItems?: Array<PlacedOrderItem>;
     readonly placedOrderShippingAddress?: PlacedOrderAddress;
     readonly placedOrderShippingAddressId?: number;
-    readonly printedNote?: string;
-    readonly purchaseOrderNumber?: string;
+    printedNote?: string;
+    purchaseOrderNumber?: string;
     readonly shippingMethod?: string;
     readonly shippingOption?: string;
     readonly status?: string;

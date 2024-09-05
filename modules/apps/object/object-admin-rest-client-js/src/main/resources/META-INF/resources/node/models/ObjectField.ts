@@ -24,7 +24,7 @@ export type ObjectField = {
     objectDefinitionExternalReferenceCode1?: string;
     objectFieldSettings?: Array<ObjectFieldSetting>;
     objectRelationshipExternalReferenceCode?: string;
-    readOnly?: 'conditional';
+    readOnly?: 'conditional' | 'false' | 'true';
     readOnlyConditionExpression?: string;
     readonly relationshipType?: 'oneToMany' | 'oneToOne';
     required?: boolean;

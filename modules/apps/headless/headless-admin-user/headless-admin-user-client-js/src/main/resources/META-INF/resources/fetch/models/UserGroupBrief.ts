@@ -7,6 +7,10 @@
  */
 export type UserGroupBrief = {
     description?: string;
+    /**
+     * The user group's external reference code.
+     */
+    readonly externalReferenceCode?: string;
     readonly id?: number;
     name?: string;
 };

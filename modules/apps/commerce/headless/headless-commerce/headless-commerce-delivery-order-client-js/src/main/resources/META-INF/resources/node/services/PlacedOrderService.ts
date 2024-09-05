@@ -100,6 +100,34 @@ export class PlacedOrderService {
         });
     }
     /**
+     * Updates a Placed Order by external reference code.
+     * @returns PlacedOrder Updated
+     * @throws ApiError
+     */
+    public patchPlacedOrderByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: PlacedOrder,
+    }): CancelablePromise<PlacedOrder> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
      * @returns string
      * @throws ApiError
      */
@@ -138,6 +166,34 @@ export class PlacedOrderService {
                 'placedOrderId': placedOrderId,
             },
             errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Updates a Placed Order.
+     * @returns PlacedOrder Updated
+     * @throws ApiError
+     */
+    public patchPlacedOrder({
+        placedOrderId,
+        requestBody,
+    }: {
+        placedOrderId: number,
+        requestBody: PlacedOrder,
+    }): CancelablePromise<PlacedOrder> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}',
+            path: {
+                'placedOrderId': placedOrderId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
                 401: `Authentication information is missing or invalid`,
                 404: `The specified resource was not found`,
                 500: `Unexpected error`,

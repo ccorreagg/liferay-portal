@@ -10,6 +10,7 @@ export type ProductOptionValue = {
     preselected?: boolean;
     priority?: number;
     quantity?: number;
+    skuExternalReferenceCode?: string;
     skuId?: number;
     readonly unitOfMeasureKey?: string;
 };

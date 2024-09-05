@@ -8,6 +8,10 @@ import type { RoleBrief } from './RoleBrief';
  */
 export type OrganizationBrief = {
     /**
+     * The organization's external reference code.
+     */
+    readonly externalReferenceCode?: string;
+    /**
      * The organization's ID.
      */
     readonly id?: number;

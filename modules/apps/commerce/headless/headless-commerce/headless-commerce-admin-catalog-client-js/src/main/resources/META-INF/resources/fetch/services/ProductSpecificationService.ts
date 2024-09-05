@@ -83,6 +83,66 @@ export class ProductSpecificationService {
         });
     }
     /**
+     * Gets a list of product specification.
+     * @returns PageProductSpecification Successful operation
+     * @throws ApiError
+     */
+    public getProductByExternalReferenceCodeProductSpecificationsPage({
+        externalReferenceCode,
+        page,
+        pageSize,
+    }: {
+        externalReferenceCode: string,
+        page?: number,
+        pageSize?: number,
+    }): CancelablePromise<PageProductSpecification> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/product-specifications',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+            },
+            errors: {
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
+     * Creates or updates a product specification
+     * @returns ProductSpecification Created
+     * @returns any Accepted - Async
+     * @throws ApiError
+     */
+    public postProductByExternalReferenceCodeProductSpecification({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: ProductSpecification,
+    }): CancelablePromise<ProductSpecification | any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/product-specifications',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
      * Gets a list of values related to a specification.
      * @returns PageProductSpecification Successful operation
      * @throws ApiError
