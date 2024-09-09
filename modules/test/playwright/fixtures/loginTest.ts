@@ -16,17 +16,7 @@ export interface LoginOptions {
 	screenName?: LoginScreenName;
 }
 
-interface HeadlessClientConfig {
-	BASE: string;
-	HEADERS: Record<string, string>;
-}
-
 export interface Login {
-	authenticate: <
-		T extends new (config: HeadlessClientConfig) => InstanceType<T>,
-	>(
-		HeadlessClient: T
-	) => InstanceType<T>;
 	login: {
 		screenName: LoginScreenName;
 		sessionId: string;
@@ -55,20 +45,6 @@ export interface Login {
  */
 function loginTest(options: LoginOptions = {}) {
 	const fixtureImpl = test.extend<Login>({
-		authenticate: async ({login, page}, use) => {
-			const authToken = await page.evaluate(() => Liferay.authToken);
-
-			await use(
-				(HeadlessClient) =>
-					new HeadlessClient({
-						BASE: liferayConfig.environment.baseUrl + '/o',
-						HEADERS: {
-							'Cookie': `JSESSIONID=${login.sessionId};`,
-							'x-csrf-token': authToken,
-						},
-					})
-			);
-		},
 		login: [
 			async ({page}, use) => {
 				const screenName = options.screenName || 'test';
