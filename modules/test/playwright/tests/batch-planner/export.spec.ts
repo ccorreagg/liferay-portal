@@ -60,12 +60,10 @@ const stockObjectEntry = {
 	name: 'Stock Entry',
 };
 
-test('can export as JSONT', async ({
-	apiHelpers,
-	authenticate,
-	dataMigrationCenterPage,
-}) => {
-	const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+test('can export as JSONT', async ({apiHelpers, dataMigrationCenterPage}) => {
+	const objectAdminRestClient = await apiHelpers.buildRestClient(
+		ObjectAdminRestClient
+	);
 
 	const objectDefinition =
 		await objectAdminRestClient.objectDefinition.postObjectDefinition({
@@ -126,10 +124,11 @@ test('can export as JSONT', async ({
 
 test('can export as JSON with excluded fields', async ({
 	apiHelpers,
-	authenticate,
 	dataMigrationCenterPage,
 }) => {
-	const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+	const objectAdminRestClient = await apiHelpers.buildRestClient(
+		ObjectAdminRestClient
+	);
 
 	const objectDefinition =
 		await objectAdminRestClient.objectDefinition.postObjectDefinition({
@@ -159,10 +158,9 @@ test('can export as JSON with excluded fields', async ({
 
 test('can export as JSON with all field types mapped', async ({
 	apiHelpers,
-	authenticate,
 	dataMigrationCenterPage,
 }) => {
-	const headlessAdminListTypeClient = authenticate(
+	const headlessAdminListTypeClient = await apiHelpers.buildRestClient(
 		HeadlessAdminListTypeClient
 	);
 
@@ -192,7 +190,9 @@ test('can export as JSON with all field types mapped', async ({
 		}
 	);
 
-	const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+	const objectAdminRestClient = await apiHelpers.buildRestClient(
+		ObjectAdminRestClient
+	);
 
 	const objectDefinition =
 		await objectAdminRestClient.objectDefinition.postObjectDefinition({
@@ -391,10 +391,11 @@ test('can export as JSON with all field types mapped', async ({
 
 test('can export as JSONL with excluded fields', async ({
 	apiHelpers,
-	authenticate,
 	dataMigrationCenterPage,
 }) => {
-	const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+	const objectAdminRestClient = await apiHelpers.buildRestClient(
+		ObjectAdminRestClient
+	);
 
 	const objectDefinition =
 		await objectAdminRestClient.objectDefinition.postObjectDefinition({
@@ -414,16 +415,15 @@ test('can export as JSONL with excluded fields', async ({
 	await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
 		objectDefinitionId: objectDefinition.id,
 	});
-
-	await apiHelpers.objectAdmin.deleteObjectDefinition(objectDefinition.id);
 });
 
 test('can see correct custom object name in dropdown', async ({
 	apiHelpers,
-	authenticate,
 	dataMigrationCenterPage,
 }) => {
-	const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+	const objectAdminRestClient = await apiHelpers.buildRestClient(
+		ObjectAdminRestClient
+	);
 
 	const objectDefinition =
 		await objectAdminRestClient.objectDefinition.postObjectDefinition({

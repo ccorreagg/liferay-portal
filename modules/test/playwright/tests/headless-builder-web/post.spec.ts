@@ -142,11 +142,13 @@ test('can create post endpoint with different request and response schema', asyn
 	apiExplorerPage,
 	apiHelpers,
 	applicationPage,
-	authenticate,
+
 	headlessBuilderPage,
 	page,
 }) => {
-	const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+	const objectAdminRestClient = await apiHelpers.buildRestClient(
+		ObjectAdminRestClient
+	);
 
 	const subjectResponse =
 		await objectAdminRestClient.objectDefinition.postObjectDefinition({
@@ -322,9 +324,9 @@ test('can create post endpoint with different request and response schema', asyn
 		'headless-builder/applications',
 		studentSubjectsApplication.externalReferenceCode
 	);
-	await apiHelpers.objectAdmin.deleteObjectRelationship(
-		studentResponse.objectRelationships[0].id
-	);
+	await objectAdminRestClient.objectRelationship.deleteObjectRelationship({
+		objectRelationshipId: studentResponse.objectRelationships[0].id,
+	});
 
 	await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
 		objectDefinitionId: studentResponse.id,

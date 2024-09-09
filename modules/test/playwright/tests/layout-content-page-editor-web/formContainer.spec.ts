@@ -5,6 +5,7 @@
 
 import {expect, mergeTests} from '@playwright/test';
 
+import {ObjectAdminRestClient} from '../../../../apps/object/object-admin-rest-client-js/src/main/resources/META-INF/resources/node';
 import {apiHelpersTest} from '../../fixtures/apiHelpersTest';
 import {featureFlagsTest} from '../../fixtures/featureFlagsTest';
 import {loginTest} from '../../fixtures/loginTest';
@@ -250,9 +251,15 @@ test.describe('Multistep', () => {
 
 			// Get the id of Lemon object from the site initializer
 
+			const objectAdminRestClient = await apiHelpers.buildRestClient(
+				ObjectAdminRestClient
+			);
+
 			const {id: objectDefinitionId} =
-				await apiHelpers.objectAdmin.getObjectDefinitionByExternalReferenceCode(
-					LEMON_OBJECT_ERC
+				await objectAdminRestClient.objectDefinition.getObjectDefinitionByExternalReferenceCode(
+					{
+						externalReferenceCode: LEMON_OBJECT_ERC,
+					}
 				);
 
 			// Create a page with a Form fragment with a Stepper fragment
@@ -326,9 +333,15 @@ test.describe('Multistep', () => {
 
 			// Get the id of Lemon object from the site initializer
 
+			const objectAdminRestClient = await apiHelpers.buildRestClient(
+				ObjectAdminRestClient
+			);
+
 			const {id: objectDefinitionId} =
-				await apiHelpers.objectAdmin.getObjectDefinitionByExternalReferenceCode(
-					LEMON_OBJECT_ERC
+				await objectAdminRestClient.objectDefinition.getObjectDefinitionByExternalReferenceCode(
+					{
+						externalReferenceCode: LEMON_OBJECT_ERC,
+					}
 				);
 
 			// Create a page with a form container
@@ -419,9 +432,15 @@ test.describe('Multistep', () => {
 
 			// Get the id of Lemon object from the site initializer
 
+			const objectAdminRestClient = await apiHelpers.buildRestClient(
+				ObjectAdminRestClient
+			);
+
 			const {id: objectDefinitionId} =
-				await apiHelpers.objectAdmin.getObjectDefinitionByExternalReferenceCode(
-					LEMON_OBJECT_ERC
+				await objectAdminRestClient.objectDefinition.getObjectDefinitionByExternalReferenceCode(
+					{
+						externalReferenceCode: LEMON_OBJECT_ERC,
+					}
 				);
 
 			// Definition for the Stepper fragment
@@ -491,9 +510,15 @@ test.describe('Multistep', () => {
 
 			// Get the id of Lemon object from the site initializer
 
+			const objectAdminRestClient = await apiHelpers.buildRestClient(
+				ObjectAdminRestClient
+			);
+
 			const {id: objectDefinitionId} =
-				await apiHelpers.objectAdmin.getObjectDefinitionByExternalReferenceCode(
-					LEMON_OBJECT_ERC
+				await objectAdminRestClient.objectDefinition.getObjectDefinitionByExternalReferenceCode(
+					{
+						externalReferenceCode: LEMON_OBJECT_ERC,
+					}
 				);
 
 			// Create a form with two steps and two form buttons
@@ -618,9 +643,15 @@ test.describe('Multistep', () => {
 
 			// Get the id of Lemon object from the site initializer
 
+			const objectAdminRestClient = await apiHelpers.buildRestClient(
+				ObjectAdminRestClient
+			);
+
 			const {id: objectDefinitionId} =
-				await apiHelpers.objectAdmin.getObjectDefinitionByExternalReferenceCode(
-					LEMON_OBJECT_ERC
+				await objectAdminRestClient.objectDefinition.getObjectDefinitionByExternalReferenceCode(
+					{
+						externalReferenceCode: LEMON_OBJECT_ERC,
+					}
 				);
 
 			// Definition for the Steppers fragment
@@ -710,9 +741,15 @@ test.describe('Multistep', () => {
 
 			// Get the id of Lemon object from the site initializer
 
+			const objectAdminRestClient = await apiHelpers.buildRestClient(
+				ObjectAdminRestClient
+			);
+
 			const {id: objectDefinitionId} =
-				await apiHelpers.objectAdmin.getObjectDefinitionByExternalReferenceCode(
-					LEMON_OBJECT_ERC
+				await objectAdminRestClient.objectDefinition.getObjectDefinitionByExternalReferenceCode(
+					{
+						externalReferenceCode: LEMON_OBJECT_ERC,
+					}
 				);
 
 			// Create a form with a Stepper
@@ -774,9 +811,15 @@ test.describe('Multistep', () => {
 
 			// Get the id of Lemon object from the site initializer
 
+			const objectAdminRestClient = await apiHelpers.buildRestClient(
+				ObjectAdminRestClient
+			);
+
 			const {id: objectDefinitionId} =
-				await apiHelpers.objectAdmin.getObjectDefinitionByExternalReferenceCode(
-					LEMON_OBJECT_ERC
+				await objectAdminRestClient.objectDefinition.getObjectDefinitionByExternalReferenceCode(
+					{
+						externalReferenceCode: LEMON_OBJECT_ERC,
+					}
 				);
 
 			// Create a page with a Form fragment
@@ -849,9 +892,15 @@ test.describe('Multistep', () => {
 
 			// Get the id of Lemon object from the site initializer
 
+			const objectAdminRestClient = await apiHelpers.buildRestClient(
+				ObjectAdminRestClient
+			);
+
 			const {id: objectDefinitionId} =
-				await apiHelpers.objectAdmin.getObjectDefinitionByExternalReferenceCode(
-					LEMON_OBJECT_ERC
+				await objectAdminRestClient.objectDefinition.getObjectDefinitionByExternalReferenceCode(
+					{
+						externalReferenceCode: LEMON_OBJECT_ERC,
+					}
 				);
 
 			// Create a page containing a multistep form with a stepper and a simple form
@@ -949,9 +998,15 @@ test.describe('Multistep', () => {
 
 			// Get the id of Potato object from the site initializer
 
+			const objectAdminRestClient = await apiHelpers.buildRestClient(
+				ObjectAdminRestClient
+			);
+
 			const {id: objectDefinitionId} =
-				await apiHelpers.objectAdmin.getObjectDefinitionByExternalReferenceCode(
-					POTATO_OBJECT_ERC
+				await objectAdminRestClient.objectDefinition.getObjectDefinitionByExternalReferenceCode(
+					{
+						externalReferenceCode: POTATO_OBJECT_ERC,
+					}
 				);
 
 			// Create a form with three steps and a stepper
@@ -1093,9 +1148,15 @@ test.describe('Edit mode form errors', () => {
 
 			// Get the id of Lemon object from the site initializer
 
+			const objectAdminRestClient = await apiHelpers.buildRestClient(
+				ObjectAdminRestClient
+			);
+
 			const {id: objectDefinitionId} =
-				await apiHelpers.objectAdmin.getObjectDefinitionByExternalReferenceCode(
-					LEMON_OBJECT_ERC
+				await objectAdminRestClient.objectDefinition.getObjectDefinitionByExternalReferenceCode(
+					{
+						externalReferenceCode: LEMON_OBJECT_ERC,
+					}
 				);
 
 			// Create a page with a Form fragment
@@ -1138,9 +1199,15 @@ test.describe('Edit mode form errors', () => {
 
 			// Get the id of Lemon object from the site initializer
 
+			const objectAdminRestClient = await apiHelpers.buildRestClient(
+				ObjectAdminRestClient
+			);
+
 			const {id: objectDefinitionId} =
-				await apiHelpers.objectAdmin.getObjectDefinitionByExternalReferenceCode(
-					LEMON_OBJECT_ERC
+				await objectAdminRestClient.objectDefinition.getObjectDefinitionByExternalReferenceCode(
+					{
+						externalReferenceCode: LEMON_OBJECT_ERC,
+					}
 				);
 
 			// Create a forms with three steps, forcing errors

@@ -185,15 +185,12 @@ const applicationData = {
 
 testFeatureFlagsDisabled(
 	'can see all available object definitions on schema creation',
-	async ({
-		apiHelpers,
-		applicationPage,
-		authenticate,
-		headlessBuilderPage,
-	}) => {
+	async ({apiHelpers, applicationPage, headlessBuilderPage}) => {
 		const objectDefinitions = [];
 
-		const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+		const objectAdminRestClient = await apiHelpers.buildRestClient(
+			ObjectAdminRestClient
+		);
 
 		for (let i = 0; i <= 21; i++) {
 			objectDefinitions.push(
@@ -292,13 +289,10 @@ testFeatureFlagsDisabled(
 
 testFeatureFlagsDisabled(
 	'can see allowed object definitions on schema creation',
-	async ({
-		apiHelpers,
-		applicationPage,
-		authenticate,
-		headlessBuilderPage,
-	}) => {
-		const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+	async ({apiHelpers, applicationPage, headlessBuilderPage}) => {
+		const objectAdminRestClient = await apiHelpers.buildRestClient(
+			ObjectAdminRestClient
+		);
 
 		const objectDefinition =
 			await objectAdminRestClient.objectDefinition.postObjectDefinition({
@@ -346,13 +340,10 @@ testFeatureFlagsDisabled(
 
 testFeatureFlagsEnabled(
 	'can see allowed object definitions on schema creation with feature flag',
-	async ({
-		apiHelpers,
-		applicationPage,
-		authenticate,
-		headlessBuilderPage,
-	}) => {
-		const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+	async ({apiHelpers, applicationPage, headlessBuilderPage}) => {
+		const objectAdminRestClient = await apiHelpers.buildRestClient(
+			ObjectAdminRestClient
+		);
 
 		const objectDefinition =
 			await objectAdminRestClient.objectDefinition.postObjectDefinition({
@@ -402,14 +393,10 @@ testFeatureFlagsEnabled(
 
 testFeatureFlagsDisabled(
 	'check related objects enablement without feature flag',
-	async ({
-		apiHelpers,
-		applicationPage,
-		authenticate,
-		headlessBuilderPage,
-		schemaPage,
-	}) => {
-		const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+	async ({apiHelpers, applicationPage, headlessBuilderPage, schemaPage}) => {
+		const objectAdminRestClient = await apiHelpers.buildRestClient(
+			ObjectAdminRestClient
+		);
 
 		const objectDefinition =
 			await objectAdminRestClient.objectDefinition.postObjectDefinition({
@@ -542,14 +529,10 @@ testFeatureFlagsDisabled(
 
 testFeatureFlagsEnabled(
 	'check related objects enablement with feature flag',
-	async ({
-		apiHelpers,
-		applicationPage,
-		authenticate,
-		headlessBuilderPage,
-		schemaPage,
-	}) => {
-		const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+	async ({apiHelpers, applicationPage, headlessBuilderPage, schemaPage}) => {
+		const objectAdminRestClient = await apiHelpers.buildRestClient(
+			ObjectAdminRestClient
+		);
 
 		const objectDefinition =
 			await objectAdminRestClient.objectDefinition.postObjectDefinition({

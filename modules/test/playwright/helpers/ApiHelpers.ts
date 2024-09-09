@@ -384,10 +384,19 @@ export class DataApiHelpers extends ApiHelpers {
 					);
 
 					break;
-				case 'objectDefinition':
-					await this.objectAdmin.deleteObjectDefinition(item.id);
+				case 'objectDefinition': {
+					const objectAdminRESTClient = await this.buildRestClient(
+						ObjectAdminRestClient
+					);
+
+					await objectAdminRESTClient.objectDefinition.deleteObjectDefinition(
+						{
+							objectDefinitionId: item.id,
+						}
+					);
 
 					break;
+				}
 				case 'option':
 					await this.headlessCommerceAdminCatalog.deleteOption(
 						item.id

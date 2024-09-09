@@ -237,11 +237,12 @@ test('can see schema unique fields as path parameter properties', async ({
 test('can list site scoped endpoint', async ({
 	apiHelpers,
 	applicationPage,
-	authenticate,
 	headlessBuilderPage,
 	page,
 }) => {
-	const objectAdminRestClient = authenticate(ObjectAdminRestClient);
+	const objectAdminRestClient = await apiHelpers.buildRestClient(
+		ObjectAdminRestClient
+	);
 
 	const studentSiteDefinition =
 		await objectAdminRestClient.objectDefinition.postObjectDefinition({
