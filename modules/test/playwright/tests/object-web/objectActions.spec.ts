@@ -31,11 +31,13 @@ const createdEntities = {
 	notificationTemplatesId: [],
 	objectActionsId: [],
 	objectDefinition: {},
+	objectDefinitionsId: [],
 } as {
 	notificationQueueEntriesId: number[];
 	notificationTemplatesId: number[];
 	objectActionsId: number[];
 	objectDefinition: ObjectDefinition;
+	objectDefinitionsId: number[];
 };
 
 test.beforeEach(async ({apiHelpers}) => {
@@ -46,6 +48,8 @@ test.beforeEach(async ({apiHelpers}) => {
 		});
 
 	createdEntities.objectDefinition = newObjectDefinition;
+
+	createdEntities.objectDefinitionsId.push(newObjectDefinition.id);
 });
 
 test.afterEach(async ({apiHelpers}) => {
@@ -53,9 +57,13 @@ test.afterEach(async ({apiHelpers}) => {
 		ObjectAdminRestClient
 	);
 
-	await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
-		objectDefinitionId: createdEntities.objectDefinition.id,
-	});
+	for (const objectDefinitionId of createdEntities.objectDefinitionsId) {
+		await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
+			objectDefinitionId,
+		});
+	}
+
+	createdEntities.objectDefinitionsId = [];
 
 	for (const queueEntryId of createdEntities.notificationQueueEntriesId) {
 		await apiHelpers.notification.deleteNotificationQueueEntry(
@@ -256,7 +264,7 @@ test('can send notification email via download action', async ({
 			status: {code: 0},
 		});
 
-	createdEntities.objectDefinition = objectDefinition;
+	createdEntities.objectDefinitionsId.push(objectDefinition.id);
 
 	// Create an action to send notification after attachment download
 

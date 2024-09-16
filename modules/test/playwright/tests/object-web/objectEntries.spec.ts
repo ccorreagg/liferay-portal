@@ -56,6 +56,8 @@ test.afterEach(async ({apiHelpers}) => {
 		);
 	}
 
+	createdEntities.listTypeDefinitions = [];
+
 	const objectAdminRestClient = await apiHelpers.buildRestClient(
 		ObjectAdminRestClient
 	);
@@ -65,6 +67,8 @@ test.afterEach(async ({apiHelpers}) => {
 			objectDefinitionId: objectDefinition.id,
 		});
 	}
+
+	createdEntities.objectDefinitions = [];
 });
 
 test.describe('Manage object entries through Page Templates', () => {

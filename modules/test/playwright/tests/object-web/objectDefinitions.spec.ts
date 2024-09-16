@@ -237,6 +237,11 @@ test.describe('Manage object definitions through Model Builder', () => {
 
 		await modelBuilderObjectDefinitionNodePage.deleteObjectDefinitionOption.click();
 
+		objectDefinitions.splice(
+			objectDefinitions.indexOf(objectDefinition1),
+			1
+		);
+
 		await expect(
 			modelBuilderLeftSidebarPage.sidebarItems.filter({
 				hasText: objectDefinition2.label['en_US'],
@@ -289,6 +294,11 @@ test.describe('Manage object definitions through Model Builder', () => {
 			objectDefinition1.name
 		);
 
+		objectDefinitions.splice(
+			objectDefinitions.indexOf(objectDefinition1),
+			1
+		);
+
 		await expect(
 			modelBuilderDiagramPage.objectDefinitionNodes.filter({
 				hasText: objectDefinition2.label['en_US'],
@@ -310,6 +320,8 @@ test.describe('Manage object definitions through Model Builder', () => {
 	}) => {
 		const objectFolder =
 			await apiHelpers.objectAdmin.postRandomObjectFolder();
+
+		objectFolders.push(objectFolder);
 
 		const objectDefinition1 =
 			await apiHelpers.objectAdmin.postRandomObjectDefinition({
@@ -392,12 +404,6 @@ test.describe('Manage object definitions through Model Builder', () => {
 				modelBuilderDiagramPage.objectDefinitionNodes
 			)
 		).toBeVisible();
-
-		// Clean up
-
-		await objectAdminRestClient.objectFolder.deleteObjectFolder({
-			objectFolderId: objectFolder.id,
-		});
 	});
 
 	test('navigate to edit object definition page', async ({
@@ -609,6 +615,11 @@ test.describe('Manage object definitions through View Object Definitions', () =>
 			.click();
 
 		await viewObjectDefinitionsPage.deleteObjectDefinitionOption.click();
+
+		objectDefinitions.splice(
+			objectDefinitions.indexOf(objectDefinition2),
+			1
+		);
 
 		await expect(
 			viewObjectDefinitionsPage.frontendDataSetEntries.filter({

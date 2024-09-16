@@ -71,7 +71,7 @@ test.afterEach(async ({apiHelpers}) => {
 		},
 	});
 
-	createdEntities.objectDefinitions = [];
+	createdEntities.objectFolders = [];
 
 	await asyncArray.map({
 		array: createdEntities.listTypeDefinitionIds,

@@ -36,11 +36,15 @@ test.afterEach(async ({apiHelpers}) => {
 		});
 	}
 
+	createdEntities.objectFolders = [];
+
 	for (const objectDefinition of createdEntities.objectDefinitions) {
 		await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
 			objectDefinitionId: objectDefinition.id,
 		});
 	}
+
+	createdEntities.objectDefinitions = [];
 });
 
 test.describe('manage object definitions through model builder', () => {
@@ -352,6 +356,11 @@ test.describe('manage object definitions through view object definitions', () =>
 		await viewObjectDefinitionsPage.objectFolderActions.click();
 
 		await viewObjectDefinitionsPage.deleteObjectFolder(objectFolder.name);
+
+		createdEntities.objectFolders.splice(
+			createdEntities.objectFolders.indexOf(objectFolder),
+			1
+		);
 
 		await viewObjectDefinitionsPage.defaultObjectFolder.click();
 

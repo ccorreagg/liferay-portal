@@ -40,17 +40,23 @@ test.afterEach(async ({apiHelpers}) => {
 		);
 	}
 
+	createdEntities.objectRelationshipIds = [];
+
 	for (const id of createdEntities.objectDefinitionIds) {
 		await objectAdminRestClient.objectDefinition.deleteObjectDefinition({
 			objectDefinitionId: id,
 		});
 	}
 
+	createdEntities.objectDefinitionIds = [];
+
 	for (const id of createdEntities.objectFolderIds) {
 		await objectAdminRestClient.objectFolder.deleteObjectFolder({
 			objectFolderId: id,
 		});
 	}
+
+	createdEntities.objectFolderIds = [];
 });
 
 test.describe('Manage object relationships through Model Builder', () => {
@@ -674,6 +680,13 @@ test.describe('Manage object relationships through Model Builder', () => {
 
 		await modelBuilderRightSidebarPage.deleteObjectRelationship(
 			objectRelationshipName
+		);
+
+		createdEntities.objectRelationshipIds.splice(
+			createdEntities.objectRelationshipIds.indexOf(
+				objectRelationship.id
+			),
+			1
 		);
 
 		await expect(
