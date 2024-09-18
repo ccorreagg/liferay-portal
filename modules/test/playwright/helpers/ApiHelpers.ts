@@ -345,176 +345,200 @@ export class DataApiHelpers extends ApiHelpers {
 
 	async clearData() {
 		for await (const item of this.data) {
-			switch (item.type) {
-				case 'account':
-					await this.headlessAdminUser.deleteAccount(item.id);
+			try {
+				switch (item.type) {
+					case 'account':
+						await this.headlessAdminUser.deleteAccount(item.id);
 
-					break;
-				case 'announcement':
-					await this.jsonWebServicesAnnouncementsEntryApiHelper.deleteEntry(
-						item.id
-					);
+						break;
+					case 'announcement':
+						await this.jsonWebServicesAnnouncementsEntryApiHelper.deleteEntry(
+							item.id
+						);
 
-					break;
-				case 'accountGroup':
-					await this.headlessAdminUser.deleteAccountGroup(item.id);
+						break;
+					case 'accountGroup':
+						await this.headlessAdminUser.deleteAccountGroup(
+							item.id
+						);
 
-					break;
-				case 'catalog':
-					await this.headlessCommerceAdminCatalog.deleteCatalog(
-						item.id
-					);
+						break;
+					case 'catalog':
+						await this.headlessCommerceAdminCatalog.deleteCatalog(
+							item.id
+						);
 
-					break;
-				case 'channel':
-					await this.headlessCommerceAdminChannel.deleteChannel(
-						item.id
-					);
+						break;
+					case 'channel':
+						await this.headlessCommerceAdminChannel.deleteChannel(
+							item.id
+						);
 
-					break;
-				case 'commerceReturn':
-					await this.headlessCommerceReturn.deleteCommerceReturn(
-						item.id
-					);
+						break;
+					case 'commerceReturn':
+						await this.headlessCommerceReturn.deleteCommerceReturn(
+							item.id
+						);
 
-					break;
-				case 'discount':
-					await this.headlessCommerceAdminPricing.deleteDiscount(
-						item.id
-					);
+						break;
+					case 'discount':
+						await this.headlessCommerceAdminPricing.deleteDiscount(
+							item.id
+						);
 
-					break;
-				case 'objectDefinition': {
-					const objectAdminRESTClient = await this.buildRestClient(
-						ObjectAdminRestClient
-					);
+						break;
+					case 'objectDefinition': {
+						const objectAdminRESTClient =
+							await this.buildRestClient(ObjectAdminRestClient);
 
-					await objectAdminRESTClient.objectDefinition.deleteObjectDefinition(
-						{
-							objectDefinitionId: item.id,
-						}
-					);
+						await objectAdminRESTClient.objectDefinition.deleteObjectDefinition(
+							{
+								objectDefinitionId: item.id,
+							}
+						);
 
-					break;
+						break;
+					}
+					case 'option':
+						await this.headlessCommerceAdminCatalog.deleteOption(
+							item.id
+						);
+
+						break;
+					case 'optionCategory':
+						await this.headlessCommerceAdminCatalog.deleteOptionCategory(
+							item.id
+						);
+
+						break;
+					case 'order':
+						await this.headlessCommerceAdminOrder.deleteOrder(
+							item.id
+						);
+
+						break;
+					case 'orderType':
+						await this.headlessCommerceAdminOrder.deleteOrderTypes(
+							item.id
+						);
+
+						break;
+					case 'organization':
+						await this.headlessAdminUser.deleteOrganization(
+							item.id
+						);
+
+						break;
+					case 'organizationUserAccountAssociation': {
+						const [organizationId, emailAddress] =
+							item.id.split('_');
+
+						await this.headlessAdminUser.deleteOrganizationUserAccountAssociation(
+							organizationId,
+							emailAddress
+						);
+
+						break;
+					}
+					case 'payment':
+						await this.headlessCommerceAdminPaymentApiHelper.deletePayment(
+							item.id
+						);
+
+						break;
+					case 'pin':
+						await this.headlessCommerceAdminCatalog.deletePin(
+							item.id
+						);
+
+						break;
+					case 'price-entry':
+						await this.headlessCommerceAdminPricing.deletePriceEntry(
+							item.id
+						);
+
+						break;
+					case 'product':
+						await this.headlessCommerceAdminCatalog.deleteProduct(
+							item.id
+						);
+
+						break;
+					case 'relatedProduct':
+						await this.headlessCommerceAdminCatalog.deleteRelatedProduct(
+							item.id
+						);
+
+						break;
+					case 'roleUserAccountAssociation': {
+						const [roleId, userId] = item.id.split('_');
+
+						await this.headlessAdminUser.deleteRoleUserAccountAssociation(
+							roleId,
+							userId
+						);
+
+						break;
+					}
+					case 'site':
+						await this.headlessSite.deleteSite(item.id);
+
+						break;
+					case 'skuUnitOfMeasure':
+						await this.headlessCommerceAdminCatalog.deleteSkuUnitOfMeasure(
+							item.id
+						);
+
+						break;
+					case 'specification':
+						await this.headlessCommerceAdminCatalog.deleteSpecification(
+							item.id
+						);
+
+						break;
+					case 'sxpElement':
+						await this.searchExperiences.deleteSXPElement(item.id);
+
+						break;
+					case 'sxpBlueprint':
+						await this.searchExperiences.deleteSXPBlueprint(
+							item.id
+						);
+
+						break;
+					case 'terms':
+						await this.headlessCommerceAdminOrder.deleteTerms(
+							item.id
+						);
+
+						break;
+					case 'userAccount':
+						await this.headlessAdminUser.deleteUserAccount(item.id);
+
+						break;
+					case 'userGroup':
+						await this.headlessAdminUser.deleteUserGroup(item.id);
+
+						break;
+					case 'warehouse':
+						await this.headlessCommerceAdminInventoryApiHelper.deleteWarehouse(
+							item.id
+						);
+
+						break;
+					default:
+						break;
 				}
-				case 'option':
-					await this.headlessCommerceAdminCatalog.deleteOption(
-						item.id
-					);
-
-					break;
-				case 'optionCategory':
-					await this.headlessCommerceAdminCatalog.deleteOptionCategory(
-						item.id
-					);
-
-					break;
-				case 'order':
-					await this.headlessCommerceAdminOrder.deleteOrder(item.id);
-
-					break;
-				case 'orderType':
-					await this.headlessCommerceAdminOrder.deleteOrderTypes(
-						item.id
-					);
-
-					break;
-				case 'organization':
-					await this.headlessAdminUser.deleteOrganization(item.id);
-
-					break;
-				case 'organizationUserAccountAssociation': {
-					const [organizationId, emailAddress] = item.id.split('_');
-
-					await this.headlessAdminUser.deleteOrganizationUserAccountAssociation(
-						organizationId,
-						emailAddress
-					);
-
-					break;
-				}
-				case 'payment':
-					await this.headlessCommerceAdminPaymentApiHelper.deletePayment(
-						item.id
-					);
-
-					break;
-				case 'pin':
-					await this.headlessCommerceAdminCatalog.deletePin(item.id);
-
-					break;
-				case 'price-entry':
-					await this.headlessCommerceAdminPricing.deletePriceEntry(
-						item.id
-					);
-
-					break;
-				case 'product':
-					await this.headlessCommerceAdminCatalog.deleteProduct(
-						item.id
-					);
-
-					break;
-				case 'relatedProduct':
-					await this.headlessCommerceAdminCatalog.deleteRelatedProduct(
-						item.id
-					);
-
-					break;
-				case 'roleUserAccountAssociation': {
-					const [roleId, userId] = item.id.split('_');
-
-					await this.headlessAdminUser.deleteRoleUserAccountAssociation(
-						roleId,
-						userId
-					);
-
-					break;
-				}
-				case 'site':
-					await this.headlessSite.deleteSite(item.id);
-
-					break;
-				case 'skuUnitOfMeasure':
-					await this.headlessCommerceAdminCatalog.deleteSkuUnitOfMeasure(
-						item.id
-					);
-
-					break;
-				case 'specification':
-					await this.headlessCommerceAdminCatalog.deleteSpecification(
-						item.id
-					);
-
-					break;
-				case 'sxpElement':
-					await this.searchExperiences.deleteSXPElement(item.id);
-
-					break;
-				case 'sxpBlueprint':
-					await this.searchExperiences.deleteSXPBlueprint(item.id);
-
-					break;
-				case 'terms':
-					await this.headlessCommerceAdminOrder.deleteTerms(item.id);
-
-					break;
-				case 'userAccount':
-					await this.headlessAdminUser.deleteUserAccount(item.id);
-
-					break;
-				case 'userGroup':
-					await this.headlessAdminUser.deleteUserGroup(item.id);
-
-					break;
-				case 'warehouse':
-					await this.headlessCommerceAdminInventoryApiHelper.deleteWarehouse(
-						item.id
-					);
-
-					break;
-				default:
-					break;
+			}
+			catch (error) {
+				console.debug(
+					`Error deleting the ` +
+						item.type +
+						` [id: ` +
+						item.id +
+						`] with the error ` +
+						error
+				);
 			}
 		}
 	}
