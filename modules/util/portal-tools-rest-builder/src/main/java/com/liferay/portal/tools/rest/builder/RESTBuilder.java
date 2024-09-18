@@ -2074,6 +2074,11 @@ public class RESTBuilder {
 					"clientName", baseClientDir.getName()
 				).build()));
 
+		FileUtil.write(
+			new File(baseClientDir, "node-scripts.config.js"),
+			FreeMarkerUtil.processTemplate(
+				null, null, "node_scripts_config", null));
+
 		File openAPIYAMLFile = _prepareForJSClientGenerator(openAPIYAMLString);
 
 		_invokeJSClientGenerator(
