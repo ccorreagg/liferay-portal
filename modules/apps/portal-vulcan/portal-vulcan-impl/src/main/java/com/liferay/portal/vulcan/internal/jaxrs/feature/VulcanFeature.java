@@ -22,6 +22,7 @@ import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResourceFactory;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResourceFactory;
 import com.liferay.portal.vulcan.extension.ExtensionProviderRegistry;
+import com.liferay.portal.vulcan.internal.extension.NestedFieldsExtensionProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.container.request.filter.CTContainerRequestFilter;
 import com.liferay.portal.vulcan.internal.jaxrs.container.request.filter.ContextContainerRequestFilter;
 import com.liferay.portal.vulcan.internal.jaxrs.container.request.filter.LogContainerRequestFilter;
@@ -84,7 +85,6 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
@@ -175,11 +175,9 @@ public class VulcanFeature implements Feature {
 				_extensionProviderRegistry));
 		featureContext.register(new MultipartBodyMessageBodyReader());
 
-		_nestedFieldsWriterInterceptor = new NestedFieldsWriterInterceptor(
-			_bundleContext);
-
 		featureContext.register(
-			_nestedFieldsWriterInterceptor, Priorities.USER - 10);
+			new NestedFieldsWriterInterceptor(_nestedFieldsExtensionProvider),
+			Priorities.USER - 10);
 
 		featureContext.register(
 			new PaginationContextProvider(_paginationProvider, _portal));
@@ -196,13 +194,6 @@ public class VulcanFeature implements Feature {
 	@Activate
 	protected void activate(BundleContext bundleContext) {
 		_bundleContext = bundleContext;
-	}
-
-	@Deactivate
-	protected void deactivate() {
-		if (_nestedFieldsWriterInterceptor != null) {
-			_nestedFieldsWriterInterceptor.destroy();
-		}
 	}
 
 	private Object _getScopeChecker() {
@@ -242,7 +233,8 @@ public class VulcanFeature implements Feature {
 	@Reference
 	private Language _language;
 
-	private NestedFieldsWriterInterceptor _nestedFieldsWriterInterceptor;
+	@Reference
+	private NestedFieldsExtensionProvider _nestedFieldsExtensionProvider;
 
 	@Reference
 	private PaginationProvider _paginationProvider;
