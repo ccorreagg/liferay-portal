@@ -5,6 +5,6 @@
 	},
 	"name": "@liferay/${clientName}",
 	"private": true,
-	"type": "module",
+	"type": "commonjs",
 	"version": "1.0.0"
 }
