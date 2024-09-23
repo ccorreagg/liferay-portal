@@ -1,0 +1,33 @@
+{
+	"@generated": "00ec9b2be3154a92dc37e5f5417876f3a0151201",
+	"@readonly": "** AUTO-GENERATED: DO NOT EDIT **",
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
+		"checkJs": false,
+		"composite": true,
+		"declarationDir": "../../../../../../../../../.tsc/types",
+		"emitDeclarationOnly": true,
+		"jsx": "react",
+		"module": "es6",
+		"moduleResolution": "node",
+		"paths": {
+		},
+		"rootDir": "../../../../../../../../..",
+		"skipLibCheck": true,
+		"sourceMap": false,
+		"strict": true,
+		"target": "esnext",
+		"tsBuildInfoFile": "../../../../../../../../../.tsc/buildinfo/@liferay/scim-rest-client-js.tsbuildinfo",
+		"typeRoots": [
+			"../../../../../../../../../node_modules/@types"
+		]
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"../../../../../../../../../global.d.ts"
+	],
+	"references": [
+	]
+}

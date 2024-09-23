@@ -1,0 +1,33 @@
+{
+	"@generated": "5ec22dae8ffd5861cfe58b472dfc3535c2f4dc1a",
+	"@readonly": "** AUTO-GENERATED: DO NOT EDIT **",
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
+		"checkJs": false,
+		"composite": true,
+		"declarationDir": "../../../../../../../../../.tsc/types",
+		"emitDeclarationOnly": true,
+		"jsx": "react",
+		"module": "es6",
+		"moduleResolution": "node",
+		"paths": {
+		},
+		"rootDir": "../../../../../../../../..",
+		"skipLibCheck": true,
+		"sourceMap": false,
+		"strict": true,
+		"target": "esnext",
+		"tsBuildInfoFile": "../../../../../../../../../.tsc/buildinfo/@liferay/analytics-reports-rest-client-js.tsbuildinfo",
+		"typeRoots": [
+			"../../../../../../../../../node_modules/@types"
+		]
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"../../../../../../../../../global.d.ts"
+	],
+	"references": [
+	]
+}
