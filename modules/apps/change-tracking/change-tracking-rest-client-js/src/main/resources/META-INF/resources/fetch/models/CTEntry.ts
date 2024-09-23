@@ -7,6 +7,10 @@ export type CTEntry = {
     readonly actions?: Record<string, Record<string, string>>;
     readonly changeType?: string;
     readonly ctCollectionId?: number;
+    readonly ctCollectionName?: string;
+    readonly ctCollectionStatus?: Status;
+    readonly ctCollectionStatusDate?: string;
+    readonly ctCollectionStatusUserName?: string;
     readonly dateCreated?: string;
     readonly dateModified?: string;
     readonly hideable?: boolean;

@@ -83,6 +83,10 @@ export type UserAccount = {
      */
     readonly image?: string;
     /**
+     * The user's profile image external reference code.
+     */
+    imageExternalReferenceCode?: string;
+    /**
      * The user's profile image id.
      */
     imageId?: number;

@@ -41,6 +41,10 @@ export type Organization = {
      */
     readonly image?: string;
     /**
+     * The organization's image external reference code.
+     */
+    imageExternalReferenceCode?: string;
+    /**
      * The organization's image id.
      */
     imageId?: number;

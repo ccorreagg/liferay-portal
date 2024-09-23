@@ -141,6 +141,35 @@ export class OptionService {
         });
     }
     /**
+     * Creates or updates an option.
+     * @returns Option Created
+     * @returns any Async
+     * @throws ApiError
+     */
+    public putOptionByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: Option,
+    }): CancelablePromise<Option | any> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/headless-commerce-admin-catalog/v1.0/options/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
      * Deletes a option by ID.
      * @returns void
      * @throws ApiError

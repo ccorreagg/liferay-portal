@@ -5,6 +5,7 @@
 import type { ShippingOption } from './ShippingOption';
 export type ShippingMethod = {
     description?: string;
+    engineKey?: string;
     id?: number;
     name?: string;
     shippingOptions?: Array<ShippingOption>;

@@ -38,6 +38,7 @@ export type Cart = {
     readonly paymentStatusLabel?: string;
     printedNote?: string;
     purchaseOrderNumber?: string;
+    requestedDeliveryDate?: string;
     shippingAddress?: Address;
     shippingAddressExternalReferenceCode?: string;
     shippingAddressId?: number;

@@ -141,6 +141,34 @@ export class SpecificationService {
         });
     }
     /**
+     * Replaces a specification with information sent in the request body. Any missing fields are deleted unless they are required.
+     * @returns Specification Updated
+     * @throws ApiError
+     */
+    public putSpecificationByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: Specification,
+    }): CancelablePromise<Specification> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/headless-commerce-admin-catalog/v1.0/specifications/by-external-reference-code/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
      * Deletes a specification by ID.
      * @returns void
      * @throws ApiError

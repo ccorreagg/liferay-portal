@@ -141,6 +141,35 @@ export class ProductGroupService {
         });
     }
     /**
+     * Creates or updates a product group.
+     * @returns ProductGroup Created
+     * @returns any Accepted - Async
+     * @throws ApiError
+     */
+    public putProductGroupByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: ProductGroup,
+    }): CancelablePromise<ProductGroup | any> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/headless-commerce-admin-catalog/v1.0/product-groups/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
      * Deletes a product group by ID.
      * @returns void
      * @throws ApiError

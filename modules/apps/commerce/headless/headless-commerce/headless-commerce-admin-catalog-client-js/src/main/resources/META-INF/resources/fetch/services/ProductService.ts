@@ -141,6 +141,35 @@ export class ProductService {
         });
     }
     /**
+     * Creates or updates a product.
+     * @returns Product Created
+     * @returns any Accepted - Async
+     * @throws ApiError
+     */
+    public putProductByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: Product,
+    }): CancelablePromise<Product | any> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
      * Deletes a product by External Reference Code.
      * @returns void
      * @throws ApiError

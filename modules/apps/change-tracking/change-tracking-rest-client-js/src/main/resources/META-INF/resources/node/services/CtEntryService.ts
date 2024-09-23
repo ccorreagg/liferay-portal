@@ -69,6 +69,44 @@ export class CtEntryService {
         });
     }
     /**
+     * @returns PageCTEntry
+     * @throws ApiError
+     */
+    public getCtEntriesHistoryPage({
+        classNameId,
+        classPk,
+        filter,
+        page,
+        pageSize,
+        search,
+        siteId,
+        sort,
+    }: {
+        classNameId: number,
+        classPk?: number,
+        filter?: string,
+        page?: number,
+        pageSize?: number,
+        search?: string,
+        siteId?: number,
+        sort?: string,
+    }): CancelablePromise<PageCTEntry> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/change-tracking-rest/v1.0/ct-entries/history',
+            query: {
+                'classNameId': classNameId,
+                'classPK': classPk,
+                'filter': filter,
+                'page': page,
+                'pageSize': pageSize,
+                'search': search,
+                'siteId': siteId,
+                'sort': sort,
+            },
+        });
+    }
+    /**
      * @returns CTEntry
      * @throws ApiError
      */

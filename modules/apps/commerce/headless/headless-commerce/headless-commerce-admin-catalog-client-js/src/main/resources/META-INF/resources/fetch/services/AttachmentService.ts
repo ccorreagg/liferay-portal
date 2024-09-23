@@ -85,6 +85,35 @@ export class AttachmentService {
         });
     }
     /**
+     * Replaces a attachment with information sent in the request body. Any missing fields are deleted unless they are required.
+     * @returns Attachment Updated
+     * @returns any Async
+     * @throws ApiError
+     */
+    public putAttachmentByExternalReferenceCode({
+        externalReferenceCode,
+        requestBody,
+    }: {
+        externalReferenceCode: string,
+        requestBody: Attachment,
+    }): CancelablePromise<Attachment | any> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/headless-commerce-admin-catalog/v1.0/attachment/by-externalReferenceCode/{externalReferenceCode}',
+            path: {
+                'externalReferenceCode': externalReferenceCode,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Invalid input`,
+                401: `Authentication information is missing or invalid`,
+                404: `The specified resource was not found`,
+                500: `Unexpected error`,
+            },
+        });
+    }
+    /**
      * Deletes a attachment by ID.
      * @returns void
      * @throws ApiError
