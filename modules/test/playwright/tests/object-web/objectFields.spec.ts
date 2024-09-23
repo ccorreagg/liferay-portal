@@ -357,17 +357,23 @@ test.describe('Manage object fields through Model Builder', () => {
 
 		listTypeDefinitionIds.push(listTypeDefinition.id);
 
-		await apiHelpers.objectAdmin.postObjectFieldByExternalReferenceCode(
-			objectDefinition.externalReferenceCode,
-			createObjectField(
-				'picklist',
-				{label: 'picklistField', name: 'picklistField'},
-				{
-					listTypeDefinitionExternalReferenceCode:
-						listTypeDefinition.externalReferenceCode,
-					listTypeDefinitionId: listTypeDefinition.id,
-				}
-			)
+		const objectAdminRestClient = await apiHelpers.buildRestClient(
+			ObjectAdminRestClient
+		);
+
+		await objectAdminRestClient.objectField.postObjectDefinitionByExternalReferenceCodeObjectField(
+			{
+				externalReferenceCode: objectDefinition.externalReferenceCode,
+				requestBody: createObjectField(
+					'picklist',
+					{label: 'picklistField', name: 'picklistField'},
+					{
+						listTypeDefinitionExternalReferenceCode:
+							listTypeDefinition.externalReferenceCode,
+						listTypeDefinitionId: listTypeDefinition.id,
+					}
+				),
+			}
 		);
 
 		await modelBuilderDiagramPage.goto({objectFolderName: 'Default'});
