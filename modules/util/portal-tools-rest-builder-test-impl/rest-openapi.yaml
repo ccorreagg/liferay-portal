@@ -23,34 +23,6 @@ components:
                     enum: [-1em, -0.95em, 1em, 0.95em]
                     type: string
             type: object
-        Folder:
-            description:
-                "https://www.schema.org/Folder"
-            properties:
-                dateCreated:
-                    format: date-time
-                    type: string
-                dateModified:
-                    format: date-time
-                    type: string
-                description:
-                    type: string
-                documentsRepository:
-                    $ref: "#/components/schemas/Folder"
-                externalField:
-                    items:
-                        $ref: "src/test/resources/com/liferay/portal/tools/rest/builder/external-dependencies/rest-openapi.yaml#/components/schemas/ExternalReferenceElement1"
-                    type: array
-                id:
-                    format: int64
-                    type: integer
-                name:
-                    type: string
-                self:
-                    type: string
-                subFolders:
-                    $ref: "#/components/schemas/Folder"
-            type: object
         JSONMapAttributeTestEntity:
             description:
                 Test Component to test the generation of getValue method on Entities when one or multiple JSON Maps are
@@ -98,10 +70,6 @@ components:
                     type: string
                 description:
                     type: string
-                external-reference-field:
-                    items:
-                        $ref: "src/test/resources/com/liferay/portal/tools/rest/builder/external-dependencies/rest-openapi.yaml#/components/schemas/ExternalReferenceElement2"
-                    type: array
                 id:
                     format: int64
                     type: integer
