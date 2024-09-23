@@ -2050,6 +2050,19 @@ public class RESTBuilder {
 			StringUtil.removeLast(_configDir.getPath(), "-impl") +
 				"-client-js");
 
+		FileUtil.write(
+			new File(baseClientDir, "node-scripts.config.js"),
+			FreeMarkerUtil.processTemplate(
+				null, null, "node_scripts_config", null));
+
+		FileUtil.write(
+			new File(baseClientDir, "package.json"),
+			FreeMarkerUtil.processTemplate(
+				null, null, "package_json",
+				HashMapBuilder.<String, Object>put(
+					"clientName", baseClientDir.getName()
+				).build()));
+
 		// Constructs client name from the api package path
 
 		String apiPackagePath = _configYAML.getApiPackagePath();
@@ -2065,19 +2078,6 @@ public class RESTBuilder {
 		sb.append("Client");
 
 		String clientName = sb.toString();
-
-		FileUtil.write(
-			new File(baseClientDir, "package.json"),
-			FreeMarkerUtil.processTemplate(
-				null, null, "package_json",
-				HashMapBuilder.<String, Object>put(
-					"clientName", baseClientDir.getName()
-				).build()));
-
-		FileUtil.write(
-			new File(baseClientDir, "node-scripts.config.js"),
-			FreeMarkerUtil.processTemplate(
-				null, null, "node_scripts_config", null));
 
 		File openAPIYAMLFile = _prepareForJSClientGenerator(openAPIYAMLString);
 
