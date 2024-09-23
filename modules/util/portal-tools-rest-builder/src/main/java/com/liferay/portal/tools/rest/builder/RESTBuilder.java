@@ -2051,6 +2051,9 @@ public class RESTBuilder {
 				"-client-js");
 
 		FileUtil.write(
+			new File(baseClientDir, "build.gradle"), StringPool.BLANK);
+
+		FileUtil.write(
 			new File(baseClientDir, "node-scripts.config.js"),
 			FreeMarkerUtil.processTemplate(
 				null, null, "node_scripts_config", null));
