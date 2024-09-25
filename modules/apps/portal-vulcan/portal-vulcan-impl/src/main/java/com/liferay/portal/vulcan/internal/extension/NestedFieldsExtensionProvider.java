@@ -13,6 +13,7 @@ import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.AggregateClassLoader;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.vulcan.extension.ExtensionProvider;
@@ -57,11 +58,13 @@ import org.apache.cxf.jaxrs.provider.ProviderFactory;
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Filter;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceObjects;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.wiring.BundleWiring;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -83,11 +86,7 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 		String version = pathParts[pathParts.length - 2];
 
-		ServiceReference<?> serviceReference =
-			_bundleContext.getServiceReference(className);
-
-		Class<?> clazz = _bundleContext.getService(
-			serviceReference).getClass();
+		Class<?> clazz = Class.forName(className, true, _aggregateClassLoader);
 
 		List<String> fieldNames = _getNestedFields(clazz, version);
 
@@ -124,8 +123,6 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 					fieldName, entity, nestedFieldsContext));
 		}
 
-		_bundleContext.ungetService(serviceReference);
-
 		return values;
 	}
 
@@ -138,11 +135,7 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 		String version = pathParts[pathParts.length - 2];
 
-		ServiceReference<?> serviceReference =
-			_bundleContext.getServiceReference(className);
-
-		Class<?> clazz = _bundleContext.getService(
-			serviceReference).getClass();
+		Class<?> clazz = Class.forName(className, true, _aggregateClassLoader);
 
 		List<String> fieldNames = _getNestedFields(clazz, version);
 
@@ -161,8 +154,6 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 					PropertyDefinition.PropertyType.SINGLE_ELEMENT, false));
 		}
 
-		_bundleContext.ungetService(serviceReference);
-
 		return nestedFieldsDefinitions;
 	}
 
@@ -175,15 +166,14 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 	@Override
 	public boolean isApplicableExtension(long companyId, String className) {
-		ServiceReference<?> serviceReference =
-			_bundleContext.getServiceReference(className);
 
-		if (serviceReference == null) {
-			return false;
+		Class<?> clazz = null;
+		try {
+			clazz = Class.forName(className, true, _aggregateClassLoader);
 		}
-
-		Class<?> clazz = _bundleContext.getService(
-			serviceReference).getClass();
+		catch (ClassNotFoundException exception) {
+			throw new RuntimeException(exception);
+		}
 
 		// Check if null?
 
@@ -192,8 +182,6 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 		String version = pathParts[pathParts.length - 2];
 
 		List<String> fieldNames = _getNestedFields(clazz, version);
-
-		_bundleContext.ungetService(serviceReference);
 
 		if (ListUtil.isEmpty(fieldNames)) {
 
@@ -217,9 +205,14 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 	protected void activate(BundleContext bundleContext) {
 		_bundleContext = bundleContext;
 
+		Bundle bundle = _bundleContext.getBundle();
+
+		BundleWiring bundleWiring = bundle.adapt(BundleWiring.class);
+
+		_aggregateClassLoader = new AggregateClassLoader(bundleWiring.getClassLoader());
+
 		_nestedFieldServiceTrackerCustomizer =
-			new NestedFieldsExtensionProvider.
-				NestedFieldServiceTrackerCustomizer(bundleContext);
+			new NestedFieldServiceTrackerCustomizer(bundleContext);
 
 		Filter filter = null;
 
@@ -251,6 +244,9 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 			Object resource = _bundleContext.getService(serviceReference);
 
 			Class<?> resourceClass = resource.getClass();
+
+			NestedFieldsExtensionProvider._aggregateClassLoader.addClassLoader(
+				resourceClass.getClassLoader());
 
 			List<FactoryKey> factoryKeys = null;
 
@@ -783,5 +779,7 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 	}
 
 	private BundleContext _bundleContext;
+
+	protected static AggregateClassLoader _aggregateClassLoader;
 
 }
