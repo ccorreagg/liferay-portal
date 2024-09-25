@@ -83,7 +83,11 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 		String version = pathParts[pathParts.length - 2];
 
-		Class<?> clazz = Class.forName(className);
+		ServiceReference<?> serviceReference =
+			_bundleContext.getServiceReference(className);
+
+		Class<?> clazz = _bundleContext.getService(
+			serviceReference).getClass();
 
 		List<String> fieldNames = _getNestedFields(clazz, version);
 
@@ -105,8 +109,6 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 		NestedFieldsContext nestedFieldsContext =
 			NestedFieldsContextThreadLocal.getNestedFieldsContext();
 
-		// Lógica para obtener los valores de los campos para esa entity
-
 		for (Map.Entry
 				<String,
 				 UnsafeTriFunction<String, Object, NestedFieldsContext, Object>>
@@ -122,6 +124,8 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 					fieldName, entity, nestedFieldsContext));
 		}
 
+		_bundleContext.ungetService(serviceReference);
+
 		return values;
 	}
 
@@ -134,7 +138,11 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 		String version = pathParts[pathParts.length - 2];
 
-		Class<?> clazz = Class.forName(className);
+		ServiceReference<?> serviceReference =
+			_bundleContext.getServiceReference(className);
+
+		Class<?> clazz = _bundleContext.getService(
+			serviceReference).getClass();
 
 		List<String> fieldNames = _getNestedFields(clazz, version);
 
@@ -142,7 +150,20 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 			return Collections.emptyMap();
 		}
 
-		return _getNestedFieldsDefinitions(clazz, fieldNames);
+		Map<String, PropertyDefinition> nestedFieldsDefinitions =
+			new HashMap<>();
+
+		for (String fieldName : fieldNames) {
+			nestedFieldsDefinitions.put(
+				fieldName,
+				new PropertyDefinition(
+					null, fieldName,
+					PropertyDefinition.PropertyType.SINGLE_ELEMENT, false));
+		}
+
+		_bundleContext.ungetService(serviceReference);
+
+		return nestedFieldsDefinitions;
 	}
 
 	@Override
@@ -154,14 +175,17 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 	@Override
 	public boolean isApplicableExtension(long companyId, String className) {
-		Class<?> clazz = null;
+		ServiceReference<?> serviceReference =
+			_bundleContext.getServiceReference(className);
 
-		try {
-			clazz = Class.forName(className);
+		if (serviceReference == null) {
+			return false;
 		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new RuntimeException(classNotFoundException);
-		}
+
+		Class<?> clazz = _bundleContext.getService(
+			serviceReference).getClass();
+
+		// Check if null?
 
 		String[] pathParts = StringUtil.split(className, CharPool.PERIOD);
 
@@ -169,7 +193,10 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 		List<String> fieldNames = _getNestedFields(clazz, version);
 
+		_bundleContext.ungetService(serviceReference);
+
 		if (ListUtil.isEmpty(fieldNames)) {
+
 			return false;
 		}
 
@@ -188,6 +215,8 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+
 		_nestedFieldServiceTrackerCustomizer =
 			new NestedFieldsExtensionProvider.
 				NestedFieldServiceTrackerCustomizer(bundleContext);
@@ -688,47 +717,6 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 		return null;
 	}
 
-	private Map<String, PropertyDefinition> _getNestedFieldsDefinitions(
-		Class<?> clazz, List<String> fieldNames) {
-
-		Map<String, PropertyDefinition> nestedFieldsDefinitions =
-			new HashMap<>();
-
-		for (String fieldName : fieldNames) {
-			String nestedField = null;
-
-			int index = fieldName.indexOf(".");
-
-			if (index != -1) {
-				nestedField = fieldName.substring(index + 1);
-
-				fieldName = fieldName.substring(0, index);
-			}
-
-			Field field = _getField(clazz, fieldName);
-
-			if (field == null) {
-				continue;
-			}
-
-			field.setAccessible(true);
-
-			nestedFieldsDefinitions.put(
-				field.getName(),
-				new PropertyDefinition(
-					null, field.getName(),
-					PropertyDefinition.PropertyType.SINGLE_ELEMENT, false));
-
-			if (nestedField != null) {
-				nestedFieldsDefinitions.putAll(
-					_getNestedFieldsDefinitions(
-						clazz, Collections.singletonList(nestedField)));
-			}
-		}
-
-		return nestedFieldsDefinitions;
-	}
-
 	private Map
 		<String, UnsafeTriFunction<String, Object, NestedFieldsContext, Object>>
 			_getUnsafeTriFunctions(Class<?> itemClass, String version) {
@@ -793,5 +781,7 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 		private final String _resourceVersion;
 
 	}
+
+	private BundleContext _bundleContext;
 
 }
