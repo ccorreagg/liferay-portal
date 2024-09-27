@@ -424,7 +424,12 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 			"companyId", companyIds
 		).put(
 			"entity.class.name",
-			ObjectEntry.class.getName() + "#" + osgiJaxRsName
+			() -> {
+				String lowerCaseShortName = StringUtil.toLowerCase(
+					objectDefinition.getShortName());
+
+				return ObjectEntry.class.getName() + "#" + lowerCaseShortName;
+			}
 		).put(
 			"osgi.jaxrs.application.select",
 			"(osgi.jaxrs.name=" + osgiJaxRsName + ")"
@@ -526,11 +531,12 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 						).put(
 							"entity.class.name",
 							() -> {
-								String lowerCaseName = StringUtil.toLowerCase(
-									objectDefinition.getName());
+								String lowerCaseShortName =
+									StringUtil.toLowerCase(
+										objectDefinition.getShortName());
 
 								return ObjectEntry.class.getName() + "#" +
-									lowerCaseName;
+									lowerCaseShortName;
 							}
 						).put(
 							"osgi.jaxrs.application.select",
