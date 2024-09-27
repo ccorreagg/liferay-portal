@@ -128,12 +128,12 @@ public class ObjectEntryOpenAPIResourceImpl
 			HttpServletRequest httpServletRequest, String type, UriInfo uriInfo)
 		throws Exception {
 
-		return _getOpenAPI(true, type, uriInfo);
+		return _getOpenAPI(true, httpServletRequest, type, uriInfo);
 	}
 
 	@Override
 	public Map<String, Schema> getSchemas() throws Exception {
-		Response response = _getOpenAPI(false, "json", null);
+		Response response = _getOpenAPI(false, null, "json", null);
 
 		OpenAPI openAPI = (OpenAPI)response.getEntity();
 
@@ -290,10 +290,12 @@ public class ObjectEntryOpenAPIResourceImpl
 	}
 
 	private Response _getOpenAPI(
-			boolean addRelatedSchemas, String type, UriInfo uriInfo)
+			boolean addRelatedSchemas, HttpServletRequest httpServletRequest,
+			String type, UriInfo uriInfo)
 		throws Exception {
 
 		return _openAPIResource.getOpenAPI(
+			httpServletRequest,
 			new ObjectEntryOpenAPIContributor(
 				addRelatedSchemas, _bundleContext, _dtoConverterRegistry,
 				_objectActionLocalService, _objectDefinition,
