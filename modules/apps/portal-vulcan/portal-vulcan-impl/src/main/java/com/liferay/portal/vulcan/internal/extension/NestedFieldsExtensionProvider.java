@@ -13,7 +13,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.AggregateClassLoader;
-import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.vulcan.extension.ExtensionProvider;
 import com.liferay.portal.vulcan.extension.PropertyDefinition;
@@ -82,20 +82,13 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 		Class<?> clazz = Class.forName(className, true, _aggregateClassLoader);
 
-		String version = _getVersion(className);
-
-		List<String> fieldNames = _getNestedFields(clazz, version);
-
-		if (ListUtil.isEmpty(fieldNames)) {
-			return Collections.emptyMap();
-		}
-
 		Map
 			<String,
 			 UnsafeTriFunction<String, Object, NestedFieldsContext, Object>>
-				unsafeTriFunctions = _getUnsafeTriFunctions(clazz, version);
+				unsafeTriFunctions = _getUnsafeTriFunctions(
+					clazz, _getVersion(className));
 
-		if ((unsafeTriFunctions == null) || unsafeTriFunctions.isEmpty()) {
+		if (MapUtil.isEmpty(unsafeTriFunctions)) {
 			return Collections.emptyMap();
 		}
 
@@ -127,22 +120,22 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 			long companyId, String className)
 		throws Exception {
 
-		String[] pathParts = StringUtil.split(className, CharPool.PERIOD);
-
-		String version = pathParts[pathParts.length - 2];
-
 		Class<?> clazz = Class.forName(className, true, _aggregateClassLoader);
 
-		List<String> fieldNames = _getNestedFields(clazz, version);
+		Map
+			<String,
+			 UnsafeTriFunction<String, Object, NestedFieldsContext, Object>>
+				unsafeTriFunctions = _getUnsafeTriFunctions(
+					clazz, _getVersion(className));
 
-		if (ListUtil.isEmpty(fieldNames)) {
+		if (MapUtil.isEmpty(unsafeTriFunctions)) {
 			return Collections.emptyMap();
 		}
 
 		Map<String, PropertyDefinition> nestedFieldsDefinitions =
 			new HashMap<>();
 
-		for (String fieldName : fieldNames) {
+		for (String fieldName : unsafeTriFunctions.keySet()) {
 			nestedFieldsDefinitions.put(
 				fieldName,
 				new PropertyDefinition(
@@ -171,15 +164,9 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 			throw new RuntimeException(exception);
 		}
 
-		// Check if null?
+		if (MapUtil.isEmpty(
+				_getUnsafeTriFunctions(clazz, _getVersion(className)))) {
 
-		String[] pathParts = StringUtil.split(className, CharPool.PERIOD);
-
-		String version = pathParts[pathParts.length - 2];
-
-		List<String> fieldNames = _getNestedFields(clazz, version);
-
-		if (ListUtil.isEmpty(fieldNames)) {
 			return false;
 		}
 
@@ -677,29 +664,6 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 				Objects.equals(field.getName(), "_" + fieldName)) {
 
 				return field;
-			}
-		}
-
-		return null;
-	}
-
-	private List<String> _getNestedFields(Class<?> itemClass, String version) {
-		Class<?>[] parentClasses = new Class<?>[] {
-			Void.class, itemClass, itemClass.getSuperclass()
-		};
-
-		for (Class<?> parentClass : parentClasses) {
-			FactoryKey factoryKey = new FactoryKey(parentClass, version);
-
-			Map
-				<String,
-				 UnsafeTriFunction<String, Object, NestedFieldsContext, Object>>
-					unsafeTriFunctions =
-						_nestedFieldServiceTrackerCustomizer.
-							_unsafeTriFunctions.get(factoryKey);
-
-			if (unsafeTriFunctions != null) {
-				return new ArrayList<>(unsafeTriFunctions.keySet());
 			}
 		}
 
