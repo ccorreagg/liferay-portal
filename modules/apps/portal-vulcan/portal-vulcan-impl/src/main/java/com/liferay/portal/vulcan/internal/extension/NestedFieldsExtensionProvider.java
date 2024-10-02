@@ -39,11 +39,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -92,18 +90,6 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 			return null;
 		}
 
-		Set<String> depth1NestedFields = new HashSet<>();
-
-		for (String fieldName : nestedFieldsContext.getFieldNames()) {
-			int index = fieldName.indexOf(".");
-
-			if (index != -1) {
-				fieldName = fieldName.substring(0, index);
-			}
-
-			depth1NestedFields.add(fieldName);
-		}
-
 		Class<?> clazz = Class.forName(className, true, _aggregateClassLoader);
 
 		Map
@@ -116,6 +102,8 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 			return Collections.emptyMap();
 		}
 
+		List<String> fieldNames = nestedFieldsContext.getFieldNames();
+
 		Map<String, Serializable> values = new HashMap<>();
 
 		for (Map.Entry
@@ -125,7 +113,7 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 			String fieldName = entry.getKey();
 
-			if (!depth1NestedFields.contains(fieldName)) {
+			if (!fieldNames.contains(fieldName)) {
 				continue;
 			}
 

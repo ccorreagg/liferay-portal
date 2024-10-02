@@ -63,8 +63,9 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 
 		try {
 			_setFieldValues(
-				writerInterceptorContext.getEntity(),
-				nestedFieldsContext.getFieldNames());
+				new DepthManagerNestedFieldsContext(
+					nestedFieldsContext.getFieldNames(), nestedFieldsContext),
+				writerInterceptorContext.getEntity());
 		}
 		catch (Exception exception) {
 			_log.error(exception);
@@ -80,11 +81,11 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 
 		String name = clazz.getName();
 
-		if (!name.contains("$")) {
-			return clazz;
+		if (name.contains("$") && !Object.class.equals(clazz.getSuperclass())) {
+			return clazz.getSuperclass();
 		}
 
-		return clazz.getSuperclass();
+		return clazz;
 	}
 
 	private Field _getField(Class<?> entityClass, String fieldName) {
@@ -135,59 +136,63 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 		return objectClass.isArray();
 	}
 
-	private void _setFieldValues(Object entity, List<String> fieldNames)
+	private void _setFieldValues(
+			DepthManagerNestedFieldsContext depthManagerNestedFieldsContext,
+			Object entity)
 		throws Exception {
 
 		List<Object> items = _getItems(entity);
 
-		Map<String, String> nestedFields = new HashMap<>();
+		NestedFieldsContext oldNestedFieldsContext =
+			NestedFieldsContextThreadLocal.getAndSetNestedFieldsContext(
+				depthManagerNestedFieldsContext);
 
-		for (String fieldName : fieldNames) {
-			String nestedField = null;
+		try {
+			for (Object item : items) {
+				Class<?> itemClass = _getClass(item);
 
-			int index = fieldName.indexOf(".");
+				Map<String, Serializable> nestedProperties =
+					_nestedFieldsExtensionProvider.getExtendedProperties(
+						CompanyThreadLocal.getCompanyId(), 0,
+						itemClass.getName(), item);
 
-			if (index != -1) {
-				nestedField = fieldName.substring(index + 1);
-
-				fieldName = fieldName.substring(0, index);
-			}
-
-			nestedFields.put(fieldName, nestedField);
-		}
-
-		for (Object item : items) {
-			Class<?> itemClass = _getClass(item);
-
-			Map<String, Serializable> nestedProperties =
-				_nestedFieldsExtensionProvider.getExtendedProperties(
-					CompanyThreadLocal.getCompanyId(), 0, itemClass.getName(),
-					item);
-
-			if (MapUtil.isEmpty(nestedProperties)) {
-				continue;
-			}
-
-			for (Map.Entry<String, String> entry : nestedFields.entrySet()) {
-				String fieldName = entry.getKey();
-
-				Field field = _getField(itemClass, fieldName);
-
-				if (field == null) {
+				if (MapUtil.isEmpty(nestedProperties)) {
 					continue;
 				}
 
-				field.setAccessible(true);
+				for (String fieldName :
+						depthManagerNestedFieldsContext.getFieldNames()) {
 
-				Object value = nestedProperties.get(fieldName);
+					Field field = _getField(itemClass, fieldName);
 
-				field.set(item, value);
+					if (field == null) {
+						continue;
+					}
 
-				if (entry.getValue() != null) {
-					_setFieldValues(
-						value, Collections.singletonList(entry.getValue()));
+					field.setAccessible(true);
+
+					Object value = nestedProperties.get(fieldName);
+
+					field.set(item, value);
+
+					String depth2NestedFieldName =
+						depthManagerNestedFieldsContext.getDepth2NestedField(
+							fieldName);
+
+					if (depth2NestedFieldName != null) {
+						_setFieldValues(
+							new DepthManagerNestedFieldsContext(
+								Collections.singletonList(
+									depth2NestedFieldName),
+								depthManagerNestedFieldsContext),
+							value);
+					}
 				}
 			}
+		}
+		finally {
+			NestedFieldsContextThreadLocal.setNestedFieldsContext(
+				oldNestedFieldsContext);
 		}
 	}
 
@@ -195,5 +200,46 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 		NestedFieldsWriterInterceptor.class);
 
 	private final NestedFieldsExtensionProvider _nestedFieldsExtensionProvider;
+
+	private class DepthManagerNestedFieldsContext extends NestedFieldsContext {
+
+		public DepthManagerNestedFieldsContext(
+			List<String> fieldNames, NestedFieldsContext nestedFieldsContext) {
+
+			super(
+				nestedFieldsContext.getDepth(),
+				nestedFieldsContext.getFieldNames(),
+				nestedFieldsContext.getMessage(),
+				nestedFieldsContext.getPathParameters(),
+				nestedFieldsContext.getResourceVersion(),
+				nestedFieldsContext.getQueryParameters());
+
+			for (String fieldName : fieldNames) {
+				String depth2NestedField = null;
+
+				int index = fieldName.indexOf(".");
+
+				if (index != -1) {
+					fieldName = fieldName.substring(0, index);
+
+					depth2NestedField = fieldName.substring(index + 1);
+				}
+
+				_nestedFieldNames.put(fieldName, depth2NestedField);
+			}
+		}
+
+		public String getDepth2NestedField(String fieldName) {
+			return _nestedFieldNames.get(fieldName);
+		}
+
+		@Override
+		public List<String> getFieldNames() {
+			return new ArrayList<>(_nestedFieldNames.keySet());
+		}
+
+		private Map<String, String> _nestedFieldNames = new HashMap<>();
+
+	}
 
 }
