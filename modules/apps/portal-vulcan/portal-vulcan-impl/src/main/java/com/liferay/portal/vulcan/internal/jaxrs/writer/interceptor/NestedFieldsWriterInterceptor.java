@@ -97,6 +97,18 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 		return value;
 	}
 
+	private Class<?> _getClass(Object object) {
+		Class<?> clazz = object.getClass();
+
+		String name = clazz.getName();
+
+		if (!name.contains("$")) {
+			return clazz;
+		}
+
+		return clazz.getSuperclass();
+	}
+
 	private Field _getField(Class<?> entityClass, String fieldName) {
 		List<Field> fields = new ArrayList<>(
 			Arrays.asList(entityClass.getDeclaredFields()));
@@ -164,7 +176,7 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 			}
 
 			for (Object item : items) {
-				Class<?> itemClass = item.getClass();
+				Class<?> itemClass = _getClass(item);
 
 				Map<String, Serializable> nestedProperties =
 					_nestedFieldsExtensionProvider.getExtendedProperties(
