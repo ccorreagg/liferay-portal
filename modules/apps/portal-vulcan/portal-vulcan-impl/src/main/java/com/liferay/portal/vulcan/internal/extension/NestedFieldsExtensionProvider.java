@@ -23,10 +23,12 @@ import com.liferay.portal.vulcan.fields.NestedFieldsContext;
 import com.liferay.portal.vulcan.fields.NestedFieldsContextThreadLocal;
 import com.liferay.portal.vulcan.internal.fields.servlet.NestedFieldsHttpServletRequestWrapper;
 import com.liferay.portal.vulcan.internal.jaxrs.message.exchange.ExchangeWrapper;
+import com.liferay.portal.vulcan.pagination.Page;
 
 import java.io.Serializable;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -104,12 +106,17 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 			UnsafeTriFunction<String, Object, NestedFieldsContext, Object>
 				unsafeTriFunction = entry.getValue();
+
 			String fieldName = entry.getKey();
+
+			Field field = _getField(clazz, fieldName);
 
 			values.put(
 				fieldName,
-				(Serializable)unsafeTriFunction.apply(
-					fieldName, entity, nestedFieldsContext));
+				_adaptToFieldType(
+					field.getType(),
+					unsafeTriFunction.apply(
+						fieldName, entity, nestedFieldsContext)));
 		}
 
 		return values;
@@ -632,6 +639,29 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 		}
 
 		return null;
+	}
+
+	private Serializable _adaptToFieldType(Class<?> fieldType, Object value) {
+		if (value instanceof Page) {
+			Page<?> page = (Page)value;
+
+			value = page.getItems();
+		}
+
+		if (fieldType.isArray() && (value instanceof Collection)) {
+			Collection<Object> collection = (Collection)value;
+
+			value = Array.newInstance(
+				fieldType.getComponentType(), collection.size());
+
+			int i = 0;
+
+			for (Object object : collection) {
+				Array.set(value, i++, object);
+			}
+		}
+
+		return (Serializable)value;
 	}
 
 	private Field _getField(Class<?> entityClass, String fieldName) {

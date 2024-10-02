@@ -17,7 +17,6 @@ import com.liferay.portal.vulcan.pagination.Page;
 import java.io.IOException;
 import java.io.Serializable;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
 import java.util.ArrayList;
@@ -72,29 +71,6 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 		}
 
 		writerInterceptorContext.proceed();
-	}
-
-	private Object _adaptToFieldType(Class<?> fieldType, Object value) {
-		if (value instanceof Page) {
-			Page<?> page = (Page)value;
-
-			value = page.getItems();
-		}
-
-		if (fieldType.isArray() && (value instanceof Collection)) {
-			Collection<Object> collection = (Collection)value;
-
-			value = Array.newInstance(
-				fieldType.getComponentType(), collection.size());
-
-			int i = 0;
-
-			for (Object object : collection) {
-				Array.set(value, i++, object);
-			}
-		}
-
-		return value;
 	}
 
 	private Class<?> _getClass(Object object) {
@@ -197,8 +173,7 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 
 				field.setAccessible(true);
 
-				Object value = _adaptToFieldType(
-					field.getType(), nestedProperties.get(fieldName));
+				Object value = nestedProperties.get(fieldName);
 
 				field.set(item, value);
 
