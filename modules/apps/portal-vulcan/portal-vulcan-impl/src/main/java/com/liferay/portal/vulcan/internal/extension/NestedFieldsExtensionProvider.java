@@ -39,9 +39,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +74,7 @@ import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 /**
+ * @author Carlos Correa
  * @author Luis Ortiz
  */
 @Component(service = ExtensionProvider.class)
@@ -82,13 +85,32 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 			long companyId, long userId, String className, Object entity)
 		throws Exception {
 
+		NestedFieldsContext nestedFieldsContext =
+			NestedFieldsContextThreadLocal.getNestedFieldsContext();
+
+		if (nestedFieldsContext == null) {
+			return null;
+		}
+
+		Set<String> depth1NestedFields = new HashSet<>();
+
+		for (String fieldName : nestedFieldsContext.getFieldNames()) {
+			int index = fieldName.indexOf(".");
+
+			if (index != -1) {
+				fieldName = fieldName.substring(0, index);
+			}
+
+			depth1NestedFields.add(fieldName);
+		}
+
 		Class<?> clazz = Class.forName(className, true, _aggregateClassLoader);
 
 		Map
 			<String,
 			 UnsafeTriFunction<String, Object, NestedFieldsContext, Object>>
 				unsafeTriFunctions = _getUnsafeTriFunctions(
-					clazz, _getVersion(className));
+					clazz, nestedFieldsContext.getResourceVersion());
 
 		if (MapUtil.isEmpty(unsafeTriFunctions)) {
 			return Collections.emptyMap();
@@ -96,18 +118,19 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 		Map<String, Serializable> values = new HashMap<>();
 
-		NestedFieldsContext nestedFieldsContext =
-			NestedFieldsContextThreadLocal.getNestedFieldsContext();
-
 		for (Map.Entry
 				<String,
 				 UnsafeTriFunction<String, Object, NestedFieldsContext, Object>>
 					entry : unsafeTriFunctions.entrySet()) {
 
+			String fieldName = entry.getKey();
+
+			if (!depth1NestedFields.contains(fieldName)) {
+				continue;
+			}
+
 			UnsafeTriFunction<String, Object, NestedFieldsContext, Object>
 				unsafeTriFunction = entry.getValue();
-
-			String fieldName = entry.getKey();
 
 			Field field = _getField(clazz, fieldName);
 

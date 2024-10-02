@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.vulcan.fields.NestedFieldsContext;
 import com.liferay.portal.vulcan.fields.NestedFieldsContextThreadLocal;
 import com.liferay.portal.vulcan.internal.extension.NestedFieldsExtensionProvider;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -138,6 +140,8 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 
 		List<Object> items = _getItems(entity);
 
+		Map<String, String> nestedFields = new HashMap<>();
+
 		for (String fieldName : fieldNames) {
 			String nestedField = null;
 
@@ -149,19 +153,23 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 				fieldName = fieldName.substring(0, index);
 			}
 
-			for (Object item : items) {
-				Class<?> itemClass = _getClass(item);
+			nestedFields.put(fieldName, nestedField);
+		}
 
-				Map<String, Serializable> nestedProperties =
-					_nestedFieldsExtensionProvider.getExtendedProperties(
-						CompanyThreadLocal.getCompanyId(), 0,
-						itemClass.getName(), item);
+		for (Object item : items) {
+			Class<?> itemClass = _getClass(item);
 
-				if ((nestedProperties == null) ||
-					!nestedProperties.containsKey(fieldName)) {
+			Map<String, Serializable> nestedProperties =
+				_nestedFieldsExtensionProvider.getExtendedProperties(
+					CompanyThreadLocal.getCompanyId(), 0, itemClass.getName(),
+					item);
 
-					continue;
-				}
+			if (MapUtil.isEmpty(nestedProperties)) {
+				continue;
+			}
+
+			for (Map.Entry<String, String> entry : nestedFields.entrySet()) {
+				String fieldName = entry.getKey();
 
 				Field field = _getField(itemClass, fieldName);
 
@@ -175,9 +183,9 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 
 				field.set(item, value);
 
-				if (nestedField != null) {
+				if (entry.getValue() != null) {
 					_setFieldValues(
-						value, Collections.singletonList(nestedField));
+						value, Collections.singletonList(entry.getValue()));
 				}
 			}
 		}
