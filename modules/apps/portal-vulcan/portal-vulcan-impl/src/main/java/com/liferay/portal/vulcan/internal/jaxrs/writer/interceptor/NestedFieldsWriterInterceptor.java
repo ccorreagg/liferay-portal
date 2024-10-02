@@ -62,7 +62,7 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 		try {
 			_setFieldValues(
 				writerInterceptorContext.getEntity(),
-				nestedFieldsContext.getFieldNames(), nestedFieldsContext);
+				nestedFieldsContext.getFieldNames());
 		}
 		catch (Exception exception) {
 			_log.error(exception);
@@ -133,9 +133,7 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 		return objectClass.isArray();
 	}
 
-	private void _setFieldValues(
-			Object entity, List<String> fieldNames,
-			NestedFieldsContext nestedFieldsContext)
+	private void _setFieldValues(Object entity, List<String> fieldNames)
 		throws Exception {
 
 		List<Object> items = _getItems(entity);
@@ -179,8 +177,7 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 
 				if (nestedField != null) {
 					_setFieldValues(
-						value, Collections.singletonList(nestedField),
-						nestedFieldsContext);
+						value, Collections.singletonList(nestedField));
 				}
 			}
 		}
