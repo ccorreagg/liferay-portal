@@ -21,6 +21,7 @@ import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResourceFactory;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResourceFactory;
+import com.liferay.portal.vulcan.extension.ExtensionProvider;
 import com.liferay.portal.vulcan.extension.ExtensionProviderRegistry;
 import com.liferay.portal.vulcan.internal.extension.NestedFieldsExtensionProvider;
 import com.liferay.portal.vulcan.internal.jaxrs.container.request.filter.CTContainerRequestFilter;
@@ -176,7 +177,8 @@ public class VulcanFeature implements Feature {
 		featureContext.register(new MultipartBodyMessageBodyReader());
 
 		featureContext.register(
-			new NestedFieldsWriterInterceptor(_nestedFieldsExtensionProvider),
+			new NestedFieldsWriterInterceptor(
+				(NestedFieldsExtensionProvider)_extensionProvider),
 			Priorities.USER - 10);
 
 		featureContext.register(
@@ -221,6 +223,11 @@ public class VulcanFeature implements Feature {
 	)
 	private ExpressionConvert<Filter> _expressionConvert;
 
+	@Reference(
+		target = "(component.name=com.liferay.portal.vulcan.internal.extension.NestedFieldsExtensionProvider)"
+	)
+	private ExtensionProvider _extensionProvider;
+
 	@Reference
 	private ExtensionProviderRegistry _extensionProviderRegistry;
 
@@ -232,9 +239,6 @@ public class VulcanFeature implements Feature {
 
 	@Reference
 	private Language _language;
-
-	@Reference
-	private NestedFieldsExtensionProvider _nestedFieldsExtensionProvider;
 
 	@Reference
 	private PaginationProvider _paginationProvider;
