@@ -8,7 +8,6 @@ package com.liferay.portal.vulcan.internal.extension;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.liferay.petra.lang.HashUtil;
-import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
@@ -60,7 +59,6 @@ import org.apache.cxf.message.Message;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.Filter;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceObjects;
 import org.osgi.framework.ServiceReference;
@@ -82,11 +80,9 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 			long companyId, long userId, String className, Object entity)
 		throws Exception {
 
-		String[] pathParts = StringUtil.split(className, CharPool.PERIOD);
-
-		String version = pathParts[pathParts.length - 2];
-
 		Class<?> clazz = Class.forName(className, true, _aggregateClassLoader);
+
+		String version = _getVersion(className);
 
 		List<String> fieldNames = _getNestedFields(clazz, version);
 
@@ -166,8 +162,8 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 	@Override
 	public boolean isApplicableExtension(long companyId, String className) {
-
 		Class<?> clazz = null;
+
 		try {
 			clazz = Class.forName(className, true, _aggregateClassLoader);
 		}
@@ -184,7 +180,6 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 		List<String> fieldNames = _getNestedFields(clazz, version);
 
 		if (ListUtil.isEmpty(fieldNames)) {
-
 			return false;
 		}
 
@@ -202,29 +197,25 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 	}
 
 	@Activate
-	protected void activate(BundleContext bundleContext) {
+	protected void activate(BundleContext bundleContext)
+		throws InvalidSyntaxException {
+
 		_bundleContext = bundleContext;
 
 		Bundle bundle = _bundleContext.getBundle();
 
 		BundleWiring bundleWiring = bundle.adapt(BundleWiring.class);
 
-		_aggregateClassLoader = new AggregateClassLoader(bundleWiring.getClassLoader());
+		_aggregateClassLoader = new AggregateClassLoader(
+			bundleWiring.getClassLoader());
 
 		_nestedFieldServiceTrackerCustomizer =
 			new NestedFieldServiceTrackerCustomizer(bundleContext);
 
-		Filter filter = null;
-
-		try {
-			filter = bundleContext.createFilter("(nested.field.support=true)");
-		}
-		catch (InvalidSyntaxException invalidSyntaxException) {
-			ReflectionUtil.throwException(invalidSyntaxException);
-		}
-
 		_serviceTracker = new ServiceTracker<>(
-			bundleContext, filter, _nestedFieldServiceTrackerCustomizer);
+			bundleContext,
+			bundleContext.createFilter("(nested.field.support=true)"),
+			_nestedFieldServiceTrackerCustomizer);
 
 		_serviceTracker.open();
 	}
@@ -233,6 +224,8 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 	protected void deactivate() {
 		_serviceTracker.close();
 	}
+
+	protected static AggregateClassLoader _aggregateClassLoader;
 
 	protected static class NestedFieldServiceTrackerCustomizer
 		implements ServiceTrackerCustomizer<Object, List<FactoryKey>> {
@@ -739,9 +732,18 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 		return null;
 	}
 
+	private String _getVersion(String className) {
+		String[] pathParts = StringUtil.split(className, CharPool.PERIOD);
+
+		String version = pathParts[pathParts.length - 2];
+
+		return StringUtil.replace(version, CharPool.UNDERLINE, CharPool.PERIOD);
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		NestedFieldsExtensionProvider.class);
 
+	private BundleContext _bundleContext;
 	private NestedFieldServiceTrackerCustomizer
 		_nestedFieldServiceTrackerCustomizer;
 	private ServiceTracker<Object, List<FactoryKey>> _serviceTracker;
@@ -777,9 +779,5 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 		private final String _resourceVersion;
 
 	}
-
-	private BundleContext _bundleContext;
-
-	protected static AggregateClassLoader _aggregateClassLoader;
 
 }
