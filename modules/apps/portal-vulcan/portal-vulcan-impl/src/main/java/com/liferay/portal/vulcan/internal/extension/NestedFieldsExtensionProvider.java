@@ -155,22 +155,7 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 
 	@Override
 	public boolean isApplicableExtension(long companyId, String className) {
-		Class<?> clazz = null;
-
-		try {
-			clazz = Class.forName(className, true, _aggregateClassLoader);
-		}
-		catch (ClassNotFoundException exception) {
-			throw new RuntimeException(exception);
-		}
-
-		if (MapUtil.isEmpty(
-				_getUnsafeTriFunctions(clazz, _getVersion(className)))) {
-
-			return false;
-		}
-
-		return true;
+		return false;
 	}
 
 	@Override
