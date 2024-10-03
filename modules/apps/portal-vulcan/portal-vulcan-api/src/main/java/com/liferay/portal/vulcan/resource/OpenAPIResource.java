@@ -24,20 +24,19 @@ import javax.ws.rs.core.UriInfo;
  */
 public interface OpenAPIResource {
 
-	public default Response getOpenAPI(
+	public Response getOpenAPI(
 			HttpServletRequest httpServletRequest,
-			OpenAPIContributor openAPIContributor,
+			Set<Class<?>> resourceClasses, String type, UriInfo uriInfo)
+		throws Exception;
+
+	public default Response getOpenAPI(
+			long companyId, OpenAPIContributor openAPIContributor,
 			OpenAPISchemaFilter openAPISchemaFilter,
 			Set<Class<?>> resourceClasses, String type, UriInfo uriInfo)
 		throws Exception {
 
 		return null;
 	}
-
-	public Response getOpenAPI(
-			HttpServletRequest httpServletRequest,
-			Set<Class<?>> resourceClasses, String type, UriInfo uriInfo)
-		throws Exception;
 
 	public default Response getOpenAPI(
 			Set<Class<?>> resourceClasses, String type)
