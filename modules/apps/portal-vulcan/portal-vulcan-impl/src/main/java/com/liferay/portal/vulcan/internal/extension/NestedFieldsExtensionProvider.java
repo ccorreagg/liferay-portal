@@ -90,7 +90,7 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 			return null;
 		}
 
-		Class<?> clazz = Class.forName(className, true, _aggregateClassLoader);
+		Class<?> clazz = entity.getClass();
 
 		Map
 			<String,
@@ -117,10 +117,14 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 				continue;
 			}
 
+			Field field = _getField(clazz, fieldName);
+
+			if (field == null) {
+				continue;
+			}
+
 			UnsafeTriFunction<String, Object, NestedFieldsContext, Object>
 				unsafeTriFunction = entry.getValue();
-
-			Field field = _getField(clazz, fieldName);
 
 			values.put(
 				fieldName,
