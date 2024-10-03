@@ -142,6 +142,8 @@ public class NestedFieldsExtensionProvider implements ExtensionProvider {
 			long companyId, String className)
 		throws Exception {
 
+		// THIS CODE IS NOT BEING USED YET AND IT HAS NOT BEEN TESTED
+
 		Class<?> clazz = Class.forName(className, true, _aggregateClassLoader);
 
 		Map
