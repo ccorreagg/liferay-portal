@@ -480,6 +480,9 @@ public class APIApplicationProviderImpl implements APIApplicationProvider {
 			ObjectFieldConstants.BUSINESS_TYPE_PRECISION_DECIMAL,
 			APIApplication.Property.Type.PRECISION_DECIMAL
 		).put(
+			ObjectFieldConstants.BUSINESS_TYPE_RELATIONSHIP,
+			APIApplication.Property.Type.LONG_INTEGER
+		).put(
 			ObjectFieldConstants.BUSINESS_TYPE_RICH_TEXT,
 			APIApplication.Property.Type.RICH_TEXT
 		).put(
