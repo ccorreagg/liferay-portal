@@ -9,12 +9,12 @@ import {
 	ObjectAdminRestClient,
 	ObjectDefinition,
 } from '../../../../apps/object/object-admin-rest-client-js/src/main/resources/META-INF/resources/node';
-import {apiHelpersTest} from '../../fixtures/apiHelpersTest';
+import {dataApiHelpersTest} from '../../fixtures/dataApiHelpersTest';
 import {loginTest} from '../../fixtures/loginTest';
 import {headlessBuilderPagesTest} from './fixtures/headlessBuilderPagesTest';
 
 export const testFeatureFlagsEnabled = mergeTests(
-	apiHelpersTest,
+	dataApiHelpersTest,
 	headlessBuilderPagesTest({
 		'LPD-21414': true,
 	}),
@@ -22,7 +22,7 @@ export const testFeatureFlagsEnabled = mergeTests(
 );
 
 export const testFeatureFlagsDisabled = mergeTests(
-	apiHelpersTest,
+	dataApiHelpersTest,
 	headlessBuilderPagesTest({
 		'LPD-21414': false,
 	}),
@@ -284,6 +284,91 @@ testFeatureFlagsDisabled(
 			'headless-builder/applications',
 			application.externalReferenceCode
 		);
+	}
+);
+
+testFeatureFlagsDisabled(
+	'can create schema and update with a new property',
+	async ({apiHelpers, applicationPage, headlessBuilderPage}) => {
+		const objectAdminRestClient = await apiHelpers.buildRestClient(
+			ObjectAdminRestClient
+		);
+
+		const objectDefinition =
+			await objectAdminRestClient.objectDefinition.postObjectDefinition({
+				requestBody: objectDefinitionData,
+			});
+
+		apiHelpers.data.push({
+			id: objectDefinition.id,
+			type: 'objectDefinition',
+		});
+
+		const application = await apiHelpers.objectEntry.postObjectEntry(
+			{
+				apiApplicationToAPISchemas: [
+					{
+						description: 'API Application Schema',
+						externalReferenceCode: 'api-application-schema',
+						mainObjectDefinitionERC: 'objectDefinition',
+						name: 'API Application Schema',
+					},
+				],
+				applicationStatus: 'published',
+				baseURL: 'basic-application',
+				description: 'Test API Application',
+				externalReferenceCode: 'basic-application',
+				title: 'Basic application',
+			},
+			'headless-builder/applications'
+		);
+
+		apiHelpers.data.push({id: application.id, type: 'apiApplication'});
+
+		await headlessBuilderPage.goto();
+		await headlessBuilderPage.goToEditApplication(application.title);
+		await applicationPage.goToSchemasTab();
+
+		await applicationPage.goToEditSchema(
+			applicationData.apiApplicationToAPISchemas[0].name
+		);
+		await applicationPage.goToSchemaPropertiesTab();
+
+		await applicationPage.selectSchemaProperty('External Reference Code');
+		await applicationPage.publishButton.click();
+
+		await expect(
+			headlessBuilderPage.page.getByText('API application was published')
+		).toBeVisible();
+
+		const apiSchema1 = await (
+			await apiHelpers.apiBuilder.getApiSchema('api-application-schema')
+		).json();
+
+		expect(apiSchema1.apiSchemaToAPIProperties.length).toBe(1);
+		expect(apiSchema1.apiSchemaToAPIProperties[0].name).toBe(
+			'External Reference Code'
+		);
+
+		await applicationPage.selectSchemaProperty('ID');
+		await applicationPage.publishButton.click();
+
+		await expect(
+			headlessBuilderPage.page.getByText('API application was published')
+		).toBeVisible();
+
+		const apiSchema2 = await (
+			await apiHelpers.apiBuilder.getApiSchema('api-application-schema')
+		).json();
+
+		expect(apiSchema2.apiSchemaToAPIProperties.length).toBe(2);
+		expect(apiSchema2.apiSchemaToAPIProperties[0].name).toBe(
+			'External Reference Code'
+		);
+		expect(
+			apiSchema2.apiSchemaToAPIProperties[0].externalReferenceCode
+		).toBe(apiSchema1.apiSchemaToAPIProperties[0].externalReferenceCode);
+		expect(apiSchema2.apiSchemaToAPIProperties[1].name).toBe('ID');
 	}
 );
 

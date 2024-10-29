@@ -52,6 +52,11 @@ export class ApplicationPage {
 		await this.page.waitForLoadState();
 	}
 
+	async goToSchemaPropertiesTab() {
+		await this.page.getByRole('tab', {name: 'Properties'}).click();
+		await this.page.waitForLoadState();
+	}
+
 	async goToEndpointConfigurationTab() {
 		await this.page.getByRole('tab', {name: 'Configuration'}).click();
 		await this.page.waitForLoadState();
@@ -67,6 +72,11 @@ export class ApplicationPage {
 		await this.page.waitForLoadState();
 	}
 
+	async goToEditSchema(name: string) {
+		await this.page.getByRole('link', {name}).click();
+		await this.page.waitForLoadState();
+	}
+
 	async selectEndpointRequestSchema(name: string) {
 		await this.page.getByLabel('Request Body Schema').click();
 		await this.page.getByRole('menuitem', {name}).click();
@@ -75,6 +85,11 @@ export class ApplicationPage {
 	async selectEndpointResponseSchema(name: string) {
 		await this.page.getByLabel('Response Body Schema').click();
 		await this.page.getByRole('menuitem', {name}).click();
+	}
+
+	async selectSchemaProperty(name: string) {
+		await this.page.getByRole('button', {name}).click();
+		await this.page.waitForLoadState();
 	}
 
 	async setEndpointMethod(method: 'GET' | 'POST') {

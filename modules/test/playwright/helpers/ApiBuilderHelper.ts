@@ -27,6 +27,12 @@ export class ApiBuilderHelper {
 		);
 	}
 
+	async getApiSchema(externalReferenceCode: string) {
+		return this.apiHelpers.getResponse(
+			`${this.apiHelpers.baseUrl}${this.basePath}/schemas/by-external-reference-code/${externalReferenceCode}?nestedFields=apiSchemaToAPIProperties`
+		);
+	}
+
 	async postApiApplication(data: DataObject) {
 		return this.apiHelpers.post(
 			`${this.apiHelpers.baseUrl}${this.basePath}/applications`,
