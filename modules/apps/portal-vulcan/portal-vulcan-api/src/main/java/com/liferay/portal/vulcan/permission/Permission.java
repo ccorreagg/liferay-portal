@@ -21,13 +21,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Permission")
 public class Permission {
 
-	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	public String[] getActionIds() {
 		return actionIds;
 	}
 
-	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	public String getRoleName() {
 		return roleName;
@@ -41,7 +39,10 @@ public class Permission {
 		this.roleName = roleName;
 	}
 
+	@GraphQLField
 	protected String[] actionIds;
+
+	@GraphQLField
 	protected String roleName;
 
 }
