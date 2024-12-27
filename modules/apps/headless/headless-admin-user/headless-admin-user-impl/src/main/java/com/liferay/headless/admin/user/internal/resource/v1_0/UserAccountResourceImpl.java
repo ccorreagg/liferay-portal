@@ -329,7 +329,7 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 
 	@Override
 	public EntityModel getEntityModel(MultivaluedMap multivaluedMap) {
-		long companyId;
+		long companyId = 0;
 
 		if (contextCompany != null) {
 			companyId = contextCompany.getCompanyId();
