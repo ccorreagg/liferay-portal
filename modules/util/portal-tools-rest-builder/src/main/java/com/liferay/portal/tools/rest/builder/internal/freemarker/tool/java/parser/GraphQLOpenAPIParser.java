@@ -190,7 +190,8 @@ public class GraphQLOpenAPIParser {
 					resourceJavaMethodSignature.getRequestBodyMediaTypes(),
 					resourceJavaMethodSignature.getSchemaName(),
 					javaMethodParameters,
-					resourceJavaMethodSignature.getMethodName(), returnType));
+					resourceJavaMethodSignature.getMethodName(), returnType,
+					resourceJavaMethodSignature.getParentSchemaName()));
 		}
 
 		return javaMethodSignatures;
