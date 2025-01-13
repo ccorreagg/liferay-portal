@@ -1,3 +1,7 @@
+export * from './companyTestEntityApi';
+import { CompanyTestEntityApi } from './companyTestEntityApi';
+export * from './siteTestEntityApi';
+import { SiteTestEntityApi } from './siteTestEntityApi';
 export * from './testEntityApi';
 import { TestEntityApi } from './testEntityApi';
 export * from './testEntityAddressApi';
@@ -13,4 +17,4 @@ export class HttpError extends Error {
 
 export { RequestFile } from '../model/models';
 
-export const APIS = [TestEntityApi, TestEntityAddressApi];
+export const APIS = [CompanyTestEntityApi, SiteTestEntityApi, TestEntityApi, TestEntityAddressApi];

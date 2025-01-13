@@ -3,13 +3,19 @@ import localVarRequest from 'request';
 export * from './childTestEntity1';
 export * from './childTestEntity2';
 export * from './childTestEntity3';
+export * from './companyTestEntity';
 export * from './enumTestEntity';
 export * from './facet';
 export * from './facetValue';
 export * from './jSONMapAttributeTestEntity';
 export * from './nestedArrayItemsTestEntity';
 export * from './nestedTestEntity';
+export * from './pageCompanyTestEntity';
+export * from './pagePermission';
+export * from './pageSiteTestEntity';
 export * from './pageTestEntity';
+export * from './permission';
+export * from './siteTestEntity';
 export * from './testEntity';
 export * from './testEntityAddress';
 export * from './unreferencedTestEntity';
@@ -30,13 +36,19 @@ export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 import { ChildTestEntity1 } from './childTestEntity1';
 import { ChildTestEntity2 } from './childTestEntity2';
 import { ChildTestEntity3 } from './childTestEntity3';
+import { CompanyTestEntity } from './companyTestEntity';
 import { EnumTestEntity } from './enumTestEntity';
 import { Facet } from './facet';
 import { FacetValue } from './facetValue';
 import { JSONMapAttributeTestEntity } from './jSONMapAttributeTestEntity';
 import { NestedArrayItemsTestEntity } from './nestedArrayItemsTestEntity';
 import { NestedTestEntity } from './nestedTestEntity';
+import { PageCompanyTestEntity } from './pageCompanyTestEntity';
+import { PagePermission } from './pagePermission';
+import { PageSiteTestEntity } from './pageSiteTestEntity';
 import { PageTestEntity } from './pageTestEntity';
+import { Permission } from './permission';
+import { SiteTestEntity } from './siteTestEntity';
 import { TestEntity } from './testEntity';
 import { TestEntityAddress } from './testEntityAddress';
 import { UnreferencedTestEntity } from './unreferencedTestEntity';
@@ -62,13 +74,19 @@ let typeMap: {[index: string]: any} = {
     "ChildTestEntity1": ChildTestEntity1,
     "ChildTestEntity2": ChildTestEntity2,
     "ChildTestEntity3": ChildTestEntity3,
+    "CompanyTestEntity": CompanyTestEntity,
     "EnumTestEntity": EnumTestEntity,
     "Facet": Facet,
     "FacetValue": FacetValue,
     "JSONMapAttributeTestEntity": JSONMapAttributeTestEntity,
     "NestedArrayItemsTestEntity": NestedArrayItemsTestEntity,
     "NestedTestEntity": NestedTestEntity,
+    "PageCompanyTestEntity": PageCompanyTestEntity,
+    "PagePermission": PagePermission,
+    "PageSiteTestEntity": PageSiteTestEntity,
     "PageTestEntity": PageTestEntity,
+    "Permission": Permission,
+    "SiteTestEntity": SiteTestEntity,
     "TestEntity": TestEntity,
     "TestEntityAddress": TestEntityAddress,
     "UnreferencedTestEntity": UnreferencedTestEntity,

@@ -1,5 +1,5 @@
 /**
- * SPDX-FileCopyrightText: (c) 2024 Liferay, Inc. https://liferay.com
+ * SPDX-FileCopyrightText: (c) 2025 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
@@ -20,9 +20,11 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.RoleTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
@@ -33,14 +35,12 @@ import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.tools.rest.builder.test.client.dto.v1_0.ChildTestEntity1;
-import com.liferay.portal.tools.rest.builder.test.client.dto.v1_0.ChildTestEntity2;
-import com.liferay.portal.tools.rest.builder.test.client.dto.v1_0.ChildTestEntity3;
-import com.liferay.portal.tools.rest.builder.test.client.dto.v1_0.TestEntity;
+import com.liferay.portal.tools.rest.builder.test.client.dto.v1_0.CompanyTestEntity;
 import com.liferay.portal.tools.rest.builder.test.client.http.HttpInvoker;
 import com.liferay.portal.tools.rest.builder.test.client.pagination.Page;
-import com.liferay.portal.tools.rest.builder.test.client.resource.v1_0.TestEntityResource;
-import com.liferay.portal.tools.rest.builder.test.client.serdes.v1_0.TestEntitySerDes;
+import com.liferay.portal.tools.rest.builder.test.client.permission.Permission;
+import com.liferay.portal.tools.rest.builder.test.client.resource.v1_0.CompanyTestEntityResource;
+import com.liferay.portal.tools.rest.builder.test.client.serdes.v1_0.CompanyTestEntitySerDes;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
 
@@ -58,7 +58,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import javax.annotation.Generated;
 
@@ -77,7 +76,7 @@ import org.junit.Test;
  * @generated
  */
 @Generated("")
-public abstract class BaseTestEntityResourceTestCase {
+public abstract class BaseCompanyTestEntityResourceTestCase {
 
 	@ClassRule
 	@Rule
@@ -98,12 +97,12 @@ public abstract class BaseTestEntityResourceTestCase {
 		testCompany = CompanyLocalServiceUtil.getCompany(
 			testGroup.getCompanyId());
 
-		_testEntityResource.setContextCompany(testCompany);
+		_companyTestEntityResource.setContextCompany(testCompany);
 
 		com.liferay.portal.kernel.model.User testCompanyAdminUser =
 			UserTestUtil.getAdminUser(testCompany.getCompanyId());
 
-		testEntityResource = TestEntityResource.builder(
+		companyTestEntityResource = CompanyTestEntityResource.builder(
 		).authentication(
 			testCompanyAdminUser.getEmailAddress(),
 			PropsValues.DEFAULT_ADMIN_PASSWORD
@@ -112,6 +111,19 @@ public abstract class BaseTestEntityResourceTestCase {
 		).locale(
 			LocaleUtil.getDefault()
 		).build();
+
+		permissionsCompanyTestEntityResource =
+			CompanyTestEntityResource.builder(
+			).authentication(
+				testCompanyAdminUser.getEmailAddress(),
+				PropsValues.DEFAULT_ADMIN_PASSWORD
+			).endpoint(
+				testCompany.getVirtualHostname(), 8080, "http"
+			).locale(
+				LocaleUtil.getDefault()
+			).parameter(
+				"nestedFields", "permissions"
+			).build();
 	}
 
 	@After
@@ -124,23 +136,24 @@ public abstract class BaseTestEntityResourceTestCase {
 	public void testClientSerDesToDTO() throws Exception {
 		ObjectMapper objectMapper = getClientSerDesObjectMapper();
 
-		TestEntity testEntity1 = randomTestEntity();
+		CompanyTestEntity companyTestEntity1 = randomCompanyTestEntity();
 
-		String json = objectMapper.writeValueAsString(testEntity1);
+		String json = objectMapper.writeValueAsString(companyTestEntity1);
 
-		TestEntity testEntity2 = TestEntitySerDes.toDTO(json);
+		CompanyTestEntity companyTestEntity2 = CompanyTestEntitySerDes.toDTO(
+			json);
 
-		Assert.assertTrue(equals(testEntity1, testEntity2));
+		Assert.assertTrue(equals(companyTestEntity1, companyTestEntity2));
 	}
 
 	@Test
 	public void testClientSerDesToJSON() throws Exception {
 		ObjectMapper objectMapper = getClientSerDesObjectMapper();
 
-		TestEntity testEntity = randomTestEntity();
+		CompanyTestEntity companyTestEntity = randomCompanyTestEntity();
 
-		String json1 = objectMapper.writeValueAsString(testEntity);
-		String json2 = TestEntitySerDes.toJSON(testEntity);
+		String json1 = objectMapper.writeValueAsString(companyTestEntity);
+		String json2 = CompanyTestEntitySerDes.toJSON(companyTestEntity);
 
 		Assert.assertEquals(
 			objectMapper.readTree(json1), objectMapper.readTree(json2));
@@ -168,53 +181,61 @@ public abstract class BaseTestEntityResourceTestCase {
 	public void testEscapeRegexInStringFields() throws Exception {
 		String regex = "^[0-9]+(\\.[0-9]{1,2})\"?";
 
-		TestEntity testEntity = randomTestEntity();
+		CompanyTestEntity companyTestEntity = randomCompanyTestEntity();
 
-		testEntity.setDescription(regex);
-		testEntity.setJsonProperty(regex);
-		testEntity.setName(regex);
-		testEntity.setSelf(regex);
+		companyTestEntity.setDescription(regex);
+		companyTestEntity.setExternalReferenceCode(regex);
 
-		String json = TestEntitySerDes.toJSON(testEntity);
+		String json = CompanyTestEntitySerDes.toJSON(companyTestEntity);
 
 		Assert.assertFalse(json.contains(regex));
 
-		testEntity = TestEntitySerDes.toDTO(json);
+		companyTestEntity = CompanyTestEntitySerDes.toDTO(json);
 
-		Assert.assertEquals(regex, testEntity.getDescription());
-		Assert.assertEquals(regex, testEntity.getJsonProperty());
-		Assert.assertEquals(regex, testEntity.getName());
-		Assert.assertEquals(regex, testEntity.getSelf());
+		Assert.assertEquals(regex, companyTestEntity.getDescription());
+		Assert.assertEquals(
+			regex, companyTestEntity.getExternalReferenceCode());
 	}
 
 	@Test
-	public void testPostReservedWord() throws Exception {
-		Assert.assertTrue(false);
-	}
-
-	@Test
-	public void testGetTestEntitiesPage() throws Exception {
-		Page<TestEntity> page = testEntityResource.getTestEntitiesPage();
+	public void testGetCompanyTestEntitiesPage() throws Exception {
+		Page<CompanyTestEntity> page =
+			companyTestEntityResource.getCompanyTestEntitiesPage();
 
 		long totalCount = page.getTotalCount();
 
-		TestEntity testEntity1 = testGetTestEntitiesPage_addTestEntity(
-			randomTestEntity());
+		CompanyTestEntity companyTestEntity1 =
+			testGetCompanyTestEntitiesPage_addCompanyTestEntity(
+				randomCompanyTestEntity());
 
-		TestEntity testEntity2 = testGetTestEntitiesPage_addTestEntity(
-			randomTestEntity());
+		CompanyTestEntity companyTestEntity2 =
+			testGetCompanyTestEntitiesPage_addCompanyTestEntity(
+				randomCompanyTestEntity());
 
-		page = testEntityResource.getTestEntitiesPage();
+		page = companyTestEntityResource.getCompanyTestEntitiesPage();
 
 		Assert.assertEquals(totalCount + 2, page.getTotalCount());
 
-		assertContains(testEntity1, (List<TestEntity>)page.getItems());
-		assertContains(testEntity2, (List<TestEntity>)page.getItems());
-		assertValid(page, testGetTestEntitiesPage_getExpectedActions());
+		assertContains(
+			companyTestEntity1, (List<CompanyTestEntity>)page.getItems());
+		assertContains(
+			companyTestEntity2, (List<CompanyTestEntity>)page.getItems());
+		assertValid(page, testGetCompanyTestEntitiesPage_getExpectedActions());
+
+		for (CompanyTestEntity companyTestEntity : page.getItems()) {
+			Assert.assertNull(companyTestEntity.getPermissions());
+		}
+
+		page =
+			permissionsCompanyTestEntityResource.getCompanyTestEntitiesPage();
+
+		for (CompanyTestEntity companyTestEntity : page.getItems()) {
+			Assert.assertNotNull(companyTestEntity.getPermissions());
+		}
 	}
 
 	protected Map<String, Map<String, String>>
-			testGetTestEntitiesPage_getExpectedActions()
+			testGetCompanyTestEntitiesPage_getExpectedActions()
 		throws Exception {
 
 		Map<String, Map<String, String>> expectedActions = new HashMap<>();
@@ -222,8 +243,9 @@ public abstract class BaseTestEntityResourceTestCase {
 		return expectedActions;
 	}
 
-	protected TestEntity testGetTestEntitiesPage_addTestEntity(
-			TestEntity testEntity)
+	protected CompanyTestEntity
+			testGetCompanyTestEntitiesPage_addCompanyTestEntity(
+				CompanyTestEntity companyTestEntity)
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -231,84 +253,47 @@ public abstract class BaseTestEntityResourceTestCase {
 	}
 
 	@Test
-	public void testPostTestEntity() throws Exception {
-		TestEntity randomTestEntity = randomTestEntity();
+	public void testPostCompanyTestEntity() throws Exception {
+		CompanyTestEntity randomCompanyTestEntity = randomCompanyTestEntity();
 
-		TestEntity postTestEntity = testPostTestEntity_addTestEntity(
-			randomTestEntity);
+		CompanyTestEntity postCompanyTestEntity =
+			testPostCompanyTestEntity_addCompanyTestEntity(
+				randomCompanyTestEntity);
 
-		assertEquals(randomTestEntity, postTestEntity);
-		assertValid(postTestEntity);
+		assertEquals(randomCompanyTestEntity, postCompanyTestEntity);
+		assertValid(postCompanyTestEntity);
 
-		ChildTestEntity1 childTestEntity1 = new ChildTestEntity1() {
-			{
-				dateCreated = RandomTestUtil.nextDate();
-				dateModified = RandomTestUtil.nextDate();
-				description = StringUtil.toLowerCase(
-					RandomTestUtil.randomString());
-				documentId = RandomTestUtil.randomLong();
-				id = RandomTestUtil.randomLong();
-				jsonProperty = StringUtil.toLowerCase(
-					RandomTestUtil.randomString());
-				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
-				self = StringUtil.toLowerCase(RandomTestUtil.randomString());
-				property1 = StringUtil.toLowerCase(
-					RandomTestUtil.randomString());
+		CompanyTestEntity randomPermissionsCompanyTestEntity1 =
+			randomPermissionsCompanyTestEntity();
 
-				type = Type.create("ChildTestEntity1");
-			}
-		};
+		CompanyTestEntity postPermissionsCompanyTestEntity1 =
+			testPostCompanyTestEntity_addCompanyTestEntity(
+				randomPermissionsCompanyTestEntity1);
 
-		assertEquals(
-			childTestEntity1,
-			testPostTestEntity_addTestEntity(childTestEntity1));
+		Assert.assertNull(postPermissionsCompanyTestEntity1.getPermissions());
 
-		ChildTestEntity2 childTestEntity2 = new ChildTestEntity2() {
-			{
-				dateCreated = RandomTestUtil.nextDate();
-				dateModified = RandomTestUtil.nextDate();
-				description = StringUtil.toLowerCase(
-					RandomTestUtil.randomString());
-				documentId = RandomTestUtil.randomLong();
-				id = RandomTestUtil.randomLong();
-				jsonProperty = StringUtil.toLowerCase(
-					RandomTestUtil.randomString());
-				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
-				self = StringUtil.toLowerCase(RandomTestUtil.randomString());
-				property2 = StringUtil.toLowerCase(
-					RandomTestUtil.randomString());
+		CompanyTestEntity randomPermissionsCompanyTestEntity2 =
+			randomPermissionsCompanyTestEntity();
 
-				type = Type.create("ChildTestEntity2");
-			}
-		};
+		CompanyTestEntity postPermissionsCompanyTestEntity2 =
+			testPostCompanyTestEntity_addPermissionsCompanyTestEntity(
+				randomPermissionsCompanyTestEntity2);
 
-		assertEquals(
-			childTestEntity2,
-			testPostTestEntity_addTestEntity(childTestEntity2));
-
-		ChildTestEntity3 childTestEntity3 = new ChildTestEntity3() {
-			{
-				dateCreated = RandomTestUtil.nextDate();
-				dateModified = RandomTestUtil.nextDate();
-				description = StringUtil.toLowerCase(
-					RandomTestUtil.randomString());
-				documentId = RandomTestUtil.randomLong();
-				id = RandomTestUtil.randomLong();
-				jsonProperty = StringUtil.toLowerCase(
-					RandomTestUtil.randomString());
-				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
-				self = StringUtil.toLowerCase(RandomTestUtil.randomString());
-
-				type = Type.create("ChildTestEntity3");
-			}
-		};
-
-		assertEquals(
-			childTestEntity3,
-			testPostTestEntity_addTestEntity(childTestEntity3));
+		Assert.assertNotNull(
+			postPermissionsCompanyTestEntity2.getPermissions());
 	}
 
-	protected TestEntity testPostTestEntity_addTestEntity(TestEntity testEntity)
+	protected CompanyTestEntity testPostCompanyTestEntity_addCompanyTestEntity(
+			CompanyTestEntity companyTestEntity)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	protected CompanyTestEntity
+			testPostCompanyTestEntity_addPermissionsCompanyTestEntity(
+				CompanyTestEntity companyTestEntity)
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -316,90 +301,273 @@ public abstract class BaseTestEntityResourceTestCase {
 	}
 
 	@Test
-	public void testGetTestEntityCount() throws Exception {
-		Assert.assertTrue(false);
+	public void testGetCompanyTestEntityByExternalReferenceCode()
+		throws Exception {
+
+		CompanyTestEntity postCompanyTestEntity =
+			testGetCompanyTestEntityByExternalReferenceCode_addCompanyTestEntity();
+
+		CompanyTestEntity getCompanyTestEntity =
+			companyTestEntityResource.
+				getCompanyTestEntityByExternalReferenceCode(
+					postCompanyTestEntity.getExternalReferenceCode());
+
+		assertEquals(postCompanyTestEntity, getCompanyTestEntity);
+		assertValid(getCompanyTestEntity);
+
+		Assert.assertNull(getCompanyTestEntity.getPermissions());
+
+		getCompanyTestEntity =
+			permissionsCompanyTestEntityResource.
+				getCompanyTestEntityByExternalReferenceCode(
+					postCompanyTestEntity.getExternalReferenceCode());
+
+		Assert.assertNotNull(getCompanyTestEntity.getPermissions());
 	}
 
-	@Test
-	public void testGetTestEntity() throws Exception {
-		TestEntity postTestEntity = testGetTestEntity_addTestEntity();
+	protected CompanyTestEntity
+			testGetCompanyTestEntityByExternalReferenceCode_addCompanyTestEntity()
+		throws Exception {
 
-		TestEntity getTestEntity = testEntityResource.getTestEntity(
-			postTestEntity.getId());
-
-		assertEquals(postTestEntity, getTestEntity);
-		assertValid(getTestEntity);
-	}
-
-	protected TestEntity testGetTestEntity_addTestEntity() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
 	}
 
 	@Test
-	public void testPatchTestEntity() throws Exception {
-		TestEntity postTestEntity = testPatchTestEntity_addTestEntity();
+	public void testPutCompanyTestEntityByExternalReferenceCode()
+		throws Exception {
 
-		TestEntity randomPatchTestEntity = randomPatchTestEntity();
+		CompanyTestEntity postCompanyTestEntity =
+			testPutCompanyTestEntityByExternalReferenceCode_addCompanyTestEntity();
+
+		CompanyTestEntity randomCompanyTestEntity = randomCompanyTestEntity();
+
+		CompanyTestEntity putCompanyTestEntity =
+			companyTestEntityResource.
+				putCompanyTestEntityByExternalReferenceCode(
+					postCompanyTestEntity.getExternalReferenceCode(),
+					randomCompanyTestEntity);
+
+		assertEquals(randomCompanyTestEntity, putCompanyTestEntity);
+		assertValid(putCompanyTestEntity);
+
+		Assert.assertNull(putCompanyTestEntity.getPermissions());
+
+		CompanyTestEntity getCompanyTestEntity =
+			companyTestEntityResource.
+				getCompanyTestEntityByExternalReferenceCode(
+					putCompanyTestEntity.getExternalReferenceCode());
+
+		assertEquals(randomCompanyTestEntity, getCompanyTestEntity);
+		assertValid(getCompanyTestEntity);
+
+		CompanyTestEntity randomPermissionsCompanyTestEntity =
+			randomPermissionsCompanyTestEntity();
+
+		putCompanyTestEntity =
+			companyTestEntityResource.
+				putCompanyTestEntityByExternalReferenceCode(
+					postCompanyTestEntity.getExternalReferenceCode(),
+					randomPermissionsCompanyTestEntity);
+
+		assertEquals(randomPermissionsCompanyTestEntity, putCompanyTestEntity);
+		assertValid(putCompanyTestEntity);
+
+		Assert.assertNull(putCompanyTestEntity.getPermissions());
+
+		putCompanyTestEntity =
+			permissionsCompanyTestEntityResource.
+				putCompanyTestEntityByExternalReferenceCode(
+					postCompanyTestEntity.getExternalReferenceCode(),
+					randomPermissionsCompanyTestEntity);
+
+		Assert.assertNotNull(putCompanyTestEntity.getPermissions());
+
+		CompanyTestEntity newCompanyTestEntity =
+			testPutCompanyTestEntityByExternalReferenceCode_createCompanyTestEntity();
+
+		putCompanyTestEntity =
+			companyTestEntityResource.
+				putCompanyTestEntityByExternalReferenceCode(
+					newCompanyTestEntity.getExternalReferenceCode(),
+					newCompanyTestEntity);
+
+		assertEquals(newCompanyTestEntity, putCompanyTestEntity);
+		assertValid(putCompanyTestEntity);
+
+		getCompanyTestEntity =
+			companyTestEntityResource.
+				getCompanyTestEntityByExternalReferenceCode(
+					putCompanyTestEntity.getExternalReferenceCode());
+
+		assertEquals(newCompanyTestEntity, getCompanyTestEntity);
+
+		Assert.assertEquals(
+			newCompanyTestEntity.getExternalReferenceCode(),
+			putCompanyTestEntity.getExternalReferenceCode());
+	}
+
+	protected CompanyTestEntity
+			testPutCompanyTestEntityByExternalReferenceCode_createCompanyTestEntity()
+		throws Exception {
+
+		return randomCompanyTestEntity();
+	}
+
+	protected CompanyTestEntity
+			testPutCompanyTestEntityByExternalReferenceCode_addCompanyTestEntity()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGetCompanyTestEntity() throws Exception {
+		CompanyTestEntity postCompanyTestEntity =
+			testGetCompanyTestEntity_addCompanyTestEntity();
+
+		CompanyTestEntity getCompanyTestEntity =
+			companyTestEntityResource.getCompanyTestEntity(
+				postCompanyTestEntity.getId());
+
+		assertEquals(postCompanyTestEntity, getCompanyTestEntity);
+		assertValid(getCompanyTestEntity);
+
+		Assert.assertNull(getCompanyTestEntity.getPermissions());
+
+		getCompanyTestEntity =
+			permissionsCompanyTestEntityResource.getCompanyTestEntity(
+				postCompanyTestEntity.getId());
+
+		Assert.assertNotNull(getCompanyTestEntity.getPermissions());
+	}
+
+	protected CompanyTestEntity testGetCompanyTestEntity_addCompanyTestEntity()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testPutCompanyTestEntity() throws Exception {
+		CompanyTestEntity postCompanyTestEntity =
+			testPutCompanyTestEntity_addCompanyTestEntity();
+
+		CompanyTestEntity randomCompanyTestEntity = randomCompanyTestEntity();
+
+		CompanyTestEntity putCompanyTestEntity =
+			companyTestEntityResource.putCompanyTestEntity(
+				postCompanyTestEntity.getId(), randomCompanyTestEntity);
+
+		assertEquals(randomCompanyTestEntity, putCompanyTestEntity);
+		assertValid(putCompanyTestEntity);
+
+		Assert.assertNull(putCompanyTestEntity.getPermissions());
+
+		CompanyTestEntity getCompanyTestEntity =
+			companyTestEntityResource.getCompanyTestEntity(
+				putCompanyTestEntity.getId());
+
+		assertEquals(randomCompanyTestEntity, getCompanyTestEntity);
+		assertValid(getCompanyTestEntity);
+
+		CompanyTestEntity randomPermissionsCompanyTestEntity =
+			randomPermissionsCompanyTestEntity();
+
+		putCompanyTestEntity = companyTestEntityResource.putCompanyTestEntity(
+			postCompanyTestEntity.getId(), randomPermissionsCompanyTestEntity);
+
+		assertEquals(randomPermissionsCompanyTestEntity, putCompanyTestEntity);
+		assertValid(putCompanyTestEntity);
+
+		Assert.assertNull(putCompanyTestEntity.getPermissions());
+
+		putCompanyTestEntity =
+			permissionsCompanyTestEntityResource.putCompanyTestEntity(
+				postCompanyTestEntity.getId(),
+				randomPermissionsCompanyTestEntity);
+
+		Assert.assertNotNull(putCompanyTestEntity.getPermissions());
+	}
+
+	protected CompanyTestEntity testPutCompanyTestEntity_addCompanyTestEntity()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGetCompanyTestEntityPermissionsPage() throws Exception {
+		CompanyTestEntity postCompanyTestEntity =
+			testGetCompanyTestEntityPermissionsPage_addCompanyTestEntity();
+
+		Page<Permission> page =
+			companyTestEntityResource.getCompanyTestEntityPermissionsPage(
+				postCompanyTestEntity.getId(), RoleConstants.GUEST);
+
+		Assert.assertNotNull(page);
+	}
+
+	protected CompanyTestEntity
+			testGetCompanyTestEntityPermissionsPage_addCompanyTestEntity()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testPutCompanyTestEntityPermissionsPage() throws Exception {
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		CompanyTestEntity companyTestEntity =
+			testPutCompanyTestEntityPermissionsPage_addCompanyTestEntity();
 
 		@SuppressWarnings("PMD.UnusedLocalVariable")
-		TestEntity patchTestEntity = testEntityResource.patchTestEntity(
-			postTestEntity.getId(), testPatchTestEntity_getOptionalParameter(),
-			randomPatchTestEntity);
+		com.liferay.portal.kernel.model.Role role = RoleTestUtil.addRole(
+			RoleConstants.TYPE_REGULAR);
 
-		TestEntity expectedPatchTestEntity = postTestEntity.clone();
+		assertHttpResponseStatusCode(
+			200,
+			companyTestEntityResource.
+				putCompanyTestEntityPermissionsPageHttpResponse(
+					companyTestEntity.getId(),
+					new Permission[] {
+						new Permission() {
+							{
+								setActionIds(new String[] {"VIEW"});
+								setRoleName(role.getName());
+							}
+						}
+					}));
 
-		BeanTestUtil.copyProperties(
-			randomPatchTestEntity, expectedPatchTestEntity);
-
-		TestEntity getTestEntity = testEntityResource.getTestEntity(
-			patchTestEntity.getId());
-
-		assertEquals(expectedPatchTestEntity, getTestEntity);
-		assertValid(getTestEntity);
+		assertHttpResponseStatusCode(
+			404,
+			companyTestEntityResource.
+				putCompanyTestEntityPermissionsPageHttpResponse(
+					0L,
+					new Permission[] {
+						new Permission() {
+							{
+								setActionIds(new String[] {"-"});
+								setRoleName("-");
+							}
+						}
+					}));
 	}
 
-	protected TestEntity testPatchTestEntity_addTestEntity() throws Exception {
+	protected CompanyTestEntity
+			testPutCompanyTestEntityPermissionsPage_addCompanyTestEntity()
+		throws Exception {
+
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
 	}
 
-	protected Long testPatchTestEntity_getOptionalParameter() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testPutTestEntity() throws Exception {
-		TestEntity postTestEntity = testPutTestEntity_addTestEntity();
-
-		TestEntity randomTestEntity = randomTestEntity();
-
-		TestEntity putTestEntity = testEntityResource.putTestEntity(
-			postTestEntity.getId(), testPutTestEntity_getOptionalParameter(),
-			randomTestEntity);
-
-		assertEquals(randomTestEntity, putTestEntity);
-		assertValid(putTestEntity);
-
-		TestEntity getTestEntity = testEntityResource.getTestEntity(
-			putTestEntity.getId());
-
-		assertEquals(randomTestEntity, getTestEntity);
-		assertValid(getTestEntity);
-	}
-
-	protected Long testPutTestEntity_getOptionalParameter() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	protected TestEntity testPutTestEntity_addTestEntity() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	protected TestEntity testGraphQLTestEntity_addTestEntity()
+	protected CompanyTestEntity
+			testGraphQLCompanyTestEntity_addCompanyTestEntity()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -407,12 +575,13 @@ public abstract class BaseTestEntityResourceTestCase {
 	}
 
 	protected void assertContains(
-		TestEntity testEntity, List<TestEntity> testEntities) {
+		CompanyTestEntity companyTestEntity,
+		List<CompanyTestEntity> companyTestEntities) {
 
 		boolean contains = false;
 
-		for (TestEntity item : testEntities) {
-			if (equals(testEntity, item)) {
+		for (CompanyTestEntity item : companyTestEntities) {
+			if (equals(companyTestEntity, item)) {
 				contains = true;
 
 				break;
@@ -420,7 +589,8 @@ public abstract class BaseTestEntityResourceTestCase {
 		}
 
 		Assert.assertTrue(
-			testEntities + " does not contain " + testEntity, contains);
+			companyTestEntities + " does not contain " + companyTestEntity,
+			contains);
 	}
 
 	protected void assertHttpResponseStatusCode(
@@ -432,36 +602,41 @@ public abstract class BaseTestEntityResourceTestCase {
 	}
 
 	protected void assertEquals(
-		TestEntity testEntity1, TestEntity testEntity2) {
+		CompanyTestEntity companyTestEntity1,
+		CompanyTestEntity companyTestEntity2) {
 
 		Assert.assertTrue(
-			testEntity1 + " does not equal " + testEntity2,
-			equals(testEntity1, testEntity2));
+			companyTestEntity1 + " does not equal " + companyTestEntity2,
+			equals(companyTestEntity1, companyTestEntity2));
 	}
 
 	protected void assertEquals(
-		List<TestEntity> testEntities1, List<TestEntity> testEntities2) {
+		List<CompanyTestEntity> companyTestEntities1,
+		List<CompanyTestEntity> companyTestEntities2) {
 
-		Assert.assertEquals(testEntities1.size(), testEntities2.size());
+		Assert.assertEquals(
+			companyTestEntities1.size(), companyTestEntities2.size());
 
-		for (int i = 0; i < testEntities1.size(); i++) {
-			TestEntity testEntity1 = testEntities1.get(i);
-			TestEntity testEntity2 = testEntities2.get(i);
+		for (int i = 0; i < companyTestEntities1.size(); i++) {
+			CompanyTestEntity companyTestEntity1 = companyTestEntities1.get(i);
+			CompanyTestEntity companyTestEntity2 = companyTestEntities2.get(i);
 
-			assertEquals(testEntity1, testEntity2);
+			assertEquals(companyTestEntity1, companyTestEntity2);
 		}
 	}
 
 	protected void assertEqualsIgnoringOrder(
-		List<TestEntity> testEntities1, List<TestEntity> testEntities2) {
+		List<CompanyTestEntity> companyTestEntities1,
+		List<CompanyTestEntity> companyTestEntities2) {
 
-		Assert.assertEquals(testEntities1.size(), testEntities2.size());
+		Assert.assertEquals(
+			companyTestEntities1.size(), companyTestEntities2.size());
 
-		for (TestEntity testEntity1 : testEntities1) {
+		for (CompanyTestEntity companyTestEntity1 : companyTestEntities1) {
 			boolean contains = false;
 
-			for (TestEntity testEntity2 : testEntities2) {
-				if (equals(testEntity1, testEntity2)) {
+			for (CompanyTestEntity companyTestEntity2 : companyTestEntities2) {
+				if (equals(companyTestEntity1, companyTestEntity2)) {
 					contains = true;
 
 					break;
@@ -469,22 +644,26 @@ public abstract class BaseTestEntityResourceTestCase {
 			}
 
 			Assert.assertTrue(
-				testEntities2 + " does not contain " + testEntity1, contains);
+				companyTestEntities2 + " does not contain " +
+					companyTestEntity1,
+				contains);
 		}
 	}
 
-	protected void assertValid(TestEntity testEntity) throws Exception {
+	protected void assertValid(CompanyTestEntity companyTestEntity)
+		throws Exception {
+
 		boolean valid = true;
 
-		if (testEntity.getDateCreated() == null) {
+		if (companyTestEntity.getDateCreated() == null) {
 			valid = false;
 		}
 
-		if (testEntity.getDateModified() == null) {
+		if (companyTestEntity.getDateModified() == null) {
 			valid = false;
 		}
 
-		if (testEntity.getId() == null) {
+		if (companyTestEntity.getId() == null) {
 			valid = false;
 		}
 
@@ -492,87 +671,25 @@ public abstract class BaseTestEntityResourceTestCase {
 				getAdditionalAssertFieldNames()) {
 
 			if (Objects.equals("description", additionalAssertFieldName)) {
-				if (testEntity.getDescription() == null) {
+				if (companyTestEntity.getDescription() == null) {
 					valid = false;
 				}
 
 				continue;
 			}
 
-			if (Objects.equals("documentId", additionalAssertFieldName)) {
-				if (testEntity.getDocumentId() == null) {
+			if (Objects.equals(
+					"externalReferenceCode", additionalAssertFieldName)) {
+
+				if (companyTestEntity.getExternalReferenceCode() == null) {
 					valid = false;
 				}
 
 				continue;
 			}
 
-			if (Objects.equals("jsonProperty", additionalAssertFieldName)) {
-				if (testEntity.getJsonProperty() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("name", additionalAssertFieldName)) {
-				if (testEntity.getName() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("nestedTestEntity", additionalAssertFieldName)) {
-				if (testEntity.getNestedTestEntity() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("self", additionalAssertFieldName)) {
-				if (testEntity.getSelf() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("testEntities", additionalAssertFieldName)) {
-				if (testEntity.getTestEntities() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("type", additionalAssertFieldName)) {
-				if (testEntity.getType() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("property1", additionalAssertFieldName)) {
-				if (!(testEntity instanceof ChildTestEntity1)) {
-					continue;
-				}
-
-				if (((ChildTestEntity1)testEntity).getProperty1() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("property2", additionalAssertFieldName)) {
-				if (!(testEntity instanceof ChildTestEntity2)) {
-					continue;
-				}
-
-				if (((ChildTestEntity2)testEntity).getProperty2() == null) {
+			if (Objects.equals("permissions", additionalAssertFieldName)) {
+				if (companyTestEntity.getPermissions() == null) {
 					valid = false;
 				}
 
@@ -587,19 +704,20 @@ public abstract class BaseTestEntityResourceTestCase {
 		Assert.assertTrue(valid);
 	}
 
-	protected void assertValid(Page<TestEntity> page) {
+	protected void assertValid(Page<CompanyTestEntity> page) {
 		assertValid(page, Collections.emptyMap());
 	}
 
 	protected void assertValid(
-		Page<TestEntity> page,
+		Page<CompanyTestEntity> page,
 		Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
-		java.util.Collection<TestEntity> testEntities = page.getItems();
+		java.util.Collection<CompanyTestEntity> companyTestEntities =
+			page.getItems();
 
-		int size = testEntities.size();
+		int size = companyTestEntities.size();
 
 		if ((page.getLastPage() > 0) && (page.getPage() > 0) &&
 			(page.getPageSize() > 0) && (page.getTotalCount() > 0) &&
@@ -640,7 +758,7 @@ public abstract class BaseTestEntityResourceTestCase {
 		for (java.lang.reflect.Field field :
 				getDeclaredFields(
 					com.liferay.portal.tools.rest.builder.test.dto.v1_0.
-						TestEntity.class)) {
+						CompanyTestEntity.class)) {
 
 			if (!ArrayUtil.contains(
 					getAdditionalAssertFieldNames(), field.getName())) {
@@ -688,8 +806,11 @@ public abstract class BaseTestEntityResourceTestCase {
 		return new String[0];
 	}
 
-	protected boolean equals(TestEntity testEntity1, TestEntity testEntity2) {
-		if (testEntity1 == testEntity2) {
+	protected boolean equals(
+		CompanyTestEntity companyTestEntity1,
+		CompanyTestEntity companyTestEntity2) {
+
+		if (companyTestEntity1 == companyTestEntity2) {
 			return true;
 		}
 
@@ -698,8 +819,8 @@ public abstract class BaseTestEntityResourceTestCase {
 
 			if (Objects.equals("dateCreated", additionalAssertFieldName)) {
 				if (!Objects.deepEquals(
-						testEntity1.getDateCreated(),
-						testEntity2.getDateCreated())) {
+						companyTestEntity1.getDateCreated(),
+						companyTestEntity2.getDateCreated())) {
 
 					return false;
 				}
@@ -709,8 +830,8 @@ public abstract class BaseTestEntityResourceTestCase {
 
 			if (Objects.equals("dateModified", additionalAssertFieldName)) {
 				if (!Objects.deepEquals(
-						testEntity1.getDateModified(),
-						testEntity2.getDateModified())) {
+						companyTestEntity1.getDateModified(),
+						companyTestEntity2.getDateModified())) {
 
 					return false;
 				}
@@ -720,8 +841,8 @@ public abstract class BaseTestEntityResourceTestCase {
 
 			if (Objects.equals("description", additionalAssertFieldName)) {
 				if (!Objects.deepEquals(
-						testEntity1.getDescription(),
-						testEntity2.getDescription())) {
+						companyTestEntity1.getDescription(),
+						companyTestEntity2.getDescription())) {
 
 					return false;
 				}
@@ -729,10 +850,12 @@ public abstract class BaseTestEntityResourceTestCase {
 				continue;
 			}
 
-			if (Objects.equals("documentId", additionalAssertFieldName)) {
+			if (Objects.equals(
+					"externalReferenceCode", additionalAssertFieldName)) {
+
 				if (!Objects.deepEquals(
-						testEntity1.getDocumentId(),
-						testEntity2.getDocumentId())) {
+						companyTestEntity1.getExternalReferenceCode(),
+						companyTestEntity2.getExternalReferenceCode())) {
 
 					return false;
 				}
@@ -742,7 +865,8 @@ public abstract class BaseTestEntityResourceTestCase {
 
 			if (Objects.equals("id", additionalAssertFieldName)) {
 				if (!Objects.deepEquals(
-						testEntity1.getId(), testEntity2.getId())) {
+						companyTestEntity1.getId(),
+						companyTestEntity2.getId())) {
 
 					return false;
 				}
@@ -750,96 +874,10 @@ public abstract class BaseTestEntityResourceTestCase {
 				continue;
 			}
 
-			if (Objects.equals("jsonProperty", additionalAssertFieldName)) {
+			if (Objects.equals("permissions", additionalAssertFieldName)) {
 				if (!Objects.deepEquals(
-						testEntity1.getJsonProperty(),
-						testEntity2.getJsonProperty())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("name", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(
-						testEntity1.getName(), testEntity2.getName())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("nestedTestEntity", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(
-						testEntity1.getNestedTestEntity(),
-						testEntity2.getNestedTestEntity())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("self", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(
-						testEntity1.getSelf(), testEntity2.getSelf())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("testEntities", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(
-						testEntity1.getTestEntities(),
-						testEntity2.getTestEntities())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("type", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(
-						testEntity1.getType(), testEntity2.getType())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("property1", additionalAssertFieldName)) {
-				if (!(testEntity1 instanceof ChildTestEntity1) ||
-					!(testEntity2 instanceof ChildTestEntity1)) {
-
-					continue;
-				}
-
-				if (!Objects.deepEquals(
-						((ChildTestEntity1)testEntity1).getProperty1(),
-						((ChildTestEntity1)testEntity2).getProperty1())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("property2", additionalAssertFieldName)) {
-				if (!(testEntity1 instanceof ChildTestEntity2) ||
-					!(testEntity2 instanceof ChildTestEntity2)) {
-
-					continue;
-				}
-
-				if (!Objects.deepEquals(
-						((ChildTestEntity2)testEntity1).getProperty2(),
-						((ChildTestEntity2)testEntity2).getProperty2())) {
+						companyTestEntity1.getPermissions(),
+						companyTestEntity2.getPermissions())) {
 
 					return false;
 				}
@@ -903,13 +941,13 @@ public abstract class BaseTestEntityResourceTestCase {
 	protected java.util.Collection<EntityField> getEntityFields()
 		throws Exception {
 
-		if (!(_testEntityResource instanceof EntityModelResource)) {
+		if (!(_companyTestEntityResource instanceof EntityModelResource)) {
 			throw new UnsupportedOperationException(
 				"Resource is not an instance of EntityModelResource");
 		}
 
 		EntityModelResource entityModelResource =
-			(EntityModelResource)_testEntityResource;
+			(EntityModelResource)_companyTestEntityResource;
 
 		EntityModel entityModel = entityModelResource.getEntityModel(
 			new MultivaluedHashMap());
@@ -942,7 +980,8 @@ public abstract class BaseTestEntityResourceTestCase {
 	}
 
 	protected String getFilterString(
-		EntityField entityField, String operator, TestEntity testEntity) {
+		EntityField entityField, String operator,
+		CompanyTestEntity companyTestEntity) {
 
 		StringBundler sb = new StringBundler();
 
@@ -956,7 +995,7 @@ public abstract class BaseTestEntityResourceTestCase {
 
 		if (entityFieldName.equals("dateCreated")) {
 			if (operator.equals("between")) {
-				Date date = testEntity.getDateCreated();
+				Date date = companyTestEntity.getDateCreated();
 
 				sb = new StringBundler();
 
@@ -979,7 +1018,8 @@ public abstract class BaseTestEntityResourceTestCase {
 				sb.append(operator);
 				sb.append(" ");
 
-				sb.append(_dateFormat.format(testEntity.getDateCreated()));
+				sb.append(
+					_dateFormat.format(companyTestEntity.getDateCreated()));
 			}
 
 			return sb.toString();
@@ -987,7 +1027,7 @@ public abstract class BaseTestEntityResourceTestCase {
 
 		if (entityFieldName.equals("dateModified")) {
 			if (operator.equals("between")) {
-				Date date = testEntity.getDateModified();
+				Date date = companyTestEntity.getDateModified();
 
 				sb = new StringBundler();
 
@@ -1010,14 +1050,15 @@ public abstract class BaseTestEntityResourceTestCase {
 				sb.append(operator);
 				sb.append(" ");
 
-				sb.append(_dateFormat.format(testEntity.getDateModified()));
+				sb.append(
+					_dateFormat.format(companyTestEntity.getDateModified()));
 			}
 
 			return sb.toString();
 		}
 
 		if (entityFieldName.equals("description")) {
-			Object object = testEntity.getDescription();
+			Object object = companyTestEntity.getDescription();
 
 			String value = String.valueOf(object);
 
@@ -1062,9 +1103,50 @@ public abstract class BaseTestEntityResourceTestCase {
 			return sb.toString();
 		}
 
-		if (entityFieldName.equals("documentId")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+		if (entityFieldName.equals("externalReferenceCode")) {
+			Object object = companyTestEntity.getExternalReferenceCode();
+
+			String value = String.valueOf(object);
+
+			if (operator.equals("contains")) {
+				sb = new StringBundler();
+
+				sb.append("contains(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 2)) {
+					sb.append(value.substring(1, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else if (operator.equals("startswith")) {
+				sb = new StringBundler();
+
+				sb.append("startswith(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 1)) {
+					sb.append(value.substring(0, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else {
+				sb.append("'");
+				sb.append(value);
+				sb.append("'");
+			}
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("id")) {
@@ -1072,155 +1154,7 @@ public abstract class BaseTestEntityResourceTestCase {
 				"Invalid entity field " + entityFieldName);
 		}
 
-		if (entityFieldName.equals("jsonProperty")) {
-			Object object = testEntity.getJsonProperty();
-
-			String value = String.valueOf(object);
-
-			if (operator.equals("contains")) {
-				sb = new StringBundler();
-
-				sb.append("contains(");
-				sb.append(entityFieldName);
-				sb.append(",'");
-
-				if ((object != null) && (value.length() > 2)) {
-					sb.append(value.substring(1, value.length() - 1));
-				}
-				else {
-					sb.append(value);
-				}
-
-				sb.append("')");
-			}
-			else if (operator.equals("startswith")) {
-				sb = new StringBundler();
-
-				sb.append("startswith(");
-				sb.append(entityFieldName);
-				sb.append(",'");
-
-				if ((object != null) && (value.length() > 1)) {
-					sb.append(value.substring(0, value.length() - 1));
-				}
-				else {
-					sb.append(value);
-				}
-
-				sb.append("')");
-			}
-			else {
-				sb.append("'");
-				sb.append(value);
-				sb.append("'");
-			}
-
-			return sb.toString();
-		}
-
-		if (entityFieldName.equals("name")) {
-			Object object = testEntity.getName();
-
-			String value = String.valueOf(object);
-
-			if (operator.equals("contains")) {
-				sb = new StringBundler();
-
-				sb.append("contains(");
-				sb.append(entityFieldName);
-				sb.append(",'");
-
-				if ((object != null) && (value.length() > 2)) {
-					sb.append(value.substring(1, value.length() - 1));
-				}
-				else {
-					sb.append(value);
-				}
-
-				sb.append("')");
-			}
-			else if (operator.equals("startswith")) {
-				sb = new StringBundler();
-
-				sb.append("startswith(");
-				sb.append(entityFieldName);
-				sb.append(",'");
-
-				if ((object != null) && (value.length() > 1)) {
-					sb.append(value.substring(0, value.length() - 1));
-				}
-				else {
-					sb.append(value);
-				}
-
-				sb.append("')");
-			}
-			else {
-				sb.append("'");
-				sb.append(value);
-				sb.append("'");
-			}
-
-			return sb.toString();
-		}
-
-		if (entityFieldName.equals("nestedTestEntity")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
-		}
-
-		if (entityFieldName.equals("self")) {
-			Object object = testEntity.getSelf();
-
-			String value = String.valueOf(object);
-
-			if (operator.equals("contains")) {
-				sb = new StringBundler();
-
-				sb.append("contains(");
-				sb.append(entityFieldName);
-				sb.append(",'");
-
-				if ((object != null) && (value.length() > 2)) {
-					sb.append(value.substring(1, value.length() - 1));
-				}
-				else {
-					sb.append(value);
-				}
-
-				sb.append("')");
-			}
-			else if (operator.equals("startswith")) {
-				sb = new StringBundler();
-
-				sb.append("startswith(");
-				sb.append(entityFieldName);
-				sb.append(",'");
-
-				if ((object != null) && (value.length() > 1)) {
-					sb.append(value.substring(0, value.length() - 1));
-				}
-				else {
-					sb.append(value);
-				}
-
-				sb.append("')");
-			}
-			else {
-				sb.append("'");
-				sb.append(value);
-				sb.append("'");
-			}
-
-			return sb.toString();
-		}
-
-		if (entityFieldName.equals("testEntities")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
-		}
-
-		if (entityFieldName.equals("type")) {
+		if (entityFieldName.equals("permissions")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
 		}
@@ -1267,92 +1201,58 @@ public abstract class BaseTestEntityResourceTestCase {
 			invoke(queryGraphQLField.toString()));
 	}
 
-	protected TestEntity randomTestEntity() throws Exception {
-		List<Supplier<TestEntity>> suppliers = Arrays.asList(
-			() -> {
-				ChildTestEntity1 testEntity = new ChildTestEntity1();
+	protected CompanyTestEntity randomCompanyTestEntity() throws Exception {
+		return new CompanyTestEntity() {
+			{
+				dateCreated = RandomTestUtil.nextDate();
+				dateModified = RandomTestUtil.nextDate();
+				description = StringUtil.toLowerCase(
+					RandomTestUtil.randomString());
+				externalReferenceCode = StringUtil.toLowerCase(
+					RandomTestUtil.randomString());
+				id = RandomTestUtil.randomLong();
+			}
+		};
+	}
 
-				testEntity.setDateCreated(RandomTestUtil.nextDate());
-				testEntity.setDateModified(RandomTestUtil.nextDate());
-				testEntity.setDescription(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
-				testEntity.setDocumentId(RandomTestUtil.randomLong());
-				testEntity.setId(RandomTestUtil.randomLong());
-				testEntity.setJsonProperty(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
-				testEntity.setName(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
-				testEntity.setSelf(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
+	protected CompanyTestEntity randomIrrelevantCompanyTestEntity()
+		throws Exception {
 
-				testEntity.setProperty1(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
+		CompanyTestEntity randomIrrelevantCompanyTestEntity =
+			randomCompanyTestEntity();
 
-				testEntity.setType(TestEntity.Type.create("ChildTestEntity1"));
+		return randomIrrelevantCompanyTestEntity;
+	}
 
-				return testEntity;
-			},
-			() -> {
-				ChildTestEntity2 testEntity = new ChildTestEntity2();
+	protected CompanyTestEntity randomPatchCompanyTestEntity()
+		throws Exception {
 
-				testEntity.setDateCreated(RandomTestUtil.nextDate());
-				testEntity.setDateModified(RandomTestUtil.nextDate());
-				testEntity.setDescription(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
-				testEntity.setDocumentId(RandomTestUtil.randomLong());
-				testEntity.setId(RandomTestUtil.randomLong());
-				testEntity.setJsonProperty(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
-				testEntity.setName(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
-				testEntity.setSelf(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
+		return randomCompanyTestEntity();
+	}
 
-				testEntity.setProperty2(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
+	protected CompanyTestEntity randomPermissionsCompanyTestEntity()
+		throws Exception {
 
-				testEntity.setType(TestEntity.Type.create("ChildTestEntity2"));
+		CompanyTestEntity companyTestEntity = randomCompanyTestEntity();
 
-				return testEntity;
-			},
-			() -> {
-				ChildTestEntity3 testEntity = new ChildTestEntity3();
+		com.liferay.portal.kernel.model.Role role = RoleTestUtil.addRole(
+			RoleConstants.TYPE_REGULAR);
 
-				testEntity.setDateCreated(RandomTestUtil.nextDate());
-				testEntity.setDateModified(RandomTestUtil.nextDate());
-				testEntity.setDescription(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
-				testEntity.setDocumentId(RandomTestUtil.randomLong());
-				testEntity.setId(RandomTestUtil.randomLong());
-				testEntity.setJsonProperty(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
-				testEntity.setName(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
-				testEntity.setSelf(
-					StringUtil.toLowerCase(RandomTestUtil.randomString()));
-
-				testEntity.setType(TestEntity.Type.create("ChildTestEntity3"));
-
-				return testEntity;
+		companyTestEntity.setPermissions(
+			new Permission[] {
+				new Permission() {
+					{
+						setActionIds(new String[] {"VIEW"});
+						setRoleName(role.getName());
+					}
+				}
 			});
 
-		Supplier<TestEntity> supplier = suppliers.get(
-			RandomTestUtil.randomInt(0, suppliers.size() - 1));
-
-		return supplier.get();
+		return companyTestEntity;
 	}
 
-	protected TestEntity randomIrrelevantTestEntity() throws Exception {
-		TestEntity randomIrrelevantTestEntity = randomTestEntity();
-
-		return randomIrrelevantTestEntity;
-	}
-
-	protected TestEntity randomPatchTestEntity() throws Exception {
-		return randomTestEntity();
-	}
-
-	protected TestEntityResource testEntityResource;
+	protected CompanyTestEntityResource companyTestEntityResource;
+	protected CompanyTestEntityResource permissionsCompanyTestEntityResource;
 	protected com.liferay.portal.kernel.model.Group irrelevantGroup;
 	protected com.liferay.portal.kernel.model.Company testCompany;
 	protected com.liferay.portal.kernel.model.Group testGroup;
@@ -1551,13 +1451,12 @@ public abstract class BaseTestEntityResourceTestCase {
 	}
 
 	private static final com.liferay.portal.kernel.log.Log _log =
-		LogFactoryUtil.getLog(BaseTestEntityResourceTestCase.class);
+		LogFactoryUtil.getLog(BaseCompanyTestEntityResourceTestCase.class);
 
 	private static DateFormat _dateFormat;
 
 	@Inject
-	private
-		com.liferay.portal.tools.rest.builder.test.resource.v1_0.
-			TestEntityResource _testEntityResource;
+	private com.liferay.portal.tools.rest.builder.test.resource.v1_0.
+		CompanyTestEntityResource _companyTestEntityResource;
 
 }
