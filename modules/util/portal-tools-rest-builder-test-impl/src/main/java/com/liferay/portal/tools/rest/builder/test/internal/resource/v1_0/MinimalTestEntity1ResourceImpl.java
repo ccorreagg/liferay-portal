@@ -5,7 +5,12 @@
 
 package com.liferay.portal.tools.rest.builder.test.internal.resource.v1_0;
 
+import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.tools.rest.builder.test.resource.v1_0.MinimalTestEntity1Resource;
+
+import java.util.Collections;
+
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
@@ -19,4 +24,10 @@ import org.osgi.service.component.annotations.ServiceScope;
 )
 public class MinimalTestEntity1ResourceImpl
 	extends BaseMinimalTestEntity1ResourceImpl {
+
+	@Override
+	public EntityModel getEntityModel(MultivaluedMap multivaluedMap) {
+		return Collections::emptyMap;
+	}
+
 }
