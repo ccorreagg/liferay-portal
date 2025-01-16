@@ -29,8 +29,11 @@ public class OpenAPIResourceTest {
 				JSONUtil.put(
 					"schemas",
 					JSONUtil.put(
-						"MinimalTestEntity",
+						"MinimalTestEntity1",
 						JSONUtil.put("x-filterable", JSONUtil.putAll())
+					).put(
+						"MinimalTestEntity2",
+						JSONUtil.put("x-filterable", JSONUtil.putAll("id"))
 					).put(
 						"TestEntity",
 						JSONUtil.put(

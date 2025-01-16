@@ -57,7 +57,7 @@ components:
             type: object
         MinimalTestEntity2:
             description:
-                "A minimal test entity with no filterable fields."
+                "A minimal test entity with filterable fields."
             properties:
                 id:
                     format: int64
