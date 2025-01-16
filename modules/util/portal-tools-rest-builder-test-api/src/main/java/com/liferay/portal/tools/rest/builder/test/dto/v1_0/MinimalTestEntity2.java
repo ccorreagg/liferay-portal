@@ -37,18 +37,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Generated("")
 @GraphQLName(
 	description = "A minimal test entity with no filterable fields.",
-	value = "MinimalTestEntity"
+	value = "MinimalTestEntity2"
 )
 @JsonFilter("Liferay.Vulcan")
-@XmlRootElement(name = "MinimalTestEntity")
-public class MinimalTestEntity implements Serializable {
+@XmlRootElement(name = "MinimalTestEntity2")
+public class MinimalTestEntity2 implements Serializable {
 
-	public static MinimalTestEntity toDTO(String json) {
-		return ObjectMapperUtil.readValue(MinimalTestEntity.class, json);
+	public static MinimalTestEntity2 toDTO(String json) {
+		return ObjectMapperUtil.readValue(MinimalTestEntity2.class, json);
 	}
 
-	public static MinimalTestEntity unsafeToDTO(String json) {
-		return ObjectMapperUtil.unsafeReadValue(MinimalTestEntity.class, json);
+	public static MinimalTestEntity2 unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(MinimalTestEntity2.class, json);
 	}
 
 	@Schema
@@ -135,13 +135,13 @@ public class MinimalTestEntity implements Serializable {
 			return true;
 		}
 
-		if (!(object instanceof MinimalTestEntity)) {
+		if (!(object instanceof MinimalTestEntity2)) {
 			return false;
 		}
 
-		MinimalTestEntity minimalTestEntity = (MinimalTestEntity)object;
+		MinimalTestEntity2 minimalTestEntity2 = (MinimalTestEntity2)object;
 
-		return Objects.equals(toString(), minimalTestEntity.toString());
+		return Objects.equals(toString(), minimalTestEntity2.toString());
 	}
 
 	@Override
@@ -191,7 +191,7 @@ public class MinimalTestEntity implements Serializable {
 
 	@Schema(
 		accessMode = Schema.AccessMode.READ_ONLY,
-		defaultValue = "com.liferay.portal.tools.rest.builder.test.dto.v1_0.MinimalTestEntity",
+		defaultValue = "com.liferay.portal.tools.rest.builder.test.dto.v1_0.MinimalTestEntity2",
 		name = "x-class-name"
 	)
 	public String xClassName;

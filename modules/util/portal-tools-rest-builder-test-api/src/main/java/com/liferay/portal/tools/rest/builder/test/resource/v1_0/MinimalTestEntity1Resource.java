@@ -15,7 +15,7 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
-import com.liferay.portal.tools.rest.builder.test.dto.v1_0.MinimalTestEntity;
+import com.liferay.portal.tools.rest.builder.test.dto.v1_0.MinimalTestEntity1;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
@@ -31,7 +31,6 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -47,13 +46,9 @@ import org.osgi.annotation.versioning.ProviderType;
 @CTAware
 @Generated("")
 @ProviderType
-public interface MinimalTestEntityResource {
+public interface MinimalTestEntity1Resource {
 
-	public Page<MinimalTestEntity> getMinimalTestEntitiesPage()
-		throws Exception;
-
-	public Response postMinimalTestEntitiesPageExportBatch(
-			String callbackURL, String contentType, String fieldNames)
+	public Page<MinimalTestEntity1> getMinimalTestEntities1Page()
 		throws Exception;
 
 	public default void setContextAcceptLanguage(
@@ -121,7 +116,7 @@ public interface MinimalTestEntityResource {
 	@ProviderType
 	public interface Builder {
 
-		public MinimalTestEntityResource build();
+		public MinimalTestEntity1Resource build();
 
 		public Builder checkPermissions(boolean checkPermissions);
 

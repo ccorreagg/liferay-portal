@@ -25,7 +25,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.tools.rest.builder.test.internal.security.permission.LiberalPermissionChecker;
-import com.liferay.portal.tools.rest.builder.test.resource.v1_0.MinimalTestEntityResource;
+import com.liferay.portal.tools.rest.builder.test.resource.v1_0.MinimalTestEntity2Resource;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 
 import java.lang.reflect.Constructor;
@@ -55,29 +55,29 @@ import org.osgi.service.component.annotations.ReferenceScope;
  * @generated
  */
 @Component(
-	property = "resource.locator.key=/test/v1.0/MinimalTestEntity",
-	service = MinimalTestEntityResource.Factory.class
+	property = "resource.locator.key=/test/v1.0/MinimalTestEntity2",
+	service = MinimalTestEntity2Resource.Factory.class
 )
 @Generated("")
-public class MinimalTestEntityResourceFactoryImpl
-	implements MinimalTestEntityResource.Factory {
+public class MinimalTestEntity2ResourceFactoryImpl
+	implements MinimalTestEntity2Resource.Factory {
 
 	@Override
-	public MinimalTestEntityResource.Builder create() {
-		return new MinimalTestEntityResource.Builder() {
+	public MinimalTestEntity2Resource.Builder create() {
+		return new MinimalTestEntity2Resource.Builder() {
 
 			@Override
-			public MinimalTestEntityResource build() {
+			public MinimalTestEntity2Resource build() {
 				if (_user == null) {
 					throw new IllegalArgumentException("User is not set");
 				}
 
-				Function<InvocationHandler, MinimalTestEntityResource>
-					minimalTestEntityResourceProxyProviderFunction =
+				Function<InvocationHandler, MinimalTestEntity2Resource>
+					minimalTestEntity2ResourceProxyProviderFunction =
 						ResourceProxyProviderFunctionHolder.
-							_minimalTestEntityResourceProxyProviderFunction;
+							_minimalTestEntity2ResourceProxyProviderFunction;
 
-				return minimalTestEntityResourceProxyProviderFunction.apply(
+				return minimalTestEntity2ResourceProxyProviderFunction.apply(
 					(proxy, method, arguments) -> _invoke(
 						method, arguments, _checkPermissions,
 						_httpServletRequest, _httpServletResponse,
@@ -85,7 +85,7 @@ public class MinimalTestEntityResourceFactoryImpl
 			}
 
 			@Override
-			public MinimalTestEntityResource.Builder checkPermissions(
+			public MinimalTestEntity2Resource.Builder checkPermissions(
 				boolean checkPermissions) {
 
 				_checkPermissions = checkPermissions;
@@ -94,7 +94,7 @@ public class MinimalTestEntityResourceFactoryImpl
 			}
 
 			@Override
-			public MinimalTestEntityResource.Builder httpServletRequest(
+			public MinimalTestEntity2Resource.Builder httpServletRequest(
 				HttpServletRequest httpServletRequest) {
 
 				_httpServletRequest = httpServletRequest;
@@ -103,7 +103,7 @@ public class MinimalTestEntityResourceFactoryImpl
 			}
 
 			@Override
-			public MinimalTestEntityResource.Builder httpServletResponse(
+			public MinimalTestEntity2Resource.Builder httpServletResponse(
 				HttpServletResponse httpServletResponse) {
 
 				_httpServletResponse = httpServletResponse;
@@ -112,7 +112,7 @@ public class MinimalTestEntityResourceFactoryImpl
 			}
 
 			@Override
-			public MinimalTestEntityResource.Builder preferredLocale(
+			public MinimalTestEntity2Resource.Builder preferredLocale(
 				Locale preferredLocale) {
 
 				_preferredLocale = preferredLocale;
@@ -121,14 +121,14 @@ public class MinimalTestEntityResourceFactoryImpl
 			}
 
 			@Override
-			public MinimalTestEntityResource.Builder uriInfo(UriInfo uriInfo) {
+			public MinimalTestEntity2Resource.Builder uriInfo(UriInfo uriInfo) {
 				_uriInfo = uriInfo;
 
 				return this;
 			}
 
 			@Override
-			public MinimalTestEntityResource.Builder user(User user) {
+			public MinimalTestEntity2Resource.Builder user(User user) {
 				_user = user;
 
 				return this;
@@ -144,16 +144,16 @@ public class MinimalTestEntityResourceFactoryImpl
 		};
 	}
 
-	private static Function<InvocationHandler, MinimalTestEntityResource>
+	private static Function<InvocationHandler, MinimalTestEntity2Resource>
 		_getProxyProviderFunction() {
 
 		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			MinimalTestEntityResource.class.getClassLoader(),
-			MinimalTestEntityResource.class);
+			MinimalTestEntity2Resource.class.getClassLoader(),
+			MinimalTestEntity2Resource.class);
 
 		try {
-			Constructor<MinimalTestEntityResource> constructor =
-				(Constructor<MinimalTestEntityResource>)
+			Constructor<MinimalTestEntity2Resource> constructor =
+				(Constructor<MinimalTestEntity2Resource>)
 					proxyClass.getConstructor(InvocationHandler.class);
 
 			return invocationHandler -> {
@@ -195,41 +195,41 @@ public class MinimalTestEntityResourceFactoryImpl
 				new LiberalPermissionChecker(user));
 		}
 
-		MinimalTestEntityResource minimalTestEntityResource =
+		MinimalTestEntity2Resource minimalTestEntity2Resource =
 			_componentServiceObjects.getService();
 
-		minimalTestEntityResource.setContextAcceptLanguage(
+		minimalTestEntity2Resource.setContextAcceptLanguage(
 			new AcceptLanguageImpl(httpServletRequest, preferredLocale, user));
 
 		Company company = _companyLocalService.getCompany(user.getCompanyId());
 
-		minimalTestEntityResource.setContextCompany(company);
+		minimalTestEntity2Resource.setContextCompany(company);
 
-		minimalTestEntityResource.setContextHttpServletRequest(
+		minimalTestEntity2Resource.setContextHttpServletRequest(
 			httpServletRequest);
-		minimalTestEntityResource.setContextHttpServletResponse(
+		minimalTestEntity2Resource.setContextHttpServletResponse(
 			httpServletResponse);
-		minimalTestEntityResource.setContextUriInfo(uriInfo);
-		minimalTestEntityResource.setContextUser(user);
-		minimalTestEntityResource.setExpressionConvert(_expressionConvert);
-		minimalTestEntityResource.setFilterParserProvider(
+		minimalTestEntity2Resource.setContextUriInfo(uriInfo);
+		minimalTestEntity2Resource.setContextUser(user);
+		minimalTestEntity2Resource.setExpressionConvert(_expressionConvert);
+		minimalTestEntity2Resource.setFilterParserProvider(
 			_filterParserProvider);
-		minimalTestEntityResource.setGroupLocalService(_groupLocalService);
-		minimalTestEntityResource.setResourceActionLocalService(
+		minimalTestEntity2Resource.setGroupLocalService(_groupLocalService);
+		minimalTestEntity2Resource.setResourceActionLocalService(
 			_resourceActionLocalService);
-		minimalTestEntityResource.setResourcePermissionLocalService(
+		minimalTestEntity2Resource.setResourcePermissionLocalService(
 			_resourcePermissionLocalService);
-		minimalTestEntityResource.setRoleLocalService(_roleLocalService);
-		minimalTestEntityResource.setSortParserProvider(_sortParserProvider);
+		minimalTestEntity2Resource.setRoleLocalService(_roleLocalService);
+		minimalTestEntity2Resource.setSortParserProvider(_sortParserProvider);
 
 		try {
-			return method.invoke(minimalTestEntityResource, arguments);
+			return method.invoke(minimalTestEntity2Resource, arguments);
 		}
 		catch (InvocationTargetException invocationTargetException) {
 			throw invocationTargetException.getTargetException();
 		}
 		finally {
-			_componentServiceObjects.ungetService(minimalTestEntityResource);
+			_componentServiceObjects.ungetService(minimalTestEntity2Resource);
 
 			PrincipalThreadLocal.setName(name);
 
@@ -241,7 +241,7 @@ public class MinimalTestEntityResourceFactoryImpl
 	private CompanyLocalService _companyLocalService;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<MinimalTestEntityResource>
+	private ComponentServiceObjects<MinimalTestEntity2Resource>
 		_componentServiceObjects;
 
 	@Reference
@@ -276,8 +276,8 @@ public class MinimalTestEntityResourceFactoryImpl
 	private static class ResourceProxyProviderFunctionHolder {
 
 		private static final Function
-			<InvocationHandler, MinimalTestEntityResource>
-				_minimalTestEntityResourceProxyProviderFunction =
+			<InvocationHandler, MinimalTestEntity2Resource>
+				_minimalTestEntity2ResourceProxyProviderFunction =
 					_getProxyProviderFunction();
 
 	}

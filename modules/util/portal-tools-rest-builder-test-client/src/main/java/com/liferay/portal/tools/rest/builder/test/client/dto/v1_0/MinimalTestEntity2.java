@@ -6,7 +6,7 @@
 package com.liferay.portal.tools.rest.builder.test.client.dto.v1_0;
 
 import com.liferay.portal.tools.rest.builder.test.client.function.UnsafeSupplier;
-import com.liferay.portal.tools.rest.builder.test.client.serdes.v1_0.MinimalTestEntitySerDes;
+import com.liferay.portal.tools.rest.builder.test.client.serdes.v1_0.MinimalTestEntity2SerDes;
 
 import java.io.Serializable;
 
@@ -19,10 +19,10 @@ import javax.annotation.Generated;
  * @generated
  */
 @Generated("")
-public class MinimalTestEntity implements Cloneable, Serializable {
+public class MinimalTestEntity2 implements Cloneable, Serializable {
 
-	public static MinimalTestEntity toDTO(String json) {
-		return MinimalTestEntitySerDes.toDTO(json);
+	public static MinimalTestEntity2 toDTO(String json) {
+		return MinimalTestEntity2SerDes.toDTO(json);
 	}
 
 	public Long getId() {
@@ -64,8 +64,8 @@ public class MinimalTestEntity implements Cloneable, Serializable {
 	protected String name;
 
 	@Override
-	public MinimalTestEntity clone() throws CloneNotSupportedException {
-		return (MinimalTestEntity)super.clone();
+	public MinimalTestEntity2 clone() throws CloneNotSupportedException {
+		return (MinimalTestEntity2)super.clone();
 	}
 
 	@Override
@@ -74,13 +74,13 @@ public class MinimalTestEntity implements Cloneable, Serializable {
 			return true;
 		}
 
-		if (!(object instanceof MinimalTestEntity)) {
+		if (!(object instanceof MinimalTestEntity2)) {
 			return false;
 		}
 
-		MinimalTestEntity minimalTestEntity = (MinimalTestEntity)object;
+		MinimalTestEntity2 minimalTestEntity2 = (MinimalTestEntity2)object;
 
-		return Objects.equals(toString(), minimalTestEntity.toString());
+		return Objects.equals(toString(), minimalTestEntity2.toString());
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class MinimalTestEntity implements Cloneable, Serializable {
 	}
 
 	public String toString() {
-		return MinimalTestEntitySerDes.toJSON(this);
+		return MinimalTestEntity2SerDes.toJSON(this);
 	}
 
 }

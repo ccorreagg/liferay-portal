@@ -27,8 +27,8 @@ import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortField;
 import com.liferay.portal.odata.sort.SortParser;
 import com.liferay.portal.odata.sort.SortParserProvider;
-import com.liferay.portal.tools.rest.builder.test.dto.v1_0.MinimalTestEntity;
-import com.liferay.portal.tools.rest.builder.test.resource.v1_0.MinimalTestEntityResource;
+import com.liferay.portal.tools.rest.builder.test.dto.v1_0.MinimalTestEntity1;
+import com.liferay.portal.tools.rest.builder.test.resource.v1_0.MinimalTestEntity1Resource;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
@@ -54,7 +54,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -63,100 +62,37 @@ import javax.ws.rs.core.UriInfo;
  */
 @Generated("")
 @javax.ws.rs.Path("/v1.0")
-public abstract class BaseMinimalTestEntityResourceImpl
-	implements EntityModelResource, MinimalTestEntityResource,
-			   VulcanBatchEngineTaskItemDelegate<MinimalTestEntity> {
+public abstract class BaseMinimalTestEntity1ResourceImpl
+	implements EntityModelResource, MinimalTestEntity1Resource,
+			   VulcanBatchEngineTaskItemDelegate<MinimalTestEntity1> {
 
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/test/v1.0/minimal-test-entities'  -u 'test@liferay.com:test'
+	 * curl -X 'GET' 'http://localhost:8080/o/test/v1.0/minimal-test-entities1'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
-		description = "Retrieve all MinimalTestEntity items."
+		description = "Retrieve all MinimalTestEntity1 items. (EntityModelResource and VulcanBatchEngineTaskItemDelegate interfaces will be implemented automatically)"
 	)
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
-			@io.swagger.v3.oas.annotations.tags.Tag(name = "MinimalTestEntity")
+			@io.swagger.v3.oas.annotations.tags.Tag(name = "MinimalTestEntity1")
 		}
 	)
 	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/minimal-test-entities")
+	@javax.ws.rs.Path("/minimal-test-entities1")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<MinimalTestEntity> getMinimalTestEntitiesPage()
+	public Page<MinimalTestEntity1> getMinimalTestEntities1Page()
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
 	}
 
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/test/v1.0/minimal-test-entities/export-batch'  -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "callbackURL"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "contentType"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "fieldNames"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {
-			@io.swagger.v3.oas.annotations.tags.Tag(name = "MinimalTestEntity")
-		}
-	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.Path("/minimal-test-entities/export-batch")
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces("application/json")
-	@Override
-	public Response postMinimalTestEntitiesPageExportBatch(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
-			String callbackURL,
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.DefaultValue("JSON")
-			@javax.ws.rs.QueryParam("contentType")
-			String contentType,
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("fieldNames")
-			String fieldNames)
-		throws Exception {
-
-		vulcanBatchEngineExportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineExportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineExportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineExportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineExportTaskResource.setContextUser(contextUser);
-		vulcanBatchEngineExportTaskResource.setGroupLocalService(
-			groupLocalService);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineExportTaskResource.postExportTask(
-				MinimalTestEntity.class.getName(), callbackURL, contentType,
-				fieldNames)
-		).build();
-	}
-
 	@Override
 	@SuppressWarnings("PMD.UnusedLocalVariable")
 	public void create(
-			Collection<MinimalTestEntity> minimalTestEntities,
+			Collection<MinimalTestEntity1> minimalTestEntity1s,
 			Map<String, Serializable> parameters)
 		throws Exception {
 
@@ -166,7 +102,7 @@ public abstract class BaseMinimalTestEntityResourceImpl
 
 	@Override
 	public void delete(
-			Collection<MinimalTestEntity> minimalTestEntities,
+			Collection<MinimalTestEntity1> minimalTestEntity1s,
 			Map<String, Serializable> parameters)
 		throws Exception {
 
@@ -198,7 +134,7 @@ public abstract class BaseMinimalTestEntityResourceImpl
 	}
 
 	public String getResourceName() {
-		return "MinimalTestEntity";
+		return "MinimalTestEntity1";
 	}
 
 	public String getVersion() {
@@ -206,12 +142,13 @@ public abstract class BaseMinimalTestEntityResourceImpl
 	}
 
 	@Override
-	public Page<MinimalTestEntity> read(
+	public Page<MinimalTestEntity1> read(
 			Filter filter, Pagination pagination, Sort[] sorts,
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		return getMinimalTestEntitiesPage();
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Override
@@ -238,7 +175,7 @@ public abstract class BaseMinimalTestEntityResourceImpl
 
 	@Override
 	public void update(
-			Collection<MinimalTestEntity> minimalTestEntities,
+			Collection<MinimalTestEntity1> minimalTestEntity1s,
 			Map<String, Serializable> parameters)
 		throws Exception {
 
@@ -252,8 +189,8 @@ public abstract class BaseMinimalTestEntityResourceImpl
 
 	public void setContextBatchUnsafeBiConsumer(
 		UnsafeBiConsumer
-			<Collection<MinimalTestEntity>,
-			 UnsafeFunction<MinimalTestEntity, MinimalTestEntity, Exception>,
+			<Collection<MinimalTestEntity1>,
+			 UnsafeFunction<MinimalTestEntity1, MinimalTestEntity1, Exception>,
 			 Exception> contextBatchUnsafeBiConsumer) {
 
 		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
@@ -261,8 +198,8 @@ public abstract class BaseMinimalTestEntityResourceImpl
 
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
-			<Collection<MinimalTestEntity>,
-			 UnsafeConsumer<MinimalTestEntity, Exception>, Exception>
+			<Collection<MinimalTestEntity1>,
+			 UnsafeConsumer<MinimalTestEntity1, Exception>, Exception>
 				contextBatchUnsafeConsumer) {
 
 		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
@@ -523,12 +460,12 @@ public abstract class BaseMinimalTestEntityResourceImpl
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
-		<Collection<MinimalTestEntity>,
-		 UnsafeFunction<MinimalTestEntity, MinimalTestEntity, Exception>,
+		<Collection<MinimalTestEntity1>,
+		 UnsafeFunction<MinimalTestEntity1, MinimalTestEntity1, Exception>,
 		 Exception> contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
-		<Collection<MinimalTestEntity>,
-		 UnsafeConsumer<MinimalTestEntity, Exception>, Exception>
+		<Collection<MinimalTestEntity1>,
+		 UnsafeConsumer<MinimalTestEntity1, Exception>, Exception>
 			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
@@ -549,6 +486,6 @@ public abstract class BaseMinimalTestEntityResourceImpl
 		vulcanBatchEngineImportTaskResource;
 
 	private static final com.liferay.portal.kernel.log.Log _log =
-		LogFactoryUtil.getLog(BaseMinimalTestEntityResourceImpl.class);
+		LogFactoryUtil.getLog(BaseMinimalTestEntity1ResourceImpl.class);
 
 }

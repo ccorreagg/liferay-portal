@@ -5,11 +5,9 @@
 
 package com.liferay.portal.tools.rest.builder.test.client.resource.v1_0;
 
-import com.liferay.portal.tools.rest.builder.test.client.dto.v1_0.MinimalTestEntity;
+import com.liferay.portal.tools.rest.builder.test.client.dto.v1_0.MinimalTestEntity2;
 import com.liferay.portal.tools.rest.builder.test.client.http.HttpInvoker;
-import com.liferay.portal.tools.rest.builder.test.client.pagination.Page;
 import com.liferay.portal.tools.rest.builder.test.client.problem.Problem;
-import com.liferay.portal.tools.rest.builder.test.client.serdes.v1_0.MinimalTestEntitySerDes;
 
 import java.net.URL;
 
@@ -27,25 +25,17 @@ import javax.annotation.Generated;
  * @generated
  */
 @Generated("")
-public interface MinimalTestEntityResource {
+public interface MinimalTestEntity2Resource {
 
 	public static Builder builder() {
 		return new Builder();
 	}
 
-	public Page<MinimalTestEntity> getMinimalTestEntitiesPage()
+	public MinimalTestEntity2 getMinimalTestEntity2(Long minimalTestEntity2Id)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse getMinimalTestEntitiesPageHttpResponse()
-		throws Exception;
-
-	public void postMinimalTestEntitiesPageExportBatch(
-			String callbackURL, String contentType, String fieldNames)
-		throws Exception;
-
-	public HttpInvoker.HttpResponse
-			postMinimalTestEntitiesPageExportBatchHttpResponse(
-				String callbackURL, String contentType, String fieldNames)
+	public HttpInvoker.HttpResponse getMinimalTestEntity2HttpResponse(
+			Long minimalTestEntity2Id)
 		throws Exception;
 
 	public static class Builder {
@@ -61,8 +51,8 @@ public interface MinimalTestEntityResource {
 			return header("Authorization", "Bearer " + token);
 		}
 
-		public MinimalTestEntityResource build() {
-			return new MinimalTestEntityResourceImpl(this);
+		public MinimalTestEntity2Resource build() {
+			return new MinimalTestEntity2ResourceImpl(this);
 		}
 
 		public Builder contextPath(String contextPath) {
@@ -154,14 +144,15 @@ public interface MinimalTestEntityResource {
 
 	}
 
-	public static class MinimalTestEntityResourceImpl
-		implements MinimalTestEntityResource {
+	public static class MinimalTestEntity2ResourceImpl
+		implements MinimalTestEntity2Resource {
 
-		public Page<MinimalTestEntity> getMinimalTestEntitiesPage()
+		public MinimalTestEntity2 getMinimalTestEntity2(
+				Long minimalTestEntity2Id)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getMinimalTestEntitiesPageHttpResponse();
+				getMinimalTestEntity2HttpResponse(minimalTestEntity2Id);
 
 			String content = httpResponse.getContent();
 
@@ -211,7 +202,8 @@ public interface MinimalTestEntityResource {
 			}
 
 			try {
-				return Page.of(content, MinimalTestEntitySerDes::toDTO);
+				return com.liferay.portal.tools.rest.builder.test.client.serdes.
+					v1_0.MinimalTestEntity2SerDes.toDTO(content);
 			}
 			catch (Exception e) {
 				_logger.log(
@@ -222,7 +214,8 @@ public interface MinimalTestEntityResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getMinimalTestEntitiesPageHttpResponse()
+		public HttpInvoker.HttpResponse getMinimalTestEntity2HttpResponse(
+				Long minimalTestEntity2Id)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -249,7 +242,9 @@ public interface MinimalTestEntityResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/test/v1.0/minimal-test-entities");
+						"/o/test/v1.0/minimal-test-entity2/{minimalTestEntity2Id}");
+
+			httpInvoker.path("minimalTestEntity2Id", minimalTestEntity2Id);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -257,121 +252,12 @@ public interface MinimalTestEntityResource {
 			return httpInvoker.invoke();
 		}
 
-		public void postMinimalTestEntitiesPageExportBatch(
-				String callbackURL, String contentType, String fieldNames)
-			throws Exception {
-
-			HttpInvoker.HttpResponse httpResponse =
-				postMinimalTestEntitiesPageExportBatchHttpResponse(
-					callbackURL, contentType, fieldNames);
-
-			String content = httpResponse.getContent();
-
-			if ((httpResponse.getStatusCode() / 100) != 2) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response content: " + content);
-				_logger.log(
-					Level.WARNING,
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.log(
-					Level.WARNING,
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-
-				Problem.ProblemException problemException = null;
-
-				if (Objects.equals(
-						httpResponse.getContentType(), "application/json")) {
-
-					problemException = new Problem.ProblemException(
-						Problem.toDTO(content));
-				}
-				else {
-					_logger.log(
-						Level.WARNING,
-						"Unable to process content type: " +
-							httpResponse.getContentType());
-
-					Problem problem = new Problem();
-
-					problem.setStatus(
-						String.valueOf(httpResponse.getStatusCode()));
-
-					problemException = new Problem.ProblemException(problem);
-				}
-
-				throw problemException;
-			}
-			else {
-				_logger.fine("HTTP response content: " + content);
-				_logger.fine(
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.fine(
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-			}
-		}
-
-		public HttpInvoker.HttpResponse
-				postMinimalTestEntitiesPageExportBatchHttpResponse(
-					String callbackURL, String contentType, String fieldNames)
-			throws Exception {
-
-			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
-
-			httpInvoker.body("[]", "application/json");
-
-			if (_builder._locale != null) {
-				httpInvoker.header(
-					"Accept-Language", _builder._locale.toLanguageTag());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._headers.entrySet()) {
-
-				httpInvoker.header(entry.getKey(), entry.getValue());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._parameters.entrySet()) {
-
-				httpInvoker.parameter(entry.getKey(), entry.getValue());
-			}
-
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
-
-			if (callbackURL != null) {
-				httpInvoker.parameter(
-					"callbackURL", String.valueOf(callbackURL));
-			}
-
-			if (contentType != null) {
-				httpInvoker.parameter(
-					"contentType", String.valueOf(contentType));
-			}
-
-			if (fieldNames != null) {
-				httpInvoker.parameter("fieldNames", String.valueOf(fieldNames));
-			}
-
-			httpInvoker.path(
-				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + _builder._contextPath +
-						"/o/test/v1.0/minimal-test-entities/export-batch");
-
-			httpInvoker.userNameAndPassword(
-				_builder._login + ":" + _builder._password);
-
-			return httpInvoker.invoke();
-		}
-
-		private MinimalTestEntityResourceImpl(Builder builder) {
+		private MinimalTestEntity2ResourceImpl(Builder builder) {
 			_builder = builder;
 		}
 
 		private static final Logger _logger = Logger.getLogger(
-			MinimalTestEntityResource.class.getName());
+			MinimalTestEntity2Resource.class.getName());
 
 		private Builder _builder;
 
