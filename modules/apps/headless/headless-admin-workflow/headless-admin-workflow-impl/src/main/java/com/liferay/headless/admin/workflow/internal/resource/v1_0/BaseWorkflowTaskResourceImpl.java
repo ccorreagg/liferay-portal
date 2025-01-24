@@ -38,6 +38,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -79,6 +80,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-tasks'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowInstanceWorkflowTasks")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -125,6 +127,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-tasks/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowInstanceWorkflowTasksPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -203,6 +206,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-tasks/assigned-to-me'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowInstanceWorkflowTasksAssignedToMe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -251,6 +255,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-instances/{workflowInstanceId}/workflow-tasks/assigned-to-user'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowInstanceWorkflowTasksAssignedToUser")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -307,6 +312,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks' -d $'{"andOperator": ___, "assetPrimaryKeys": ___, "assetTitle": ___, "assetTypes": ___, "assigneeIds": ___, "completed": ___, "dateDueEnd": ___, "dateDueStart": ___, "searchByRoles": ___, "searchByUserRoles": ___, "workflowDefinitionId": ___, "workflowInstanceIds": ___, "workflowTaskNames": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowTasksPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -345,6 +351,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/assign-to-user'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchWorkflowTaskAssignToUser")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "WorkflowTask")}
 	)
@@ -363,6 +370,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-me'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowTasksAssignedToMe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -394,6 +402,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-my-roles'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowTasksAssignedToMyRoles")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -425,6 +434,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-role'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowTasksAssignedToRole")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -464,6 +474,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-user'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowTasksAssignedToUser")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -502,6 +513,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-user-roles'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowTasksAssignedToUserRoles")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -540,6 +552,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/change-transition'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchWorkflowTaskChangeTransition")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "WorkflowTask")}
 	)
@@ -558,6 +571,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/submitting-user'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowTasksSubmittingUser")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -596,6 +610,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/update-due-date'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchWorkflowTaskUpdateDueDate")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "WorkflowTask")}
 	)
@@ -614,6 +629,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowTask")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -644,6 +660,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/assign-to-me' -d $'{"comment": ___, "dueDate": ___, "workflowTaskId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowTaskAssignToMe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -676,6 +693,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/assign-to-role' -d $'{"comment": ___, "dueDate": ___, "roleId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowTaskAssignToRole")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -708,6 +726,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/assign-to-user' -d $'{"assigneeId": ___, "comment": ___, "dueDate": ___, "workflowTaskId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowTaskAssignToUser")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -740,6 +759,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/change-transition' -d $'{"comment": ___, "transitionName": ___, "workflowTaskId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowTaskChangeTransition")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -772,6 +792,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/has-assignable-users'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowTaskHasAssignableUsers")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -802,6 +823,7 @@ public abstract class BaseWorkflowTaskResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/update-due-date' -d $'{"comment": ___, "dueDate": ___, "workflowTaskId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowTaskUpdateDueDate")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-actions/{objectActionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectAction")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -102,6 +104,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-actions/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectActionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -146,6 +149,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-actions/{objectActionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectAction")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -176,6 +180,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/object-admin/v1.0/object-actions/{objectActionId}' -d $'{"active": ___, "conditionExpression": ___, "description": ___, "errorMessage": ___, "externalReferenceCode": ___, "label": ___, "name": ___, "objectActionExecutorKey": ___, "objectActionTriggerKey": ___, "parameters": ___, "system": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchObjectAction")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -261,6 +266,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-actions/{objectActionId}' -d $'{"active": ___, "conditionExpression": ___, "description": ___, "errorMessage": ___, "externalReferenceCode": ___, "label": ___, "name": ___, "objectActionExecutorKey": ___, "objectActionTriggerKey": ___, "parameters": ___, "system": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectAction")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -293,6 +299,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-actions/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectActionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -337,6 +344,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-actions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectDefinitionByExternalReferenceCodeObjectActions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -391,6 +399,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-actions' -d $'{"active": ___, "conditionExpression": ___, "description": ___, "errorMessage": ___, "externalReferenceCode": ___, "label": ___, "name": ___, "objectActionExecutorKey": ___, "objectActionTriggerKey": ___, "parameters": ___, "system": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionByExternalReferenceCodeObjectAction")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -425,6 +434,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-actions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectDefinitionObjectActions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -476,6 +486,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-actions/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectActionsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -559,6 +570,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-actions' -d $'{"active": ___, "conditionExpression": ___, "description": ___, "errorMessage": ___, "externalReferenceCode": ___, "label": ___, "name": ___, "objectActionExecutorKey": ___, "objectActionTriggerKey": ___, "parameters": ___, "system": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectAction")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -591,6 +603,7 @@ public abstract class BaseObjectActionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-actions/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectActionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

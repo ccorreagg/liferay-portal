@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/cart-items/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCartItemByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a Cart Item by external reference code."
 	)
@@ -107,6 +109,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/cart-items/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartItemByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve information of the given Cart Item by external reference code."
 	)
@@ -142,6 +145,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/cart-items/by-externalReferenceCode/{externalReferenceCode}' -d $'{"cartItems": ___, "customFields": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "errorMessages": ___, "options": ___, "price": ___, "productId": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "settings": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "skuId": ___, "skuUnitOfMeasure": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchCartItemByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Update the provided Cart Item by external reference code."
 	)
@@ -242,6 +246,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/cart-items/by-externalReferenceCode/{externalReferenceCode}' -d $'{"cartItems": ___, "customFields": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "errorMessages": ___, "options": ___, "price": ___, "productId": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "settings": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "skuId": ___, "skuUnitOfMeasure": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateCartItemByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Update the provided Cart Item by external reference code."
 	)
@@ -279,6 +284,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/cart-items/{cartItemId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCartItem")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes an Cart Item by ID."
 	)
@@ -310,6 +316,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/cart-items/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCartItemBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -354,6 +361,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/cart-items/{cartItemId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartItem")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve information of the given Cart"
 	)
@@ -387,6 +395,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/cart-items/{cartItemId}' -d $'{"cartItems": ___, "customFields": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "errorMessages": ___, "options": ___, "price": ___, "productId": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "settings": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "skuId": ___, "skuUnitOfMeasure": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchCartItem")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve information of the given Cart."
 	)
@@ -483,6 +492,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/cart-items/{cartItemId}' -d $'{"cartItems": ___, "customFields": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "errorMessages": ___, "options": ___, "price": ___, "productId": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "settings": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "skuId": ___, "skuUnitOfMeasure": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateCartItem")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "update the given Cart."
 	)
@@ -518,6 +528,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/cart-items/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateCartItemBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -562,6 +573,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/items'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartByExternalReferenceCodeItems")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve cart items of a Cart."
 	)
@@ -613,6 +625,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/items' -d $'{"cartItems": ___, "customFields": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "errorMessages": ___, "options": ___, "price": ___, "productId": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "settings": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "skuId": ___, "skuUnitOfMeasure": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCartByExternalReferenceCodeItem")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Add new Item to a Cart, return the whole Cart updated."
 	)
@@ -650,6 +663,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/{cartId}/items'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartItems")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve cart items of a Cart."
 	)
@@ -699,6 +713,7 @@ public abstract class BaseCartItemResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/{cartId}/items' -d $'{"cartItems": ___, "customFields": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "errorMessages": ___, "options": ___, "price": ___, "productId": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "settings": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "skuId": ___, "skuUnitOfMeasure": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCartItem")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Add new Items to a Cart, return the whole Cart updated."
 	)

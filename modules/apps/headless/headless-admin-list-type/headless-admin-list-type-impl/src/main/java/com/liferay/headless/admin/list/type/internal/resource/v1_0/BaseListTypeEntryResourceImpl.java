@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseListTypeEntryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/{externalReferenceCode}/list-type-entries'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("listTypeDefinitionByExternalReferenceCodeListTypeEntries")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -142,6 +144,7 @@ public abstract class BaseListTypeEntryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/{externalReferenceCode}/list-type-entries' -d $'{"externalReferenceCode": ___, "key": ___, "name": ___, "name_i18n": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createListTypeDefinitionByExternalReferenceCodeListTypeEntry")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -179,6 +182,7 @@ public abstract class BaseListTypeEntryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-list-type/v1.0/list-type-definitions/{listTypeDefinitionId}/list-type-entries'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("listTypeDefinitionListTypeEntries")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -245,6 +249,7 @@ public abstract class BaseListTypeEntryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-list-type/v1.0/list-type-definitions/{listTypeDefinitionId}/list-type-entries/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createListTypeDefinitionListTypeEntriesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -335,6 +340,7 @@ public abstract class BaseListTypeEntryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-list-type/v1.0/list-type-definitions/{listTypeDefinitionId}/list-type-entries' -d $'{"externalReferenceCode": ___, "key": ___, "name": ___, "name_i18n": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createListTypeDefinitionListTypeEntry")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -371,6 +377,7 @@ public abstract class BaseListTypeEntryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-list-type/v1.0/list-type-definitions/{listTypeDefinitionId}/list-type-entries/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createListTypeDefinitionListTypeEntryBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -427,6 +434,7 @@ public abstract class BaseListTypeEntryResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-list-type/v1.0/list-type-entries/{listTypeEntryId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteListTypeEntry")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -457,6 +465,7 @@ public abstract class BaseListTypeEntryResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-list-type/v1.0/list-type-entries/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteListTypeEntryBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -503,6 +512,7 @@ public abstract class BaseListTypeEntryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-list-type/v1.0/list-type-entries/{listTypeEntryId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("listTypeEntry")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -535,6 +545,7 @@ public abstract class BaseListTypeEntryResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-list-type/v1.0/list-type-entries/{listTypeEntryId}' -d $'{"externalReferenceCode": ___, "key": ___, "name": ___, "name_i18n": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateListTypeEntry")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -569,6 +580,7 @@ public abstract class BaseListTypeEntryResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-list-type/v1.0/list-type-entries/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateListTypeEntryBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

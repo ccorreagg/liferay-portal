@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseOrderRuleAccountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/order-rule-accounts/{orderRuleAccountId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteOrderRuleAccount")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -104,6 +106,7 @@ public abstract class BaseOrderRuleAccountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/order-rule-accounts/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteOrderRuleAccountBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -150,6 +153,7 @@ public abstract class BaseOrderRuleAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-accounts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("orderRuleByExternalReferenceCodeOrderRuleAccounts")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -194,6 +198,7 @@ public abstract class BaseOrderRuleAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/order-rules/by-externalReferenceCode/{externalReferenceCode}/order-rule-accounts' -d $'{"accountExternalReferenceCode": ___, "accountId": ___, "orderRuleExternalReferenceCode": ___, "orderRuleId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrderRuleByExternalReferenceCodeOrderRuleAccount")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -231,6 +236,7 @@ public abstract class BaseOrderRuleAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-accounts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("orderRuleIdOrderRuleAccounts")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -288,6 +294,7 @@ public abstract class BaseOrderRuleAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/order-rules/{id}/order-rule-accounts' -d $'{"accountExternalReferenceCode": ___, "accountId": ___, "orderRuleExternalReferenceCode": ___, "orderRuleId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrderRuleIdOrderRuleAccount")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -317,6 +324,7 @@ public abstract class BaseOrderRuleAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/order-rules/order-rule-accounts/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrderRuleIdOrderRuleAccountBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

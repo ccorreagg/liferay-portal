@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/roles'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("roles")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the portal instance's roles. Results can be paginated."
 	)
@@ -131,6 +133,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createRolesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -205,6 +208,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/roles' -d $'{"description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "rolePermissions": ___, "roleType": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createRole")
 	@io.swagger.v3.oas.annotations.Operation(description = "Creates a new role")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Role")}
@@ -223,6 +227,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createRoleBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -267,6 +272,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteRoleByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the role by its external reference code."
 	)
@@ -300,6 +306,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("roleByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the role by its external reference code."
 	)
@@ -335,6 +342,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}' -d $'{"description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "rolePermissions": ___, "roleType": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchRoleByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the role by its external reference code."
 	)
@@ -403,6 +411,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}' -d $'{"description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "rolePermissions": ___, "roleType": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateRoleByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the role by its external reference code."
 	)
@@ -440,6 +449,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteRoleByExternalReferenceCodeUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Unassociates a role by external reference code with a user account"
 	)
@@ -481,6 +491,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createRoleByExternalReferenceCodeUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Associates a role by external reference code with a user account"
 	)
@@ -522,6 +533,9 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}/organization/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteOrganizationRoleByExternalReferenceCodeUserAccountAssociation"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Unassociates an organization role by external reference code with a user account"
 	)
@@ -572,6 +586,9 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}/organization/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createOrganizationRoleByExternalReferenceCodeUserAccountAssociation"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Associates a organization role by external reference code with a user account"
 	)
@@ -622,6 +639,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}/site/{siteId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteRoleByExternalReferenceCodeUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Unassociates a site role by external reference code with a user account"
 	)
@@ -671,6 +689,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/by-external-reference-code/{externalReferenceCode}/association/user-account/{userAccountId}/site/{siteId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteRoleByExternalReferenceCodeUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Associates a site role by external reference code with a user account"
 	)
@@ -720,6 +739,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/{roleId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteRole")
 	@io.swagger.v3.oas.annotations.Operation(description = "Deletes the role.")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -749,6 +769,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteRoleBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -793,6 +814,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/{roleId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("role")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the role."
 	)
@@ -826,6 +848,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/{roleId}' -d $'{"description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "rolePermissions": ___, "roleType": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchRole")
 	@io.swagger.v3.oas.annotations.Operation(description = "Updates the role.")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -888,6 +911,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/{roleId}' -d $'{"description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "rolePermissions": ___, "roleType": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateRole")
 	@io.swagger.v3.oas.annotations.Operation(description = "Updates the role.")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -921,6 +945,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateRoleBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -965,6 +990,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteRoleUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Unassociates a role with a user account"
 	)
@@ -1006,6 +1032,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createRoleUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Associates a role with a user account"
 	)
@@ -1047,6 +1074,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}/organization/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteOrganizationRoleUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Unassociates an organization role with a user account"
 	)
@@ -1096,6 +1124,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}/organization/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrganizationRoleUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Associates a organization role with a user account"
 	)
@@ -1145,6 +1174,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}/site/{siteId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteRoleUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Unassociates a site role with a user account"
 	)
@@ -1194,6 +1224,7 @@ public abstract class BaseRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/roles/{roleId}/association/user-account/{userAccountId}/site/{siteId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteRoleUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Associates a site role with a user account"
 	)

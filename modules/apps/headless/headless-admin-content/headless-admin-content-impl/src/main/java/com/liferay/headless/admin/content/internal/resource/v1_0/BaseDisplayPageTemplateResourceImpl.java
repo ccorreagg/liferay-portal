@@ -21,6 +21,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.ActionUtil;
@@ -51,6 +52,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-content/v1.0/sites/{siteId}/display-page-templates'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("displayPageTemplates")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the display page templates of a site"
 	)
@@ -114,6 +116,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-content/v1.0/sites/{siteId}/display-page-templates/{displayPageTemplateKey}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("displayPageTemplate")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a display page template of a site"
 	)

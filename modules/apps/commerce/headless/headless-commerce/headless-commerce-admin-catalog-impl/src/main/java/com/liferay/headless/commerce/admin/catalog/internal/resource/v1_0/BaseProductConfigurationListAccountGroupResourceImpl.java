@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -76,6 +77,7 @@ public abstract class BaseProductConfigurationListAccountGroupResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-list-account-groups/{productConfigurationListAccountGroupId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductConfigurationListAccountGroup")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -110,6 +112,7 @@ public abstract class BaseProductConfigurationListAccountGroupResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-list-account-groups/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductConfigurationListAccountGroupBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -159,6 +162,9 @@ public abstract class BaseProductConfigurationListAccountGroupResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/by-externalReferenceCode/{externalReferenceCode}/product-configuration-list-account-groups'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"productConfigurationListByExternalReferenceCodeProductConfigurationListAccountGroups"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -205,6 +211,9 @@ public abstract class BaseProductConfigurationListAccountGroupResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/by-externalReferenceCode/{externalReferenceCode}/product-configuration-list-account-groups' -d $'{"accountGroupExternalReferenceCode": ___, "accountGroupId": ___, "productConfigurationListExternalReferenceCode": ___, "productConfigurationListId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createProductConfigurationListByExternalReferenceCodeProductConfigurationListAccountGroup"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -245,6 +254,9 @@ public abstract class BaseProductConfigurationListAccountGroupResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/{id}/product-configuration-list-account-groups'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"productConfigurationListIdProductConfigurationListAccountGroups"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -308,6 +320,9 @@ public abstract class BaseProductConfigurationListAccountGroupResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/{id}/product-configuration-list-account-groups' -d $'{"accountGroupExternalReferenceCode": ___, "accountGroupId": ___, "productConfigurationListExternalReferenceCode": ___, "productConfigurationListId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createProductConfigurationListIdProductConfigurationListAccountGroup"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -348,6 +363,9 @@ public abstract class BaseProductConfigurationListAccountGroupResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/product-configuration-list-account-groups/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createProductConfigurationListIdProductConfigurationListAccountGroupBatch"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

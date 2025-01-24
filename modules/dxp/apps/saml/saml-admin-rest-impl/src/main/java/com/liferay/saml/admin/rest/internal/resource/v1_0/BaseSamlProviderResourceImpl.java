@@ -32,6 +32,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseSamlProviderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/saml-admin/v1.0/saml-provider'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("samlProvider")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the SAML Provider configuration."
 	)
@@ -93,6 +95,7 @@ public abstract class BaseSamlProviderResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/saml-admin/v1.0/saml-provider' -d $'{"enabled": ___, "entityId": ___, "idp": ___, "keyStoreCredentialPassword": ___, "role": ___, "signMetadata": ___, "sp": ___, "sslRequired": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSamlProvider")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Patch the SAML Provider configuration."
 	)
@@ -115,6 +118,7 @@ public abstract class BaseSamlProviderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/saml-admin/v1.0/saml-provider' -d $'{"enabled": ___, "entityId": ___, "idp": ___, "keyStoreCredentialPassword": ___, "role": ___, "signMetadata": ___, "sp": ___, "sslRequired": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSamlProvider")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a full SAML Provider configuration with peer connections."
 	)
@@ -137,6 +141,7 @@ public abstract class BaseSamlProviderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/saml-admin/v1.0/saml-provider/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSamlProviderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

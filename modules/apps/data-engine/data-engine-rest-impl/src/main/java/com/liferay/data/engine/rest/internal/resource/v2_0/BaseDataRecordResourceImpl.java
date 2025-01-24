@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-records'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataDefinitionDataRecords")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -133,6 +135,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-records/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataRecordsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -223,6 +226,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-records' -d $'{"dataRecordCollectionId": ___, "dataRecordValues": ___, "id": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataRecord")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -255,6 +259,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-records/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataRecordBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -307,6 +312,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/data-records'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataRecordCollectionDataRecords")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -367,6 +373,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/data-records/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataRecordCollectionDataRecordsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -457,6 +464,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/data-records' -d $'{"dataRecordCollectionId": ___, "dataRecordValues": ___, "id": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataRecordCollectionDataRecord")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -491,6 +499,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/data-records/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataRecordCollectionDataRecordBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -545,6 +554,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/data-records/export'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataRecordCollectionDataRecordExport")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -586,6 +596,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/data-engine/v2.0/data-records/{dataRecordId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDataRecord")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -614,6 +625,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/data-engine/v2.0/data-records/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDataRecordBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -658,6 +670,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-records/{dataRecordId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataRecord")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -688,6 +701,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/data-engine/v2.0/data-records/{dataRecordId}' -d $'{"dataRecordCollectionId": ___, "dataRecordValues": ___, "id": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchDataRecord")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -734,6 +748,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/data-engine/v2.0/data-records/{dataRecordId}' -d $'{"dataRecordCollectionId": ___, "dataRecordValues": ___, "id": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDataRecord")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -766,6 +781,7 @@ public abstract class BaseDataRecordResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/data-engine/v2.0/data-records/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDataRecordBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

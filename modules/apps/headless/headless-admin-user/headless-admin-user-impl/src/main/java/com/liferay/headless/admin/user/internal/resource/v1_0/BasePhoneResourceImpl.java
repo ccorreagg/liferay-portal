@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/phones'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountByExternalReferenceCodePhones")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the account's phone numbers."
 	)
@@ -109,6 +111,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/phones'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountPhones")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the account's phone numbers."
 	)
@@ -142,6 +145,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/phones/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountPhonesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -210,6 +214,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/phones'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationByExternalReferenceCodePhones")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organization's phone numbers."
 	)
@@ -245,6 +250,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/phones'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationPhones")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organization's phone numbers."
 	)
@@ -278,6 +284,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/phones/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrganizationPhonesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -346,6 +353,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/phones/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePhoneByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the phone number by external reference code."
 	)
@@ -379,6 +387,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/phones/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("phoneByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the phone number by external reference code."
 	)
@@ -414,6 +423,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/phones/by-external-reference-code/{externalReferenceCode}' -d $'{"extension": ___, "externalReferenceCode": ___, "id": ___, "phoneNumber": ___, "phoneType": ___, "primary": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchPhoneByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the phone number by external reference code."
 	)
@@ -451,6 +461,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/phones/{phoneId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePhone")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the phone number."
 	)
@@ -482,6 +493,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/phones/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePhoneBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -526,6 +538,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/phones/{phoneId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("phone")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the phone number."
 	)
@@ -559,6 +572,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/phones/{phoneId}' -d $'{"extension": ___, "externalReferenceCode": ___, "id": ___, "phoneNumber": ___, "phoneType": ___, "primary": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchPhone")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the phone number."
 	)
@@ -594,6 +608,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}/phones'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountByExternalReferenceCodePhones")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user's phone numbers."
 	)
@@ -629,6 +644,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/phones'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountPhones")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user's phone numbers."
 	)
@@ -662,6 +678,7 @@ public abstract class BasePhoneResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/phones/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createUserAccountPhonesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

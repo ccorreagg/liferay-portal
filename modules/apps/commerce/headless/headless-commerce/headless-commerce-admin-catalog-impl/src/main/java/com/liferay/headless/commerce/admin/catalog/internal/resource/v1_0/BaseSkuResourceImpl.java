@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/skus'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productByExternalReferenceCodeSkus")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -116,6 +118,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/skus' -d $'{"cost": ___, "customFields": ___, "depth": ___, "discontinued": ___, "discontinuedDate": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "gtin": ___, "height": ___, "manufacturerPartNumber": ___, "neverExpire": ___, "price": ___, "promoPrice": ___, "published": ___, "purchasable": ___, "replacementSkuExternalReferenceCode": ___, "replacementSkuId": ___, "sku": ___, "skuOptions": ___, "skuSubscriptionConfiguration": ___, "skuUnitOfMeasures": ___, "skuVirtualSettings": ___, "unspsc": ___, "weight": ___, "width": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductByExternalReferenceCodeSku")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -150,6 +153,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/skus'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productIdSkus")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -188,6 +192,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/skus' -d $'{"cost": ___, "customFields": ___, "depth": ___, "discontinued": ___, "discontinuedDate": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "gtin": ___, "height": ___, "manufacturerPartNumber": ___, "neverExpire": ___, "price": ___, "promoPrice": ___, "published": ___, "purchasable": ___, "replacementSkuExternalReferenceCode": ___, "replacementSkuId": ___, "sku": ___, "skuOptions": ___, "skuSubscriptionConfiguration": ___, "skuUnitOfMeasures": ___, "skuVirtualSettings": ___, "unspsc": ___, "weight": ___, "width": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductIdSku")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -219,6 +224,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/skus/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductIdSkuBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -263,6 +269,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("skus")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -311,6 +318,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSkusPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -388,6 +396,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSkuByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -420,6 +429,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("skuByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -450,6 +460,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}' -d $'{"cost": ___, "customFields": ___, "depth": ___, "discontinued": ___, "discontinuedDate": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "gtin": ___, "height": ___, "manufacturerPartNumber": ___, "neverExpire": ___, "price": ___, "promoPrice": ___, "published": ___, "purchasable": ___, "replacementSkuExternalReferenceCode": ___, "replacementSkuId": ___, "sku": ___, "skuOptions": ___, "skuSubscriptionConfiguration": ___, "skuUnitOfMeasures": ___, "skuVirtualSettings": ___, "unspsc": ___, "weight": ___, "width": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSkuByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -576,6 +587,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}' -d $'{"cost": ___, "customFields": ___, "depth": ___, "discontinued": ___, "discontinuedDate": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "gtin": ___, "height": ___, "manufacturerPartNumber": ___, "neverExpire": ___, "price": ___, "promoPrice": ___, "published": ___, "purchasable": ___, "replacementSkuExternalReferenceCode": ___, "replacementSkuId": ___, "sku": ___, "skuOptions": ___, "skuSubscriptionConfiguration": ___, "skuUnitOfMeasures": ___, "skuVirtualSettings": ___, "unspsc": ___, "weight": ___, "width": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSkuByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -608,6 +620,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSku")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -639,6 +652,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSkuBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -683,6 +697,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("sku")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -712,6 +727,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/{id}' -d $'{"cost": ___, "customFields": ___, "depth": ___, "discontinued": ___, "discontinuedDate": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "gtin": ___, "height": ___, "manufacturerPartNumber": ___, "neverExpire": ___, "price": ___, "promoPrice": ___, "published": ___, "purchasable": ___, "replacementSkuExternalReferenceCode": ___, "replacementSkuId": ___, "sku": ___, "skuOptions": ___, "skuSubscriptionConfiguration": ___, "skuUnitOfMeasures": ___, "skuVirtualSettings": ___, "unspsc": ___, "weight": ___, "width": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSku")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -743,6 +759,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/unit-of-measure-skus'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("unitOfMeasureSkus")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -36,6 +36,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -76,6 +77,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/organizations'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountByExternalReferenceCodeOrganizations")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the account's organizations. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -138,6 +140,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/organizations/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAccountByExternalReferenceCodeOrganization")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -176,6 +179,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/organizations/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountByExternalReferenceCodeOrganization")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -216,6 +220,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/organizations/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountByExternalReferenceCodeOrganization")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -254,6 +259,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/organizations'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountOrganizations")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the account's organizations. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -313,6 +319,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/organizations/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountOrganizationsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -399,6 +406,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/organizations/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAccountOrganization")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -435,6 +443,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/organizations/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountOrganization")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -473,6 +482,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/organizations/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountOrganization")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -509,6 +519,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizations")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organizations. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -567,6 +578,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrganizationsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -645,6 +657,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations' -d $'{"childOrganizations": ___, "comment": ___, "customFields": ___, "externalReferenceCode": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "location": ___, "name": ___, "organizationAccounts": ___, "organizationContactInformation": ___, "parentOrganization": ___, "services": ___, "treePath": ___, "userAccounts": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrganization")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new organization"
 	)
@@ -667,6 +680,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrganizationBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -711,6 +725,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteOrganizationByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes an organization."
 	)
@@ -744,6 +759,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -776,6 +792,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}' -d $'{"childOrganizations": ___, "comment": ___, "customFields": ___, "externalReferenceCode": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "location": ___, "name": ___, "organizationAccounts": ___, "organizationContactInformation": ___, "parentOrganization": ___, "services": ___, "treePath": ___, "userAccounts": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchOrganizationByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the organization with information sent in the request body. Only the provided fields are updated."
 	)
@@ -847,6 +864,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}' -d $'{"childOrganizations": ___, "comment": ___, "customFields": ___, "externalReferenceCode": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "location": ___, "name": ___, "organizationAccounts": ___, "organizationContactInformation": ___, "parentOrganization": ___, "services": ___, "treePath": ___, "userAccounts": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateOrganizationByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the organization with information sent in the request body. Any missing fields are deleted unless they are required."
 	)
@@ -884,6 +902,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/child-organizations'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationByExternalReferenceCodeChildOrganizations")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the parent organization's child organizations. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -953,6 +972,9 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteOrganizationByExternalReferenceCodeUserAccountsByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Removes users from an organization by their email addresses"
 	)
@@ -989,6 +1011,9 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createOrganizationByExternalReferenceCodeUserAccountsByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns users to an organization by their email addresses"
 	)
@@ -1034,6 +1059,9 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteOrganizationByExternalReferenceCodeUserAccountByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Removes a user from an organization by their email address"
 	)
@@ -1076,6 +1104,9 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createOrganizationByExternalReferenceCodeUserAccountByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns a user to an organization by their email address"
 	)
@@ -1120,6 +1151,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteOrganization")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes an organization."
 	)
@@ -1151,6 +1183,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteOrganizationBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1195,6 +1228,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organization")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organization."
 	)
@@ -1228,6 +1262,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}' -d $'{"childOrganizations": ___, "comment": ___, "customFields": ___, "externalReferenceCode": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "location": ___, "name": ___, "organizationAccounts": ___, "organizationContactInformation": ___, "parentOrganization": ___, "services": ___, "treePath": ___, "userAccounts": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchOrganization")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the organization with the information sent in the request body. Fields not present in the request body are left unchanged."
 	)
@@ -1295,6 +1330,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}' -d $'{"childOrganizations": ___, "comment": ___, "customFields": ___, "externalReferenceCode": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "location": ___, "name": ___, "organizationAccounts": ___, "organizationContactInformation": ___, "parentOrganization": ___, "services": ___, "treePath": ___, "userAccounts": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateOrganization")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the organization with information sent in the request body. Any missing fields are deleted unless they are required."
 	)
@@ -1330,6 +1366,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateOrganizationBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1374,6 +1411,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/child-organizations'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationChildOrganizations")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the parent organization's child organizations. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -1440,6 +1478,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts/by-email-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteUserAccountsByEmailAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Removes users from an organization by their email addresses"
 	)
@@ -1475,6 +1514,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts/by-email-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createUserAccountsByEmailAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns users to an organization by their email addresses"
 	)
@@ -1519,6 +1559,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteUserAccountByEmailAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Removes a user from an organization by their email address"
 	)
@@ -1560,6 +1601,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createUserAccountByEmailAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns a user to an organization by their email address"
 	)
@@ -1603,6 +1645,7 @@ public abstract class BaseOrganizationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{parentOrganizationId}/organizations'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationOrganizations")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the parent organization's child organizations. Results can be paginated, filtered, searched, and sorted."
 	)

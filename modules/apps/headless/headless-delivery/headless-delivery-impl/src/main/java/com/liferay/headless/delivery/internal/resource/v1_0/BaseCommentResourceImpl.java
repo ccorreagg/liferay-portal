@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/blog-postings/{blogPostingId}/comments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("blogPostingComments")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the blog post's comments in a list. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -152,6 +154,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/blog-postings/{blogPostingId}/comments/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createBlogPostingCommentsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -237,6 +240,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/blog-postings/{blogPostingId}/comments' -d $'{"externalReferenceCode": ___, "parentCommentId": ___, "text": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createBlogPostingComment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new comment on the blog post."
 	)
@@ -272,6 +276,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/blog-postings/{blogPostingId}/comments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createBlogPostingCommentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -324,6 +329,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/comments/{commentId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteComment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the comment and returns a 204 if the operation succeeded."
 	)
@@ -355,6 +361,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/comments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCommentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -399,6 +406,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/comments/{commentId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("comment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the comment."
 	)
@@ -444,6 +452,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/comments/{commentId}' -d $'{"externalReferenceCode": ___, "parentCommentId": ___, "text": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateComment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the comment with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
@@ -479,6 +488,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/comments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateCommentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -523,6 +533,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/comments/{parentCommentId}/comments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("commentComments")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the parent comment's child comments. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -600,6 +611,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/comments/{parentCommentId}/comments' -d $'{"externalReferenceCode": ___, "parentCommentId": ___, "text": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCommentComment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new child comment of the existing comment."
 	)
@@ -635,6 +647,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/documents/{documentId}/comments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentComments")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the document's comments. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -712,6 +725,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/documents/{documentId}/comments/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDocumentCommentsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -797,6 +811,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/documents/{documentId}/comments' -d $'{"externalReferenceCode": ___, "parentCommentId": ___, "text": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDocumentComment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new comment on the document."
 	)
@@ -832,6 +847,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/documents/{documentId}/comments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDocumentCommentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -884,6 +900,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/blog-postings/by-external-reference-code/{blogPostingExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the blog posting's comment by blog posting's and comment's external reference codes."
 	)
@@ -934,6 +953,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/blog-postings/by-external-reference-code/{blogPostingExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"blogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the blog posting's comment by blog posting's and comment's external reference codes."
 	)
@@ -998,6 +1020,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/blog-postings/by-external-reference-code/{blogPostingExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}' -d $'{"externalReferenceCode": ___, "parentCommentId": ___, "text": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteBlogPostingByExternalReferenceCodeBlogPostingExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the blog posting's comment given the blog posting's and comment's external reference codes, or creates it if it not exists."
 	)
@@ -1052,6 +1077,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/comments/by-external-reference-code/{parentCommentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteSiteCommentByExternalReferenceCodeParentCommentExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the parent comment's comment by its parent comment's and comment's external reference codes."
 	)
@@ -1102,6 +1130,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/comments/by-external-reference-code/{parentCommentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"commentByExternalReferenceCodeParentCommentExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the parent comment's comment by its parent comment's and comment's external reference codes."
 	)
@@ -1166,6 +1197,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/comments/by-external-reference-code/{parentCommentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}' -d $'{"externalReferenceCode": ___, "parentCommentId": ___, "text": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteCommentByExternalReferenceCodeParentCommentExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the parent comment's comment given the parent comment's and comment's external reference codes, or creates it if it not exists."
 	)
@@ -1220,6 +1254,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/documents/by-external-reference-code/{documentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the document's comment by document's and comment's external reference codes."
 	)
@@ -1270,6 +1307,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/documents/by-external-reference-code/{documentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"documentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the document's comment by document's and comment's external reference codes."
 	)
@@ -1334,6 +1374,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/documents/by-external-reference-code/{documentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}' -d $'{"externalReferenceCode": ___, "parentCommentId": ___, "text": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteDocumentByExternalReferenceCodeDocumentExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the document's comment given the document's and comment's external reference codes, or creates it if it not exists."
 	)
@@ -1388,6 +1431,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-contents/by-external-reference-code/{structuredContentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the structured content's comment by structured content's and comment's external reference codes."
 	)
@@ -1438,6 +1484,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-contents/by-external-reference-code/{structuredContentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"structuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the structured content's comment by structured content's and comment's external reference codes."
 	)
@@ -1502,6 +1551,9 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-contents/by-external-reference-code/{structuredContentExternalReferenceCode}/comments/by-external-reference-code/{externalReferenceCode}' -d $'{"externalReferenceCode": ___, "parentCommentId": ___, "text": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteStructuredContentByExternalReferenceCodeStructuredContentExternalReferenceCodeCommentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the structured content's comment given the structured content's and comment's external reference codes, or creates it if it not exists."
 	)
@@ -1556,6 +1608,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/structured-contents/{structuredContentId}/comments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("structuredContentComments")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the structured content's comments. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -1633,6 +1686,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/structured-contents/{structuredContentId}/comments/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createStructuredContentCommentsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1720,6 +1774,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/structured-contents/{structuredContentId}/comments' -d $'{"externalReferenceCode": ___, "parentCommentId": ___, "text": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createStructuredContentComment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new comment on the structured content."
 	)
@@ -1755,6 +1810,7 @@ public abstract class BaseCommentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/structured-contents/{structuredContentId}/comments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createStructuredContentCommentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

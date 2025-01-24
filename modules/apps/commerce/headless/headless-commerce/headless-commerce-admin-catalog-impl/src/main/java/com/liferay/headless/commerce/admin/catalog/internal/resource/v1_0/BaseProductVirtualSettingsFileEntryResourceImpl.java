@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -76,6 +77,7 @@ public abstract class BaseProductVirtualSettingsFileEntryResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-virtual-settings-file-entries/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductVirtualSettingsFileEntry")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -107,6 +109,7 @@ public abstract class BaseProductVirtualSettingsFileEntryResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-virtual-settings-file-entries/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductVirtualSettingsFileEntryBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -156,6 +159,7 @@ public abstract class BaseProductVirtualSettingsFileEntryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-virtual-settings-file-entries/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productVirtualSettingsFileEntry")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -189,6 +193,7 @@ public abstract class BaseProductVirtualSettingsFileEntryResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-virtual-settings-file-entries/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchProductVirtualSettingsFileEntry")
 	@io.swagger.v3.oas.annotations.Operation(
 		requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "multipart/form-data", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = PatchProductVirtualSettingsFileEntryRequestBody.class)))
 	)
@@ -227,6 +232,7 @@ public abstract class BaseProductVirtualSettingsFileEntryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-virtual-settings/{id}/product-virtual-settings-file-entries'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productVirtualSettingIdProductVirtualSettingsFileEntries")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -273,6 +279,7 @@ public abstract class BaseProductVirtualSettingsFileEntryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-virtual-settings/{id}/product-virtual-settings-file-entries'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductVirtualSettingIdProductVirtualSettingsFileEntry")
 	@io.swagger.v3.oas.annotations.Operation(
 		requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "multipart/form-data", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = PostProductVirtualSettingIdProductVirtualSettingsFileEntryRequestBody.class)))
 	)

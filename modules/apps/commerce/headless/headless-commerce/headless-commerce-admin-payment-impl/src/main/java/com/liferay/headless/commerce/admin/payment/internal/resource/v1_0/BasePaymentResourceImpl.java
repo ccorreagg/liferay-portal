@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("payments")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -123,6 +125,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPaymentsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -200,6 +203,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments' -d $'{"amount": ___, "callbackURL": ___, "cancelURL": ___, "channelId": ___, "comment": ___, "currencyCode": ___, "currencyExternalReferenceCode": ___, "currencyId": ___, "errorMessages": ___, "externalReferenceCode": ___, "languageId": ___, "payload": ___, "paymentIntegrationKey": ___, "paymentIntegrationType": ___, "paymentStatus": ___, "reasonKey": ___, "redirectURL": ___, "relatedItemId": ___, "relatedItemName": ___, "relatedItemNameLabel": ___, "transactionCode": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPayment")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Payment")}
 	)
@@ -217,6 +221,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPaymentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -261,6 +266,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePaymentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -295,6 +301,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("paymentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -327,6 +334,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/by-externalReferenceCode/{externalReferenceCode}' -d $'{"amount": ___, "callbackURL": ___, "cancelURL": ___, "channelId": ___, "comment": ___, "currencyCode": ___, "currencyExternalReferenceCode": ___, "currencyId": ___, "errorMessages": ___, "externalReferenceCode": ___, "languageId": ___, "payload": ___, "paymentIntegrationKey": ___, "paymentIntegrationType": ___, "paymentStatus": ___, "reasonKey": ___, "redirectURL": ___, "relatedItemId": ___, "relatedItemName": ___, "relatedItemNameLabel": ___, "transactionCode": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchPaymentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -460,6 +468,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/by-externalReferenceCode/{externalReferenceCode}' -d $'{"amount": ___, "callbackURL": ___, "cancelURL": ___, "channelId": ___, "comment": ___, "currencyCode": ___, "currencyExternalReferenceCode": ___, "currencyId": ___, "errorMessages": ___, "externalReferenceCode": ___, "languageId": ___, "payload": ___, "paymentIntegrationKey": ___, "paymentIntegrationType": ___, "paymentStatus": ___, "reasonKey": ___, "redirectURL": ___, "relatedItemId": ___, "relatedItemName": ___, "relatedItemNameLabel": ___, "transactionCode": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updatePaymentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -494,6 +503,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/by-externalReferenceCode/{externalReferenceCode}/refund'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPaymentByExternalReferenceCodeRefund")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -526,6 +536,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePayment")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -557,6 +568,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePaymentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -601,6 +613,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("payment")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -630,6 +643,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/{id}' -d $'{"amount": ___, "callbackURL": ___, "cancelURL": ___, "channelId": ___, "comment": ___, "currencyCode": ___, "currencyExternalReferenceCode": ___, "currencyId": ___, "errorMessages": ___, "externalReferenceCode": ___, "languageId": ___, "payload": ___, "paymentIntegrationKey": ___, "paymentIntegrationType": ___, "paymentStatus": ___, "reasonKey": ___, "redirectURL": ___, "relatedItemId": ___, "relatedItemName": ___, "relatedItemNameLabel": ___, "transactionCode": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchPayment")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -661,6 +675,7 @@ public abstract class BasePaymentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-payment/v1.0/payments/{id}/refund'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPaymentRefund")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

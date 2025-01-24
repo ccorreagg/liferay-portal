@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -73,6 +74,9 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/skus'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"channelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeSkus"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves products from selected channel."
 	)
@@ -133,6 +137,9 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/skus'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeSku"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Posts an SKU with selected channel and product external reference code."
 	)
@@ -193,6 +200,9 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/skus/by-externalReferenceCode/{skuExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"channelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeSkuByExternalReferenceCodeSkuExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a product from selected channel."
 	)
@@ -252,6 +262,9 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/products/by-externalReferenceCode/{productExternalReferenceCode}/skus/by-sku-option'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createChannelByExternalReferenceCodeChannelExternalReferenceCodeProductByExternalReferenceCodeProductExternalReferenceCodeSkuBySkuOption"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a SKU from selected channel and product using their external reference code."
 	)
@@ -319,6 +332,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/skus'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channelProductSkus")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves products from selected channel."
 	)
@@ -376,6 +390,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/skus'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createChannelProductSku")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a SKU from selected channel and product ID."
 	)
@@ -433,6 +448,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/skus/by-sku-option'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createChannelProductSkuBySkuOption")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a SKU from selected channel and product ID."
 	)
@@ -499,6 +515,7 @@ public abstract class BaseSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/products/{productId}/skus/{skuId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channelProductSku")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a product from selected channel."
 	)

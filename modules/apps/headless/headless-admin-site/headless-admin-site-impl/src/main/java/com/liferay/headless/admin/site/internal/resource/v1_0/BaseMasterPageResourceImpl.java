@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.Permission;
@@ -73,6 +74,7 @@ public abstract class BaseMasterPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeMasterPages")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the master pages of the site."
 	)
@@ -150,6 +152,7 @@ public abstract class BaseMasterPageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "externalReferenceCode": ___, "key": ___, "keywordItemExternalReferences": ___, "markedAsDefault": ___, "name": ___, "pageSpecifications": ___, "taxonomyCategoryItemExternalReferences": ___, "thumbnail": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteSiteByExternalReferenceCodeMasterPage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new master page."
 	)
@@ -185,6 +188,7 @@ public abstract class BaseMasterPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeMasterPagePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -233,6 +237,9 @@ public abstract class BaseMasterPageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteSiteByExternalReferenceCodeMasterPagePermissionsPage"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -268,6 +275,7 @@ public abstract class BaseMasterPageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages/{masterPageExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteSiteByExternalReferenceCodeMasterPage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a specific master page of a site."
 	)
@@ -309,6 +317,7 @@ public abstract class BaseMasterPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages/{masterPageExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeMasterPage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a specific master page of a site."
 	)
@@ -364,6 +373,7 @@ public abstract class BaseMasterPageResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages/{masterPageExternalReferenceCode}' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "externalReferenceCode": ___, "key": ___, "keywordItemExternalReferences": ___, "markedAsDefault": ___, "name": ___, "pageSpecifications": ___, "taxonomyCategoryItemExternalReferences": ___, "thumbnail": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSiteSiteByExternalReferenceCodeMasterPage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -468,6 +478,7 @@ public abstract class BaseMasterPageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages/{masterPageExternalReferenceCode}' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "externalReferenceCode": ___, "key": ___, "keywordItemExternalReferences": ___, "markedAsDefault": ___, "name": ___, "pageSpecifications": ___, "taxonomyCategoryItemExternalReferences": ___, "thumbnail": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteSiteByExternalReferenceCodeMasterPage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the master page with the given external reference code, or creates it if it does not exist."
 	)
@@ -525,6 +536,9 @@ public abstract class BaseMasterPageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages/{masterPageExternalReferenceCode}/page-specifications' -d $'{"pageExperiences": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodeMasterPagePageSpecification"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new page specification in draft status to a master page."
 	)
@@ -583,6 +597,7 @@ public abstract class BaseMasterPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages/{masterPageExternalReferenceCode}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteExternalReferenceCodeMasterPagePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -639,6 +654,7 @@ public abstract class BaseMasterPageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages/{masterPageExternalReferenceCode}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteSiteExternalReferenceCodeMasterPagePermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

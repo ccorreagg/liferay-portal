@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -71,6 +72,7 @@ public abstract class BaseContentSetElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-sets/by-key/{key}/content-set-elements'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryContentSetByKeyContentSetElements")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -131,6 +133,7 @@ public abstract class BaseContentSetElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-sets/by-uuid/{uuid}/content-set-elements'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryContentSetByUuidContentSetElements")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -191,6 +194,7 @@ public abstract class BaseContentSetElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/content-sets/{contentSetId}/content-set-elements'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("contentSetContentSetElements")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the content set's elements (e.g., structured content, blogs, etc.). Results can be paginated. The set of available headers are: Accept-Language (string), Host (string), User-Agent (string), X-Browser (string), X-Cookies (collection string), X-Device-Brand (string), X-Device-Model (string), X-Device-Screen-Resolution-Height (double), X-Device-Screen-Resolution-Width (double), X-Last-Sign-In-Date-Time (date time) and X-Signed-In (boolean). Local date will be always present in the request."
 	)
@@ -243,6 +247,7 @@ public abstract class BaseContentSetElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/content-set-providers/by-key/{key}/content-set-elements'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("contentSetProviderByKeyContentSetElements")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -303,6 +308,7 @@ public abstract class BaseContentSetElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/content-sets/by-key/{key}/content-set-elements'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("contentSetByKeyContentSetElements")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the content set elements by key. Results can be paginated."
 	)
@@ -364,6 +370,7 @@ public abstract class BaseContentSetElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/content-sets/by-uuid/{uuid}/content-set-elements'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("contentSetByUuidContentSetElements")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the content set elements by UUID. Results can be paginated."
 	)

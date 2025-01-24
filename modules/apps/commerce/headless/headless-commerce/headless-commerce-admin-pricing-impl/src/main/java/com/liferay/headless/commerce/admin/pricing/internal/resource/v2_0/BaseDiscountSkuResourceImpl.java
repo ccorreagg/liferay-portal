@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseDiscountSkuResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discount-skus/{discountSkuId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDiscountSku")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -102,6 +104,7 @@ public abstract class BaseDiscountSkuResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discount-skus/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDiscountSkuBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -146,6 +149,7 @@ public abstract class BaseDiscountSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/by-externalReferenceCode/{externalReferenceCode}/discount-skus'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("discountByExternalReferenceCodeDiscountSkus")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -187,6 +191,7 @@ public abstract class BaseDiscountSkuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/by-externalReferenceCode/{externalReferenceCode}/discount-skus' -d $'{"discountExternalReferenceCode": ___, "productId": ___, "productName": ___, "skuExternalReferenceCode": ___, "skuId": ___, "unitOfMeasureKey": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDiscountByExternalReferenceCodeDiscountSku")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -221,6 +226,7 @@ public abstract class BaseDiscountSkuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/{id}/discount-skus'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("discountIdDiscountSkus")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -276,6 +282,7 @@ public abstract class BaseDiscountSkuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/{id}/discount-skus' -d $'{"discountExternalReferenceCode": ___, "productId": ___, "productName": ___, "skuExternalReferenceCode": ___, "skuId": ___, "unitOfMeasureKey": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDiscountIdDiscountSku")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -307,6 +314,7 @@ public abstract class BaseDiscountSkuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/discount-skus/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDiscountIdDiscountSkuBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

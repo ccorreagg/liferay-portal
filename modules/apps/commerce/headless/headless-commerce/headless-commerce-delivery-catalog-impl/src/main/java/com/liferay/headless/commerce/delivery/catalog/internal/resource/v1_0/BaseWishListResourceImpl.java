@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseWishListResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/wishlists'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channelByExternalReferenceCodeWishLists")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves wishlists for a given channel."
 	)
@@ -125,6 +127,7 @@ public abstract class BaseWishListResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/wishlists' -d $'{"defaultWishList": ___, "id": ___, "name": ___, "wishListItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createChannelByExternalReferenceCodeWishList")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -166,6 +169,7 @@ public abstract class BaseWishListResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/wishlists'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channelWishLists")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves wishlists for a given channel."
 	)
@@ -215,6 +219,7 @@ public abstract class BaseWishListResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/channels/{channelId}/wishlists' -d $'{"defaultWishList": ___, "id": ___, "name": ___, "wishListItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createChannelWishList")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -254,6 +259,7 @@ public abstract class BaseWishListResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/wishlists/{wishListId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWishList")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a wishlist by wishListId."
 	)
@@ -285,6 +291,7 @@ public abstract class BaseWishListResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/wishlists/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWishListBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -329,6 +336,7 @@ public abstract class BaseWishListResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/wishlists/{wishListId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("wishList")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a wishlist by wishListId."
 	)
@@ -362,6 +370,7 @@ public abstract class BaseWishListResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-delivery-catalog/v1.0/wishlists/{wishListId}' -d $'{"defaultWishList": ___, "id": ___, "name": ___, "wishListItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchWishList")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

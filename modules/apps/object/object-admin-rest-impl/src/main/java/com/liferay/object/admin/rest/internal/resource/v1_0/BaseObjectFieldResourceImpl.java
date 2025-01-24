@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-fields'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectDefinitionByExternalReferenceCodeObjectFields")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -133,6 +135,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-fields' -d $'{"DBType": ___, "businessType": ___, "defaultValue": ___, "externalReferenceCode": ___, "indexed": ___, "indexedAsKeyword": ___, "indexedLanguageId": ___, "label": ___, "listTypeDefinitionExternalReferenceCode": ___, "listTypeDefinitionId": ___, "localized": ___, "name": ___, "objectDefinitionExternalReferenceCode1": ___, "objectFieldSettings": ___, "objectRelationshipExternalReferenceCode": ___, "readOnly": ___, "readOnlyConditionExpression": ___, "required": ___, "state": ___, "system": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionByExternalReferenceCodeObjectField")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -167,6 +170,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-fields'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectDefinitionObjectFields")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -223,6 +227,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-fields/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectFieldsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -311,6 +316,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-fields' -d $'{"DBType": ___, "businessType": ___, "defaultValue": ___, "externalReferenceCode": ___, "indexed": ___, "indexedAsKeyword": ___, "indexedLanguageId": ___, "label": ___, "listTypeDefinitionExternalReferenceCode": ___, "listTypeDefinitionId": ___, "localized": ___, "name": ___, "objectDefinitionExternalReferenceCode1": ___, "objectFieldSettings": ___, "objectRelationshipExternalReferenceCode": ___, "readOnly": ___, "readOnlyConditionExpression": ___, "required": ___, "state": ___, "system": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectField")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -343,6 +349,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-fields/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectFieldBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -397,6 +404,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-fields/{objectFieldId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectField")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -425,6 +433,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-fields/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectFieldBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -469,6 +478,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-fields/{objectFieldId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectField")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -499,6 +509,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/object-admin/v1.0/object-fields/{objectFieldId}' -d $'{"DBType": ___, "businessType": ___, "defaultValue": ___, "externalReferenceCode": ___, "indexed": ___, "indexedAsKeyword": ___, "indexedLanguageId": ___, "label": ___, "listTypeDefinitionExternalReferenceCode": ___, "listTypeDefinitionId": ___, "localized": ___, "name": ___, "objectDefinitionExternalReferenceCode1": ___, "objectFieldSettings": ___, "objectRelationshipExternalReferenceCode": ___, "readOnly": ___, "readOnlyConditionExpression": ___, "required": ___, "state": ___, "system": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchObjectField")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -623,6 +634,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-fields/{objectFieldId}' -d $'{"DBType": ___, "businessType": ___, "defaultValue": ___, "externalReferenceCode": ___, "indexed": ___, "indexedAsKeyword": ___, "indexedLanguageId": ___, "label": ___, "listTypeDefinitionExternalReferenceCode": ___, "listTypeDefinitionId": ___, "localized": ___, "name": ___, "objectDefinitionExternalReferenceCode1": ___, "objectFieldSettings": ___, "objectRelationshipExternalReferenceCode": ___, "readOnly": ___, "readOnlyConditionExpression": ___, "required": ___, "state": ___, "system": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectField")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -655,6 +667,7 @@ public abstract class BaseObjectFieldResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-fields/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectFieldBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

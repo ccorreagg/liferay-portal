@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -71,6 +72,9 @@ public abstract class BasePageSpecificationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates/{displayPageTemplateExternalReferenceCode}/page-specifications'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"siteByExternalReferenceCodeDisplayPageTemplatePageSpecifications"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the page specifications of a display page template."
 	)
@@ -130,6 +134,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/master-pages/{masterPageExternalReferenceCode}/page-specifications'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeMasterPagePageSpecifications")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the page specifications of a master page."
 	)
@@ -187,6 +192,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteSiteByExternalReferenceCodePageSpecification")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a page specification of a site page."
 	)
@@ -242,6 +248,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageSpecification")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a page specification of a site page."
 	)
@@ -300,6 +307,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}' -d $'{"externalReferenceCode": ___, "settings": ___, "status": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSiteSiteByExternalReferenceCodePageSpecification")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates a page specification of a site page. Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -382,6 +390,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}' -d $'{"externalReferenceCode": ___, "settings": ___, "status": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteSiteByExternalReferenceCodePageSpecification")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates a page specification of a site page."
 	)
@@ -442,6 +451,9 @@ public abstract class BasePageSpecificationResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/publish'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodePageSpecificationPublish"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Publishes a page specification in draft status of a site page."
 	)
@@ -501,6 +513,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates/{pageTemplateExternalReferenceCode}/page-specifications'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageTemplatePageSpecifications")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the page specifications of a page template."
 	)
@@ -558,6 +571,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/site-pages/{sitePageExternalReferenceCode}/page-specifications'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeSitePagePageSpecifications")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the page specifications of a site page."
 	)
@@ -615,6 +629,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages/{utilityPageExternalReferenceCode}/page-specifications'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeUtilityPagePageSpecifications")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the page specifications of a utility page."
 	)

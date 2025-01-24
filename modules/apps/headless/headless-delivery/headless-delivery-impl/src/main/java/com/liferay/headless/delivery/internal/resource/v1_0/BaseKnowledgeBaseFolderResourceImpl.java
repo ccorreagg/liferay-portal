@@ -47,6 +47,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.ModelPermissionsUtil;
@@ -91,6 +92,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteKnowledgeBaseFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the knowledge base folder and returns a 204 if the operation succeeds."
 	)
@@ -126,6 +128,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteKnowledgeBaseFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -174,6 +177,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("knowledgeBaseFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the knowledge base folder."
 	)
@@ -223,6 +227,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentKnowledgeBaseFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchKnowledgeBaseFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -295,6 +300,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentKnowledgeBaseFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateKnowledgeBaseFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the knowledge base folder with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
@@ -334,6 +340,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateKnowledgeBaseFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -382,6 +389,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("knowledgeBaseFolderPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -459,6 +467,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-folders/{knowledgeBaseFolderId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateKnowledgeBaseFolderPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -557,6 +566,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-folders/{parentKnowledgeBaseFolderId}/knowledge-base-folders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("knowledgeBaseFolderKnowledgeBaseFolders")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the knowledge base folder's subfolders."
 	)
@@ -618,6 +628,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-folders/{parentKnowledgeBaseFolderId}/knowledge-base-folders' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentKnowledgeBaseFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createKnowledgeBaseFolderKnowledgeBaseFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a knowledge base folder inside the parent folder."
 	)
@@ -659,6 +670,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("knowledgeBaseFolders")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's knowledge base folders. Results can be paginated."
 	)
@@ -717,6 +729,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteKnowledgeBaseFoldersPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -790,6 +803,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentKnowledgeBaseFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteKnowledgeBaseFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new knowledge base folder."
 	)
@@ -829,6 +843,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteKnowledgeBaseFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -885,6 +900,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteKnowledgeBaseFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the knowledge base folder by external reference code."
 	)
@@ -930,6 +946,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("knowledgeBaseFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's knowledge base folder by external reference code."
 	)
@@ -990,6 +1007,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/by-external-reference-code/{externalReferenceCode}' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentKnowledgeBaseFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteKnowledgeBaseFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the site's knowledge base folder with the given external reference code, or creates it if it not exists."
 	)
@@ -1040,6 +1058,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteKnowledgeBaseFolderPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1111,6 +1130,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/knowledge-base-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteKnowledgeBaseFolderPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

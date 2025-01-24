@@ -32,6 +32,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseNodeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/nodes'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("processNodes")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -104,6 +106,7 @@ public abstract class BaseNodeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/nodes/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProcessNodesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -172,6 +175,7 @@ public abstract class BaseNodeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/nodes' -d $'{"dateCreated": ___, "dateModified": ___, "id": ___, "initial": ___, "name": ___, "processId": ___, "processVersion": ___, "terminal": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProcessNode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -204,6 +208,7 @@ public abstract class BaseNodeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/nodes/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProcessNodeBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -256,6 +261,7 @@ public abstract class BaseNodeResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/nodes/{nodeId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProcessNode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

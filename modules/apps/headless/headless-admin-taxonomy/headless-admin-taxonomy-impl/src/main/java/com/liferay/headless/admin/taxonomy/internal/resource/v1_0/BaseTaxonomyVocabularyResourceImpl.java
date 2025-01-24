@@ -46,6 +46,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.ModelPermissionsUtil;
@@ -90,6 +91,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryTaxonomyVocabularies")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -162,6 +164,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryTaxonomyVocabulariesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -252,6 +255,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies' -d $'{"assetTypes": ___, "description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryTaxonomyVocabulary")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -286,6 +290,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryTaxonomyVocabularyBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -342,6 +347,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAssetLibraryTaxonomyVocabularyByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the asset library's taxonomy vocabulary by external reference code."
 	)
@@ -385,6 +391,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryTaxonomyVocabularyByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the asset library's taxonomy vocabulary by external reference code."
 	)
@@ -439,6 +446,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}' -d $'{"assetTypes": ___, "description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateAssetLibraryTaxonomyVocabularyByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the asset library's taxonomy vocabulary with the given external reference code, or creates it if it not exists."
 	)
@@ -487,6 +495,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryTaxonomyVocabularyPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -555,6 +564,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/taxonomy-vocabularies/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateAssetLibraryTaxonomyVocabularyPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -647,6 +657,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("taxonomyVocabularies")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a Site's taxonomy vocabularies. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -722,6 +733,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteTaxonomyVocabulariesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -810,6 +822,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies' -d $'{"assetTypes": ___, "description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteTaxonomyVocabulary")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Inserts a new taxonomy vocabulary in a Site."
 	)
@@ -847,6 +860,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteTaxonomyVocabularyBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -901,6 +915,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteTaxonomyVocabularyByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the site's taxonomy vocabulary by external reference code."
 	)
@@ -944,6 +959,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("taxonomyVocabularyByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's taxonomy vocabulary by external reference code."
 	)
@@ -997,6 +1013,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/by-external-reference-code/{externalReferenceCode}' -d $'{"assetTypes": ___, "description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteTaxonomyVocabularyByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the site's taxonomy vocabulary with the given external reference code, or creates it if it not exists."
 	)
@@ -1044,6 +1061,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteTaxonomyVocabularyPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1109,6 +1127,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteTaxonomyVocabularyPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1197,6 +1216,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteTaxonomyVocabulary")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the taxonomy vocabulary and returns a 204 if the operation succeeds."
 	)
@@ -1230,6 +1250,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteTaxonomyVocabularyBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1276,6 +1297,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("taxonomyVocabulary")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a taxonomy vocabulary."
 	)
@@ -1319,6 +1341,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}' -d $'{"assetTypes": ___, "description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchTaxonomyVocabulary")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body. Any other fields are left untouched."
 	)
@@ -1391,6 +1414,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}' -d $'{"assetTypes": ___, "description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateTaxonomyVocabulary")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the taxonomy vocabulary with the information sent in the request body. Any missing fields are deleted unless they are required."
 	)
@@ -1428,6 +1452,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateTaxonomyVocabularyBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1474,6 +1499,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("taxonomyVocabularyPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1545,6 +1571,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateTaxonomyVocabularyPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

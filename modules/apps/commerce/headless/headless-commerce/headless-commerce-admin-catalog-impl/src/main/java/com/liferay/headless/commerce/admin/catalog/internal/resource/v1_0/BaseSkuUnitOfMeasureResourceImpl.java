@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseSkuUnitOfMeasureResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/sku-unit-of-measures/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSkuUnitOfMeasure")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -103,6 +105,7 @@ public abstract class BaseSkuUnitOfMeasureResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/sku-unit-of-measures/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSkuUnitOfMeasureBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -149,6 +152,7 @@ public abstract class BaseSkuUnitOfMeasureResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/sku-unit-of-measures/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("skuUnitOfMeasure")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -180,6 +184,7 @@ public abstract class BaseSkuUnitOfMeasureResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/sku-unit-of-measures/{id}' -d $'{"active": ___, "basePrice": ___, "incrementalOrderQuantity": ___, "key": ___, "name": ___, "precision": ___, "pricingQuantity": ___, "primary": ___, "priority": ___, "promoPrice": ___, "rate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSkuUnitOfMeasure")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -213,6 +218,7 @@ public abstract class BaseSkuUnitOfMeasureResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}/sku-unit-of-measures'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("skuByExternalReferenceCodeSkuUnitOfMeasures")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -257,6 +263,7 @@ public abstract class BaseSkuUnitOfMeasureResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}/sku-unit-of-measures' -d $'{"active": ___, "basePrice": ___, "incrementalOrderQuantity": ___, "key": ___, "name": ___, "precision": ___, "pricingQuantity": ___, "primary": ___, "priority": ___, "promoPrice": ___, "rate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSkuByExternalReferenceCodeSkuUnitOfMeasure")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -293,6 +300,7 @@ public abstract class BaseSkuUnitOfMeasureResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/{id}/sku-unit-of-measures'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("skuIdSkuUnitOfMeasures")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -333,6 +341,7 @@ public abstract class BaseSkuUnitOfMeasureResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/{id}/sku-unit-of-measures' -d $'{"active": ___, "basePrice": ___, "incrementalOrderQuantity": ___, "key": ___, "name": ___, "precision": ___, "pricingQuantity": ___, "primary": ___, "priority": ___, "promoPrice": ___, "rate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSkuIdSkuUnitOfMeasure")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -366,6 +375,7 @@ public abstract class BaseSkuUnitOfMeasureResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/sku-unit-of-measures/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSkuIdSkuUnitOfMeasureBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

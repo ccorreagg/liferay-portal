@@ -21,6 +21,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -48,6 +49,7 @@ public abstract class BaseDSRecipientViewDefinitionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/digital-signature-rest/v1.0/sites/{siteId}/ds-recipient-view-definition/{dsEnvelopeId}' -d $'{"authenticationMethod": ___, "dsClientUserId": ___, "emailAddress": ___, "returnURL": ___, "userName": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDSRecipientViewDefinition")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

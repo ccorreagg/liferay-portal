@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BasePriceModifierCategoryResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/price-modifier-categories/{priceModifierCategoryId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePriceModifierCategory")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -106,6 +108,7 @@ public abstract class BasePriceModifierCategoryResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/price-modifier-categories/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePriceModifierCategoryBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -154,6 +157,7 @@ public abstract class BasePriceModifierCategoryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/price-modifiers/by-externalReferenceCode/{externalReferenceCode}/price-modifier-categories'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("priceModifierByExternalReferenceCodePriceModifierCategories")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -200,6 +204,9 @@ public abstract class BasePriceModifierCategoryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/price-modifiers/by-externalReferenceCode/{externalReferenceCode}/price-modifier-categories' -d $'{"categoryExternalReferenceCode": ___, "categoryId": ___, "priceModifierExternalReferenceCode": ___, "priceModifierId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createPriceModifierByExternalReferenceCodePriceModifierCategory"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -239,6 +246,7 @@ public abstract class BasePriceModifierCategoryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/price-modifiers/{id}/price-modifier-categories'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("priceModifierIdPriceModifierCategories")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -300,6 +308,7 @@ public abstract class BasePriceModifierCategoryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/price-modifiers/{id}/price-modifier-categories' -d $'{"categoryExternalReferenceCode": ___, "categoryId": ___, "priceModifierExternalReferenceCode": ___, "priceModifierId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPriceModifierIdPriceModifierCategory")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -335,6 +344,7 @@ public abstract class BasePriceModifierCategoryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/price-modifiers/price-modifier-categories/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPriceModifierIdPriceModifierCategoryBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

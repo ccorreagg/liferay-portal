@@ -31,6 +31,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -72,6 +73,7 @@ public abstract class BaseExperimentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/segments-asah/v1.0/experiments/{experimentId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteExperiment")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -100,6 +102,7 @@ public abstract class BaseExperimentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/segments-asah/v1.0/experiments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteExperimentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -144,6 +147,7 @@ public abstract class BaseExperimentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/segments-asah/v1.0/experiments/{experimentId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("experiment")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

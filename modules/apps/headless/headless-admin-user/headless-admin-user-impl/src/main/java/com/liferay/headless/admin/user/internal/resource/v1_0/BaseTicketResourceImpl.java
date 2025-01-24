@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -46,6 +47,7 @@ public abstract class BaseTicketResourceImpl implements TicketResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/email-verification-ticket'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountEmailVerificationTicket")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user's email verification ticket."
 	)
@@ -81,6 +83,7 @@ public abstract class BaseTicketResourceImpl implements TicketResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/password-reset-ticket'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountPasswordResetTicket")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user's password reset ticket."
 	)

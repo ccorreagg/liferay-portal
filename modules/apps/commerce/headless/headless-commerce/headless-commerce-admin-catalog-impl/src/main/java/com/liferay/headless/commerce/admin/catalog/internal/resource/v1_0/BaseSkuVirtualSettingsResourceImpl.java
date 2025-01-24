@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -47,6 +48,7 @@ public abstract class BaseSkuVirtualSettingsResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/by-externalReferenceCode/{externalReferenceCode}/sku-virtual-settings'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("skuByExternalReferenceCodeSkuVirtualSettings")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -81,6 +83,7 @@ public abstract class BaseSkuVirtualSettingsResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/skus/{id}/sku-virtual-settings'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("skuIdSkuVirtualSettings")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

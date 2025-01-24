@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -72,6 +73,7 @@ public abstract class BaseShippingFixedOptionTermResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/shipping-fixed-option-terms/{shippingFixedOptionTermId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteShippingFixedOptionTerm")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -106,6 +108,7 @@ public abstract class BaseShippingFixedOptionTermResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/shipping-fixed-option-terms/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteShippingFixedOptionTermBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -154,6 +157,7 @@ public abstract class BaseShippingFixedOptionTermResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/shipping-fixed-options/{id}/shipping-fixed-option-terms'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("shippingFixedOptionIdShippingFixedOptionTerms")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -217,6 +221,7 @@ public abstract class BaseShippingFixedOptionTermResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/shipping-fixed-options/{id}/shipping-fixed-option-terms' -d $'{"shippingFixedOptionId": ___, "termExternalReferenceCode": ___, "termId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createShippingFixedOptionIdShippingFixedOptionTerm")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

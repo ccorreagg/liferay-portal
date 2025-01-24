@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -71,6 +72,7 @@ public abstract class BaseCTEntryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/ct-entries'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("ctCollectionCTEntries")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -134,6 +136,9 @@ public abstract class BaseCTEntryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/ct-entries/by-model-class-name-id/{modelClassNameId}/by-model-class-pk/{modelClassPK}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"ctCollectionCTEntryByModelClassNameByModelClassPkModelClassPK"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -183,6 +188,7 @@ public abstract class BaseCTEntryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-entries/history'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cTEntriesHistory")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -253,6 +259,7 @@ public abstract class BaseCTEntryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-entries/{ctEntryId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cTEntry")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

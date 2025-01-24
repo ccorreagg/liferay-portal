@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseDSEnvelopeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/digital-signature-rest/v1.0/sites/{siteId}/ds-envelopes'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dSEnvelopes")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -141,6 +143,7 @@ public abstract class BaseDSEnvelopeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/digital-signature-rest/v1.0/sites/{siteId}/ds-envelopes/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDSEnvelopesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -238,6 +241,7 @@ public abstract class BaseDSEnvelopeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/digital-signature-rest/v1.0/sites/{siteId}/ds-envelopes' -d $'{"dsDocument": ___, "dsRecipient": ___, "emailBlurb": ___, "emailSubject": ___, "id": ___, "name": ___, "senderEmailAddress": ___, "siteId": ___, "status": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDSEnvelope")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -270,6 +274,7 @@ public abstract class BaseDSEnvelopeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/digital-signature-rest/v1.0/sites/{siteId}/ds-envelopes/batch' -d $'{"dsDocument": ___, "dsRecipient": ___, "emailBlurb": ___, "emailSubject": ___, "id": ___, "name": ___, "senderEmailAddress": ___, "siteId": ___, "status": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDSEnvelopeBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -323,6 +328,7 @@ public abstract class BaseDSEnvelopeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/digital-signature-rest/v1.0/sites/{siteId}/ds-envelopes/{dsEnvelopeId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dSEnvelope")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

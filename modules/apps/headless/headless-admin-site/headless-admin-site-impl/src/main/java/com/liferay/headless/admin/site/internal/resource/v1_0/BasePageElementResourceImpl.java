@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -72,6 +73,7 @@ public abstract class BasePageElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}/page-elements'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageExperiencePageElements")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the page elements within an experience in a page specification of a site page."
 	)
@@ -143,6 +145,9 @@ public abstract class BasePageElementResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}/page-elements' -d $'{"definition": ___, "externalReferenceCode": ___, "pageElements": ___, "parentExternalReferenceCode": ___, "position": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodePageExperiencePageElement"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new page element to an experience in a page specification in draft status of a site page."
 	)
@@ -209,6 +214,7 @@ public abstract class BasePageElementResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}/page-elements/{pageElementExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteSiteByExternalReferenceCodePageElement")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a page element within an experience of a specific page specification of a site page within a site."
 	)
@@ -266,6 +272,7 @@ public abstract class BasePageElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}/page-elements/{pageElementExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageElement")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a page element within an experience of a specific page specification of a site page within a site."
 	)
@@ -337,6 +344,7 @@ public abstract class BasePageElementResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}/page-elements/{pageElementExternalReferenceCode}' -d $'{"definition": ___, "externalReferenceCode": ___, "pageElements": ___, "parentExternalReferenceCode": ___, "position": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSiteSiteByExternalReferenceCodePageElement")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates a page element within an experience of a specific page specification of a site page within a site. Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -444,6 +452,7 @@ public abstract class BasePageElementResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}/page-elements/{pageElementExternalReferenceCode}' -d $'{"definition": ___, "externalReferenceCode": ___, "pageElements": ___, "parentExternalReferenceCode": ___, "position": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteSiteByExternalReferenceCodePageElement")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates a page element within an experience of a specific page specification of a site page within a site."
 	)
@@ -517,6 +526,9 @@ public abstract class BasePageElementResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}/page-elements/{pageElementExternalReferenceCode}/fragment-compositions' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "description": ___, "externalReferenceCode": ___, "fragmentSetExternalReferenceCode": ___, "key": ___, "name": ___, "pageElement": ___, "thumbnail": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodePageElementFragmentComposition"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new fragment composition under a page element of an experience in a page specification of a site page. If successful, the response will contain the page element in which the fragment composition is converted."
 	)
@@ -598,6 +610,7 @@ public abstract class BasePageElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}/page-elements/{pageElementExternalReferenceCode}/page-elements'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageElementPageElements")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the descendant page elements of a page element within an experience in a page specification of a site page."
 	)

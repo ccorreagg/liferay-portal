@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-shipping-options/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAccountChannelShippingOption")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -106,6 +108,7 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-shipping-options/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAccountChannelShippingOptionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -155,6 +158,7 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-shipping-options/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountChannelShippingOption")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -188,6 +192,7 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-shipping-options/{id}' -d $'{"accountExternalReferenceCode": ___, "accountId": ___, "channelExternalReferenceCode": ___, "channelId": ___, "id": ___, "shippingMethodId": ___, "shippingMethodKey": ___, "shippingOptionId": ___, "shippingOptionKey": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchAccountChannelShippingOption")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -223,6 +228,7 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-option'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountByExternalReferenceCodeAccountChannelShippingOption")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -269,6 +275,9 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-option' -d $'{"accountExternalReferenceCode": ___, "accountId": ___, "channelExternalReferenceCode": ___, "channelId": ___, "id": ___, "shippingMethodId": ___, "shippingMethodKey": ___, "shippingOptionId": ___, "shippingOptionKey": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createAccountByExternalReferenceCodeAccountChannelShippingOption"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -308,6 +317,7 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-shipping-option'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountIdAccountChannelShippingOption")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -352,6 +362,7 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-shipping-option' -d $'{"accountExternalReferenceCode": ___, "accountId": ___, "channelExternalReferenceCode": ___, "channelId": ___, "id": ___, "shippingMethodId": ___, "shippingMethodKey": ___, "shippingOptionId": ___, "shippingOptionKey": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountIdAccountChannelShippingOption")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -389,6 +400,7 @@ public abstract class BaseAccountChannelShippingOptionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/account-channel-shipping-option/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountIdAccountChannelShippingOptionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

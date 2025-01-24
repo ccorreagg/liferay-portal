@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseProductConfigurationListOrderTypeResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-list-order-types/{productConfigurationListOrderTypeId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductConfigurationListOrderType")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -109,6 +111,7 @@ public abstract class BaseProductConfigurationListOrderTypeResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-list-order-types/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductConfigurationListOrderTypeBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -158,6 +161,9 @@ public abstract class BaseProductConfigurationListOrderTypeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/by-externalReferenceCode/{externalReferenceCode}/product-configuration-list-order-types'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"productConfigurationListByExternalReferenceCodeProductConfigurationListOrderTypes"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -204,6 +210,9 @@ public abstract class BaseProductConfigurationListOrderTypeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/by-externalReferenceCode/{externalReferenceCode}/product-configuration-list-order-types' -d $'{"orderTypeExternalReferenceCode": ___, "orderTypeId": ___, "priority": ___, "productConfigurationListExternalReferenceCode": ___, "productConfigurationListId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createProductConfigurationListByExternalReferenceCodeProductConfigurationListOrderType"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -244,6 +253,7 @@ public abstract class BaseProductConfigurationListOrderTypeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/{id}/product-configuration-list-order-types'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productConfigurationListIdProductConfigurationListOrderTypes")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -307,6 +317,9 @@ public abstract class BaseProductConfigurationListOrderTypeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/{id}/product-configuration-list-order-types' -d $'{"orderTypeExternalReferenceCode": ___, "orderTypeId": ___, "priority": ___, "productConfigurationListExternalReferenceCode": ___, "productConfigurationListId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createProductConfigurationListIdProductConfigurationListOrderType"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -347,6 +360,9 @@ public abstract class BaseProductConfigurationListOrderTypeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/product-configuration-list-order-types/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createProductConfigurationListIdProductConfigurationListOrderTypeBatch"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

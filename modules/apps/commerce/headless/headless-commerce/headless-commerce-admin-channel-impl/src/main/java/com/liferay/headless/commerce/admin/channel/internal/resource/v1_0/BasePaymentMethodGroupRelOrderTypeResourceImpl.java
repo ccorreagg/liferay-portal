@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -73,6 +74,7 @@ public abstract class BasePaymentMethodGroupRelOrderTypeResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/payment-method-group-rel-order-types/{paymentMethodGroupRelOrderTypeId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePaymentMethodGroupRelOrderType")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -107,6 +109,7 @@ public abstract class BasePaymentMethodGroupRelOrderTypeResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/payment-method-group-rel-order-types/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePaymentMethodGroupRelOrderTypeBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -156,6 +159,7 @@ public abstract class BasePaymentMethodGroupRelOrderTypeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/payment-method-group-rels/{id}/payment-method-group-rel-order-types'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("paymentMethodGroupRelIdPaymentMethodGroupRelOrderTypes")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -219,6 +223,7 @@ public abstract class BasePaymentMethodGroupRelOrderTypeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/payment-method-group-rels/{id}/payment-method-group-rel-order-types' -d $'{"orderTypeExternalReferenceCode": ___, "orderTypeId": ___, "paymentMethodGroupRelId": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPaymentMethodGroupRelIdPaymentMethodGroupRelOrderType")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

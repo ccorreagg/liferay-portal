@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -46,6 +47,7 @@ public abstract class BaseAddressResourceImpl implements AddressResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/billing-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartByExternalReferenceCodeBillingAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve cart billing address."
 	)
@@ -81,6 +83,7 @@ public abstract class BaseAddressResourceImpl implements AddressResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/shipping-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartByExternalReferenceCodeShippingAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve cart billing address."
 	)
@@ -116,6 +119,7 @@ public abstract class BaseAddressResourceImpl implements AddressResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/{cartId}/billing-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartBillingAddres")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve cart billing address."
 	)
@@ -149,6 +153,7 @@ public abstract class BaseAddressResourceImpl implements AddressResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/{cartId}/shipping-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartShippingAddres")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve cart billing address."
 	)

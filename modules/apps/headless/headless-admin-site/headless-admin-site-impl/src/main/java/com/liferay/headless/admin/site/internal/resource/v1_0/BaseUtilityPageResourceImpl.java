@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.Permission;
@@ -73,6 +74,7 @@ public abstract class BaseUtilityPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeUtilityPages")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the utility pages of the site."
 	)
@@ -150,6 +152,7 @@ public abstract class BaseUtilityPageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "externalReferenceCode": ___, "friendlyUrlHistory": ___, "friendlyUrlPath_i18n": ___, "markedAsDefault": ___, "name": ___, "pageSpecifications": ___, "thumbnail": ___, "type": ___, "utilityPageSettings": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteSiteByExternalReferenceCodeUtilityPage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new utility page"
 	)
@@ -185,6 +188,7 @@ public abstract class BaseUtilityPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeUtilityPagePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -233,6 +237,9 @@ public abstract class BaseUtilityPageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -268,6 +275,7 @@ public abstract class BaseUtilityPageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages/{utilityPageExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteSiteByExternalReferenceCodeUtilityPage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a specific utility page of a site."
 	)
@@ -309,6 +317,7 @@ public abstract class BaseUtilityPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages/{utilityPageExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeUtilityPage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a specific utility page of a site."
 	)
@@ -364,6 +373,7 @@ public abstract class BaseUtilityPageResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages/{utilityPageExternalReferenceCode}' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "externalReferenceCode": ___, "friendlyUrlHistory": ___, "friendlyUrlPath_i18n": ___, "markedAsDefault": ___, "name": ___, "pageSpecifications": ___, "thumbnail": ___, "type": ___, "utilityPageSettings": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSiteSiteByExternalReferenceCodeUtilityPage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -474,6 +484,7 @@ public abstract class BaseUtilityPageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages/{utilityPageExternalReferenceCode}' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "externalReferenceCode": ___, "friendlyUrlHistory": ___, "friendlyUrlPath_i18n": ___, "markedAsDefault": ___, "name": ___, "pageSpecifications": ___, "thumbnail": ___, "type": ___, "utilityPageSettings": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteSiteByExternalReferenceCodeUtilityPage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the utility page with the given external reference code, or creates it if it does not exist."
 	)
@@ -531,6 +542,9 @@ public abstract class BaseUtilityPageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages/{utilityPageExternalReferenceCode}/page-specifications' -d $'{"pageExperiences": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodeUtilityPagePageSpecification"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new page specification to a utility page."
 	)
@@ -588,6 +602,7 @@ public abstract class BaseUtilityPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages/{utilityPageExternalReferenceCode}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteExternalReferenceCodeUtilityPagePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -644,6 +659,9 @@ public abstract class BaseUtilityPageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages/{utilityPageExternalReferenceCode}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteSiteExternalReferenceCodeUtilityPagePermissionsPage"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

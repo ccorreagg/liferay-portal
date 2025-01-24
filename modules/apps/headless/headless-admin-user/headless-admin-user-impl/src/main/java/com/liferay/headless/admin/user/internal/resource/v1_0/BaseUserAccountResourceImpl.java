@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -76,6 +77,9 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/user-accounts/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteAccountByExternalReferenceCodeUserAccountByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Removes a user by their external reference code from an account by external reference code"
 	)
@@ -118,6 +122,9 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/user-accounts/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"accountByExternalReferenceCodeUserAccountByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Gets a user by their external reference code to an account by external reference code"
 	)
@@ -162,6 +169,9 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/user-accounts/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createAccountByExternalReferenceCodeUserAccountByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns a user by their external reference code to an account by external reference code"
 	)
@@ -204,6 +214,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/user-accounts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountUserAccountsByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Gets the users assigned to an account"
 	)
@@ -265,6 +276,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/user-accounts' -d $'{"additionalName": ___, "alternateName": ___, "birthDate": ___, "currentPassword": ___, "customFields": ___, "emailAddress": ___, "externalReferenceCode": ___, "familyName": ___, "gender": ___, "givenName": ___, "honorificPrefix": ___, "honorificSuffix": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "jobTitle": ___, "languageId": ___, "password": ___, "status": ___, "userAccountContactInformation": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountUserAccountByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a user and assigns them to the account"
 	)
@@ -302,6 +314,9 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteAccountUserAccountsByExternalReferenceCodeByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Removes users from an account by their email addresses"
 	)
@@ -337,6 +352,9 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createAccountUserAccountsByExternalReferenceCodeByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns users to an account by their email addresses"
 	)
@@ -382,6 +400,9 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteAccountUserAccountByExternalReferenceCodeByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Removes a user from an account by external reference code by their email address"
 	)
@@ -423,6 +444,9 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createAccountUserAccountByExternalReferenceCodeByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns a user to an account by external reference code by their email address"
 	)
@@ -467,6 +491,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/user-accounts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountUserAccounts")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Gets the users assigned to an account"
 	)
@@ -526,6 +551,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/user-accounts/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountUserAccountsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -612,6 +638,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/user-accounts' -d $'{"additionalName": ___, "alternateName": ___, "birthDate": ___, "currentPassword": ___, "customFields": ___, "emailAddress": ___, "externalReferenceCode": ___, "familyName": ___, "gender": ___, "givenName": ___, "honorificPrefix": ___, "honorificSuffix": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "jobTitle": ___, "languageId": ___, "password": ___, "status": ___, "userAccountContactInformation": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountUserAccount")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a user and assigns them to the account"
 	)
@@ -647,6 +674,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/user-accounts/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountUserAccountBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -699,6 +727,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/user-accounts/by-email-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAccountUserAccountsByEmailAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Removes users from an account by their email addresses"
 	)
@@ -732,6 +761,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/user-accounts/by-email-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountUserAccountsByEmailAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns users to an account by their email addresses"
 	)
@@ -774,6 +804,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAccountUserAccountByEmailAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Removes a user from an account by their email address"
 	)
@@ -815,6 +846,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountUserAccountByEmailAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns a user to an account by their email address"
 	)
@@ -858,6 +890,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/user-accounts/{userAccountId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAccountUserAccount")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Removes a user assigned to an account"
 	)
@@ -897,6 +930,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/user-accounts/{userAccountId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountUserAccount")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Gets a user assigned to an account"
 	)
@@ -938,6 +972,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/my-user-account'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("myUserAccount")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves information about the user who made the request."
 	)
@@ -957,6 +992,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/user-accounts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationByExternalReferenceCodeUserAccounts")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organization's members (users). Results can be paginated, filtered, searched, and sorted."
 	)
@@ -1019,6 +1055,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationUserAccounts")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organization's members (users). Results can be paginated, filtered, searched, and sorted."
 	)
@@ -1078,6 +1115,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/user-accounts/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrganizationUserAccountsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1166,6 +1204,9 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/sites/by-friendly-url-path/{friendlyUrlPath}/accounts/by-external-reference-code/{accountExternalReferenceCode}/user-accounts/by-external-reference-code/{userAccountExternalReferenceCode}/selected'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"byFriendlyUrlPathAccountByExternalReferenceCodeAccountExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeSelected"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Gets the selected property of a user assigned to an account for a specific site"
 	)
@@ -1218,6 +1259,9 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/sites/by-friendly-url-path/{friendlyUrlPath}/accounts/by-external-reference-code/{accountExternalReferenceCode}/user-accounts/by-external-reference-code/{userAccountExternalReferenceCode}/selected'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"patchSiteByFriendlyUrlPathAccountByExternalReferenceCodeAccountExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeSelected"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the selected property of a user assigned to an account for a specific site"
 	)
@@ -1268,6 +1312,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/sites/{siteId}/accounts/{accountId}/user-accounts/{userAccountId}/selected'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountUserAccountSelected")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Gets the selected property of a user assigned to an account for a specific site"
 	)
@@ -1319,6 +1364,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/sites/{siteId}/accounts/{accountId}/user-accounts/{userAccountId}/selected'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSiteAccountUserAccountSelected")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the selected property of a user assigned to an account for a specific site"
 	)
@@ -1368,6 +1414,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/sites/{siteId}/user-accounts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteUserAccounts")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site members' user accounts. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -1427,6 +1474,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/sites/{siteId}/user-accounts/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteUserAccountsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1513,6 +1561,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccounts")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user accounts. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -1564,6 +1613,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createUserAccountsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1642,6 +1692,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts' -d $'{"additionalName": ___, "alternateName": ___, "birthDate": ___, "currentPassword": ___, "customFields": ___, "emailAddress": ___, "externalReferenceCode": ___, "familyName": ___, "gender": ___, "givenName": ___, "honorificPrefix": ___, "honorificSuffix": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "jobTitle": ___, "languageId": ___, "password": ___, "status": ___, "userAccountContactInformation": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createUserAccount")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new user account"
 	)
@@ -1664,6 +1715,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createUserAccountBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1708,6 +1760,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountByEmailAddress")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1738,6 +1791,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteUserAccountByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1768,6 +1822,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1800,6 +1855,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}' -d $'{"additionalName": ___, "alternateName": ___, "birthDate": ___, "currentPassword": ___, "customFields": ___, "emailAddress": ___, "externalReferenceCode": ___, "familyName": ___, "gender": ___, "givenName": ___, "honorificPrefix": ___, "honorificSuffix": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "jobTitle": ___, "languageId": ___, "password": ___, "status": ___, "userAccountContactInformation": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchUserAccountByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the user account with information sent in the request body. Only the provided fields are updated."
 	)
@@ -1920,6 +1976,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}' -d $'{"additionalName": ___, "alternateName": ___, "birthDate": ___, "currentPassword": ___, "customFields": ___, "emailAddress": ___, "externalReferenceCode": ___, "familyName": ___, "gender": ___, "givenName": ___, "honorificPrefix": ___, "honorificSuffix": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "jobTitle": ___, "languageId": ___, "password": ___, "status": ___, "userAccountContactInformation": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateUserAccountByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1954,6 +2011,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/by-status/{status}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountsByStatus")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -2010,6 +2068,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteUserAccount")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the user account"
 	)
@@ -2041,6 +2100,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteUserAccountBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -2085,6 +2145,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccount")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user account."
 	)
@@ -2118,6 +2179,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}' -d $'{"additionalName": ___, "alternateName": ___, "birthDate": ___, "currentPassword": ___, "customFields": ___, "emailAddress": ___, "externalReferenceCode": ___, "familyName": ___, "gender": ___, "givenName": ___, "honorificPrefix": ___, "honorificSuffix": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "jobTitle": ___, "languageId": ___, "password": ___, "status": ___, "userAccountContactInformation": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchUserAccount")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the user account with information sent in the request body. Only the provided fields are updated."
 	)
@@ -2234,6 +2296,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}' -d $'{"additionalName": ___, "alternateName": ___, "birthDate": ___, "currentPassword": ___, "customFields": ___, "emailAddress": ___, "externalReferenceCode": ___, "familyName": ___, "gender": ___, "givenName": ___, "honorificPrefix": ___, "honorificSuffix": ___, "id": ___, "imageExternalReferenceCode": ___, "imageId": ___, "jobTitle": ___, "languageId": ___, "password": ___, "status": ___, "userAccountContactInformation": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateUserAccount")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the user account with information sent in the request body. Any missing fields are deleted unless they are required."
 	)
@@ -2269,6 +2332,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateUserAccountBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -2313,6 +2377,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/image'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createUserAccountImage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -2346,6 +2411,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-groups/by-external-reference-code/{externalReferenceCode}/user-group-users'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userGroupByExternalReferenceCodeUsers")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the list of users in a user group."
 	)
@@ -2407,6 +2473,7 @@ public abstract class BaseUserAccountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-groups/{userGroupId}/user-group-users'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userGroupUsers")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the list of users in a user group."
 	)

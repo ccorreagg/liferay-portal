@@ -21,6 +21,7 @@ import com.liferay.portal.search.rest.dto.v1_0.SuggestionsContributorConfigurati
 import com.liferay.portal.search.rest.dto.v1_0.SuggestionsContributorResults;
 import com.liferay.portal.search.rest.resource.v1_0.SuggestionResource;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
@@ -49,6 +50,7 @@ public abstract class BaseSuggestionResourceImpl implements SuggestionResource {
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/search/v1.0/suggestions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSuggestionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -21,6 +21,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.ActionUtil;
@@ -51,6 +52,7 @@ public abstract class BaseCommerceChannelResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/analytics-settings-rest/v1.0/commerce-channels'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("commerceChannels")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

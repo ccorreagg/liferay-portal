@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -72,6 +73,7 @@ public abstract class BaseSearchResultResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/search/v1.0/search'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("search")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Search the company index for matching content. This endpoint is development and requires setting the portal property 'feature.flag.LPD-11232' to true or enabling via Instance Settings > Feature Flags: Developer."
 	)
@@ -163,6 +165,7 @@ public abstract class BaseSearchResultResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/search/v1.0/search' -d $'{"attributes": ___, "facetConfigurations": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSearchPage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Search the company index for matching content. This endpoint requires setting the portal property 'feature.flag.LPS-179669' to true or enabling via Instance Settings > Feature Flags: Release."
 	)

@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -72,6 +73,7 @@ public abstract class BaseListTypeDefinitionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/specifications/{id}/list-type-definitions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("specificationIdListTypeDefinitions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -103,6 +105,7 @@ public abstract class BaseListTypeDefinitionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/specifications/{id}/list-type-definitions' -d $'{"externalReferenceCode": ___, "name": ___, "name_i18n": ___, "system": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSpecificationIdListTypeDefinition")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -136,6 +139,7 @@ public abstract class BaseListTypeDefinitionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/specifications/list-type-definitions/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSpecificationIdListTypeDefinitionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -182,6 +186,7 @@ public abstract class BaseListTypeDefinitionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/specifications/{specificationId}/list-type-definitions/{listTypeDefinitionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSpecificationListTypeDefinition")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -222,6 +227,7 @@ public abstract class BaseListTypeDefinitionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/specifications/{specificationId}/list-type-definitions/{listTypeDefinitionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSpecificationListTypeDefinition")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

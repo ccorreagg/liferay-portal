@@ -45,6 +45,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.ModelPermissionsUtil;
@@ -89,6 +90,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryKeywords")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -159,6 +161,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryKeywordsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -244,6 +247,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords' -d $'{"externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryKeyword")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -276,6 +280,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryKeywordBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -328,6 +333,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAssetLibraryKeywordByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the asset library's keyword by external reference code."
 	)
@@ -369,6 +375,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryKeywordByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the asset library's keyword by external reference code."
 	)
@@ -420,6 +427,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords/by-external-reference-code/{externalReferenceCode}' -d $'{"externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateAssetLibraryKeywordByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the asset library's keyword with the given external reference code, or creates it if it not exists."
 	)
@@ -465,6 +473,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryKeywordPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -529,6 +538,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/asset-libraries/{assetLibraryId}/keywords/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateAssetLibraryKeywordPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -617,6 +627,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/keywords/ranked'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("keywordsRanked")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -670,6 +681,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/keywords/{keywordId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteKeyword")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the keyword and returns a 204 if the operation succeeds."
 	)
@@ -701,6 +713,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/keywords/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteKeywordBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -745,6 +758,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/keywords/{keywordId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("keyword")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a keyword."
 	)
@@ -786,6 +800,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/keywords/{keywordId}' -d $'{"externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateKeyword")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the keyword with the information sent in the request body. Any missing fields are deleted, unless required."
 	)
@@ -821,6 +836,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/keywords/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateKeywordBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -865,6 +881,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/keywords/{keywordId}/subscribe'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateKeywordSubscribe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -893,6 +910,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/keywords/{keywordId}/unsubscribe'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateKeywordUnsubscribe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -921,6 +939,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("keywords")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a Site's keywords. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -994,6 +1013,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteKeywordsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1079,6 +1099,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords' -d $'{"externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteKeyword")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Inserts a new keyword in a Site."
 	)
@@ -1114,6 +1135,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteKeywordBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1166,6 +1188,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteKeywordByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the site's keyword by external reference code."
 	)
@@ -1207,6 +1230,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("keywordByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's keyword by external reference code."
 	)
@@ -1258,6 +1282,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords/by-external-reference-code/{externalReferenceCode}' -d $'{"externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteKeywordByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the site's keyword with the given external reference code, or creates it if it not exists."
 	)
@@ -1303,6 +1328,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("keywordPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1364,6 +1390,7 @@ public abstract class BaseKeywordResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/keywords/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteKeywordPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

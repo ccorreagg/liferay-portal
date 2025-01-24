@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("shipments")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -123,6 +125,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createShipmentsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -200,6 +203,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments' -d $'{"carrier": ___, "customFields": ___, "expectedDate": ___, "externalReferenceCode": ___, "orderExternalReferenceCode": ___, "orderId": ___, "shipmentItems": ___, "shippingAddress": ___, "shippingAddressId": ___, "shippingDate": ___, "shippingMethodId": ___, "trackingNumber": ___, "trackingURL": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createShipment")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Shipment")}
 	)
@@ -217,6 +221,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createShipmentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -261,6 +266,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteShipmentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -291,6 +297,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("shipmentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrive information of the given Shipment."
 	)
@@ -326,6 +333,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}' -d $'{"carrier": ___, "customFields": ___, "expectedDate": ___, "externalReferenceCode": ___, "orderExternalReferenceCode": ___, "orderId": ___, "shipmentItems": ___, "shippingAddress": ___, "shippingAddressId": ___, "shippingDate": ___, "shippingMethodId": ___, "trackingNumber": ___, "trackingURL": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchShipmentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -412,6 +420,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}' -d $'{"carrier": ___, "customFields": ___, "expectedDate": ___, "externalReferenceCode": ___, "orderExternalReferenceCode": ___, "orderId": ___, "shipmentItems": ___, "shippingAddress": ___, "shippingAddressId": ___, "shippingDate": ___, "shippingMethodId": ___, "trackingNumber": ___, "trackingURL": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateShipmentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -446,6 +455,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}/status-delivered'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createShipmentByExternalReferenceCodeStatusDelivered")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -478,6 +488,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}/status-finish-processing'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createShipmentByExternalReferenceCodeStatusFinishProcessing")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -510,6 +521,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/by-externalReferenceCode/{externalReferenceCode}/status-shipped'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createShipmentByExternalReferenceCodeStatusShipped")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -542,6 +554,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteShipment")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -570,6 +583,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteShipmentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -614,6 +628,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("shipment")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -644,6 +659,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}' -d $'{"carrier": ___, "customFields": ___, "expectedDate": ___, "externalReferenceCode": ___, "orderExternalReferenceCode": ___, "orderId": ___, "shipmentItems": ___, "shippingAddress": ___, "shippingAddressId": ___, "shippingDate": ___, "shippingMethodId": ___, "trackingNumber": ___, "trackingURL": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchShipment")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -676,6 +692,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}/status-delivered'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createShipmentStatusDelivered")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -706,6 +723,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}/status-finish-processing'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createShipmentStatusFinishProcessing")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -736,6 +754,7 @@ public abstract class BaseShipmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-shipment/v1.0/shipments/{shipmentId}/status-shipped'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createShipmentStatusShipped")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -47,6 +48,9 @@ public abstract class BaseDefaultCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/default-category-display-pages'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteChannelByExternalReferenceCodeDefaultCategoryDisplayPage"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -81,6 +85,7 @@ public abstract class BaseDefaultCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/default-category-display-pages'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channelByExternalReferenceCodeDefaultCategoryDisplayPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -118,6 +123,9 @@ public abstract class BaseDefaultCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/default-category-display-pages' -d $'{"pageUuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createChannelByExternalReferenceCodeDefaultCategoryDisplayPage"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -157,6 +165,7 @@ public abstract class BaseDefaultCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/channels/{id}/default-category-display-pages'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteChannelIdDefaultCategoryDisplayPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -188,6 +197,7 @@ public abstract class BaseDefaultCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/channels/{id}/default-category-display-pages'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channelIdDefaultCategoryDisplayPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -221,6 +231,7 @@ public abstract class BaseDefaultCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/channels/{id}/default-category-display-pages' -d $'{"pageUuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createChannelIdDefaultCategoryDisplayPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

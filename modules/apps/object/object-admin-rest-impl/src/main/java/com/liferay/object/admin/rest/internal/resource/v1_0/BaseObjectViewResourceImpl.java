@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-views'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectDefinitionByExternalReferenceCodeObjectViews")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -128,6 +130,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-views' -d $'{"defaultObjectView": ___, "name": ___, "objectDefinitionExternalReferenceCode": ___, "objectDefinitionId": ___, "objectViewColumns": ___, "objectViewFilterColumns": ___, "objectViewSortColumns": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionByExternalReferenceCodeObjectView")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -162,6 +165,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-views'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectDefinitionObjectViews")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -213,6 +217,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-views/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectViewsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -296,6 +301,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-views' -d $'{"defaultObjectView": ___, "name": ___, "objectDefinitionExternalReferenceCode": ___, "objectDefinitionId": ___, "objectViewColumns": ___, "objectViewFilterColumns": ___, "objectViewSortColumns": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectView")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -328,6 +334,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-views/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectViewBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -382,6 +389,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-views/{objectViewId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectView")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -410,6 +418,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-views/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectViewBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -454,6 +463,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-views/{objectViewId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectView")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -484,6 +494,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-views/{objectViewId}' -d $'{"defaultObjectView": ___, "name": ___, "objectDefinitionExternalReferenceCode": ___, "objectDefinitionId": ___, "objectViewColumns": ___, "objectViewFilterColumns": ___, "objectViewSortColumns": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectView")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -516,6 +527,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-views/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectViewBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -560,6 +572,7 @@ public abstract class BaseObjectViewResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-views/{objectViewId}/copy'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectViewCopy")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,9 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-roles/by-external-reference-code/{accountRoleExternalReferenceCode}/user-accounts/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteAccountByExternalReferenceCodeAccountRoleByExternalReferenceCodeUserAccountByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Unassigns account users by external reference code from the account role"
 	)
@@ -124,6 +128,9 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-roles/by-external-reference-code/{accountRoleExternalReferenceCode}/user-accounts/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createAccountByExternalReferenceCodeAccountRoleByExternalReferenceCodeUserAccountByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns account users by external reference code to the account role"
 	)
@@ -174,6 +181,9 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteAccountByExternalReferenceCodeAccountRoleUserAccountByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Unassigns account users by external reference code from the account role"
 	)
@@ -224,6 +234,9 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createAccountByExternalReferenceCodeAccountRoleUserAccountByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns account users by external reference code to the account role"
 	)
@@ -274,6 +287,9 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{accountExternalReferenceCode}/user-accounts/by-external-reference-code/{externalReferenceCode}/account-roles'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"accountByExternalReferenceCodeUserAccountByExternalReferenceCodeAccountRoles"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Gets a user's account roles by their external reference code from an account by external reference code"
 	)
@@ -318,6 +334,7 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountAccountRolesByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Gets the account's roles"
 	)
@@ -379,6 +396,7 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles' -d $'{"description": ___, "displayName": ___, "externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountAccountRoleByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a role for the account"
 	)
@@ -416,6 +434,9 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles/by-external-reference-code/{accountRoleExternalReferenceCode}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteAccountByExternalReferenceCodeAccountRoleByExternalReferenceCodeUserAccountByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Unassigns account users by email address from the account role"
 	)
@@ -466,6 +487,9 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles/by-external-reference-code/{accountRoleExternalReferenceCode}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createAccountByExternalReferenceCodeAccountRoleByExternalReferenceCodeUserAccountByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns account users by email address to the account role"
 	)
@@ -516,6 +540,9 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteAccountByExternalReferenceCodeAccountRoleUserAccountByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Unassigns account users by email address from the account role"
 	)
@@ -566,6 +593,9 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/account-roles/{accountRoleId}/user-accounts/by-email-address/{emailAddress}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createAccountByExternalReferenceCodeAccountRoleUserAccountByEmailAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns account users by email address to the account role"
 	)
@@ -616,6 +646,9 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/user-accounts/by-email-address/{emailAddress}/account-roles'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"accountByExternalReferenceCodeUserAccountByEmailAddressAccountRoles"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Gets a user's account roles by their email address from an account by external reference code"
 	)
@@ -660,6 +693,7 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/account-roles'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountAccountRoles")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Gets the account's roles"
 	)
@@ -719,6 +753,7 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/account-roles/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountAccountRolesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -805,6 +840,7 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/account-roles' -d $'{"description": ___, "displayName": ___, "externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountAccountRole")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a role for the account"
 	)
@@ -840,6 +876,7 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/account-roles/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountAccountRoleBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -892,6 +929,7 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/account-roles/{accountRoleId}/user-accounts/{userAccountId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAccountAccountRoleUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Unassigns account users to the account role"
 	)
@@ -941,6 +979,7 @@ public abstract class BaseAccountRoleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/account-roles/{accountRoleId}/user-accounts/{userAccountId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountAccountRoleUserAccountAssociation")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Assigns account users to the account role"
 	)

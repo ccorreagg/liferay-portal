@@ -36,6 +36,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -76,6 +77,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/attachment/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAttachmentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -106,6 +108,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/attachment/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("attachmentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -138,6 +141,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/attachment/by-externalReferenceCode/{externalReferenceCode}' -d $'{"attachment": ___, "cdnEnabled": ___, "cdnURL": ___, "contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "fileEntryExternalReferenceCode": ___, "fileEntryGroupExternalReferenceCode": ___, "fileEntryId": ___, "galleryEnabled": ___, "id": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchAttachmentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -253,6 +257,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/attachment/by-externalReferenceCode/{externalReferenceCode}' -d $'{"attachment": ___, "cdnEnabled": ___, "cdnURL": ___, "contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "fileEntryExternalReferenceCode": ___, "fileEntryGroupExternalReferenceCode": ___, "fileEntryId": ___, "galleryEnabled": ___, "id": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateAttachmentByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -287,6 +292,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/attachment/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAttachment")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -314,6 +320,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/attachment/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAttachmentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -358,6 +365,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/attachments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productByExternalReferenceCodeAttachments")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -399,6 +407,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/attachments' -d $'{"attachment": ___, "cdnEnabled": ___, "cdnURL": ___, "contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "fileEntryExternalReferenceCode": ___, "fileEntryGroupExternalReferenceCode": ___, "fileEntryId": ___, "galleryEnabled": ___, "id": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductByExternalReferenceCodeAttachment")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -433,6 +442,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/attachments/by-base64' -d $'{"attachment": ___, "contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "galleryEnabled": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductByExternalReferenceCodeAttachmentByBase64")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -467,6 +477,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/attachments/by-url' -d $'{"contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "galleryEnabled": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductByExternalReferenceCodeAttachmentByUrl")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -501,6 +512,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/images'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productByExternalReferenceCodeImages")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -542,6 +554,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/images' -d $'{"attachment": ___, "cdnEnabled": ___, "cdnURL": ___, "contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "fileEntryExternalReferenceCode": ___, "fileEntryGroupExternalReferenceCode": ___, "fileEntryId": ___, "galleryEnabled": ___, "id": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductByExternalReferenceCodeImage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -576,6 +589,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/images/by-base64' -d $'{"attachment": ___, "contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "galleryEnabled": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductByExternalReferenceCodeImageByBase64")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -610,6 +624,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/images/by-url' -d $'{"contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "galleryEnabled": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductByExternalReferenceCodeImageByUrl")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -644,6 +659,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/attachments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productIdAttachments")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -682,6 +698,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/attachments' -d $'{"attachment": ___, "cdnEnabled": ___, "cdnURL": ___, "contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "fileEntryExternalReferenceCode": ___, "fileEntryGroupExternalReferenceCode": ___, "fileEntryId": ___, "galleryEnabled": ___, "id": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductIdAttachment")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -713,6 +730,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/attachments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductIdAttachmentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -757,6 +775,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/attachments/by-base64' -d $'{"attachment": ___, "contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "galleryEnabled": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductIdAttachmentByBase64")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -788,6 +807,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/attachments/by-url' -d $'{"contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "galleryEnabled": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductIdAttachmentByUrl")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -819,6 +839,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/images'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productIdImages")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -857,6 +878,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/images' -d $'{"attachment": ___, "cdnEnabled": ___, "cdnURL": ___, "contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "fileEntryExternalReferenceCode": ___, "fileEntryGroupExternalReferenceCode": ___, "fileEntryId": ___, "galleryEnabled": ___, "id": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductIdImage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -888,6 +910,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/images/by-base64' -d $'{"attachment": ___, "contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "galleryEnabled": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductIdImageByBase64")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -919,6 +942,7 @@ public abstract class BaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/images/by-url' -d $'{"contentType": ___, "customFields": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "galleryEnabled": ___, "neverExpire": ___, "options": ___, "priority": ___, "src": ___, "tags": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductIdImageByUrl")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

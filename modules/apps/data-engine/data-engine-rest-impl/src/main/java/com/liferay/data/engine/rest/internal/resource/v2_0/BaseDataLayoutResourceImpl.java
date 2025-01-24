@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-layouts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDataDefinitionDataLayout")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -103,6 +105,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-layouts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataDefinitionDataLayouts")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -154,6 +157,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-layouts/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataLayoutsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -237,6 +241,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-layouts' -d $'{"contentType": ___, "dataDefinitionId": ___, "dataLayoutFields": ___, "dataLayoutKey": ___, "dataLayoutPages": ___, "dataRules": ___, "dateCreated": ___, "dateModified": ___, "description": ___, "id": ___, "name": ___, "paginationMode": ___, "siteId": ___, "userId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataLayout")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -269,6 +274,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-layouts/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataLayoutBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -321,6 +327,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/data-engine/v2.0/data-layouts/{dataLayoutId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDataLayout")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -349,6 +356,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/data-engine/v2.0/data-layouts/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDataLayoutBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -393,6 +401,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-layouts/{dataLayoutId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataLayout")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -423,6 +432,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/data-engine/v2.0/data-layouts/{dataLayoutId}' -d $'{"contentType": ___, "dataDefinitionId": ___, "dataLayoutFields": ___, "dataLayoutKey": ___, "dataLayoutPages": ___, "dataRules": ___, "dateCreated": ___, "dateModified": ___, "description": ___, "id": ___, "name": ___, "paginationMode": ___, "siteId": ___, "userId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDataLayout")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -455,6 +465,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/data-engine/v2.0/data-layouts/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDataLayoutBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -499,6 +510,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-layouts/{dataLayoutId}/context' -d $'{"containerId": ___, "dataRecordValues": ___, "namespace": ___, "pathThemeImages": ___, "readOnly": ___, "scopeGroupId": ___, "siteGroupId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataLayoutContext")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -533,6 +545,7 @@ public abstract class BaseDataLayoutResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/sites/{siteId}/data-layouts/by-content-type/{contentType}/by-data-layout-key/{dataLayoutKey}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataLayoutByContentTypeByDataLayoutKey")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

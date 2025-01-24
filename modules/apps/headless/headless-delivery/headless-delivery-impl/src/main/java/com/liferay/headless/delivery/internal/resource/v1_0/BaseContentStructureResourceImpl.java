@@ -46,6 +46,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.ModelPermissionsUtil;
@@ -90,6 +91,7 @@ public abstract class BaseContentStructureResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-structures'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryContentStructures")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -166,6 +168,7 @@ public abstract class BaseContentStructureResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-structures/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryContentStructuresPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -256,6 +259,7 @@ public abstract class BaseContentStructureResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-structures/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryContentStructurePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -328,6 +332,7 @@ public abstract class BaseContentStructureResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/content-structures/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateAssetLibraryContentStructurePermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -420,6 +425,7 @@ public abstract class BaseContentStructureResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/content-structures/{contentStructureId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("contentStructure")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the content structure."
 	)
@@ -467,6 +473,7 @@ public abstract class BaseContentStructureResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/content-structures/{contentStructureId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("contentStructurePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -540,6 +547,7 @@ public abstract class BaseContentStructureResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/content-structures/{contentStructureId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateContentStructurePermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -634,6 +642,7 @@ public abstract class BaseContentStructureResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/content-structures'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("contentStructures")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's content structures. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -713,6 +722,7 @@ public abstract class BaseContentStructureResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/content-structures/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteContentStructuresPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -801,6 +811,7 @@ public abstract class BaseContentStructureResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/content-structures/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteContentStructurePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -870,6 +881,7 @@ public abstract class BaseContentStructureResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/content-structures/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteContentStructurePermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

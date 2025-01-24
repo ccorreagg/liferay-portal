@@ -47,6 +47,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.ModelPermissionsUtil;
@@ -91,6 +92,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-content-folders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryStructuredContentFolders")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -180,6 +182,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-content-folders/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryStructuredContentFoldersPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -272,6 +275,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-content-folders' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentStructuredContentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryStructuredContentFolder")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -310,6 +314,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-content-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryStructuredContentFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -369,6 +374,9 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-content-folders/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteAssetLibraryStructuredContentFolderByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the asset library's structured content folder by external reference code."
 	)
@@ -415,6 +423,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-content-folders/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryStructuredContentFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the asset library's structured content folder by external reference code."
 	)
@@ -475,6 +484,9 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-content-folders/by-external-reference-code/{externalReferenceCode}' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentStructuredContentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateAssetLibraryStructuredContentFolderByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the asset library's structured content folder with the given external reference code, or creates it if it not exists."
 	)
@@ -525,6 +537,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-content-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryStructuredContentFolderPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -600,6 +613,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/structured-content-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateAssetLibraryStructuredContentFolderPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -695,6 +709,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-content-folders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("structuredContentFolders")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's structured content folders. Results can be paginated, filtered, searched, flattened, and sorted."
 	)
@@ -783,6 +798,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-content-folders/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteStructuredContentFoldersPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -873,6 +889,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-content-folders' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentStructuredContentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteStructuredContentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new structured content folder."
 	)
@@ -912,6 +929,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-content-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteStructuredContentFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -969,6 +987,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-content-folders/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteStructuredContentFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1011,6 +1030,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-content-folders/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("structuredContentFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1068,6 +1088,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-content-folders/by-external-reference-code/{externalReferenceCode}' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentStructuredContentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteStructuredContentFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1115,6 +1136,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-content-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteStructuredContentFolderPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1186,6 +1208,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/structured-content-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteStructuredContentFolderPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1276,6 +1299,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folder/{structuredContentFolderId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("structuredContentFolderPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1354,6 +1378,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folder/{structuredContentFolderId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateStructuredContentFolderPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1453,6 +1478,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folders/{parentStructuredContentFolderId}/structured-content-folders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("structuredContentFolderStructuredContentFolders")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the parent structured content folder's subfolders. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -1538,6 +1564,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folders/{parentStructuredContentFolderId}/structured-content-folders' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentStructuredContentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createStructuredContentFolderStructuredContentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new structured content folder in an existing folder."
 	)
@@ -1580,6 +1607,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folders/{structuredContentFolderId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteStructuredContentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the structured content folder and returns a 204 if the operation succeeds."
 	)
@@ -1615,6 +1643,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteStructuredContentFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1663,6 +1692,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folders/{structuredContentFolderId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("structuredContentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the structured content folder."
 	)
@@ -1712,6 +1742,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folders/{structuredContentFolderId}' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentStructuredContentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchStructuredContentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -1787,6 +1818,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folders/{structuredContentFolderId}' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentStructuredContentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateStructuredContentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the structured content folder with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
@@ -1826,6 +1858,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateStructuredContentFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1874,6 +1907,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folders/{structuredContentFolderId}/subscribe'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateStructuredContentFolderSubscribe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1908,6 +1942,7 @@ public abstract class BaseStructuredContentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/structured-content-folders/{structuredContentFolderId}/unsubscribe'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateStructuredContentFolderUnsubscribe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

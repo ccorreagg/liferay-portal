@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -77,6 +78,9 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/wiki-pages/by-external-reference-code/{wikiPageExternalReferenceCode}/wiki-page-attachments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteSiteWikiPageByExternalReferenceCodeWikiPageExternalReferenceCodeWikiPageAttachmentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Delete the wiki page attachment by wiki page's and wiki page attachment's external reference codes."
 	)
@@ -129,6 +133,9 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/wiki-pages/by-external-reference-code/{wikiPageExternalReferenceCode}/wiki-page-attachments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"wikiPageByExternalReferenceCodeWikiPageExternalReferenceCodeWikiPageAttachmentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the wiki page attachment by wiki page's and wiki page attachment's external reference codes."
 	)
@@ -191,6 +198,7 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-page-attachments/{wikiPageAttachmentId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWikiPageAttachment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the wiki page attachment and returns a 204 if the operation succeeds."
 	)
@@ -224,6 +232,7 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-page-attachments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWikiPageAttachmentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -270,6 +279,7 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-page-attachments/{wikiPageAttachmentId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("wikiPageAttachment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the wiki page attachment."
 	)
@@ -317,6 +327,7 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-pages/{wikiPageId}/wiki-page-attachments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("wikiPageWikiPageAttachments")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the wiki page's attachments."
 	)
@@ -364,6 +375,7 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-pages/{wikiPageId}/wiki-page-attachments/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWikiPageWikiPageAttachmentsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -437,6 +449,7 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-pages/{wikiPageId}/wiki-page-attachments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWikiPageWikiPageAttachment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates an attachment for the wiki page. The request body must be `multipart/form-data` with two parts, the file's bytes (`file`), and an optional JSON string (`WikiPageAttachment`) with the metadata.",
 		requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "multipart/form-data", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = PostWikiPageWikiPageAttachmentRequestBody.class)))
@@ -475,6 +488,7 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-pages/{wikiPageId}/wiki-page-attachments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWikiPageWikiPageAttachmentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

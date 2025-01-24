@@ -48,6 +48,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.ModelPermissionsUtil;
@@ -92,6 +93,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteMessageBoardMessage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the message board message and returns a 204 if the operation succeeds."
 	)
@@ -127,6 +129,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteMessageBoardMessageBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -175,6 +178,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("messageBoardMessage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the message board message."
 	)
@@ -224,6 +228,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}' -d $'{"anonymous": ___, "articleBody": ___, "creatorStatistics": ___, "customFields": ___, "encodingFormat": ___, "externalReferenceCode": ___, "friendlyUrlPath": ___, "hasCompanyMx": ___, "headline": ___, "keywords": ___, "messageBoardSectionId": ___, "modified": ___, "parentMessageBoardMessageId": ___, "showAsAnswer": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchMessageBoardMessage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -337,6 +342,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}' -d $'{"anonymous": ___, "articleBody": ___, "creatorStatistics": ___, "customFields": ___, "encodingFormat": ___, "externalReferenceCode": ___, "friendlyUrlPath": ___, "hasCompanyMx": ___, "headline": ___, "keywords": ___, "messageBoardSectionId": ___, "modified": ___, "parentMessageBoardMessageId": ___, "showAsAnswer": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateMessageBoardMessage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the message board message with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
@@ -376,6 +382,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateMessageBoardMessageBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -424,6 +431,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/mark-as-answer'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateMessageBoardMessageMarkAsAnswer")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -458,6 +466,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/my-rating'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteMessageBoardMessageMyRating")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the message board message's rating and returns a 204 if the operation succeeds."
 	)
@@ -495,6 +504,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/my-rating'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("messageBoardMessageMyRating")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the message board message's rating."
 	)
@@ -542,6 +552,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/my-rating' -d $'{"ratingValue": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createMessageBoardMessageMyRating")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a rating for the message board message."
 	)
@@ -583,6 +594,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/my-rating' -d $'{"ratingValue": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateMessageBoardMessageMyRating")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the rating with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
@@ -624,6 +636,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("messageBoardMessagePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -701,6 +714,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateMessageBoardMessagePermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -799,6 +813,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/subscribe'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateMessageBoardMessageSubscribe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -833,6 +848,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/unmark-as-answer'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateMessageBoardMessageUnmarkAsAnswer")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -867,6 +883,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{messageBoardMessageId}/unsubscribe'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateMessageBoardMessageUnsubscribe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -901,6 +918,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{parentMessageBoardMessageId}/message-board-messages'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("messageBoardMessageMessageBoardMessages")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the parent message board message's child messages. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -993,6 +1011,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-messages/{parentMessageBoardMessageId}/message-board-messages' -d $'{"anonymous": ___, "articleBody": ___, "creatorStatistics": ___, "customFields": ___, "encodingFormat": ___, "externalReferenceCode": ___, "friendlyUrlPath": ___, "hasCompanyMx": ___, "headline": ___, "keywords": ___, "messageBoardSectionId": ___, "modified": ___, "parentMessageBoardMessageId": ___, "showAsAnswer": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createMessageBoardMessageMessageBoardMessage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a child message board message of the parent message."
 	)
@@ -1034,6 +1053,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-threads/{messageBoardThreadId}/message-board-messages'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("messageBoardThreadMessageBoardMessages")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the message board thread's messages. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -1119,6 +1139,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-threads/{messageBoardThreadId}/message-board-messages/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createMessageBoardThreadMessageBoardMessagesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1211,6 +1232,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-threads/{messageBoardThreadId}/message-board-messages' -d $'{"anonymous": ___, "articleBody": ___, "creatorStatistics": ___, "customFields": ___, "encodingFormat": ___, "externalReferenceCode": ___, "friendlyUrlPath": ___, "hasCompanyMx": ___, "headline": ___, "keywords": ___, "messageBoardSectionId": ___, "modified": ___, "parentMessageBoardMessageId": ___, "showAsAnswer": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createMessageBoardThreadMessageBoardMessage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new message in the message board thread."
 	)
@@ -1252,6 +1274,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/message-board-threads/{messageBoardThreadId}/message-board-messages/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createMessageBoardThreadMessageBoardMessageBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1310,6 +1333,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/message-board-messages'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("messageBoardMessages")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's message board messages."
 	)
@@ -1398,6 +1422,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/message-board-messages/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteMessageBoardMessagesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1488,6 +1513,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/message-board-messages/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteMessageBoardMessageByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the site's message board message by external reference code."
 	)
@@ -1533,6 +1559,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/message-board-messages/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("messageBoardMessageByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's message board message by external reference code."
 	)
@@ -1593,6 +1620,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/message-board-messages/by-external-reference-code/{externalReferenceCode}' -d $'{"anonymous": ___, "articleBody": ___, "creatorStatistics": ___, "customFields": ___, "encodingFormat": ___, "externalReferenceCode": ___, "friendlyUrlPath": ___, "hasCompanyMx": ___, "headline": ___, "keywords": ___, "messageBoardSectionId": ___, "modified": ___, "parentMessageBoardMessageId": ___, "showAsAnswer": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteMessageBoardMessageByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the site's message board message with the given external reference code, or creates it if it not exists."
 	)
@@ -1643,6 +1671,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/message-board-messages/by-friendly-url-path/{friendlyUrlPath}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("messageBoardMessageByFriendlyUrlPath")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1699,6 +1728,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/message-board-messages/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteMessageBoardMessagePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1770,6 +1800,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/message-board-messages/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteMessageBoardMessagePermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1860,6 +1891,7 @@ public abstract class BaseMessageBoardMessageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/{userId}/message-board-messages/activity'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userMessageBoardMessagesActivity")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's message board messages user's activity."
 	)

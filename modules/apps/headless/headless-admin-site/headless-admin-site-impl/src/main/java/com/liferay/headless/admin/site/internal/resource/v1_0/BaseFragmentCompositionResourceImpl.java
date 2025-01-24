@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -71,6 +72,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/fragment-compositions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeFragmentCompositions")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the fragment compositions of the site."
 	)
@@ -149,6 +151,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/fragment-compositions' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "description": ___, "externalReferenceCode": ___, "fragmentSetExternalReferenceCode": ___, "key": ___, "name": ___, "pageElement": ___, "thumbnail": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteSiteByExternalReferenceCodeFragmentComposition")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new fragment composition. If the page element of the fragment composition does not contain a definition property and contains an external reference code, the page element will be retrieved based on the externalReferenceCode and used for creating the fragment composition."
 	)
@@ -209,6 +212,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/fragment-compositions/{fragmentCompositionExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteSiteByExternalReferenceCodeFragmentComposition")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a specific fragment composition of a site."
 	)
@@ -254,6 +258,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/fragment-compositions/{fragmentCompositionExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeFragmentComposition")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a specific fragment composition of a site."
 	)
@@ -316,6 +321,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/fragment-compositions/{fragmentCompositionExternalReferenceCode}' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "description": ___, "externalReferenceCode": ___, "fragmentSetExternalReferenceCode": ___, "key": ___, "name": ___, "pageElement": ___, "thumbnail": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSiteSiteByExternalReferenceCodeFragmentComposition")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -432,6 +438,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/fragment-compositions/{fragmentCompositionExternalReferenceCode}' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "description": ___, "externalReferenceCode": ___, "fragmentSetExternalReferenceCode": ___, "key": ___, "name": ___, "pageElement": ___, "thumbnail": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteSiteByExternalReferenceCodeFragmentComposition")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the fragment composition with the given external reference code, or creates it if it does not exist."
 	)

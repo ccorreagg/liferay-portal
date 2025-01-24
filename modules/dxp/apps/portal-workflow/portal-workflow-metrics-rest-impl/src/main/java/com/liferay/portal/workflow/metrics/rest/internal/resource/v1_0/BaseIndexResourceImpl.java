@@ -31,6 +31,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -72,6 +73,7 @@ public abstract class BaseIndexResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/indexes'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("indexes")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Index")}
 	)
@@ -88,6 +90,7 @@ public abstract class BaseIndexResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/indexes/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createIndexesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -148,6 +151,7 @@ public abstract class BaseIndexResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/indexes/refresh' -d $'{"key": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchIndexRefresh")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Index")}
 	)
@@ -164,6 +168,7 @@ public abstract class BaseIndexResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/indexes/reindex' -d $'{"key": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchIndexReindex")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Index")}
 	)

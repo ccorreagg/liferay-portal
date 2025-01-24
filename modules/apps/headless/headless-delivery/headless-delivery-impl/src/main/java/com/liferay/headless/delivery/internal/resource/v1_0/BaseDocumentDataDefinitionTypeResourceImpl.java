@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseDocumentDataDefinitionTypeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-data-definition-types'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryDocumentDataDefinitionTypes")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -157,6 +159,7 @@ public abstract class BaseDocumentDataDefinitionTypeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-data-definition-types/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryDocumentDataDefinitionTypesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -249,6 +252,7 @@ public abstract class BaseDocumentDataDefinitionTypeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-data-definition-types' -d $'{"availableLanguages": ___, "dataDefinitionFields": ___, "dataLayout": ___, "description": ___, "description_i18n": ___, "documentMetadataSetIds": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryDocumentDataDefinitionType")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new document data definition type."
 	)
@@ -291,6 +295,7 @@ public abstract class BaseDocumentDataDefinitionTypeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-data-definition-types/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryDocumentDataDefinitionTypeBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -350,6 +355,7 @@ public abstract class BaseDocumentDataDefinitionTypeResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/document-data-definition-types/{documentDataDefinitionTypeId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDocumentDataDefinitionType")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -384,6 +390,7 @@ public abstract class BaseDocumentDataDefinitionTypeResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/document-data-definition-types/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDocumentDataDefinitionTypeBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -432,6 +439,7 @@ public abstract class BaseDocumentDataDefinitionTypeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/document-data-definition-types/{documentDataDefinitionTypeId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentDataDefinitionType")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -476,6 +484,7 @@ public abstract class BaseDocumentDataDefinitionTypeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-data-definition-types'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentDataDefinitionTypes")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -556,6 +565,7 @@ public abstract class BaseDocumentDataDefinitionTypeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-data-definition-types/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDocumentDataDefinitionTypesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -648,6 +658,7 @@ public abstract class BaseDocumentDataDefinitionTypeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-data-definition-types' -d $'{"availableLanguages": ___, "dataDefinitionFields": ___, "dataLayout": ___, "description": ___, "description_i18n": ___, "documentMetadataSetIds": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDocumentDataDefinitionType")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new document data definition type."
 	)
@@ -687,6 +698,7 @@ public abstract class BaseDocumentDataDefinitionTypeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-data-definition-types/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDocumentDataDefinitionTypeBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

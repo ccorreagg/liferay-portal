@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-address/v1.0/countries/{countryId}/regions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("countryRegions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -132,6 +134,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-address/v1.0/countries/{countryId}/regions/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCountryRegionsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -219,6 +222,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-address/v1.0/countries/{countryId}/regions' -d $'{"active": ___, "name": ___, "position": ___, "regionCode": ___, "title_i18n": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCountryRegion")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -251,6 +255,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-address/v1.0/countries/{countryId}/regions/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCountryRegionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -303,6 +308,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-address/v1.0/countries/{countryId}/regions/by-region-code/{regionCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("countryRegionByRegionCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -343,6 +349,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-address/v1.0/regions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("regions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -393,6 +400,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-address/v1.0/regions/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createRegionsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -472,6 +480,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-address/v1.0/regions/{regionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteRegion")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -500,6 +509,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-address/v1.0/regions/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteRegionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -544,6 +554,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-address/v1.0/regions/{regionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("region")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -574,6 +585,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-address/v1.0/regions/{regionId}' -d $'{"active": ___, "name": ___, "position": ___, "regionCode": ___, "title_i18n": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchRegion")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -630,6 +642,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-address/v1.0/regions/{regionId}' -d $'{"active": ___, "name": ___, "position": ___, "regionCode": ___, "title_i18n": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateRegion")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -662,6 +675,7 @@ public abstract class BaseRegionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-address/v1.0/regions/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateRegionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

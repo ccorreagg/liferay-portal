@@ -21,6 +21,7 @@ import com.liferay.portal.search.rest.dto.v1_0.EmbeddingProviderConfiguration;
 import com.liferay.portal.search.rest.dto.v1_0.EmbeddingProviderValidationResult;
 import com.liferay.portal.search.rest.resource.v1_0.EmbeddingProviderValidationResultResource;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -48,6 +49,7 @@ public abstract class BaseEmbeddingProviderValidationResultResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/search/v1.0/embeddings/validate-provider-configuration' -d $'{"attributes": ___, "embeddingVectorDimensions": ___, "languageIds": ___, "modelClassNames": ___, "providerName": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createEmbeddingValidateProviderConfiguration")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(

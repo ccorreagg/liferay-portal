@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.Permission;
@@ -73,6 +74,7 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-template-sets/{pageTemplateSetExternalReferenceCode}/page-templates'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageTemplateSetPageTemplates")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the page templates within a page template set of a site page."
 	)
@@ -136,6 +138,9 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-template-sets/{pageTemplateSetExternalReferenceCode}/page-templates' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "externalReferenceCode": ___, "key": ___, "keywordItemExternalReferences": ___, "name": ___, "pageSpecifications": ___, "pageTemplateSet": ___, "pageTemplateSettings": ___, "taxonomyCategoryItemExternalReferences": ___, "type": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodePageTemplateSetPageTemplate"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new page template in draft status to a page template set."
 	)
@@ -194,6 +199,7 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageTemplates")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the page templates of the site"
 	)
@@ -273,6 +279,7 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "externalReferenceCode": ___, "key": ___, "keywordItemExternalReferences": ___, "name": ___, "pageSpecifications": ___, "pageTemplateSet": ___, "pageTemplateSettings": ___, "taxonomyCategoryItemExternalReferences": ___, "type": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteSiteByExternalReferenceCodePageTemplate")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new page template"
 	)
@@ -308,6 +315,7 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageTemplatePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -356,6 +364,9 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteSiteByExternalReferenceCodePageTemplatePermissionsPage"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -391,6 +402,7 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates/{pageTemplateExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteSiteByExternalReferenceCodePageTemplate")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a specific page template of a site."
 	)
@@ -432,6 +444,7 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates/{pageTemplateExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageTemplate")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a specific page template of a site."
 	)
@@ -487,6 +500,7 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates/{pageTemplateExternalReferenceCode}' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "externalReferenceCode": ___, "key": ___, "keywordItemExternalReferences": ___, "name": ___, "pageSpecifications": ___, "pageTemplateSet": ___, "pageTemplateSettings": ___, "taxonomyCategoryItemExternalReferences": ___, "type": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSiteSiteByExternalReferenceCodePageTemplate")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -592,6 +606,7 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates/{pageTemplateExternalReferenceCode}' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "externalReferenceCode": ___, "key": ___, "keywordItemExternalReferences": ___, "name": ___, "pageSpecifications": ___, "pageTemplateSet": ___, "pageTemplateSettings": ___, "taxonomyCategoryItemExternalReferences": ___, "type": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteSiteByExternalReferenceCodePageTemplate")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the page template with the given external reference code, or creates it if it does not exist."
 	)
@@ -649,6 +664,9 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates/{pageTemplateExternalReferenceCode}/page-specifications' -d $'{"pageExperiences": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodePageTemplatePageSpecification"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new page specification in draft status to a page template."
 	)
@@ -707,6 +725,7 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates/{pageTemplateExternalReferenceCode}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteExternalReferenceCodePageTemplatePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -763,6 +782,9 @@ public abstract class BasePageTemplateResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-templates/{pageTemplateExternalReferenceCode}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteSiteExternalReferenceCodePageTemplatePermissionsPage"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

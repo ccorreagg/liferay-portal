@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("products")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -123,6 +125,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -200,6 +203,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products' -d $'{"active": ___, "attachments": ___, "catalogExternalReferenceCode": ___, "catalogId": ___, "categories": ___, "createDate": ___, "customFields": ___, "defaultSku": ___, "description": ___, "diagram": ___, "displayDate": ___, "expando": ___, "expirationDate": ___, "externalReferenceCode": ___, "images": ___, "linkedProducts": ___, "mappedProducts": ___, "metaDescription": ___, "metaKeyword": ___, "metaTitle": ___, "modifiedDate": ___, "name": ___, "neverExpire": ___, "pins": ___, "productAccountGroupFilter": ___, "productAccountGroups": ___, "productChannelFilter": ___, "productChannels": ___, "productConfiguration": ___, "productOptions": ___, "productSpecifications": ___, "productStatus": ___, "productType": ___, "productVirtualSettings": ___, "relatedProducts": ___, "shippingConfiguration": ___, "shortDescription": ___, "skus": ___, "subscriptionConfiguration": ___, "tags": ___, "taxConfiguration": ___, "urls": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProduct")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Product")}
 	)
@@ -217,6 +221,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -261,6 +266,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -291,6 +297,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -323,6 +330,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}' -d $'{"active": ___, "attachments": ___, "catalogExternalReferenceCode": ___, "catalogId": ___, "categories": ___, "createDate": ___, "customFields": ___, "defaultSku": ___, "description": ___, "diagram": ___, "displayDate": ___, "expando": ___, "expirationDate": ___, "externalReferenceCode": ___, "images": ___, "linkedProducts": ___, "mappedProducts": ___, "metaDescription": ___, "metaKeyword": ___, "metaTitle": ___, "modifiedDate": ___, "name": ___, "neverExpire": ___, "pins": ___, "productAccountGroupFilter": ___, "productAccountGroups": ___, "productChannelFilter": ___, "productChannels": ___, "productConfiguration": ___, "productOptions": ___, "productSpecifications": ___, "productStatus": ___, "productType": ___, "productVirtualSettings": ___, "relatedProducts": ___, "shippingConfiguration": ___, "shortDescription": ___, "skus": ___, "subscriptionConfiguration": ___, "tags": ___, "taxConfiguration": ___, "urls": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchProductByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -359,6 +367,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}' -d $'{"active": ___, "attachments": ___, "catalogExternalReferenceCode": ___, "catalogId": ___, "categories": ___, "createDate": ___, "customFields": ___, "defaultSku": ___, "description": ___, "diagram": ___, "displayDate": ___, "expando": ___, "expirationDate": ___, "externalReferenceCode": ___, "images": ___, "linkedProducts": ___, "mappedProducts": ___, "metaDescription": ___, "metaKeyword": ___, "metaTitle": ___, "modifiedDate": ___, "name": ___, "neverExpire": ___, "pins": ___, "productAccountGroupFilter": ___, "productAccountGroups": ___, "productChannelFilter": ___, "productChannels": ___, "productConfiguration": ___, "productOptions": ___, "productSpecifications": ___, "productStatus": ___, "productType": ___, "productVirtualSettings": ___, "relatedProducts": ___, "shippingConfiguration": ___, "shortDescription": ___, "skus": ___, "subscriptionConfiguration": ___, "tags": ___, "taxConfiguration": ___, "urls": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateProductByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -393,6 +402,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/by-version/{version}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductByExternalReferenceCodeByVersion")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -431,6 +441,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/by-version/{version}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productByExternalReferenceCodeByVersion")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -471,6 +482,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/clone'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductByExternalReferenceCodeClone")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -511,6 +523,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProduct")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -538,6 +551,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -582,6 +596,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("product")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -611,6 +626,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}' -d $'{"active": ___, "attachments": ___, "catalogExternalReferenceCode": ___, "catalogId": ___, "categories": ___, "createDate": ___, "customFields": ___, "defaultSku": ___, "description": ___, "diagram": ___, "displayDate": ___, "expando": ___, "expirationDate": ___, "externalReferenceCode": ___, "images": ___, "linkedProducts": ___, "mappedProducts": ___, "metaDescription": ___, "metaKeyword": ___, "metaTitle": ___, "modifiedDate": ___, "name": ___, "neverExpire": ___, "pins": ___, "productAccountGroupFilter": ___, "productAccountGroups": ___, "productChannelFilter": ___, "productChannels": ___, "productConfiguration": ___, "productOptions": ___, "productSpecifications": ___, "productStatus": ___, "productType": ___, "productVirtualSettings": ___, "relatedProducts": ___, "shippingConfiguration": ___, "shortDescription": ___, "skus": ___, "subscriptionConfiguration": ___, "tags": ___, "taxConfiguration": ___, "urls": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchProduct")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -644,6 +660,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/by-version/{version}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductByVersion")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -679,6 +696,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/by-version/{version}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productByVersion")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -716,6 +734,7 @@ public abstract class BaseProductResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/clone'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductClone")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

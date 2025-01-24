@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.ActionUtil;
@@ -50,6 +51,7 @@ public abstract class BaseStructuredContentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-content/v1.0/sites/{siteId}/structured-contents'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("structuredContents")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's structured contents latest version. Results can be paginated, filtered, searched, flattened, and sorted."
 	)
@@ -138,6 +140,7 @@ public abstract class BaseStructuredContentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-content/v1.0/sites/{siteId}/structured-contents/draft'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteStructuredContentDraft")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a draft of a structured content"
 	)
@@ -177,6 +180,7 @@ public abstract class BaseStructuredContentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-content/v1.0/structured-contents/{structuredContentId}/by-version/{version}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteStructuredContentByVersion")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a version of a structured content via its ID."
 	)
@@ -220,6 +224,7 @@ public abstract class BaseStructuredContentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-content/v1.0/structured-contents/{structuredContentId}/by-version/{version}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("structuredContentByVersion")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a version of a structured content"
 	)
@@ -278,6 +283,7 @@ public abstract class BaseStructuredContentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-content/v1.0/structured-contents/{structuredContentId}/versions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("structuredContentsVersions")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all versions of a structured content via its ID."
 	)

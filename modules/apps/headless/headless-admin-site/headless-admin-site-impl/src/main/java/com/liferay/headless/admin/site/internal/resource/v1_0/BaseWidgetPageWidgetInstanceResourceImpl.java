@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -72,6 +73,7 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/site-pages/{sitePageExternalReferenceCode}/widget-instances'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeSitePageWidgetInstances")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the widget instances of a widget page."
 	)
@@ -131,6 +133,7 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/site-pages/{sitePageExternalReferenceCode}/widget-instances' -d $'{"externalReferenceCode": ___, "parentSectionId": ___, "parentWidgetInstanceExternalReferenceCode": ___, "position": ___, "widgetConfig": ___, "widgetInstanceId": ___, "widgetLookAndFeelConfig": ___, "widgetName": ___, "widgetPermissions": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteSiteByExternalReferenceCodeSitePageWidgetInstance")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new widget instance to a widget page."
 	)
@@ -193,6 +196,9 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/site-pages/{sitePageExternalReferenceCode}/widget-instances/{widgetInstanceExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a widget instance of a specific widget page or widget page template within a site."
 	)
@@ -247,6 +253,9 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/site-pages/{sitePageExternalReferenceCode}/widget-instances/{widgetInstanceExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"siteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a widget instance of a widget page or widget page template within a site."
 	)
@@ -315,6 +324,9 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/site-pages/{sitePageExternalReferenceCode}/widget-instances/{widgetInstanceExternalReferenceCode}' -d $'{"externalReferenceCode": ___, "parentSectionId": ___, "parentWidgetInstanceExternalReferenceCode": ___, "position": ___, "widgetConfig": ___, "widgetInstanceId": ___, "widgetLookAndFeelConfig": ___, "widgetName": ___, "widgetPermissions": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"patchSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates a widget instance of a widget page or widget page template within a site. Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -435,6 +447,9 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/site-pages/{sitePageExternalReferenceCode}/widget-instances/{widgetInstanceExternalReferenceCode}' -d $'{"externalReferenceCode": ___, "parentSectionId": ___, "parentWidgetInstanceExternalReferenceCode": ___, "position": ___, "widgetConfig": ___, "widgetInstanceId": ___, "widgetLookAndFeelConfig": ___, "widgetName": ___, "widgetPermissions": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates a widget instance of a widget page or widget page template within a site."
 	)

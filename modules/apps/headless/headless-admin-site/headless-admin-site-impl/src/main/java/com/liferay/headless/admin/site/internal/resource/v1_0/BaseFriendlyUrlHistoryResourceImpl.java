@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -47,6 +48,9 @@ public abstract class BaseFriendlyUrlHistoryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates/{displayPageTemplateExternalReferenceCode}/friendly-url-history'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"siteByExternalReferenceCodeDisplayPageTemplateFriendlyUrlHistory"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the history of previously used URLs for a display page template."
 	)
@@ -106,6 +110,7 @@ public abstract class BaseFriendlyUrlHistoryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/site-pages/{sitePageExternalReferenceCode}/friendly-url-history'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeSitePageFriendlyUrlHistory")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the history of previously used URLs for a page."
 	)
@@ -163,6 +168,7 @@ public abstract class BaseFriendlyUrlHistoryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/utility-pages/{utilityPageExternalReferenceCode}/friendly-url-history'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeUtilityPageFriendlyUrlHistory")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the history of previously used URLs for a utility page."
 	)

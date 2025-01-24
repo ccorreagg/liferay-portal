@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/email-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountByExternalReferenceCodeEmailAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the account's email addresses."
 	)
@@ -110,6 +112,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/email-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountEmailAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the account's email addresses."
 	)
@@ -143,6 +146,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/email-addresses/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountEmailAddressesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -212,6 +216,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/email-addresses/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteEmailAddressByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes an email address."
 	)
@@ -245,6 +250,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/email-addresses/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("emailAddressByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the email address."
 	)
@@ -280,6 +286,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/email-addresses/by-external-reference-code/{externalReferenceCode}' -d $'{"emailAddress": ___, "externalReferenceCode": ___, "primary": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchEmailAddressByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the email address with the information sent in the request body. Fields not present in the request body are left unchanged."
 	)
@@ -317,6 +324,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/email-addresses/{emailAddressId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteEmailAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes an email address."
 	)
@@ -348,6 +356,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/email-addresses/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteEmailAddressBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -392,6 +401,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/email-addresses/{emailAddressId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("emailAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the email address."
 	)
@@ -425,6 +435,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/email-addresses/{emailAddressId}' -d $'{"emailAddress": ___, "externalReferenceCode": ___, "primary": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchEmailAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the email address with the information sent in the request body. Fields not present in the request body are left unchanged."
 	)
@@ -460,6 +471,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/email-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationByExternalReferenceCodeEmailAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organization's email addresses."
 	)
@@ -496,6 +508,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/email-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationEmailAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organization's email addresses."
 	)
@@ -529,6 +542,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/email-addresses/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrganizationEmailAddressesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -600,6 +614,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}/email-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountByExternalReferenceCodeEmailAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user's email addresses."
 	)
@@ -636,6 +651,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/email-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountEmailAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user's email addresses."
 	)
@@ -669,6 +685,7 @@ public abstract class BaseEmailAddressResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/email-addresses/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createUserAccountEmailAddressesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

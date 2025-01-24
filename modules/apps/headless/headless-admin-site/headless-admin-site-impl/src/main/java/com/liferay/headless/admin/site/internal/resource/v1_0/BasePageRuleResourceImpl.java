@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -71,6 +72,7 @@ public abstract class BasePageRuleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}/page-rules'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageExperiencePageRules")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the page rules within an experience in a page specification of a site page."
 	)
@@ -133,6 +135,7 @@ public abstract class BasePageRuleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}/page-rules' -d $'{"conditionType": ___, "externalReferenceCode": ___, "name": ___, "pageRuleActions": ___, "pageRuleConditions": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteSiteByExternalReferenceCodePageExperiencePageRule")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new page rule to an experience in a page specification in draft status of a site page."
 	)
@@ -189,6 +192,7 @@ public abstract class BasePageRuleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-rules/{pageRuleExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteSiteByExternalReferenceCodePageRule")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a page rule within an experience of a specific page specification of a site page within a site."
 	)
@@ -242,6 +246,7 @@ public abstract class BasePageRuleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-rules/{pageRuleExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageRule")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves page rule within an experience of a specific page specification of a site page within a site."
 	)
@@ -297,6 +302,7 @@ public abstract class BasePageRuleResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-rules/{pageRuleExternalReferenceCode}' -d $'{"conditionType": ___, "externalReferenceCode": ___, "name": ___, "pageRuleActions": ___, "pageRuleConditions": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSiteSiteByExternalReferenceCodePageRule")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates a page rule within an experience of a specific page specification of a site page within a site. Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -374,6 +380,7 @@ public abstract class BasePageRuleResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-rules/{pageRuleExternalReferenceCode}' -d $'{"conditionType": ___, "externalReferenceCode": ___, "name": ___, "pageRuleActions": ___, "pageRuleConditions": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteSiteByExternalReferenceCodePageRule")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates a page rule within an experience of a specific page specification of a site page within a site."
 	)

@@ -46,6 +46,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.ModelPermissionsUtil;
@@ -90,6 +91,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-categories/ranked'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("taxonomyCategoriesRanked")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -138,6 +140,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-categories/{parentTaxonomyCategoryId}/taxonomy-categories'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("taxonomyCategoryTaxonomyCategories")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a taxonomy category's child taxonomy categories. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -215,6 +218,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-categories/{parentTaxonomyCategoryId}/taxonomy-categories' -d $'{"description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "parentTaxonomyCategory": ___, "taxonomyCategoryProperties": ___, "taxonomyVocabularyId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createTaxonomyCategoryTaxonomyCategory")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Inserts a new child taxonomy category."
 	)
@@ -254,6 +258,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteTaxonomyCategory")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the taxonomy category and returns a 204 if the operation succeeds."
 	)
@@ -287,6 +292,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-categories/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteTaxonomyCategoryBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -333,6 +339,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("taxonomyCategory")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a taxonomy category."
 	)
@@ -376,6 +383,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}' -d $'{"description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "parentTaxonomyCategory": ___, "taxonomyCategoryProperties": ___, "taxonomyVocabularyId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchTaxonomyCategory")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body. Other fields are left untouched."
 	)
@@ -453,6 +461,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}' -d $'{"description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "parentTaxonomyCategory": ___, "taxonomyCategoryProperties": ___, "taxonomyVocabularyId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateTaxonomyCategory")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the taxonomy category with the information sent in the request body. Any missing fields are deleted unless they are required."
 	)
@@ -490,6 +499,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-categories/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateTaxonomyCategoryBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -536,6 +546,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("taxonomyCategoryPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -605,6 +616,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-categories/{taxonomyCategoryId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateTaxonomyCategoryPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -699,6 +711,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("taxonomyVocabularyTaxonomyCategories")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a vocabulary's taxonomy categories. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -783,6 +796,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createTaxonomyVocabularyTaxonomyCategoriesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -873,6 +887,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories' -d $'{"description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "parentTaxonomyCategory": ___, "taxonomyCategoryProperties": ___, "taxonomyVocabularyId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createTaxonomyVocabularyTaxonomyCategory")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Inserts a new taxonomy category in a taxonomy vocabulary."
 	)
@@ -912,6 +927,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createTaxonomyVocabularyTaxonomyCategoryBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -968,6 +984,9 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteTaxonomyVocabularyTaxonomyCategoryByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the site's taxonomy category by external reference code."
 	)
@@ -1011,6 +1030,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("taxonomyVocabularyTaxonomyCategoryByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's taxonomy category by external reference code."
 	)
@@ -1065,6 +1085,9 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/{taxonomyVocabularyId}/taxonomy-categories/by-external-reference-code/{externalReferenceCode}' -d $'{"description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "parentTaxonomyCategory": ___, "taxonomyCategoryProperties": ___, "taxonomyVocabularyId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateTaxonomyVocabularyTaxonomyCategoryByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the site's taxonomy category with the given external reference code, or creates it if it not exists."
 	)

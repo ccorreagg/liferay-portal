@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -71,6 +72,7 @@ public abstract class BaseTermResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/delivery-terms'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartByExternalReferenceCodeDeliveryTerms")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve delivery terms available for the Cart."
 	)
@@ -106,6 +108,7 @@ public abstract class BaseTermResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/payment-terms'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartByExternalReferenceCodePaymentTerms")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve payment terms available for the Cart."
 	)
@@ -141,6 +144,7 @@ public abstract class BaseTermResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/{cartId}/delivery-terms'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartDeliveryTerms")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve delivery terms available for the Cart."
 	)
@@ -174,6 +178,7 @@ public abstract class BaseTermResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/{cartId}/payment-terms'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartPaymentTerms")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve payment terms available for the Cart."
 	)

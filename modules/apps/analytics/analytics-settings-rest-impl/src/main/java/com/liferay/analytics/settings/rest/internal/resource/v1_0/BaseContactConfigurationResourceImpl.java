@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -47,6 +48,7 @@ public abstract class BaseContactConfigurationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/analytics-settings-rest/v1.0/contacts/configuration'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("contactConfiguration")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(
@@ -67,6 +69,7 @@ public abstract class BaseContactConfigurationResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/analytics-settings-rest/v1.0/contacts/configuration' -d $'{"syncAllAccounts": ___, "syncAllContacts": ___, "syncedAccountGroupIds": ___, "syncedOrganizationIds": ___, "syncedUserGroupIds": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateContactConfiguration")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(

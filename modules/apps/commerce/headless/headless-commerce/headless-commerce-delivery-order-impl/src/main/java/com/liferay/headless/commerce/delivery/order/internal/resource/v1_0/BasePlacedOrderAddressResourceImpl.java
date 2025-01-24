@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -47,6 +48,7 @@ public abstract class BasePlacedOrderAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}/placed-order-billing-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderByExternalReferenceCodePlacedOrderBillingAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve placed order billing address."
 	)
@@ -85,6 +87,7 @@ public abstract class BasePlacedOrderAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}/placed-order-shipping-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderByExternalReferenceCodePlacedOrderShippingAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve placed order shipping address."
 	)
@@ -123,6 +126,7 @@ public abstract class BasePlacedOrderAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/placed-order-billing-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderPlacedOrderBillingAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve placed order billing address."
 	)
@@ -160,6 +164,7 @@ public abstract class BasePlacedOrderAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/placed-order-shipping-address'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderPlacedOrderShippingAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve placed order shipping address."
 	)

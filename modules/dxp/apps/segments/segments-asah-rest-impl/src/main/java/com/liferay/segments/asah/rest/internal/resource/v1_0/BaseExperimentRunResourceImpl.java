@@ -18,6 +18,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 import com.liferay.segments.asah.rest.dto.v1_0.ExperimentRun;
 import com.liferay.segments.asah.rest.resource.v1_0.ExperimentRunResource;
@@ -47,6 +48,7 @@ public abstract class BaseExperimentRunResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/segments-asah/v1.0/experiments/{experimentId}/run' -d $'{"confidenceLevel": ___, "experimentVariants": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createExperimentRun")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

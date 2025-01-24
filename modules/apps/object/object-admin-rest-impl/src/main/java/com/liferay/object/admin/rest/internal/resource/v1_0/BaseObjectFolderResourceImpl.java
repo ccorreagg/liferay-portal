@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-folders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectFolders")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -113,6 +115,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-folders/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectFoldersPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -181,6 +184,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-folders' -d $'{"externalReferenceCode": ___, "label": ___, "name": ___, "objectFolderItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectFolder")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ObjectFolder")}
 	)
@@ -200,6 +204,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -244,6 +249,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-folders/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -276,6 +282,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-folders/by-external-reference-code/{externalReferenceCode}' -d $'{"externalReferenceCode": ___, "label": ___, "name": ___, "objectFolderItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -310,6 +317,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-folders/{objectFolderId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectFolder")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -338,6 +346,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -382,6 +391,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-folders/{objectFolderId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectFolder")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -412,6 +422,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/object-admin/v1.0/object-folders/{objectFolderId}' -d $'{"externalReferenceCode": ___, "label": ___, "name": ___, "objectFolderItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchObjectFolder")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -461,6 +472,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-folders/{objectFolderId}' -d $'{"externalReferenceCode": ___, "label": ___, "name": ___, "objectFolderItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectFolder")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -493,6 +505,7 @@ public abstract class BaseObjectFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

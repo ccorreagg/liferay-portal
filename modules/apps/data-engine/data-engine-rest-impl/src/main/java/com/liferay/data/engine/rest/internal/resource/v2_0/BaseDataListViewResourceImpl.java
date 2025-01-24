@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseDataListViewResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-list-views'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDataDefinitionDataListView")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -102,6 +104,7 @@ public abstract class BaseDataListViewResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-list-views'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataDefinitionDataListViews")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -153,6 +156,7 @@ public abstract class BaseDataListViewResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-list-views/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataListViewsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -236,6 +240,7 @@ public abstract class BaseDataListViewResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-list-views' -d $'{"appliedFilters": ___, "dataDefinitionId": ___, "dateCreated": ___, "dateModified": ___, "fieldNames": ___, "id": ___, "name": ___, "siteId": ___, "sortField": ___, "userId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataListView")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -268,6 +273,7 @@ public abstract class BaseDataListViewResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-list-views/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataListViewBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -322,6 +328,7 @@ public abstract class BaseDataListViewResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/data-engine/v2.0/data-list-views/{dataListViewId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDataListView")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -350,6 +357,7 @@ public abstract class BaseDataListViewResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/data-engine/v2.0/data-list-views/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDataListViewBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -394,6 +402,7 @@ public abstract class BaseDataListViewResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-list-views/{dataListViewId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataListView")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -424,6 +433,7 @@ public abstract class BaseDataListViewResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/data-engine/v2.0/data-list-views/{dataListViewId}' -d $'{"appliedFilters": ___, "dataDefinitionId": ___, "dateCreated": ___, "dateModified": ___, "fieldNames": ___, "id": ___, "name": ___, "siteId": ___, "sortField": ___, "userId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDataListView")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -456,6 +466,7 @@ public abstract class BaseDataListViewResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/data-engine/v2.0/data-list-views/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDataListViewBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

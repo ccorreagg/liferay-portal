@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -71,6 +72,7 @@ public abstract class BasePageRuleConditionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-rule-conditions/{pageRuleConditionExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteSiteByExternalReferenceCodePageRuleCondition")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a page rule condition within a page rule of an experience of a specific page specification of a site page within a site."
 	)
@@ -126,6 +128,7 @@ public abstract class BasePageRuleConditionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-rule-conditions/{pageRuleConditionExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageRuleCondition")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a page rule condition within a page rule of an experience of a specific page specification of a site page within a site."
 	)
@@ -184,6 +187,7 @@ public abstract class BasePageRuleConditionResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-rule-conditions/{pageRuleConditionExternalReferenceCode}' -d $'{"condition": ___, "externalReferenceCode": ___, "type": ___, "value": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSiteSiteByExternalReferenceCodePageRuleCondition")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates a page rule condition within a page rule of an experience of a specific page specification of a site page within a site. Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -271,6 +275,7 @@ public abstract class BasePageRuleConditionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-rule-conditions/{pageRuleConditionExternalReferenceCode}' -d $'{"condition": ___, "externalReferenceCode": ___, "type": ___, "value": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteSiteByExternalReferenceCodePageRuleCondition")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates a page rule condition within a page rule of an experience of a specific page specification of a site page within a site."
 	)
@@ -331,6 +336,7 @@ public abstract class BasePageRuleConditionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-rules/{pageRuleExternalReferenceCode}/page-rule-conditions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageRulePageRuleConditions")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the page rule condition conditions within an experience in a page specification of a site page."
 	)
@@ -396,6 +402,9 @@ public abstract class BasePageRuleConditionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-rules/{pageRuleExternalReferenceCode}/page-rule-conditions' -d $'{"condition": ___, "externalReferenceCode": ___, "type": ___, "value": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodePageRulePageRuleCondition"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new page rule condition to a page rule in an experience in a page specification in draft status of a site page."
 	)

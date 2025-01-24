@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -47,6 +48,7 @@ public abstract class BaseUserAccountFullNameDefinitionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-account-full-name-definition'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountFullNameDefinition")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user account full name definition."
 	)

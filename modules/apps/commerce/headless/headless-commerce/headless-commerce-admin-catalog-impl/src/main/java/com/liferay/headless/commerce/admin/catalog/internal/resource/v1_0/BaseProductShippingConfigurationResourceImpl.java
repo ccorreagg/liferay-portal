@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -48,6 +49,7 @@ public abstract class BaseProductShippingConfigurationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/shippingConfiguration'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productByExternalReferenceCodeShippingConfiguration")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -85,6 +87,7 @@ public abstract class BaseProductShippingConfigurationResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/by-externalReferenceCode/{externalReferenceCode}/shippingConfiguration' -d $'{"depth": ___, "freeShipping": ___, "height": ___, "shippable": ___, "shippingExtraPrice": ___, "shippingSeparately": ___, "weight": ___, "width": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchProductByExternalReferenceCodeShippingConfiguration")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -125,6 +128,7 @@ public abstract class BaseProductShippingConfigurationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/shippingConfiguration'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productIdShippingConfiguration")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -158,6 +162,7 @@ public abstract class BaseProductShippingConfigurationResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/products/{id}/shippingConfiguration' -d $'{"depth": ___, "freeShipping": ___, "height": ___, "shippable": ___, "shippingExtraPrice": ___, "shippingSeparately": ___, "weight": ___, "width": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchProductIdShippingConfiguration")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

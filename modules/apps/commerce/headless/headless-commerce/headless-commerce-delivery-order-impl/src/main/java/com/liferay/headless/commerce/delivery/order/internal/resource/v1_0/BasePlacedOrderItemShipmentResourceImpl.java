@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -73,6 +74,9 @@ public abstract class BasePlacedOrderItemShipmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-order-items/by-externalReferenceCode/{externalReferenceCode}/placed-order-item-shipments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"placedOrderItemByExternalReferenceCodePlacedOrderItemShipments"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve shipments of the given placed order item."
 	)
@@ -113,6 +117,7 @@ public abstract class BasePlacedOrderItemShipmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-order-items/{placedOrderItemId}/placed-order-item-shipments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderItemPlacedOrderItemShipments")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve shipments of the given Placed Order Item."
 	)
@@ -153,6 +158,7 @@ public abstract class BasePlacedOrderItemShipmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-order-items/{placedOrderItemId}/placed-order-item-shipments/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPlacedOrderItemPlacedOrderItemShipmentsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

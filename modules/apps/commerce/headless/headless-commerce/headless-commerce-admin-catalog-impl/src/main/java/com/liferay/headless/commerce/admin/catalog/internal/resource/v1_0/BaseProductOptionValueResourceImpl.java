@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseProductOptionValueResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-option-values/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductOptionValue")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -103,6 +105,7 @@ public abstract class BaseProductOptionValueResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-option-values/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductOptionValueBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -149,6 +152,7 @@ public abstract class BaseProductOptionValueResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-option-values/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productOptionValue")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -180,6 +184,7 @@ public abstract class BaseProductOptionValueResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-option-values/{id}' -d $'{"deltaPrice": ___, "key": ___, "name": ___, "preselected": ___, "priority": ___, "quantity": ___, "skuExternalReferenceCode": ___, "skuId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchProductOptionValue")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -213,6 +218,7 @@ public abstract class BaseProductOptionValueResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/productOptions/{id}/productOptionValues'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productOptionIdProductOptionValues")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -265,6 +271,7 @@ public abstract class BaseProductOptionValueResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/productOptions/{id}/productOptionValues' -d $'{"deltaPrice": ___, "key": ___, "name": ___, "preselected": ___, "priority": ___, "quantity": ___, "skuExternalReferenceCode": ___, "skuId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductOptionIdProductOptionValue")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -298,6 +305,7 @@ public abstract class BaseProductOptionValueResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/productOptions/productOptionValues/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductOptionIdProductOptionValueBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

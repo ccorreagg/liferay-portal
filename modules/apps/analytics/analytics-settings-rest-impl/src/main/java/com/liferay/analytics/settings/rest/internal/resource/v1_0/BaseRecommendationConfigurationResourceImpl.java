@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -47,6 +48,7 @@ public abstract class BaseRecommendationConfigurationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/analytics-settings-rest/v1.0/recommendation/configuration'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("recommendationConfiguration")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(
@@ -69,6 +71,7 @@ public abstract class BaseRecommendationConfigurationResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/analytics-settings-rest/v1.0/recommendation/configuration' -d $'{"contentRecommenderMostPopularItems": ___, "contentRecommenderUserPersonalization": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateRecommendationConfiguration")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(

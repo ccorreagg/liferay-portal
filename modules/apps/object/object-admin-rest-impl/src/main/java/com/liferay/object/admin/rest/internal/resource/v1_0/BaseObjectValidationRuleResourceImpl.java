@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-validation-rules'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectDefinitionByExternalReferenceCodeObjectValidationRules")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -132,6 +134,9 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-validation-rules' -d $'{"active": ___, "engine": ___, "errorLabel": ___, "externalReferenceCode": ___, "name": ___, "objectDefinitionExternalReferenceCode": ___, "objectDefinitionId": ___, "objectValidationRuleSettings": ___, "outputType": ___, "script": ___, "system": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createObjectDefinitionByExternalReferenceCodeObjectValidationRule"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -171,6 +176,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-validation-rules'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectDefinitionObjectValidationRules")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -229,6 +235,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-validation-rules/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectValidationRulesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -316,6 +323,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-validation-rules' -d $'{"active": ___, "engine": ___, "errorLabel": ___, "externalReferenceCode": ___, "name": ___, "objectDefinitionExternalReferenceCode": ___, "objectDefinitionId": ___, "objectValidationRuleSettings": ___, "outputType": ___, "script": ___, "system": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectValidationRule")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -354,6 +362,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-validation-rules/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectValidationRuleBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -412,6 +421,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-validation-rules/{objectValidationRuleId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectValidationRule")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -444,6 +454,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-validation-rules/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectValidationRuleBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -492,6 +503,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-validation-rules/{objectValidationRuleId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectValidationRule")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -526,6 +538,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/object-admin/v1.0/object-validation-rules/{objectValidationRuleId}' -d $'{"active": ___, "engine": ___, "errorLabel": ___, "externalReferenceCode": ___, "name": ___, "objectDefinitionExternalReferenceCode": ___, "objectDefinitionId": ___, "objectValidationRuleSettings": ___, "outputType": ___, "script": ___, "system": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchObjectValidationRule")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -622,6 +635,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-validation-rules/{objectValidationRuleId}' -d $'{"active": ___, "engine": ___, "errorLabel": ___, "externalReferenceCode": ___, "name": ___, "objectDefinitionExternalReferenceCode": ___, "objectDefinitionId": ___, "objectValidationRuleSettings": ___, "outputType": ___, "script": ___, "system": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectValidationRule")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -658,6 +672,7 @@ public abstract class BaseObjectValidationRuleResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-validation-rules/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectValidationRuleBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

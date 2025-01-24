@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseWarehouseResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-site-setting/v1.0/commerceAdminSiteSetting/{groupId}/warehouse'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("commerceAdminSettingGroupWarehouse")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -120,6 +122,7 @@ public abstract class BaseWarehouseResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-site-setting/v1.0/commerceAdminSiteSetting/{groupId}/warehouse' -d $'{"active": ___, "city": ___, "commerceCountryId": ___, "commerceRegionId": ___, "description": ___, "id": ___, "latitude": ___, "longitude": ___, "mvccVersion": ___, "name": ___, "primary": ___, "street1": ___, "street2": ___, "street3": ___, "zip": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCommerceAdminSiteSettingGroupWarehouse")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -152,6 +155,7 @@ public abstract class BaseWarehouseResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-site-setting/v1.0/warehouse/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWarehouse")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -183,6 +187,7 @@ public abstract class BaseWarehouseResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-site-setting/v1.0/warehouse/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWarehouseBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -227,6 +232,7 @@ public abstract class BaseWarehouseResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-site-setting/v1.0/warehouse/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("warehouse")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -256,6 +262,7 @@ public abstract class BaseWarehouseResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-site-setting/v1.0/warehouse/{id}' -d $'{"active": ___, "city": ___, "commerceCountryId": ___, "commerceRegionId": ___, "description": ___, "id": ___, "latitude": ___, "longitude": ___, "mvccVersion": ___, "name": ___, "primary": ___, "street1": ___, "street2": ___, "street3": ___, "zip": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateWarehouse")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -289,6 +296,7 @@ public abstract class BaseWarehouseResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-site-setting/v1.0/warehouse/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateWarehouseBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

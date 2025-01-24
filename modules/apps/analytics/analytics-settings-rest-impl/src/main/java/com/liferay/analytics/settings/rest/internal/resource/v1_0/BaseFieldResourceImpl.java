@@ -21,6 +21,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.ActionUtil;
@@ -50,6 +51,7 @@ public abstract class BaseFieldResourceImpl implements FieldResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/analytics-settings-rest/v1.0/fields/accounts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("fieldsAccounts")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -93,6 +95,7 @@ public abstract class BaseFieldResourceImpl implements FieldResource {
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/analytics-settings-rest/v1.0/fields/accounts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchFieldAccount")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Field")}
 	)
@@ -109,6 +112,7 @@ public abstract class BaseFieldResourceImpl implements FieldResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/analytics-settings-rest/v1.0/fields/orders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("fieldsOrders")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -152,6 +156,7 @@ public abstract class BaseFieldResourceImpl implements FieldResource {
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/analytics-settings-rest/v1.0/fields/orders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchFieldOrder")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Field")}
 	)
@@ -168,6 +173,7 @@ public abstract class BaseFieldResourceImpl implements FieldResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/analytics-settings-rest/v1.0/fields/people'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("fieldsPeople")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -211,6 +217,7 @@ public abstract class BaseFieldResourceImpl implements FieldResource {
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/analytics-settings-rest/v1.0/fields/people'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchFieldPeople")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Field")}
 	)
@@ -227,6 +234,7 @@ public abstract class BaseFieldResourceImpl implements FieldResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/analytics-settings-rest/v1.0/fields/products'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("fieldsProducts")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -270,6 +278,7 @@ public abstract class BaseFieldResourceImpl implements FieldResource {
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/analytics-settings-rest/v1.0/fields/products'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchFieldProduct")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Field")}
 	)

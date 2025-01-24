@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseCurrencyResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/currencies'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("currencies")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -122,6 +124,7 @@ public abstract class BaseCurrencyResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/currencies/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCurrenciesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -199,6 +202,7 @@ public abstract class BaseCurrencyResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/currencies' -d $'{"active": ___, "code": ___, "externalReferenceCode": ___, "formatPattern": ___, "id": ___, "maxFractionDigits": ___, "minFractionDigits": ___, "name": ___, "primary": ___, "priority": ___, "rate": ___, "roundingMode": ___, "symbol": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCurrency")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Currency")}
 	)
@@ -216,6 +220,7 @@ public abstract class BaseCurrencyResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/currencies/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCurrencyBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -260,6 +265,7 @@ public abstract class BaseCurrencyResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/currencies/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCurrencyByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -290,6 +296,7 @@ public abstract class BaseCurrencyResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/currencies/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("currencyByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -322,6 +329,7 @@ public abstract class BaseCurrencyResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/currencies/by-externalReferenceCode/{externalReferenceCode}' -d $'{"active": ___, "code": ___, "externalReferenceCode": ___, "formatPattern": ___, "id": ___, "maxFractionDigits": ___, "minFractionDigits": ___, "name": ___, "primary": ___, "priority": ___, "rate": ___, "roundingMode": ___, "symbol": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchCurrencyByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -356,6 +364,7 @@ public abstract class BaseCurrencyResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/currencies/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCurrency")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -383,6 +392,7 @@ public abstract class BaseCurrencyResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/currencies/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCurrencyBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -427,6 +437,7 @@ public abstract class BaseCurrencyResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/currencies/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("currency")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -456,6 +467,7 @@ public abstract class BaseCurrencyResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/currencies/{id}' -d $'{"active": ___, "code": ___, "externalReferenceCode": ___, "formatPattern": ___, "id": ___, "maxFractionDigits": ___, "minFractionDigits": ___, "name": ___, "primary": ___, "priority": ___, "rate": ___, "roundingMode": ___, "symbol": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchCurrency")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

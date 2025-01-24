@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -76,6 +77,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cTCollections")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -126,6 +128,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTCollectionsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -206,6 +209,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections' -d $'{"description": ___, "externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTCollection")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "CTCollection")}
 	)
@@ -225,6 +229,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/batch' -d $'{"description": ___, "externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTCollectionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -270,6 +275,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCTCollectionByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -300,6 +306,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cTCollectionByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -332,6 +339,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}' -d $'{"description": ___, "externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchCTCollectionByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -366,6 +374,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}/publish'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTCollectionByExternalReferenceCodePublish")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -396,6 +405,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}/schedule-publish'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTCollectionByExternalReferenceCodeSchedulePublish")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -433,6 +443,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/by-external-reference-code/{externalReferenceCode}/share-link'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cTCollectionByExternalReferenceCodeShareLink")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -465,6 +476,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/b{ctCollectionId}/share-link'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cTCollectionShareLink")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -495,6 +507,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCTCollection")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -523,6 +536,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCTCollectionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -575,6 +589,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cTCollection")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -605,6 +620,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}' -d $'{"description": ___, "externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchCTCollection")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -654,6 +670,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}' -d $'{"description": ___, "externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateCTCollection")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -686,6 +703,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/batch' -d $'{"description": ___, "externalReferenceCode": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateCTCollectionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -739,6 +757,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/checkout'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTCollectionCheckout")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -767,6 +786,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/publish'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTCollectionPublish")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -795,6 +815,7 @@ public abstract class BaseCTCollectionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-collections/{ctCollectionId}/schedule-publish'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTCollectionSchedulePublish")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

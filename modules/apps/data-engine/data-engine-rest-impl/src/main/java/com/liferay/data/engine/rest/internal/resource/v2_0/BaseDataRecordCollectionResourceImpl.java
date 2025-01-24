@@ -46,6 +46,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.ModelPermissionsUtil;
@@ -90,6 +91,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-record-collection'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataDefinitionDataRecordCollection")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -126,6 +128,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-record-collections'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataDefinitionDataRecordCollections")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -179,6 +182,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-record-collections/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataRecordCollectionsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -261,6 +265,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-record-collections' -d $'{"dataDefinitionId": ___, "dataRecordCollectionKey": ___, "description": ___, "id": ___, "name": ___, "siteId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataRecordCollection")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -299,6 +304,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/data-engine/v2.0/data-definitions/{dataDefinitionId}/data-record-collections/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDataDefinitionDataRecordCollectionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -357,6 +363,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDataRecordCollection")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -389,6 +396,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDataRecordCollectionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -437,6 +445,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataRecordCollection")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -471,6 +480,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}' -d $'{"dataDefinitionId": ___, "dataRecordCollectionKey": ___, "description": ___, "id": ___, "name": ___, "siteId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDataRecordCollection")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -507,6 +517,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDataRecordCollectionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -555,6 +566,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataRecordCollectionPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -621,6 +633,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDataRecordCollectionPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -720,6 +733,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/data-record-collections/{dataRecordCollectionId}/permissions/by-current-user'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataRecordCollectionPermissionByCurrentUser")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -756,6 +770,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/data-engine/v2.0/sites/{siteId}/data-record-collections/by-data-record-collection-key/{dataRecordCollectionKey}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("dataRecordCollectionByDataRecordCollectionKey")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-metadata-sets'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryDocumentMetadataSets")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -128,6 +130,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-metadata-sets/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryDocumentMetadataSetsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -203,6 +206,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-metadata-sets' -d $'{"availableLanguages": ___, "dataDefinitionFields": ___, "dataLayout": ___, "description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryDocumentMetadataSet")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -241,6 +245,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-metadata-sets/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryDocumentMetadataSetBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -299,6 +304,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-metadata-sets/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteAssetLibraryDocumentMetadataSetByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the asset library's Document Metadata Set by external reference code."
 	)
@@ -344,6 +350,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-metadata-sets/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryDocumentMetadataSetByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the asset library's Document Metadata Set by external reference code."
 	)
@@ -404,6 +411,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-metadata-sets/by-external-reference-code/{externalReferenceCode}' -d $'{"availableLanguages": ___, "dataDefinitionFields": ___, "dataLayout": ___, "description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateAssetLibraryDocumentMetadataSetByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the asset Library's Document Metadata Set with the given external reference code, or creates it if it does not exists."
 	)
@@ -454,6 +462,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/document-metadata-sets/{documentMetadataSetId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDocumentMetadataSet")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the document metadata set and returns a 204 if the operation succeeds."
 	)
@@ -489,6 +498,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/document-metadata-sets/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDocumentMetadataSetBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -537,6 +547,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/document-metadata-sets/{documentMetadataSetId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentMetadataSet")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the document metadata set."
 	)
@@ -586,6 +597,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-metadata-sets'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentMetadataSets")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -637,6 +649,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-metadata-sets/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDocumentMetadataSetsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -710,6 +723,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-metadata-sets' -d $'{"availableLanguages": ___, "dataDefinitionFields": ___, "dataLayout": ___, "description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDocumentMetadataSet")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -746,6 +760,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-metadata-sets/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDocumentMetadataSetBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -802,6 +817,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-metadata-sets/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteDocumentMetadataSetByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the site's Document Metadata Set by external reference code."
 	)
@@ -847,6 +863,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-metadata-sets/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentMetadataSetByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's Document Metadata Set by external reference code."
 	)
@@ -907,6 +924,7 @@ public abstract class BaseDocumentMetadataSetResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-metadata-sets/by-external-reference-code/{externalReferenceCode}' -d $'{"availableLanguages": ___, "dataDefinitionFields": ___, "dataLayout": ___, "description": ___, "description_i18n": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteDocumentMetadataSetByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the site's Document Metadata Set with the given external reference code, or creates it if it does not exist."
 	)

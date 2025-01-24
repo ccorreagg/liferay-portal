@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowDefinitions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -120,6 +122,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowDefinitionsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -195,6 +198,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions' -d $'{"active": ___, "content": ___, "externalReferenceCode": ___, "name": ___, "title": ___, "title_i18n": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowDefinition")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "WorkflowDefinition")
@@ -217,6 +221,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowDefinitionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -263,6 +268,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/by-name/{name}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowDefinitionByName")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -308,6 +314,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/deploy' -d $'{"active": ___, "content": ___, "externalReferenceCode": ___, "name": ___, "title": ___, "title_i18n": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowDefinitionDeploy")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "WorkflowDefinition")
@@ -330,6 +337,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/save' -d $'{"active": ___, "content": ___, "externalReferenceCode": ___, "name": ___, "title": ___, "title_i18n": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowDefinitionSave")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "WorkflowDefinition")
@@ -352,6 +360,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/undeploy'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWorkflowDefinitionUndeploy")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -390,6 +399,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/update-active'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createWorkflowDefinitionUpdateActive")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -438,6 +448,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/{workflowDefinitionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWorkflowDefinition")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -468,6 +479,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWorkflowDefinitionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -514,6 +526,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/{workflowDefinitionId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("workflowDefinition")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -546,6 +559,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/{workflowDefinitionId}' -d $'{"active": ___, "content": ___, "externalReferenceCode": ___, "name": ___, "title": ___, "title_i18n": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateWorkflowDefinition")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -580,6 +594,7 @@ public abstract class BaseWorkflowDefinitionResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-workflow/v1.0/workflow-definitions/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateWorkflowDefinitionBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

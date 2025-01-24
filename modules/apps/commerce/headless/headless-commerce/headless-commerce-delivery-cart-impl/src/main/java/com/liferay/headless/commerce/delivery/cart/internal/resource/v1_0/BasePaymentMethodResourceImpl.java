@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -73,6 +74,7 @@ public abstract class BasePaymentMethodResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/by-externalReferenceCode/{externalReferenceCode}/payment-methods'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartByExternalReferenceCodePaymentMethods")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve payment methods available for the Cart."
 	)
@@ -110,6 +112,7 @@ public abstract class BasePaymentMethodResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/{cartId}/payment-methods'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cartPaymentMethods")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve payment methods available for the Cart."
 	)
@@ -145,6 +148,7 @@ public abstract class BasePaymentMethodResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-delivery-cart/v1.0/carts/{cartId}/payment-methods/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCartPaymentMethodsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -76,6 +77,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accountAddresses/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountAddressByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -114,6 +116,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accountAddresses/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountAddressByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -150,6 +153,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accountAddresses/by-externalReferenceCode/{externalReferenceCode}' -d $'{"city": ___, "countryISOCode": ___, "defaultBilling": ___, "defaultShipping": ___, "description": ___, "externalReferenceCode": ___, "id": ___, "latitude": ___, "longitude": ___, "name": ___, "phoneNumber": ___, "regionISOCode": ___, "street1": ___, "street2": ___, "street3": ___, "type": ___, "zip": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("patchAccountAddressByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -190,6 +194,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accountAddresses/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountAddress")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -225,6 +230,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accountAddresses/batch'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountAddressBatch")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -273,6 +279,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accountAddresses/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountAddress")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -306,6 +313,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accountAddresses/{id}' -d $'{"city": ___, "countryISOCode": ___, "defaultBilling": ___, "defaultShipping": ___, "description": ___, "externalReferenceCode": ___, "id": ___, "latitude": ___, "longitude": ___, "name": ___, "phoneNumber": ___, "regionISOCode": ___, "street1": ___, "street2": ___, "street3": ___, "type": ___, "zip": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("patchAccountAddress")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -416,6 +424,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accountAddresses/{id}' -d $'{"city": ___, "countryISOCode": ___, "defaultBilling": ___, "defaultShipping": ___, "description": ___, "externalReferenceCode": ___, "id": ___, "latitude": ___, "longitude": ___, "name": ___, "phoneNumber": ___, "regionISOCode": ___, "street1": ___, "street2": ___, "street3": ___, "type": ___, "zip": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("updateAccountAddress")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -451,6 +460,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accountAddresses/batch'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("updateAccountAddressBatch")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -499,6 +509,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountAddresses'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountByExternalReferenceCodeAccountAddresses")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -545,6 +556,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/accountAddresses' -d $'{"city": ___, "countryISOCode": ___, "defaultBilling": ___, "defaultShipping": ___, "description": ___, "externalReferenceCode": ___, "id": ___, "latitude": ___, "longitude": ___, "name": ___, "phoneNumber": ___, "regionISOCode": ___, "street1": ___, "street2": ___, "street3": ___, "type": ___, "zip": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountByExternalReferenceCodeAccountAddress")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -583,6 +595,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/accountAddresses'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountIdAccountAddresses")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -625,6 +638,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/accountAddresses' -d $'{"city": ___, "countryISOCode": ___, "defaultBilling": ___, "defaultShipping": ___, "description": ___, "externalReferenceCode": ___, "id": ___, "latitude": ___, "longitude": ___, "name": ___, "phoneNumber": ___, "regionISOCode": ___, "street1": ___, "street2": ___, "street3": ___, "type": ___, "zip": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountIdAccountAddress")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -660,6 +674,7 @@ public abstract class BaseAccountAddressResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/accountAddresses/batch'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountIdAccountAddressBatch")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {

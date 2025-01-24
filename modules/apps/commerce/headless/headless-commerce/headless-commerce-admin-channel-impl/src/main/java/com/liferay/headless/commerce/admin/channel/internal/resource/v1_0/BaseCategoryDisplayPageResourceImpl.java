@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/category-display-pages/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCategoryDisplayPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -105,6 +107,7 @@ public abstract class BaseCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/category-display-pages/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCategoryDisplayPageBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -153,6 +156,7 @@ public abstract class BaseCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/category-display-pages/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("categoryDisplayPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -186,6 +190,7 @@ public abstract class BaseCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/category-display-pages/{id}' -d $'{"categoryExternalReferenceCode": ___, "categoryId": ___, "groupExternalReferenceCode": ___, "pageUuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchCategoryDisplayPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -221,6 +226,7 @@ public abstract class BaseCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/category-display-pages'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channelByExternalReferenceCodeCategoryDisplayPages")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -284,6 +290,7 @@ public abstract class BaseCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/category-display-pages' -d $'{"categoryExternalReferenceCode": ___, "categoryId": ___, "groupExternalReferenceCode": ___, "pageUuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createChannelByExternalReferenceCodeCategoryDisplayPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -323,6 +330,7 @@ public abstract class BaseCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/channels/{id}/category-display-pages'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channelIdCategoryDisplayPages")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -382,6 +390,7 @@ public abstract class BaseCategoryDisplayPageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/channels/{id}/category-display-pages' -d $'{"categoryExternalReferenceCode": ___, "categoryId": ___, "groupExternalReferenceCode": ___, "pageUuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createChannelIdCategoryDisplayPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

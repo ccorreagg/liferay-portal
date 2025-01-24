@@ -22,6 +22,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
@@ -50,6 +51,7 @@ public abstract class BaseKeywordResourceImpl implements KeywordResource {
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/bulk/v1.0/keywords/batch' -d $'{"documentBulkSelection": ___, "keywordsToAdd": ___, "keywordsToRemove": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchKeywordBatch")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Keyword")}
 	)
@@ -67,6 +69,7 @@ public abstract class BaseKeywordResourceImpl implements KeywordResource {
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/bulk/v1.0/keywords/batch' -d $'{"documentBulkSelection": ___, "keywordsToAdd": ___, "keywordsToRemove": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateKeywordBatch")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Keyword")}
 	)
@@ -84,6 +87,7 @@ public abstract class BaseKeywordResourceImpl implements KeywordResource {
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/bulk/v1.0/keywords/common' -d $'{"documentIds": ___, "selectionScope": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createKeywordsCommonPage")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Keyword")}
 	)

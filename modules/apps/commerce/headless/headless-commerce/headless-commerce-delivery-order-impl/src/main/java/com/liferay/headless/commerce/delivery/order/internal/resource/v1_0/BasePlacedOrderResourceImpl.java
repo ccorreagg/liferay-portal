@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,9 @@ public abstract class BasePlacedOrderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/channels/by-externalReferenceCode/{channelExternalReferenceCode}/accounts/by-externalReferenceCode/{accountExternalReferenceCode}/placed-orders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"channelByExternalReferenceCodeChannelExternalReferenceCodeAccountByExternalReferenceCodeAccountExternalReferenceCodePlacedOrders"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves placed orders for specific account in the given channel."
 	)
@@ -127,6 +131,7 @@ public abstract class BasePlacedOrderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/channels/by-externalReferenceCode/{externalReferenceCode}/placed-orders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channelByExternalReferenceCodePlacedOrders")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves placed orders in the given channel."
 	)
@@ -188,6 +193,7 @@ public abstract class BasePlacedOrderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/channels/{channelId}/accounts/{accountId}/placed-orders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channelAccountPlacedOrders")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves placed orders for specific account in the given channel."
 	)
@@ -240,6 +246,7 @@ public abstract class BasePlacedOrderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/channels/{channelId}/placed-orders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channelPlacedOrders")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves placed orders in the given channel."
 	)
@@ -299,6 +306,7 @@ public abstract class BasePlacedOrderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve information of the given Placed Order."
 	)
@@ -334,6 +342,7 @@ public abstract class BasePlacedOrderResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}' -d $'{"attachments": ___, "customFields": ___, "name": ___, "printedNote": ___, "purchaseOrderNumber": ___, "steps": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchPlacedOrderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -368,6 +377,7 @@ public abstract class BasePlacedOrderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}/payment-url'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderByExternalReferenceCodePaymentURL")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -407,6 +417,7 @@ public abstract class BasePlacedOrderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve information of the given Placed Order."
 	)
@@ -440,6 +451,7 @@ public abstract class BasePlacedOrderResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}' -d $'{"attachments": ___, "customFields": ___, "name": ___, "printedNote": ___, "purchaseOrderNumber": ___, "steps": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchPlacedOrder")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -472,6 +484,7 @@ public abstract class BasePlacedOrderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/payment-url'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderPaymentURL")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

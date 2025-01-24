@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -71,6 +72,7 @@ public abstract class BaseUserNotificationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-user-notification/v1.0/my-user-notifications'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("myUserNotifications")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the current user's notifications. Results can be paginated, filtered, searched and sorted."
 	)
@@ -132,6 +134,7 @@ public abstract class BaseUserNotificationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-user-notification/v1.0/user-accounts/{userAccountId}/user-notifications'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountUserNotifications")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user account's notifications. Results can be paginated, filtered, searched and sorted."
 	)
@@ -201,6 +204,7 @@ public abstract class BaseUserNotificationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-user-notification/v1.0/user-notifications/{userNotificationId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userNotification")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user notification."
 	)
@@ -244,6 +248,7 @@ public abstract class BaseUserNotificationResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-user-notification/v1.0/user-notifications/{userNotificationId}/read'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateUserNotificationRead")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Mark the user notification as read."
 	)
@@ -285,6 +290,7 @@ public abstract class BaseUserNotificationResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-user-notification/v1.0/user-notifications/{userNotificationId}/unread'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateUserNotificationUnread")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Mark the user notification as unread."
 	)

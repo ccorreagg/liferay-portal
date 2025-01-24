@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseProcessResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes' -d $'{"active": ___, "dateCreated": ___, "dateModified": ___, "description": ___, "id": ___, "name": ___, "title_i18n": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProcess")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Process")}
 	)
@@ -92,6 +94,7 @@ public abstract class BaseProcessResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProcessBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -136,6 +139,7 @@ public abstract class BaseProcessResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProcess")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -164,6 +168,7 @@ public abstract class BaseProcessResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProcessBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -208,6 +213,7 @@ public abstract class BaseProcessResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("process")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -238,6 +244,7 @@ public abstract class BaseProcessResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}' -d $'{"active": ___, "dateCreated": ___, "dateModified": ___, "description": ___, "id": ___, "name": ___, "title_i18n": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateProcess")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -268,6 +275,7 @@ public abstract class BaseProcessResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateProcessBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -312,6 +320,7 @@ public abstract class BaseProcessResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/title'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("processTitle")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

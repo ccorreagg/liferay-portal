@@ -18,6 +18,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 import com.liferay.portal.workflow.metrics.rest.dto.v1_0.HistogramMetric;
 import com.liferay.portal.workflow.metrics.rest.resource.v1_0.HistogramMetricResource;
@@ -48,6 +49,7 @@ public abstract class BaseHistogramMetricResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/histograms/metrics'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("processHistogramMetric")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

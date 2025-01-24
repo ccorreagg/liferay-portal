@@ -47,6 +47,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.ModelPermissionsUtil;
@@ -91,6 +92,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryDocumentFolders")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -174,6 +176,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryDocumentFoldersPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -264,6 +267,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentDocumentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryDocumentFolder")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -298,6 +302,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAssetLibraryDocumentFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -354,6 +359,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryDocumentFolderPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -426,6 +432,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateAssetLibraryDocumentFolderPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -518,6 +525,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/asset-libraries/{assetLibraryId}/document-folders/rated-by-me'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("assetLibraryDocumentFoldersRatedByMe")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the document folders rated by the user."
 	)
@@ -564,6 +572,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDocumentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the document folder and returns a 204 if the operation succeeds."
 	)
@@ -597,6 +606,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDocumentFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -643,6 +653,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the document folder."
 	)
@@ -690,6 +701,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentDocumentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchDocumentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body. Any other fields are left untouched."
 	)
@@ -759,6 +771,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentDocumentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDocumentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the document folder with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
@@ -796,6 +809,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDocumentFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -842,6 +856,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}/my-rating'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDocumentFolderMyRating")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the document folder's rating and returns a 204 if the operation succeeded."
 	)
@@ -875,6 +890,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}/my-rating'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentFolderMyRating")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the document folder's rating."
 	)
@@ -918,6 +934,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}/my-rating' -d $'{"ratingValue": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDocumentFolderMyRating")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new rating for the document folder, by the user who authenticated the request."
 	)
@@ -955,6 +972,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}/my-rating' -d $'{"ratingValue": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDocumentFolderMyRating")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the rating with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
@@ -992,6 +1010,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentFolderPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1063,6 +1082,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDocumentFolderPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1155,6 +1175,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}/subscribe'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDocumentFolderSubscribe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1185,6 +1206,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{documentFolderId}/unsubscribe'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDocumentFolderUnsubscribe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1215,6 +1237,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{parentDocumentFolderId}/document-folders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentFolderDocumentFolders")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the folder's subfolders. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -1303,6 +1326,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/document-folders/{parentDocumentFolderId}/document-folders' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentDocumentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDocumentFolderDocumentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new folder in a folder identified by `parentDocumentFolderId`."
 	)
@@ -1342,6 +1366,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-folders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentFolders")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's document folders. Results can be paginated, filtered, searched, flattened, and sorted."
 	)
@@ -1428,6 +1453,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-folders/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDocumentFoldersPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1516,6 +1542,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-folders' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentDocumentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDocumentFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new document folder."
 	)
@@ -1553,6 +1580,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-folders/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteDocumentFolderBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1607,6 +1635,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteDocumentFolderPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1674,6 +1703,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteDocumentFolderPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1760,6 +1790,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/document-folders/rated-by-me'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentFoldersRatedByMe")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the document folders rated by the user."
 	)
@@ -1804,6 +1835,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/documents-folder/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteDocumentsFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the site's document folder by external reference code returns a 204 if the operation succeeds."
 	)
@@ -1847,6 +1879,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/documents-folder/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("documentsFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's document folder by external reference code."
 	)
@@ -1892,6 +1925,7 @@ public abstract class BaseDocumentFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/documents-folder/by-external-reference-code/{externalReferenceCode}' -d $'{"customFields": ___, "description": ___, "externalReferenceCode": ___, "name": ___, "parentDocumentFolderId": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteDocumentsFolderByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the document folder by external reference code with the information sent in the request body, or replaces it if it not exists."
 	)

@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -76,6 +77,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/blog-posting-images/{blogPostingImageId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteBlogPostingImage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the blog post's image."
 	)
@@ -109,6 +111,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/blog-posting-images/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteBlogPostingImageBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -155,6 +158,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/blog-posting-images/{blogPostingImageId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("blogPostingImage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the blog post's image. The binary image is returned as a relative URL to the image itself."
 	)
@@ -202,6 +206,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/blog-posting-images'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("blogPostingImages")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's blog post images. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -281,6 +286,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/blog-posting-images/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteBlogPostingImagesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -369,6 +375,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/blog-posting-images'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteBlogPostingImage")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a blog post image. The request body must be `multipart/form-data` with two parts, the file's bytes (`file`), and an optional JSON string (`blogPostingImage`) with the metadata.",
 		requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "multipart/form-data", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = PostSiteBlogPostingImageRequestBody.class)))
@@ -407,6 +414,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/blog-posting-images/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteBlogPostingImageBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -462,6 +470,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/blog-posting-images/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteBlogPostingImageByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the site's blog post image by external reference code."
 	)
@@ -505,6 +514,7 @@ public abstract class BaseBlogPostingImageResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/blog-posting-images/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("blogPostingImageByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's blog post image by external reference code. The binary image is returned as a relative URL to the image itself."
 	)

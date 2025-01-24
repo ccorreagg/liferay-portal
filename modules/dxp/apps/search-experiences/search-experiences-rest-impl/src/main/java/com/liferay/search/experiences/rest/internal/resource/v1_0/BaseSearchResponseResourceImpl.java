@@ -18,6 +18,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.ActionUtil;
 import com.liferay.search.experiences.rest.dto.v1_0.Parameter;
@@ -50,6 +51,7 @@ public abstract class BaseSearchResponseResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/search-experiences-rest/v1.0/search' -d $'{"configuration": ___, "createDate": ___, "description": ___, "description_i18n": ___, "elementInstances": ___, "externalReferenceCode": ___, "id": ___, "modifiedDate": ___, "schemaVersion": ___, "title": ___, "title_i18n": ___, "userName": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSearch")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "This API is only for the Blueprints application's preview. For a search API, use search/v1.0/search instead."
 	)

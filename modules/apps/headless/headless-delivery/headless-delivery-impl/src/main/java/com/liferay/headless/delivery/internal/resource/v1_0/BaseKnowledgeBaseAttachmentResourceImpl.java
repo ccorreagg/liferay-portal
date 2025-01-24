@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -76,6 +77,7 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/knowledge-base-attachments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("knowledgeBaseArticleKnowledgeBaseAttachments")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the knowledge base article's attachments."
 	)
@@ -128,6 +130,9 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/knowledge-base-attachments/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createKnowledgeBaseArticleKnowledgeBaseAttachmentsPageExportBatch"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -204,6 +209,7 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/knowledge-base-attachments'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createKnowledgeBaseArticleKnowledgeBaseAttachment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new attachment for an existing knowledge base article. The request body must be `multipart/form-data` with two parts, a `file` part with the file's bytes, and an optional JSON string (`knowledgeBaseAttachment`) with the metadata.",
 		requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "multipart/form-data", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = PostKnowledgeBaseArticleKnowledgeBaseAttachmentRequestBody.class)))
@@ -247,6 +253,7 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-articles/{knowledgeBaseArticleId}/knowledge-base-attachments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createKnowledgeBaseArticleKnowledgeBaseAttachmentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -307,6 +314,7 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-attachments/{knowledgeBaseAttachmentId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteKnowledgeBaseAttachment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the knowledge base file attachment and returns a 204 if the operation succeeds."
 	)
@@ -342,6 +350,7 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-attachments/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteKnowledgeBaseAttachmentBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -390,6 +399,7 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/knowledge-base-attachments/{knowledgeBaseAttachmentId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("knowledgeBaseAttachment")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the knowledge base attachment."
 	)
@@ -439,6 +449,9 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles/by-external-reference-code/{knowledgeBaseArticleExternalReferenceCode}/knowledge-base-attachments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteSiteKnowledgeBaseArticleByExternalReferenceCodeKnowledgeBaseArticleExternalReferenceCodeKnowledgeBaseAttachmentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Delete the knowledge base attachment by knowledge base article's and knowledge base attachment's external reference codes."
 	)
@@ -495,6 +508,9 @@ public abstract class BaseKnowledgeBaseAttachmentResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/knowledge-base-articles/by-external-reference-code/{knowledgeBaseArticleExternalReferenceCode}/knowledge-base-attachments/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"knowledgeBaseArticleByExternalReferenceCodeKnowledgeBaseArticleExternalReferenceCodeKnowledgeBaseAttachmentByExternalReferenceCode"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the knowledge base article attachment by external reference code."
 	)

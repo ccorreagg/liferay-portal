@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseProductConfigurationListResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productConfigurationLists")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -133,6 +135,7 @@ public abstract class BaseProductConfigurationListResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductConfigurationListsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -222,6 +225,7 @@ public abstract class BaseProductConfigurationListResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists' -d $'{"catalogExternalReferenceCode": ___, "catalogId": ___, "createDate": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "master": ___, "name": ___, "neverExpire": ___, "parentProductConfigurationListId": ___, "priority": ___, "productConfigurations": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductConfigurationList")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(
@@ -246,6 +250,7 @@ public abstract class BaseProductConfigurationListResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProductConfigurationListBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -295,6 +300,7 @@ public abstract class BaseProductConfigurationListResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductConfigurationListByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -329,6 +335,7 @@ public abstract class BaseProductConfigurationListResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productConfigurationListByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -366,6 +373,7 @@ public abstract class BaseProductConfigurationListResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/by-externalReferenceCode/{externalReferenceCode}' -d $'{"catalogExternalReferenceCode": ___, "catalogId": ___, "createDate": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "master": ___, "name": ___, "neverExpire": ___, "parentProductConfigurationListId": ___, "priority": ___, "productConfigurations": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchProductConfigurationListByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -405,6 +413,7 @@ public abstract class BaseProductConfigurationListResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductConfigurationList")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -436,6 +445,7 @@ public abstract class BaseProductConfigurationListResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProductConfigurationListBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -484,6 +494,7 @@ public abstract class BaseProductConfigurationListResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("productConfigurationList")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -517,6 +528,7 @@ public abstract class BaseProductConfigurationListResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-catalog/v1.0/product-configuration-lists/{id}' -d $'{"catalogExternalReferenceCode": ___, "catalogId": ___, "createDate": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "master": ___, "name": ___, "neverExpire": ___, "parentProductConfigurationListId": ___, "priority": ___, "productConfigurations": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchProductConfigurationList")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

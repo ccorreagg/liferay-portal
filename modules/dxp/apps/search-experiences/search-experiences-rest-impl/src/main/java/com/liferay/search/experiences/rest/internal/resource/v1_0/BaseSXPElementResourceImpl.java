@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -76,6 +77,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("sXPElements")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -124,6 +126,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSXPElementsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -202,6 +205,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements' -d $'{"createDate": ___, "description": ___, "description_i18n": ___, "elementDefinition": ___, "externalReferenceCode": ___, "fallbackDescription": ___, "fallbackTitle": ___, "hidden": ___, "id": ___, "modifiedDate": ___, "readOnly": ___, "schemaVersion": ___, "title": ___, "title_i18n": ___, "type": ___, "userName": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSXPElement")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "SXPElement")}
 	)
@@ -219,6 +223,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/batch' -d $'{"createDate": ___, "description": ___, "description_i18n": ___, "elementDefinition": ___, "externalReferenceCode": ___, "fallbackDescription": ___, "fallbackTitle": ___, "hidden": ___, "id": ___, "modifiedDate": ___, "readOnly": ___, "schemaVersion": ___, "title": ___, "title_i18n": ___, "type": ___, "userName": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSXPElementBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -264,6 +269,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("sXPElementByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -296,6 +302,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/by-external-reference-code/{externalReferenceCode}' -d $'{"createDate": ___, "description": ___, "description_i18n": ___, "elementDefinition": ___, "externalReferenceCode": ___, "fallbackDescription": ___, "fallbackTitle": ___, "hidden": ___, "id": ___, "modifiedDate": ___, "readOnly": ___, "schemaVersion": ___, "title": ___, "title_i18n": ___, "type": ___, "userName": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSXPElementByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -330,6 +337,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/preview' -d $'{"createDate": ___, "description": ___, "description_i18n": ___, "elementDefinition": ___, "externalReferenceCode": ___, "fallbackDescription": ___, "fallbackTitle": ___, "hidden": ___, "id": ___, "modifiedDate": ___, "readOnly": ___, "schemaVersion": ___, "title": ___, "title_i18n": ___, "type": ___, "userName": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSXPElementPreview")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "SXPElement")}
 	)
@@ -349,6 +357,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/validate'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSXPElementValidate")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "SXPElement")}
 	)
@@ -366,6 +375,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSXPElement")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -394,6 +404,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSXPElementBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -446,6 +457,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("sXPElement")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -476,6 +488,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}' -d $'{"createDate": ___, "description": ___, "description_i18n": ___, "elementDefinition": ___, "externalReferenceCode": ___, "fallbackDescription": ___, "fallbackTitle": ___, "hidden": ___, "id": ___, "modifiedDate": ___, "readOnly": ___, "schemaVersion": ___, "title": ___, "title_i18n": ___, "type": ___, "userName": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSXPElement")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -575,6 +588,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}' -d $'{"createDate": ___, "description": ___, "description_i18n": ___, "elementDefinition": ___, "externalReferenceCode": ___, "fallbackDescription": ___, "fallbackTitle": ___, "hidden": ___, "id": ___, "modifiedDate": ___, "readOnly": ___, "schemaVersion": ___, "title": ___, "title_i18n": ___, "type": ___, "userName": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSXPElement")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -607,6 +621,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}/batch' -d $'{"createDate": ___, "description": ___, "description_i18n": ___, "elementDefinition": ___, "externalReferenceCode": ___, "fallbackDescription": ___, "fallbackTitle": ___, "hidden": ___, "id": ___, "modifiedDate": ___, "readOnly": ___, "schemaVersion": ___, "title": ___, "title_i18n": ___, "type": ___, "userName": ___, "version": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSXPElementBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -660,6 +675,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}/copy'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSXPElementCopy")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -690,6 +706,7 @@ public abstract class BaseSXPElementResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/search-experiences-rest/v1.0/sxp-elements/{sxpElementId}/export'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("sXPElementExport")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

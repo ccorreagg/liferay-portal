@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -46,6 +47,7 @@ public abstract class BaseTermResourceImpl implements TermResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}/delivery-term'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderByExternalReferenceCodeDeliveryTerm")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve delivery term of the given Placed Order."
 	)
@@ -81,6 +83,7 @@ public abstract class BaseTermResourceImpl implements TermResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/by-externalReferenceCode/{externalReferenceCode}/payment-term'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderByExternalReferenceCodePaymentTerm")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve payment term of the given Placed Order."
 	)
@@ -116,6 +119,7 @@ public abstract class BaseTermResourceImpl implements TermResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/delivery-term'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderDeliveryTerm")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve delivery term of the given Placed Order."
 	)
@@ -149,6 +153,7 @@ public abstract class BaseTermResourceImpl implements TermResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-delivery-order/v1.0/placed-orders/{placedOrderId}/payment-term'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("placedOrderPaymentTerm")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieve payment term of the given Placed Order."
 	)

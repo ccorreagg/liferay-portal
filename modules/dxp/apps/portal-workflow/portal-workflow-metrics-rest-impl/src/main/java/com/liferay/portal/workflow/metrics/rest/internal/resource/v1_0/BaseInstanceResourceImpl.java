@@ -32,6 +32,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseInstanceResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/instances'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("processInstances")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -168,6 +170,7 @@ public abstract class BaseInstanceResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/instances/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProcessInstancesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -290,6 +293,7 @@ public abstract class BaseInstanceResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/instances' -d $'{"active": ___, "assetTitle_i18n": ___, "assetType_i18n": ___, "className": ___, "classPK": ___, "completed": ___, "creator": ___, "dateCompletion": ___, "dateCreated": ___, "dateModified": ___, "duration": ___, "id": ___, "processId": ___, "processVersion": ___, "transitions": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProcessInstance")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -322,6 +326,7 @@ public abstract class BaseInstanceResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/instances/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProcessInstanceBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -374,6 +379,7 @@ public abstract class BaseInstanceResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/instances/{instanceId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteProcessInstance")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -410,6 +416,7 @@ public abstract class BaseInstanceResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/instances/{instanceId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("processInstance")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -448,6 +455,7 @@ public abstract class BaseInstanceResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/instances/{instanceId}' -d $'{"active": ___, "assetTitle_i18n": ___, "assetType_i18n": ___, "className": ___, "classPK": ___, "completed": ___, "creator": ___, "dateCompletion": ___, "dateCreated": ___, "dateModified": ___, "duration": ___, "id": ___, "processId": ___, "processVersion": ___, "transitions": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchProcessInstance")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -486,6 +494,7 @@ public abstract class BaseInstanceResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/instances/{instanceId}/complete' -d $'{"active": ___, "assetTitle_i18n": ___, "assetType_i18n": ___, "className": ___, "classPK": ___, "completed": ___, "creator": ___, "dateCompletion": ___, "dateCreated": ___, "dateModified": ___, "duration": ___, "id": ___, "processId": ___, "processVersion": ___, "transitions": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchProcessInstanceComplete")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

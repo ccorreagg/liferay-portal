@@ -32,6 +32,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseSLAResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/slas'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("processSLAs")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -120,6 +122,7 @@ public abstract class BaseSLAResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/slas/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProcessSLAsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -195,6 +198,7 @@ public abstract class BaseSLAResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/slas' -d $'{"calendarKey": ___, "dateModified": ___, "description": ___, "duration": ___, "id": ___, "name": ___, "pauseNodeKeys": ___, "processId": ___, "startNodeKeys": ___, "status": ___, "stopNodeKeys": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProcessSLA")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -227,6 +231,7 @@ public abstract class BaseSLAResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/processes/{processId}/slas/batch' -d $'{"calendarKey": ___, "dateModified": ___, "description": ___, "duration": ___, "id": ___, "name": ___, "pauseNodeKeys": ___, "processId": ___, "startNodeKeys": ___, "status": ___, "stopNodeKeys": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createProcessSLABatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -280,6 +285,7 @@ public abstract class BaseSLAResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/slas/{slaId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSLA")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -308,6 +314,7 @@ public abstract class BaseSLAResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/slas/{slaId}/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSLABatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -360,6 +367,7 @@ public abstract class BaseSLAResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/slas/{slaId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("sLA")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -390,6 +398,7 @@ public abstract class BaseSLAResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/slas/{slaId}' -d $'{"calendarKey": ___, "dateModified": ___, "description": ___, "duration": ___, "id": ___, "name": ___, "pauseNodeKeys": ___, "processId": ___, "startNodeKeys": ___, "status": ___, "stopNodeKeys": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSLA")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -422,6 +431,7 @@ public abstract class BaseSLAResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/portal-workflow-metrics/v1.0/slas/{slaId}/batch' -d $'{"calendarKey": ___, "dateModified": ___, "description": ___, "duration": ___, "id": ___, "name": ___, "pauseNodeKeys": ___, "processId": ___, "startNodeKeys": ___, "status": ___, "stopNodeKeys": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSLABatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -21,6 +21,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.ActionUtil;
@@ -50,6 +51,7 @@ public abstract class BaseChannelResourceImpl implements ChannelResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/analytics-settings-rest/v1.0/channels'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("channels")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -93,6 +95,7 @@ public abstract class BaseChannelResourceImpl implements ChannelResource {
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/analytics-settings-rest/v1.0/channels' -d $'{"channelId": ___, "commerceSyncEnabled": ___, "createDate": ___, "dataSources": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchChannel")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Channel")}
 	)
@@ -110,6 +113,7 @@ public abstract class BaseChannelResourceImpl implements ChannelResource {
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/analytics-settings-rest/v1.0/channels' -d $'{"channelId": ___, "commerceSyncEnabled": ___, "createDate": ___, "dataSources": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createChannel")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Channel")}
 	)

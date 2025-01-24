@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("orderItems")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -123,6 +125,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrderItemsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -200,6 +203,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteOrderItemByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -234,6 +238,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("orderItemByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -266,6 +271,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems/by-externalReferenceCode/{externalReferenceCode}' -d $'{"bookedQuantityId": ___, "customFields": ___, "decimalQuantity": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "discountAmount": ___, "discountPercentageLevel1": ___, "discountPercentageLevel1WithTaxAmount": ___, "discountPercentageLevel2": ___, "discountPercentageLevel2WithTaxAmount": ___, "discountPercentageLevel3": ___, "discountPercentageLevel3WithTaxAmount": ___, "discountPercentageLevel4": ___, "discountPercentageLevel4WithTaxAmount": ___, "discountWithTaxAmount": ___, "externalReferenceCode": ___, "finalPrice": ___, "finalPriceWithTaxAmount": ___, "id": ___, "name": ___, "options": ___, "orderExternalReferenceCode": ___, "orderId": ___, "printedNote": ___, "promoPrice": ___, "promoPriceWithTaxAmount": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "shippedQuantity": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "sku": ___, "skuExternalReferenceCode": ___, "skuId": ___, "subscription": ___, "unitOfMeasure": ___, "unitOfMeasureKey": ___, "unitPrice": ___, "unitPriceWithTaxAmount": ___, "virtualItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchOrderItemByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -302,6 +308,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems/by-externalReferenceCode/{externalReferenceCode}' -d $'{"bookedQuantityId": ___, "customFields": ___, "decimalQuantity": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "discountAmount": ___, "discountPercentageLevel1": ___, "discountPercentageLevel1WithTaxAmount": ___, "discountPercentageLevel2": ___, "discountPercentageLevel2WithTaxAmount": ___, "discountPercentageLevel3": ___, "discountPercentageLevel3WithTaxAmount": ___, "discountPercentageLevel4": ___, "discountPercentageLevel4WithTaxAmount": ___, "discountWithTaxAmount": ___, "externalReferenceCode": ___, "finalPrice": ___, "finalPriceWithTaxAmount": ___, "id": ___, "name": ___, "options": ___, "orderExternalReferenceCode": ___, "orderId": ___, "printedNote": ___, "promoPrice": ___, "promoPriceWithTaxAmount": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "shippedQuantity": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "sku": ___, "skuExternalReferenceCode": ___, "skuId": ___, "subscription": ___, "unitOfMeasure": ___, "unitOfMeasureKey": ___, "unitPrice": ___, "unitPriceWithTaxAmount": ___, "virtualItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateOrderItemByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -336,6 +343,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteOrderItem")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -367,6 +375,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteOrderItemBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -411,6 +420,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("orderItem")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -440,6 +450,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems/{id}' -d $'{"bookedQuantityId": ___, "customFields": ___, "decimalQuantity": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "discountAmount": ___, "discountPercentageLevel1": ___, "discountPercentageLevel1WithTaxAmount": ___, "discountPercentageLevel2": ___, "discountPercentageLevel2WithTaxAmount": ___, "discountPercentageLevel3": ___, "discountPercentageLevel3WithTaxAmount": ___, "discountPercentageLevel4": ___, "discountPercentageLevel4WithTaxAmount": ___, "discountWithTaxAmount": ___, "externalReferenceCode": ___, "finalPrice": ___, "finalPriceWithTaxAmount": ___, "id": ___, "name": ___, "options": ___, "orderExternalReferenceCode": ___, "orderId": ___, "printedNote": ___, "promoPrice": ___, "promoPriceWithTaxAmount": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "shippedQuantity": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "sku": ___, "skuExternalReferenceCode": ___, "skuId": ___, "subscription": ___, "unitOfMeasure": ___, "unitOfMeasureKey": ___, "unitPrice": ___, "unitPriceWithTaxAmount": ___, "virtualItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchOrderItem")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -473,6 +484,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems/{id}' -d $'{"bookedQuantityId": ___, "customFields": ___, "decimalQuantity": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "discountAmount": ___, "discountPercentageLevel1": ___, "discountPercentageLevel1WithTaxAmount": ___, "discountPercentageLevel2": ___, "discountPercentageLevel2WithTaxAmount": ___, "discountPercentageLevel3": ___, "discountPercentageLevel3WithTaxAmount": ___, "discountPercentageLevel4": ___, "discountPercentageLevel4WithTaxAmount": ___, "discountWithTaxAmount": ___, "externalReferenceCode": ___, "finalPrice": ___, "finalPriceWithTaxAmount": ___, "id": ___, "name": ___, "options": ___, "orderExternalReferenceCode": ___, "orderId": ___, "printedNote": ___, "promoPrice": ___, "promoPriceWithTaxAmount": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "shippedQuantity": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "sku": ___, "skuExternalReferenceCode": ___, "skuId": ___, "subscription": ___, "unitOfMeasure": ___, "unitOfMeasureKey": ___, "unitPrice": ___, "unitPriceWithTaxAmount": ___, "virtualItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateOrderItem")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -504,6 +516,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orderItems/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateOrderItemBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -548,6 +561,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/orderItems'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("orderByExternalReferenceCodeOrderItems")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -589,6 +603,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orders/by-externalReferenceCode/{externalReferenceCode}/orderItems' -d $'{"bookedQuantityId": ___, "customFields": ___, "decimalQuantity": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "discountAmount": ___, "discountPercentageLevel1": ___, "discountPercentageLevel1WithTaxAmount": ___, "discountPercentageLevel2": ___, "discountPercentageLevel2WithTaxAmount": ___, "discountPercentageLevel3": ___, "discountPercentageLevel3WithTaxAmount": ___, "discountPercentageLevel4": ___, "discountPercentageLevel4WithTaxAmount": ___, "discountWithTaxAmount": ___, "externalReferenceCode": ___, "finalPrice": ___, "finalPriceWithTaxAmount": ___, "id": ___, "name": ___, "options": ___, "orderExternalReferenceCode": ___, "orderId": ___, "printedNote": ___, "promoPrice": ___, "promoPriceWithTaxAmount": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "shippedQuantity": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "sku": ___, "skuExternalReferenceCode": ___, "skuId": ___, "subscription": ___, "unitOfMeasure": ___, "unitOfMeasureKey": ___, "unitPrice": ___, "unitPriceWithTaxAmount": ___, "virtualItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrderByExternalReferenceCodeOrderItem")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -623,6 +638,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orders/{id}/orderItems'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("orderIdOrderItems")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -661,6 +677,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orders/{id}/orderItems' -d $'{"bookedQuantityId": ___, "customFields": ___, "decimalQuantity": ___, "deliveryGroup": ___, "deliveryGroupName": ___, "discountAmount": ___, "discountPercentageLevel1": ___, "discountPercentageLevel1WithTaxAmount": ___, "discountPercentageLevel2": ___, "discountPercentageLevel2WithTaxAmount": ___, "discountPercentageLevel3": ___, "discountPercentageLevel3WithTaxAmount": ___, "discountPercentageLevel4": ___, "discountPercentageLevel4WithTaxAmount": ___, "discountWithTaxAmount": ___, "externalReferenceCode": ___, "finalPrice": ___, "finalPriceWithTaxAmount": ___, "id": ___, "name": ___, "options": ___, "orderExternalReferenceCode": ___, "orderId": ___, "printedNote": ___, "promoPrice": ___, "promoPriceWithTaxAmount": ___, "quantity": ___, "replacedSkuExternalReferenceCode": ___, "replacedSkuId": ___, "requestedDeliveryDate": ___, "shippedQuantity": ___, "shippingAddress": ___, "shippingAddressExternalReferenceCode": ___, "shippingAddressId": ___, "sku": ___, "skuExternalReferenceCode": ___, "skuId": ___, "subscription": ___, "unitOfMeasure": ___, "unitOfMeasureKey": ___, "unitPrice": ___, "unitPriceWithTaxAmount": ___, "virtualItems": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrderIdOrderItem")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -692,6 +709,7 @@ public abstract class BaseOrderItemResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-order/v1.0/orders/orderItems/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrderIdOrderItemBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/priceEntries/by-externalReferenceCode/{externalReferenceCode}/tierPrices'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("priceEntryByExternalReferenceCodeTierPrices")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -115,6 +117,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/priceEntries/by-externalReferenceCode/{externalReferenceCode}/tierPrices' -d $'{"customFields": ___, "externalReferenceCode": ___, "id": ___, "minimumQuantity": ___, "price": ___, "priceEntryExternalReferenceCode": ___, "priceEntryId": ___, "promoPrice": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPriceEntryByExternalReferenceCodeTierPrice")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -149,6 +152,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/priceEntries/{id}/tierPrices'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("priceEntryIdTierPrices")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -187,6 +191,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/priceEntries/{id}/tierPrices' -d $'{"customFields": ___, "externalReferenceCode": ___, "id": ___, "minimumQuantity": ___, "price": ___, "priceEntryExternalReferenceCode": ___, "priceEntryId": ___, "promoPrice": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPriceEntryIdTierPrice")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -218,6 +223,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/priceEntries/tierPrices/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createPriceEntryIdTierPriceBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -262,6 +268,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/tierPrices/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteTierPriceByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -296,6 +303,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/tierPrices/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("tierPriceByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -328,6 +336,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/tierPrices/by-externalReferenceCode/{externalReferenceCode}' -d $'{"customFields": ___, "externalReferenceCode": ___, "id": ___, "minimumQuantity": ___, "price": ___, "priceEntryExternalReferenceCode": ___, "priceEntryId": ___, "promoPrice": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchTierPriceByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -364,6 +373,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/tierPrices/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteTierPrice")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -395,6 +405,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/tierPrices/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteTierPriceBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -439,6 +450,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/tierPrices/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("tierPrice")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -468,6 +480,7 @@ public abstract class BaseTierPriceResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-pricing/v1.0/tierPrices/{id}' -d $'{"customFields": ___, "externalReferenceCode": ___, "id": ___, "minimumQuantity": ___, "price": ___, "priceEntryExternalReferenceCode": ___, "priceEntryId": ___, "promoPrice": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchTierPrice")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

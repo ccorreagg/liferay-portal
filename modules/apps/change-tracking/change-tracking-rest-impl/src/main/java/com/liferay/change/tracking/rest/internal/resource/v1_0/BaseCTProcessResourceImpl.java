@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -72,6 +73,7 @@ public abstract class BaseCTProcessResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-processes'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cTProcesses")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -127,6 +129,7 @@ public abstract class BaseCTProcessResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-processes/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTProcessesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -211,6 +214,7 @@ public abstract class BaseCTProcessResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-processes/{ctProcessId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCTProcess")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -239,6 +243,7 @@ public abstract class BaseCTProcessResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-processes/{ctProcessId}/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCTProcessBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -291,6 +296,7 @@ public abstract class BaseCTProcessResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-processes/{ctProcessId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cTProcess")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -321,6 +327,7 @@ public abstract class BaseCTProcessResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-processes/{ctProcessId}/revert'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTProcessRevert")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -71,6 +72,7 @@ public abstract class BasePageExperienceResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteSiteByExternalReferenceCodePageExperience")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes an experience of a specific page specification of a site page within a site. The default experience cannot be deleted."
 	)
@@ -126,6 +128,7 @@ public abstract class BasePageExperienceResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageExperience")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves an experience of a specific page specification of a site page within a site."
 	)
@@ -183,6 +186,7 @@ public abstract class BasePageExperienceResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}' -d $'{"externalReferenceCode": ___, "key": ___, "name_i18n": ___, "pageElements": ___, "pageRules": ___, "priority": ___, "segmentExternalReferenceCode": ___, "sitePageExternalReferenceCode": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSiteSiteByExternalReferenceCodePageExperience")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates an experience of a specific page specification of a site page within a site. Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -277,6 +281,7 @@ public abstract class BasePageExperienceResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}' -d $'{"externalReferenceCode": ___, "key": ___, "name_i18n": ___, "pageElements": ___, "pageRules": ___, "priority": ___, "segmentExternalReferenceCode": ___, "sitePageExternalReferenceCode": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteSiteByExternalReferenceCodePageExperience")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates an experience of a specific page specification of a site page within a site."
 	)
@@ -336,6 +341,7 @@ public abstract class BasePageExperienceResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/page-experiences'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodePageSpecificationPageExperiences")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the experiences of a page specification."
 	)
@@ -394,6 +400,9 @@ public abstract class BasePageExperienceResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/page-experiences' -d $'{"externalReferenceCode": ___, "key": ___, "name_i18n": ___, "pageElements": ___, "pageRules": ___, "priority": ___, "segmentExternalReferenceCode": ___, "sitePageExternalReferenceCode": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodePageSpecificationPageExperience"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new experience to a page specification of a site page."
 	)

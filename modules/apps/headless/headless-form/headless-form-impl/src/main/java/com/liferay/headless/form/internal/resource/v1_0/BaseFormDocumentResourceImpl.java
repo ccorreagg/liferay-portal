@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -73,6 +74,7 @@ public abstract class BaseFormDocumentResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-form/v1.0/form-documents/{formDocumentId}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteFormDocument")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -103,6 +105,7 @@ public abstract class BaseFormDocumentResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-form/v1.0/form-documents/batch'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteFormDocumentBatch")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -149,6 +152,7 @@ public abstract class BaseFormDocumentResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-form/v1.0/form-documents/{formDocumentId}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("formDocument")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {

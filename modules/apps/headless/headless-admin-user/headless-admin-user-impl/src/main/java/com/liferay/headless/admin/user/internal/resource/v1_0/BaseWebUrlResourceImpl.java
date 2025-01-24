@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/web-urls'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountByExternalReferenceCodeWebUrls")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the account's web URLs."
 	)
@@ -109,6 +111,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/web-urls'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountWebUrls")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the account's web URLs."
 	)
@@ -142,6 +145,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/web-urls/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountWebUrlsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -210,6 +214,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/web-urls'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationByExternalReferenceCodeWebUrls")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organization's web URLs."
 	)
@@ -245,6 +250,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/web-urls'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationWebUrls")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organization's URLs."
 	)
@@ -278,6 +284,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/web-urls/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrganizationWebUrlsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -346,6 +353,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}/web-urls'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountByExternalReferenceCodeWebUrls")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user's web URLs."
 	)
@@ -381,6 +389,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/web-urls'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountWebUrls")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user's URLs."
 	)
@@ -414,6 +423,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/web-urls/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createUserAccountWebUrlsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -482,6 +492,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/web-urls/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWebUrlByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the web URL by external reference code."
 	)
@@ -515,6 +526,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/web-urls/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("webUrlByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the web URL by external reference code."
 	)
@@ -550,6 +562,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/web-urls/by-external-reference-code/{externalReferenceCode}' -d $'{"externalReferenceCode": ___, "id": ___, "primary": ___, "url": ___, "urlType": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchWebUrlByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the web URL by external reference code."
 	)
@@ -587,6 +600,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/web-urls/{webUrlId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWebUrl")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the web URL."
 	)
@@ -618,6 +632,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/web-urls/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWebUrlBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -662,6 +677,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/web-urls/{webUrlId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("webUrl")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the web URL."
 	)
@@ -695,6 +711,7 @@ public abstract class BaseWebUrlResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/web-urls/{webUrlId}' -d $'{"externalReferenceCode": ___, "id": ___, "primary": ___, "url": ___, "urlType": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchWebUrl")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the web URL."
 	)

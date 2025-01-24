@@ -46,6 +46,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.ModelPermissionsUtil;
@@ -90,6 +91,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/wiki-nodes'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("wikiNodes")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the wiki node's of a site. Results can be paginated, filtered, searched, and sorted."
 	)
@@ -167,6 +169,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/wiki-nodes/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteWikiNodesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -252,6 +255,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/wiki-nodes' -d $'{"description": ___, "externalReferenceCode": ___, "name": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteWikiNode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new wiki node"
 	)
@@ -287,6 +291,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/wiki-nodes/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteWikiNodeBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -339,6 +344,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/wiki-nodes/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteWikiNodeByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the site's wiki node by external reference code."
 	)
@@ -380,6 +386,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/wiki-nodes/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("wikiNodeByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the site's wiki node by external reference code."
 	)
@@ -435,6 +442,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/wiki-nodes/by-external-reference-code/{externalReferenceCode}' -d $'{"description": ___, "externalReferenceCode": ___, "name": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteWikiNodeByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the site's wiki node with the given external reference code, or creates it if it not exists."
 	)
@@ -480,6 +488,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/wiki-nodes/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteWikiNodePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -545,6 +554,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/wiki-nodes/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteWikiNodePermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -629,6 +639,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-nodes/{wikiNodeId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWikiNode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the wiki node and returns a 204 if the operation succeeds."
 	)
@@ -660,6 +671,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-nodes/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteWikiNodeBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -704,6 +716,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-nodes/{wikiNodeId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("wikiNode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the wiki node"
 	)
@@ -749,6 +762,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-nodes/{wikiNodeId}' -d $'{"description": ___, "externalReferenceCode": ___, "name": ___, "viewableBy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateWikiNode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the wiki node with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
@@ -784,6 +798,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-nodes/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateWikiNodeBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -828,6 +843,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-nodes/{wikiNodeId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("wikiNodePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -895,6 +911,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-nodes/{wikiNodeId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateWikiNodePermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -983,6 +1000,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-nodes/{wikiNodeId}/subscribe'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateWikiNodeSubscribe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1011,6 +1029,7 @@ public abstract class BaseWikiNodeResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/wiki-nodes/{wikiNodeId}/unsubscribe'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateWikiNodeUnsubscribe")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

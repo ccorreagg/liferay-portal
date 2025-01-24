@@ -46,6 +46,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.ModelPermissionsUtil;
@@ -90,6 +91,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/navigation-menus/{navigationMenuId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteNavigationMenu")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the navigation menu and returns a 204 if the operation succeeds"
 	)
@@ -123,6 +125,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-delivery/v1.0/navigation-menus/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteNavigationMenuBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -169,6 +172,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/navigation-menus/{navigationMenuId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("navigationMenu")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -213,6 +217,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/navigation-menus/{navigationMenuId}' -d $'{"name": ___, "navigationMenuItems": ___, "navigationType": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateNavigationMenu")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Replaces the navigation menu with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
@@ -250,6 +255,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/navigation-menus/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateNavigationMenuBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -296,6 +302,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/navigation-menus/{navigationMenuId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("navigationMenuPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -367,6 +374,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/navigation-menus/{navigationMenuId}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateNavigationMenuPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -459,6 +467,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/navigation-menus'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("navigationMenus")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -512,6 +521,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/navigation-menus/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteNavigationMenusPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -583,6 +593,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/navigation-menus' -d $'{"name": ___, "navigationMenuItems": ___, "navigationType": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteNavigationMenu")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates a new navigation menu."
 	)
@@ -620,6 +631,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/navigation-menus/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteNavigationMenuBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -674,6 +686,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/navigation-menus/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteNavigationMenuPermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -741,6 +754,7 @@ public abstract class BaseNavigationMenuResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-delivery/v1.0/sites/{siteId}/navigation-menus/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteNavigationMenuPermissionsPage")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

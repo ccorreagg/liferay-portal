@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -73,6 +74,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-billing-addresses/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountChannelBillingAddressId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -106,6 +108,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-billing-addresses/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountChannelBillingAddressId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -141,6 +144,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-billing-addresses/{id}' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("patchAccountChannelBillingAddressId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -178,6 +182,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-currencies/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountChannelCurrencyId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -211,6 +216,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-currencies/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountChannelCurrencyId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -246,6 +252,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-currencies/{id}' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("patchAccountChannelCurrencyId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -283,6 +290,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-delivery-terms/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountChannelDeliveryTermId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -316,6 +324,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-delivery-terms/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountChannelDeliveryTermId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -351,6 +360,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-delivery-terms/{id}' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("patchAccountChannelDeliveryTermId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -388,6 +398,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-discounts/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountChannelDiscountId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -421,6 +432,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-discounts/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountChannelDiscountId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -456,6 +468,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-discounts/{id}' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("patchAccountChannelDiscountId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -493,6 +506,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-payment-methods/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountChannelPaymentMethodId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -526,6 +540,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-payment-methods/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountChannelPaymentMethodId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -561,6 +576,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-payment-methods/{id}' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("patchAccountChannelPaymentMethodId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -598,6 +614,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-payment-terms/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountChannelPaymentTermId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -631,6 +648,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-payment-terms/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountChannelPaymentTermId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -666,6 +684,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-payment-terms/{id}' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("patchAccountChannelPaymentTermId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -703,6 +722,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-price-list/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountChannelPriceListId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -736,6 +756,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-price-list/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountChannelPriceListId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -771,6 +792,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-price-list/{id}' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("patchAccountChannelPriceListId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -808,6 +830,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-shipping-addresses/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountChannelShippingAddressId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -841,6 +864,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-shipping-addresses/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountChannelShippingAddressId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -876,6 +900,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-shipping-addresses/{id}' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("patchAccountChannelShippingAddressId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -913,6 +938,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-users/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("deleteAccountChannelUserId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -946,6 +972,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-users/{id}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountChannelUserId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -981,6 +1008,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/account-channel-users/{id}' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("patchAccountChannelUserId")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1018,6 +1046,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-billing-addresses'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountByExternalReferenceCodeAccountChannelBillingAddresses")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1066,6 +1095,9 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-billing-addresses' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName(
+		"createAccountByExternalReferenceCodeAccountChannelBillingAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1107,6 +1139,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-currencies'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountByExternalReferenceCodeAccountChannelCurrencies")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1155,6 +1188,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-currencies' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountByExternalReferenceCodeAccountChannelCurrency")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1196,6 +1230,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-delivery-terms'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountByExternalReferenceCodeAccountChannelDeliveryTerms")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1244,6 +1279,9 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-delivery-terms' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName(
+		"createAccountByExternalReferenceCodeAccountChannelDeliveryTerm"
+	)
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1285,6 +1323,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-discounts'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountByExternalReferenceCodeAccountChannelDiscounts")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1333,6 +1372,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-discounts' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountByExternalReferenceCodeAccountChannelDiscount")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1374,6 +1414,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-methods'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountByExternalReferenceCodeAccountChannelPaymentMethods")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1422,6 +1463,9 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-methods' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName(
+		"createAccountByExternalReferenceCodeAccountChannelPaymentMethod"
+	)
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1463,6 +1507,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-terms'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountByExternalReferenceCodeAccountChannelPaymentTerms")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1511,6 +1556,9 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-payment-terms' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName(
+		"createAccountByExternalReferenceCodeAccountChannelPaymentTerm"
+	)
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1552,6 +1600,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-price-lists'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountByExternalReferenceCodeAccountChannelPriceLists")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1600,6 +1649,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-price-lists' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountByExternalReferenceCodeAccountChannelPriceList")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1641,6 +1691,9 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-addresses'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName(
+		"accountByExternalReferenceCodeAccountChannelShippingAddresses"
+	)
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1689,6 +1742,9 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-shipping-addresses' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName(
+		"createAccountByExternalReferenceCodeAccountChannelShippingAddress"
+	)
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1730,6 +1786,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-users'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountByExternalReferenceCodeAccountChannelUsers")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1778,6 +1835,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/by-externalReferenceCode/{externalReferenceCode}/account-channel-users' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountByExternalReferenceCodeAccountChannelUser")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1819,6 +1877,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-billing-addresses'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountIdAccountChannelBillingAddresses")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1865,6 +1924,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-billing-addresses' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountIdAccountChannelBillingAddress")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1902,6 +1962,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-currencies'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountIdAccountChannelCurrencies")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1946,6 +2007,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-currencies' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountIdAccountChannelCurrency")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1983,6 +2045,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-delivery-terms'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountIdAccountChannelDeliveryTerms")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2029,6 +2092,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-delivery-terms' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountIdAccountChannelDeliveryTerm")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2066,6 +2130,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-discounts'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountIdAccountChannelDiscounts")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2110,6 +2175,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-discounts' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountIdAccountChannelDiscount")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2147,6 +2213,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-payment-methods'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountIdAccountChannelPaymentMethods")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2193,6 +2260,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-payment-methods' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountIdAccountChannelPaymentMethod")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2230,6 +2298,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-payment-terms'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountIdAccountChannelPaymentTerms")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2274,6 +2343,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-payment-terms' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountIdAccountChannelPaymentTerm")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2311,6 +2381,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-price-lists'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountIdAccountChannelPriceLists")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2355,6 +2426,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-price-lists' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountIdAccountChannelPriceList")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2392,6 +2464,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-shipping-addresses'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountIdAccountChannelShippingAddresses")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2438,6 +2511,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-shipping-addresses' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountIdAccountChannelShippingAddress")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2475,6 +2549,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-users'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("accountIdAccountChannelUsers")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -2519,6 +2594,7 @@ public abstract class BaseAccountChannelEntryResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-account/v1.0/accounts/{id}/account-channel-users' -d $'{"channelExternalReferenceCode": ___, "channelId": ___, "classExternalReferenceCode": ___, "classPK": ___, "overrideEligibility": ___, "priority": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createAccountIdAccountChannelUser")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {

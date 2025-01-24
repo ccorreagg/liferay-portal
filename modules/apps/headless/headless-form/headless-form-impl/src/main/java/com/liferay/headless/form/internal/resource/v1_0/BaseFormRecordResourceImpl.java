@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseFormRecordResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-form/v1.0/form-records/{formRecordId}'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("formRecord")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -107,6 +109,7 @@ public abstract class BaseFormRecordResourceImpl
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-form/v1.0/form-records/{formRecordId}' -d $'{"creator": ___, "draft": ___, "formFieldValues": ___, "formId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("updateFormRecord")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -141,6 +144,7 @@ public abstract class BaseFormRecordResourceImpl
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-form/v1.0/form-records/batch'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("updateFormRecordBatch")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -187,6 +191,7 @@ public abstract class BaseFormRecordResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-form/v1.0/forms/{formId}/form-records'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("formFormRecords")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -228,6 +233,7 @@ public abstract class BaseFormRecordResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-form/v1.0/forms/{formId}/form-records/export-batch'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createFormFormRecordsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -299,6 +305,7 @@ public abstract class BaseFormRecordResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-form/v1.0/forms/{formId}/form-records' -d $'{"creator": ___, "draft": ___, "formFieldValues": ___, "formId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createFormFormRecord")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -333,6 +340,7 @@ public abstract class BaseFormRecordResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-form/v1.0/forms/{formId}/form-records/batch'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("createFormFormRecordBatch")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -387,6 +395,7 @@ public abstract class BaseFormRecordResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-form/v1.0/forms/{formId}/form-records/by-latest-draft'  -u 'test@liferay.com:test'
 	 */
 	@Deprecated
+	@GraphQLName("formFormRecordByLatestDraft")
 	@io.swagger.v3.oas.annotations.Operation(deprecated = true)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {

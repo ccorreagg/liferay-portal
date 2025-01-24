@@ -31,6 +31,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -73,6 +74,7 @@ public abstract class BaseSearchableAssetNameResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/search-experiences-rest/v1.0/searchable-asset-names'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("searchableAssetNames")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(
@@ -95,6 +97,7 @@ public abstract class BaseSearchableAssetNameResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/search-experiences-rest/v1.0/searchable-asset-names/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSearchableAssetNamesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

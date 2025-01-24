@@ -20,6 +20,7 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ActionUtil;
 
 import java.util.Collection;
@@ -47,6 +48,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/bulk/v1.0/taxonomy-categories/batch' -d $'{"documentBulkSelection": ___, "taxonomyCategoryIdsToAdd": ___, "taxonomyCategoryIdsToRemove": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchTaxonomyCategoryBatch")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "TaxonomyCategory")
@@ -67,6 +69,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/bulk/v1.0/taxonomy-categories/batch' -d $'{"documentBulkSelection": ___, "taxonomyCategoryIdsToAdd": ___, "taxonomyCategoryIdsToRemove": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateTaxonomyCategoryBatch")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "TaxonomyCategory")

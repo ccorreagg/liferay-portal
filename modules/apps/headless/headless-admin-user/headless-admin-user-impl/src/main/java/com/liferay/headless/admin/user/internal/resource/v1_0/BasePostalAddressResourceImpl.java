@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/by-external-reference-code/{externalReferenceCode}/postal-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountByExternalReferenceCodePostalAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the account's postal addresses."
 	)
@@ -113,6 +115,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/postal-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("accountPostalAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the account's postal addresses."
 	)
@@ -148,6 +151,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/postal-addresses/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountPostalAddressesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -219,6 +223,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/postal-addresses' -d $'{"addressCountry": ___, "addressCountry_i18n": ___, "addressLocality": ___, "addressRegion": ___, "addressType": ___, "externalReferenceCode": ___, "name": ___, "phoneNumber": ___, "postalCode": ___, "primary": ___, "streetAddressLine1": ___, "streetAddressLine2": ___, "streetAddressLine3": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountPostalAddress")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -253,6 +258,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/accounts/{accountId}/postal-addresses/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createAccountPostalAddressBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -307,6 +313,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/by-external-reference-code/{externalReferenceCode}/postal-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationByExternalReferenceCodePostalAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organization's postal addresses."
 	)
@@ -345,6 +352,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/postal-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("organizationPostalAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the organization's postal addresses."
 	)
@@ -380,6 +388,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}/postal-addresses/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createOrganizationPostalAddressesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -453,6 +462,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/postal-addresses/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePostalAddressByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the postal address using external reference code."
 	)
@@ -488,6 +498,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/postal-addresses/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("postalAddressByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the postal address using external reference code."
 	)
@@ -525,6 +536,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/postal-addresses/by-external-reference-code/{externalReferenceCode}' -d $'{"addressCountry": ___, "addressCountry_i18n": ___, "addressLocality": ___, "addressRegion": ___, "addressType": ___, "externalReferenceCode": ___, "name": ___, "phoneNumber": ___, "postalCode": ___, "primary": ___, "streetAddressLine1": ___, "streetAddressLine2": ___, "streetAddressLine3": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchPostalAddressByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the postal address using external reference code."
 	)
@@ -632,6 +644,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/postal-addresses/by-external-reference-code/{externalReferenceCode}' -d $'{"addressCountry": ___, "addressCountry_i18n": ___, "addressLocality": ___, "addressRegion": ___, "addressType": ___, "externalReferenceCode": ___, "name": ___, "phoneNumber": ___, "postalCode": ___, "primary": ___, "streetAddressLine1": ___, "streetAddressLine2": ___, "streetAddressLine3": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updatePostalAddressByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the postal address using external reference code."
 	)
@@ -671,6 +684,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/postal-addresses/{postalAddressId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePostalAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes the postal address"
 	)
@@ -704,6 +718,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/postal-addresses/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deletePostalAddressBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -750,6 +765,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/postal-addresses/{postalAddressId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("postalAddress")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the postal address."
 	)
@@ -785,6 +801,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/postal-addresses/{postalAddressId}' -d $'{"addressCountry": ___, "addressCountry_i18n": ___, "addressLocality": ___, "addressRegion": ___, "addressType": ___, "externalReferenceCode": ___, "name": ___, "phoneNumber": ___, "postalCode": ___, "primary": ___, "streetAddressLine1": ___, "streetAddressLine2": ___, "streetAddressLine3": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchPostalAddress")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -885,6 +902,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/postal-addresses/{postalAddressId}' -d $'{"addressCountry": ___, "addressCountry_i18n": ___, "addressLocality": ___, "addressRegion": ___, "addressType": ___, "externalReferenceCode": ___, "name": ___, "phoneNumber": ___, "postalCode": ___, "primary": ___, "streetAddressLine1": ___, "streetAddressLine2": ___, "streetAddressLine3": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updatePostalAddress")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -919,6 +937,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/postal-addresses/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updatePostalAddressBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -965,6 +984,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/by-external-reference-code/{externalReferenceCode}/postal-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountByExternalReferenceCodePostalAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user's postal addresses."
 	)
@@ -1003,6 +1023,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/postal-addresses'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("userAccountPostalAddresses")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the user's postal addresses."
 	)
@@ -1038,6 +1059,7 @@ public abstract class BasePostalAddressResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}/postal-addresses/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createUserAccountPostalAddressesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.Permission;
@@ -73,6 +74,9 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}/display-page-templates'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"siteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplates"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves all the display page templates within a display page template folder of a site page."
 	)
@@ -142,6 +146,9 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}/display-page-templates' -d $'{"contentTypeReference": ___, "creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "displayPageTemplateSettings": ___, "externalReferenceCode": ___, "friendlyUrlHistory": ___, "friendlyUrlPath_i18n": ___, "key": ___, "markedAsDefault": ___, "name": ___, "pageSpecifications": ___, "parentFolder": ___, "thumbnail": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new display page template in draft status to a display page template folder."
 	)
@@ -206,6 +213,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeDisplayPageTemplates")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the display page templates of the site"
 	)
@@ -291,6 +299,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates' -d $'{"contentTypeReference": ___, "creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "displayPageTemplateSettings": ___, "externalReferenceCode": ___, "friendlyUrlHistory": ___, "friendlyUrlPath_i18n": ___, "key": ___, "markedAsDefault": ___, "name": ___, "pageSpecifications": ___, "parentFolder": ___, "thumbnail": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createSiteSiteByExternalReferenceCodeDisplayPageTemplate")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new display page template"
 	)
@@ -333,6 +342,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeDisplayPageTemplatePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -385,6 +395,9 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -424,6 +437,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates/{displayPageTemplateExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteSiteSiteByExternalReferenceCodeDisplayPageTemplate")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a specific display page template of a site."
 	)
@@ -469,6 +483,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates/{displayPageTemplateExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeDisplayPageTemplate")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a specific display page template of a site."
 	)
@@ -531,6 +546,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates/{displayPageTemplateExternalReferenceCode}' -d $'{"contentTypeReference": ___, "creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "displayPageTemplateSettings": ___, "externalReferenceCode": ___, "friendlyUrlHistory": ___, "friendlyUrlPath_i18n": ___, "key": ___, "markedAsDefault": ___, "name": ___, "pageSpecifications": ___, "parentFolder": ___, "thumbnail": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchSiteSiteByExternalReferenceCodeDisplayPageTemplate")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -651,6 +667,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates/{displayPageTemplateExternalReferenceCode}' -d $'{"contentTypeReference": ___, "creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "datePublished": ___, "displayPageTemplateSettings": ___, "externalReferenceCode": ___, "friendlyUrlHistory": ___, "friendlyUrlPath_i18n": ___, "key": ___, "markedAsDefault": ___, "name": ___, "pageSpecifications": ___, "parentFolder": ___, "thumbnail": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateSiteSiteByExternalReferenceCodeDisplayPageTemplate")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the display page template with the given external reference code, or creates it if it does not exist."
 	)
@@ -715,6 +732,9 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates/{displayPageTemplateExternalReferenceCode}/page-specifications' -d $'{"pageExperiences": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodeDisplayPageTemplatePageSpecification"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new page specification in draft status to a display page template."
 	)
@@ -779,6 +799,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates/{displayPageTemplateExternalReferenceCode}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteExternalReferenceCodeDisplayPageTemplatePermissions")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -841,6 +862,9 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-templates/{displayPageTemplateExternalReferenceCode}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteSiteExternalReferenceCodeDisplayPageTemplatePermissionsPage"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

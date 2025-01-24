@@ -33,6 +33,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.permission.Permission;
@@ -72,6 +73,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeDisplayPageTemplateFolders")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves the display page template folders of the site."
 	)
@@ -157,6 +159,9 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "description": ___, "externalReferenceCode": ___, "key": ___, "name": ___, "parentDisplayPageTemplateFolderExternalReferenceCode": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Adds a new display page template folder."
 	)
@@ -199,6 +204,9 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"siteByExternalReferenceCodeDisplayPageTemplateFolderPermissions"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -251,6 +259,9 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderPermissionsPage"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -290,6 +301,9 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Deletes a specific display page template folder of a site."
 	)
@@ -337,6 +351,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("siteByExternalReferenceCodeDisplayPageTemplateFolder")
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Retrieves a specific display page template folder of a site."
 	)
@@ -399,6 +414,9 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "description": ___, "externalReferenceCode": ___, "key": ___, "name": ___, "parentDisplayPageTemplateFolderExternalReferenceCode": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"patchSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates only the fields received in the request body, leaving any other fields untouched."
 	)
@@ -526,6 +544,9 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}' -d $'{"creatorExternalReferenceCode": ___, "dateCreated": ___, "dateModified": ___, "description": ___, "externalReferenceCode": ___, "key": ___, "name": ___, "parentDisplayPageTemplateFolderExternalReferenceCode": ___, "uuid": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder"
+	)
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Updates the display page template folder with the given external reference code, or creates it if it does not exist."
 	)
@@ -590,6 +611,9 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"siteExternalReferenceCodeDisplayPageTemplateFolderPermissions"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -652,6 +676,9 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}/permissions'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"updateSiteSiteExternalReferenceCodeDisplayPageTemplateFolderPermissionsPage"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

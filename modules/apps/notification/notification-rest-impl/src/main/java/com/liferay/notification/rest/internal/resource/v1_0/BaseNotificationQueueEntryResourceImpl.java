@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/notification/v1.0/notification-queue-entries'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("notificationQueueEntries")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -126,6 +128,7 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/notification/v1.0/notification-queue-entries/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createNotificationQueueEntriesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -208,6 +211,7 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/notification/v1.0/notification-queue-entries' -d $'{"body": ___, "recipients": ___, "subject": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createNotificationQueueEntry")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(
@@ -232,6 +236,7 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/notification/v1.0/notification-queue-entries/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createNotificationQueueEntryBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -281,6 +286,7 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/notification/v1.0/notification-queue-entries/{notificationQueueEntryId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteNotificationQueueEntry")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -313,6 +319,7 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/notification/v1.0/notification-queue-entries/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteNotificationQueueEntryBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -361,6 +368,7 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/notification/v1.0/notification-queue-entries/{notificationQueueEntryId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("notificationQueueEntry")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -395,6 +403,7 @@ public abstract class BaseNotificationQueueEntryResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/notification/v1.0/notification-queue-entries/{notificationQueueEntryId}/resend'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateNotificationQueueEntryResend")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("discounts")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -123,6 +125,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDiscountsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -200,6 +203,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts' -d $'{"active": ___, "amountFormatted": ___, "couponCode": ___, "customFields": ___, "discountAccountGroups": ___, "discountAccounts": ___, "discountCategories": ___, "discountChannels": ___, "discountOrderTypes": ___, "discountProductGroups": ___, "discountProducts": ___, "discountRules": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "id": ___, "level": ___, "limitationTimes": ___, "limitationTimesPerAccount": ___, "limitationType": ___, "maximumDiscountAmount": ___, "neverExpire": ___, "numberOfUse": ___, "percentageLevel1": ___, "percentageLevel2": ___, "percentageLevel3": ___, "percentageLevel4": ___, "rulesConjunction": ___, "target": ___, "title": ___, "useCouponCode": ___, "usePercentage": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDiscount")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Discount")}
 	)
@@ -217,6 +221,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createDiscountBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -261,6 +266,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDiscountByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -291,6 +297,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/by-externalReferenceCode/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("discountByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -323,6 +330,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/by-externalReferenceCode/{externalReferenceCode}' -d $'{"active": ___, "amountFormatted": ___, "couponCode": ___, "customFields": ___, "discountAccountGroups": ___, "discountAccounts": ___, "discountCategories": ___, "discountChannels": ___, "discountOrderTypes": ___, "discountProductGroups": ___, "discountProducts": ___, "discountRules": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "id": ___, "level": ___, "limitationTimes": ___, "limitationTimesPerAccount": ___, "limitationType": ___, "maximumDiscountAmount": ___, "neverExpire": ___, "numberOfUse": ___, "percentageLevel1": ___, "percentageLevel2": ___, "percentageLevel3": ___, "percentageLevel4": ___, "rulesConjunction": ___, "target": ___, "title": ___, "useCouponCode": ___, "usePercentage": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchDiscountByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -463,6 +471,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/by-externalReferenceCode/{externalReferenceCode}' -d $'{"active": ___, "amountFormatted": ___, "couponCode": ___, "customFields": ___, "discountAccountGroups": ___, "discountAccounts": ___, "discountCategories": ___, "discountChannels": ___, "discountOrderTypes": ___, "discountProductGroups": ___, "discountProducts": ___, "discountRules": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "id": ___, "level": ___, "limitationTimes": ___, "limitationTimesPerAccount": ___, "limitationType": ___, "maximumDiscountAmount": ___, "neverExpire": ___, "numberOfUse": ___, "percentageLevel1": ___, "percentageLevel2": ___, "percentageLevel3": ___, "percentageLevel4": ___, "rulesConjunction": ___, "target": ___, "title": ___, "useCouponCode": ___, "usePercentage": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateDiscountByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -497,6 +506,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDiscount")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -524,6 +534,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteDiscountBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -568,6 +579,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("discount")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -597,6 +609,7 @@ public abstract class BaseDiscountResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-commerce-admin-pricing/v2.0/discounts/{id}' -d $'{"active": ___, "amountFormatted": ___, "couponCode": ___, "customFields": ___, "discountAccountGroups": ___, "discountAccounts": ___, "discountCategories": ___, "discountChannels": ___, "discountOrderTypes": ___, "discountProductGroups": ___, "discountProducts": ___, "discountRules": ___, "displayDate": ___, "expirationDate": ___, "externalReferenceCode": ___, "id": ___, "level": ___, "limitationTimes": ___, "limitationTimesPerAccount": ___, "limitationType": ___, "maximumDiscountAmount": ___, "neverExpire": ___, "numberOfUse": ___, "percentageLevel1": ___, "percentageLevel2": ___, "percentageLevel3": ___, "percentageLevel4": ___, "rulesConjunction": ___, "target": ___, "title": ___, "useCouponCode": ___, "usePercentage": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchDiscount")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

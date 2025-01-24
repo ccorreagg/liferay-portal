@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseCTRemoteResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-remotes'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cTRemotes")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -117,6 +119,7 @@ public abstract class BaseCTRemoteResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-remotes/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTRemotesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -189,6 +192,7 @@ public abstract class BaseCTRemoteResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-remotes' -d $'{"clientId": ___, "clientSecret": ___, "description": ___, "name": ___, "url": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTRemote")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "CTRemote")}
 	)
@@ -206,6 +210,7 @@ public abstract class BaseCTRemoteResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-remotes/batch' -d $'{"clientId": ___, "clientSecret": ___, "description": ___, "name": ___, "url": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createCTRemoteBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -251,6 +256,7 @@ public abstract class BaseCTRemoteResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-remotes/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCTRemote")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -278,6 +284,7 @@ public abstract class BaseCTRemoteResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-remotes/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteCTRemoteBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -322,6 +329,7 @@ public abstract class BaseCTRemoteResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-remotes/{id}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("cTRemote")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -351,6 +359,7 @@ public abstract class BaseCTRemoteResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-remotes/{id}' -d $'{"clientId": ___, "clientSecret": ___, "description": ___, "name": ___, "url": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchCTRemote")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -406,6 +415,7 @@ public abstract class BaseCTRemoteResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-remotes/{id}' -d $'{"clientId": ___, "clientSecret": ___, "description": ___, "name": ___, "url": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateCTRemote")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -437,6 +447,7 @@ public abstract class BaseCTRemoteResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/change-tracking-rest/v1.0/ct-remotes/batch' -d $'{"clientId": ___, "clientSecret": ___, "description": ___, "name": ___, "url": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateCTRemoteBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

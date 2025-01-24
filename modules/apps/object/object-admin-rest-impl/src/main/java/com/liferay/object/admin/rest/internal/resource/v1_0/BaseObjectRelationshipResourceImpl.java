@@ -34,6 +34,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -74,6 +75,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-relationships'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectDefinitionByExternalReferenceCodeObjectRelationships")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -135,6 +137,9 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/by-external-reference-code/{externalReferenceCode}/object-relationships' -d $'{"deletionType": ___, "edge": ___, "externalReferenceCode": ___, "label": ___, "name": ___, "objectDefinitionExternalReferenceCode1": ___, "objectDefinitionExternalReferenceCode2": ___, "objectDefinitionId1": ___, "objectDefinitionId2": ___, "objectDefinitionModifiable2": ___, "objectDefinitionName2": ___, "objectDefinitionSystem2": ___, "objectField": ___, "parameterObjectFieldId": ___, "parameterObjectFieldName": ___, "system": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName(
+		"createObjectDefinitionByExternalReferenceCodeObjectRelationship"
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -172,6 +177,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-relationships'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectDefinitionObjectRelationships")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -232,6 +238,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-relationships/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectRelationshipsPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -322,6 +329,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-relationships' -d $'{"deletionType": ___, "edge": ___, "externalReferenceCode": ___, "label": ___, "name": ___, "objectDefinitionExternalReferenceCode1": ___, "objectDefinitionExternalReferenceCode2": ___, "objectDefinitionId1": ___, "objectDefinitionId2": ___, "objectDefinitionModifiable2": ___, "objectDefinitionName2": ___, "objectDefinitionSystem2": ___, "objectField": ___, "parameterObjectFieldId": ___, "parameterObjectFieldName": ___, "system": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectRelationship")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -358,6 +366,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/object-admin/v1.0/object-definitions/{objectDefinitionId}/object-relationships/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createObjectDefinitionObjectRelationshipBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -414,6 +423,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-relationships/by-external-reference-code/{externalReferenceCode}' -d $'{"deletionType": ___, "edge": ___, "externalReferenceCode": ___, "label": ___, "name": ___, "objectDefinitionExternalReferenceCode1": ___, "objectDefinitionExternalReferenceCode2": ___, "objectDefinitionId1": ___, "objectDefinitionId2": ___, "objectDefinitionModifiable2": ___, "objectDefinitionName2": ___, "objectDefinitionSystem2": ___, "objectField": ___, "parameterObjectFieldId": ___, "parameterObjectFieldName": ___, "system": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectRelationshipByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -450,6 +460,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-relationships/{objectRelationshipId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectRelationship")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -480,6 +491,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/object-admin/v1.0/object-relationships/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteObjectRelationshipBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -526,6 +538,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/object-admin/v1.0/object-relationships/{objectRelationshipId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("objectRelationship")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -558,6 +571,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-relationships/{objectRelationshipId}' -d $'{"deletionType": ___, "edge": ___, "externalReferenceCode": ___, "label": ___, "name": ___, "objectDefinitionExternalReferenceCode1": ___, "objectDefinitionExternalReferenceCode2": ___, "objectDefinitionId1": ___, "objectDefinitionId2": ___, "objectDefinitionModifiable2": ___, "objectDefinitionName2": ___, "objectDefinitionSystem2": ___, "objectField": ___, "parameterObjectFieldId": ___, "parameterObjectFieldName": ___, "system": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectRelationship")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -592,6 +606,7 @@ public abstract class BaseObjectRelationshipResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/object-admin/v1.0/object-relationships/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateObjectRelationshipBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

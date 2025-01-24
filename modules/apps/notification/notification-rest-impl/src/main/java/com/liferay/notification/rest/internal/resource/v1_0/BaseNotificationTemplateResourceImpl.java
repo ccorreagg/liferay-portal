@@ -35,6 +35,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -75,6 +76,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/notification/v1.0/notification-templates'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("notificationTemplates")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -133,6 +135,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/notification/v1.0/notification-templates/export-batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createNotificationTemplatesPageExportBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -215,6 +218,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/notification/v1.0/notification-templates' -d $'{"attachmentObjectFieldExternalReferenceCodes": ___, "attachmentObjectFieldIds": ___, "body": ___, "description": ___, "editorType": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "objectDefinitionExternalReferenceCode": ___, "objectDefinitionId": ___, "recipientType": ___, "recipients": ___, "subject": ___, "system": ___, "type": ___, "typeLabel": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createNotificationTemplate")
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(
@@ -239,6 +243,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/notification/v1.0/notification-templates/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createNotificationTemplateBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -287,6 +292,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/notification/v1.0/notification-templates/by-external-reference-code/{externalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("notificationTemplateByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -323,6 +329,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/notification/v1.0/notification-templates/by-external-reference-code/{externalReferenceCode}' -d $'{"attachmentObjectFieldExternalReferenceCodes": ___, "attachmentObjectFieldIds": ___, "body": ___, "description": ___, "editorType": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "objectDefinitionExternalReferenceCode": ___, "objectDefinitionId": ___, "recipientType": ___, "recipients": ___, "subject": ___, "system": ___, "type": ___, "typeLabel": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateNotificationTemplateByExternalReferenceCode")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -361,6 +368,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/notification/v1.0/notification-templates/{notificationTemplateId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteNotificationTemplate")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -393,6 +401,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/notification/v1.0/notification-templates/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("deleteNotificationTemplateBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -441,6 +450,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/notification/v1.0/notification-templates/{notificationTemplateId}'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("notificationTemplate")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -475,6 +485,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/notification/v1.0/notification-templates/{notificationTemplateId}' -d $'{"attachmentObjectFieldExternalReferenceCodes": ___, "attachmentObjectFieldIds": ___, "body": ___, "description": ___, "editorType": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "objectDefinitionExternalReferenceCode": ___, "objectDefinitionId": ___, "recipientType": ___, "recipients": ___, "subject": ___, "system": ___, "type": ___, "typeLabel": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("patchNotificationTemplate")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -600,6 +611,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/notification/v1.0/notification-templates/{notificationTemplateId}' -d $'{"attachmentObjectFieldExternalReferenceCodes": ___, "attachmentObjectFieldIds": ___, "body": ___, "description": ___, "editorType": ___, "externalReferenceCode": ___, "name": ___, "name_i18n": ___, "objectDefinitionExternalReferenceCode": ___, "objectDefinitionId": ___, "recipientType": ___, "recipients": ___, "subject": ___, "system": ___, "type": ___, "typeLabel": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateNotificationTemplate")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -636,6 +648,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/notification/v1.0/notification-templates/batch'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("updateNotificationTemplateBatch")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -684,6 +697,7 @@ public abstract class BaseNotificationTemplateResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/notification/v1.0/notification-templates/{notificationTemplateId}/copy'  -u 'test@liferay.com:test'
 	 */
+	@GraphQLName("createNotificationTemplateCopy")
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
