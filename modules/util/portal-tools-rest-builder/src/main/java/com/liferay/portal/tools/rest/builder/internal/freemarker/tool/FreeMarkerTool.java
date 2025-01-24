@@ -774,9 +774,11 @@ public class FreeMarkerTool {
 	}
 
 	public String getResourceMethodAnnotations(
-		JavaMethodSignature javaMethodSignature) {
+		ConfigYAML configYAML, JavaMethodSignature javaMethodSignature,
+		List<JavaMethodSignature> javaMethodSignatures) {
 
-		return ResourceOpenAPIParser.getMethodAnnotations(javaMethodSignature);
+		return ResourceOpenAPIParser.getMethodAnnotations(
+			configYAML, javaMethodSignature, javaMethodSignatures);
 	}
 
 	public String getResourceMethodName(

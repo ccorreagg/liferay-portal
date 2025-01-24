@@ -60,6 +60,7 @@ import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -181,7 +182,7 @@ public abstract class Base${schemaName}ResourceImpl
 			*/
 		</#if>
 		@Override
-		${freeMarkerTool.getResourceMethodAnnotations(javaMethodSignature)}
+		${freeMarkerTool.getResourceMethodAnnotations(configYAML, javaMethodSignature, javaMethodSignatures)}
 		public ${javaMethodSignature.returnType} ${javaMethodSignature.methodName}(${freeMarkerTool.getResourceParameters(configYAML, javaMethodSignature.javaMethodParameters, javaMethodSignature.operation, allSchemas, true)}) throws Exception {
 			<#if stringUtil.equals(javaMethodSignature.returnType, "boolean")>
 				return false;

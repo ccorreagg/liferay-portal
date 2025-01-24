@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.util.CamelCaseUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.TextFormatter;
 import com.liferay.portal.kernel.util.TreeMapBuilder;
@@ -21,6 +22,7 @@ import com.liferay.portal.tools.rest.builder.internal.freemarker.tool.java.JavaM
 import com.liferay.portal.tools.rest.builder.internal.freemarker.tool.java.parser.util.OpenAPIParserUtil;
 import com.liferay.portal.tools.rest.builder.internal.freemarker.util.ConfigUtil;
 import com.liferay.portal.tools.rest.builder.internal.freemarker.util.OpenAPIUtil;
+import com.liferay.portal.tools.rest.builder.internal.util.GraphQLNamingUtil;
 import com.liferay.portal.tools.rest.builder.internal.yaml.config.ConfigYAML;
 import com.liferay.portal.tools.rest.builder.internal.yaml.openapi.Content;
 import com.liferay.portal.tools.rest.builder.internal.yaml.openapi.Delete;
@@ -118,7 +120,8 @@ public class ResourceOpenAPIParser {
 	}
 
 	public static String getMethodAnnotations(
-		JavaMethodSignature javaMethodSignature) {
+		ConfigYAML configYAML, JavaMethodSignature javaMethodSignature,
+		List<JavaMethodSignature> javaMethodSignatures) {
 
 		String path = javaMethodSignature.getPath();
 		Operation operation = javaMethodSignature.getOperation();
@@ -231,6 +234,13 @@ public class ResourceOpenAPIParser {
 		}
 
 		methodAnnotation = _getMethodAnnotationProduces(operation);
+
+		if (Validator.isNotNull(methodAnnotation)) {
+			methodAnnotations.add(methodAnnotation);
+		}
+
+		methodAnnotation = _getMethodAnnotationsGraphQL(
+			configYAML, javaMethodSignature, javaMethodSignatures);
 
 		if (Validator.isNotNull(methodAnnotation)) {
 			methodAnnotations.add(methodAnnotation);
@@ -923,6 +933,34 @@ public class ResourceOpenAPIParser {
 		}
 
 		return "@javax.ws.rs.Produces(" + sb.toString() + ")";
+	}
+
+	private static String _getMethodAnnotationsGraphQL(
+		ConfigYAML configYAML, JavaMethodSignature javaMethodSignature,
+		List<JavaMethodSignature> javaMethodSignatures) {
+
+		if (!configYAML.isGenerateGraphQL() ||
+			(configYAML.getApplication() == null)) {
+
+			return null;
+		}
+
+		String graphQLPropertyName = null;
+
+		if (javaMethodSignature.getOperation() instanceof Get) {
+			graphQLPropertyName = GraphQLNamingUtil.getGraphQLPropertyName(
+				javaMethodSignature.getMethodName(),
+				javaMethodSignature.getReturnType(),
+				ListUtil.toList(
+					javaMethodSignatures, JavaMethodSignature::getMethodName));
+		}
+		else {
+			graphQLPropertyName = GraphQLNamingUtil.getGraphQLMutationName(
+				javaMethodSignature.getMethodName());
+		}
+
+		return "@GraphQLName(" + StringUtil.quote(graphQLPropertyName, "\"") +
+			")";
 	}
 
 	private static String _getMethodName(
