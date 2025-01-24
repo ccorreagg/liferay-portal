@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermi
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.graphql.util.GraphQLNamingUtil;
 
 import java.lang.annotation.Annotation;
@@ -252,29 +253,39 @@ public class ActionUtil {
 		String basePath = UriInfoUtil.getBasePath(uriInfo);
 
 		if (basePath.contains("/graphql")) {
-			String operation = null;
-			String type = null;
-
-			if (httpMethodName.equals("GET")) {
-				Class<?> returnType = method.getReturnType();
-
-				operation = GraphQLNamingUtil.getGraphQLPropertyName(
-					methodName, returnType.getName(),
-					TransformUtil.transformToList(
-						clazz.getMethods(), Method::getName));
-
-				type = "query";
-			}
-			else {
-				operation = GraphQLNamingUtil.getGraphQLMutationName(
-					methodName);
-				type = "mutation";
-			}
-
 			return HashMapBuilder.put(
-				"operation", operation
+				"operation",
+				() -> {
+					Method superClassMethod = _getMethod(
+						clazz.getSuperclass(), methodName);
+
+					GraphQLName graphQLName = superClassMethod.getAnnotation(
+						GraphQLName.class);
+
+					if (graphQLName != null) {
+						return graphQLName.value();
+					}
+
+					if (httpMethodName.equals("GET")) {
+						Class<?> returnType = method.getReturnType();
+
+						return GraphQLNamingUtil.getGraphQLPropertyName(
+							methodName, returnType.getName(),
+							TransformUtil.transformToList(
+								clazz.getMethods(), Method::getName));
+					}
+
+					return GraphQLNamingUtil.getGraphQLMutationName(methodName);
+				}
 			).put(
-				"type", type
+				"type",
+				() -> {
+					if (httpMethodName.equals("GET")) {
+						return "query";
+					}
+
+					return "mutation";
+				}
 			).build();
 		}
 

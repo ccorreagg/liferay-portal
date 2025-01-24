@@ -11,7 +11,9 @@ import java.util.List;
 
 /**
  * @author Javier Gamarra
+ * @deprecated As of Cavanaugh (7.4.x), with no direct replacement
  */
+@Deprecated
 public class GraphQLNamingUtil {
 
 	public static String getGraphQLMutationName(String methodName) {
