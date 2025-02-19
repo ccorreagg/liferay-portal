@@ -193,51 +193,37 @@ public class CustomFieldsUtil {
 	}
 
 	private static Object _getValue(
-		Map.Entry<String, Serializable> entry, ExpandoBridge expandoBridge,
-		String key) {
+		int attributeType, Map.Entry<String, Serializable> entry,
+		ExpandoBridge expandoBridge, String key) {
 
 		Object value = entry.getValue();
 
-		if (value == null) {
-			return expandoBridge.getAttributeDefault(key);
+		if (_isEmpty(entry.getValue()) &&
+			!ExpandoColumnConstants.isArrayType(attributeType)) {
+
+			value = expandoBridge.getAttributeDefault(key);
 		}
 
-		if (value.getClass(
-			).isArray() && (Array.getLength(value) == 0)) {
+		return value;
+	}
 
-			int attributeType = expandoBridge.getAttributeType(key);
+	private static boolean _isEmpty(Object value) {
+		if (value == null) {
+			return true;
+		}
 
-			for (int type : ExpandoColumnConstants.TYPES) {
-				if (_isArrayType(type) && (type == attributeType)) {
-					return new String[] {"false"};
-				}
-			}
+		Class<?> clazz = value.getClass();
+
+		if (clazz.isArray() && (Array.getLength(value) == 0)) {
+			return true;
 		}
 
 		if (value instanceof Map) {
 			Map<?, ?> map = (Map<?, ?>)value;
 
 			if (map.isEmpty()) {
-				return new HashMap<>();
+				return true;
 			}
-		}
-
-		return value;
-	}
-
-	private static boolean _isArrayType(int type) {
-		if ((type == ExpandoColumnConstants.BOOLEAN_ARRAY) ||
-			(type == ExpandoColumnConstants.DATE_ARRAY) ||
-			(type == ExpandoColumnConstants.DOUBLE_ARRAY) ||
-			(type == ExpandoColumnConstants.FLOAT_ARRAY) ||
-			(type == ExpandoColumnConstants.INTEGER_ARRAY) ||
-			(type == ExpandoColumnConstants.LONG_ARRAY) ||
-			(type == ExpandoColumnConstants.NUMBER_ARRAY) ||
-			(type == ExpandoColumnConstants.SHORT_ARRAY) ||
-			(type == ExpandoColumnConstants.STRING_ARRAY) ||
-			(type == ExpandoColumnConstants.STRING_ARRAY_LOCALIZED)) {
-
-			return true;
 		}
 
 		return false;
@@ -313,11 +299,15 @@ public class CustomFieldsUtil {
 							setData(
 								() -> _getValue(
 									attributeType, locale,
-									_getValue(entry, expandoBridge, key)));
+									_getValue(
+										attributeType, entry, expandoBridge,
+										key)));
 							setData_i18n(
 								() -> _getLocalizedValues(
 									acceptAllLanguages, attributeType,
-									_getValue(entry, expandoBridge, key)));
+									_getValue(
+										attributeType, entry, expandoBridge,
+										key)));
 						}
 					});
 				setDataType(
