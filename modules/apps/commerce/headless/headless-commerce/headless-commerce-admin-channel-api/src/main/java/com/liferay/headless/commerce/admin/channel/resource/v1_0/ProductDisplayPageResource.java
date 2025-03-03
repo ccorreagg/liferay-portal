@@ -81,6 +81,22 @@ public interface ProductDisplayPageResource {
 			Long id, ProductDisplayPage productDisplayPage)
 		throws Exception;
 
+	public ProductDisplayPage postProductDisplayPage(
+			Long id, ProductDisplayPage productDisplayPage)
+		throws Exception;
+
+	public Response postProductDisplayPageBatch(
+			String callbackURL, Object object)
+		throws Exception;
+
+	public ProductDisplayPage putProductDisplayPage(
+			Long id, ProductDisplayPage productDisplayPage)
+		throws Exception;
+
+	public Response putProductDisplayPageBatch(
+			String callbackURL, Object object)
+		throws Exception;
+
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {
 	}

@@ -822,6 +822,64 @@ public class Mutation {
 	}
 
 	@GraphQLField
+	public ProductDisplayPage createProductDisplayPage(
+			@GraphQLName("id") Long id,
+			@GraphQLName("productDisplayPage") ProductDisplayPage
+				productDisplayPage)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_productDisplayPageResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			productDisplayPageResource ->
+				productDisplayPageResource.postProductDisplayPage(
+					id, productDisplayPage));
+	}
+
+	@GraphQLField
+	public Response createProductDisplayPageBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_productDisplayPageResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			productDisplayPageResource ->
+				productDisplayPageResource.postProductDisplayPageBatch(
+					callbackURL, object));
+	}
+
+	@GraphQLField
+	public ProductDisplayPage updateProductDisplayPage(
+			@GraphQLName("id") Long id,
+			@GraphQLName("productDisplayPage") ProductDisplayPage
+				productDisplayPage)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_productDisplayPageResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			productDisplayPageResource ->
+				productDisplayPageResource.putProductDisplayPage(
+					id, productDisplayPage));
+	}
+
+	@GraphQLField
+	public Response updateProductDisplayPageBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_productDisplayPageResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			productDisplayPageResource ->
+				productDisplayPageResource.putProductDisplayPageBatch(
+					callbackURL, object));
+	}
+
+	@GraphQLField
 	public boolean deleteShippingFixedOptionOrderType(
 			@GraphQLName("shippingFixedOptionOrderTypeId") Long
 				shippingFixedOptionOrderTypeId)

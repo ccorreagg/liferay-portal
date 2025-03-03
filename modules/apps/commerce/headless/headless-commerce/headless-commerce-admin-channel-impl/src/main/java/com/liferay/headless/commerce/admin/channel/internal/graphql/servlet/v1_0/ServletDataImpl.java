@@ -369,6 +369,26 @@ public class ServletDataImpl implements ServletData {
 							ProductDisplayPageResourceImpl.class,
 							"patchProductDisplayPage"));
 					put(
+						"mutation#createProductDisplayPage",
+						new ObjectValuePair<>(
+							ProductDisplayPageResourceImpl.class,
+							"postProductDisplayPage"));
+					put(
+						"mutation#createProductDisplayPageBatch",
+						new ObjectValuePair<>(
+							ProductDisplayPageResourceImpl.class,
+							"postProductDisplayPageBatch"));
+					put(
+						"mutation#updateProductDisplayPage",
+						new ObjectValuePair<>(
+							ProductDisplayPageResourceImpl.class,
+							"putProductDisplayPage"));
+					put(
+						"mutation#updateProductDisplayPageBatch",
+						new ObjectValuePair<>(
+							ProductDisplayPageResourceImpl.class,
+							"putProductDisplayPageBatch"));
+					put(
 						"mutation#deleteShippingFixedOptionOrderType",
 						new ObjectValuePair<>(
 							ShippingFixedOptionOrderTypeResourceImpl.class,

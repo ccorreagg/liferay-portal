@@ -1449,6 +1449,59 @@ public abstract class BaseProductDisplayPageResourceTestCase {
 			"This method needs to be implemented");
 	}
 
+	@Test
+	public void testPostProductDisplayPage() throws Exception {
+		ProductDisplayPage randomProductDisplayPage =
+			randomProductDisplayPage();
+
+		ProductDisplayPage postProductDisplayPage =
+			testPostProductDisplayPage_addProductDisplayPage(
+				randomProductDisplayPage);
+
+		assertEquals(randomProductDisplayPage, postProductDisplayPage);
+		assertValid(postProductDisplayPage);
+	}
+
+	protected ProductDisplayPage
+			testPostProductDisplayPage_addProductDisplayPage(
+				ProductDisplayPage productDisplayPage)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testPutProductDisplayPage() throws Exception {
+		ProductDisplayPage postProductDisplayPage =
+			testPutProductDisplayPage_addProductDisplayPage();
+
+		ProductDisplayPage randomProductDisplayPage =
+			randomProductDisplayPage();
+
+		ProductDisplayPage putProductDisplayPage =
+			productDisplayPageResource.putProductDisplayPage(
+				postProductDisplayPage.getId(), randomProductDisplayPage);
+
+		assertEquals(randomProductDisplayPage, putProductDisplayPage);
+		assertValid(putProductDisplayPage);
+
+		ProductDisplayPage getProductDisplayPage =
+			productDisplayPageResource.getProductDisplayPage(
+				putProductDisplayPage.getId());
+
+		assertEquals(randomProductDisplayPage, getProductDisplayPage);
+		assertValid(getProductDisplayPage);
+	}
+
+	protected ProductDisplayPage
+			testPutProductDisplayPage_addProductDisplayPage()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
 	@Rule
 	public SearchTestRule searchTestRule = new SearchTestRule();
 

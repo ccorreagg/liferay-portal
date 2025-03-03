@@ -396,7 +396,190 @@ public abstract class BaseProductDisplayPageResourceImpl
 			ProductDisplayPage productDisplayPage)
 		throws Exception {
 
+		ProductDisplayPage existingProductDisplayPage = getProductDisplayPage(
+			id);
+
+		if (productDisplayPage.getPageTemplateUuid() != null) {
+			existingProductDisplayPage.setPageTemplateUuid(
+				productDisplayPage.getPageTemplateUuid());
+		}
+
+		if (productDisplayPage.getPageUuid() != null) {
+			existingProductDisplayPage.setPageUuid(
+				productDisplayPage.getPageUuid());
+		}
+
+		if (productDisplayPage.getProductExternalReferenceCode() != null) {
+			existingProductDisplayPage.setProductExternalReferenceCode(
+				productDisplayPage.getProductExternalReferenceCode());
+		}
+
+		if (productDisplayPage.getProductId() != null) {
+			existingProductDisplayPage.setProductId(
+				productDisplayPage.getProductId());
+		}
+
+		preparePatch(productDisplayPage, existingProductDisplayPage);
+
+		return putProductDisplayPage(id, existingProductDisplayPage);
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/product-display-pages/{id}' -d $'{"pageTemplateUuid": ___, "pageUuid": ___, "productExternalReferenceCode": ___, "productId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "id"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {
+			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
+		}
+	)
+	@javax.ws.rs.Consumes({"application/json", "application/xml"})
+	@javax.ws.rs.Path("/product-display-pages/{id}")
+	@javax.ws.rs.POST
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public ProductDisplayPage postProductDisplayPage(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			Long id,
+			ProductDisplayPage productDisplayPage)
+		throws Exception {
+
 		return new ProductDisplayPage();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/product-display-pages/batch'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "callbackURL"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {
+			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
+		}
+	)
+	@javax.ws.rs.Consumes("application/json")
+	@javax.ws.rs.Path("/product-display-pages/batch")
+	@javax.ws.rs.POST
+	@javax.ws.rs.Produces("application/json")
+	@Override
+	public Response postProductDisplayPageBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("callbackURL")
+			String callbackURL,
+			Object object)
+		throws Exception {
+
+		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
+			contextAcceptLanguage);
+		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
+		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
+			contextHttpServletRequest);
+		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
+		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
+
+		Response.ResponseBuilder responseBuilder = Response.accepted();
+
+		return responseBuilder.entity(
+			vulcanBatchEngineImportTaskResource.postImportTask(
+				ProductDisplayPage.class.getName(), callbackURL, null, object)
+		).build();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/product-display-pages/{id}' -d $'{"pageTemplateUuid": ___, "pageUuid": ___, "productExternalReferenceCode": ___, "productId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "id"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {
+			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
+		}
+	)
+	@javax.ws.rs.Consumes({"application/json", "application/xml"})
+	@javax.ws.rs.Path("/product-display-pages/{id}")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@javax.ws.rs.PUT
+	@Override
+	public ProductDisplayPage putProductDisplayPage(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull @javax.ws.rs.PathParam("id")
+			Long id,
+			ProductDisplayPage productDisplayPage)
+		throws Exception {
+
+		return new ProductDisplayPage();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'PUT' 'http://localhost:8080/o/headless-commerce-admin-channel/v1.0/product-display-pages/batch'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "callbackURL"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {
+			@io.swagger.v3.oas.annotations.tags.Tag(name = "ProductDisplayPage")
+		}
+	)
+	@javax.ws.rs.Consumes("application/json")
+	@javax.ws.rs.Path("/product-display-pages/batch")
+	@javax.ws.rs.Produces("application/json")
+	@javax.ws.rs.PUT
+	@Override
+	public Response putProductDisplayPageBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("callbackURL")
+			String callbackURL,
+			Object object)
+		throws Exception {
+
+		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
+			contextAcceptLanguage);
+		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
+		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
+			contextHttpServletRequest);
+		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
+		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
+
+		Response.ResponseBuilder responseBuilder = Response.accepted();
+
+		return responseBuilder.entity(
+			vulcanBatchEngineImportTaskResource.putImportTask(
+				ProductDisplayPage.class.getName(), callbackURL, object)
+		).build();
 	}
 
 	@Override
@@ -413,15 +596,16 @@ public abstract class BaseProductDisplayPageResourceImpl
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
+			productDisplayPageUnsafeFunction =
+				productDisplayPage -> postProductDisplayPage(
+					_parseLong((String)parameters.get("id")),
+					productDisplayPage);
+
 			if (parameters.containsKey("externalReferenceCode")) {
 				productDisplayPageUnsafeFunction = productDisplayPage ->
 					postChannelByExternalReferenceCodeProductDisplayPage(
 						(String)parameters.get("externalReferenceCode"),
 						productDisplayPage);
-			}
-			else {
-				throw new NotSupportedException(
-					"One of the following parameters must be specified: [externalReferenceCode]");
 			}
 		}
 
@@ -479,7 +663,7 @@ public abstract class BaseProductDisplayPageResourceImpl
 	}
 
 	public Set<String> getAvailableUpdateStrategies() {
-		return SetUtil.fromArray("PARTIAL_UPDATE");
+		return SetUtil.fromArray("PARTIAL_UPDATE", "UPDATE");
 	}
 
 	@Override
@@ -552,6 +736,16 @@ public abstract class BaseProductDisplayPageResourceImpl
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
 			productDisplayPageUnsafeFunction =
 				productDisplayPage -> patchProductDisplayPage(
+					productDisplayPage.getId() != null ?
+						productDisplayPage.getId() :
+							_parseLong(
+								(String)parameters.get("productDisplayPageId")),
+					productDisplayPage);
+		}
+
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
+			productDisplayPageUnsafeFunction =
+				productDisplayPage -> putProductDisplayPage(
 					productDisplayPage.getId() != null ?
 						productDisplayPage.getId() :
 							_parseLong(
@@ -799,6 +993,11 @@ public abstract class BaseProductDisplayPageResourceImpl
 
 		return addAction(
 			actionName, siteId, methodName, null, permissionName, siteId);
+	}
+
+	protected void preparePatch(
+		ProductDisplayPage productDisplayPage,
+		ProductDisplayPage existingProductDisplayPage) {
 	}
 
 	protected <T, R, E extends Throwable> List<R> transform(
