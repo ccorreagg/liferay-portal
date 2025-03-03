@@ -4296,6 +4296,68 @@ paths:
                       - CommerceOpenApiAdmin.read
             summary: Get a Product Display Page by ID.
             tags: ["ProductDisplayPage"]
+        put:
+            parameters:
+                - in: path
+                  explode: false
+                  name: id
+                  required: true
+                  schema:
+                      description:
+                          The resource id
+                      format: int64
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ProductDisplayPage"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/ProductDisplayPage"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ProductDisplayPage"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/ProductDisplayPage"
+                    description:
+                        Updated
+            tags: ["ProductDisplayPage"]
+        post:
+            parameters:
+                - in: path
+                  explode: false
+                  name: id
+                  required: true
+                  schema:
+                      description:
+                          The resource id
+                      format: int64
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ProductDisplayPage"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/ProductDisplayPage"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ProductDisplayPage"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/ProductDisplayPage"
+                    description:
+                        Updated
+            tags: ["ProductDisplayPage"]
         patch:
             parameters:
                 - in: path
