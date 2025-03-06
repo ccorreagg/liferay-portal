@@ -1,0 +1,112 @@
+{
+	"configuration": {
+		"className": "com.liferay.object.admin.rest.dto.v1_0.ObjectRelationship",
+		"multiCompany": true,
+		"parameters": {
+			"containsHeaders": "true",
+			"createStrategy": "UPSERT",
+			"featureFlag": "LPD-10562",
+			"importStrategy": "ON_ERROR_FAIL",
+			"updateStrategy": "UPDATE"
+		},
+		"taskItemDelegateName": "DEFAULT"
+	},
+	"items": [
+		{
+			"deletionType": "prevent",
+			"externalReferenceCode": "L_ACCOUNT_TO_L_COMMERCE_RETURN",
+			"label": {
+				"en_US": "Account To Commerce Returns"
+			},
+			"name": "accountToCommerceReturns",
+			"objectDefinitionExternalReferenceCode1": "L_ACCOUNT",
+			"objectDefinitionExternalReferenceCode2": "L_COMMERCE_RETURN",
+			"objectDefinitionName2": "CommerceReturn",
+			"objectDefinitionSystem2": true,
+			"objectField": {
+				"DBType": "Long",
+				"businessType": "Relationship",
+				"externalReferenceCode": "ACCOUNT_TO_COMMERCE_RETURN",
+				"indexed": true,
+				"indexedAsKeyword": false,
+				"indexedLanguageId": "",
+				"label": {
+					"en_US": "Account To Commerce Returns"
+				},
+				"localized": false,
+				"name": "r_accountToCommerceReturns_accountEntryId",
+				"objectFieldSettings": [
+					{
+						"name": "objectDefinition1ShortName",
+						"value": "AccountEntry"
+					},
+					{
+						"name": "objectRelationshipERCObjectFieldName",
+						"value": "r_accountToCommerceReturns_accountEntryERC"
+					}
+				],
+				"readOnly": "false",
+				"readOnlyConditionExpression": "",
+				"relationshipType": "oneToMany",
+				"required": true,
+				"state": false,
+				"system": false,
+				"type": "Long",
+				"unique": false
+			},
+			"parameterObjectFieldId": 0,
+			"parameterObjectFieldName": "",
+			"reverse": false,
+			"system": false,
+			"type": "oneToMany"
+		},
+		{
+			"deletionType": "prevent",
+			"externalReferenceCode": "L_ACCOUNT_TO_L_COMMERCE_RETURN_ITEM",
+			"label": {
+				"en_US": "Account To Commerce Return Items"
+			},
+			"name": "accountToCommerceReturnItems",
+			"objectDefinitionExternalReferenceCode1": "L_ACCOUNT",
+			"objectDefinitionExternalReferenceCode2": "L_COMMERCE_RETURN_ITEM",
+			"objectDefinitionName2": "CommerceReturnItem",
+			"objectDefinitionSystem2": true,
+			"objectField": {
+				"DBType": "Long",
+				"businessType": "Relationship",
+				"externalReferenceCode": "ACCOUNT_TO_COMMERCE_RETURN_ITEM",
+				"indexed": true,
+				"indexedAsKeyword": false,
+				"indexedLanguageId": "",
+				"label": {
+					"en_US": "Account To Commerce Return Items"
+				},
+				"localized": false,
+				"name": "r_accountToCommerceReturnItems_accountEntryId",
+				"objectFieldSettings": [
+					{
+						"name": "objectDefinition1ShortName",
+						"value": "AccountEntry"
+					},
+					{
+						"name": "objectRelationshipERCObjectFieldName",
+						"value": "r_accountToCommerceReturnItems_accountEntryERC"
+					}
+				],
+				"readOnly": "false",
+				"readOnlyConditionExpression": "",
+				"relationshipType": "oneToMany",
+				"required": true,
+				"state": false,
+				"system": false,
+				"type": "Long",
+				"unique": false
+			},
+			"parameterObjectFieldId": 0,
+			"parameterObjectFieldName": "",
+			"reverse": false,
+			"system": false,
+			"type": "oneToMany"
+		}
+	]
+}

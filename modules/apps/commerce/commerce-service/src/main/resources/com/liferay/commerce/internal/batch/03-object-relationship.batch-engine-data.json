@@ -1,0 +1,65 @@
+{
+	"configuration": {
+		"className": "com.liferay.object.admin.rest.dto.v1_0.ObjectDefinition",
+		"multiCompany": true,
+		"parameters": {
+			"containsHeaders": "true",
+			"createStrategy": "UPSERT",
+			"featureFlag": "LPD-10562",
+			"importStrategy": "ON_ERROR_FAIL",
+			"updateStrategy": "UPDATE"
+		},
+		"taskItemDelegateName": "DEFAULT"
+	},
+	"items": [
+		{
+			"deletionType": "prevent",
+			"externalReferenceCode": "L_COMMERCE_ORDER_TO_L_COMMERCE_RETURNS",
+			"label": {
+				"en_US": "Commerce Order to Commerce Returns"
+			},
+			"name": "commerceOrderToCommerceReturns",
+			"objectDefinitionExternalReferenceCode1": "L_COMMERCE_ORDER",
+			"objectDefinitionExternalReferenceCode2": "L_COMMERCE_RETURN",
+			"objectDefinitionModifiable2": true,
+			"objectDefinitionName2": "CommerceReturn",
+			"objectDefinitionSystem2": true,
+			"objectField": {
+				"DBType": "Long",
+				"businessType": "Relationship",
+				"externalReferenceCode": "COMMERCE_ORDER_TO_COMMERCE_RETURNS",
+				"indexed": true,
+				"indexedAsKeyword": false,
+				"indexedLanguageId": "",
+				"label": {
+					"en_US": "Commerce Order to Commerce Returns"
+				},
+				"localized": false,
+				"name": "r_commerceOrderToCommerceReturns_commerceOrderId",
+				"objectFieldSettings": [
+					{
+						"name": "objectDefinition1ShortName",
+						"value": "CommerceOrder"
+					},
+					{
+						"name": "objectRelationshipERCObjectFieldName",
+						"value": "r_commerceOrderToCommerceReturns_commerceOrderERC"
+					}
+				],
+				"readOnly": "false",
+				"readOnlyConditionExpression": "",
+				"relationshipType": "oneToMany",
+				"required": true,
+				"state": false,
+				"system": false,
+				"type": "Long",
+				"unique": false
+			},
+			"parameterObjectFieldId": 0,
+			"parameterObjectFieldName": "",
+			"reverse": false,
+			"system": false,
+			"type": "oneToMany"
+		}
+	]
+}
