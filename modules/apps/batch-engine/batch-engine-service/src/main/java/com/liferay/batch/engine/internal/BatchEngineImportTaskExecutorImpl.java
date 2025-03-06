@@ -296,7 +296,7 @@ public class BatchEngineImportTaskExecutorImpl
 		}
 	}
 
-	private void _importItems(
+	private Void _importItems(
 		BatchEngineImportTask batchEngineImportTask,
 		BatchEngineTaskItemDelegate<?> batchEngineTaskItemDelegate)
 		throws Throwable {
