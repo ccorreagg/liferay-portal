@@ -60,6 +60,7 @@ export default function EditAPISchemaProperties({
 
 			if (response.length) {
 				getAllItems<ObjectDefinition>({
+					sort: 'name:asc',
 					url: '/o/object-admin/v1.0/object-definitions',
 				}).then((objectDefinitionsResponse) => {
 					if (response.length && fetchedSchemaData.apiSchema) {

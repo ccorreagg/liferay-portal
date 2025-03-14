@@ -35,6 +35,7 @@ export default function BaseAPISchemaFields({
 	useEffect(() => {
 		getAllItems<ObjectDefinition>({
 			filter: 'status/any(k:k eq 0)',
+			sort: 'name:asc',
 			url: '/o/object-admin/v1.0/object-definitions',
 		}).then((result) => {
 			const filteredResult = result.filter(

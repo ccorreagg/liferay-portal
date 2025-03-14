@@ -53,13 +53,25 @@ export async function fetchJSON<T>({
 
 export async function getAllItems<T>({
 	filter,
+	sort,
 	url,
 }: {
 	filter?: string;
+	sort?: string;
 	url: string;
 }) {
+	let fetchUrl = `${url}?page=-1`;
+
+	if (filter) {
+		fetchUrl = `${fetchUrl}&filter=${filter}`;
+	}
+
+	if (sort) {
+		fetchUrl = `${fetchUrl}&sort=${sort}`;
+	}
+
 	const {items} = await fetchJSON<{items: T[]}>({
-		input: filter ? `${url}?filter=${filter}&page=-1` : `${url}?page=-1`,
+		input: `${fetchUrl}`,
 	});
 
 	return items;
