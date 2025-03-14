@@ -12,8 +12,6 @@ definition {
 
 		User.firstLoginPG();
 
-		SearchAdministration.executeReindex();
-
 		task ("Given New API Application created") {
 			ApplicationAPI.createAPIApplication(
 				baseURL = "my-app",
@@ -205,7 +203,16 @@ definition {
 
 	@priority = 3
 	test CanSeeSuccessMessageWhenSchemaCreated {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
 		task ("When I create a schema with valid Name and Object") {
+			SearchAdministration.executeReindex();
+
+			APIBuilderUI.switchToRelatedEntryInEditApplication(
+				entity = "Schemas",
+				title = "My-app");
+
 			APIBuilderUI.createAPISchema(
 				confirmCreation = "true",
 				fieldDescription = "Description default",
