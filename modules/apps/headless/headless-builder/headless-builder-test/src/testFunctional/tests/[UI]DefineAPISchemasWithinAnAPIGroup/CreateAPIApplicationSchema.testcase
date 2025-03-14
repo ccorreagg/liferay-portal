@@ -12,6 +12,8 @@ definition {
 
 		User.firstLoginPG();
 
+		SearchAdministration.executeReindex();
+
 		task ("Given New API Application created") {
 			ApplicationAPI.createAPIApplication(
 				baseURL = "my-app",
