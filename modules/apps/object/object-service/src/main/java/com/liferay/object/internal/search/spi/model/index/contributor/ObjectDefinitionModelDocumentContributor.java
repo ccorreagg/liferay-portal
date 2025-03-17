@@ -26,6 +26,12 @@ public class ObjectDefinitionModelDocumentContributor
 	public void contribute(
 		Document document, ObjectDefinition objectDefinition) {
 
+		System.out.println(
+			String.format(
+				"Contributing with Object definition: %s and external " +
+				"reference code: %s", objectDefinition.getName(),
+				objectDefinition.getExternalReferenceCode()));
+
 		document.addText(Field.NAME, objectDefinition.getShortName());
 		document.addKeyword(Field.STATUS, objectDefinition.getStatus());
 		document.addLocalizedKeyword(
