@@ -1575,19 +1575,6 @@ components:
                         The custom name of a Page section.
                     type: string
             type: object
-        PageDropZoneDefinition:
-            # @review
-            description:
-                Represent a definition of a Page drop zone.
-            properties:
-                fragmentSettings:
-                    # @review
-                    description:
-                        The page drop zone's allowed or unallowed fragments.
-                    oneOf:
-                        -   $ref: "#/components/schemas/FragmentSettingsAllowed"
-                        -   $ref: "#/components/schemas/FragmentSettingsUnallowed"
-            type: object
         PageDefinition:
             # @review
             description:
@@ -1602,9 +1589,9 @@ components:
                     Form: "#/components/schemas/PageFormDefinition"
                     FormStep: "#/components/schemas/PageFormStepDefinition"
                     FormStepContainer: "#/components/schemas/PageFormStepContainerDefinition"
+                    Fragment: "#/components/schemas/PageFragmentInstanceDefinition"
                     FragmentComposition: "#/components/schemas/PageFragmentCompositionInstanceDefinition"
                     FragmentDropZone: "#/components/schemas/PageFragmentDropZoneDefinition"
-                    Fragment: "#/components/schemas/PageFragmentInstanceDefinition"
                     Row: "#/components/schemas/PageRowDefinition"
                     Widget: "#/components/schemas/PageWidgetInstanceDefinition"
                 propertyName: type
@@ -1618,16 +1605,29 @@ components:
                     enum: [Collection, CollectionItem, Column, Container, DropZone, Form, FormStep, FormStepContainer, Fragment, FragmentComposition, FragmentDropZone, Row, Widget]
                     type: string
             type: object
+        PageDropZoneDefinition:
+            # @review
+            description:
+                Represent a definition of a Page drop zone.
+            properties:
+                fragmentSettings:
+                    # @review
+                    description:
+                        The page drop zone's allowed or unallowed fragments.
+                    oneOf:
+                        -   $ref: "#/components/schemas/FragmentSettingsAllowed"
+                        -   $ref: "#/components/schemas/FragmentSettingsUnallowed"
+            type: object
         PageElement:
             # @review
             description:
                 A page element.
             properties:
                 definition:
+                    $ref: "#/components/schemas/PageDefinition"
                     # @review
                     description:
                         The page element's definition.
-                    $ref: "#/components/schemas/PageDefinition"
                 externalReferenceCode:
                     description:
                         The page element's external reference code. Unique within the site.
