@@ -1588,6 +1588,36 @@ components:
                         -   $ref: "#/components/schemas/FragmentSettingsAllowed"
                         -   $ref: "#/components/schemas/FragmentSettingsUnallowed"
             type: object
+        PageDefinition:
+            # @review
+            description:
+                The page definition.
+            discriminator:
+                mapping:
+                    Collection: "#/components/schemas/PageCollectionDefinition"
+                    CollectionItem: "#/components/schemas/PageCollectionItemDefinition"
+                    Column: "#/components/schemas/PageColumnDefinition"
+                    Container: "#/components/schemas/PageContainerDefinition"
+                    DropZone: "#/components/schemas/PageDropZoneDefinition"
+                    Form: "#/components/schemas/PageFormDefinition"
+                    FormStep: "#/components/schemas/PageFormStepDefinition"
+                    FormStepContainer: "#/components/schemas/PageFormStepContainerDefinition"
+                    FragmentComposition: "#/components/schemas/PageFragmentCompositionInstanceDefinition"
+                    FragmentDropZone: "#/components/schemas/PageFragmentDropZoneDefinition"
+                    Fragment: "#/components/schemas/PageFragmentInstanceDefinition"
+                    Row: "#/components/schemas/PageRowDefinition"
+                    Widget: "#/components/schemas/PageWidgetInstanceDefinition"
+                propertyName: type
+            properties:
+                type:
+                    # @review
+                    description:
+                        The page element's type (collection, collection item, column, container, drop zone, form, form
+                        step, form step container, fragment, fragment composition, fragment drop zone, row, widget or
+                        widget section).
+                    enum: [Collection, CollectionItem, Column, Container, DropZone, Form, FormStep, FormStepContainer, Fragment, FragmentComposition, FragmentDropZone, Row, Widget]
+                    type: string
+            type: object
         PageElement:
             # @review
             description:
@@ -1597,20 +1627,7 @@ components:
                     # @review
                     description:
                         The page element's definition.
-                    oneOf:
-                        -   $ref: "#/components/schemas/PageCollectionDefinition"
-                        -   $ref: "#/components/schemas/PageCollectionItemDefinition"
-                        -   $ref: "#/components/schemas/PageColumnDefinition"
-                        -   $ref: "#/components/schemas/PageContainerDefinition"
-                        -   $ref: "#/components/schemas/PageDropZoneDefinition"
-                        -   $ref: "#/components/schemas/PageFormDefinition"
-                        -   $ref: "#/components/schemas/PageFormStepContainerDefinition"
-                        -   $ref: "#/components/schemas/PageFormStepDefinition"
-                        -   $ref: "#/components/schemas/PageFragmentCompositionInstanceDefinition"
-                        -   $ref: "#/components/schemas/PageFragmentDropZoneDefinition"
-                        -   $ref: "#/components/schemas/PageFragmentInstanceDefinition"
-                        -   $ref: "#/components/schemas/PageRowDefinition"
-                        -   $ref: "#/components/schemas/PageWidgetInstanceDefinition"
+                    $ref: "#/components/schemas/PageDefinition"
                 externalReferenceCode:
                     description:
                         The page element's external reference code. Unique within the site.
@@ -1633,14 +1650,6 @@ components:
                         added at the last valid position.
                     minimum: 0
                     type: integer
-                type:
-                    # @review
-                    description:
-                        The page element's type (collection, collection item, column, container, drop zone, form, form
-                        step, form step container, fragment, fragment composition, fragment drop zone, row, widget or
-                        widget section).
-                    enum: [Collection, CollectionItem, Column, Container, DropZone, Form, FormStep, FormStepContainer, Fragment, FragmentComposition, FragmentDropZone, Row, Widget]
-                    type: string
         PageExperience:
             description:
                 # @review
