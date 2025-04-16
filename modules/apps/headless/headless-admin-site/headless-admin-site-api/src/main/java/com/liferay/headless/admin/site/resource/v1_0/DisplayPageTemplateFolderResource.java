@@ -45,9 +45,15 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface DisplayPageTemplateFolderResource {
 
-	public void deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
-			String siteExternalReferenceCode,
-			String displayPageTemplateFolderExternalReferenceCode)
+	public void
+			deleteAssetLibraryByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
+				String assetLibraryExternalReferenceCode,
+				String externalReferenceCode)
+		throws Exception;
+
+	public void
+			deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
+				String siteExternalReferenceCode, String externalReferenceCode)
 		throws Exception;
 
 	public DisplayPageTemplateFolder

@@ -377,11 +377,11 @@ public class Mutation {
 		description = "Deletes a specific display page template folder of a site."
 	)
 	public boolean
-			deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
-				@GraphQLName("siteExternalReferenceCode") String
-					siteExternalReferenceCode,
-				@GraphQLName("displayPageTemplateFolderExternalReferenceCode")
-					String displayPageTemplateFolderExternalReferenceCode)
+			deleteAssetLibraryByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
+				@GraphQLName("assetLibraryExternalReferenceCode") String
+					assetLibraryExternalReferenceCode,
+				@GraphQLName("externalReferenceCode") String
+					externalReferenceCode)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
@@ -389,9 +389,31 @@ public class Mutation {
 			this::_populateResourceContext,
 			displayPageTemplateFolderResource ->
 				displayPageTemplateFolderResource.
-					deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
-						siteExternalReferenceCode,
-						displayPageTemplateFolderExternalReferenceCode));
+					deleteAssetLibraryByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
+						assetLibraryExternalReferenceCode,
+						externalReferenceCode));
+
+		return true;
+	}
+
+	@GraphQLField(
+		description = "Deletes a specific display page template folder of a site."
+	)
+	public boolean
+			deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
+				@GraphQLName("siteExternalReferenceCode") String
+					siteExternalReferenceCode,
+				@GraphQLName("externalReferenceCode") String
+					externalReferenceCode)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_displayPageTemplateFolderResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			displayPageTemplateFolderResource ->
+				displayPageTemplateFolderResource.
+					deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
+						siteExternalReferenceCode, externalReferenceCode));
 
 		return true;
 	}

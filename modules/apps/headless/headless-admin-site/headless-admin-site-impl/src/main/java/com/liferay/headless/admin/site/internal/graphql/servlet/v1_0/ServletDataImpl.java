@@ -204,10 +204,15 @@ public class ServletDataImpl implements ServletData {
 							DisplayPageTemplateResourceImpl.class,
 							"putSiteSiteExternalReferenceCodeDisplayPageTemplatePermissionsPage"));
 					put(
-						"mutation#deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder",
+						"mutation#deleteAssetLibraryByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode",
 						new ObjectValuePair<>(
 							DisplayPageTemplateFolderResourceImpl.class,
-							"deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder"));
+							"deleteAssetLibraryByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode"));
+					put(
+						"mutation#deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode",
+						new ObjectValuePair<>(
+							DisplayPageTemplateFolderResourceImpl.class,
+							"deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode"));
 					put(
 						"mutation#patchSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder",
 						new ObjectValuePair<>(

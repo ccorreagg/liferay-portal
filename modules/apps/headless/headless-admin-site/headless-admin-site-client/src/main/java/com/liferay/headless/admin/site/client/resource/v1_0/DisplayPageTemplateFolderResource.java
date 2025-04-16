@@ -37,15 +37,26 @@ public interface DisplayPageTemplateFolderResource {
 		return new Builder();
 	}
 
-	public void deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
-			String siteExternalReferenceCode,
-			String displayPageTemplateFolderExternalReferenceCode)
+	public void
+			deleteAssetLibraryByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
+				String assetLibraryExternalReferenceCode,
+				String externalReferenceCode)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderHttpResponse(
-				String siteExternalReferenceCode,
-				String displayPageTemplateFolderExternalReferenceCode)
+			deleteAssetLibraryByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCodeHttpResponse(
+				String assetLibraryExternalReferenceCode,
+				String externalReferenceCode)
+		throws Exception;
+
+	public void
+			deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
+				String siteExternalReferenceCode, String externalReferenceCode)
+		throws Exception;
+
+	public HttpInvoker.HttpResponse
+			deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCodeHttpResponse(
+				String siteExternalReferenceCode, String externalReferenceCode)
 		throws Exception;
 
 	public DisplayPageTemplateFolder
@@ -272,15 +283,14 @@ public interface DisplayPageTemplateFolderResource {
 		implements DisplayPageTemplateFolderResource {
 
 		public void
-				deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
-					String siteExternalReferenceCode,
-					String displayPageTemplateFolderExternalReferenceCode)
+				deleteAssetLibraryByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
+					String assetLibraryExternalReferenceCode,
+					String externalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderHttpResponse(
-					siteExternalReferenceCode,
-					displayPageTemplateFolderExternalReferenceCode);
+				deleteAssetLibraryByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCodeHttpResponse(
+					assetLibraryExternalReferenceCode, externalReferenceCode);
 
 			String content = httpResponse.getContent();
 
@@ -342,9 +352,9 @@ public interface DisplayPageTemplateFolderResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderHttpResponse(
-					String siteExternalReferenceCode,
-					String displayPageTemplateFolderExternalReferenceCode)
+				deleteAssetLibraryByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCodeHttpResponse(
+					String assetLibraryExternalReferenceCode,
+					String externalReferenceCode)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -371,13 +381,125 @@ public interface DisplayPageTemplateFolderResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}");
+						"/o/headless-admin-site/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/display-page-template-folders/{externalReferenceCode}");
+
+			httpInvoker.path(
+				"assetLibraryExternalReferenceCode",
+				assetLibraryExternalReferenceCode);
+			httpInvoker.path("externalReferenceCode", externalReferenceCode);
+
+			if ((_builder._login != null) && (_builder._password != null)) {
+				httpInvoker.userNameAndPassword(
+					_builder._login + ":" + _builder._password);
+			}
+
+			return httpInvoker.invoke();
+		}
+
+		public void
+				deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
+					String siteExternalReferenceCode,
+					String externalReferenceCode)
+			throws Exception {
+
+			HttpInvoker.HttpResponse httpResponse =
+				deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCodeHttpResponse(
+					siteExternalReferenceCode, externalReferenceCode);
+
+			String content = httpResponse.getContent();
+
+			if ((httpResponse.getStatusCode() / 100) != 2) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response content: " + content);
+				_logger.log(
+					Level.WARNING,
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.log(
+					Level.WARNING,
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+
+				Problem.ProblemException problemException = null;
+
+				if (Objects.equals(
+						httpResponse.getContentType(), "application/json")) {
+
+					problemException = new Problem.ProblemException(
+						Problem.toDTO(content));
+				}
+				else {
+					_logger.log(
+						Level.WARNING,
+						"Unable to process content type: " +
+							httpResponse.getContentType());
+
+					Problem problem = new Problem();
+
+					problem.setStatus(
+						String.valueOf(httpResponse.getStatusCode()));
+
+					problemException = new Problem.ProblemException(problem);
+				}
+
+				throw problemException;
+			}
+			else {
+				_logger.fine("HTTP response content: " + content);
+				_logger.fine(
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.fine(
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+			}
+
+			try {
+				return;
+			}
+			catch (Exception e) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response: " + content, e);
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+		}
+
+		public HttpInvoker.HttpResponse
+				deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCodeHttpResponse(
+					String siteExternalReferenceCode,
+					String externalReferenceCode)
+			throws Exception {
+
+			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+			if (_builder._locale != null) {
+				httpInvoker.header(
+					"Accept-Language", _builder._locale.toLanguageTag());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._headers.entrySet()) {
+
+				httpInvoker.header(entry.getKey(), entry.getValue());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._parameters.entrySet()) {
+
+				httpInvoker.parameter(entry.getKey(), entry.getValue());
+			}
+
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
+
+			httpInvoker.path(
+				_builder._scheme + "://" + _builder._host + ":" +
+					_builder._port + _builder._contextPath +
+						"/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{externalReferenceCode}");
 
 			httpInvoker.path(
 				"siteExternalReferenceCode", siteExternalReferenceCode);
-			httpInvoker.path(
-				"displayPageTemplateFolderExternalReferenceCode",
-				displayPageTemplateFolderExternalReferenceCode);
+			httpInvoker.path("externalReferenceCode", externalReferenceCode);
 
 			if ((_builder._login != null) && (_builder._password != null)) {
 				httpInvoker.userNameAndPassword(
@@ -487,7 +609,7 @@ public interface DisplayPageTemplateFolderResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}");
+						"/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{externalReferenceCode}");
 
 			httpInvoker.path(
 				"siteExternalReferenceCode", siteExternalReferenceCode);
@@ -979,7 +1101,7 @@ public interface DisplayPageTemplateFolderResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}");
+						"/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{externalReferenceCode}");
 
 			httpInvoker.path(
 				"siteExternalReferenceCode", siteExternalReferenceCode);
@@ -1216,7 +1338,7 @@ public interface DisplayPageTemplateFolderResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}");
+						"/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/display-page-template-folders/{externalReferenceCode}");
 
 			httpInvoker.path(
 				"siteExternalReferenceCode", siteExternalReferenceCode);
