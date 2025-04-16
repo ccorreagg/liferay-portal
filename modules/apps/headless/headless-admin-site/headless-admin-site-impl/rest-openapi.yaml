@@ -3570,12 +3570,35 @@ paths:
                         application/json: {}
                         application/xml: {}
             tags: ["DisplayPageTemplateFolder"]
-    "/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}":
+    "/asset-libraries/{assetLibraryExternalReferenceCode}/display-page-template-folders/{externalReferenceCode}":
         delete:
             # @review
             description:
                 Deletes a specific display page template folder of a site.
-            operationId: deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder
+            operationId: deleteAssetLibraryByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode
+            parameters:
+                -   in: path
+                    name: assetLibraryExternalReferenceCode
+                    required: true
+                    schema:
+                        type: string
+                -   in: path
+                    name: externalReferenceCode
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+            tags: ["DisplayPageTemplateFolder"]
+    "/sites/{siteExternalReferenceCode}/display-page-template-folders/{externalReferenceCode}":
+        delete:
+            # @review
+            description:
+                Deletes a specific display page template folder of a site.
+            operationId: deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode
             parameters:
                 -   in: path
                     name: siteExternalReferenceCode
@@ -3583,7 +3606,7 @@ paths:
                     schema:
                         type: string
                 -   in: path
-                    name: displayPageTemplateFolderExternalReferenceCode
+                    name: externalReferenceCode
                     required: true
                     schema:
                         type: string
