@@ -3570,6 +3570,54 @@ paths:
                         application/json: {}
                         application/xml: {}
             tags: ["DisplayPageTemplateFolder"]
+    "/sites/{siteId}/display-page-template-folders/{externalReferenceCode}":
+        delete:
+            # @review
+            description:
+                Deletes a specific display page template folder of a site.
+            operationId: deleteSiteDisplayPageTemplateFolderByExternalReferenceCode
+            parameters:
+                -   in: path
+                    name: siteId
+                    required: true
+                    schema:
+                        format: int64
+                        type: integer
+                -   in: path
+                    name: externalReferenceCode
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+            tags: ["DisplayPageTemplateFolder"]
+    "/asset-libraries/{assetLibraryId}/display-page-template-folders/{externalReferenceCode}":
+        delete:
+            # @review
+            description:
+                Deletes a specific display page template folder of a site.
+            operationId: deleteAssetLibraryDisplayPageTemplateFolderByExternalReferenceCode
+            parameters:
+                -   in: path
+                    name: assetLibraryId
+                    required: true
+                    schema:
+                        format: int64
+                        type: integer
+                -   in: path
+                    name: externalReferenceCode
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+            tags: ["DisplayPageTemplateFolder"]
     "/asset-libraries/{assetLibraryExternalReferenceCode}/display-page-template-folders/{externalReferenceCode}":
         delete:
             # @review
