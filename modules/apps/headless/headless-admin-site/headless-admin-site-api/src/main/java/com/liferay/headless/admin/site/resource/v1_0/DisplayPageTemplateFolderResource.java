@@ -52,8 +52,17 @@ public interface DisplayPageTemplateFolderResource {
 		throws Exception;
 
 	public void
+			deleteAssetLibraryDisplayPageTemplateFolderByExternalReferenceCode(
+				Long assetLibraryId, String externalReferenceCode)
+		throws Exception;
+
+	public void
 			deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
 				String siteExternalReferenceCode, String externalReferenceCode)
+		throws Exception;
+
+	public void deleteSiteDisplayPageTemplateFolderByExternalReferenceCode(
+			Long siteId, String externalReferenceCode)
 		throws Exception;
 
 	public DisplayPageTemplateFolder

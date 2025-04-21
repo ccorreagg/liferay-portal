@@ -54,6 +54,8 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.validation.constraints.NotEmpty;
+
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.service.component.ComponentServiceObjects;
@@ -400,6 +402,27 @@ public class Mutation {
 		description = "Deletes a specific display page template folder of a site."
 	)
 	public boolean
+			deleteAssetLibraryDisplayPageTemplateFolderByExternalReferenceCode(
+				@GraphQLName("assetLibraryId") @NotEmpty String assetLibraryId,
+				@GraphQLName("externalReferenceCode") String
+					externalReferenceCode)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_displayPageTemplateFolderResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			displayPageTemplateFolderResource ->
+				displayPageTemplateFolderResource.
+					deleteAssetLibraryDisplayPageTemplateFolderByExternalReferenceCode(
+						Long.valueOf(assetLibraryId), externalReferenceCode));
+
+		return true;
+	}
+
+	@GraphQLField(
+		description = "Deletes a specific display page template folder of a site."
+	)
+	public boolean
 			deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
 				@GraphQLName("siteExternalReferenceCode") String
 					siteExternalReferenceCode,
@@ -414,6 +437,25 @@ public class Mutation {
 				displayPageTemplateFolderResource.
 					deleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode(
 						siteExternalReferenceCode, externalReferenceCode));
+
+		return true;
+	}
+
+	@GraphQLField(
+		description = "Deletes a specific display page template folder of a site."
+	)
+	public boolean deleteSiteDisplayPageTemplateFolderByExternalReferenceCode(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("externalReferenceCode") String externalReferenceCode)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_displayPageTemplateFolderResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			displayPageTemplateFolderResource ->
+				displayPageTemplateFolderResource.
+					deleteSiteDisplayPageTemplateFolderByExternalReferenceCode(
+						Long.valueOf(siteKey), externalReferenceCode));
 
 		return true;
 	}

@@ -235,7 +235,21 @@ public abstract class BaseDisplayPageTemplateFolderResourceTestCase {
 	}
 
 	@Test
+	public void testDeleteAssetLibraryDisplayPageTemplateFolderByExternalReferenceCode()
+		throws Exception {
+
+		Assert.assertTrue(false);
+	}
+
+	@Test
 	public void testDeleteSiteByExternalReferenceCodeDisplayPageTemplateFolderByExternalReferenceCode()
+		throws Exception {
+
+		Assert.assertTrue(false);
+	}
+
+	@Test
+	public void testDeleteSiteDisplayPageTemplateFolderByExternalReferenceCode()
 		throws Exception {
 
 		Assert.assertTrue(false);
