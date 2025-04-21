@@ -2635,23 +2635,21 @@ public class ObjectEntryLocalServiceImpl
 			Object value = ObjectFieldSettingUtil.getDefaultValue(
 				_ddmExpressionFactory, objectField, (Map)values);
 
-			if (value != null) {
-				values.put(objectField.getName(), (Serializable)value);
+			values.put(objectField.getName(), (Serializable)value);
 
-				if (!objectField.isLocalized()) {
-					continue;
-				}
+			if (!objectField.isLocalized()) {
+				continue;
+			}
 
-				if (localizedValues.isEmpty()) {
-					values.put(
-						objectField.getI18nObjectFieldName(),
-						HashMapBuilder.put(
-							defaultLanguageId, value
-						).build());
-				}
-				else {
-					localizedValues.putIfAbsent(defaultLanguageId, value);
-				}
+			if (localizedValues.isEmpty()) {
+				values.put(
+					objectField.getI18nObjectFieldName(),
+					HashMapBuilder.put(
+						defaultLanguageId, value
+					).build());
+			}
+			else {
+				localizedValues.putIfAbsent(defaultLanguageId, value);
 			}
 		}
 	}
@@ -4707,7 +4705,11 @@ public class ObjectEntryLocalServiceImpl
 		else if (objectField.compareBusinessType(
 					ObjectFieldConstants.BUSINESS_TYPE_MULTISELECT_PICKLIST)) {
 
-			String valueString = String.valueOf(value);
+			String valueString = null;
+
+			if (value != null) {
+				valueString = String.valueOf(value);
+			}
 
 			// Remove the first [ and the last ] in
 			// "[pickListEntryKey1, pickListEntryKey2, pickListEntryKey3]"
@@ -4768,9 +4770,13 @@ public class ObjectEntryLocalServiceImpl
 				insertedValues, columnNames.get(index - 1), booleanValue);
 		}
 		else if (sqlType == Types.CLOB) {
-			String valueString = String.valueOf(value);
+			String valueString = null;
 
-			if (valueString.isEmpty() ||
+			if (value != null) {
+				valueString = String.valueOf(value);
+			}
+
+			if (Validator.isBlank(valueString) ||
 				(DBManagerUtil.getDBType() == DBType.POSTGRESQL)) {
 
 				preparedStatement.setString(index, valueString);
@@ -4802,7 +4808,7 @@ public class ObjectEntryLocalServiceImpl
 
 				preparedStatement.setTimestamp(index, timestamp);
 			}
-			else if (valueString.isEmpty()) {
+			else if (Validator.isNull(valueString)) {
 				preparedStatement.setTimestamp(index, null);
 			}
 			else {
@@ -6167,7 +6173,7 @@ public class ObjectEntryLocalServiceImpl
 				status, validationErrors, values);
 
 			if (!objectField.isLocalized() &&
-				values.containsKey(objectField.getName())) {
+				(values.get(objectField.getName()) != null)) {
 
 				_validateValues(
 					dlFileEntriesMap, existingValues, groupId, guestUser,
