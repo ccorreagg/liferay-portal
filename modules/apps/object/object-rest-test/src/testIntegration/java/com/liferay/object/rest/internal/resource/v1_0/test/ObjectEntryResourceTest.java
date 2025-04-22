@@ -7706,11 +7706,15 @@ public class ObjectEntryResourceTest {
 			).toString(),
 			JSONCompareMode.LENIENT);
 
+		// Boolean field
+
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, _OBJECT_FIELD_NAME_BOOLEAN, !randomBoolean);
 
 		_testPatchCustomObjectEntry(
 			expectedJSONObject, _OBJECT_FIELD_NAME_BOOLEAN, !randomBoolean);
+
+		// Date field
 
 		Date date = new Date(randomDate1.getTime() + (24 * 3600 * 1000));
 
@@ -7722,6 +7726,8 @@ public class ObjectEntryResourceTest {
 			expectedJSONObject, _OBJECT_FIELD_NAME_DATE,
 			_dateFormat.format(date));
 
+		// Date time field ('Input as value' type)
+
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, _OBJECT_FIELD_NAME_DATE_TIME_INPUT,
 			StringUtil.removeLast(_dateTimeDateFormat.format(date), "Z"));
@@ -7730,6 +7736,8 @@ public class ObjectEntryResourceTest {
 			expectedJSONObject, _OBJECT_FIELD_NAME_DATE_TIME_INPUT,
 			_dateTimeDateFormat.format(date));
 
+		// Date time field ('UTC' type)
+
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, _OBJECT_FIELD_NAME_DATE_TIME_UTC,
 			_dateTimeDateFormat.format(date));
@@ -7738,17 +7746,23 @@ public class ObjectEntryResourceTest {
 			expectedJSONObject, _OBJECT_FIELD_NAME_DATE_TIME_UTC,
 			_dateTimeDateFormat.format(date));
 
+		// Decimal field
+
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, _OBJECT_FIELD_NAME_DECIMAL, randomFloat + 1);
 
 		_testPatchCustomObjectEntry(
 			expectedJSONObject, _OBJECT_FIELD_NAME_DECIMAL, randomFloat + 1);
 
+		// Integer field
+
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, _OBJECT_FIELD_NAME_INTEGER, randomInt + 1);
 
 		_testPatchCustomObjectEntry(
 			expectedJSONObject, _OBJECT_FIELD_NAME_INTEGER, randomInt + 1);
+
+		// Long integer field
 
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, _OBJECT_FIELD_NAME_LONG_INTEGER,
@@ -7758,6 +7772,8 @@ public class ObjectEntryResourceTest {
 			expectedJSONObject, _OBJECT_FIELD_NAME_LONG_INTEGER,
 			randomLong + 1);
 
+		// Long text field
+
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, _OBJECT_FIELD_NAME_LONG_TEXT,
 			"b" + randomString1);
@@ -7765,6 +7781,8 @@ public class ObjectEntryResourceTest {
 		_testPatchCustomObjectEntry(
 			expectedJSONObject, _OBJECT_FIELD_NAME_LONG_TEXT,
 			"b" + randomString1);
+
+		// Multiselect picklist field
 
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, _OBJECT_FIELD_NAME_MULTISELECT_PICKLIST,
@@ -7784,6 +7802,8 @@ public class ObjectEntryResourceTest {
 			expectedJSONObject, _OBJECT_FIELD_NAME_MULTISELECT_PICKLIST,
 			JSONUtil.putAll(_LIST_TYPE_ENTRY_KEY_2, _LIST_TYPE_ENTRY_KEY_3));
 
+		// Picklist field
+
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, _OBJECT_FIELD_NAME_PICKLIST,
 			JSONUtil.put(
@@ -7796,6 +7816,8 @@ public class ObjectEntryResourceTest {
 			expectedJSONObject, _OBJECT_FIELD_NAME_PICKLIST,
 			_LIST_TYPE_ENTRY_KEY_1);
 
+		// Precision decimal field
+
 		BigDecimal bigDecimal = randomBigDecimal.add(BigDecimal.ONE);
 
 		expectedJSONObject = _cloneJSONObject(
@@ -7806,6 +7828,8 @@ public class ObjectEntryResourceTest {
 			expectedJSONObject, _OBJECT_FIELD_NAME_PRECISION_DECIMAL,
 			bigDecimal);
 
+		// Rich text field
+
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, _OBJECT_FIELD_NAME_RICH_TEXT,
 			"b" + randomString2);
@@ -7813,6 +7837,8 @@ public class ObjectEntryResourceTest {
 		_testPatchCustomObjectEntry(
 			expectedJSONObject, _OBJECT_FIELD_NAME_RICH_TEXT,
 			"b" + randomString2);
+
+		// Text field
 
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, _OBJECT_FIELD_NAME_TEXT, "b" + randomString3);
