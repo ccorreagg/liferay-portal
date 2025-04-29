@@ -16913,9 +16913,7 @@ public class ObjectEntryResourceTest {
 			Http.Method.POST);
 
 		HTTPTestUtil.invokeToJSONObject(
-			JSONUtil.put(
-				"externalReferenceCode", _ERC_VALUE_1
-			).toString(),
+			JSONFactoryUtil.getNullJSON(),
 			objectDefinition1.getRESTContextPath() + "/" +
 				jsonObject.getLong("id"),
 			Http.Method.PUT);
@@ -17050,8 +17048,6 @@ public class ObjectEntryResourceTest {
 				).put(
 					objectRelationshipERCObjectFieldName,
 					_objectEntry2.getExternalReferenceCode()
-				).put(
-					"externalReferenceCode", _ERC_VALUE_1
 				).toString(),
 				objectDefinition1.getRESTContextPath() + "/" +
 					jsonObject.getLong("id"),
