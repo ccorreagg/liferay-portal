@@ -7658,7 +7658,7 @@ public class ObjectEntryResourceTest {
 			objectEntryJSONObject.toString(),
 			StringBundler.concat(
 				_getEndpoint(
-					TestPropsValues.getGroupId(), _siteScopedObjectDefinition1),
+					_siteScopedObjectDefinition1, TestPropsValues.getGroupId()),
 				"/by-external-reference-code/",
 				_siteScopedObjectEntry1.getExternalReferenceCode()),
 			Http.Method.PATCH);
@@ -14715,7 +14715,7 @@ public class ObjectEntryResourceTest {
 			).put(
 				"externalReferenceCode", _ERC_VALUE_1
 			).toString(),
-			_getEndpoint(TestPropsValues.getGroupId(), objectDefinition1),
+			_getEndpoint(objectDefinition1, TestPropsValues.getGroupId()),
 			Http.Method.POST);
 
 		JSONObject expectedJSONObject = JSONUtil.put(
@@ -16909,7 +16909,7 @@ public class ObjectEntryResourceTest {
 			).put(
 				"externalReferenceCode", _ERC_VALUE_1
 			).toString(),
-			_getEndpoint(TestPropsValues.getGroupId(), objectDefinition1),
+			_getEndpoint(objectDefinition1, TestPropsValues.getGroupId()),
 			Http.Method.POST);
 
 		HTTPTestUtil.invokeToJSONObject(
