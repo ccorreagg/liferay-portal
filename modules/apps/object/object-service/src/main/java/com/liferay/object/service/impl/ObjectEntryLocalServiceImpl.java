@@ -4510,12 +4510,6 @@ public class ObjectEntryLocalServiceImpl
 				_log.debug(logMessage);
 			}
 
-			if (objectField.compareBusinessType(
-					ObjectFieldConstants.BUSINESS_TYPE_RELATIONSHIP)) {
-
-				return false;
-			}
-
 			return processNullValues;
 		}
 
