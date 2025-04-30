@@ -9565,6 +9565,16 @@ public class ObjectEntryResourceTest {
 		_testPutByERCCustomObjectEntry(_objectDefinition1, _objectDefinition2);
 	}
 
+	@FeatureFlags("LPD-54417")
+	@Test
+	@TestInfo("LPD-53245")
+	public void testPutByExternalReferenceCodeCustomObjectEntryWithDeprecatedFeatureFlag()
+		throws Exception {
+
+		_testPatchByERCCustomObjectEntry(
+			_objectDefinition1, _objectDefinition2);
+	}
+
 	@Test
 	public void testPutByExternalReferenceCodeManyToManyRelationship()
 		throws Exception {
@@ -9891,6 +9901,16 @@ public class ObjectEntryResourceTest {
 		throws Exception {
 
 		_testPutByERCCustomObjectEntry(
+			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
+	}
+
+	@FeatureFlags("LPD-54417")
+	@Test
+	@TestInfo("LPD-53245")
+	public void testPutByExternalReferenceCodeSiteScopedCustomObjectEntryWithDeprecatedFeatureFlag()
+		throws Exception {
+
+		_testPatchByERCCustomObjectEntry(
 			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
 	}
 
