@@ -5,15 +5,19 @@
 
 package com.liferay.batch.engine.internal.action;
 
+import com.liferay.batch.engine.BatchEngineTaskItemDelegate;
 import com.liferay.batch.engine.action.ImportTaskPostAction;
 import com.liferay.batch.engine.constants.BatchEngineImportTaskConstants;
 import com.liferay.batch.engine.context.ImportTaskContext;
 import com.liferay.batch.engine.model.BatchEngineImportTask;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Vendel Toreki
@@ -25,6 +29,7 @@ public class ItemImportTaskPostAction implements ImportTaskPostAction {
 	@Override
 	public void run(
 			BatchEngineImportTask batchEngineImportTask,
+			BatchEngineTaskItemDelegate<?> batchEngineTaskItemDelegate,
 			ImportTaskContext importTaskContext, Object item,
 			Object persistedItem)
 		throws Exception {
@@ -41,8 +46,15 @@ public class ItemImportTaskPostAction implements ImportTaskPostAction {
 		if (Validator.isNotNull(importTaskContext.getOriginalUserId())) {
 			PrincipalThreadLocal.setName(importTaskContext.getOriginalUserId());
 
+			batchEngineTaskItemDelegate.setContextUser(
+				_userLocalService.getUserById(
+					GetterUtil.getLong(importTaskContext.getOriginalUserId())));
+
 			importTaskContext.setOriginalUserId(null);
 		}
 	}
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }
