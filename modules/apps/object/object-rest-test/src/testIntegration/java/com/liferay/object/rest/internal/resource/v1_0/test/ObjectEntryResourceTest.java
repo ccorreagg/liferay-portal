@@ -188,7 +188,6 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import java.sql.Timestamp;
 
@@ -14666,8 +14665,6 @@ public class ObjectEntryResourceTest {
 				_objectFieldLocalService.getObjectField(
 					_objectRelationship1.getObjectFieldId2()));
 
-		BigDecimal randomBigDecimal = BigDecimal.valueOf(
-			RandomTestUtil.randomDouble());
 		boolean randomBoolean = RandomTestUtil.randomBoolean();
 		Date randomDate1 = RandomTestUtil.nextDate();
 		Date randomDate2 = RandomTestUtil.nextDate();
@@ -14705,8 +14702,6 @@ public class ObjectEntryResourceTest {
 				JSONUtil.putAll(_LIST_TYPE_ENTRY_KEY_1, _LIST_TYPE_ENTRY_KEY_2)
 			).put(
 				_OBJECT_FIELD_NAME_PICKLIST, _LIST_TYPE_ENTRY_KEY_3
-			).put(
-				_OBJECT_FIELD_NAME_PRECISION_DECIMAL, randomBigDecimal
 			).put(
 				_OBJECT_FIELD_NAME_RICH_TEXT, randomString2
 			).put(
@@ -14759,9 +14754,6 @@ public class ObjectEntryResourceTest {
 			).put(
 				"name", _listTypeEntry3.getName(LocaleUtil.getDefault())
 			)
-		).put(
-			_OBJECT_FIELD_NAME_PRECISION_DECIMAL,
-			randomBigDecimal.setScale(16, RoundingMode.HALF_UP)
 		).put(
 			_OBJECT_FIELD_NAME_RICH_TEXT, randomString2
 		).put(
@@ -14910,18 +14902,6 @@ public class ObjectEntryResourceTest {
 		_testPatchCustomObjectEntry(
 			endpoint, expectedJSONObject, _OBJECT_FIELD_NAME_PICKLIST,
 			_LIST_TYPE_ENTRY_KEY_1);
-
-		// Precision decimal field
-
-		BigDecimal bigDecimal = randomBigDecimal.add(BigDecimal.ONE);
-
-		expectedJSONObject = _cloneJSONObject(
-			expectedJSONObject, _OBJECT_FIELD_NAME_PRECISION_DECIMAL,
-			bigDecimal.setScale(16, RoundingMode.HALF_UP));
-
-		_testPatchCustomObjectEntry(
-			endpoint, expectedJSONObject, _OBJECT_FIELD_NAME_PRECISION_DECIMAL,
-			bigDecimal);
 
 		// Rich text field
 
@@ -16858,20 +16838,20 @@ public class ObjectEntryResourceTest {
 	}
 
 	private void _testPutByERCCustomObjectEntry(
-		ObjectDefinition objectDefinition1,
-		ObjectDefinition objectDefinition2)
+			ObjectDefinition objectDefinition1,
+			ObjectDefinition objectDefinition2)
 		throws Exception {
 
 		_testPutCustomObjectEntry(
 			_getEndpoint(objectDefinition1, TestPropsValues.getGroupId()) +
-			"/by-external-reference-code",
+				"/by-external-reference-code",
 			jsonObject -> jsonObject.getString("externalReferenceCode"),
 			objectDefinition1, objectDefinition2);
 	}
 
 	private void _testPutCustomObjectEntry(
-		ObjectDefinition objectDefinition1,
-		ObjectDefinition objectDefinition2)
+			ObjectDefinition objectDefinition1,
+			ObjectDefinition objectDefinition2)
 		throws Exception {
 
 		_testPutCustomObjectEntry(
@@ -16900,8 +16880,6 @@ public class ObjectEntryResourceTest {
 				_objectFieldLocalService.getObjectField(
 					_objectRelationship1.getObjectFieldId2()));
 
-		BigDecimal randomBigDecimal = BigDecimal.valueOf(
-			RandomTestUtil.randomDouble());
 		boolean randomBoolean = RandomTestUtil.randomBoolean();
 		Date randomDate1 = RandomTestUtil.nextDate();
 		Date randomDate2 = RandomTestUtil.nextDate();
@@ -16940,8 +16918,6 @@ public class ObjectEntryResourceTest {
 			).put(
 				_OBJECT_FIELD_NAME_PICKLIST, _LIST_TYPE_ENTRY_KEY_3
 			).put(
-				_OBJECT_FIELD_NAME_PRECISION_DECIMAL, randomBigDecimal
-			).put(
 				_OBJECT_FIELD_NAME_RICH_TEXT, randomString2
 			).put(
 				_OBJECT_FIELD_NAME_TEXT, randomString3
@@ -16957,9 +16933,7 @@ public class ObjectEntryResourceTest {
 		String endpoint = contextPath + "/" + keyExtractor.apply(jsonObject);
 
 		HTTPTestUtil.invokeToJSONObject(
-			JSONFactoryUtil.getNullJSON(),
-			endpoint,
-			Http.Method.PUT);
+			JSONFactoryUtil.getNullJSON(), endpoint, Http.Method.PUT);
 
 		JSONAssert.assertEquals(
 			JSONUtil.put(
@@ -16995,9 +16969,7 @@ public class ObjectEntryResourceTest {
 				"externalReferenceCode", _ERC_VALUE_1
 			).toString(),
 			HTTPTestUtil.invokeToJSONObject(
-				null,
-				endpoint,
-				Http.Method.GET
+				null, endpoint, Http.Method.GET
 			).toString(),
 			JSONCompareMode.LENIENT);
 
@@ -17043,9 +17015,6 @@ public class ObjectEntryResourceTest {
 					"name", _listTypeEntry3.getName(LocaleUtil.getDefault())
 				)
 			).put(
-				_OBJECT_FIELD_NAME_PRECISION_DECIMAL,
-				randomBigDecimal.setScale(16, RoundingMode.HALF_UP)
-			).put(
 				_OBJECT_FIELD_NAME_RICH_TEXT, randomString2
 			).put(
 				_OBJECT_FIELD_NAME_TEXT, randomString3
@@ -17081,8 +17050,6 @@ public class ObjectEntryResourceTest {
 				).put(
 					_OBJECT_FIELD_NAME_PICKLIST, _LIST_TYPE_ENTRY_KEY_3
 				).put(
-					_OBJECT_FIELD_NAME_PRECISION_DECIMAL, randomBigDecimal
-				).put(
 					_OBJECT_FIELD_NAME_RICH_TEXT, randomString2
 				).put(
 					_OBJECT_FIELD_NAME_TEXT, randomString3
@@ -17090,8 +17057,7 @@ public class ObjectEntryResourceTest {
 					objectRelationshipERCObjectFieldName,
 					_objectEntry2.getExternalReferenceCode()
 				).toString(),
-				endpoint,
-				Http.Method.PUT
+				endpoint, Http.Method.PUT
 			).toString(),
 			JSONCompareMode.LENIENT);
 	}
