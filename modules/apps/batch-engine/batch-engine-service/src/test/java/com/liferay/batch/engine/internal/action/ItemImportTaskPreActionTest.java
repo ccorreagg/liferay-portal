@@ -7,6 +7,7 @@ package com.liferay.batch.engine.internal.action;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 
+import com.liferay.batch.engine.BatchEngineTaskItemDelegate;
 import com.liferay.batch.engine.constants.BatchEngineImportTaskConstants;
 import com.liferay.batch.engine.context.ImportTaskContext;
 import com.liferay.batch.engine.model.BatchEngineImportTask;
@@ -62,6 +63,12 @@ public class ItemImportTaskPreActionTest {
 		Assert.assertEquals(
 			String.valueOf(_CURRENT_USER_ID),
 			_importTaskContext.getOriginalUserId());
+
+		Mockito.verify(
+			_batchEngineTaskItemDelegate
+		).setContextUser(
+			_user
+		);
 	}
 
 	@Test
@@ -81,6 +88,12 @@ public class ItemImportTaskPreActionTest {
 		Assert.assertEquals(
 			String.valueOf(_CURRENT_USER_ID), PrincipalThreadLocal.getName());
 		Assert.assertNull(_importTaskContext.getOriginalUserId());
+
+		Mockito.verify(
+			_batchEngineTaskItemDelegate, Mockito.never()
+		).setContextUser(
+			_user
+		);
 	}
 
 	@Test
@@ -90,6 +103,12 @@ public class ItemImportTaskPreActionTest {
 		Assert.assertEquals(
 			String.valueOf(_CURRENT_USER_ID), PrincipalThreadLocal.getName());
 		Assert.assertNull(_importTaskContext.getOriginalUserId());
+
+		Mockito.verify(
+			_batchEngineTaskItemDelegate, Mockito.never()
+		).setContextUser(
+			_user
+		);
 	}
 
 	private TestEntity _createTestEntity() {
@@ -148,13 +167,16 @@ public class ItemImportTaskPreActionTest {
 		);
 
 		_itemImportTaskPreAction.run(
-			_batchEngineImportTask, importTaskContext, _testEntity);
+			_batchEngineImportTask, _batchEngineTaskItemDelegate,
+			importTaskContext, _testEntity);
 	}
 
 	private static final long _CURRENT_USER_ID = RandomTestUtil.randomLong();
 
 	private final BatchEngineImportTask _batchEngineImportTask = Mockito.mock(
 		BatchEngineImportTask.class);
+	private final BatchEngineTaskItemDelegate<?> _batchEngineTaskItemDelegate =
+		Mockito.mock(BatchEngineTaskItemDelegate.class);
 	private final ImportTaskContext _importTaskContext =
 		new ImportTaskContext();
 	private final ItemImportTaskPreAction _itemImportTaskPreAction =
