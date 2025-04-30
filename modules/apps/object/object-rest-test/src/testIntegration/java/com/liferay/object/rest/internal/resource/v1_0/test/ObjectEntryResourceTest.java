@@ -7646,6 +7646,7 @@ public class ObjectEntryResourceTest {
 		_testPatchByERCCustomObjectEntry(
 			_objectDefinition1, _objectDefinition2);
 	}
+
 	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
@@ -7655,6 +7656,7 @@ public class ObjectEntryResourceTest {
 		_testPatchByERCCustomObjectEntry(
 			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
 	}
+
 	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
@@ -14726,7 +14728,10 @@ public class ObjectEntryResourceTest {
 				ObjectFieldSettingConstants.
 					NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
 				_objectFieldLocalService.getObjectField(
-					_objectRelationship2.getObjectFieldId2())).replace("ERC", "Id");
+					_objectRelationship2.getObjectFieldId2())
+			).replace(
+				"ERC", "Id"
+			);
 
 		boolean randomBoolean = RandomTestUtil.randomBoolean();
 		Date randomDate1 = RandomTestUtil.nextDate();
@@ -14976,8 +14981,7 @@ public class ObjectEntryResourceTest {
 
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, objectRelationship1ERCObjectFieldName,
-			_objectEntry3.getExternalReferenceCode()
-			);
+			_objectEntry3.getExternalReferenceCode());
 
 		_testPatchCustomObjectEntry(
 			endpoint, expectedJSONObject, objectRelationship1ERCObjectFieldName,
@@ -14987,8 +14991,7 @@ public class ObjectEntryResourceTest {
 
 		expectedJSONObject = _cloneJSONObject(
 			expectedJSONObject, objectRelationship2IdObjectFieldName,
-			_objectEntry3.getObjectEntryId()
-		);
+			_objectEntry3.getObjectEntryId());
 
 		_testPatchCustomObjectEntry(
 			endpoint, expectedJSONObject, objectRelationship2IdObjectFieldName,
@@ -16980,7 +16983,10 @@ public class ObjectEntryResourceTest {
 				ObjectFieldSettingConstants.
 					NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
 				_objectFieldLocalService.getObjectField(
-					_objectRelationship2.getObjectFieldId2())).replace("ERC", "Id");
+					_objectRelationship2.getObjectFieldId2())
+			).replace(
+				"ERC", "Id"
+			);
 
 		boolean randomBoolean = RandomTestUtil.randomBoolean();
 		Date randomDate1 = RandomTestUtil.nextDate();
