@@ -7638,6 +7638,16 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
+	@TestInfo("LPD-53245")
+	public void testPatchByExternalReferenceCodeCustomObjectEntry()
+		throws Exception {
+
+		_testPatchByERCCustomObjectEntry(
+			_objectDefinition1, _objectDefinition2);
+	}
+
+	@Test
+	@TestInfo("LPD-53245")
 	public void testPatchByExternalReferenceCodeSiteScopedCustomObjectEntry()
 		throws Exception {
 
@@ -9548,6 +9558,14 @@ public class ObjectEntryResourceTest {
 	}
 
 	@Test
+	@TestInfo("LPD-53245")
+	public void testPutByExternalReferenceCodeCustomObjectEntry()
+		throws Exception {
+
+		_testPutByERCCustomObjectEntry(_objectDefinition1, _objectDefinition2);
+	}
+
+	@Test
 	public void testPutByExternalReferenceCodeManyToManyRelationship()
 		throws Exception {
 
@@ -9865,6 +9883,15 @@ public class ObjectEntryResourceTest {
 				Http.Method.GET
 			).toString(),
 			JSONCompareMode.LENIENT);
+	}
+
+	@Test
+	@TestInfo("LPD-53245")
+	public void testPutByExternalReferenceCodeSiteScopedCustomObjectEntry()
+		throws Exception {
+
+		_testPutByERCCustomObjectEntry(
+			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
 	}
 
 	@Test
