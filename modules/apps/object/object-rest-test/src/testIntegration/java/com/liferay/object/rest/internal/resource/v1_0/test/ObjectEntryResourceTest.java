@@ -14701,16 +14701,30 @@ public class ObjectEntryResourceTest {
 		_objectEntry2 = ObjectEntryTestUtil.addObjectEntry(
 			objectDefinition2, _OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2);
 
+		_objectEntry3 = ObjectEntryTestUtil.addObjectEntry(
+			objectDefinition2, _OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2);
+
 		_objectRelationship1 = ObjectRelationshipTestUtil.addObjectRelationship(
 			objectDefinition2, objectDefinition1, TestPropsValues.getUserId(),
 			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
 
-		String objectRelationshipERCObjectFieldName =
+		_objectRelationship2 = ObjectRelationshipTestUtil.addObjectRelationship(
+			objectDefinition2, objectDefinition1, TestPropsValues.getUserId(),
+			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
+
+		String objectRelationship1ERCObjectFieldName =
 			ObjectFieldSettingUtil.getValue(
 				ObjectFieldSettingConstants.
 					NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
 				_objectFieldLocalService.getObjectField(
 					_objectRelationship1.getObjectFieldId2()));
+
+		String objectRelationship2IdObjectFieldName =
+			ObjectFieldSettingUtil.getValue(
+				ObjectFieldSettingConstants.
+					NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
+				_objectFieldLocalService.getObjectField(
+					_objectRelationship2.getObjectFieldId2())).replace("ERC", "Id");
 
 		boolean randomBoolean = RandomTestUtil.randomBoolean();
 		Date randomDate1 = RandomTestUtil.nextDate();
@@ -14754,8 +14768,11 @@ public class ObjectEntryResourceTest {
 			).put(
 				_OBJECT_FIELD_NAME_TEXT, randomString3
 			).put(
-				objectRelationshipERCObjectFieldName,
+				objectRelationship1ERCObjectFieldName,
 				_objectEntry2.getExternalReferenceCode()
+			).put(
+				objectRelationship2IdObjectFieldName,
+				_objectEntry2.getObjectEntryId()
 			).put(
 				"externalReferenceCode", _ERC_VALUE_1
 			).toString(),
@@ -14806,8 +14823,11 @@ public class ObjectEntryResourceTest {
 		).put(
 			_OBJECT_FIELD_NAME_TEXT, randomString3
 		).put(
-			objectRelationshipERCObjectFieldName,
+			objectRelationship1ERCObjectFieldName,
 			_objectEntry2.getExternalReferenceCode()
+		).put(
+			objectRelationship2IdObjectFieldName,
+			(int)_objectEntry2.getObjectEntryId()
 		).put(
 			"externalReferenceCode", _ERC_VALUE_1
 		).put(
@@ -14949,6 +14969,28 @@ public class ObjectEntryResourceTest {
 		_testPatchCustomObjectEntry(
 			endpoint, expectedJSONObject, _OBJECT_FIELD_NAME_PICKLIST,
 			_LIST_TYPE_ENTRY_KEY_1);
+
+		// Relationship ERC field
+
+		expectedJSONObject = _cloneJSONObject(
+			expectedJSONObject, objectRelationship1ERCObjectFieldName,
+			_objectEntry3.getExternalReferenceCode()
+			);
+
+		_testPatchCustomObjectEntry(
+			endpoint, expectedJSONObject, objectRelationship1ERCObjectFieldName,
+			_objectEntry3.getExternalReferenceCode());
+
+		// Relationship Id field
+
+		expectedJSONObject = _cloneJSONObject(
+			expectedJSONObject, objectRelationship2IdObjectFieldName,
+			_objectEntry3.getObjectEntryId()
+		);
+
+		_testPatchCustomObjectEntry(
+			endpoint, expectedJSONObject, objectRelationship2IdObjectFieldName,
+			_objectEntry3.getObjectEntryId());
 
 		// Rich text field
 
@@ -16920,12 +16962,23 @@ public class ObjectEntryResourceTest {
 			objectDefinition2, objectDefinition1, TestPropsValues.getUserId(),
 			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
 
-		String objectRelationshipERCObjectFieldName =
+		_objectRelationship2 = ObjectRelationshipTestUtil.addObjectRelationship(
+			objectDefinition2, objectDefinition1, TestPropsValues.getUserId(),
+			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
+
+		String objectRelationship1ERCObjectFieldName =
 			ObjectFieldSettingUtil.getValue(
 				ObjectFieldSettingConstants.
 					NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
 				_objectFieldLocalService.getObjectField(
 					_objectRelationship1.getObjectFieldId2()));
+
+		String objectRelationship2IdObjectFieldName =
+			ObjectFieldSettingUtil.getValue(
+				ObjectFieldSettingConstants.
+					NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
+				_objectFieldLocalService.getObjectField(
+					_objectRelationship2.getObjectFieldId2())).replace("ERC", "Id");
 
 		boolean randomBoolean = RandomTestUtil.randomBoolean();
 		Date randomDate1 = RandomTestUtil.nextDate();
@@ -16969,8 +17022,11 @@ public class ObjectEntryResourceTest {
 			).put(
 				_OBJECT_FIELD_NAME_TEXT, randomString3
 			).put(
-				objectRelationshipERCObjectFieldName,
+				objectRelationship1ERCObjectFieldName,
 				_objectEntry2.getExternalReferenceCode()
+			).put(
+				objectRelationship2IdObjectFieldName,
+				_objectEntry2.getObjectEntryId()
 			).put(
 				"externalReferenceCode", _ERC_VALUE_1
 			).toString(),
@@ -17011,7 +17067,7 @@ public class ObjectEntryResourceTest {
 			).put(
 				_OBJECT_FIELD_NAME_TEXT, ""
 			).put(
-				objectRelationshipERCObjectFieldName, ""
+				objectRelationship1ERCObjectFieldName, ""
 			).put(
 				"externalReferenceCode", _ERC_VALUE_1
 			).toString(),
@@ -17066,8 +17122,11 @@ public class ObjectEntryResourceTest {
 			).put(
 				_OBJECT_FIELD_NAME_TEXT, randomString3
 			).put(
-				objectRelationshipERCObjectFieldName,
+				objectRelationship1ERCObjectFieldName,
 				_objectEntry2.getExternalReferenceCode()
+			).put(
+				objectRelationship2IdObjectFieldName,
+				(int)_objectEntry2.getObjectEntryId()
 			).put(
 				"externalReferenceCode", _ERC_VALUE_1
 			).toString(),
@@ -17101,8 +17160,11 @@ public class ObjectEntryResourceTest {
 				).put(
 					_OBJECT_FIELD_NAME_TEXT, randomString3
 				).put(
-					objectRelationshipERCObjectFieldName,
+					objectRelationship1ERCObjectFieldName,
 					_objectEntry2.getExternalReferenceCode()
+				).put(
+					objectRelationship2IdObjectFieldName,
+					_objectEntry2.getObjectEntryId()
 				).toString(),
 				endpoint, Http.Method.PUT
 			).toString(),
