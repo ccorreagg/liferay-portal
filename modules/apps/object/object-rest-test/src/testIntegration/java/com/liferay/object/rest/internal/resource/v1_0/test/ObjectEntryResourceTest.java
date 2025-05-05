@@ -122,6 +122,7 @@ import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUti
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -8094,10 +8095,32 @@ public class ObjectEntryResourceTest {
 	public void testPatchPutScopeScopeKeyByExternalReferenceCode()
 		throws Exception {
 
-		_testPatchPutScopeScopeKeyByExternalReferenceCode(
-			Http.Method.PATCH, _siteScopedObjectDefinition1);
-		_testPatchPutScopeScopeKeyByExternalReferenceCode(
-			Http.Method.PUT, _siteScopedObjectDefinition1);
+		Group group = GroupLocalServiceUtil.getGroup(
+			TestPropsValues.getCompanyId(), GroupConstants.GUEST);
+
+		// Scope key as external reference code
+
+		_testPatchByExternalReferenceCodeCustomObjectEntry(
+			_objectDefinition1, _objectDefinition2, group.getExternalReferenceCode());
+
+		_testPutByExternalReferenceCodeCustomObjectEntry(
+			_objectDefinition1, _objectDefinition2, group.getExternalReferenceCode());
+
+		// Scope key as group ID
+
+		_testPatchByExternalReferenceCodeCustomObjectEntry(
+			_objectDefinition1, _objectDefinition2, group.getGroupId());
+
+		_testPutByExternalReferenceCodeCustomObjectEntry(
+			_objectDefinition1, _objectDefinition2, group.getGroupId());
+
+		// Scope key as group key
+
+		_testPatchByExternalReferenceCodeCustomObjectEntry(
+			_objectDefinition1, _objectDefinition2, group.getGroupKey());
+
+		_testPutByExternalReferenceCodeCustomObjectEntry(
+			_objectDefinition1, _objectDefinition2, group.getGroupKey());
 	}
 
 	@FeatureFlag(enable = false, value = "LPD-54417")
@@ -15689,71 +15712,6 @@ public class ObjectEntryResourceTest {
 					"externalReferenceCode", externalReferenceCode2
 				).toString(),
 				endpoint2 + externalReferenceCode1, httpMethod));
-	}
-
-	private void _testPatchPutScopeScopeKeyByExternalReferenceCode(
-			Http.Method httpMethod, ObjectDefinition objectDefinition)
-		throws Exception {
-
-		// Scope key as external reference code
-
-		ObjectEntry objectEntry = ObjectEntryTestUtil.addObjectEntry(
-			objectDefinition, _OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1);
-
-		Group group = _groupLocalService.fetchGroup(objectEntry.getGroupId());
-
-		String objectFieldValue = RandomTestUtil.randomString();
-
-		Assert.assertEquals(
-			objectFieldValue,
-			JSONUtil.getValueAsString(
-				HTTPTestUtil.invokeToJSONObject(
-					JSONUtil.put(
-						_OBJECT_FIELD_NAME_1, objectFieldValue
-					).toString(),
-					StringBundler.concat(
-						_getEndpoint(
-							objectDefinition, group.getExternalReferenceCode()),
-						"/by-external-reference-code/",
-						objectEntry.getExternalReferenceCode()),
-					httpMethod),
-				"Object/" + _OBJECT_FIELD_NAME_1));
-
-		// Scope key as group ID
-
-		objectFieldValue = RandomTestUtil.randomString();
-
-		Assert.assertEquals(
-			objectFieldValue,
-			JSONUtil.getValueAsString(
-				HTTPTestUtil.invokeToJSONObject(
-					JSONUtil.put(
-						_OBJECT_FIELD_NAME_1, objectFieldValue
-					).toString(),
-					StringBundler.concat(
-						_getEndpoint(objectDefinition, group.getGroupId()),
-						"/by-external-reference-code/",
-						objectEntry.getExternalReferenceCode()),
-					httpMethod),
-				"Object/" + _OBJECT_FIELD_NAME_1));
-
-		// Scope key as group key
-
-		objectFieldValue = RandomTestUtil.randomString();
-
-		Assert.assertEquals(
-			objectFieldValue,
-			JSONUtil.getValueAsString(
-				HTTPTestUtil.invokeToJSONObject(
-					JSONUtil.put(
-						_OBJECT_FIELD_NAME_1, objectFieldValue
-					).toString(),
-					StringBundler.concat(
-						_getEndpoint(objectDefinition, group.getGroupKey()),
-						"/by-external-reference-code/",
-						objectEntry.getExternalReferenceCode()),
-					httpMethod),
-				"Object/" + _OBJECT_FIELD_NAME_1));
 	}
 
 	private void _testPostCustomObjectEntryWithAttachmentObjectField(
