@@ -9854,11 +9854,6 @@ public class ObjectEntryResourceTest {
 			HTTPTestUtil.invokeToHttpCode(
 				JSONUtil.put(
 					_OBJECT_FIELD_NAME_2, _NEW_OBJECT_FIELD_VALUE_2
-				).put(
-					_objectRelationship2.getName(),
-					_createObjectEntriesJSONArray(
-						new String[] {_ERC_VALUE_3}, _OBJECT_FIELD_NAME_3,
-						new String[] {_NEW_OBJECT_FIELD_VALUE_3})
 				).toString(),
 				StringBundler.concat(
 					_objectDefinition2.getRESTContextPath(),
@@ -9874,6 +9869,51 @@ public class ObjectEntryResourceTest {
 		).get(
 			"id"
 		).toString();
+
+		JSONAssert.assertEquals(
+			JSONUtil.put(
+				"items", JSONUtil.putAll()
+			).put(
+				"lastPage", 1
+			).put(
+				"page", 1
+			).put(
+				"pageSize", 20
+			).put(
+				"totalCount", 0
+			).toString(),
+			HTTPTestUtil.invokeToJSONObject(
+				null,
+				StringBundler.concat(
+					_objectDefinition1.getRESTContextPath(), StringPool.SLASH,
+					objectEntryId, StringPool.SLASH,
+					_objectRelationship1.getName()),
+				Http.Method.GET
+			).toString(),
+			JSONCompareMode.LENIENT);
+
+		Assert.assertEquals(
+			200,
+			HTTPTestUtil.invokeToHttpCode(
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_2, _NEW_OBJECT_FIELD_VALUE_2
+				).put(
+					_objectRelationship1.getName(),
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_1, _NEW_OBJECT_FIELD_VALUE_1
+					).put(
+						"externalReferenceCode", _ERC_VALUE_1
+					)
+				).put(
+					_objectRelationship2.getName(),
+					_createObjectEntriesJSONArray(
+						new String[] {_ERC_VALUE_3}, _OBJECT_FIELD_NAME_3,
+						new String[] {_NEW_OBJECT_FIELD_VALUE_3})
+				).toString(),
+				StringBundler.concat(
+					_objectDefinition2.getRESTContextPath(),
+					"/by-external-reference-code/", _ERC_VALUE_2),
+				Http.Method.PUT));
 
 		JSONAssert.assertEquals(
 			JSONUtil.put(
