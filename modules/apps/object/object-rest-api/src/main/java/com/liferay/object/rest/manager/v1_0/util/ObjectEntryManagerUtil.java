@@ -69,9 +69,9 @@ public class ObjectEntryManagerUtil {
 							NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
 						objectField);
 
-				String relationshipIDFieldName = objectField.getName();
+				String relationshipFieldName = objectField.getName();
 
-				if (properties.containsKey(relationshipIDFieldName) &&
+				if (properties.containsKey(relationshipFieldName) &&
 					!properties.containsKey(
 						objectRelationshipERCObjectFieldName)) {
 
@@ -80,9 +80,9 @@ public class ObjectEntryManagerUtil {
 				}
 				else if (properties.containsKey(
 							objectRelationshipERCObjectFieldName) &&
-						 !properties.containsKey(relationshipIDFieldName)) {
+						 !properties.containsKey(relationshipFieldName)) {
 
-					existingProperties.remove(relationshipIDFieldName);
+					existingProperties.remove(relationshipFieldName);
 				}
 			}
 
