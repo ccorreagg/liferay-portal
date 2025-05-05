@@ -189,6 +189,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import java.sql.Timestamp;
 
@@ -14775,6 +14776,11 @@ public class ObjectEntryResourceTest {
 				"ERC", "Id"
 			);
 
+		BigDecimal randomBigDecimal = BigDecimal.valueOf(
+			RandomTestUtil.randomDouble()
+		).setScale(
+			5, RoundingMode.HALF_UP
+		);
 		boolean randomBoolean = RandomTestUtil.randomBoolean();
 		Date randomDate1 = RandomTestUtil.nextDate();
 		Date randomDate2 = RandomTestUtil.nextDate();
@@ -14813,6 +14819,8 @@ public class ObjectEntryResourceTest {
 				JSONUtil.putAll(_LIST_TYPE_ENTRY_KEY_1, _LIST_TYPE_ENTRY_KEY_2)
 			).put(
 				_OBJECT_FIELD_NAME_PICKLIST, _LIST_TYPE_ENTRY_KEY_3
+			).put(
+				_OBJECT_FIELD_NAME_PRECISION_DECIMAL, randomBigDecimal
 			).put(
 				_OBJECT_FIELD_NAME_RICH_TEXT, randomString2
 			).put(
@@ -14867,6 +14875,8 @@ public class ObjectEntryResourceTest {
 			).put(
 				"name", _listTypeEntry3.getName(LocaleUtil.getDefault())
 			)
+		).put(
+			_OBJECT_FIELD_NAME_PRECISION_DECIMAL, randomBigDecimal
 		).put(
 			_OBJECT_FIELD_NAME_RICH_TEXT, randomString2
 		).put(
@@ -15039,6 +15049,18 @@ public class ObjectEntryResourceTest {
 		_testPatchCustomObjectEntry(
 			endpoint, expectedJSONObject, objectRelationship2IdObjectFieldName,
 			_objectEntry3.getObjectEntryId());
+
+		// Precision decimal field
+
+		BigDecimal bigDecimal = randomBigDecimal.add(BigDecimal.ONE);
+
+		expectedJSONObject = _cloneJSONObject(
+			expectedJSONObject, _OBJECT_FIELD_NAME_PRECISION_DECIMAL,
+			bigDecimal);
+
+		_testPatchCustomObjectEntry(
+			endpoint, expectedJSONObject, _OBJECT_FIELD_NAME_PRECISION_DECIMAL,
+			bigDecimal);
 
 		// Rich text field
 
@@ -16967,6 +16989,11 @@ public class ObjectEntryResourceTest {
 				"ERC", "Id"
 			);
 
+		BigDecimal randomBigDecimal = BigDecimal.valueOf(
+			RandomTestUtil.randomDouble()
+		).setScale(
+			5, RoundingMode.HALF_UP
+		);
 		boolean randomBoolean = RandomTestUtil.randomBoolean();
 		Date randomDate1 = RandomTestUtil.nextDate();
 		Date randomDate2 = RandomTestUtil.nextDate();
@@ -17005,6 +17032,8 @@ public class ObjectEntryResourceTest {
 				JSONUtil.putAll(_LIST_TYPE_ENTRY_KEY_1, _LIST_TYPE_ENTRY_KEY_2)
 			).put(
 				_OBJECT_FIELD_NAME_PICKLIST, _LIST_TYPE_ENTRY_KEY_3
+			).put(
+				_OBJECT_FIELD_NAME_PRECISION_DECIMAL, randomBigDecimal
 			).put(
 				_OBJECT_FIELD_NAME_RICH_TEXT, randomString2
 			).put(
@@ -17106,6 +17135,8 @@ public class ObjectEntryResourceTest {
 					"name", _listTypeEntry3.getName(LocaleUtil.getDefault())
 				)
 			).put(
+				_OBJECT_FIELD_NAME_PRECISION_DECIMAL, randomBigDecimal
+			).put(
 				_OBJECT_FIELD_NAME_RICH_TEXT, randomString2
 			).put(
 				_OBJECT_FIELD_NAME_TEXT, randomString3
@@ -17143,6 +17174,8 @@ public class ObjectEntryResourceTest {
 						_LIST_TYPE_ENTRY_KEY_1, _LIST_TYPE_ENTRY_KEY_2)
 				).put(
 					_OBJECT_FIELD_NAME_PICKLIST, _LIST_TYPE_ENTRY_KEY_3
+				).put(
+					_OBJECT_FIELD_NAME_PRECISION_DECIMAL, randomBigDecimal
 				).put(
 					_OBJECT_FIELD_NAME_RICH_TEXT, randomString2
 				).put(
