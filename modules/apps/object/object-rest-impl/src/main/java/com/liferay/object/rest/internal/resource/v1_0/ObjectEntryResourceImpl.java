@@ -606,6 +606,13 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			ObjectEntry objectEntry)
 		throws Exception {
 
+		if (FeatureFlagManagerUtil.isEnabled(
+				contextCompany.getCompanyId(), "LPD-54417")) {
+
+			return patchScopeScopeKeyByExternalReferenceCode(
+				scopeKey, externalReferenceCode, objectEntry);
+		}
+
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
