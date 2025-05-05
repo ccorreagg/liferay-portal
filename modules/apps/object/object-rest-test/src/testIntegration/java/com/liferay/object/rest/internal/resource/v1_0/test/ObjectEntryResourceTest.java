@@ -8091,6 +8091,7 @@ public class ObjectEntryResourceTest {
 			Http.Method.PUT, _objectDefinition2, _siteScopedObjectDefinition2);
 	}
 
+	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	public void testPatchPutScopeScopeKeyByExternalReferenceCode()
 		throws Exception {
