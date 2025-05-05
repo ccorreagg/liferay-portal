@@ -26,7 +26,6 @@ import com.liferay.object.service.ObjectRelationshipService;
 import com.liferay.object.system.SystemObjectDefinitionManager;
 import com.liferay.object.system.SystemObjectDefinitionManagerRegistry;
 import com.liferay.petra.function.UnsafeFunction;
-import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
@@ -452,13 +451,6 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			String externalReferenceCode, ObjectEntry objectEntry)
 		throws Exception {
 
-		if (FeatureFlagManagerUtil.isEnabled(
-				contextCompany.getCompanyId(), "LPD-54417")) {
-
-			return patchByExternalReferenceCode(
-				externalReferenceCode, objectEntry);
-		}
-
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
@@ -540,12 +532,6 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			Long objectEntryId, ObjectEntry objectEntry)
 		throws Exception {
 
-		if (FeatureFlagManagerUtil.isEnabled(
-				contextCompany.getCompanyId(), "LPD-54417")) {
-
-			return patchObjectEntry(objectEntryId, objectEntry);
-		}
-
 		DefaultObjectEntryManager defaultObjectEntryManager =
 			DefaultObjectEntryManagerProvider.provide(
 				_objectEntryManagerRegistry.getObjectEntryManager(
@@ -605,13 +591,6 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			String scopeKey, String externalReferenceCode,
 			ObjectEntry objectEntry)
 		throws Exception {
-
-		if (FeatureFlagManagerUtil.isEnabled(
-				contextCompany.getCompanyId(), "LPD-54417")) {
-
-			return patchScopeScopeKeyByExternalReferenceCode(
-				scopeKey, externalReferenceCode, objectEntry);
-		}
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(

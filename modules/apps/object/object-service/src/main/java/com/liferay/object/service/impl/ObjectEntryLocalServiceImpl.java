@@ -5114,6 +5114,13 @@ public class ObjectEntryLocalServiceImpl
 			_objectDefinitionPersistence.findByPrimaryKey(
 				objectEntry.getObjectDefinitionId());
 
+		if (fillDefaultValue &&
+			FeatureFlagManagerUtil.isEnabled(
+				objectEntry.getCompanyId(), "LPD-54417")) {
+
+			fillDefaultValue = false;
+		}
+
 		if (fillDefaultValue) {
 			_fillDefaultValue(
 				objectEntry.getDefaultLanguageId(),
