@@ -7644,7 +7644,7 @@ public class ObjectEntryResourceTest {
 		throws Exception {
 
 		_testPatchByExternalReferenceCodeCustomObjectEntry(
-			_objectDefinition1, _objectDefinition2);
+			_objectDefinition1, _objectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@FeatureFlag(enable = false, value = "LPD-54417")
@@ -7654,14 +7654,14 @@ public class ObjectEntryResourceTest {
 		throws Exception {
 
 		_testPatchByExternalReferenceCodeCustomObjectEntry(
-			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
+			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPatchCustomObjectEntry() throws Exception {
-		_testPatchCustomObjectEntry(_objectDefinition1, _objectDefinition2);
+		_testPatchCustomObjectEntry(_objectDefinition1, _objectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@FeatureFlag("LPD-21926")
@@ -8105,7 +8105,7 @@ public class ObjectEntryResourceTest {
 	@TestInfo("LPD-53245")
 	public void testPatchSiteScopedCustomObjectEntry() throws Exception {
 		_testPatchCustomObjectEntry(
-			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
+			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@FeatureFlag("LPD-39967")
@@ -9568,7 +9568,7 @@ public class ObjectEntryResourceTest {
 		throws Exception {
 
 		_testPutByExternalReferenceCodeCustomObjectEntry(
-			_objectDefinition1, _objectDefinition2);
+			_objectDefinition1, _objectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@Test
@@ -9577,7 +9577,7 @@ public class ObjectEntryResourceTest {
 		throws Exception {
 
 		_testPatchByExternalReferenceCodeCustomObjectEntry(
-			_objectDefinition1, _objectDefinition2);
+			_objectDefinition1, _objectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@Test
@@ -9907,7 +9907,7 @@ public class ObjectEntryResourceTest {
 		throws Exception {
 
 		_testPutByExternalReferenceCodeCustomObjectEntry(
-			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
+			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@Test
@@ -9916,7 +9916,7 @@ public class ObjectEntryResourceTest {
 		throws Exception {
 
 		_testPatchByExternalReferenceCodeCustomObjectEntry(
-			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
+			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@Test
@@ -9966,7 +9966,7 @@ public class ObjectEntryResourceTest {
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPutCustomObjectEntry() throws Exception {
-		_testPutCustomObjectEntry(_objectDefinition1, _objectDefinition2);
+		_testPutCustomObjectEntry(_objectDefinition1, _objectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@Test
@@ -10131,7 +10131,7 @@ public class ObjectEntryResourceTest {
 	public void testPutCustomObjectEntryWithDeprecatedFeatureFlag()
 		throws Exception {
 
-		_testPatchCustomObjectEntry(_objectDefinition1, _objectDefinition2);
+		_testPatchCustomObjectEntry(_objectDefinition1, _objectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@FeatureFlag("LPD-32050")
@@ -10582,7 +10582,7 @@ public class ObjectEntryResourceTest {
 	@TestInfo("LPD-53245")
 	public void testPutSiteScopedCustomObjectEntry() throws Exception {
 		_testPutCustomObjectEntry(
-			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
+			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@Test
@@ -10591,7 +10591,7 @@ public class ObjectEntryResourceTest {
 		throws Exception {
 
 		_testPatchCustomObjectEntry(
-			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
+			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2, TestPropsValues.getGroupId());
 	}
 
 	@Test
@@ -14676,31 +14676,33 @@ public class ObjectEntryResourceTest {
 
 	private void _testPatchByExternalReferenceCodeCustomObjectEntry(
 			ObjectDefinition objectDefinition1,
-			ObjectDefinition objectDefinition2)
+			ObjectDefinition objectDefinition2,
+			Object scopeKey)
 		throws Exception {
 
 		_testPatchCustomObjectEntry(
-			_getEndpoint(objectDefinition1, TestPropsValues.getGroupId()) +
+			_getEndpoint(objectDefinition1, scopeKey) +
 				"/by-external-reference-code",
 			jsonObject -> jsonObject.getString("externalReferenceCode"),
-			objectDefinition1, objectDefinition2);
+			objectDefinition1, objectDefinition2, scopeKey);
 	}
 
 	private void _testPatchCustomObjectEntry(
 			ObjectDefinition objectDefinition1,
-			ObjectDefinition objectDefinition2)
+			ObjectDefinition objectDefinition2,
+			Object scopeKey)
 		throws Exception {
 
 		_testPatchCustomObjectEntry(
 			objectDefinition1.getRESTContextPath(),
 			jsonObject -> jsonObject.getLong("id"), objectDefinition1,
-			objectDefinition2);
+			objectDefinition2, scopeKey);
 	}
 
 	private void _testPatchCustomObjectEntry(
 			String contextPath, Function<JSONObject, Object> keyExtractor,
 			ObjectDefinition objectDefinition1,
-			ObjectDefinition objectDefinition2)
+			ObjectDefinition objectDefinition2, Object scopeKey)
 		throws Exception {
 
 		_objectEntry2 = ObjectEntryTestUtil.addObjectEntry(
@@ -14784,7 +14786,7 @@ public class ObjectEntryResourceTest {
 			).put(
 				"externalReferenceCode", _ERC_VALUE_1
 			).toString(),
-			_getEndpoint(objectDefinition1, TestPropsValues.getGroupId()),
+			_getEndpoint(objectDefinition1, scopeKey),
 			Http.Method.POST);
 
 		JSONObject expectedJSONObject = JSONUtil.put(
@@ -16934,31 +16936,33 @@ public class ObjectEntryResourceTest {
 
 	private void _testPutByExternalReferenceCodeCustomObjectEntry(
 			ObjectDefinition objectDefinition1,
-			ObjectDefinition objectDefinition2)
+			ObjectDefinition objectDefinition2,
+			Object scopeKey)
 		throws Exception {
 
 		_testPutCustomObjectEntry(
-			_getEndpoint(objectDefinition1, TestPropsValues.getGroupId()) +
+			_getEndpoint(objectDefinition1, scopeKey) +
 				"/by-external-reference-code",
 			jsonObject -> jsonObject.getString("externalReferenceCode"),
-			objectDefinition1, objectDefinition2);
+			objectDefinition1, objectDefinition2, scopeKey);
 	}
 
 	private void _testPutCustomObjectEntry(
 			ObjectDefinition objectDefinition1,
-			ObjectDefinition objectDefinition2)
+			ObjectDefinition objectDefinition2,
+			Object scopeKey)
 		throws Exception {
 
 		_testPutCustomObjectEntry(
 			objectDefinition1.getRESTContextPath(),
 			jsonObject -> jsonObject.getLong("id"), objectDefinition1,
-			objectDefinition2);
+			objectDefinition2, scopeKey);
 	}
 
 	private void _testPutCustomObjectEntry(
 			String contextPath, Function<JSONObject, Object> keyExtractor,
 			ObjectDefinition objectDefinition1,
-			ObjectDefinition objectDefinition2)
+			ObjectDefinition objectDefinition2, Object scopeKey)
 		throws Exception {
 
 		_objectEntry2 = ObjectEntryTestUtil.addObjectEntry(
@@ -17039,7 +17043,7 @@ public class ObjectEntryResourceTest {
 			).put(
 				"externalReferenceCode", _ERC_VALUE_1
 			).toString(),
-			_getEndpoint(objectDefinition1, TestPropsValues.getGroupId()),
+			_getEndpoint(objectDefinition1, scopeKey),
 			Http.Method.POST);
 
 		String endpoint = contextPath + "/" + keyExtractor.apply(jsonObject);
