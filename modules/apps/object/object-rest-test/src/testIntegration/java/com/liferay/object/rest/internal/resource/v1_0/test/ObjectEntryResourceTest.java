@@ -7643,7 +7643,7 @@ public class ObjectEntryResourceTest {
 	public void testPatchByExternalReferenceCodeCustomObjectEntry()
 		throws Exception {
 
-		_testPatchByERCCustomObjectEntry(
+		_testPatchByExternalReferenceCodeCustomObjectEntry(
 			_objectDefinition1, _objectDefinition2);
 	}
 
@@ -7653,7 +7653,7 @@ public class ObjectEntryResourceTest {
 	public void testPatchByExternalReferenceCodeSiteScopedCustomObjectEntry()
 		throws Exception {
 
-		_testPatchByERCCustomObjectEntry(
+		_testPatchByExternalReferenceCodeCustomObjectEntry(
 			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
 	}
 
@@ -9567,7 +9567,8 @@ public class ObjectEntryResourceTest {
 	public void testPutByExternalReferenceCodeCustomObjectEntry()
 		throws Exception {
 
-		_testPutByERCCustomObjectEntry(_objectDefinition1, _objectDefinition2);
+		_testPutByExternalReferenceCodeCustomObjectEntry(
+			_objectDefinition1, _objectDefinition2);
 	}
 
 	@Test
@@ -9575,7 +9576,7 @@ public class ObjectEntryResourceTest {
 	public void testPutByExternalReferenceCodeCustomObjectEntryWithDeprecatedFeatureFlag()
 		throws Exception {
 
-		_testPatchByERCCustomObjectEntry(
+		_testPatchByExternalReferenceCodeCustomObjectEntry(
 			_objectDefinition1, _objectDefinition2);
 	}
 
@@ -9905,7 +9906,7 @@ public class ObjectEntryResourceTest {
 	public void testPutByExternalReferenceCodeSiteScopedCustomObjectEntry()
 		throws Exception {
 
-		_testPutByERCCustomObjectEntry(
+		_testPutByExternalReferenceCodeCustomObjectEntry(
 			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
 	}
 
@@ -9914,7 +9915,7 @@ public class ObjectEntryResourceTest {
 	public void testPutByExternalReferenceCodeSiteScopedCustomObjectEntryWithDeprecatedFeatureFlag()
 		throws Exception {
 
-		_testPatchByERCCustomObjectEntry(
+		_testPatchByExternalReferenceCodeCustomObjectEntry(
 			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2);
 	}
 
@@ -14673,7 +14674,7 @@ public class ObjectEntryResourceTest {
 		unsafeTriConsumer.accept(actionJSONObject, jsonObject, objectAction);
 	}
 
-	private void _testPatchByERCCustomObjectEntry(
+	private void _testPatchByExternalReferenceCodeCustomObjectEntry(
 			ObjectDefinition objectDefinition1,
 			ObjectDefinition objectDefinition2)
 		throws Exception {
@@ -16931,7 +16932,7 @@ public class ObjectEntryResourceTest {
 		}
 	}
 
-	private void _testPutByERCCustomObjectEntry(
+	private void _testPutByExternalReferenceCodeCustomObjectEntry(
 			ObjectDefinition objectDefinition1,
 			ObjectDefinition objectDefinition2)
 		throws Exception {
