@@ -14763,6 +14763,7 @@ public class ObjectEntryResourceTest {
 		Date randomDate1 = RandomTestUtil.nextDate();
 		Date randomDate2 = RandomTestUtil.nextDate();
 		Date randomDate3 = RandomTestUtil.nextDate();
+		String randomExternalReferenceCode = RandomTestUtil.randomString();
 		float randomFloat = RandomTestUtil.randomFloat();
 		int randomInt = RandomTestUtil.randomInt();
 		long randomLong = RandomTestUtil.randomLong(
@@ -14807,7 +14808,7 @@ public class ObjectEntryResourceTest {
 				objectRelationship2IdObjectFieldName,
 				_objectEntry2.getObjectEntryId()
 			).put(
-				"externalReferenceCode", _ERC_VALUE_1
+				"externalReferenceCode", randomExternalReferenceCode
 			).toString(),
 			_getEndpoint(objectDefinition1, scopeKey),
 			Http.Method.POST);
@@ -14862,7 +14863,7 @@ public class ObjectEntryResourceTest {
 			objectRelationship2IdObjectFieldName,
 			(int)_objectEntry2.getObjectEntryId()
 		).put(
-			"externalReferenceCode", _ERC_VALUE_1
+			"externalReferenceCode", randomExternalReferenceCode
 		).put(
 			"id", (Object)jsonObject.getLong("id")
 		);
@@ -14873,7 +14874,7 @@ public class ObjectEntryResourceTest {
 			expectedJSONObject.toString(),
 			HTTPTestUtil.invokeToJSONObject(
 				JSONUtil.put(
-					"externalReferenceCode", _ERC_VALUE_1
+					"externalReferenceCode", randomExternalReferenceCode
 				).toString(),
 				endpoint, Http.Method.PATCH
 			).toString(),
@@ -14883,7 +14884,7 @@ public class ObjectEntryResourceTest {
 			expectedJSONObject.toString(),
 			HTTPTestUtil.invokeToJSONObject(
 				JSONUtil.put(
-					"externalReferenceCode", _ERC_VALUE_1
+					"externalReferenceCode", randomExternalReferenceCode
 				).toString(),
 				endpoint, Http.Method.GET
 			).toString(),
@@ -15054,7 +15055,8 @@ public class ObjectEntryResourceTest {
 				JSONUtil.put(
 					fieldName, fieldValue
 				).put(
-					"externalReferenceCode", _ERC_VALUE_1
+					"externalReferenceCode",
+					expectedJSONObject.get("externalReferenceCode")
 				).toString(),
 				endpoint, Http.Method.PATCH
 			).toString(),
@@ -16955,6 +16957,7 @@ public class ObjectEntryResourceTest {
 		Date randomDate1 = RandomTestUtil.nextDate();
 		Date randomDate2 = RandomTestUtil.nextDate();
 		Date randomDate3 = RandomTestUtil.nextDate();
+		String randomExternalReferenceCode = RandomTestUtil.randomString();
 		float randomFloat = RandomTestUtil.randomFloat();
 		int randomInt = RandomTestUtil.randomInt();
 		long randomLong = RandomTestUtil.randomLong(
@@ -16999,7 +17002,7 @@ public class ObjectEntryResourceTest {
 				objectRelationship2IdObjectFieldName,
 				_objectEntry2.getObjectEntryId()
 			).put(
-				"externalReferenceCode", _ERC_VALUE_1
+				"externalReferenceCode", randomExternalReferenceCode
 			).toString(),
 			_getEndpoint(objectDefinition1, scopeKey),
 			Http.Method.POST);
@@ -17040,7 +17043,7 @@ public class ObjectEntryResourceTest {
 			).put(
 				objectRelationship1ERCObjectFieldName, ""
 			).put(
-				"externalReferenceCode", _ERC_VALUE_1
+				"externalReferenceCode", randomExternalReferenceCode
 			).toString(),
 			HTTPTestUtil.invokeToJSONObject(
 				null, endpoint, Http.Method.GET
@@ -17099,7 +17102,7 @@ public class ObjectEntryResourceTest {
 				objectRelationship2IdObjectFieldName,
 				(int)_objectEntry2.getObjectEntryId()
 			).put(
-				"externalReferenceCode", _ERC_VALUE_1
+				"externalReferenceCode", randomExternalReferenceCode
 			).toString(),
 			HTTPTestUtil.invokeToJSONObject(
 				JSONUtil.put(
