@@ -456,7 +456,9 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
 
-		if (FeatureFlagManagerUtil.isEnabled("LPD-54417")) {
+		if (FeatureFlagManagerUtil.isEnabled(
+				contextCompany.getCompanyId(), "LPD-54417")) {
+
 			return objectEntryManager.partialUpdateObjectEntry(
 				contextCompany.getCompanyId(), _getDTOConverterContext(null),
 				externalReferenceCode, _objectDefinition, objectEntry, null);
@@ -544,7 +546,9 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 				_objectEntryManagerRegistry.getObjectEntryManager(
 					_objectDefinition.getStorageType()));
 
-		if (FeatureFlagManagerUtil.isEnabled("LPD-54417")) {
+		if (FeatureFlagManagerUtil.isEnabled(
+				contextCompany.getCompanyId(), "LPD-54417")) {
+
 			return defaultObjectEntryManager.partialUpdateObjectEntry(
 				_getDTOConverterContext(objectEntryId), _objectDefinition,
 				objectEntryId, objectEntry);
