@@ -452,17 +452,16 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			String externalReferenceCode, ObjectEntry objectEntry)
 		throws Exception {
 
-		ObjectEntryManager objectEntryManager =
-			_objectEntryManagerRegistry.getObjectEntryManager(
-				_objectDefinition.getStorageType());
-
 		if (FeatureFlagManagerUtil.isEnabled(
 				contextCompany.getCompanyId(), "LPD-54417")) {
 
-			return objectEntryManager.partialUpdateObjectEntry(
-				contextCompany.getCompanyId(), _getDTOConverterContext(null),
-				externalReferenceCode, _objectDefinition, objectEntry, null);
+			return patchByExternalReferenceCode(
+				externalReferenceCode, objectEntry);
 		}
+
+		ObjectEntryManager objectEntryManager =
+			_objectEntryManagerRegistry.getObjectEntryManager(
+				_objectDefinition.getStorageType());
 
 		return objectEntryManager.updateObjectEntry(
 			contextCompany.getCompanyId(), _getDTOConverterContext(null),
@@ -541,18 +540,16 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			Long objectEntryId, ObjectEntry objectEntry)
 		throws Exception {
 
+		if (FeatureFlagManagerUtil.isEnabled(
+				contextCompany.getCompanyId(), "LPD-54417")) {
+
+			return patchObjectEntry(objectEntryId, objectEntry);
+		}
+
 		DefaultObjectEntryManager defaultObjectEntryManager =
 			DefaultObjectEntryManagerProvider.provide(
 				_objectEntryManagerRegistry.getObjectEntryManager(
 					_objectDefinition.getStorageType()));
-
-		if (FeatureFlagManagerUtil.isEnabled(
-				contextCompany.getCompanyId(), "LPD-54417")) {
-
-			return defaultObjectEntryManager.partialUpdateObjectEntry(
-				_getDTOConverterContext(objectEntryId), _objectDefinition,
-				objectEntryId, objectEntry);
-		}
 
 		return defaultObjectEntryManager.updateObjectEntry(
 			_getDTOConverterContext(objectEntryId), _objectDefinition,
