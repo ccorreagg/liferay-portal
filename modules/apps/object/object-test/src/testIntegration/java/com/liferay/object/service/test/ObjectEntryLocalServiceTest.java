@@ -191,6 +191,7 @@ import com.liferay.portal.test.log.LogCapture;
 import com.liferay.portal.test.log.LogEntry;
 import com.liferay.portal.test.log.LoggerTestUtil;
 import com.liferay.portal.test.rule.FeatureFlag;
+import com.liferay.portal.test.rule.FeatureFlags;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
@@ -256,7 +257,12 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
  * @author Marco Leo
  * @author Brian Wing Shun Chan
  */
-@FeatureFlag("LPD-34594")
+@FeatureFlags(
+	featureFlags = {
+		@FeatureFlag(value = "LPD-34594"),
+		@FeatureFlag(enable = false, value = "LPD-54417")
+	}
+)
 @RunWith(Arquillian.class)
 public class ObjectEntryLocalServiceTest {
 
@@ -7070,11 +7076,10 @@ public class ObjectEntryLocalServiceTest {
 
 		Assert.assertEquals("Julia", values.get("firstName"));
 		Assert.assertEquals(
-			objectEntry2.getExternalReferenceCode(),
+			StringPool.BLANK,
 			values.get("r_objectRelationship_c_relatedObjectDefinitionERC"));
 		Assert.assertEquals(
-			objectEntry2.getObjectEntryId(),
-			values.get("r_objectRelationship_c_relatedObjectDefinitionId"));
+			0L, values.get("r_objectRelationship_c_relatedObjectDefinitionId"));
 
 		objectEntry1 = _objectEntryLocalService.updateObjectEntry(
 			TestPropsValues.getUserId(), objectEntryId1,
