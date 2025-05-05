@@ -14739,7 +14739,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	private void _testPatchCustomObjectEntry(
-			String contextPath, Function<JSONObject, Object> keyExtractor,
+			String contextPath, Function<JSONObject, Object> keyGetterFunction,
 			ObjectDefinition objectDefinition1,
 			ObjectDefinition objectDefinition2, Object scopeKey)
 		throws Exception {
@@ -14883,7 +14883,8 @@ public class ObjectEntryResourceTest {
 			"id", (Object)jsonObject.getLong("id")
 		);
 
-		String endpoint = contextPath + "/" + keyExtractor.apply(jsonObject);
+		String endpoint =
+			contextPath + "/" + keyGetterFunction.apply(jsonObject);
 
 		JSONAssert.assertEquals(
 			expectedJSONObject.toString(),
@@ -16933,7 +16934,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	private void _testPutCustomObjectEntry(
-			String contextPath, Function<JSONObject, Object> keyExtractor,
+			String contextPath, Function<JSONObject, Object> keyGetterFunction,
 			ObjectDefinition objectDefinition1,
 			ObjectDefinition objectDefinition2, Object scopeKey)
 		throws Exception {
@@ -17019,7 +17020,8 @@ public class ObjectEntryResourceTest {
 			).toString(),
 			_getEndpoint(objectDefinition1, scopeKey), Http.Method.POST);
 
-		String endpoint = contextPath + "/" + keyExtractor.apply(jsonObject);
+		String endpoint =
+			contextPath + "/" + keyGetterFunction.apply(jsonObject);
 
 		HTTPTestUtil.invokeToJSONObject(
 			JSONFactoryUtil.getNullJSON(), endpoint, Http.Method.PUT);
