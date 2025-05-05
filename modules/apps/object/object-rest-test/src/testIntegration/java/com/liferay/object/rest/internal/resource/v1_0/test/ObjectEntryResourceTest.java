@@ -238,7 +238,10 @@ import org.springframework.transaction.support.DefaultTransactionStatus;
  * @author Luis Miguel Barcos
  */
 @FeatureFlags(
-	featureFlags = {@FeatureFlag("LPD-45945"), @FeatureFlag("LPS-164801")}
+	featureFlags = {
+		@FeatureFlag(value = "LPD-45945"), @FeatureFlag(value = "LPS-164801"),
+		@FeatureFlag(enable = false, value = "LPD-54417")
+	}
 )
 @RunWith(Arquillian.class)
 public class ObjectEntryResourceTest {
@@ -7639,7 +7642,6 @@ public class ObjectEntryResourceTest {
 		_assertItem(0, jsonObject, _OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1);
 	}
 
-	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPatchByExternalReferenceCodeCustomObjectEntry()
@@ -7650,7 +7652,6 @@ public class ObjectEntryResourceTest {
 			TestPropsValues.getGroupId());
 	}
 
-	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPatchByExternalReferenceCodeSiteScopedCustomObjectEntry()
@@ -7661,7 +7662,6 @@ public class ObjectEntryResourceTest {
 			TestPropsValues.getGroupId());
 	}
 
-	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPatchCustomObjectEntry() throws Exception {
@@ -8096,7 +8096,6 @@ public class ObjectEntryResourceTest {
 			Http.Method.PUT, _objectDefinition2, _siteScopedObjectDefinition2);
 	}
 
-	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	public void testPatchPutScopeScopeKeyByExternalReferenceCode()
 		throws Exception {
@@ -8131,7 +8130,6 @@ public class ObjectEntryResourceTest {
 			_objectDefinition1, _objectDefinition2, group.getGroupKey());
 	}
 
-	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPatchSiteScopedCustomObjectEntry() throws Exception {
@@ -9593,7 +9591,6 @@ public class ObjectEntryResourceTest {
 		}
 	}
 
-	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPutByExternalReferenceCodeCustomObjectEntry()
@@ -9604,6 +9601,7 @@ public class ObjectEntryResourceTest {
 			TestPropsValues.getGroupId());
 	}
 
+	@FeatureFlag("LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPutByExternalReferenceCodeCustomObjectEntryWithDeprecatedFeatureFlag()
@@ -9934,7 +9932,6 @@ public class ObjectEntryResourceTest {
 			JSONCompareMode.LENIENT);
 	}
 
-	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPutByExternalReferenceCodeSiteScopedCustomObjectEntry()
@@ -9945,6 +9942,7 @@ public class ObjectEntryResourceTest {
 			TestPropsValues.getGroupId());
 	}
 
+	@FeatureFlag("LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPutByExternalReferenceCodeSiteScopedCustomObjectEntryWithDeprecatedFeatureFlag()
@@ -9998,7 +9996,6 @@ public class ObjectEntryResourceTest {
 			JSONCompareMode.LENIENT);
 	}
 
-	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPutCustomObjectEntry() throws Exception {
@@ -10164,6 +10161,7 @@ public class ObjectEntryResourceTest {
 			false);
 	}
 
+	@FeatureFlag("LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPutCustomObjectEntryWithDeprecatedFeatureFlag()
@@ -10617,7 +10615,6 @@ public class ObjectEntryResourceTest {
 			_OBJECT_FIELD_NAME_2, _NEW_OBJECT_FIELD_VALUE_1);
 	}
 
-	@FeatureFlag(enable = false, value = "LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPutSiteScopedCustomObjectEntry() throws Exception {
@@ -10626,6 +10623,7 @@ public class ObjectEntryResourceTest {
 			TestPropsValues.getGroupId());
 	}
 
+	@FeatureFlag("LPD-54417")
 	@Test
 	@TestInfo("LPD-53245")
 	public void testPutSiteScopedCustomObjectEntryWithDeprecatedFeatureFlag()
