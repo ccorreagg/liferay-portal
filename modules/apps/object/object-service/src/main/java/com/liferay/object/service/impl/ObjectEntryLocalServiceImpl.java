@@ -346,7 +346,8 @@ public class ObjectEntryLocalServiceImpl
 		Map<String, Serializable> insertedValues = new HashMap<>();
 
 		_insertIntoLocalizationTable(
-			insertedValues, objectDefinition, objectEntryId, values);
+			insertedValues, objectDefinition, objectEntryId, null, true,
+			values);
 
 		boolean dynamicObjectDefinitionStaticValues = _insertIntoTable(
 			_getDynamicObjectDefinitionTable(objectDefinitionId),
@@ -3257,6 +3258,7 @@ public class ObjectEntryLocalServiceImpl
 
 	private Set<Locale> _getLocales(
 		long companyId, List<ObjectField> objectFields,
+		Map<String, Serializable> originalValues, boolean processNullValues,
 		Map<String, Serializable> values) {
 
 		Set<Locale> locales = new HashSet<>();
@@ -3265,6 +3267,11 @@ public class ObjectEntryLocalServiceImpl
 			Map<String, String> localizedValues =
 				(Map<String, String>)values.get(
 					objectField.getI18nObjectFieldName());
+
+			if (MapUtil.isEmpty(localizedValues) && !processNullValues) {
+				localizedValues = (Map<String, String>)originalValues.get(
+					objectField.getI18nObjectFieldName());
+			}
 
 			if (MapUtil.isEmpty(localizedValues)) {
 				continue;
@@ -4138,6 +4145,7 @@ public class ObjectEntryLocalServiceImpl
 	private void _insertIntoLocalizationTable(
 			Map<String, Serializable> insertedValues,
 			ObjectDefinition objectDefinition, long objectEntryId,
+			Map<String, Serializable> originalValues, boolean processNullValues,
 			Map<String, Serializable> values)
 		throws PortalException {
 
@@ -4184,7 +4192,8 @@ public class ObjectEntryLocalServiceImpl
 		}
 
 		Set<Locale> locales = _getLocales(
-			objectDefinition.getCompanyId(), objectFields, values);
+			objectDefinition.getCompanyId(), objectFields, originalValues,
+			processNullValues, values);
 
 		if (locales.isEmpty()) {
 			return;
@@ -4230,13 +4239,24 @@ public class ObjectEntryLocalServiceImpl
 					Map<String, Serializable> insertedLocalizedValue =
 						new HashMap<>(1);
 
+					Object localizedValue = _getLocalizedValue(
+						languageId,
+						(Map<String, Object>)values.get(
+							objectField.getI18nObjectFieldName()));
+
+					if (Validator.isBlank(
+							GetterUtil.getString(localizedValue)) &&
+						!processNullValues) {
+
+						localizedValue = _getLocalizedValue(
+							languageId,
+							(Map<String, Object>)originalValues.get(
+								objectField.getI18nObjectFieldName()));
+					}
+
 					_setColumn(
 						column, columnNames, index++, insertedLocalizedValue,
-						objectField, preparedStatement,
-						_getLocalizedValue(
-							languageId,
-							(Map<String, Object>)values.get(
-								objectField.getI18nObjectFieldName())));
+						objectField, preparedStatement, localizedValue);
 
 					Map<String, Serializable> localizedValues =
 						(Map<String, Serializable>)insertedValues.getOrDefault(
@@ -5156,7 +5176,8 @@ public class ObjectEntryLocalServiceImpl
 
 		_deleteFromLocalizationTable(objectDefinition, objectEntryId);
 		_insertIntoLocalizationTable(
-			new HashMap<>(), objectDefinition, objectEntryId, values);
+			new HashMap<>(), objectDefinition, objectEntryId, transientValues,
+			fillDefaultValue, values);
 		_updateTable(
 			_getDynamicObjectDefinitionTable(
 				objectEntry.getObjectDefinitionId()),
