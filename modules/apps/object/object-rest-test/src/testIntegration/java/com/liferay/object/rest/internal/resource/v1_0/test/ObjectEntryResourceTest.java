@@ -132,6 +132,7 @@ import com.liferay.portal.kernel.test.AssertUtils;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.TestInfo;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.DataGuard;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.HTTPTestUtil;
@@ -213,7 +214,6 @@ import javax.ws.rs.core.Feature;
 
 import org.hibernate.SessionFactory;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -236,6 +236,7 @@ import org.springframework.transaction.support.DefaultTransactionStatus;
 /**
  * @author Luis Miguel Barcos
  */
+@DataGuard(scope = DataGuard.Scope.METHOD)
 @FeatureFlags(
 	featureFlags = {
 		@FeatureFlag(value = "LPD-45945"), @FeatureFlag(value = "LPS-164801")
@@ -974,62 +975,6 @@ public class ObjectEntryResourceTest {
 			ObjectFieldConstants.BUSINESS_TYPE_TEXT,
 			ObjectFieldConstants.DB_TYPE_STRING, _userSystemObjectDefinition,
 			_OBJECT_FIELD_NAME_2);
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		if (_objectRelationship1 != null) {
-			_objectRelationshipLocalService.deleteObjectRelationship(
-				_objectRelationship1);
-		}
-
-		if (_objectRelationship2 != null) {
-			_objectRelationshipLocalService.deleteObjectRelationship(
-				_objectRelationship2);
-		}
-
-		if (_objectRelationship3 != null) {
-			_objectRelationshipLocalService.deleteObjectRelationship(
-				_objectRelationship3);
-		}
-
-		if (_objectRelationship4 != null) {
-			_objectRelationshipLocalService.deleteObjectRelationship(
-				_objectRelationship4);
-		}
-
-		if (_objectRelationship5 != null) {
-			_objectRelationshipLocalService.deleteObjectRelationship(
-				_objectRelationship5);
-		}
-
-		if (_objectRelationship6 != null) {
-			_objectRelationshipLocalService.deleteObjectRelationship(
-				_objectRelationship6);
-		}
-
-		if (_objectRelationship7 != null) {
-			_objectRelationshipLocalService.deleteObjectRelationship(
-				_objectRelationship7);
-		}
-
-		_objectDefinitionLocalService.deleteObjectDefinition(
-			_objectDefinition1);
-		_objectDefinitionLocalService.deleteObjectDefinition(
-			_objectDefinition2);
-		_objectDefinitionLocalService.deleteObjectDefinition(
-			_objectDefinition3);
-		_objectDefinitionLocalService.deleteObjectDefinition(
-			_objectDefinition4);
-		_objectDefinitionLocalService.deleteObjectDefinition(
-			_siteScopedObjectDefinition1);
-		_objectDefinitionLocalService.deleteObjectDefinition(
-			_siteScopedObjectDefinition2);
-
-		_listTypeDefinitionLocalService.deleteListTypeDefinition(
-			_listTypeDefinition);
-
-		_groupLocalService.deleteGroup(_group);
 	}
 
 	@Test
