@@ -99,6 +99,8 @@ import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.extension.EntityExtensionHandler;
 import com.liferay.portal.vulcan.extension.ExtensionProviderRegistry;
 import com.liferay.portal.vulcan.extension.util.ExtensionUtil;
+import com.liferay.portal.vulcan.fields.NestedFieldsContext;
+import com.liferay.portal.vulcan.fields.NestedFieldsContextThreadLocal;
 import com.liferay.portal.vulcan.fields.NestedFieldsSupplier;
 import com.liferay.portal.vulcan.jaxrs.extension.ExtendedEntity;
 import com.liferay.portal.vulcan.permission.Permission;
@@ -804,11 +806,16 @@ public class ObjectEntryDTOConverter
 	private Map<String, UnsafeSupplier<Object, Exception>>
 			_getNestedFieldsRelatedProperties(
 				DTOConverterContext dtoConverterContext, long groupId,
-				ObjectDefinition objectDefinition, long primaryKey)
+				ObjectDefinition objectDefinition, long primaryKey,
+				Map<String, UnsafeSupplier<Object, Exception>> unsafeSupplier)
 		throws Exception {
 
 		return NestedFieldsSupplier.supplyUnsafeSupplier(
 			nestedFieldName -> {
+				if (unsafeSupplier.containsKey(nestedFieldName)) {
+					return null;
+				}
+
 				ObjectRelationship objectRelationship =
 					_objectRelationshipLocalService.
 						fetchObjectRelationshipByObjectDefinitionId1(
@@ -1010,6 +1017,22 @@ public class ObjectEntryDTOConverter
 		}
 
 		return serializable;
+	}
+
+	private boolean _hasRootModelHierarchyNestedField() {
+		NestedFieldsContext nestedFieldsContext =
+			NestedFieldsContextThreadLocal.getNestedFieldsContext();
+
+		if ((nestedFieldsContext != null) &&
+			ListUtil.exists(
+				nestedFieldsContext.getNestedFields(),
+				nestedFieldName -> StringUtil.equals(
+					nestedFieldName, "rootModelHierarchy"))) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 	private AuditEvent[] _toAuditEvents(
@@ -1231,7 +1254,10 @@ public class ObjectEntryDTOConverter
 						fetchObjectRelationshipByObjectFieldId2(
 							objectField.getObjectFieldId());
 
-				if (primaryKey > 0) {
+				if ((primaryKey > 0) &&
+					(!_hasRootModelHierarchyNestedField() ||
+					 !objectRelationship.isEdge())) {
+
 					_addManyToOneRelatedObjectEntries(
 						dtoConverterContext, objectFieldName,
 						objectRelationship, primaryKey, unsafeSuppliers);
@@ -1254,10 +1280,40 @@ public class ObjectEntryDTOConverter
 
 		values.remove(objectDefinition.getPKObjectFieldName());
 
+		if (_hasRootModelHierarchyNestedField()) {
+			for (ObjectRelationship objectRelationship :
+					_objectRelationshipLocalService.getObjectRelationships(
+						objectDefinition.getObjectDefinitionId(), true)) {
+
+				List<com.liferay.object.model.ObjectEntry>
+					serviceBuilderObjectEntries =
+						_objectEntryLocalService.getOneToManyObjectEntries(
+							objectEntry.getGroupId(),
+							objectRelationship.getObjectRelationshipId(),
+							objectEntry.getObjectEntryId(), true, null,
+							QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+				if (serviceBuilderObjectEntries.isEmpty()) {
+					continue;
+				}
+
+				unsafeSuppliers.put(
+					objectRelationship.getName(),
+					() -> TransformUtil.transformToArray(
+						serviceBuilderObjectEntries,
+						relatedObjectEntry -> toDTO(
+							_getDTOConverterContext(
+								dtoConverterContext,
+								relatedObjectEntry.getObjectEntryId()),
+							relatedObjectEntry),
+						ObjectEntry.class));
+			}
+		}
+
 		Map<String, UnsafeSupplier<Object, Exception>>
 			nestedFieldsRelatedProperties = _getNestedFieldsRelatedProperties(
 				dtoConverterContext, objectEntry.getGroupId(), objectDefinition,
-				objectEntry.getObjectEntryId());
+				objectEntry.getObjectEntryId(), unsafeSuppliers);
 
 		if (nestedFieldsRelatedProperties != null) {
 			unsafeSuppliers.putAll(nestedFieldsRelatedProperties);
