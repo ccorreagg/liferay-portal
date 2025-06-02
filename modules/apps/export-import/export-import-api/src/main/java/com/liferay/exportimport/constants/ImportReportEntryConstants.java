@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-package com.liferay.batch.engine.constants;
+package com.liferay.exportimport.constants;
 
 /**
  * @author Jonathan McCann
+ * @author Carlos Correa
  */
-public class BatchEngineImportReportEntryConstants {
+public class ImportReportEntryConstants {
 
 	public static final int TYPE_ERROR = 1;
 
