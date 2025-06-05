@@ -823,8 +823,6 @@ public class ReleasePersistenceImpl
 			new String[] {String.class.getName()},
 			new String[] {"servletContextName"}, true);
 
-		_finderPathFetchByServletContextName.touch();
-
 		ReleaseUtil.setPersistence(this);
 	}
 
