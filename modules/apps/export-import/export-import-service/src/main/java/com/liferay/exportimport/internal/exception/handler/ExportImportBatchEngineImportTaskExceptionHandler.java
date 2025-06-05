@@ -24,7 +24,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Carlos Correa
  */
 @Component(service = BatchEngineImportTaskExceptionHandler.class)
-public class BatchEngineImportTaskExceptionHandlerImpl
+public class ExportImportBatchEngineImportTaskExceptionHandler
 	implements BatchEngineImportTaskExceptionHandler {
 
 	@Override
@@ -63,7 +63,7 @@ public class BatchEngineImportTaskExceptionHandlerImpl
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		BatchEngineImportTaskExceptionHandlerImpl.class);
+		ExportImportBatchEngineImportTaskExceptionHandler.class);
 
 	@Reference
 	private ClassNameLocalService _classNameLocalService;
