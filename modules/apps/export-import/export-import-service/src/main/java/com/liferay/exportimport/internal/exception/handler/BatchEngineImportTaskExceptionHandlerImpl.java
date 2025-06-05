@@ -32,16 +32,14 @@ public class BatchEngineImportTaskExceptionHandlerImpl
 		BatchEngineImportTask batchEngineImportTask, Exception exception,
 		Object item) {
 
-		Long classNameId = 0L;
-		Long classPK = 0L;
-
-		if (ExportImportThreadLocal.isImportInProcess()) {
-			classNameId = ExportImportThreadLocal.getClassNameId();
-			classPK = ExportImportThreadLocal.getClassPK();
+		if (!ExportImportThreadLocal.isImportInProcess()) {
+			return;
 		}
 
 		_importReportEntryLocalService.addImportReportEntry(
-			batchEngineImportTask.getCompanyId(), classNameId, classPK,
+			batchEngineImportTask.getCompanyId(),
+			ExportImportThreadLocal.getClassNameId(),
+			ExportImportThreadLocal.getClassPK(),
 			_classNameLocalService.getClassNameId(ClassUtil.getClassName(item)),
 			_getExternalReferenceCode(item), exception.getMessage(),
 			ImportReportEntryConstants.TYPE_ERROR);
