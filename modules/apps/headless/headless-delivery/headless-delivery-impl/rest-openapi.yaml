@@ -12113,6 +12113,45 @@ paths:
                         application/json: {}
                         application/xml: {}
             tags: ["NavigationMenu"]
+    "/site-pages/{id}":
+        get:
+            # @review
+            description:
+                Retrieves a specific page
+            operationId: getSitePage
+            parameters:
+                -   in: path
+                    name: id
+                    required: true
+                    schema:
+                        format: int64
+                        type: integer
+                -   in: query
+                    name: fields
+                    schema:
+                        type: string
+                -   in: query
+                    name: nestedFields
+                    schema:
+                        type: string
+                -   in: query
+                    name: restrictFields
+                    schema:
+                        type: string
+                -   in: header
+                    name: Accept-Language
+                    schema:
+                        type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SitePage"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/SitePage"
+            tags: ["SitePage"]
     "/sites/{siteId}/blog-posting-images":
         get:
             description:
