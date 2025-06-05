@@ -138,6 +138,12 @@ public class SitePageResourceImpl extends BaseSitePageResourceImpl {
 	}
 
 	@Override
+	public SitePage getSitePage(Long id) throws Exception {
+		return _toSitePage(
+			_isEmbeddedPageDefinition(), _layoutService.getLayout(id), null);
+	}
+
+	@Override
 	public SitePage getSiteSitePage(Long siteId, String friendlyUrlPath)
 		throws Exception {
 
