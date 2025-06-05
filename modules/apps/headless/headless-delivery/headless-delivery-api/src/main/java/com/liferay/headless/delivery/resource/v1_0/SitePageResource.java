@@ -48,6 +48,8 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface SitePageResource {
 
+	public SitePage getSitePage(Long id) throws Exception;
+
 	public SitePage getSiteSitePage(Long siteId, String friendlyUrlPath)
 		throws Exception;
 

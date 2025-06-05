@@ -2482,7 +2482,11 @@ public class ServletDataImpl implements ServletData {
 							NavigationMenuResourceImpl.class,
 							"getSiteNavigationMenusPage"));
 					put(
-						"query#sitePage",
+						"query#page",
+						new ObjectValuePair<>(
+							SitePageResourceImpl.class, "getSitePage"));
+					put(
+						"query#siteSitePage",
 						new ObjectValuePair<>(
 							SitePageResourceImpl.class, "getSiteSitePage"));
 					put(
