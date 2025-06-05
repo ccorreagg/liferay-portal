@@ -28,7 +28,7 @@ public class BatchEngineImportTaskExceptionHandlerImpl
 	implements BatchEngineImportTaskExceptionHandler {
 
 	@Override
-	public <T> void handle(
+	public void handle(
 		BatchEngineImportTask batchEngineImportTask, Exception exception,
 		Object item) {
 
