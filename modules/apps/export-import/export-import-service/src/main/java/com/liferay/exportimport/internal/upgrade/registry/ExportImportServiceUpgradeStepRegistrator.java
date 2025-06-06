@@ -9,6 +9,7 @@ import com.liferay.exportimport.internal.upgrade.v1_0_0.PublisherRequestUpgradeP
 import com.liferay.exportimport.internal.upgrade.v1_0_1.SystemEventsUpgradeProcess;
 import com.liferay.exportimport.internal.upgrade.v1_0_1.UpgradeBackgroundTaskExecutorClassNames;
 import com.liferay.exportimport.internal.upgrade.v1_0_2.ExportImportServiceConfigurationUpgradeProcess;
+import com.liferay.exportimport.internal.upgrade.v1_1_0.util.ImportReportEntryTable;
 import com.liferay.exportimport.kernel.service.ExportImportConfigurationLocalService;
 import com.liferay.portal.configuration.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.model.Release;
@@ -57,6 +58,8 @@ public class ExportImportServiceUpgradeStepRegistrator
 			"1.0.1", "1.0.2",
 			new ExportImportServiceConfigurationUpgradeProcess(
 				_configurationAdmin, _configurationProvider));
+
+		registry.register("1.0.2", "1.1.0", ImportReportEntryTable.create());
 	}
 
 	@Reference
