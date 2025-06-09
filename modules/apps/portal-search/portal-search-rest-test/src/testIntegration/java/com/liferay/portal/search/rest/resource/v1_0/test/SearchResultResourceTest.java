@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchEngine;
@@ -989,6 +990,35 @@ public class SearchResultResourceTest extends BaseSearchResultResourceTestCase {
 		if (Objects.equals(_searchEngine.getVendor(), "Solr")) {
 			return;
 		}
+
+		_testPostSearchPageWithEmbeddedNestedFieldsInLayout();
+		_testPostSearchPageWithEmbeddedNestedFieldsInObjectEntry();
+	}
+
+	private void _testPostSearchPageWithEmbeddedNestedFieldsInLayout()
+		throws Exception {
+
+		SearchPage<SearchResult> searchPage = _postSearchPage(
+			HashMapBuilder.put(
+				"entryClassNames", Layout.class.getName()
+			).put(
+				"nestedFields", "embedded"
+			).put(
+				"search", "home"
+			).build(),
+			new SearchRequestBody());
+
+		Collection<SearchResult> searchResults = searchPage.getItems();
+
+		Assert.assertFalse(searchResults.isEmpty());
+
+		for (SearchResult searchResult : searchResults) {
+			Assert.assertNotNull(searchResult.getEmbedded());
+		}
+	}
+
+	private void _testPostSearchPageWithEmbeddedNestedFieldsInObjectEntry()
+		throws Exception {
 
 		DTOConverterContext dtoConverterContext =
 			new DefaultDTOConverterContext(
