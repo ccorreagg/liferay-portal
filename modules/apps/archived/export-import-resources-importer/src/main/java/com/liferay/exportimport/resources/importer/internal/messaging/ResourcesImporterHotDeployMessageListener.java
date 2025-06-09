@@ -253,7 +253,7 @@ public class ResourcesImporterHotDeployMessageListener
 	private MessageBus _messageBus;
 
 	@Reference(
-		target = "(&(release.bundle.symbolic.name=com.liferay.exportimport.service)(release.schema.version=1.0.2))"
+		target = "(&(release.bundle.symbolic.name=com.liferay.exportimport.service)(release.schema.version>=1.0.2))"
 	)
 	private Release _release;
 
