@@ -6,6 +6,7 @@
 package com.liferay.portal.vulcan.dto.converter.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.portal.kernel.test.TestInfo;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.test.rule.Inject;
@@ -63,6 +64,7 @@ public class DTOConverterRegistryTest {
 	}
 
 	@Test
+	@TestInfo("LPD-57341")
 	public void testGetDTOConverterWithApplicationNameDefaultDTOClassNameAndVersionProperties()
 		throws Exception {
 
@@ -117,6 +119,7 @@ public class DTOConverterRegistryTest {
 	}
 
 	@Test
+	@TestInfo("LPD-57341")
 	public void testGetDTOConverterWithDefaultAndDTOClassNameProperties()
 		throws Exception {
 
