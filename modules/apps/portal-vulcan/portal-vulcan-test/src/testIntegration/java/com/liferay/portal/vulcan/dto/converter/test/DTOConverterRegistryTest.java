@@ -70,25 +70,24 @@ public class DTOConverterRegistryTest {
 
 		String applicationName = RandomTestUtil.randomString();
 		String dtoClassName = RandomTestUtil.randomString();
+		DTOConverter<?, ?> dtoConverter = new TestDTOConverter();
 		String version = RandomTestUtil.randomString();
 
-		DTOConverter<?, ?> dtoConverter1 = new TestDTOConverter();
-		DTOConverter<?, ?> dtoConverter2 = new TestDTOConverter();
-		DTOConverter<?, ?> dtoConverter3 = new TestDTOConverter();
-
 		try (AutoCloseable autoCloseable1 = _registerDTOConverter(
-				applicationName, null, dtoClassName, dtoConverter1, version);
+				applicationName, null, dtoClassName, new TestDTOConverter(),
+				version);
 			AutoCloseable autoCloseable2 = _registerDTOConverter(
-				applicationName, false, dtoClassName, dtoConverter2, version);
+				applicationName, false, dtoClassName, new TestDTOConverter(),
+				version);
 			AutoCloseable autoCloseable3 = _registerDTOConverter(
-				applicationName, true, dtoClassName, dtoConverter3, version)) {
+				applicationName, true, dtoClassName, dtoConverter, version)) {
 
 			Assert.assertSame(
-				dtoConverter3,
+				dtoConverter,
 				_dtoConverterRegistry.getDTOConverter(dtoClassName));
 
 			Assert.assertSame(
-				dtoConverter3,
+				dtoConverter,
 				_dtoConverterRegistry.getDTOConverter(
 					applicationName, dtoClassName, version));
 		}
@@ -100,9 +99,8 @@ public class DTOConverterRegistryTest {
 
 		String applicationName = RandomTestUtil.randomString();
 		String dtoClassName = RandomTestUtil.randomString();
-		String version = RandomTestUtil.randomString();
-
 		DTOConverter<?, ?> dtoConverter = new TestDTOConverter();
+		String version = RandomTestUtil.randomString();
 
 		try (AutoCloseable autoCloseable = _registerDTOConverter(
 				applicationName, null, dtoClassName, dtoConverter, version)) {
@@ -124,19 +122,17 @@ public class DTOConverterRegistryTest {
 		throws Exception {
 
 		String dtoClassName = RandomTestUtil.randomString();
-		DTOConverter<?, ?> dtoConverter1 = new TestDTOConverter();
-		DTOConverter<?, ?> dtoConverter2 = new TestDTOConverter();
-		DTOConverter<?, ?> dtoConverter3 = new TestDTOConverter();
+		DTOConverter<?, ?> dtoConverter = new TestDTOConverter();
 
 		try (AutoCloseable autoCloseable1 = _registerDTOConverter(
-				null, null, dtoClassName, dtoConverter1, null);
+				null, null, dtoClassName, new TestDTOConverter(), null);
 			AutoCloseable autoCloseable2 = _registerDTOConverter(
-				null, false, dtoClassName, dtoConverter2, null);
+				null, false, dtoClassName, new TestDTOConverter(), null);
 			AutoCloseable autoCloseable3 = _registerDTOConverter(
-				null, true, dtoClassName, dtoConverter3, null)) {
+				null, true, dtoClassName, dtoConverter, null)) {
 
 			Assert.assertSame(
-				dtoConverter3,
+				dtoConverter,
 				_dtoConverterRegistry.getDTOConverter(dtoClassName));
 		}
 	}
