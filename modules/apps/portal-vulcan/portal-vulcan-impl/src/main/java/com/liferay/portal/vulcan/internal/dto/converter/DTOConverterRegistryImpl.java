@@ -9,6 +9,7 @@ import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.vulcan.dto.converter.DTOConverter;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterRegistry;
@@ -34,15 +35,29 @@ public class DTOConverterRegistryImpl implements DTOConverterRegistry {
 
 	@Override
 	public DTOConverter<?, ?> getDTOConverter(String dtoClassName) {
-		return _serviceTrackerMap.getService(dtoClassName);
+		DTOConverter<?, ?> dtoConverter = _serviceTrackerMap.getService(
+			_getKey(true, dtoClassName));
+
+		if (dtoConverter != null) {
+			return dtoConverter;
+		}
+
+		return _serviceTrackerMap.getService(_getKey(false, dtoClassName));
 	}
 
 	@Override
 	public DTOConverter<?, ?> getDTOConverter(
 		String applicationName, String dtoClassName, String version) {
 
+		DTOConverter<?, ?> dtoConverter = _serviceTrackerMap.getService(
+			_getKey(applicationName, true, dtoClassName, version));
+
+		if (dtoConverter != null) {
+			return dtoConverter;
+		}
+
 		return _serviceTrackerMap.getService(
-			_getKey(applicationName, dtoClassName, version));
+			_getKey(applicationName, false, dtoClassName, version));
 	}
 
 	@Activate
@@ -52,10 +67,13 @@ public class DTOConverterRegistryImpl implements DTOConverterRegistry {
 			(Class<DTOConverter<?, ?>>)(Class<?>)DTOConverter.class,
 			"(dto.class.name=*)",
 			(serviceReference, emitter) -> {
+				boolean defaultDTOConverter = GetterUtil.getBoolean(
+					(String)serviceReference.getProperty("default"));
+
 				String dtoClassName = (String)serviceReference.getProperty(
 					"dto.class.name");
 
-				emitter.emit(dtoClassName);
+				emitter.emit(_getKey(defaultDTOConverter, dtoClassName));
 
 				String applicationName = (String)serviceReference.getProperty(
 					"application.name");
@@ -66,7 +84,9 @@ public class DTOConverterRegistryImpl implements DTOConverterRegistry {
 					!Validator.isBlank(version)) {
 
 					emitter.emit(
-						_getKey(applicationName, dtoClassName, version));
+						_getKey(
+							applicationName, defaultDTOConverter, dtoClassName,
+							version));
 				}
 			});
 	}
@@ -76,13 +96,30 @@ public class DTOConverterRegistryImpl implements DTOConverterRegistry {
 		_serviceTrackerMap.close();
 	}
 
-	private String _getKey(
-		String applicationName, String dtoClassName, String version) {
+	private String _getKey(boolean defaultDTOConverter, String dtoClassName) {
+		if (!defaultDTOConverter) {
+			return dtoClassName;
+		}
 
-		return StringBundler.concat(
+		return dtoClassName + _DEFAULT;
+	}
+
+	private String _getKey(
+		String applicationName, boolean defaultDTOConverter,
+		String dtoClassName, String version) {
+
+		String key = StringBundler.concat(
 			applicationName, StringPool.POUND, dtoClassName, StringPool.POUND,
 			version);
+
+		if (!defaultDTOConverter) {
+			return key;
+		}
+
+		return key + _DEFAULT;
 	}
+
+	private static final String _DEFAULT = "#default";
 
 	private ServiceTrackerMap<String, DTOConverter<?, ?>> _serviceTrackerMap;
 
