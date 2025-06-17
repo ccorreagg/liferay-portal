@@ -146,8 +146,11 @@ public class SitePageResourceImpl
 
 	@Override
 	public SitePage getItem(Long id) throws Exception {
-		return _toSitePage(
-			_isEmbeddedPageDefinition(), _layoutService.getLayout(id), null);
+		Layout layout = _layoutLocalService.getLayout(id);
+
+		return getSiteSitePage(
+			layout.getGroupId(),
+			layout.getFriendlyURL(contextAcceptLanguage.getPreferredLocale()));
 	}
 
 	@Override
