@@ -1623,11 +1623,11 @@ public class WebServerServlet extends HttpServlet {
 				_getActionId(httpServletRequest));
 		}
 		catch (PortalException portalException) {
-			User user = permissionChecker.getUser();
-
 			if (_isFaviconFile(fileEntry)) {
 				return;
 			}
+
+			User user = permissionChecker.getUser();
 
 			if (user.isGuestUser() &&
 				!AuthLoginGroupSettingsUtil.isPromptEnabled(
@@ -1964,6 +1964,23 @@ public class WebServerServlet extends HttpServlet {
 			FileEntry.class.getName(), PortletProvider.Action.VIEW);
 	}
 
+	private boolean _isFaviconFile(FileEntry fileEntry) {
+		LayoutSet layoutSet = LayoutSetLocalServiceUtil.fetchLayoutSet(
+			fileEntry.getGroupId(), false);
+
+		if (layoutSet != null) {
+			if (layoutSet.getFaviconFileEntryId() ==
+					fileEntry.getFileEntryId()) {
+
+				return true;
+			}
+
+			return false;
+		}
+
+		return false;
+	}
+
 	private boolean _processCompanyInactiveRequest(
 			HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse, long companyId)
@@ -1987,18 +2004,6 @@ public class WebServerServlet extends HttpServlet {
 		}
 
 		return true;
-	}
-
-	private boolean _isFaviconFile(FileEntry fileEntry) {
-			long groupId = fileEntry.getGroupId();
-
-			LayoutSet layoutSet = LayoutSetLocalServiceUtil.fetchLayoutSet(groupId, false);
-			
-			if (layoutSet != null) {
-				return layoutSet.getFaviconFileEntryId() ==
-					   fileEntry.getFileEntryId();
-			}
-		return false;
 	}
 
 	private static final String _PATH_SEPARATOR_FILE_ENTRY =
