@@ -1877,16 +1877,9 @@ public abstract class BaseObjectEntryResourceImpl
 				objectEntryUnsafeFunction = objectEntry -> {
 					ObjectEntry persistedObjectEntry = null;
 
-					if (parameters.containsKey("externalReferenceCode") ||
-						(objectEntry.getExternalReferenceCode() != null)) {
-
+					if (objectEntry.getExternalReferenceCode() != null) {
 						persistedObjectEntry = putByExternalReferenceCode(
-							(String)parameters.get("externalReferenceCode") !=
-								null ?
-									(String)parameters.get(
-										"externalReferenceCode") :
-											objectEntry.
-												getExternalReferenceCode(),
+							objectEntry.getExternalReferenceCode(),
 							objectEntry);
 					}
 					else {
