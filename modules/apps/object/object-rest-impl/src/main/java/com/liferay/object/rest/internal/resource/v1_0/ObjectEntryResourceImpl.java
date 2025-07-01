@@ -8,6 +8,7 @@ package com.liferay.object.rest.internal.resource.v1_0;
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.object.exception.ObjectEntryValidationException;
 import com.liferay.object.model.ObjectDefinition;
+import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
 import com.liferay.object.rest.dto.v1_0.ValidationError;
 import com.liferay.object.rest.dto.v1_0.ValidationRequest;
@@ -22,6 +23,7 @@ import com.liferay.object.scope.ObjectScopeProviderRegistry;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.service.ObjectFieldLocalService;
+import com.liferay.object.service.ObjectRelationshipLocalService;
 import com.liferay.object.service.ObjectRelationshipService;
 import com.liferay.object.system.SystemObjectDefinitionManagerRegistry;
 import com.liferay.petra.function.UnsafeFunction;
@@ -50,6 +52,7 @@ import jakarta.ws.rs.core.Response;
 import java.io.Serializable;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,6 +71,7 @@ public class ObjectEntryResourceImpl
 		ObjectEntryLocalService objectEntryLocalService,
 		ObjectEntryManagerRegistry objectEntryManagerRegistry,
 		ObjectFieldLocalService objectFieldLocalService,
+		ObjectRelationshipLocalService objectRelationshipLocalService,
 		ObjectRelationshipService objectRelationshipService,
 		ObjectScopeProviderRegistry objectScopeProviderRegistry,
 		SystemObjectDefinitionManagerRegistry
@@ -81,6 +85,7 @@ public class ObjectEntryResourceImpl
 		_objectEntryLocalService = objectEntryLocalService;
 		_objectEntryManagerRegistry = objectEntryManagerRegistry;
 		_objectFieldLocalService = objectFieldLocalService;
+		_objectRelationshipLocalService = objectRelationshipLocalService;
 		_objectRelationshipService = objectRelationshipService;
 		_objectScopeProviderRegistry = objectScopeProviderRegistry;
 		_systemObjectDefinitionManagerRegistry =
@@ -350,6 +355,14 @@ public class ObjectEntryResourceImpl
 
 		return _entityModelProvider.getEntityModel(
 			_objectDefinitions.get(contextCompany.getCompanyId()));
+	}
+
+	@Override
+	public List<String> getNestedFields() {
+		return transform(
+			_objectRelationshipLocalService.getAllObjectRelationships(
+				_objectDefinition.getObjectDefinitionId()),
+			ObjectRelationship::getName);
 	}
 
 	@Override
@@ -1067,6 +1080,8 @@ public class ObjectEntryResourceImpl
 	private final ObjectEntryLocalService _objectEntryLocalService;
 	private final ObjectEntryManagerRegistry _objectEntryManagerRegistry;
 	private final ObjectFieldLocalService _objectFieldLocalService;
+	private final ObjectRelationshipLocalService
+		_objectRelationshipLocalService;
 	private final ObjectRelationshipService _objectRelationshipService;
 	private final ObjectScopeProviderRegistry _objectScopeProviderRegistry;
 	private final SystemObjectDefinitionManagerRegistry
