@@ -185,6 +185,11 @@ public class BatchEnginePortletDataHandlerRegistryTest {
 		}
 
 		@Override
+		public List<String> getNestedFields() {
+			return null;
+		}
+
+		@Override
 		public String getPortletId() {
 			return _portletId;
 		}

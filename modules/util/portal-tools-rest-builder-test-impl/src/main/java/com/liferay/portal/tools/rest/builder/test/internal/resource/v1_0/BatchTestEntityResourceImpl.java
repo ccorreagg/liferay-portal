@@ -14,6 +14,7 @@ import com.liferay.portal.vulcan.pagination.Page;
 import jakarta.ws.rs.core.Response;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -71,6 +72,11 @@ public class BatchTestEntityResourceImpl
 		}
 
 		return batchTestEntity;
+	}
+
+	@Override
+	public List<String> getNestedFields() {
+		return null;
 	}
 
 	@Override
