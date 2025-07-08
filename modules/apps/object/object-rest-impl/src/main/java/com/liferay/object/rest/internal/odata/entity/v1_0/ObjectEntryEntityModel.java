@@ -31,6 +31,7 @@ import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.odata.entity.IdEntityField;
 import com.liferay.portal.odata.entity.IntegerEntityField;
 import com.liferay.portal.odata.entity.StringEntityField;
+import com.liferay.portal.odata.filter.InvalidFilterException;
 
 import jakarta.ws.rs.BadRequestException;
 
@@ -89,7 +90,9 @@ public class ObjectEntryEntityModel implements EntityModel {
 			relatedObjectDefinition.getName());
 	}
 
-	private EntityField _getEntityField(ObjectField objectField) {
+	private EntityField _getEntityField(
+		ObjectDefinition objectDefinition, ObjectField objectField) {
+
 		if (_unsupportedBusinessTypes.contains(objectField.getBusinessType())) {
 			return null;
 		}
@@ -99,8 +102,17 @@ public class ObjectEntryEntityModel implements EntityModel {
 				ObjectFieldConstants.BUSINESS_TYPE_DATE_TIME)) {
 
 			return new DateTimeEntityField(
-				objectField.getName(), locale -> objectField.getName(),
-				locale -> objectField.getName());
+				objectField.getName(),
+				locale -> {
+					_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+					return objectField.getName();
+				},
+				locale -> {
+					_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+					return objectField.getName();
+				});
 		}
 		else if (Objects.equals(
 					objectField.getBusinessType(),
@@ -108,7 +120,12 @@ public class ObjectEntryEntityModel implements EntityModel {
 
 			return new CollectionEntityField(
 				new StringEntityField(
-					objectField.getName(), locale -> objectField.getName()));
+					objectField.getName(),
+					locale -> {
+						_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+						return objectField.getName();
+					}));
 		}
 
 		if (Objects.equals(
@@ -118,14 +135,24 @@ public class ObjectEntryEntityModel implements EntityModel {
 				objectField.getDBType(), ObjectFieldConstants.DB_TYPE_DOUBLE)) {
 
 			return new DoubleEntityField(
-				objectField.getName(), locale -> objectField.getName());
+				objectField.getName(),
+				locale -> {
+					_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+					return objectField.getName();
+				});
 		}
 		else if (Objects.equals(
 					objectField.getDBType(),
 					ObjectFieldConstants.DB_TYPE_BOOLEAN)) {
 
 			return new BooleanEntityField(
-				objectField.getName(), locale -> objectField.getName());
+				objectField.getName(),
+				locale -> {
+					_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+					return objectField.getName();
+				});
 		}
 		else if (Objects.equals(
 					objectField.getDBType(),
@@ -135,15 +162,29 @@ public class ObjectEntryEntityModel implements EntityModel {
 					 ObjectFieldConstants.DB_TYPE_STRING)) {
 
 			return new StringEntityField(
-				objectField.getName(), locale -> objectField.getName());
+				objectField.getName(),
+				locale -> {
+					_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+					return objectField.getName();
+				});
 		}
 		else if (Objects.equals(
 					objectField.getDBType(),
 					ObjectFieldConstants.DB_TYPE_DATE)) {
 
 			return new DateEntityField(
-				objectField.getName(), locale -> objectField.getName(),
-				locale -> objectField.getName());
+				objectField.getName(),
+				locale -> {
+					_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+					return objectField.getName();
+				},
+				locale -> {
+					_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+					return objectField.getName();
+				});
 		}
 		else if (Objects.equals(
 					objectField.getDBType(),
@@ -153,15 +194,26 @@ public class ObjectEntryEntityModel implements EntityModel {
 					 ObjectFieldConstants.DB_TYPE_LONG)) {
 
 			return new IntegerEntityField(
-				objectField.getName(), locale -> objectField.getName());
+				objectField.getName(),
+				locale -> {
+					_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+					return objectField.getName();
+				});
 		}
 
 		throw new BadRequestException(
 			"Unable to get entity field for object field " + objectField);
 	}
 
-	private Function<Locale, String> _getExternalReferenceCodeFunction() {
-		return locale -> "externalReferenceCode";
+	private Function<Locale, String> _getExternalReferenceCodeFunction(
+		ObjectDefinition objectDefinition) {
+
+		return locale -> {
+			_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+			return "externalReferenceCode";
+		};
 	}
 
 	private Map<String, EntityField> _getObjectDefinitionEntityFieldsMap(
@@ -201,38 +253,88 @@ public class ObjectEntryEntityModel implements EntityModel {
 
 		Map<String, EntityField> entityFieldsMap =
 			HashMapBuilder.<String, EntityField>put(
-				"creator", new StringEntityField("creator", locale -> "creator")
+				"creator",
+				new StringEntityField(
+					"creator",
+					locale -> {
+						_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+						return "creator";
+					})
 			).put(
 				"creatorId",
-				new IntegerEntityField("creatorId", locale -> Field.USER_ID)
+				new IntegerEntityField(
+					"creatorId",
+					locale -> {
+						_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+						return Field.USER_ID;
+					})
 			).put(
 				"dateCreated",
 				new DateTimeEntityField(
-					"dateCreated", locale -> Field.CREATE_DATE,
-					locale -> Field.CREATE_DATE)
+					"dateCreated",
+					locale -> {
+						_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+						return Field.CREATE_DATE;
+					},
+					locale -> {
+						_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+						return Field.CREATE_DATE;
+					})
 			).put(
 				"dateModified",
 				new DateTimeEntityField(
-					"dateModified", locale -> "modifiedDate",
-					locale -> "modifiedDate")
+					"dateModified",
+					locale -> {
+						_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+						return "modifiedDate";
+					},
+					locale -> {
+						_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+						return "modifiedDate";
+					})
 			).put(
 				"externalReferenceCode",
 				() -> new StringEntityField(
 					"externalReferenceCode",
-					_getExternalReferenceCodeFunction())
+					_getExternalReferenceCodeFunction(objectDefinition))
 			).put(
-				"id", new IdEntityField("id", locale -> "id", String::valueOf)
+				"id",
+				new IdEntityField(
+					"id",
+					locale -> {
+						_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+						return "id";
+					},
+					String::valueOf)
 			).put(
 				"keywords",
 				new CollectionEntityField(
 					new StringEntityField(
-						"keywords", locale -> "assetTagNames.lowercase"))
+						"keywords",
+						locale -> {
+							_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+							return "assetTagNames.lowercase";
+						}))
 			).put(
 				"status",
 				() -> {
 					IntegerEntityField statusEntityField =
 						new IntegerEntityField(
-							"status", locale -> Field.STATUS);
+							"status",
+							locale -> {
+								_verifyNoUnmodifiableSystemObject(
+									objectDefinition);
+
+								return Field.STATUS;
+							});
 
 					if (_useLegacyStatus) {
 						return new CollectionEntityField(statusEntityField);
@@ -244,10 +346,21 @@ public class ObjectEntryEntityModel implements EntityModel {
 				"taxonomyCategoryIds",
 				new CollectionEntityField(
 					new IntegerEntityField(
-						"taxonomyCategoryIds", locale -> "assetCategoryIds"))
+						"taxonomyCategoryIds",
+						locale -> {
+							_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+							return "assetCategoryIds";
+						}))
 			).put(
 				"userId",
-				new IntegerEntityField("userId", locale -> Field.USER_ID)
+				new IntegerEntityField(
+					"userId",
+					locale -> {
+						_verifyNoUnmodifiableSystemObject(objectDefinition);
+
+						return Field.USER_ID;
+					})
 			).build();
 
 		for (ObjectField objectField : objectFields) {
@@ -261,7 +374,8 @@ public class ObjectEntryEntityModel implements EntityModel {
 					objectField.getRelationshipType(),
 					ObjectRelationshipConstants.TYPE_ONE_TO_MANY)) {
 
-				EntityField entityField = _getEntityField(objectField);
+				EntityField entityField = _getEntityField(
+					objectDefinition, objectField);
 
 				if (entityField != null) {
 					entityFieldsMap.putIfAbsent(
@@ -271,12 +385,25 @@ public class ObjectEntryEntityModel implements EntityModel {
 				continue;
 			}
 
+			ObjectDefinition relatedObjectDefinition =
+				ObjectRelationshipUtil.getRelatedObjectDefinition(
+					objectDefinition,
+					ObjectRelationshipLocalServiceUtil.
+						fetchObjectRelationshipByObjectFieldId2(
+							objectField.getObjectFieldId()));
+
 			String objectFieldName = objectField.getName();
 
 			entityFieldsMap.put(
 				objectFieldName,
 				new IdEntityField(
-					objectFieldName, locale -> objectFieldName,
+					objectFieldName,
+					locale -> {
+						_verifyNoUnmodifiableSystemObject(
+							relatedObjectDefinition);
+
+						return objectFieldName;
+					},
 					String::valueOf));
 
 			String objectRelationshipERCObjectFieldName =
@@ -289,7 +416,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 				objectRelationshipERCObjectFieldName,
 				new ReferenceStringEntityField(
 					objectRelationshipERCObjectFieldName,
-					_getExternalReferenceCodeFunction(),
+					_getExternalReferenceCodeFunction(relatedObjectDefinition),
 					objectFieldName.split(StringPool.UNDERLINE)[1] +
 						"/externalReferenceCode"));
 
@@ -299,11 +426,26 @@ public class ObjectEntryEntityModel implements EntityModel {
 			entityFieldsMap.put(
 				relationshipIdName,
 				new IdEntityField(
-					relationshipIdName, locale -> objectFieldName,
+					relationshipIdName,
+					locale -> {
+						_verifyNoUnmodifiableSystemObject(
+							relatedObjectDefinition);
+
+						return objectFieldName;
+					},
 					String::valueOf));
 		}
 
 		return entityFieldsMap;
+	}
+
+	private void _verifyNoUnmodifiableSystemObject(
+		ObjectDefinition objectDefinition) {
+
+		if (objectDefinition.isUnmodifiableSystemObject()) {
+			throw new InvalidFilterException(
+				"Filtering is not supported for system objects");
+		}
 	}
 
 	private final Map<String, EntityField> _entityFieldsMap;
