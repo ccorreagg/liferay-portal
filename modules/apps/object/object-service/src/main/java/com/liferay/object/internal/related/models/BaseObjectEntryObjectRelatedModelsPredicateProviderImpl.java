@@ -45,11 +45,6 @@ public abstract class BaseObjectEntryObjectRelatedModelsPredicateProviderImpl
 			ObjectRelationshipUtil.getRelatedObjectDefinition(
 				objectDefinition, objectRelationship);
 
-		if (relatedObjectDefinition.isUnmodifiableSystemObject()) {
-			throw new InvalidFilterException(
-				"Filtering is not supported for system objects");
-		}
-
 		return getPredicate(
 			objectRelationship, predicate, relatedObjectDefinition);
 	}
