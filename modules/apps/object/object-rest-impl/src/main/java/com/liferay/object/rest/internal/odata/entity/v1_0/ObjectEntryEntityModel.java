@@ -206,14 +206,8 @@ public class ObjectEntryEntityModel implements EntityModel {
 			"Unable to get entity field for object field " + objectField);
 	}
 
-	private Function<Locale, String> _getExternalReferenceCodeFunction(
-		ObjectDefinition objectDefinition) {
-
-		return locale -> {
-			_verifyNoUnmodifiableSystemObject(objectDefinition);
-
-			return "externalReferenceCode";
-		};
+	private Function<Locale, String> _getExternalReferenceCodeFunction() {
+		return locale -> "externalReferenceCode";
 	}
 
 	private Map<String, EntityField> _getObjectDefinitionEntityFieldsMap(
@@ -302,7 +296,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 				"externalReferenceCode",
 				() -> new StringEntityField(
 					"externalReferenceCode",
-					_getExternalReferenceCodeFunction(objectDefinition))
+					_getExternalReferenceCodeFunction())
 			).put(
 				"id",
 				new IdEntityField(
@@ -416,7 +410,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 				objectRelationshipERCObjectFieldName,
 				new ReferenceStringEntityField(
 					objectRelationshipERCObjectFieldName,
-					_getExternalReferenceCodeFunction(relatedObjectDefinition),
+					_getExternalReferenceCodeFunction(),
 					objectFieldName.split(StringPool.UNDERLINE)[1] +
 						"/externalReferenceCode"));
 
