@@ -100,12 +100,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 				ObjectFieldConstants.BUSINESS_TYPE_DATE_TIME)) {
 
 			return new DateTimeEntityField(
-				objectField.getName(),
-				locale -> {
-					_verifyNoUnmodifiableSystemObject(objectDefinition);
-
-					return objectField.getName();
-				},
+				objectField.getName(), locale -> objectField.getName(),
 				locale -> {
 					_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -118,7 +113,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 
 			return new CollectionEntityField(
 				new StringEntityField(
-					objectField.getName(),
+					objectField.getName(), locale -> objectField.getName(),
 					locale -> {
 						_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -133,7 +128,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 				objectField.getDBType(), ObjectFieldConstants.DB_TYPE_DOUBLE)) {
 
 			return new DoubleEntityField(
-				objectField.getName(),
+				objectField.getName(), locale -> objectField.getName(),
 				locale -> {
 					_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -145,7 +140,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 					ObjectFieldConstants.DB_TYPE_BOOLEAN)) {
 
 			return new BooleanEntityField(
-				objectField.getName(),
+				objectField.getName(), locale -> objectField.getName(),
 				locale -> {
 					_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -160,7 +155,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 					 ObjectFieldConstants.DB_TYPE_STRING)) {
 
 			return new StringEntityField(
-				objectField.getName(),
+				objectField.getName(), locale -> objectField.getName(),
 				locale -> {
 					_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -172,12 +167,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 					ObjectFieldConstants.DB_TYPE_DATE)) {
 
 			return new DateEntityField(
-				objectField.getName(),
-				locale -> {
-					_verifyNoUnmodifiableSystemObject(objectDefinition);
-
-					return objectField.getName();
-				},
+				objectField.getName(), locale -> objectField.getName(),
 				locale -> {
 					_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -192,7 +182,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 					 ObjectFieldConstants.DB_TYPE_LONG)) {
 
 			return new IntegerEntityField(
-				objectField.getName(),
+				objectField.getName(), locale -> objectField.getName(),
 				locale -> {
 					_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -243,7 +233,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 			HashMapBuilder.<String, EntityField>put(
 				"creator",
 				new StringEntityField(
-					"creator",
+					"creator", locale -> "creator",
 					locale -> {
 						_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -252,7 +242,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 			).put(
 				"creatorId",
 				new IntegerEntityField(
-					"creatorId",
+					"creatorId", locale -> Field.USER_ID,
 					locale -> {
 						_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -261,12 +251,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 			).put(
 				"dateCreated",
 				new DateTimeEntityField(
-					"dateCreated",
-					locale -> {
-						_verifyNoUnmodifiableSystemObject(objectDefinition);
-
-						return Field.CREATE_DATE;
-					},
+					"dateCreated", locale -> Field.CREATE_DATE,
 					locale -> {
 						_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -275,12 +260,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 			).put(
 				"dateModified",
 				new DateTimeEntityField(
-					"dateModified",
-					locale -> {
-						_verifyNoUnmodifiableSystemObject(objectDefinition);
-
-						return "modifiedDate";
-					},
+					"dateModified", locale -> "modifiedDate",
 					locale -> {
 						_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -289,7 +269,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 			).put(
 				"externalReferenceCode",
 				() -> new StringEntityField(
-					"externalReferenceCode",
+					"externalReferenceCode", locale -> "externalReferenceCode",
 					locale -> {
 						_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -298,7 +278,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 			).put(
 				"id",
 				new IdEntityField(
-					"id",
+					"id", locale -> "id",
 					locale -> {
 						_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -309,7 +289,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 				"keywords",
 				new CollectionEntityField(
 					new StringEntityField(
-						"keywords",
+						"keywords", locale -> "assetTagNames.lowercase",
 						locale -> {
 							_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -320,7 +300,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 				() -> {
 					IntegerEntityField statusEntityField =
 						new IntegerEntityField(
-							"status",
+							"status", locale -> Field.STATUS,
 							locale -> {
 								_verifyNoUnmodifiableSystemObject(
 									objectDefinition);
@@ -338,7 +318,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 				"taxonomyCategoryIds",
 				new CollectionEntityField(
 					new IntegerEntityField(
-						"taxonomyCategoryIds",
+						"taxonomyCategoryIds", locale -> "assetCategoryIds",
 						locale -> {
 							_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -347,7 +327,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 			).put(
 				"userId",
 				new IntegerEntityField(
-					"userId",
+					"userId", locale -> Field.USER_ID,
 					locale -> {
 						_verifyNoUnmodifiableSystemObject(objectDefinition);
 
@@ -418,7 +398,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 			entityFieldsMap.put(
 				relationshipIdName,
 				new IdEntityField(
-					relationshipIdName,
+					relationshipIdName, locale -> objectFieldName,
 					locale -> {
 						_verifyNoUnmodifiableSystemObject(
 							relatedObjectDefinition);

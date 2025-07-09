@@ -35,4 +35,13 @@ public class IntegerEntityField extends EntityField {
 			filterableAndSortableFieldNameFunction, String::valueOf);
 	}
 
+	public IntegerEntityField(
+		String name, Function<Locale, String> sortableFieldNameFunction,
+		Function<Locale, String> filterableFieldNameFunction) {
+
+		super(
+			name, Type.INTEGER, sortableFieldNameFunction,
+			filterableFieldNameFunction, String::valueOf);
+	}
+
 }

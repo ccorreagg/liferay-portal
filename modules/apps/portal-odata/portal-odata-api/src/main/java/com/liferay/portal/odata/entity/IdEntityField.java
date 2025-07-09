@@ -17,6 +17,16 @@ import java.util.function.Function;
  */
 public class IdEntityField extends EntityField {
 
+	public IdEntityField(
+		String name, Function<Locale, String> sortableFieldNameFunction,
+		Function<Locale, String> filterableFieldNameFunction,
+		Function<Object, String> filterableFieldValueFunction) {
+
+		super(
+			name, Type.ID, sortableFieldNameFunction,
+			filterableFieldNameFunction, filterableFieldValueFunction);
+	}
+
 	/**
 	 * Creates a new {@code IdEntityField} with a {@code Function} to convert
 	 * the entity field's name to a filterable/sortable field name for a locale.

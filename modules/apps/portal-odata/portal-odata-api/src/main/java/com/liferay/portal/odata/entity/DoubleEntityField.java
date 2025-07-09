@@ -35,4 +35,13 @@ public class DoubleEntityField extends EntityField {
 			filterableAndSortableFieldNameFunction, String::valueOf);
 	}
 
+	public DoubleEntityField(
+		String name, Function<Locale, String> sortableFieldNameFunction,
+		Function<Locale, String> filterableFieldNameFunction) {
+
+		super(
+			name, Type.DOUBLE, sortableFieldNameFunction,
+			filterableFieldNameFunction, String::valueOf);
+	}
+
 }
