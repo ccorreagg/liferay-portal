@@ -389,13 +389,7 @@ public class ObjectEntryEntityModel implements EntityModel {
 			entityFieldsMap.put(
 				objectFieldName,
 				new IdEntityField(
-					objectFieldName,
-					locale -> {
-						_verifyNoUnmodifiableSystemObject(
-							relatedObjectDefinition);
-
-						return objectFieldName;
-					},
+					objectFieldName, locale -> objectFieldName,
 					String::valueOf));
 
 			String objectRelationshipERCObjectFieldName =
