@@ -404,13 +404,19 @@ public class ObjectEntryEntityModel implements EntityModel {
 						NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
 					objectField);
 
+			String referenceFieldName =
+				objectFieldName.split(StringPool.UNDERLINE)[1] +
+					"/externalReferenceCode";
+
+			if (relatedObjectDefinition.isUnmodifiableSystemObject()) {
+				referenceFieldName = objectRelationshipERCObjectFieldName;
+			}
+
 			entityFieldsMap.put(
 				objectRelationshipERCObjectFieldName,
 				new ReferenceStringEntityField(
 					objectRelationshipERCObjectFieldName,
-					locale -> "externalReferenceCode",
-					objectFieldName.split(StringPool.UNDERLINE)[1] +
-						"/externalReferenceCode"));
+					locale -> objectFieldName, referenceFieldName));
 
 			String relationshipIdName = objectFieldName.substring(
 				objectFieldName.lastIndexOf(StringPool.UNDERLINE) + 1);
