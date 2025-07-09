@@ -15,7 +15,6 @@ import com.liferay.petra.sql.dsl.Column;
 import com.liferay.petra.sql.dsl.base.BaseTable;
 import com.liferay.petra.sql.dsl.expression.Predicate;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.odata.filter.InvalidFilterException;
 
 /**
  * @author Luis Miguel Barcos
