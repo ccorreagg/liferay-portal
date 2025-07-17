@@ -960,6 +960,11 @@ public class ObjectEntryResourceTest {
 					ObjectFieldUtil.createObjectField(
 						ObjectFieldConstants.BUSINESS_TYPE_TEXT,
 						ObjectFieldConstants.DB_TYPE_STRING, true, true, null,
+						RandomTestUtil.randomString(), _OBJECT_FIELD_NAME_TEXT,
+						false),
+					ObjectFieldUtil.createObjectField(
+						ObjectFieldConstants.BUSINESS_TYPE_TEXT,
+						ObjectFieldConstants.DB_TYPE_STRING, true, true, null,
 						RandomTestUtil.randomString(), _OBJECT_FIELD_NAME_2,
 						false)),
 				ObjectDefinitionConstants.SCOPE_SITE);
@@ -8972,7 +8977,7 @@ public class ObjectEntryResourceTest {
 	public void testPostCustomObjectEntryWithManyToOneRelationshipPriorities()
 		throws Exception {
 
-		// Custom object
+		// Many to one relationship between company scoped and company scoped
 
 		JSONObject customObjectJSONObject1 = HTTPTestUtil.invokeToJSONObject(
 			JSONUtil.put(
@@ -8996,7 +9001,126 @@ public class ObjectEntryResourceTest {
 
 		_testPostCustomObjectEntryWithManyToOneRelationshipPriorities(
 			customObjectJSONObject1, customObjectJSONObject2,
-			JSONFactoryUtil::createJSONObject, _objectRelationship1);
+			JSONFactoryUtil::createJSONObject, _objectDefinition2,
+			_objectRelationship1, null);
+
+		// Many to one relationship between company scoped and site scoped
+
+		customObjectJSONObject1 = HTTPTestUtil.invokeToJSONObject(
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1
+			).toString(),
+			_getEndpoint(_siteScopedObjectDefinition1, _testGroupId) +
+			"?fields=id,externalReferenceCode,scopeKey," + _OBJECT_FIELD_NAME_1,
+			Http.Method.POST);
+
+		customObjectJSONObject2 = HTTPTestUtil.invokeToJSONObject(
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, RandomTestUtil.randomString()
+			).toString(),
+			_getEndpoint(_siteScopedObjectDefinition1, _testGroupId) +
+			"?fields=id,externalReferenceCode,scopeKey," + _OBJECT_FIELD_NAME_1,
+			Http.Method.POST);
+
+		_objectRelationship2 = ObjectRelationshipTestUtil.addObjectRelationship(
+			_siteScopedObjectDefinition1, _objectDefinition1, TestPropsValues.getUserId(),
+			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
+
+		_testPostCustomObjectEntryWithManyToOneRelationshipPriorities(
+			customObjectJSONObject1, customObjectJSONObject2,
+			JSONFactoryUtil::createJSONObject, _objectDefinition1,
+			_objectRelationship2, String.valueOf(_testGroupId));
+
+		ObjectField objectField1 = _objectFieldLocalService.getObjectField(
+			_objectRelationship2.getObjectFieldId2());
+
+		_assertNotFound(
+			HTTPTestUtil.invokeToJSONObject(
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_TEXT, _OBJECT_FIELD_VALUE_2
+				).put(
+					objectField1.getName(), RandomTestUtil.randomLong()
+				).put(
+					ObjectFieldSettingUtil.getValue(
+						ObjectFieldSettingConstants.
+							NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
+						objectField1),
+					customObjectJSONObject1.getString("externalReferenceCode")
+				).toString(),
+				_getEndpoint(_objectDefinition1, _testGroupId), Http.Method.POST));
+
+		// Many to one relationship between site scoped and company scoped
+
+		customObjectJSONObject1 = HTTPTestUtil.invokeToJSONObject(
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1
+			).toString(),
+			_objectDefinition1.getRESTContextPath() +
+			"?fields=id,externalReferenceCode," + _OBJECT_FIELD_NAME_1,
+			Http.Method.POST);
+
+		customObjectJSONObject2 = HTTPTestUtil.invokeToJSONObject(
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, RandomTestUtil.randomString()
+			).toString(),
+			_objectDefinition1.getRESTContextPath() +
+			"?fields=id,externalReferenceCode," + _OBJECT_FIELD_NAME_1,
+			Http.Method.POST);
+
+		_objectRelationship3 = ObjectRelationshipTestUtil.addObjectRelationship(
+			_objectDefinition1, _siteScopedObjectDefinition1,
+			TestPropsValues.getUserId(),
+			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
+
+		_testPostCustomObjectEntryWithManyToOneRelationshipPriorities(
+			customObjectJSONObject1, customObjectJSONObject2,
+			JSONFactoryUtil::createJSONObject, _siteScopedObjectDefinition1,
+			_objectRelationship3, null);
+
+		// Many to one relationship between site scoped and site scoped
+
+		customObjectJSONObject1 = HTTPTestUtil.invokeToJSONObject(
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1
+			).toString(),
+			_getEndpoint(_siteScopedObjectDefinition1, _testGroupId) +
+			"?fields=id,externalReferenceCode,scopeKey," + _OBJECT_FIELD_NAME_1,
+			Http.Method.POST);
+
+		customObjectJSONObject2 = HTTPTestUtil.invokeToJSONObject(
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, RandomTestUtil.randomString()
+			).toString(),
+			_getEndpoint(_siteScopedObjectDefinition1, _testGroupId) +
+			"?fields=id,externalReferenceCode,scopeKey," + _OBJECT_FIELD_NAME_1,
+			Http.Method.POST);
+
+		_objectRelationship4 = ObjectRelationshipTestUtil.addObjectRelationship(
+			_siteScopedObjectDefinition1, _siteScopedObjectDefinition2, TestPropsValues.getUserId(),
+			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
+
+		_testPostCustomObjectEntryWithManyToOneRelationshipPriorities(
+			customObjectJSONObject1, customObjectJSONObject2,
+			JSONFactoryUtil::createJSONObject, _siteScopedObjectDefinition2,
+			_objectRelationship4, String.valueOf(_testGroupId));
+
+		ObjectField objectField2 = _objectFieldLocalService.getObjectField(
+			_objectRelationship4.getObjectFieldId2());
+
+		_assertNotFound(
+			HTTPTestUtil.invokeToJSONObject(
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_TEXT, _OBJECT_FIELD_VALUE_2
+				).put(
+					objectField2.getName(), RandomTestUtil.randomLong()
+				).put(
+					ObjectFieldSettingUtil.getValue(
+						ObjectFieldSettingConstants.
+							NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
+						objectField2),
+					customObjectJSONObject1.getString("externalReferenceCode")
+				).toString(),
+				_getEndpoint(_objectDefinition1, _group.getGroupId()), Http.Method.POST));
 
 		// System object
 
@@ -9014,7 +9138,7 @@ public class ObjectEntryResourceTest {
 					_OBJECT_FIELD_NAME_2, RandomTestUtil.randomString()
 				).build());
 
-		_objectRelationship2 = ObjectRelationshipTestUtil.addObjectRelationship(
+		_objectRelationship5 = ObjectRelationshipTestUtil.addObjectRelationship(
 			_userSystemObjectDefinition, _objectDefinition2,
 			TestPropsValues.getUserId(),
 			ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
@@ -9024,7 +9148,7 @@ public class ObjectEntryResourceTest {
 			() -> JSONFactoryUtil.createJSONObject(
 				UserAccountTestUtil.randomUserAccount(
 				).toString()),
-			_objectRelationship2);
+			_objectDefinition2, _objectRelationship5, null);
 	}
 
 	@Test
@@ -17421,7 +17545,8 @@ public class ObjectEntryResourceTest {
 	private void _testPostCustomObjectEntryWithManyToOneRelationshipPriorities(
 			JSONObject jsonObject1, JSONObject jsonObject2,
 			UnsafeSupplier<JSONObject, Exception> jsonObjectUnsafeSupplier,
-			ObjectRelationship objectRelationship)
+			ObjectDefinition objectDefinition,
+			ObjectRelationship objectRelationship, String scopeKey)
 		throws Exception {
 
 		ObjectField objectField = _objectFieldLocalService.getObjectField(
@@ -17435,11 +17560,14 @@ public class ObjectEntryResourceTest {
 					NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
 				objectField);
 
+		String objectRelationshipScopeKeyObjectFieldName =
+			StringUtil.replaceLast(objectRelationshipERCObjectFieldName, "ERC", "ScopeKey");
+
 		// priority(ERC) > priority(invalid id)
 
 		JSONAssert.assertEquals(
 			JSONUtil.put(
-				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
+				_OBJECT_FIELD_NAME_TEXT, String.valueOf(_OBJECT_FIELD_VALUE_2)
 			).put(
 				objectFieldName, Long.valueOf(jsonObject1.getLong("id"))
 			).put(
@@ -17448,14 +17576,17 @@ public class ObjectEntryResourceTest {
 			).toString(),
 			HTTPTestUtil.invokeToJSONObject(
 				JSONUtil.put(
-					_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+					_OBJECT_FIELD_NAME_TEXT, _OBJECT_FIELD_VALUE_2
 				).put(
 					objectFieldName, RandomTestUtil.randomLong()
 				).put(
 					objectRelationshipERCObjectFieldName,
 					jsonObject1.getString("externalReferenceCode")
+				).put(
+					objectRelationshipScopeKeyObjectFieldName,
+					() -> scopeKey
 				).toString(),
-				_objectDefinition2.getRESTContextPath(), Http.Method.POST
+				_getEndpoint(objectDefinition, _testGroupId), Http.Method.POST
 			).toString(),
 			JSONCompareMode.LENIENT);
 
@@ -17463,7 +17594,7 @@ public class ObjectEntryResourceTest {
 
 		JSONAssert.assertEquals(
 			JSONUtil.put(
-				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
+				_OBJECT_FIELD_NAME_TEXT, String.valueOf(_OBJECT_FIELD_VALUE_2)
 			).put(
 				objectFieldName, Long.valueOf(jsonObject1.getLong("id"))
 			).put(
@@ -17472,14 +17603,17 @@ public class ObjectEntryResourceTest {
 			).toString(),
 			HTTPTestUtil.invokeToJSONObject(
 				JSONUtil.put(
-					_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+					_OBJECT_FIELD_NAME_TEXT, _OBJECT_FIELD_VALUE_2
 				).put(
 					objectFieldName, jsonObject1.getLong("id")
 				).put(
 					objectRelationshipERCObjectFieldName,
 					jsonObject2.getString("externalReferenceCode")
+				).put(
+					objectRelationshipScopeKeyObjectFieldName,
+					() -> scopeKey
 				).toString(),
-				_objectDefinition2.getRESTContextPath(), Http.Method.POST
+				_getEndpoint(objectDefinition, _testGroupId), Http.Method.POST
 			).toString(),
 			JSONCompareMode.LENIENT);
 
@@ -17489,7 +17623,7 @@ public class ObjectEntryResourceTest {
 
 		JSONObject actualJSONObject1 = HTTPTestUtil.invokeToJSONObject(
 			JSONUtil.put(
-				_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+				_OBJECT_FIELD_NAME_TEXT, _OBJECT_FIELD_VALUE_2
 			).put(
 				objectFieldName, jsonObject2.getLong("id")
 			).put(
@@ -17497,12 +17631,15 @@ public class ObjectEntryResourceTest {
 				jsonObject2.getString("externalReferenceCode")
 			).put(
 				objectRelationshipName, jsonObject1
+			).put(
+				objectRelationshipScopeKeyObjectFieldName,
+				() -> scopeKey
 			).toString(),
-			_objectDefinition2.getRESTContextPath(), Http.Method.POST);
+			_getEndpoint(objectDefinition, _testGroupId), Http.Method.POST);
 
 		JSONAssert.assertEquals(
 			JSONUtil.put(
-				_OBJECT_FIELD_NAME_2, String.valueOf(_OBJECT_FIELD_VALUE_2)
+				_OBJECT_FIELD_NAME_TEXT, String.valueOf(_OBJECT_FIELD_VALUE_2)
 			).put(
 				objectFieldName, Long.valueOf(jsonObject1.getLong("id"))
 			).put(
@@ -17519,16 +17656,19 @@ public class ObjectEntryResourceTest {
 
 		JSONObject actualJSONObject2 = HTTPTestUtil.invokeToJSONObject(
 			JSONUtil.put(
-				_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+				_OBJECT_FIELD_NAME_TEXT, _OBJECT_FIELD_VALUE_2
 			).put(
 				objectFieldName, jsonObject1.getLong("id")
 			).put(
 				objectRelationshipERCObjectFieldName,
 				jsonObject1.getString("externalReferenceCode")
 			).put(
+				objectRelationshipScopeKeyObjectFieldName,
+				() -> scopeKey
+			).put(
 				objectRelationshipName, jsonObjectUnsafeSupplier.get()
 			).toString(),
-			_objectDefinition2.getRESTContextPath(), Http.Method.POST);
+			_getEndpoint(objectDefinition, _testGroupId), Http.Method.POST);
 
 		Assert.assertNotEquals(
 			jsonObject1.getLong("id"),
@@ -17551,12 +17691,13 @@ public class ObjectEntryResourceTest {
 				).toString(),
 				HTTPTestUtil.invokeToJSONObject(
 					JSONUtil.put(
-						_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+						_OBJECT_FIELD_NAME_TEXT, _OBJECT_FIELD_VALUE_2
 					).put(
 						objectRelationshipERCObjectFieldName,
 						RandomTestUtil.randomString()
 					).toString(),
-					_objectDefinition2.getRESTContextPath(), Http.Method.POST
+					_getEndpoint(objectDefinition, _testGroupId),
+					Http.Method.POST
 				).toString(),
 				JSONCompareMode.LENIENT);
 
@@ -17568,14 +17709,15 @@ public class ObjectEntryResourceTest {
 				).toString(),
 				HTTPTestUtil.invokeToJSONObject(
 					JSONUtil.put(
-						_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+						_OBJECT_FIELD_NAME_TEXT, _OBJECT_FIELD_VALUE_2
 					).put(
 						objectFieldName, RandomTestUtil.randomLong()
 					).put(
 						objectRelationshipERCObjectFieldName,
 						RandomTestUtil.randomString()
 					).toString(),
-					_objectDefinition2.getRESTContextPath(), Http.Method.POST
+					_getEndpoint(objectDefinition, _testGroupId),
+					Http.Method.POST
 				).toString(),
 				JSONCompareMode.LENIENT);
 		}
