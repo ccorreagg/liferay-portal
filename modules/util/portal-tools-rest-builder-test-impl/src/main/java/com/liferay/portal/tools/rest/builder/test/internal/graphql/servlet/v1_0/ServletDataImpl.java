@@ -534,6 +534,11 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							TestEntityResourceImpl.class,
 							"putTestEntityBatch"));
+					put(
+						"mutation#updateTestEntityStatus",
+						new ObjectValuePair<>(
+							TestEntityResourceImpl.class,
+							"putTestEntityStatus"));
 
 					put(
 						"query#assetLibraryAssetLibraryTestEntities",
