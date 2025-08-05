@@ -90,39 +90,6 @@ info:
     version: v1.0
 openapi: 3.0.1
 paths:
-    "/bulk-action/delete":
-        post:
-            description:
-                Execute the bulk delete change action.
-            parameters:
-                -   in: query
-                    name: filter
-                    required: false
-                    schema:
-                        type: string
-                -   in: query
-                    name: search
-                    required: false
-                    schema:
-                        type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/DeleteDefinition"
-                    application/xml:
-                        schema:
-                            $ref: "#/components/schemas/DeleteDefinition"
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-            tags: ["BulkAction"]
     "/bulk-action/categories":
         post:
             description:
@@ -146,6 +113,39 @@ paths:
                     application/xml:
                         schema:
                             $ref: "#/components/schemas/CategoryDefinition"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/BulkActionTask"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/BulkActionTask"
+            tags: ["BulkAction"]
+    "/bulk-action/delete":
+        post:
+            description:
+                Execute the bulk delete change action.
+            parameters:
+                -   in: query
+                    name: filter
+                    required: false
+                    schema:
+                        type: string
+                -   in: query
+                    name: search
+                    required: false
+                    schema:
+                        type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/DeleteDefinition"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/DeleteDefinition"
             responses:
                 200:
                     content:
