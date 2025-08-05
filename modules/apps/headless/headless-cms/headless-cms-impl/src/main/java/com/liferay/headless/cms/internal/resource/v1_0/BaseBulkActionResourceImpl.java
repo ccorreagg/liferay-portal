@@ -5,13 +5,8 @@
 
 package com.liferay.headless.cms.internal.resource.v1_0;
 
+import com.liferay.headless.cms.dto.v1_0.BulkActionDefinition;
 import com.liferay.headless.cms.dto.v1_0.BulkActionTask;
-import com.liferay.headless.cms.dto.v1_0.CMSEntryDefinition;
-import com.liferay.headless.cms.dto.v1_0.CategoryDefinition;
-import com.liferay.headless.cms.dto.v1_0.MoveDefinition;
-import com.liferay.headless.cms.dto.v1_0.PermissionDefinition;
-import com.liferay.headless.cms.dto.v1_0.StatusDefinition;
-import com.liferay.headless.cms.dto.v1_0.TagDefinition;
 import com.liferay.headless.cms.resource.v1_0.BulkActionResource;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
@@ -36,7 +31,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import jakarta.ws.rs.core.MultivaluedMap;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.util.Collection;
@@ -55,10 +49,10 @@ public abstract class BaseBulkActionResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-cms/v1.0/bulk-action'  -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/headless-cms/v1.0/bulk-action' -d $'{"cmsEntryDefinitions": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
-		description = "Execute the bulk remove change action."
+		description = "Execute a bulk action"
 	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -76,264 +70,17 @@ public abstract class BaseBulkActionResourceImpl
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "BulkAction")}
 	)
 	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
-	@jakarta.ws.rs.DELETE
 	@jakarta.ws.rs.Path("/bulk-action")
-	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
-	@Override
-	public BulkActionTask deleteBulkAction(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@jakarta.ws.rs.QueryParam("search")
-			String search,
-			@jakarta.ws.rs.core.Context
-				com.liferay.portal.kernel.search.filter.Filter filter,
-			CMSEntryDefinition[] cmsEntryDefinitions)
-		throws Exception {
-
-		return new BulkActionTask();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-cms/v1.0/bulk-action/batch'  -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "filter"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "search"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "callbackURL"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "BulkAction")}
-	)
-	@jakarta.ws.rs.Consumes("application/json")
-	@jakarta.ws.rs.DELETE
-	@jakarta.ws.rs.Path("/bulk-action/batch")
-	@jakarta.ws.rs.Produces("application/json")
-	@Override
-	public Response deleteBulkActionBatch(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@jakarta.ws.rs.QueryParam("search")
-			String search,
-			@jakarta.ws.rs.core.Context
-				com.liferay.portal.kernel.search.filter.Filter filter,
-			CMSEntryDefinition[] cmsEntryDefinitions,
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@jakarta.ws.rs.QueryParam("callbackURL")
-			String callbackURL,
-			Object object)
-		throws Exception {
-
-		Response.ResponseBuilder responseBuilder = Response.ok();
-
-		return responseBuilder.build();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-cms/v1.0/bulk-action/categories' -d $'{"taxonomyCategoryIds": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Operation(
-		description = "Execute the bulk category change action"
-	)
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "filter"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "search"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "BulkAction")}
-	)
-	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
-	@jakarta.ws.rs.Path("/bulk-action/categories")
 	@jakarta.ws.rs.POST
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public BulkActionTask postBulkActionCategory(
+	public BulkActionTask postBulkAction(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.ws.rs.QueryParam("search")
 			String search,
 			@jakarta.ws.rs.core.Context
 				com.liferay.portal.kernel.search.filter.Filter filter,
-			CategoryDefinition categoryDefinition)
-		throws Exception {
-
-		return new BulkActionTask();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-cms/v1.0/bulk-action/move' -d $'{"objectEntryFolderId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Operation(
-		description = "Execute the bulk move change action."
-	)
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "filter"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "search"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "BulkAction")}
-	)
-	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
-	@jakarta.ws.rs.Path("/bulk-action/move")
-	@jakarta.ws.rs.POST
-	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
-	@Override
-	public BulkActionTask postBulkActionMove(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@jakarta.ws.rs.QueryParam("search")
-			String search,
-			@jakarta.ws.rs.core.Context
-				com.liferay.portal.kernel.search.filter.Filter filter,
-			MoveDefinition moveDefinition)
-		throws Exception {
-
-		return new BulkActionTask();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-cms/v1.0/bulk-action/permissions' -d $'{"permissions": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Operation(
-		description = "Execute the bulk permission change action."
-	)
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "filter"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "search"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "BulkAction")}
-	)
-	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
-	@jakarta.ws.rs.Path("/bulk-action/permissions")
-	@jakarta.ws.rs.POST
-	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
-	@Override
-	public BulkActionTask postBulkActionPermission(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@jakarta.ws.rs.QueryParam("search")
-			String search,
-			@jakarta.ws.rs.core.Context
-				com.liferay.portal.kernel.search.filter.Filter filter,
-			PermissionDefinition permissionDefinition)
-		throws Exception {
-
-		return new BulkActionTask();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-cms/v1.0/bulk-action/status' -d $'{"status": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Operation(
-		description = "Execute the bulk status change action"
-	)
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "filter"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "search"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "BulkAction")}
-	)
-	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
-	@jakarta.ws.rs.Path("/bulk-action/status")
-	@jakarta.ws.rs.POST
-	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
-	@Override
-	public BulkActionTask postBulkActionStatus(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@jakarta.ws.rs.QueryParam("search")
-			String search,
-			@jakarta.ws.rs.core.Context
-				com.liferay.portal.kernel.search.filter.Filter filter,
-			StatusDefinition statusDefinition)
-		throws Exception {
-
-		return new BulkActionTask();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-cms/v1.0/bulk-action/tags' -d $'{"keywords": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Operation(
-		description = "Execute the bulk tag change action"
-	)
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "filter"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "search"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "BulkAction")}
-	)
-	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
-	@jakarta.ws.rs.Path("/bulk-action/tags")
-	@jakarta.ws.rs.POST
-	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
-	@Override
-	public BulkActionTask postBulkActionTag(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@jakarta.ws.rs.QueryParam("search")
-			String search,
-			@jakarta.ws.rs.core.Context
-				com.liferay.portal.kernel.search.filter.Filter filter,
-			TagDefinition tagDefinition)
+			BulkActionDefinition bulkActionDefinition)
 		throws Exception {
 
 		return new BulkActionTask();

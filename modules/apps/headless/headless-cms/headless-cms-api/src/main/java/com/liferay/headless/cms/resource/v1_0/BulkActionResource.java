@@ -5,13 +5,8 @@
 
 package com.liferay.headless.cms.resource.v1_0;
 
+import com.liferay.headless.cms.dto.v1_0.BulkActionDefinition;
 import com.liferay.headless.cms.dto.v1_0.BulkActionTask;
-import com.liferay.headless.cms.dto.v1_0.CMSEntryDefinition;
-import com.liferay.headless.cms.dto.v1_0.CategoryDefinition;
-import com.liferay.headless.cms.dto.v1_0.MoveDefinition;
-import com.liferay.headless.cms.dto.v1_0.PermissionDefinition;
-import com.liferay.headless.cms.dto.v1_0.StatusDefinition;
-import com.liferay.headless.cms.dto.v1_0.TagDefinition;
 import com.liferay.portal.kernel.change.tracking.CTAware;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
@@ -27,7 +22,6 @@ import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.util.Collections;
@@ -50,47 +44,10 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface BulkActionResource {
 
-	public BulkActionTask deleteBulkAction(
+	public BulkActionTask postBulkAction(
 			String search,
 			com.liferay.portal.kernel.search.filter.Filter filter,
-			CMSEntryDefinition[] cmsEntryDefinitions)
-		throws Exception;
-
-	public Response deleteBulkActionBatch(
-			String search,
-			com.liferay.portal.kernel.search.filter.Filter filter,
-			CMSEntryDefinition[] cmsEntryDefinitions, String callbackURL,
-			Object object)
-		throws Exception;
-
-	public BulkActionTask postBulkActionCategory(
-			String search,
-			com.liferay.portal.kernel.search.filter.Filter filter,
-			CategoryDefinition categoryDefinition)
-		throws Exception;
-
-	public BulkActionTask postBulkActionMove(
-			String search,
-			com.liferay.portal.kernel.search.filter.Filter filter,
-			MoveDefinition moveDefinition)
-		throws Exception;
-
-	public BulkActionTask postBulkActionPermission(
-			String search,
-			com.liferay.portal.kernel.search.filter.Filter filter,
-			PermissionDefinition permissionDefinition)
-		throws Exception;
-
-	public BulkActionTask postBulkActionStatus(
-			String search,
-			com.liferay.portal.kernel.search.filter.Filter filter,
-			StatusDefinition statusDefinition)
-		throws Exception;
-
-	public BulkActionTask postBulkActionTag(
-			String search,
-			com.liferay.portal.kernel.search.filter.Filter filter,
-			TagDefinition tagDefinition)
+			BulkActionDefinition bulkActionDefinition)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

@@ -45,6 +45,7 @@ import java.util.function.Supplier;
 @JsonSubTypes(
 	{
 		@JsonSubTypes.Type(name = "Category", value = CategoryDefinition.class),
+		@JsonSubTypes.Type(name = "Delete", value = DeleteDefinition.class),
 		@JsonSubTypes.Type(name = "Move", value = MoveDefinition.class),
 		@JsonSubTypes.Type(
 			name = "Permission", value = PermissionDefinition.class
@@ -247,8 +248,8 @@ public abstract class BulkActionDefinition implements Serializable {
 	@GraphQLName("Type")
 	public static enum Type {
 
-		CATEGORY("Category"), MOVE("Move"), PERMISSION("Permission"),
-		STATUS("Status"), TAG("Tag");
+		CATEGORY("Category"), DELETE("Delete"), MOVE("Move"),
+		PERMISSION("Permission"), STATUS("Status"), TAG("Tag");
 
 		@JsonCreator
 		public static Type create(String value) {

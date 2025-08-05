@@ -110,8 +110,8 @@ public abstract class BulkActionDefinition implements Cloneable, Serializable {
 
 	public static enum Type {
 
-		CATEGORY("Category"), MOVE("Move"), PERMISSION("Permission"),
-		STATUS("Status"), TAG("Tag");
+		CATEGORY("Category"), DELETE("Delete"), MOVE("Move"),
+		PERMISSION("Permission"), STATUS("Status"), TAG("Tag");
 
 		public static Type create(String value) {
 			for (Type type : values()) {
