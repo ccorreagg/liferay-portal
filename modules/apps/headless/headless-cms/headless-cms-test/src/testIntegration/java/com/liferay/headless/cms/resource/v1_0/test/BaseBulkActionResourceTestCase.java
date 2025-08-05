@@ -107,17 +107,12 @@ public abstract class BaseBulkActionResourceTestCase {
 	}
 
 	@Test
-	public void testDeleteBulkAction() throws Exception {
-		Assert.assertTrue(false);
-	}
-
-	@Test
-	public void testGraphQLDeleteBulkAction() throws Exception {
-		Assert.assertTrue(false);
-	}
-
-	@Test
 	public void testPostBulkActionCategory() throws Exception {
+		Assert.assertTrue(true);
+	}
+
+	@Test
+	public void testPostBulkActionDelete() throws Exception {
 		Assert.assertTrue(true);
 	}
 
@@ -132,7 +127,7 @@ public abstract class BaseBulkActionResourceTestCase {
 	}
 
 	@Test
-	public void testPostBulkActionStatus() throws Exception {
+	public void testPostBulkActionStatu() throws Exception {
 		Assert.assertTrue(true);
 	}
 

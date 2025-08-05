@@ -6,8 +6,8 @@
 package com.liferay.headless.cms.resource.v1_0;
 
 import com.liferay.headless.cms.dto.v1_0.BulkActionTask;
-import com.liferay.headless.cms.dto.v1_0.CMSEntryDefinition;
 import com.liferay.headless.cms.dto.v1_0.CategoryDefinition;
+import com.liferay.headless.cms.dto.v1_0.DeleteDefinition;
 import com.liferay.headless.cms.dto.v1_0.MoveDefinition;
 import com.liferay.headless.cms.dto.v1_0.PermissionDefinition;
 import com.liferay.headless.cms.dto.v1_0.StatusDefinition;
@@ -27,7 +27,6 @@ import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.util.Collections;
@@ -50,23 +49,16 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface BulkActionResource {
 
-	public BulkActionTask deleteBulkAction(
-			String search,
-			com.liferay.portal.kernel.search.filter.Filter filter,
-			CMSEntryDefinition[] cmsEntryDefinitions)
-		throws Exception;
-
-	public Response deleteBulkActionBatch(
-			String search,
-			com.liferay.portal.kernel.search.filter.Filter filter,
-			CMSEntryDefinition[] cmsEntryDefinitions, String callbackURL,
-			Object object)
-		throws Exception;
-
 	public BulkActionTask postBulkActionCategory(
 			String search,
 			com.liferay.portal.kernel.search.filter.Filter filter,
 			CategoryDefinition categoryDefinition)
+		throws Exception;
+
+	public BulkActionTask postBulkActionDelete(
+			String search,
+			com.liferay.portal.kernel.search.filter.Filter filter,
+			DeleteDefinition deleteDefinition)
 		throws Exception;
 
 	public BulkActionTask postBulkActionMove(
@@ -81,7 +73,7 @@ public interface BulkActionResource {
 			PermissionDefinition permissionDefinition)
 		throws Exception;
 
-	public BulkActionTask postBulkActionStatus(
+	public BulkActionTask postBulkActionStatu(
 			String search,
 			com.liferay.portal.kernel.search.filter.Filter filter,
 			StatusDefinition statusDefinition)

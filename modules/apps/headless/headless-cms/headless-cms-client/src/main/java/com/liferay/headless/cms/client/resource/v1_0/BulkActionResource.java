@@ -6,8 +6,8 @@
 package com.liferay.headless.cms.client.resource.v1_0;
 
 import com.liferay.headless.cms.client.dto.v1_0.BulkActionTask;
-import com.liferay.headless.cms.client.dto.v1_0.CMSEntryDefinition;
 import com.liferay.headless.cms.client.dto.v1_0.CategoryDefinition;
+import com.liferay.headless.cms.client.dto.v1_0.DeleteDefinition;
 import com.liferay.headless.cms.client.dto.v1_0.MoveDefinition;
 import com.liferay.headless.cms.client.dto.v1_0.PermissionDefinition;
 import com.liferay.headless.cms.client.dto.v1_0.StatusDefinition;
@@ -20,9 +20,7 @@ import jakarta.annotation.Generated;
 
 import java.net.URL;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -40,28 +38,6 @@ public interface BulkActionResource {
 		return new Builder();
 	}
 
-	public BulkActionTask deleteBulkAction(
-			String search, String filterString,
-			CMSEntryDefinition[] cmsEntryDefinitions)
-		throws Exception;
-
-	public HttpInvoker.HttpResponse deleteBulkActionHttpResponse(
-			String search, String filterString,
-			CMSEntryDefinition[] cmsEntryDefinitions)
-		throws Exception;
-
-	public void deleteBulkActionBatch(
-			String search, String filterString,
-			CMSEntryDefinition[] cmsEntryDefinitions, String callbackURL,
-			Object object)
-		throws Exception;
-
-	public HttpInvoker.HttpResponse deleteBulkActionBatchHttpResponse(
-			String search, String filterString,
-			CMSEntryDefinition[] cmsEntryDefinitions, String callbackURL,
-			Object object)
-		throws Exception;
-
 	public BulkActionTask postBulkActionCategory(
 			String search, String filterString,
 			CategoryDefinition categoryDefinition)
@@ -70,6 +46,16 @@ public interface BulkActionResource {
 	public HttpInvoker.HttpResponse postBulkActionCategoryHttpResponse(
 			String search, String filterString,
 			CategoryDefinition categoryDefinition)
+		throws Exception;
+
+	public BulkActionTask postBulkActionDelete(
+			String search, String filterString,
+			DeleteDefinition deleteDefinition)
+		throws Exception;
+
+	public HttpInvoker.HttpResponse postBulkActionDeleteHttpResponse(
+			String search, String filterString,
+			DeleteDefinition deleteDefinition)
 		throws Exception;
 
 	public BulkActionTask postBulkActionMove(
@@ -90,12 +76,12 @@ public interface BulkActionResource {
 			PermissionDefinition permissionDefinition)
 		throws Exception;
 
-	public BulkActionTask postBulkActionStatus(
+	public BulkActionTask postBulkActionStatu(
 			String search, String filterString,
 			StatusDefinition statusDefinition)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse postBulkActionStatusHttpResponse(
+	public HttpInvoker.HttpResponse postBulkActionStatuHttpResponse(
 			String search, String filterString,
 			StatusDefinition statusDefinition)
 		throws Exception;
@@ -216,245 +202,6 @@ public interface BulkActionResource {
 
 	public static class BulkActionResourceImpl implements BulkActionResource {
 
-		public BulkActionTask deleteBulkAction(
-				String search, String filterString,
-				CMSEntryDefinition[] cmsEntryDefinitions)
-			throws Exception {
-
-			HttpInvoker.HttpResponse httpResponse =
-				deleteBulkActionHttpResponse(
-					search, filterString, cmsEntryDefinitions);
-
-			String content = httpResponse.getContent();
-
-			if ((httpResponse.getStatusCode() / 100) != 2) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response content: " + content);
-				_logger.log(
-					Level.WARNING,
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.log(
-					Level.WARNING,
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-
-				Problem.ProblemException problemException = null;
-
-				if (Objects.equals(
-						httpResponse.getContentType(), "application/json")) {
-
-					problemException = new Problem.ProblemException(
-						Problem.toDTO(content));
-				}
-				else {
-					_logger.log(
-						Level.WARNING,
-						"Unable to process content type: " +
-							httpResponse.getContentType());
-
-					Problem problem = new Problem();
-
-					problem.setStatus(
-						String.valueOf(httpResponse.getStatusCode()));
-
-					problemException = new Problem.ProblemException(problem);
-				}
-
-				throw problemException;
-			}
-			else {
-				_logger.fine("HTTP response content: " + content);
-				_logger.fine(
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.fine(
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-			}
-
-			try {
-				return BulkActionTaskSerDes.toDTO(content);
-			}
-			catch (Exception e) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
-
-				throw new Problem.ProblemException(Problem.toDTO(content));
-			}
-		}
-
-		public HttpInvoker.HttpResponse deleteBulkActionHttpResponse(
-				String search, String filterString,
-				CMSEntryDefinition[] cmsEntryDefinitions)
-			throws Exception {
-
-			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
-
-			List<String> values = new ArrayList<>();
-
-			for (CMSEntryDefinition cmsEntryDefinitionValue :
-					cmsEntryDefinitions) {
-
-				values.add(String.valueOf(cmsEntryDefinitionValue));
-			}
-
-			httpInvoker.body(values.toString(), "application/json");
-
-			if (_builder._locale != null) {
-				httpInvoker.header(
-					"Accept-Language", _builder._locale.toLanguageTag());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._headers.entrySet()) {
-
-				httpInvoker.header(entry.getKey(), entry.getValue());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._parameters.entrySet()) {
-
-				httpInvoker.parameter(entry.getKey(), entry.getValue());
-			}
-
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
-
-			if (search != null) {
-				httpInvoker.parameter("search", String.valueOf(search));
-			}
-
-			if (filterString != null) {
-				httpInvoker.parameter("filter", filterString);
-			}
-
-			httpInvoker.path(
-				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + _builder._contextPath +
-						"/o/headless-cms/v1.0/bulk-action");
-
-			if ((_builder._login != null) && (_builder._password != null)) {
-				httpInvoker.userNameAndPassword(
-					_builder._login + ":" + _builder._password);
-			}
-
-			return httpInvoker.invoke();
-		}
-
-		public void deleteBulkActionBatch(
-				String search, String filterString,
-				CMSEntryDefinition[] cmsEntryDefinitions, String callbackURL,
-				Object object)
-			throws Exception {
-
-			HttpInvoker.HttpResponse httpResponse =
-				deleteBulkActionBatchHttpResponse(
-					search, filterString, cmsEntryDefinitions, callbackURL,
-					object);
-
-			String content = httpResponse.getContent();
-
-			if ((httpResponse.getStatusCode() / 100) != 2) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response content: " + content);
-				_logger.log(
-					Level.WARNING,
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.log(
-					Level.WARNING,
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-
-				Problem.ProblemException problemException = null;
-
-				if (Objects.equals(
-						httpResponse.getContentType(), "application/json")) {
-
-					problemException = new Problem.ProblemException(
-						Problem.toDTO(content));
-				}
-				else {
-					_logger.log(
-						Level.WARNING,
-						"Unable to process content type: " +
-							httpResponse.getContentType());
-
-					Problem problem = new Problem();
-
-					problem.setStatus(
-						String.valueOf(httpResponse.getStatusCode()));
-
-					problemException = new Problem.ProblemException(problem);
-				}
-
-				throw problemException;
-			}
-			else {
-				_logger.fine("HTTP response content: " + content);
-				_logger.fine(
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.fine(
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-			}
-		}
-
-		public HttpInvoker.HttpResponse deleteBulkActionBatchHttpResponse(
-				String search, String filterString,
-				CMSEntryDefinition[] cmsEntryDefinitions, String callbackURL,
-				Object object)
-			throws Exception {
-
-			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
-
-			httpInvoker.body(object.toString(), "application/json");
-
-			if (_builder._locale != null) {
-				httpInvoker.header(
-					"Accept-Language", _builder._locale.toLanguageTag());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._headers.entrySet()) {
-
-				httpInvoker.header(entry.getKey(), entry.getValue());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._parameters.entrySet()) {
-
-				httpInvoker.parameter(entry.getKey(), entry.getValue());
-			}
-
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
-
-			if (search != null) {
-				httpInvoker.parameter("search", String.valueOf(search));
-			}
-
-			if (filterString != null) {
-				httpInvoker.parameter("filter", filterString);
-			}
-
-			if (callbackURL != null) {
-				httpInvoker.parameter(
-					"callbackURL", String.valueOf(callbackURL));
-			}
-
-			httpInvoker.path(
-				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + _builder._contextPath +
-						"/o/headless-cms/v1.0/bulk-action/batch");
-
-			if ((_builder._login != null) && (_builder._password != null)) {
-				httpInvoker.userNameAndPassword(
-					_builder._login + ":" + _builder._password);
-			}
-
-			return httpInvoker.invoke();
-		}
-
 		public BulkActionTask postBulkActionCategory(
 				String search, String filterString,
 				CategoryDefinition categoryDefinition)
@@ -563,6 +310,123 @@ public interface BulkActionResource {
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
 						"/o/headless-cms/v1.0/bulk-action/categories");
+
+			if ((_builder._login != null) && (_builder._password != null)) {
+				httpInvoker.userNameAndPassword(
+					_builder._login + ":" + _builder._password);
+			}
+
+			return httpInvoker.invoke();
+		}
+
+		public BulkActionTask postBulkActionDelete(
+				String search, String filterString,
+				DeleteDefinition deleteDefinition)
+			throws Exception {
+
+			HttpInvoker.HttpResponse httpResponse =
+				postBulkActionDeleteHttpResponse(
+					search, filterString, deleteDefinition);
+
+			String content = httpResponse.getContent();
+
+			if ((httpResponse.getStatusCode() / 100) != 2) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response content: " + content);
+				_logger.log(
+					Level.WARNING,
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.log(
+					Level.WARNING,
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+
+				Problem.ProblemException problemException = null;
+
+				if (Objects.equals(
+						httpResponse.getContentType(), "application/json")) {
+
+					problemException = new Problem.ProblemException(
+						Problem.toDTO(content));
+				}
+				else {
+					_logger.log(
+						Level.WARNING,
+						"Unable to process content type: " +
+							httpResponse.getContentType());
+
+					Problem problem = new Problem();
+
+					problem.setStatus(
+						String.valueOf(httpResponse.getStatusCode()));
+
+					problemException = new Problem.ProblemException(problem);
+				}
+
+				throw problemException;
+			}
+			else {
+				_logger.fine("HTTP response content: " + content);
+				_logger.fine(
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.fine(
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+			}
+
+			try {
+				return BulkActionTaskSerDes.toDTO(content);
+			}
+			catch (Exception e) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response: " + content, e);
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+		}
+
+		public HttpInvoker.HttpResponse postBulkActionDeleteHttpResponse(
+				String search, String filterString,
+				DeleteDefinition deleteDefinition)
+			throws Exception {
+
+			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+			httpInvoker.body(deleteDefinition.toString(), "application/json");
+
+			if (_builder._locale != null) {
+				httpInvoker.header(
+					"Accept-Language", _builder._locale.toLanguageTag());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._headers.entrySet()) {
+
+				httpInvoker.header(entry.getKey(), entry.getValue());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._parameters.entrySet()) {
+
+				httpInvoker.parameter(entry.getKey(), entry.getValue());
+			}
+
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
+
+			if (search != null) {
+				httpInvoker.parameter("search", String.valueOf(search));
+			}
+
+			if (filterString != null) {
+				httpInvoker.parameter("filter", filterString);
+			}
+
+			httpInvoker.path(
+				_builder._scheme + "://" + _builder._host + ":" +
+					_builder._port + _builder._contextPath +
+						"/o/headless-cms/v1.0/bulk-action/delete");
 
 			if ((_builder._login != null) && (_builder._password != null)) {
 				httpInvoker.userNameAndPassword(
@@ -807,13 +671,13 @@ public interface BulkActionResource {
 			return httpInvoker.invoke();
 		}
 
-		public BulkActionTask postBulkActionStatus(
+		public BulkActionTask postBulkActionStatu(
 				String search, String filterString,
 				StatusDefinition statusDefinition)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				postBulkActionStatusHttpResponse(
+				postBulkActionStatuHttpResponse(
 					search, filterString, statusDefinition);
 
 			String content = httpResponse.getContent();
@@ -875,7 +739,7 @@ public interface BulkActionResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse postBulkActionStatusHttpResponse(
+		public HttpInvoker.HttpResponse postBulkActionStatuHttpResponse(
 				String search, String filterString,
 				StatusDefinition statusDefinition)
 			throws Exception {

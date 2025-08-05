@@ -6,8 +6,8 @@
 package com.liferay.headless.cms.internal.resource.v1_0;
 
 import com.liferay.headless.cms.dto.v1_0.BulkActionTask;
-import com.liferay.headless.cms.dto.v1_0.CMSEntryDefinition;
 import com.liferay.headless.cms.dto.v1_0.CategoryDefinition;
+import com.liferay.headless.cms.dto.v1_0.DeleteDefinition;
 import com.liferay.headless.cms.dto.v1_0.MoveDefinition;
 import com.liferay.headless.cms.dto.v1_0.PermissionDefinition;
 import com.liferay.headless.cms.dto.v1_0.StatusDefinition;
@@ -36,7 +36,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import jakarta.ws.rs.core.MultivaluedMap;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.util.Collection;
@@ -51,93 +50,6 @@ import java.util.Map;
 @jakarta.ws.rs.Path("/v1.0")
 public abstract class BaseBulkActionResourceImpl
 	implements BulkActionResource, EntityModelResource {
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-cms/v1.0/bulk-action'  -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Operation(
-		description = "Execute the bulk remove change action."
-	)
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "filter"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "search"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "BulkAction")}
-	)
-	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
-	@jakarta.ws.rs.DELETE
-	@jakarta.ws.rs.Path("/bulk-action")
-	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
-	@Override
-	public BulkActionTask deleteBulkAction(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@jakarta.ws.rs.QueryParam("search")
-			String search,
-			@jakarta.ws.rs.core.Context
-				com.liferay.portal.kernel.search.filter.Filter filter,
-			CMSEntryDefinition[] cmsEntryDefinitions)
-		throws Exception {
-
-		return new BulkActionTask();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-cms/v1.0/bulk-action/batch'  -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "filter"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "search"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "callbackURL"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "BulkAction")}
-	)
-	@jakarta.ws.rs.Consumes("application/json")
-	@jakarta.ws.rs.DELETE
-	@jakarta.ws.rs.Path("/bulk-action/batch")
-	@jakarta.ws.rs.Produces("application/json")
-	@Override
-	public Response deleteBulkActionBatch(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@jakarta.ws.rs.QueryParam("search")
-			String search,
-			@jakarta.ws.rs.core.Context
-				com.liferay.portal.kernel.search.filter.Filter filter,
-			CMSEntryDefinition[] cmsEntryDefinitions,
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@jakarta.ws.rs.QueryParam("callbackURL")
-			String callbackURL,
-			Object object)
-		throws Exception {
-
-		Response.ResponseBuilder responseBuilder = Response.ok();
-
-		return responseBuilder.build();
-	}
 
 	/**
 	 * Invoke this method with the command line:
@@ -174,6 +86,46 @@ public abstract class BaseBulkActionResourceImpl
 			@jakarta.ws.rs.core.Context
 				com.liferay.portal.kernel.search.filter.Filter filter,
 			CategoryDefinition categoryDefinition)
+		throws Exception {
+
+		return new BulkActionTask();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/headless-cms/v1.0/bulk-action/delete'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Execute the bulk delete change action."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "filter"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "search"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "BulkAction")}
+	)
+	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
+	@jakarta.ws.rs.Path("/bulk-action/delete")
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public BulkActionTask postBulkActionDelete(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.ws.rs.QueryParam("search")
+			String search,
+			@jakarta.ws.rs.core.Context
+				com.liferay.portal.kernel.search.filter.Filter filter,
+			DeleteDefinition deleteDefinition)
 		throws Exception {
 
 		return new BulkActionTask();
@@ -287,7 +239,7 @@ public abstract class BaseBulkActionResourceImpl
 	@jakarta.ws.rs.POST
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public BulkActionTask postBulkActionStatus(
+	public BulkActionTask postBulkActionStatu(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.ws.rs.QueryParam("search")
 			String search,

@@ -8,6 +8,7 @@ package com.liferay.headless.cms.client.serdes.v1_0;
 import com.liferay.headless.cms.client.dto.v1_0.BulkActionDefinition;
 import com.liferay.headless.cms.client.dto.v1_0.CMSEntryDefinition;
 import com.liferay.headless.cms.client.dto.v1_0.CategoryDefinition;
+import com.liferay.headless.cms.client.dto.v1_0.DeleteDefinition;
 import com.liferay.headless.cms.client.dto.v1_0.MoveDefinition;
 import com.liferay.headless.cms.client.dto.v1_0.PermissionDefinition;
 import com.liferay.headless.cms.client.dto.v1_0.StatusDefinition;
@@ -56,6 +57,11 @@ public class BulkActionDefinitionSerDes {
 			if (typeString.equals("Category")) {
 				return CategoryDefinitionSerDes.toJSON(
 					(CategoryDefinition)bulkActionDefinition);
+			}
+
+			if (typeString.equals("Delete")) {
+				return DeleteDefinitionSerDes.toJSON(
+					(DeleteDefinition)bulkActionDefinition);
 			}
 
 			if (typeString.equals("Move")) {
@@ -156,6 +162,10 @@ public class BulkActionDefinitionSerDes {
 
 				if (typeString.equals("Category")) {
 					return CategoryDefinition.toDTO(json);
+				}
+
+				if (typeString.equals("Delete")) {
+					return DeleteDefinition.toDTO(json);
 				}
 
 				if (typeString.equals("Move")) {
