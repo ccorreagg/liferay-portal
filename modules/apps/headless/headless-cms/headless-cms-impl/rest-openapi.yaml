@@ -4,6 +4,7 @@ components:
             discriminator:
                 mapping:
                     Category: "#/components/schemas/CategoryDefinition"
+                    Delete: "#/components/schemas/DeleteDefinition"
                     Move: "#/components/schemas/MoveDefinition"
                     Permission: "#/components/schemas/PermissionDefinition"
                     Status: "#/components/schemas/StatusDefinition"
@@ -17,6 +18,7 @@ components:
                 type:
                     enum:
                         -   Category
+                        -   Delete
                         -   Move
                         -   Permission
                         -   Status
@@ -45,6 +47,9 @@ components:
                                 format: int64
                                 type: integer
                             type: array
+        DeleteDefinition:
+            allOf:
+                -   $ref: "#/components/schemas/BulkActionDefinition"
         MoveDefinition:
             allOf:
                 -   $ref: "#/components/schemas/BulkActionDefinition"
@@ -86,46 +91,9 @@ info:
 openapi: 3.0.1
 paths:
     "/bulk-action":
-        delete:
-            description:
-                Execute the bulk remove change action.
-            parameters:
-                -   in: query
-                    name: filter
-                    required: false
-                    schema:
-                        type: string
-                -   in: query
-                    name: search
-                    required: false
-                    schema:
-                        type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            items:
-                                $ref: "#/components/schemas/CMSEntryDefinition"
-                            type: array
-                    application/xml:
-                        schema:
-                            items:
-                                $ref: "#/components/schemas/CMSEntryDefinition"
-                            type: array
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-            tags: ["BulkAction"]
-    "/bulk-action/categories":
         post:
             description:
-                Execute the bulk category change action
+                Execute a bulk action
             parameters:
                 -   in: query
                     name: filter
@@ -141,142 +109,10 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: "#/components/schemas/CategoryDefinition"
+                            $ref: "#/components/schemas/BulkActionDefinition"
                     application/xml:
                         schema:
-                            $ref: "#/components/schemas/CategoryDefinition"
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-            tags: ["BulkAction"]
-    "/bulk-action/move":
-        post:
-            description:
-                Execute the bulk move change action.
-            parameters:
-                -   in: query
-                    name: filter
-                    required: false
-                    schema:
-                        type: string
-                -   in: query
-                    name: search
-                    required: false
-                    schema:
-                        type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/MoveDefinition"
-                    application/xml:
-                        schema:
-                            $ref: "#/components/schemas/MoveDefinition"
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-            tags: ["BulkAction"]
-    "/bulk-action/permissions":
-        post:
-            description:
-                Execute the bulk permission change action.
-            parameters:
-                -   in: query
-                    name: filter
-                    required: false
-                    schema:
-                        type: string
-                -   in: query
-                    name: search
-                    required: false
-                    schema:
-                        type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/PermissionDefinition"
-                    application/xml:
-                        schema:
-                            $ref: "#/components/schemas/PermissionDefinition"
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-            tags: ["BulkAction"]
-    "/bulk-action/status":
-        post:
-            description:
-                Execute the bulk status change action
-            parameters:
-                -   in: query
-                    name: filter
-                    required: false
-                    schema:
-                        type: string
-                -   in: query
-                    name: search
-                    required: false
-                    schema:
-                        type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/StatusDefinition"
-                    application/xml:
-                        schema:
-                            $ref: "#/components/schemas/StatusDefinition"
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/BulkActionTask"
-            tags: ["BulkAction"]
-    "/bulk-action/tags":
-        post:
-            description:
-                Execute the bulk tag change action
-            parameters:
-                -   in: query
-                    name: filter
-                    required: false
-                    schema:
-                        type: string
-                -   in: query
-                    name: search
-                    required: false
-                    schema:
-                        type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/TagDefinition"
-                    application/xml:
-                        schema:
-                            $ref: "#/components/schemas/TagDefinition"
+                            $ref: "#/components/schemas/BulkActionDefinition"
             responses:
                 200:
                     content:
