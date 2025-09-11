@@ -1505,13 +1505,7 @@ public class DefaultObjectEntryManagerImpl
 					}
 
 					if (LazyReferencingThreadLocal.isEnabled()) {
-						nestedObjectEntry = _toObjectEntry(
-							dtoConverterContext, relatedObjectDefinition,
-							_objectEntryService.getOrAddEmptyObjectEntry(
-								nestedObjectEntry.getExternalReferenceCode(),
-								groupId, dtoConverterContext.getUserId(),
-								relatedObjectDefinition.
-									getObjectDefinitionId()));
+						throw new RuntimeException("This is an error");
 					}
 					else {
 						nestedObjectEntry =
