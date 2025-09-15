@@ -6,14 +6,15 @@
 package com.liferay.portal.vulcan.custom.field;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.model.ExpandoColumn;
 import com.liferay.expando.kernel.model.ExpandoColumnConstants;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.exportimport.kernel.empty.model.EmptyModelManagerUtil;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
-import com.liferay.portal.kernel.lazy.referencing.LazyReferencingThreadLocal;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.DateUtil;
@@ -21,6 +22,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
+import com.liferay.portlet.expando.model.impl.ExpandoColumnImpl;
 
 import java.io.Serializable;
 
@@ -111,17 +113,33 @@ public class CustomFieldsUtil {
 
 			String name = customField.getName();
 
-			if (LazyReferencingThreadLocal.isEnabled() &&
-				!expandoBridge.hasAttribute(name)) {
+			EmptyModelManagerUtil.getOrAddEmptyModel(
+				ExpandoColumn.class, companyId, null,
+				(__, ___) -> {
+					if (!expandoBridge.hasAttribute(name)) {
+						return null;
+					}
 
-				try {
-					expandoBridge.addAttribute(
-						name, customField.getAttributeType(), true);
-				}
-				catch (PortalException portalException) {
-					throw new RuntimeException(portalException);
-				}
-			}
+					return _EXPANDO_COLUMN;
+				},
+				(__, ___) -> {
+					if (!expandoBridge.hasAttribute(name)) {
+						return null;
+					}
+
+					return _EXPANDO_COLUMN;
+				},
+				() -> {
+					try {
+						expandoBridge.addAttribute(
+							name, customField.getAttributeType(), true);
+
+						return _EXPANDO_COLUMN;
+					}
+					catch (PortalException portalException) {
+						throw new RuntimeException(portalException);
+					}
+				});
 
 			int attributeType = expandoBridge.getAttributeType(name);
 
@@ -437,5 +455,8 @@ public class CustomFieldsUtil {
 				"Unable to parse date from " + data, parseException);
 		}
 	}
+
+	private static final ExpandoColumn _EXPANDO_COLUMN =
+		new ExpandoColumnImpl();
 
 }
