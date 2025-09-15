@@ -124,6 +124,10 @@ public class CustomFieldsUtil {
 				},
 				(__, ___) -> {
 					if (!expandoBridge.hasAttribute(name)) {
+
+						// TODO LPD-65443 - Throw an exception to handle
+						//  properly the error
+
 						return null;
 					}
 
