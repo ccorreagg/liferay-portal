@@ -86,9 +86,8 @@ public class CustomFieldsUtil {
 	}
 
 	public static Map<String, Serializable> toMap(
-			String className, long companyId, CustomField[] customFields,
-			Locale locale)
-		throws PortalException {
+		String className, long companyId, CustomField[] customFields,
+		Locale locale) {
 
 		if (customFields == null) {
 			return null;
@@ -115,8 +114,13 @@ public class CustomFieldsUtil {
 			if (LazyReferencingThreadLocal.isEnabled() &&
 				!expandoBridge.hasAttribute(name)) {
 
-				expandoBridge.addAttribute(
-					name, customField.getAttributeType(), true);
+				try {
+					expandoBridge.addAttribute(
+						name, customField.getAttributeType(), true);
+				}
+				catch (PortalException portalException) {
+					throw new RuntimeException(portalException);
+				}
 			}
 
 			int attributeType = expandoBridge.getAttributeType(name);
