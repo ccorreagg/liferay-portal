@@ -8,23 +8,18 @@ package com.liferay.portal.vulcan.custom.field;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.model.ExpandoColumnConstants;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
-import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.petra.function.transform.TransformUtil;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.lazy.referencing.LazyReferencingThreadLocal;
-import com.liferay.portal.kernel.module.service.Snapshot;
-import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
-import com.liferay.portal.vulcan.exportimport.report.helper.ExportImportReportEntryHelper;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
 
 import java.io.Serializable;
@@ -122,22 +117,6 @@ public class CustomFieldsUtil {
 
 				expandoBridge.addAttribute(
 					name, customField.getAttributeType(), true);
-
-				ExportImportReportEntryHelper exportImportReportEntryHelper =
-					_exportImportReportEntryHelperSnapshot.get();
-
-				exportImportReportEntryHelper.addErrorExportImportReportEntry(
-					0, companyId, null,
-					ClassNameLocalServiceUtil.getClassNameId(className), 0,
-					GetterUtil.getLong(
-						ExportImportThreadLocal.
-							getExportImportConfigurationId()),
-					"Empty custom field" + name,
-					StringBundler.concat(
-						"The custom fields ", name,
-						" associated with the class ", className,
-						" was created with empty state"),
-					className, 1, "company", null);
 			}
 
 			int attributeType = expandoBridge.getAttributeType(name);
@@ -454,9 +433,5 @@ public class CustomFieldsUtil {
 				"Unable to parse date from " + data, parseException);
 		}
 	}
-
-	private static final Snapshot<ExportImportReportEntryHelper>
-		_exportImportReportEntryHelperSnapshot = new Snapshot<>(
-			CustomFieldsUtil.class, ExportImportReportEntryHelper.class);
 
 }
