@@ -114,7 +114,7 @@ public class CustomFieldsUtil {
 			String name = customField.getName();
 
 			EmptyModelManagerUtil.getOrAddEmptyModel(
-				ExpandoColumn.class, companyId, null,
+				ExpandoColumn.class, companyId, name,
 				(__, ___) -> {
 					if (!expandoBridge.hasAttribute(name)) {
 						return null;
