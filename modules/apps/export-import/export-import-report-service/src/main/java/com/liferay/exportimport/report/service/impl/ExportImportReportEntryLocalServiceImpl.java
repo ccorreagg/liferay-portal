@@ -14,6 +14,8 @@ import com.liferay.portal.kernel.search.IndexableType;
 
 import java.util.List;
 
+import com.liferay.portal.kernel.transaction.Propagation;
+import com.liferay.portal.kernel.transaction.Transactional;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -58,6 +60,7 @@ public class ExportImportReportEntryLocalServiceImpl
 	}
 
 	@Indexable(type = IndexableType.REINDEX)
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public ExportImportReportEntry addErrorExportImportReportEntry(
 		long groupId, long companyId, String classExternalReferenceCode,
 		long classNameId, long classPK, long exportImportConfigurationId,
