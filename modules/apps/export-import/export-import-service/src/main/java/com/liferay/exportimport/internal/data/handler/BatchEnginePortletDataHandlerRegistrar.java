@@ -15,7 +15,10 @@ import com.liferay.osgi.service.tracker.collections.EagerServiceTrackerCustomize
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.petra.concurrent.DCLSingleton;
+import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagListener;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -48,57 +51,23 @@ public class BatchEnginePortletDataHandlerRegistrar {
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
-		_serviceRegistration = bundleContext.registerService(
-			FeatureFlagListener.class,
-			(companyId, featureFlagKey, enabled) -> {
-				if (enabled) {
-					_enabledCompanyIds.add(companyId);
-				}
-				else {
-					_enabledCompanyIds.remove(companyId);
-				}
+		FeatureFlagListener featureFlagListener = new FeatureFlagListenerImpl(
+			bundleContext);
 
-				if (_enabledCompanyIds.isEmpty()) {
-					_serviceTrackerListDCLSingleton.destroy(
-						ServiceTrackerList::close);
-
-					return;
-				}
-
-				AtomicBoolean newOpen = new AtomicBoolean();
-
-				_serviceTrackerListDCLSingleton.getSingleton(
-					() -> {
-						newOpen.set(true);
-
-						return ServiceTrackerListFactory.open(
-							bundleContext, null,
-							"(export.import.vulcan.batch.engine.task.item." +
-								"delegate=true)",
-							new VulcanBatchEngineTaskItemDelegateServiceTrackerCustomizer(
-								bundleContext));
-					});
-
-				if (newOpen.get()) {
-					return;
-				}
-
-				for (ServiceRegistration<PortletDataHandler>
-						serviceRegistration : _serviceRegistrations.values()) {
-
-					Dictionary<String, Object> properties = _toProperties(
-						serviceRegistration.getReference());
-
-					serviceRegistration.setProperties(
-						_setEnabledCompanyIds(properties));
-				}
-			},
-			MapUtil.singletonDictionary("feature.flag.key", "LPD-35914"));
+		_featureFlagListenerServiceRegistration = bundleContext.registerService(
+			FeatureFlagListener.class, featureFlagListener,
+			MapUtil.singletonDictionary("feature.flag.key", _FEATURE_FLAG_KEY));
+		_portalInstanceLifecycleListenerServiceRegistration =
+			bundleContext.registerService(
+				PortalInstanceLifecycleListener.class,
+				new PortalInstanceLifecycleListenerImpl(featureFlagListener),
+				null);
 	}
 
 	@Deactivate
 	protected void deactivate() {
-		_serviceRegistration.unregister();
+		_featureFlagListenerServiceRegistration.unregister();
+		_portalInstanceLifecycleListenerServiceRegistration.unregister();
 
 		_serviceTrackerListDCLSingleton.destroy(ServiceTrackerList::close);
 	}
@@ -127,6 +96,8 @@ public class BatchEnginePortletDataHandlerRegistrar {
 		return properties;
 	}
 
+	private static final String _FEATURE_FLAG_KEY = "LPD-35914";
+
 	@Reference
 	private BatchEngineExportTaskExecutor _batchEngineExportTaskExecutor;
 
@@ -143,12 +114,14 @@ public class BatchEnginePortletDataHandlerRegistrar {
 	private final Map<String, BatchEnginePortletDataHandler>
 		_batchEnginePortletDataHandlers = new HashMap<>();
 	private final List<Long> _enabledCompanyIds = new CopyOnWriteArrayList<>();
+	private volatile ServiceRegistration<FeatureFlagListener>
+		_featureFlagListenerServiceRegistration;
 
 	@Reference
 	private GroupLocalService _groupLocalService;
 
-	private volatile ServiceRegistration<FeatureFlagListener>
-		_serviceRegistration;
+	private volatile ServiceRegistration<PortalInstanceLifecycleListener>
+		_portalInstanceLifecycleListenerServiceRegistration;
 	private final Map<String, ServiceRegistration<PortletDataHandler>>
 		_serviceRegistrations = new HashMap<>();
 	private final DCLSingleton
@@ -157,6 +130,92 @@ public class BatchEnginePortletDataHandlerRegistrar {
 
 	@Reference
 	private StagingGroupHelper _stagingGroupHelper;
+
+	private class FeatureFlagListenerImpl implements FeatureFlagListener {
+
+		@Override
+		public void onValue(
+			long companyId, String featureFlagKey, boolean enabled) {
+
+			if (enabled) {
+				_enabledCompanyIds.add(companyId);
+			}
+			else {
+				_enabledCompanyIds.remove(companyId);
+			}
+
+			if (_enabledCompanyIds.isEmpty()) {
+				_serviceTrackerListDCLSingleton.destroy(
+					ServiceTrackerList::close);
+
+				return;
+			}
+
+			AtomicBoolean newOpen = new AtomicBoolean();
+
+			_serviceTrackerListDCLSingleton.getSingleton(
+				() -> {
+					newOpen.set(true);
+
+					return ServiceTrackerListFactory.open(
+						_bundleContext, null,
+						"(export.import.vulcan.batch.engine.task.item." +
+							"delegate=true)",
+						new VulcanBatchEngineTaskItemDelegateServiceTrackerCustomizer(
+							_bundleContext));
+				});
+
+			if (newOpen.get()) {
+				return;
+			}
+
+			for (ServiceRegistration<PortletDataHandler> serviceRegistration :
+					_serviceRegistrations.values()) {
+
+				Dictionary<String, Object> properties = _toProperties(
+					serviceRegistration.getReference());
+
+				serviceRegistration.setProperties(
+					_setEnabledCompanyIds(properties));
+			}
+		}
+
+		private FeatureFlagListenerImpl(BundleContext bundleContext) {
+			_bundleContext = bundleContext;
+		}
+
+		private BundleContext _bundleContext;
+
+	}
+
+	private class PortalInstanceLifecycleListenerImpl
+		implements PortalInstanceLifecycleListener {
+
+		@Override
+		public void portalInstanceRegistered(Company company) throws Exception {
+			_featureFlagListener.onValue(
+				company.getCompanyId(), _FEATURE_FLAG_KEY,
+				FeatureFlagManagerUtil.isEnabled(
+					company.getCompanyId(), _FEATURE_FLAG_KEY));
+		}
+
+		@Override
+		public void portalInstanceUnregistered(Company company)
+			throws Exception {
+
+			_featureFlagListener.onValue(
+				company.getCompanyId(), _FEATURE_FLAG_KEY, false);
+		}
+
+		private PortalInstanceLifecycleListenerImpl(
+			FeatureFlagListener featureFlagListener) {
+
+			_featureFlagListener = featureFlagListener;
+		}
+
+		private final FeatureFlagListener _featureFlagListener;
+
+	}
 
 	private class VulcanBatchEngineTaskItemDelegateServiceTrackerCustomizer
 		implements EagerServiceTrackerCustomizer
