@@ -45,6 +45,10 @@ public interface ExportImportVulcanBatchEngineTaskItemDelegate<T>
 
 		public String getPortletId();
 
+		public default Map<String, String> getReferences() {
+			return null;
+		}
+
 		public Scope getScope();
 
 		public default boolean isActive(PortletDataContext portletDataContext) {

@@ -5,6 +5,7 @@
 
 package com.liferay.object.rest.internal.resource.v1_0;
 
+import com.liferay.exportimport.content.processor.ExportImportContentParser;
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.object.constants.ObjectFieldConstants;
 import com.liferay.object.exception.ObjectEntryValidationException;
@@ -57,6 +58,7 @@ import jakarta.ws.rs.core.Response;
 import java.io.Serializable;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -422,6 +424,26 @@ public class ObjectEntryResourceImpl
 			@Override
 			public String getPortletId() {
 				return _objectDefinition.getPortletId();
+			}
+
+			@Override
+			public Map<String, String> getReferences() {
+				Map<String, String> references = new HashMap<>();
+
+				for (ObjectField objectField :
+						_objectFieldLocalService.getObjectFields(
+							_objectDefinition.getObjectDefinitionId())) {
+
+					if (objectField.compareBusinessType(
+							ObjectFieldConstants.BUSINESS_TYPE_RICH_TEXT)) {
+
+						references.put(
+							objectField.getName(),
+							ExportImportContentParser.DOCUMENT_LIBRARY);
+					}
+				}
+
+				return references;
 			}
 
 			@Override
