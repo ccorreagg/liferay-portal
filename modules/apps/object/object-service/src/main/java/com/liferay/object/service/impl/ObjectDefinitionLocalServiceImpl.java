@@ -3296,7 +3296,8 @@ public class ObjectDefinitionLocalServiceImpl
 
 		for (FriendlyURLResolver friendlyURLResolver :
 				FriendlyURLResolverRegistryUtil.
-					getFriendlyURLResolversAsCollection()) {
+					getFriendlyURLResolversAsCollection(
+						objectDefinition.getCompanyId())) {
 
 			if (!friendlyURLResolver.isURLSeparatorConfigurable()) {
 				continue;
