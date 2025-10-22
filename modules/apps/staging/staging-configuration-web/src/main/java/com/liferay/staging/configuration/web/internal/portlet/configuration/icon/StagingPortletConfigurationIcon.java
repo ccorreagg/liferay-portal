@@ -5,9 +5,11 @@
 
 package com.liferay.staging.configuration.web.internal.portlet.configuration.icon;
 
+import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
 import com.liferay.exportimport.constants.ExportImportPortletKeys;
 import com.liferay.exportimport.kernel.lar.PortletDataHandler;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -88,7 +90,11 @@ public class StagingPortletConfigurationIcon
 
 		String rootPortletId = portletDisplay.getRootPortletId();
 
-		if (rootPortletId.equals(ExportImportPortletKeys.EXPORT) ||
+		if ((rootPortletId.equals(
+				ConfigurationAdminPortletKeys.SITE_SETTINGS) &&
+			 !FeatureFlagManagerUtil.isEnabled(
+				 themeDisplay.getCompanyId(), "LPD-62885")) ||
+			rootPortletId.equals(ExportImportPortletKeys.EXPORT) ||
 			rootPortletId.equals(ExportImportPortletKeys.EXPORT_IMPORT) ||
 			rootPortletId.equals(ExportImportPortletKeys.IMPORT) ||
 			rootPortletId.equals(
