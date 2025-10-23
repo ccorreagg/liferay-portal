@@ -52,6 +52,7 @@ import getCellColumnClassName from '../utils/getCellColumnClassName';
 import {EViewsActionTypes} from '../viewsReducer';
 import TableContext from './TableContext';
 import TableContextProvider from './TableContextProvider';
+import { parseSortForCustomField } from '../../utils/parseSortForCustomField';
 
 type Column = {
 	fieldName: string;
@@ -777,7 +778,7 @@ const Table = ({
 		}
 
 		return {
-			column: activeSort.key,
+			column: parseSortForCustomField(activeSort.key),
 			direction:
 				activeSort.direction === 'desc' ? 'descending' : 'ascending',
 		};
@@ -786,29 +787,38 @@ const Table = ({
 	const onSortChange = (sorting: Sorting | null) => {
 		let updatedSorts: TSort[] = [];
 
-		updatedSorts = sorts.map((sort: any) =>
-			sort.key === sorting?.column
+		const column = parseSortForCustomField(String(sorting?.column));
+
+		updatedSorts = sorts.map((sort) => {
+
+			const key = parseSortForCustomField(String(sort.key));
+
+			return key === column
 				? {
 						...sort,
 						active: true,
 						direction:
-							sorting?.direction === 'ascending' ? 'asc' : 'desc',
+							sort.direction === 'asc' ? 'desc' : 'asc',
+						replacedirection: true
 					}
 				: {
 						...sort,
 						active: false,
+						replacedirection: false
 					}
+		}
+		
 		);
 
 		const newSort: boolean = Boolean(
-			!sorts.find((sort: any) => sort.key === sorting?.column)
+			!sorts.find((sort) => parseSortForCustomField(String(sort.key)) === column)
 		);
 
 		if (newSort) {
 			updatedSorts.push({
 				active: true,
 				direction: 'asc',
-				key: String(sorting?.column),
+				key: column,
 			});
 		}
 
