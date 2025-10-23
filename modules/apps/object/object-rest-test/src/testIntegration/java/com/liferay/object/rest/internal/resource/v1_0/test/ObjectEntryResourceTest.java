@@ -9497,11 +9497,7 @@ public class ObjectEntryResourceTest {
 			JSONUtil.put(
 				attachmentFieldName,
 				JSONUtil.put(
-					"fileBase64",
-					java.util.Base64.getEncoder(
-					).encodeToString(
-						data
-					)
+					"fileBase64", Base64.encode(data)
 				).put(
 					"name", StringUtil.randomString() + ".txt"
 				)
