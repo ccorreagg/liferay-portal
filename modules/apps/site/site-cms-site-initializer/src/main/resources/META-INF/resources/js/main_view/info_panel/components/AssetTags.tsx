@@ -22,6 +22,7 @@ const AssetTags = ({
 	assetLibraryId,
 	cmsGroupId,
 	collapsable = true,
+	groupId,
 	hasUpdatePermission,
 	inputSize,
 	objectEntry,
@@ -30,6 +31,7 @@ const AssetTags = ({
 	assetLibraryId?: number | string | null | undefined;
 	cmsGroupId: number | string;
 	collapsable?: boolean;
+	groupId?: number | string | null | undefined;
 	hasUpdatePermission?: boolean;
 	inputSize?: CategorizationInputSize;
 	objectEntry: IAssetObjectEntry | EntryCategorizationDTO;
@@ -77,6 +79,7 @@ const AssetTags = ({
 		const {data, error} = await TagService.createTag({
 			assetLibraryId: scopeId,
 			cmsGroupId,
+			groupId,
 			name: value,
 		});
 
@@ -88,7 +91,7 @@ const AssetTags = ({
 		else if (error) {
 			console.error('Failed to create new keyword.', error);
 		}
-	}, [addKeyword, cmsGroupId, scopeId, value]);
+	}, [addKeyword, cmsGroupId, groupId, scopeId, value]);
 
 	const removeKeyword = useCallback(
 		async (keyword: string) => {

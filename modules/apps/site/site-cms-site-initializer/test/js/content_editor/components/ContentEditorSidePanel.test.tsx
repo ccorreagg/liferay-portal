@@ -38,7 +38,7 @@ const renderComponent = ({isSubscribed = false} = {}) => {
 			entryClassName=""
 			expirationDate={EXPIRATION_DATE}
 			getCommentsURL="getCommentsURL"
-			groupId="21000"
+			groupId="123"
 			hasUpdatePermission={true}
 			id="contentId"
 			isSubscribed={isSubscribed}

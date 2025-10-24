@@ -242,7 +242,7 @@ public class ContentEditorSidePanelComponentSectionFragmentRenderer
 					themeDisplay.getLocale());
 			}
 		).put(
-			"groupId", themeDisplay.getScopeGroupId()
+			"groupId", objectEntry.getGroupId()
 		).put(
 			"hasUpdatePermission",
 			() -> {

@@ -16,6 +16,7 @@ export default function CategorizationPanel({
 	assetLibraryId,
 	assetType,
 	categorizationFields,
+	cmsGroupId,
 	contentAPIURL,
 	groupId,
 	hasUpdatePermission,
@@ -24,6 +25,7 @@ export default function CategorizationPanel({
 	assetLibraryId: number | string;
 	assetType: number;
 	categorizationFields: CategorizationFields;
+	cmsGroupId: number | string;
 	contentAPIURL: string;
 	groupId: number | string;
 	hasUpdatePermission: boolean;
@@ -65,8 +67,9 @@ export default function CategorizationPanel({
 					} as IAssetObjectEntry['systemProperties'],
 					taxonomyCategoryBriefs: assetCategoryIds.value,
 				}}
-				cmsGroupId={groupId}
+				cmsGroupId={cmsGroupId}
 				getObjectEntryURL={contentAPIURL}
+				groupId={groupId}
 				hasUpdatePermission={hasUpdatePermission}
 				inputSize="sm"
 				onUpdateCategorization={updateCategorization}
