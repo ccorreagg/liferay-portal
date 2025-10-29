@@ -132,8 +132,7 @@ public class DLReferencesExportImportContentParser
 				DocumentLibraryReference documentLibraryReference =
 					new DocumentLibraryReference(
 						fileEntry,
-						dlReferenceParameters.containsKey("friendlyURL"),
-						dlReferenceParameters.containsKey("uuid"));
+						MapUtil.getString(dlReferenceParameters, "friendlyURL"));
 
 //				StringBundler exportedReferenceSB = new StringBundler(10);
 //
@@ -205,44 +204,36 @@ public class DLReferencesExportImportContentParser
 	private static class DocumentLibraryReference {
 
 		public DocumentLibraryReference(
-			FileEntry fileEntry, boolean includeFriendlyURL, boolean includeUuid) {
+			FileEntry fileEntry, String friendlyURL) {
 			_externalReferenceCode = fileEntry.getExternalReferenceCode();
 			_groupId = fileEntry.getGroupId();
-			_includeFriendlyURL = includeFriendlyURL;
-			_includeUuid = includeUuid;
+			_friendlyURL = friendlyURL;
 		}
 
 		private DocumentLibraryReference(
-			String externalReferenceCode, long groupId,
-			boolean includeFriendlyURL,
-			boolean includeUuid) {
+			String externalReferenceCode, String friendlyURL, long groupId) {
 
 			_externalReferenceCode = externalReferenceCode;
+			_friendlyURL = friendlyURL;
 			_groupId = groupId;
-			_includeFriendlyURL = includeFriendlyURL;
-			_includeUuid = includeUuid;
 		}
 
 		public String getExternalReferenceCode() {
 			return _externalReferenceCode;
 		}
 
+		public String getFriendlyURL() {
+			return _friendlyURL;
+		}
+
 		public long getGroupId() {
 			return _groupId;
-		}
-
-		public boolean isIncludeFriendlyURL() {
-			return _includeFriendlyURL;
-		}
-
-		public boolean isIncludeUuid() {
-			return _includeUuid;
 		}
 
 		@Override
 		public String toString() {
 			return StringBundler.concat(
-				"[$dl-reference$ $dl-external-reference-code=", _externalReferenceCode, "$,$dl-group-id=", _groupId, "$,$include-friendly-url=", _includeFriendlyURL, "$,$include-uuid=", _includeUuid, "$]");
+				"[$dl-reference$ $dl-external-reference-code=", _externalReferenceCode,  "$,$dl-group-id=", _groupId, "$,$friendly-url=", _friendlyURL, "$]");
 		}
 
 		public static DocumentLibraryReference parse(String value) {
@@ -251,17 +242,15 @@ public class DLReferencesExportImportContentParser
 			}
 
 			String externalReferenceCode = value.substring(value.indexOf("$dl-external-reference-code=") + "$dl-external-reference-code=".length(), value.indexOf("$,$dl-group-id="));
-			long groupId = Long.parseLong(value.substring(value.indexOf("$,$dl-group-id=") + "$,$dl-group-id=".length(), value.indexOf("$,$include-friendly-url=")));
-			boolean includeFriendlyURL = Boolean.parseBoolean(value.substring(value.indexOf("$,$include-friendly-url=") + "$,$include-friendly-url=".length(), value.indexOf("$,$include-uuid=")));
-			boolean includeUuid = Boolean.parseBoolean(value.substring(value.indexOf("$,$include-uuid=") + "$,$include-uuid=".length(), value.indexOf("$]")));
+			long groupId = Long.parseLong(value.substring(value.indexOf("$,$dl-group-id=") + "$,$dl-group-id=".length(), value.indexOf("$,$friendly-url=")));
+			String friendlyURL = value.substring(value.indexOf("$,$friendly-url=") + "$,$friendly-url=".length(), value.indexOf("$]"));
 
-			return new DocumentLibraryReference(externalReferenceCode, groupId, includeFriendlyURL, includeUuid);
+			return new DocumentLibraryReference(externalReferenceCode, friendlyURL, groupId);
 		}
 
 		private String _externalReferenceCode;
 		private long _groupId;
-		private boolean _includeFriendlyURL;
-		private boolean _includeUuid;
+		private String _friendlyURL;
 	}
 
 	@Override
@@ -272,38 +261,19 @@ public class DLReferencesExportImportContentParser
 		DocumentLibraryReference documentLibraryReference = null;
 
 		while ((documentLibraryReference = DocumentLibraryReference.parse(content)) != null) {
-			FileEntry importedFileEntry = null;
+			long groupId;
 
-			try {
-				long groupId;
-
-				if (documentLibraryReference.getGroupId() == portletDataContext.getSourceGroupId()) {
-					groupId = portletDataContext.getGroupId();
-				}
-				else {
-					groupId = documentLibraryReference.getGroupId();
-				}
-
-				importedFileEntry = _dlAppLocalService.getFileEntryByExternalReferenceCode(
-					documentLibraryReference.getExternalReferenceCode(), groupId);
+			if (documentLibraryReference.getGroupId() == portletDataContext.getSourceGroupId()) {
+				groupId = portletDataContext.getGroupId();
 			}
-			catch (PortalException portalException) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(portalException);
-				}
-
-				throw portalException;
+			else {
+				groupId = documentLibraryReference.getGroupId();
 			}
 
-			boolean appendVersion = false;
+			FileEntry importedFileEntry = _dlAppLocalService.fetchFileEntryByExternalReferenceCode(
+				groupId, documentLibraryReference.getExternalReferenceCode());
 
-			if (!documentLibraryReference.isIncludeFriendlyURL()) {
-				appendVersion = true;
-			}
-
-			String url = _dlURLHelper.getPreviewURL(
-				importedFileEntry, importedFileEntry.getFileVersion(), null,
-				StringPool.BLANK, appendVersion, false);
+			String url = _getURL(documentLibraryReference, importedFileEntry, _groupLocalService.getGroup(groupId));
 
 //			if (url.contains(StringPool.QUESTION)) {
 //				url = url.substring(
@@ -354,6 +324,35 @@ public class DLReferencesExportImportContentParser
 		}
 
 		return content;
+	}
+
+	private String _getURL(
+		DocumentLibraryReference documentLibraryReference, FileEntry fileEntry,
+		Group group)
+		throws PortalException {
+
+		if (fileEntry == null) {
+			// Return a default friendly URL if the file entry does not exist
+			// In the end, we could have:
+			// * The file entry is imported after the Object Entry,
+			//   then, we should update this first element to use the new
+			//   possible URL (using the updated friendly URL)
+			// * The file entry is not imported after the Object Entry,
+			//   then, we should leave a default URL (the one we generate here)
+			// To ensure the user knows this might be a wrong URL, we need to
+			// add a value somewhere regarding the possible wrong value in this
+			// Object Entry. If the File Entry is finally imported, the value
+			// must be removed to avoid creating a warning report entry of the
+			// Object Entry
+
+			return "/documents/d/" + group.getGroupKey() + "/" + documentLibraryReference.getFriendlyURL();
+		}
+
+		return _dlURLHelper.getPreviewURL(
+			fileEntry, fileEntry.getFileVersion(), null,
+			StringPool.BLANK,
+			documentLibraryReference.getFriendlyURL() == null,
+			false);
 	}
 
 	@Reference
