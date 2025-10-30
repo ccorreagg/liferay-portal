@@ -27,6 +27,7 @@ import com.liferay.portal.events.ThemeServicePreAction;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.service.LayoutLocalService;
+import com.liferay.portal.kernel.service.LayoutServiceUtil;
 import com.liferay.portal.kernel.servlet.DummyHttpServletResponse;
 import com.liferay.portal.kernel.servlet.DynamicServletRequest;
 import com.liferay.portal.kernel.servlet.ServletContextPool;
@@ -135,7 +136,7 @@ public class DisplayPageRendererUtil {
 			throw new NoSuchPageTemplateEntryException();
 		}
 
-		Layout layout = layoutLocalService.getLayout(
+		Layout layout = LayoutServiceUtil.getLayout(
 			layoutPageTemplateEntry.getPlid());
 
 		httpServletRequest = DynamicServletRequest.addQueryString(

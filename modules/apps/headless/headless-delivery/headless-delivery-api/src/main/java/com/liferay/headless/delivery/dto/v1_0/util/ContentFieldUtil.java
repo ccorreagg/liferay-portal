@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.LayoutLocalService;
+import com.liferay.portal.kernel.service.LayoutServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -89,7 +90,7 @@ public class ContentFieldUtil {
 					() -> _toContentFieldValue(
 						ddmFormField, dlAppService, dlURLHelper,
 						dtoConverterContext, journalArticleService,
-						layoutLocalService, dtoConverterContext.getLocale(),
+						dtoConverterContext.getLocale(),
 						ddmFormFieldValue.getValue()));
 				setContentFieldValue_i18n(
 					() -> {
@@ -117,7 +118,7 @@ public class ContentFieldUtil {
 								_getContentFieldValue(
 									ddmFormField, dlAppService, dlURLHelper,
 									dtoConverterContext, journalArticleService,
-									layoutLocalService, defaultLocale,
+									defaultLocale,
 									String.valueOf(
 										value.getString(defaultLocale))));
 						}
@@ -132,8 +133,7 @@ public class ContentFieldUtil {
 								_getContentFieldValue(
 									ddmFormField, dlAppService, dlURLHelper,
 									dtoConverterContext, journalArticleService,
-									layoutLocalService, locale,
-									entry.getValue()));
+									locale, entry.getValue()));
 						}
 
 						return map;
@@ -166,8 +166,7 @@ public class ContentFieldUtil {
 	private static ContentFieldValue _getContentFieldValue(
 		DDMFormField ddmFormField, DLAppService dlAppService,
 		DLURLHelper dlURLHelper, DTOConverterContext dtoConverterContext,
-		JournalArticleService journalArticleService,
-		LayoutLocalService layoutLocalService, Locale locale,
+		JournalArticleService journalArticleService, Locale locale,
 		String valueString) {
 
 		try {
@@ -398,7 +397,7 @@ public class ContentFieldUtil {
 				long groupId = jsonObject.getLong("groupId");
 				boolean privateLayout = jsonObject.getBoolean("privateLayout");
 
-				Layout layoutByUuidAndGroupId = layoutLocalService.getLayout(
+				Layout layoutByUuidAndGroupId = LayoutServiceUtil.getLayout(
 					groupId, privateLayout, layoutId);
 
 				return new ContentFieldValue() {
@@ -559,8 +558,8 @@ public class ContentFieldUtil {
 	private static ContentFieldValue _toContentFieldValue(
 		DDMFormField ddmFormField, DLAppService dlAppService,
 		DLURLHelper dlURLHelper, DTOConverterContext dtoConverterContext,
-		JournalArticleService journalArticleService,
-		LayoutLocalService layoutLocalService, Locale locale, Value value) {
+		JournalArticleService journalArticleService, Locale locale,
+		Value value) {
 
 		if (value == null) {
 			return new ContentFieldValue();
@@ -570,7 +569,7 @@ public class ContentFieldUtil {
 
 		return _getContentFieldValue(
 			ddmFormField, dlAppService, dlURLHelper, dtoConverterContext,
-			journalArticleService, layoutLocalService, locale, valueString);
+			journalArticleService, locale, valueString);
 	}
 
 	private static String _toDateString(Locale locale, String valueString) {
