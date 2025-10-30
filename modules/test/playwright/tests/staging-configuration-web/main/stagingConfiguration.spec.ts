@@ -18,6 +18,7 @@ import {pageViewModePagesTest} from '../../../fixtures/pageViewModePagesTest';
 import {pagesAdminPagesTest} from '../../../fixtures/pagesAdminPagesTest';
 import {portletConfigurationPermissionsPageTest} from '../../../fixtures/portletConfigurationPermissionsPagesTest';
 import {productMenuPageTest} from '../../../fixtures/productMenuPageTest';
+import {siteSettingsPagesTest} from '../../../fixtures/siteSettingsPagesTest';
 import {systemSettingsPageTest} from '../../../fixtures/systemSettingsPageTest';
 import {uiElementsPageTest} from '../../../fixtures/uiElementsTest';
 import {webContentDisplayPageTest} from '../../../fixtures/webContentDisplayPageTest';
@@ -50,6 +51,28 @@ export const test = mergeTests(
 	systemSettingsPageTest
 );
 
+export const testWithoutStagingOptionInSiteSettingsFF = mergeTests(
+	applicationsMenuPageTest,
+	dataApiHelpersTest,
+	featureFlagsTest({
+		'LPD-62885': {enabled: false},
+	}),
+	loginTest(),
+	productMenuPageTest,
+	siteSettingsPagesTest
+);
+
+export const testWithStagingOptionInSiteSettingsFF = mergeTests(
+	applicationsMenuPageTest,
+	dataApiHelpersTest,
+	featureFlagsTest({
+		'LPD-62885': {enabled: true},
+	}),
+	loginTest(),
+	productMenuPageTest,
+	siteSettingsPagesTest
+);
+
 export const testFlagsEnabled = mergeTests(
 	apiHelpersTest,
 	featureFlagsTest({
@@ -64,6 +87,72 @@ export const testFlagsEnabled = mergeTests(
 	stagingPageTest,
 	test,
 	webContentDisplayPageTest
+);
+
+testWithoutStagingOptionInSiteSettingsFF(
+	'Verify the Staging option is not visible in Site Settings',
+	{tag: '@LPD-64411'},
+	async ({
+		apiHelpers,
+		applicationsMenuPage,
+		page,
+		productMenuPage,
+		siteSettingsPage,
+	}) => {
+		const site = await apiHelpers.headlessSite.createSite({
+			name: getRandomString(),
+		});
+
+		apiHelpers.data.push({id: site.id, type: 'site'});
+
+		await enableLocalStaging(apiHelpers, page, site);
+
+		await applicationsMenuPage.goToSite(site.name);
+
+		await productMenuPage.openProductMenuIfClosed();
+
+		await productMenuPage.configurationButton.click();
+
+		await productMenuPage.siteSettingsButton.click();
+
+		expect(siteSettingsPage.optionsMenu).not.toBeVisible();
+	}
+);
+
+testWithStagingOptionInSiteSettingsFF(
+	'Verify the Staging option is visible in Site Settings',
+	{tag: '@LPD-64411'},
+	async ({
+		apiHelpers,
+		applicationsMenuPage,
+		page,
+		productMenuPage,
+		siteSettingsPage,
+	}) => {
+		const site = await apiHelpers.headlessSite.createSite({
+			name: getRandomString(),
+		});
+
+		apiHelpers.data.push({id: site.id, type: 'site'});
+
+		await enableLocalStaging(apiHelpers, page, site);
+
+		await applicationsMenuPage.goToSite(site.name);
+
+		await productMenuPage.openProductMenuIfClosed();
+
+		await productMenuPage.configurationButton.click();
+
+		await productMenuPage.siteSettingsButton.click();
+
+		await siteSettingsPage.openOptionsMenu();
+
+		expect(
+			page
+				.locator('.dropdown-menu')
+				.getByRole('menuitem', {name: 'Staging'})
+		).toBeVisible();
+	}
 );
 
 test(

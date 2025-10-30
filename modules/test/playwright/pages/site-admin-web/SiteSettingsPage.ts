@@ -12,12 +12,16 @@ import {waitForAlert} from '../../utils/waitForAlert';
 export class SiteSettingsPage {
 	readonly page: Page;
 
+	readonly optionsMenu: Locator;
 	readonly productMenuPage: ProductMenuPage;
 	readonly saveButton: Locator;
 
 	constructor(page: Page) {
 		this.page = page;
 
+		this.optionsMenu = page
+			.getByTestId('headerOptions')
+			.getByLabel('Options');
 		this.productMenuPage = new ProductMenuPage(page);
 		this.saveButton = page
 			.getByRole('button', {name: 'Save'})
@@ -52,6 +56,12 @@ export class SiteSettingsPage {
 				})
 				.click();
 		}
+	}
+
+	async openOptionsMenu() {
+		await this.optionsMenu
+			.and(this.page.locator('[aria-haspopup]'))
+			.click();
 	}
 
 	async saveConfiguration() {
