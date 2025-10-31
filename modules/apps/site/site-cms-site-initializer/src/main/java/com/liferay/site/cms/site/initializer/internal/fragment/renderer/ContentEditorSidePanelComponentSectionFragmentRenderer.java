@@ -242,8 +242,6 @@ public class ContentEditorSidePanelComponentSectionFragmentRenderer
 					themeDisplay.getLocale());
 			}
 		).put(
-			"groupId", objectEntry.getGroupId()
-		).put(
 			"hasUpdatePermission",
 			() -> {
 				ModelResourcePermission<ObjectEntry> modelResourcePermission =

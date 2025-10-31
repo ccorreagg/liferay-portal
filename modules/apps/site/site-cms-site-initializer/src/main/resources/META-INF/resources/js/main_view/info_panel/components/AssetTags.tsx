@@ -79,7 +79,6 @@ const AssetTags = ({
 		const {data, error} = await TagService.createTag({
 			assetLibraryId: scopeId,
 			cmsGroupId,
-			groupId,
 			name: value,
 		});
 

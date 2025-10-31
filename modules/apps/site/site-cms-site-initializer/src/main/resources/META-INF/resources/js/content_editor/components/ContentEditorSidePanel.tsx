@@ -38,7 +38,6 @@ type Props = {
 	entryClassName: string;
 	expirationDate: string;
 	getCommentsURL: string;
-	groupId: string;
 	hasUpdatePermission: boolean;
 	id: string;
 	isSubscribed: boolean;
