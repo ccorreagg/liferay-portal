@@ -16,11 +16,11 @@ TimeZone calendarBookingTimeZone = allDay ? TimeZone.getTimeZone(StringPool.UTC)
 
 java.util.Calendar defaultStartTimeJCalendar = CalendarFactoryUtil.getCalendar(calendarBookingTimeZone);
 
-java.util.Calendar userStartTimeJCalendar = CalendarFactoryUtil.getCalendar(userTimeZone);
-
 defaultStartTimeJCalendar.add(java.util.Calendar.HOUR, 1);
 
 defaultStartTimeJCalendar.set(java.util.Calendar.MINUTE, 0);
+
+java.util.Calendar userStartTimeJCalendar = CalendarFactoryUtil.getCalendar(userTimeZone);
 
 userStartTimeJCalendar.add(java.util.Calendar.HOUR, 1);
 
