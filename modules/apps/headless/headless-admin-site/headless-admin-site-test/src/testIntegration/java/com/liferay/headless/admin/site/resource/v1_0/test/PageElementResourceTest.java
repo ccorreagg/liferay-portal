@@ -2310,6 +2310,8 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 		String categoryFieldName = RandomTestUtil.randomString();
 		String checkboxFieldName = RandomTestUtil.randomString();
 		String collectionFieldName = RandomTestUtil.randomString();
+		String colorPaletteFieldName = RandomTestUtil.randomString();
+		String colorPickerFieldName = RandomTestUtil.randomString();
 		String itemFieldName = RandomTestUtil.randomString();
 		String lengthFieldName = RandomTestUtil.randomString();
 		String navigationMenuFieldName = RandomTestUtil.randomString();
@@ -2360,6 +2362,16 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 						"type", "collectionSelector"
 					).build()
 				).put(
+					colorPaletteFieldName,
+					HashMapBuilder.<String, Object>put(
+						"type", "colorPalette"
+					).build()
+				).put(
+					colorPickerFieldName,
+					HashMapBuilder.<String, Object>put(
+						"type", "colorPicker"
+					).build()
+				).put(
 					itemFieldName,
 					HashMapBuilder.<String, Object>put(
 						"type", "itemSelector"
@@ -2400,6 +2412,17 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 			).put(
 				collectionFieldName, _getAssetListEntry(testGroup.getGroupId())
 			).put(
+				colorPaletteFieldName,
+				HashMapBuilder.put(
+					"color", RandomTestUtil.randomString()
+				).put(
+					"cssClass", RandomTestUtil.randomString()
+				).put(
+					"rgbValue", RandomTestUtil.randomString()
+				).build()
+			).put(
+				colorPickerFieldName, RandomTestUtil.randomString()
+			).put(
 				itemFieldName,
 				HashMapBuilder.put(
 					"item", _getFileEntry(testGroup.getGroupId())
@@ -2436,6 +2459,17 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 				collectionFieldName,
 				"com.liferay.asset.internal.info.collection.provider." +
 					"HighestRatedAssetsInfoCollectionProvider"
+			).put(
+				colorPaletteFieldName,
+				HashMapBuilder.put(
+					"color", RandomTestUtil.randomString()
+				).put(
+					"cssClass", RandomTestUtil.randomString()
+				).put(
+					"rgbValue", RandomTestUtil.randomString()
+				).build()
+			).put(
+				colorPickerFieldName, RandomTestUtil.randomString()
 			).put(
 				itemFieldName,
 				HashMapBuilder.put(
@@ -2481,6 +2515,20 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 							collectionFieldName,
 							HashMapBuilder.<String, Object>put(
 								"type", "collectionSelector"
+							).build()
+						).put(
+							colorPaletteFieldName,
+							HashMapBuilder.<String, Object>put(
+								"localized", true
+							).put(
+								"type", "colorPalette"
+							).build()
+						).put(
+							colorPickerFieldName,
+							HashMapBuilder.<String, Object>put(
+								"localized", true
+							).put(
+								"type", "colorPicker"
 							).build()
 						).put(
 							itemFieldName,
@@ -2538,6 +2586,17 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 						collectionFieldName,
 						_getAssetListEntry(irrelevantGroup.getGroupId())
 					).put(
+						colorPaletteFieldName,
+						HashMapBuilder.put(
+							"color", RandomTestUtil.randomString()
+						).put(
+							"cssClass", RandomTestUtil.randomString()
+						).put(
+							"rgbValue", RandomTestUtil.randomString()
+						).build()
+					).put(
+						colorPickerFieldName, RandomTestUtil.randomString()
+					).put(
 						itemFieldName,
 						HashMapBuilder.<String, Object>put(
 							"item",
@@ -2589,6 +2648,17 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 							"scopeExternalReferenceCode",
 							RandomTestUtil.randomString()
 						).build()
+					).put(
+						colorPaletteFieldName,
+						HashMapBuilder.put(
+							"color", RandomTestUtil.randomString()
+						).put(
+							"cssClass", RandomTestUtil.randomString()
+						).put(
+							"rgbValue", RandomTestUtil.randomString()
+						).build()
+					).put(
+						colorPickerFieldName, RandomTestUtil.randomString()
 					).put(
 						itemFieldName,
 						HashMapBuilder.put(
