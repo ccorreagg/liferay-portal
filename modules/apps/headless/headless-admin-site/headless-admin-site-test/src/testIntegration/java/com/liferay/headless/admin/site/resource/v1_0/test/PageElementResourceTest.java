@@ -9,6 +9,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalService;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalService;
 import com.liferay.asset.list.constants.AssetListEntryTypeConstants;
 import com.liferay.asset.list.model.AssetListEntry;
 import com.liferay.asset.list.service.AssetListEntryLocalServiceUtil;
@@ -636,6 +640,26 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 		return new String[] {
 			ActionKeys.ADD_TO_PAGE, ActionKeys.CONFIGURATION, ActionKeys.VIEW
 		};
+	}
+
+	private AssetCategory _getAssetCategory(long groupId) throws Exception {
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(groupId);
+
+		AssetVocabulary assetVocabulary =
+			_assetVocabularyLocalService.addVocabulary(
+				TestPropsValues.getUserId(), groupId,
+				RandomTestUtil.randomString(), serviceContext);
+
+		return _assetCategoryLocalService.addCategory(
+			TestPropsValues.getUserId(), groupId, RandomTestUtil.randomString(),
+			assetVocabulary.getVocabularyId(), serviceContext);
+	}
+
+	private AssetVocabulary _getAssetVocabulary(long groupId) throws Exception {
+		return _assetVocabularyLocalService.addVocabulary(
+			TestPropsValues.getUserId(), groupId, RandomTestUtil.randomString(),
+			ServiceContextTestUtil.getServiceContext(groupId));
 	}
 
 	private CollectionDisplayListStyle _getCollectionDisplayListStyle(
@@ -2253,6 +2277,7 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 	private void _testPutSitePageSpecificationPageExperiencePageElementWithFragmentPageElementWithConfiguration()
 		throws Exception {
 
+		String categoryFieldName = RandomTestUtil.randomString();
 		String checkboxFieldName = RandomTestUtil.randomString();
 		String lengthFieldName = RandomTestUtil.randomString();
 		String selectFieldName = RandomTestUtil.randomString();
@@ -2285,6 +2310,11 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 		_testPutSitePageSpecificationPageExperiencePageElementWithFragmentPageElementWithConfiguration(
 			FragmentConfigurationTestUtil.getConfiguration(
 				HashMapBuilder.<String, Map<String, Object>>put(
+					categoryFieldName,
+					HashMapBuilder.<String, Object>put(
+						"type", "categoryTreeNodeSelector"
+					).build()
+				).put(
 					checkboxFieldName,
 					HashMapBuilder.<String, Object>put(
 						"defaultValue", RandomTestUtil.randomBoolean()
@@ -2316,6 +2346,8 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 					).build()
 				).build()),
 			HashMapBuilder.<String, Object>put(
+				categoryFieldName, _getAssetCategory(testGroup.getGroupId())
+			).put(
 				checkboxFieldName, RandomTestUtil.randomBoolean()
 			).put(
 				lengthFieldName, RandomTestUtil.randomString()
@@ -2325,6 +2357,9 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 				textFieldName, RandomTestUtil.randomString()
 			).build(),
 			HashMapBuilder.<String, Object>put(
+				categoryFieldName,
+				_getAssetVocabulary(irrelevantGroup.getGroupId())
+			).put(
 				checkboxFieldName, RandomTestUtil.randomBoolean()
 			).put(
 				lengthFieldName, RandomTestUtil.randomString()
@@ -2338,6 +2373,13 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 		_testPutSitePageSpecificationPageExperiencePageElementWithFragmentPageElementWithConfiguration(
 			FragmentConfigurationTestUtil.getConfiguration(
 				HashMapBuilder.<String, Map<String, Object>>put(
+					categoryFieldName,
+					HashMapBuilder.<String, Object>put(
+						"localized", true
+					).put(
+						"type", "categoryTreeNodeSelector"
+					).build()
+				).put(
 					checkboxFieldName,
 					HashMapBuilder.<String, Object>put(
 						"defaultValue", RandomTestUtil.randomBoolean()
@@ -2377,6 +2419,9 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 					).build()
 				).build()),
 			HashMapBuilder.<String, Object>put(
+				categoryFieldName,
+				_getAssetCategory(irrelevantGroup.getGroupId())
+			).put(
 				checkboxFieldName, RandomTestUtil.randomBoolean()
 			).put(
 				lengthFieldName, RandomTestUtil.randomString()
@@ -2386,6 +2431,15 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 				textFieldName, RandomTestUtil.randomString()
 			).build(),
 			HashMapBuilder.<String, Object>put(
+				categoryFieldName,
+				HashMapBuilder.put(
+					"className", AssetCategory.class.getName()
+				).put(
+					"externalReferenceCode", RandomTestUtil.randomString()
+				).put(
+					"scopeExternalReferenceCode", RandomTestUtil.randomString()
+				).build()
+			).put(
 				checkboxFieldName, RandomTestUtil.randomBoolean()
 			).put(
 				lengthFieldName, RandomTestUtil.randomString()
@@ -2512,6 +2566,12 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 				AssetPublisherPortletKeys.ASSET_PUBLISHER,
 				new WidgetPermission[0]));
 	}
+
+	@Inject
+	private AssetCategoryLocalService _assetCategoryLocalService;
+
+	@Inject
+	private AssetVocabularyLocalService _assetVocabularyLocalService;
 
 	private Layout _draftLayout;
 
