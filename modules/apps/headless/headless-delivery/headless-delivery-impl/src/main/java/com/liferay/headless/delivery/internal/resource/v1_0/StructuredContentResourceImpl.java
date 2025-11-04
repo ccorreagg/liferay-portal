@@ -1160,6 +1160,20 @@ public class StructuredContentResourceImpl
 			sorts, this::_toStructuredContent);
 	}
 
+	private String _getValue(ContentFieldValue contentFieldValue) {
+		if (contentFieldValue.getData() != null) {
+			return contentFieldValue.getData();
+		}
+		else if (contentFieldValue.getDocument() != null) {
+			return String.valueOf(contentFieldValue.getDocument());
+		}
+		else if (contentFieldValue.getImage() != null) {
+			return String.valueOf(contentFieldValue.getImage());
+		}
+
+		return null;
+	}
+
 	private boolean _isNeverExpire(
 		StructuredContent structuredContent, JournalArticle journalArticle) {
 
@@ -1191,7 +1205,7 @@ public class StructuredContentResourceImpl
 				contentField.getContentFieldValue();
 
 			if ((contentFieldValue != null) &&
-				(contentFieldValue.getData() != null)) {
+				(_getValue(contentFieldValue) != null)) {
 
 				List<ContentFieldValue> contentFieldValues =
 					contentFieldValuesMap.computeIfAbsent(
@@ -1280,7 +1294,7 @@ public class StructuredContentResourceImpl
 					FieldConstants.getSerializable(
 						contextAcceptLanguage.getPreferredLocale(),
 						LocaleUtil.ROOT, field.getDataType(),
-						contentFieldValue.getData()));
+						_getValue(contentFieldValue)));
 			}
 
 			if (ListUtil.isNotEmpty(fieldValues)) {
