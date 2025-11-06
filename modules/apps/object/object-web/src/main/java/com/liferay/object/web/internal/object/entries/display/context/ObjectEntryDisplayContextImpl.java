@@ -1507,6 +1507,7 @@ public class ObjectEntryDisplayContextImpl
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
+				objectDefinition.getCompanyId(),
 				objectDefinition.getStorageType());
 
 		String externalReferenceCode = ParamUtil.getString(
