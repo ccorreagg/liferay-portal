@@ -111,6 +111,7 @@ public class MessageBoardAttachmentResourceTest
 		super.testGraphQLGetMessageBoardThreadMessageBoardAttachmentsPage();
 	}
 
+	@Override
 	@Test
 	public void testPostMessageBoardMessageMessageBoardAttachment()
 		throws Exception {
