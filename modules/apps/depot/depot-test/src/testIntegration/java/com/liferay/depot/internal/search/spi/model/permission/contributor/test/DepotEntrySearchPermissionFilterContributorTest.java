@@ -55,7 +55,7 @@ public class DepotEntrySearchPermissionFilterContributorTest {
 	public void testContribute() throws Exception {
 		User user = UserTestUtil.addUser();
 
-		long count = _getDepotEntrySearchCount(user);
+		long count = _getCount(user);
 
 		_depotEntry = _depotEntryLocalService.addDepotEntry(
 			HashMapBuilder.put(
@@ -72,14 +72,14 @@ public class DepotEntrySearchPermissionFilterContributorTest {
 		_userGroupLocalService.addGroupUserGroup(
 			_depotEntry.getGroupId(), userGroup);
 
-		Assert.assertEquals(count, _getDepotEntrySearchCount(user));
+		Assert.assertEquals(count, _getCount(user));
 
 		_userGroupLocalService.addUserUserGroup(user.getUserId(), userGroup);
 
-		Assert.assertEquals(count + 1, _getDepotEntrySearchCount(user));
+		Assert.assertEquals(count + 1, _getCount(user));
 	}
 
-	private long _getDepotEntrySearchCount(User user) throws Exception {
+	private long _getCount(User user) throws Exception {
 		PermissionChecker originalPermissionChecker =
 			PermissionThreadLocal.getPermissionChecker();
 
