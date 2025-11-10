@@ -59,14 +59,14 @@ public class OrphanReferencesDataCleanupUtil {
 			aliasNeeded = true;
 		}
 
-		Set<String> firstIndexColumns = _getFirstIndexColumns(
+		Set<String> firstIndexColumnNames = _getFirstIndexColumnNames(
 			connection, db, targetTableName);
 
 		List<SafeCloseable> safeCloseables = new ArrayList<>();
 
-		if (firstIndexColumns != null) {
+		if (firstIndexColumnNames != null) {
 			for (String targetColumnName : targetColumnNames) {
-				if (!firstIndexColumns.contains(
+				if (!firstIndexColumnNames.contains(
 						StringUtil.toLowerCase(targetColumnName))) {
 
 					safeCloseables.add(
@@ -191,7 +191,7 @@ public class OrphanReferencesDataCleanupUtil {
 				" and " + sourceAdditionalWhereClause : "");
 	}
 
-	private static Set<String> _getFirstIndexColumns(
+	private static Set<String> _getFirstIndexColumnNames(
 			Connection connection, DB db, String tableName)
 		throws Exception {
 
@@ -201,7 +201,7 @@ public class OrphanReferencesDataCleanupUtil {
 			return null;
 		}
 
-		Set<String> firstIndexColumns = new HashSet<>();
+		Set<String> firstIndexColumnNames = new HashSet<>();
 
 		try (ResultSet resultSet = db.getIndexResultSet(
 				connection, tableName, false)) {
@@ -217,7 +217,8 @@ public class OrphanReferencesDataCleanupUtil {
 					String columnName = resultSet.getString("COLUMN_NAME");
 
 					if (columnName != null) {
-						firstIndexColumns.add(StringUtil.lowerCase(columnName));
+						firstIndexColumnNames.add(
+							StringUtil.lowerCase(columnName));
 					}
 				}
 			}
@@ -236,13 +237,13 @@ public class OrphanReferencesDataCleanupUtil {
 
 				String columnName = resultSet.getString("COLUMN_NAME");
 
-				firstIndexColumns.add(StringUtil.toLowerCase(columnName));
+				firstIndexColumnNames.add(StringUtil.toLowerCase(columnName));
 
 				break;
 			}
 		}
 
-		return firstIndexColumns;
+		return firstIndexColumnNames;
 	}
 
 	private static String _getMySQLWhereClause(

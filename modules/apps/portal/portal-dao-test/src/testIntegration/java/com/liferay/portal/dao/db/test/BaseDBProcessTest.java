@@ -67,7 +67,6 @@ public class BaseDBProcessTest extends BaseDBProcess {
 		_dbInspector = new DBInspector(_connection);
 
 		_db = DBManagerUtil.getDB();
-
 		_tempIndexCounter = ReflectionTestUtil.getFieldValue(
 			BaseDB.class, "_tempIndexCounter");
 	}
