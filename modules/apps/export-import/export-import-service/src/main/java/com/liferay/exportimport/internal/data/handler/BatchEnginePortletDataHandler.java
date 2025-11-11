@@ -141,6 +141,20 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 		return true;
 	}
 
+	@Override
+	public boolean isHidden() {
+		if (_registrations.size() != 1) {
+			return false;
+		}
+
+		Registration registration = _registrations.get(0);
+
+		ExportImportVulcanBatchEngineTaskItemDelegate.ExportImportDescriptor
+			exportImportDescriptor = registration.getExportImportDescriptor();
+
+		return exportImportDescriptor.isHidden();
+	}
+
 	public void registerExportImportVulcanBatchEngineTaskItemDelegate(
 		String batchEngineClassName,
 		ExportImportVulcanBatchEngineTaskItemDelegate.ExportImportDescriptor
