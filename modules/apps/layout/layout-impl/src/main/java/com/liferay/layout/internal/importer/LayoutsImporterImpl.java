@@ -935,8 +935,8 @@ public class LayoutsImporterImpl implements LayoutsImporter {
 			String zipPath)
 		throws PortalException {
 
-		String[] messageArgs;
-		String messageKey;
+		String[] errorMessageArguments = null;
+		String errorMessageMessage = null;
 
 		if (portalException instanceof DropzoneLayoutStructureItemException) {
 			if (_log.isWarnEnabled()) {
@@ -950,8 +950,10 @@ public class LayoutsImporterImpl implements LayoutsImporter {
 				_log.warn(portalException);
 			}
 
-			messageArgs = new String[] {zipPath};
-			messageKey = _MESSAGE_KEY_TYPE_INVALID;
+			errorMessageArguments = new String[] {zipPath};
+			errorMessageMessage =
+				"x-could-not-be-imported-because-its-content-type-or-subtype-" +
+					"is-missing";
 		}
 		else if (portalException instanceof PortletIdException) {
 			if (_log.isWarnEnabled()) {
@@ -961,23 +963,29 @@ public class LayoutsImporterImpl implements LayoutsImporter {
 					portalException);
 			}
 
-			messageArgs = new String[] {zipPath, portalException.getMessage()};
-			messageKey = _MESSAGE_UNINSTANCEABLE_PORTLET_ID_EXCEPTION;
+			errorMessageArguments = new String[] {
+				zipPath, portalException.getMessage()
+			};
+			errorMessageMessage =
+				"x-could-not-be-imported-because-the-uninstanceable-portlet-" +
+					"with-id-x-already-exists-on-page";
 		}
 		else {
 			if (_log.isWarnEnabled()) {
 				_log.warn(portalException);
 			}
 
-			messageArgs = new String[] {zipPath, typeName};
-			messageKey = _MESSAGE_KEY_NAME_INVALID;
+			errorMessageArguments = new String[] {zipPath, typeName};
+			errorMessageMessage =
+				"x-could-not-be-imported-because-a-x-with-the-same-name-" +
+					"already-exists";
 		}
 
 		layoutsImporterResultEntries.add(
 			new LayoutsImporterResultEntry(
 				name, LayoutsImporterResultEntry.Status.INVALID,
 				new LayoutsImporterResultEntry.ErrorMessage(
-					messageArgs, messageKey)));
+					errorMessageArguments, errorMessageMessage)));
 	}
 
 	private List<FragmentEntryLink> _importPageElement(
@@ -1646,7 +1654,8 @@ public class LayoutsImporterImpl implements LayoutsImporter {
 								zipPath,
 								_toTypeName(layoutPageTemplateEntryType)
 							},
-							_MESSAGE_KEY_IGNORED)));
+							"x-was-ignored-because-a-x-with-the-same-key-" +
+								"already-exists")));
 			}
 		}
 		catch (PortalException portalException) {
@@ -1824,7 +1833,8 @@ public class LayoutsImporterImpl implements LayoutsImporter {
 						name, LayoutsImporterResultEntry.Status.IGNORED,
 						new LayoutsImporterResultEntry.ErrorMessage(
 							new String[] {zipPath, "utility page"},
-							_MESSAGE_KEY_IGNORED)));
+							"x-was-ignored-because-a-x-with-the-same-key-" +
+								"already-exists")));
 			}
 		}
 		catch (PortalException portalException) {
@@ -2311,20 +2321,6 @@ public class LayoutsImporterImpl implements LayoutsImporter {
 
 		return _layoutLocalService.updateLayout(layout);
 	}
-
-	private static final String _MESSAGE_KEY_IGNORED =
-		"x-was-ignored-because-a-x-with-the-same-key-already-exists";
-
-	private static final String _MESSAGE_KEY_NAME_INVALID =
-		"x-could-not-be-imported-because-a-x-with-the-same-name-already-exists";
-
-	private static final String _MESSAGE_KEY_TYPE_INVALID =
-		"x-could-not-be-imported-because-its-content-type-or-subtype-is-" +
-			"missing";
-
-	private static final String _MESSAGE_UNINSTANCEABLE_PORTLET_ID_EXCEPTION =
-		"x-could-not-be-imported-because-the-uninstanceable-portlet-with-id-" +
-			"x-already-exists-on-page";
 
 	private static final String _PAGE_TEMPLATE_COLLECTION_KEY_DEFAULT =
 		"imported";
