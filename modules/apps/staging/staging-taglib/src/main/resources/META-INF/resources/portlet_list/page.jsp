@@ -33,6 +33,10 @@ StagingGroupHelper stagingGroupHelper = StagingGroupHelperUtil.getStagingGroupHe
 			continue;
 		}
 
+		if (portletDataHandler.isHidden()) {
+			continue;
+		}
+
 		String portletDataHandlerName = portletDataHandler.getName();
 
 		if (portletDataHandlerNames.contains(portletDataHandlerName)) {
