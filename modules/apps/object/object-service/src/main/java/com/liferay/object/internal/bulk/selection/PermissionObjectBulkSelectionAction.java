@@ -59,22 +59,22 @@ public class PermissionObjectBulkSelectionAction
 			_objectEntryLocalService.getObjectEntry(
 				GetterUtil.getLong(inputMap.get("bulkActionTaskId")));
 
-		Map<String, Serializable> bulkActionTaskValues =
+		Map<String, Serializable> values =
 			bulkActionTaskObjectEntry.getValues();
 
-		bulkActionTaskValues.put("numberOfItems", bulkSelection.getSize());
+		values.put("numberOfItems", bulkSelection.getSize());
 
 		String executionStatus = "completed";
 		AtomicInteger numberOfFailedItems = new AtomicInteger(0);
 		AtomicInteger numberOfSuccessfulItems = new AtomicInteger(0);
 
 		try {
-			bulkActionTaskValues.put("executionStatus", "started");
+			values.put("executionStatus", "started");
 
 			bulkActionTaskObjectEntry = _partialUpdateObjectEntry(
-				bulkActionTaskObjectEntry, bulkActionTaskValues);
+				bulkActionTaskObjectEntry, values);
 
-			bulkActionTaskValues = bulkActionTaskObjectEntry.getValues();
+			values = bulkActionTaskObjectEntry.getValues();
 
 			long companyId = bulkActionTaskObjectEntry.getCompanyId();
 
@@ -186,15 +186,13 @@ public class PermissionObjectBulkSelectionAction
 			executionStatus = "failed";
 		}
 		finally {
-			bulkActionTaskValues.put("completionDate", new Date());
-			bulkActionTaskValues.put("executionStatus", executionStatus);
-			bulkActionTaskValues.put(
-				"numberOfFailedItems", numberOfFailedItems.get());
-			bulkActionTaskValues.put(
+			values.put("completionDate", new Date());
+			values.put("executionStatus", executionStatus);
+			values.put("numberOfFailedItems", numberOfFailedItems.get());
+			values.put(
 				"numberOfSuccessfulItems", numberOfSuccessfulItems.get());
 
-			_partialUpdateObjectEntry(
-				bulkActionTaskObjectEntry, bulkActionTaskValues);
+			_partialUpdateObjectEntry(bulkActionTaskObjectEntry, values);
 		}
 	}
 
