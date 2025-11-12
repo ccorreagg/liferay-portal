@@ -339,119 +339,6 @@ public class BulkActionBulkSelectionFactory {
 		return document.getLong(Field.ENTRY_CLASS_PK);
 	}
 
-	private String[] _getSelectedItemsRowIds() throws PortalException {
-		BulkActionItem[] bulkActionItems = _bulkAction.getBulkActionItems();
-
-		if (ArrayUtil.isEmpty(bulkActionItems)) {
-			return new String[0];
-		}
-
-		List<String> rowIds = new ArrayList<>(bulkActionItems.length);
-
-		if (BulkAction.Type.DEFAULT_PERMISSION_BULK_ACTION.equals(
-				_bulkAction.getType())) {
-
-			BulkActionItem bulkActionItem = bulkActionItems[0];
-
-			String filterString = StringBundler.concat(
-				"(className eq '", bulkActionItem.getClassName(), "') and (",
-				StringUtil.merge(
-					TransformUtil.transform(
-						bulkActionItems,
-						item ->
-							"(classExternalReferenceCode eq '" +
-								item.getClassExternalReferenceCode() + "')",
-						String.class),
-					" or "),
-				")");
-
-			ObjectDefinition objectDefinition =
-				_objectDefinitionLocalService.
-					getObjectDefinitionByExternalReferenceCode(
-						"L_CMS_DEFAULT_PERMISSION", _company.getCompanyId());
-
-			Predicate predicate = _filterFactory.create(
-				filterString, objectDefinition);
-
-			List<Long> primaryKeys = _objectEntryLocalService.getPrimaryKeys(
-				new Long[0], _company.getCompanyId(), _user.getUserId(),
-				objectDefinition.getObjectDefinitionId(), predicate, false,
-				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-
-			for (long primaryKey : primaryKeys) {
-				rowIds.add(
-					objectDefinition.getClassName() + StringPool.SPACE +
-						primaryKey);
-			}
-		}
-		else {
-			for (BulkActionItem bulkActionItem : bulkActionItems) {
-				rowIds.add(
-					StringBundler.concat(
-						bulkActionItem.getClassName(), StringPool.SPACE,
-						bulkActionItem.getClassPK()));
-			}
-		}
-
-		return rowIds.toArray(new String[0]);
-	}
-
-	private boolean _isAllowedSearchContextAttribute(String key) {
-		if (key.startsWith("search.experiences.") ||
-			key.equals("search.empty.search") || key.equals("status")) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	private void _populateSearchContext(
-		Map<String, Object> attributes, Filter filter, String scope,
-		String search, SearchContext searchContext, Sort[] sorts) {
-
-		MapUtil.isNotEmptyForEach(
-			attributes,
-			(key, value) -> {
-				if (_isAllowedSearchContextAttribute(key) && (value != null) &&
-					(value instanceof Serializable)) {
-
-					searchContext.setAttribute(key, (Serializable)value);
-				}
-			});
-
-		if (searchContext.getAttribute("search.experiences.ip.address") ==
-				null) {
-
-			searchContext.setAttribute(
-				"search.experiences.ip.address",
-				_httpServletRequest.getRemoteAddr());
-		}
-
-		if (filter != null) {
-			searchContext.setBooleanClauses(
-				new BooleanClause[] {
-					_getBooleanClause(
-						booleanQuery -> {
-						},
-						filter)
-				});
-		}
-
-		searchContext.setEnd(QueryUtil.ALL_POS);
-		searchContext.setGroupIds(_toGroupIds(_company.getCompanyId(), scope));
-		searchContext.setKeywords(search);
-		searchContext.setLocale(_acceptLanguage.getPreferredLocale());
-
-		if (ArrayUtil.isNotEmpty(sorts)) {
-			searchContext.setSorts(sorts);
-		}
-
-		searchContext.setStart(QueryUtil.ALL_POS);
-		searchContext.setTimeZone(_user.getTimeZone());
-		searchContext.setUserId(_user.getUserId());
-	}
-
 	private String[] _getRowIds() throws PortalException {
 		if (BulkAction.Type.DEFAULT_PERMISSION_BULK_ACTION.equals(
 				_bulkAction.getType())) {
@@ -573,6 +460,119 @@ public class BulkActionBulkSelectionFactory {
 		}
 
 		return searchResults.toArray(new String[0]);
+	}
+
+	private String[] _getSelectedItemsRowIds() throws PortalException {
+		BulkActionItem[] bulkActionItems = _bulkAction.getBulkActionItems();
+
+		if (ArrayUtil.isEmpty(bulkActionItems)) {
+			return new String[0];
+		}
+
+		List<String> rowIds = new ArrayList<>(bulkActionItems.length);
+
+		if (BulkAction.Type.DEFAULT_PERMISSION_BULK_ACTION.equals(
+				_bulkAction.getType())) {
+
+			BulkActionItem bulkActionItem = bulkActionItems[0];
+
+			String filterString = StringBundler.concat(
+				"(className eq '", bulkActionItem.getClassName(), "') and (",
+				StringUtil.merge(
+					TransformUtil.transform(
+						bulkActionItems,
+						item ->
+							"(classExternalReferenceCode eq '" +
+								item.getClassExternalReferenceCode() + "')",
+						String.class),
+					" or "),
+				")");
+
+			ObjectDefinition objectDefinition =
+				_objectDefinitionLocalService.
+					getObjectDefinitionByExternalReferenceCode(
+						"L_CMS_DEFAULT_PERMISSION", _company.getCompanyId());
+
+			Predicate predicate = _filterFactory.create(
+				filterString, objectDefinition);
+
+			List<Long> primaryKeys = _objectEntryLocalService.getPrimaryKeys(
+				new Long[0], _company.getCompanyId(), _user.getUserId(),
+				objectDefinition.getObjectDefinitionId(), predicate, false,
+				null, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+			for (long primaryKey : primaryKeys) {
+				rowIds.add(
+					objectDefinition.getClassName() + StringPool.SPACE +
+						primaryKey);
+			}
+		}
+		else {
+			for (BulkActionItem bulkActionItem : bulkActionItems) {
+				rowIds.add(
+					StringBundler.concat(
+						bulkActionItem.getClassName(), StringPool.SPACE,
+						bulkActionItem.getClassPK()));
+			}
+		}
+
+		return rowIds.toArray(new String[0]);
+	}
+
+	private boolean _isAllowedSearchContextAttribute(String key) {
+		if (key.startsWith("search.experiences.") ||
+			key.equals("search.empty.search") || key.equals("status")) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	private void _populateSearchContext(
+		Map<String, Object> attributes, Filter filter, String scope,
+		String search, SearchContext searchContext, Sort[] sorts) {
+
+		MapUtil.isNotEmptyForEach(
+			attributes,
+			(key, value) -> {
+				if (_isAllowedSearchContextAttribute(key) && (value != null) &&
+					(value instanceof Serializable)) {
+
+					searchContext.setAttribute(key, (Serializable)value);
+				}
+			});
+
+		if (searchContext.getAttribute("search.experiences.ip.address") ==
+				null) {
+
+			searchContext.setAttribute(
+				"search.experiences.ip.address",
+				_httpServletRequest.getRemoteAddr());
+		}
+
+		if (filter != null) {
+			searchContext.setBooleanClauses(
+				new BooleanClause[] {
+					_getBooleanClause(
+						booleanQuery -> {
+						},
+						filter)
+				});
+		}
+
+		searchContext.setEnd(QueryUtil.ALL_POS);
+		searchContext.setGroupIds(_toGroupIds(_company.getCompanyId(), scope));
+		searchContext.setKeywords(search);
+		searchContext.setLocale(_acceptLanguage.getPreferredLocale());
+
+		if (ArrayUtil.isNotEmpty(sorts)) {
+			searchContext.setSorts(sorts);
+		}
+
+		searchContext.setStart(QueryUtil.ALL_POS);
+		searchContext.setTimeZone(_user.getTimeZone());
+		searchContext.setUserId(_user.getUserId());
 	}
 
 	private String[] _toArray(String csv) {
