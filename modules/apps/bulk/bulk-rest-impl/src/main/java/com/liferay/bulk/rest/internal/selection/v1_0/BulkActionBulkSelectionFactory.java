@@ -89,7 +89,7 @@ public class BulkActionBulkSelectionFactory {
 						_bulkAction.getSelectionScope();
 
 					if (GetterUtil.getBoolean(selectionScope.getSelectAll())) {
-						return _searchRowIds();
+						return _getRowIds();
 					}
 
 					return _getSelectedItemsRowIds();
@@ -452,7 +452,7 @@ public class BulkActionBulkSelectionFactory {
 		searchContext.setUserId(_user.getUserId());
 	}
 
-	private String[] _searchRowIds() throws PortalException {
+	private String[] _getRowIds() throws PortalException {
 		if (BulkAction.Type.DEFAULT_PERMISSION_BULK_ACTION.equals(
 				_bulkAction.getType())) {
 
