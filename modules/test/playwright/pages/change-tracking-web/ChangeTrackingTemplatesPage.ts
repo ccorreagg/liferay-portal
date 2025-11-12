@@ -5,6 +5,7 @@
 
 import {Locator, Page, expect} from '@playwright/test';
 
+import getRandomString from '../../utils/getRandomString';
 import {ChangeTrackingPage} from './ChangeTrackingPage';
 
 export class ChangeTrackingTemplatesPage {
@@ -13,8 +14,10 @@ export class ChangeTrackingTemplatesPage {
 	private readonly changeTrackingPage: ChangeTrackingPage;
 
 	private readonly addUsersButton: Locator;
+	private readonly createButton: Locator;
 	private readonly newTemplateButton: Locator;
 	private readonly publicationCollaboratorsPanel: Locator;
+	private readonly publicationNameField: Locator;
 	private readonly templateNameField: Locator;
 
 	constructor(page: Page) {
@@ -28,7 +31,30 @@ export class ChangeTrackingTemplatesPage {
 		this.publicationCollaboratorsPanel = page.locator(
 			'//button[descendant::text()="Publication Collaborators"]'
 		);
-		this.templateNameField = page.getByRole('textbox', {name: 'Name'});
+		this.publicationNameField = page
+			.getByRole('textbox', {name: 'Name'})
+			.nth(1);
+		this.templateNameField = page
+			.getByRole('textbox', {name: 'Name'})
+			.nth(0);
+	}
+
+	async addTemplate(name?: string, publicationName?: string) {
+		if (!name) {
+			name = getRandomString();
+		}
+
+		await this.templateNameField.fill(name);
+
+		await this.page.getByText('Publication Information').click();
+
+		if (!publicationName) {
+			publicationName = '${RANDOM_HASH}';
+		}
+
+		await this.publicationNameField.fill(publicationName);
+
+		await this.createButton.click();
 	}
 
 	async goto() {
