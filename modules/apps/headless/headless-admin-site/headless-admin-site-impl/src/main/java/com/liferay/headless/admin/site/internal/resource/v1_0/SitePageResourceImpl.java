@@ -155,6 +155,10 @@ public class SitePageResourceImpl
 				return HashMapBuilder.<String, Serializable>put(
 					"filter",
 					() -> {
+						if (portletDataContext.getLayoutIds() == null) {
+							return null;
+						}
+
 						if ((portletDataContext.getLayoutIds() == null) ||
 							(portletDataContext.getLayoutIds().length == 0)) {
 
