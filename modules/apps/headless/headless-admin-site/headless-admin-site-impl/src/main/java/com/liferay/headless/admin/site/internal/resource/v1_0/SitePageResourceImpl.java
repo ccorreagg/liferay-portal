@@ -156,9 +156,14 @@ public class SitePageResourceImpl
 					"filter",
 					() -> {
 						if ((portletDataContext.getLayoutIds() == null) ||
-							(portletDataContext.getLayoutIds().length == 0) ||
-							((portletDataContext.getLayoutIds().length == 1) &&
-							 (portletDataContext.getLayoutIds()[0] == 0))) {
+							(portletDataContext.getLayoutIds().length == 0)) {
+
+							return "externalReferenceCode eq null and " +
+								"externalReferenceCode ne null";
+						}
+
+						if ((portletDataContext.getLayoutIds().length == 1) &&
+							(portletDataContext.getLayoutIds()[0] == 0)) {
 
 							return null;
 						}
