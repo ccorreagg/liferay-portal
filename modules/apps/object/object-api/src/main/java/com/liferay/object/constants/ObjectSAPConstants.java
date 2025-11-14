@@ -21,6 +21,8 @@ public class ObjectSAPConstants {
 			ObjectSAPConstants.CLASS_NAME_OBJECT_ENTRY_RESOURCE,
 			"#getObjectEntry\n",
 			ObjectSAPConstants.CLASS_NAME_OBJECT_ENTRY_RESOURCE,
+			"#getScopeScopeKeyPage\n",
+			ObjectSAPConstants.CLASS_NAME_OBJECT_ENTRY_RESOURCE,
 			"#postObjectEntry\n",
 			ObjectSAPConstants.CLASS_NAME_OBJECT_ENTRY_RESOURCE,
 			"#postScopeScopeKey");
