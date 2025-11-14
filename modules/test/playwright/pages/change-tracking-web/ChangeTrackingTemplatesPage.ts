@@ -57,6 +57,20 @@ export class ChangeTrackingTemplatesPage {
 		await this.createButton.click();
 	}
 
+	async deleteTemplate(name: string) {
+		await this.goto();
+
+		await this.page.getByRole('row', {name}).getByRole('button').click();
+
+		this.page.once('dialog', (dialog) => {
+			dialog.accept();
+		});
+
+		await this.page.getByRole('menuitem', {name: 'Delete'}).click();
+
+		await expect(this.page.getByText(name)).not.toBeVisible();
+	}
+
 	async goto() {
 		await this.changeTrackingPage.goto();
 

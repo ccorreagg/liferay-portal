@@ -39,4 +39,6 @@ test('LPD-67882 Assert Publication Templates dropdown menu', async ({
 	const expectedItems = ['Edit', 'Permissions', 'Delete'];
 
 	expect(dropdownMenuItems.filter(Boolean)).toEqual(expectedItems);
+
+	await changeTrackingTemplatesPage.deleteTemplate(templateName);
 });
