@@ -265,16 +265,17 @@ public class CPInstanceUnitOfMeasureLocalServiceImpl
 		Map<Locale, String> updatedNameMap = new HashMap<>();
 
 		for (Map.Entry<Locale, String> nameMapEntry : nameMap.entrySet()) {
-			if (nameMapEntry.getValue() != null) {
-				updatedNameMap.put(
-					nameMapEntry.getKey(),
-					SanitizerUtil.sanitize(
-						user.getCompanyId(), user.getGroupId(),
-						user.getUserId(),
-						CPInstanceUnitOfMeasure.class.getName(),
-						cpInstanceUnitOfMeasureId, ContentTypes.TEXT_HTML,
-						Sanitizer.MODE_ALL, nameMapEntry.getValue(), null));
+			if (nameMapEntry.getValue() == null) {
+				continue;
 			}
+
+			updatedNameMap.put(
+				nameMapEntry.getKey(),
+				SanitizerUtil.sanitize(
+					user.getCompanyId(), user.getGroupId(), user.getUserId(),
+					CPInstanceUnitOfMeasure.class.getName(),
+					cpInstanceUnitOfMeasureId, ContentTypes.TEXT_HTML,
+					Sanitizer.MODE_ALL, nameMapEntry.getValue(), null));
 		}
 
 		return updatedNameMap;
