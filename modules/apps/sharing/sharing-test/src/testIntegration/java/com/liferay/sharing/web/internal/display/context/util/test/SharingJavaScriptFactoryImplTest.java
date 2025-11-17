@@ -76,11 +76,10 @@ public class SharingJavaScriptFactoryImplTest {
 
 	@Test
 	public void testCreateCopyLinkClickMethod() throws Exception {
-		String result = _sharingJavaScriptFactory.createCopyLinkClickMethod(
-			DLFolder.class.getName(), _dlFolder.getFolderId(),
-			_createMockHttpServletRequest(_user));
-
-		Assert.assertNull(result);
+		Assert.assertNull(
+			_sharingJavaScriptFactory.createCopyLinkClickMethod(
+				DLFolder.class.getName(), _dlFolder.getFolderId(),
+				_createMockHttpServletRequest(_user)));
 
 		_sharingEntryLocalService.addSharingEntry(
 			null, _creatorUser.getUserId(), 0, _user.getUserId(),
@@ -93,20 +92,16 @@ public class SharingJavaScriptFactoryImplTest {
 		String result = _sharingJavaScriptFactory.createCopyLinkClickMethod(
 			DLFolder.class.getName(), _dlFolder.getFolderId(),
 			_createMockHttpServletRequest(_user));
-
-		Assert.assertNotNull(result);
 
 		Assert.assertTrue(result.contains("Liferay.Sharing.copyLink"));
 	}
 
 	@Test
 	public void testCreateManageCollaboratorsOnClickMethod() throws Exception {
-		String result =
+		Assert.assertNull(
 			_sharingJavaScriptFactory.createManageCollaboratorsOnClickMethod(
 				DLFolder.class.getName(), _dlFolder.getFolderId(),
-				_createMockHttpServletRequest(_user));
-
-		Assert.assertNull(result);
+				_createMockHttpServletRequest(_user)));
 
 		_sharingEntryLocalService.addSharingEntry(
 			null, _creatorUser.getUserId(), 0, _user.getUserId(),
@@ -120,8 +115,6 @@ public class SharingJavaScriptFactoryImplTest {
 			_sharingJavaScriptFactory.createManageCollaboratorsOnClickMethod(
 				DLFolder.class.getName(), _dlFolder.getFolderId(),
 				_createMockHttpServletRequest(_user));
-
-		Assert.assertNotNull(result);
 
 		Assert.assertTrue(
 			result.contains("Liferay.Sharing.manageCollaborators"));
@@ -129,11 +122,10 @@ public class SharingJavaScriptFactoryImplTest {
 
 	@Test
 	public void testCreateSharingOnClickMethod() throws Exception {
-		String result = _sharingJavaScriptFactory.createSharingOnClickMethod(
-			DLFolder.class.getName(), _dlFolder.getFolderId(),
-			_createMockHttpServletRequest(_user));
-
-		Assert.assertNull(result);
+		Assert.assertNull(
+			_sharingJavaScriptFactory.createSharingOnClickMethod(
+				DLFolder.class.getName(), _dlFolder.getFolderId(),
+				_createMockHttpServletRequest(_user)));
 
 		_sharingEntryLocalService.addSharingEntry(
 			null, _creatorUser.getUserId(), 0, _user.getUserId(),
@@ -146,8 +138,6 @@ public class SharingJavaScriptFactoryImplTest {
 		String result = _sharingJavaScriptFactory.createSharingOnClickMethod(
 			DLFolder.class.getName(), _dlFolder.getFolderId(),
 			_createMockHttpServletRequest(_user));
-
-		Assert.assertNotNull(result);
 
 		Assert.assertTrue(result.contains("Liferay.Sharing.share"));
 	}
