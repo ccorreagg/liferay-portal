@@ -225,12 +225,12 @@ public class DepotEntryLocalServiceTest {
 		DepotEntry depotEntry4 = _addDepotEntry(user, irrelevantUserGroup);
 		DepotEntry depotEntry5 = _addDepotEntry(user, userGroup);
 
-		_testGetDepotEntryGroupIds(
+		_testGetDepotEntryGroupIdsByUser(
 			List.of(
 				depotEntry1, depotEntry2, depotEntry3, depotEntry4,
 				depotEntry5),
 			user, false);
-		_testGetDepotEntryGroupIds(
+		_testGetDepotEntryGroupIdsByUser(
 			List.of(depotEntry1, depotEntry2, depotEntry5), user, true);
 	}
 
@@ -479,11 +479,11 @@ public class DepotEntryLocalServiceTest {
 		return serviceContext;
 	}
 
-	private void _testGetDepotEntryGroupIds(
+	private void _testGetDepotEntryGroupIdsByUser(
 		List<DepotEntry> depotEntries, User user, boolean userGroupsOnly) {
 
-		List<Long> depotEntryGroupIds = new ArrayList<>();
 		List<Long> assetLibraryGroupIds = new ArrayList<>();
+		List<Long> depotEntryGroupIds = new ArrayList<>();
 		List<Long> spaceGroupIds = new ArrayList<>();
 
 		for (DepotEntry depotEntry : depotEntries) {
