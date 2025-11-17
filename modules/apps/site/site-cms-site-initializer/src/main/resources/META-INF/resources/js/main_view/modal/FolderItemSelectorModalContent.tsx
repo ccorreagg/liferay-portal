@@ -298,6 +298,7 @@ function FolderItemSelectorModalContent({
 									{
 										label: Liferay.Language.get('spaces'),
 										onClick: () => {
+											setSchemaKey((prev) => prev + 1);
 											setSelectedItemType('space');
 											setURL(SPACES_URL);
 										},
