@@ -70,58 +70,8 @@ public class EditObjectCategoriesBulkSelectionAction
 				object -> {
 					try {
 						if (object instanceof ObjectEntry) {
-							ObjectEntry objectObjectEntry = (ObjectEntry)object;
-
-							AssetEntry assetEntry =
-								_assetEntryLocalService.fetchEntry(
-									objectObjectEntry.getModelClassName(),
-									objectObjectEntry.getObjectEntryId());
-
-							PermissionChecker permissionChecker =
-								PermissionCheckerFactoryUtil.create(user);
-
-							if ((assetEntry == null) ||
-								!ModelResourcePermissionUtil.contains(
-									permissionChecker, assetEntry.getGroupId(),
-									assetEntry.getClassName(),
-									assetEntry.getClassPK(),
-									ActionKeys.UPDATE)) {
-
-								return;
-							}
-
-							long[] newCategoryIds = new long[0];
-
-							Set<Long> toAddCategoryIds = _toLongSet(
-								inputMap, "toAddCategoryIds");
-
-							if (SetUtil.isNotEmpty(toAddCategoryIds)) {
-								newCategoryIds = ArrayUtil.toLongArray(
-									toAddCategoryIds);
-							}
-
-							if (MapUtil.getBoolean(inputMap, "append")) {
-								Set<Long> currentCategoryIds =
-									SetUtil.fromArray(
-										assetEntry.getCategoryIds());
-
-								Set<Long> toRemoveCategoryIds = _toLongSet(
-									inputMap, "toRemoveCategoryIds");
-
-								currentCategoryIds.removeAll(
-									toRemoveCategoryIds);
-
-								currentCategoryIds.addAll(toAddCategoryIds);
-
-								newCategoryIds = ArrayUtil.toLongArray(
-									currentCategoryIds);
-							}
-
-							_assetEntryLocalService.updateEntry(
-								assetEntry.getUserId(), assetEntry.getGroupId(),
-								assetEntry.getClassName(),
-								assetEntry.getClassPK(), newCategoryIds,
-								assetEntry.getTagNames());
+							_updateAssetEntry(
+								user, inputMap, (ObjectEntry)object);
 						}
 					}
 					catch (PortalException portalException) {
@@ -181,6 +131,54 @@ public class EditObjectCategoriesBulkSelectionAction
 		}
 
 		return SetUtil.fromArray(new Long[0]);
+	}
+
+	private void _updateAssetEntry(
+			User user, Map<String, Serializable> inputMap,
+			ObjectEntry objectEntry)
+		throws PortalException {
+
+		AssetEntry assetEntry = _assetEntryLocalService.fetchEntry(
+			objectEntry.getModelClassName(), objectEntry.getObjectEntryId());
+
+		PermissionChecker permissionChecker =
+			PermissionCheckerFactoryUtil.create(user);
+
+		if ((assetEntry == null) ||
+			!ModelResourcePermissionUtil.contains(
+				permissionChecker, assetEntry.getGroupId(),
+				assetEntry.getClassName(), assetEntry.getClassPK(),
+				ActionKeys.UPDATE)) {
+
+			return;
+		}
+
+		long[] newCategoryIds = new long[0];
+
+		Set<Long> toAddCategoryIds = _toLongSet(inputMap, "toAddCategoryIds");
+
+		if (SetUtil.isNotEmpty(toAddCategoryIds)) {
+			newCategoryIds = ArrayUtil.toLongArray(toAddCategoryIds);
+		}
+
+		if (MapUtil.getBoolean(inputMap, "append")) {
+			Set<Long> currentCategoryIds = SetUtil.fromArray(
+				assetEntry.getCategoryIds());
+
+			Set<Long> toRemoveCategoryIds = _toLongSet(
+				inputMap, "toRemoveCategoryIds");
+
+			currentCategoryIds.removeAll(toRemoveCategoryIds);
+
+			currentCategoryIds.addAll(toAddCategoryIds);
+
+			newCategoryIds = ArrayUtil.toLongArray(currentCategoryIds);
+		}
+
+		_assetEntryLocalService.updateEntry(
+			assetEntry.getUserId(), assetEntry.getGroupId(),
+			assetEntry.getClassName(), assetEntry.getClassPK(), newCategoryIds,
+			assetEntry.getTagNames());
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

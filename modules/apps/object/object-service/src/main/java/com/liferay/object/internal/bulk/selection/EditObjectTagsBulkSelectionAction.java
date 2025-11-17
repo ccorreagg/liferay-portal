@@ -74,57 +74,8 @@ public class EditObjectTagsBulkSelectionAction
 				object -> {
 					try {
 						if (object instanceof ObjectEntry) {
-							ObjectEntry objectObjectEntry = (ObjectEntry)object;
-
-							AssetEntry assetEntry =
-								_assetEntryLocalService.fetchEntry(
-									objectObjectEntry.getModelClassName(),
-									objectObjectEntry.getObjectEntryId());
-
-							PermissionChecker permissionChecker =
-								PermissionCheckerFactoryUtil.create(user);
-
-							if ((assetEntry == null) ||
-								!_hasEditPermission(
-									assetEntry, permissionChecker)) {
-
-								return;
-							}
-
-							String[] newTagNames = new String[0];
-
-							Set<String> toAddTagNames = _toStringSet(
-								inputMap, "toAddTagNames");
-
-							if (SetUtil.isNotEmpty(toAddTagNames)) {
-								newTagNames = (String[])inputMap.get(
-									"toAddTagNames");
-							}
-
-							if (MapUtil.getBoolean(inputMap, "append")) {
-								Set<String> currentTagNames = SetUtil.fromArray(
-									assetEntry.getTagNames());
-
-								Set<String> toRemoveTagNames = _toStringSet(
-									inputMap, "toRemoveTagNames");
-
-								currentTagNames.removeAll(toRemoveTagNames);
-
-								currentTagNames.addAll(toAddTagNames);
-
-								currentTagNames.removeIf(
-									tagName -> !_assetHelper.isValidWord(
-										tagName));
-
-								newTagNames = currentTagNames.toArray(
-									new String[0]);
-							}
-
-							_assetEntryLocalService.updateEntry(
-								assetEntry.getUserId(), assetEntry.getGroupId(),
-								assetEntry.getClassName(),
-								assetEntry.getClassPK(),
-								assetEntry.getCategoryIds(), newTagNames);
+							_updateAssetEntry(
+								user, inputMap, (ObjectEntry)object);
 						}
 
 						numberOfSuccessfulItems.getAndIncrement();
@@ -195,6 +146,54 @@ public class EditObjectTagsBulkSelectionAction
 		}
 
 		return SetUtil.fromArray(new String[0]);
+	}
+
+	private void _updateAssetEntry(
+			User user, Map<String, Serializable> inputMap,
+			ObjectEntry objectEntry)
+		throws PortalException {
+
+		AssetEntry assetEntry = _assetEntryLocalService.fetchEntry(
+			objectEntry.getModelClassName(), objectEntry.getObjectEntryId());
+
+		PermissionChecker permissionChecker =
+			PermissionCheckerFactoryUtil.create(user);
+
+		if ((assetEntry == null) ||
+			!_hasEditPermission(assetEntry, permissionChecker)) {
+
+			return;
+		}
+
+		String[] newTagNames = new String[0];
+
+		Set<String> toAddTagNames = _toStringSet(inputMap, "toAddTagNames");
+
+		if (SetUtil.isNotEmpty(toAddTagNames)) {
+			newTagNames = (String[])inputMap.get("toAddTagNames");
+		}
+
+		if (MapUtil.getBoolean(inputMap, "append")) {
+			Set<String> currentTagNames = SetUtil.fromArray(
+				assetEntry.getTagNames());
+
+			Set<String> toRemoveTagNames = _toStringSet(
+				inputMap, "toRemoveTagNames");
+
+			currentTagNames.removeAll(toRemoveTagNames);
+
+			currentTagNames.addAll(toAddTagNames);
+
+			currentTagNames.removeIf(
+				tagName -> !_assetHelper.isValidWord(tagName));
+
+			newTagNames = currentTagNames.toArray(new String[0]);
+		}
+
+		_assetEntryLocalService.updateEntry(
+			assetEntry.getUserId(), assetEntry.getGroupId(),
+			assetEntry.getClassName(), assetEntry.getClassPK(),
+			assetEntry.getCategoryIds(), newTagNames);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
