@@ -103,7 +103,7 @@ public class DLFileEntryCTTest {
 
 		TempFileEntryUtil.getTempFileNames(
 			_group.getGroupId(), TestPropsValues.getUserId(),
-			_TEMP_FOLDER_NAME);
+			DLFileEntryCTTest.class.getName());
 
 		try (SafeCloseable safeCloseable =
 				CTCollectionThreadLocal.setCTCollectionIdWithSafeCloseable(
@@ -111,7 +111,7 @@ public class DLFileEntryCTTest {
 
 			FileEntry tempFileEntry = TempFileEntryUtil.addTempFileEntry(
 				_group.getGroupId(), TestPropsValues.getUserId(),
-				_TEMP_FOLDER_NAME,
+				DLFileEntryCTTest.class.getName(),
 				TempFileEntryUtil.getTempFileName("image.jpg"),
 				new ByteArrayInputStream("test".getBytes()),
 				ContentTypes.IMAGE_JPEG);
@@ -221,9 +221,6 @@ public class DLFileEntryCTTest {
 			StringPool.BLANK, "liferay".getBytes(), null, null, null,
 			serviceContext);
 	}
-
-	private static final String _TEMP_FOLDER_NAME =
-		DLFileEntryCTTest.class.getName();
 
 	@Inject
 	private ClassNameLocalService _classNameLocalService;
