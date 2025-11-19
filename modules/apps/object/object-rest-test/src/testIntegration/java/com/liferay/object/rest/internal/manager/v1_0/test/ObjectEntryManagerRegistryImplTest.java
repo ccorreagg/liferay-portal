@@ -97,7 +97,7 @@ public class ObjectEntryManagerRegistryImplTest {
 	}
 
 	@Test
-	public void testGetObjectEntryManagerWhenThereIsNoObjectEntryManager() {
+	public void testGetObjectEntryManager() {
 		Assert.assertNull(
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				1, RandomTestUtil.randomString()));
