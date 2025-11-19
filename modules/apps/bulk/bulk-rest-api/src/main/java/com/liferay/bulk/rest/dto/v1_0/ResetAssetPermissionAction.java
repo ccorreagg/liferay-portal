@@ -111,7 +111,9 @@ public class ResetAssetPermissionAction
 			sb.append("\"type\": ");
 
 			sb.append("\"");
+
 			sb.append(type);
+
 			sb.append("\"");
 		}
 

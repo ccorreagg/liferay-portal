@@ -289,7 +289,9 @@ public class DefaultPermissionBulkAction
 			sb.append("\"type\": ");
 
 			sb.append("\"");
+
 			sb.append(type);
+
 			sb.append("\"");
 		}
 

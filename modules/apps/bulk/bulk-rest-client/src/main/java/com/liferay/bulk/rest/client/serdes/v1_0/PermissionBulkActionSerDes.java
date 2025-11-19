@@ -127,7 +127,9 @@ public class PermissionBulkActionSerDes {
 			sb.append("\"type\": ");
 
 			sb.append("\"");
+
 			sb.append(permissionBulkAction.getType());
+
 			sb.append("\"");
 		}
 
