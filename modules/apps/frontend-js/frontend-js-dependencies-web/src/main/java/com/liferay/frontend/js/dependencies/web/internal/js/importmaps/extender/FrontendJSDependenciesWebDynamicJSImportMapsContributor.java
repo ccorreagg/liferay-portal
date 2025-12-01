@@ -43,8 +43,7 @@ public class FrontendJSDependenciesWebDynamicJSImportMapsContributor
 
 		writer.write(esModuleAbsolutePortalURLBuilder.build());
 
-		writer.write("\",");
-		writer.write("\"@liferay/frontend-js-api/data-set\": \"");
+		writer.write("\", \"@liferay/frontend-js-api/data-set\": \"");
 
 		esModuleAbsolutePortalURLBuilder = absolutePortalURLBuilder.forESModule(
 			"frontend-js-dependencies-web",

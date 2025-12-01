@@ -123,11 +123,9 @@ public class FrontendJsWebLanguageServlet extends HttpServlet {
 
 		// Check if servlet context exists
 
-		String webContextPath = parts[2];
-
 		String modulePath = _portal.getPathModule();
-
 		String proxyPath = _portal.getPathProxy();
+		String webContextPath = parts[2];
 
 		ServletContext servletContext = _serviceTrackerMap.getService(
 			modulePath.substring(proxyPath.length()) + StringPool.SLASH +
