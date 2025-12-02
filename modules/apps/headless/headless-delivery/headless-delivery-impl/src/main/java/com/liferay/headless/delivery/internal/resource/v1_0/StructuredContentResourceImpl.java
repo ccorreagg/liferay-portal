@@ -134,6 +134,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1209,7 +1210,7 @@ public class StructuredContentResourceImpl
 		Map<Locale, String> titleMap) {
 
 		if ((titleMap == null) || titleMap.isEmpty()) {
-			return titleMap.keySet();
+			return Collections.emptySet();
 		}
 
 		String defaultValue = titleMap.get(
