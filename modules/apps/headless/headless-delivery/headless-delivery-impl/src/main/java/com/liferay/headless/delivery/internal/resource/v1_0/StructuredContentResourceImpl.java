@@ -1206,7 +1206,7 @@ public class StructuredContentResourceImpl
 	}
 
 	private Set<Locale> _populateTitleMap(
-		String defaultLocale, String[] languageIds,
+		String defaultLanguageId, String[] languageIds,
 		Map<Locale, String> titleMap) {
 
 		if ((titleMap == null) || titleMap.isEmpty()) {
@@ -1214,7 +1214,7 @@ public class StructuredContentResourceImpl
 		}
 
 		String defaultValue = titleMap.get(
-			LocaleUtil.fromLanguageId(defaultLocale));
+			LocaleUtil.fromLanguageId(defaultLanguageId));
 
 		Locale[] locales = LocaleUtil.fromLanguageIds(languageIds);
 
