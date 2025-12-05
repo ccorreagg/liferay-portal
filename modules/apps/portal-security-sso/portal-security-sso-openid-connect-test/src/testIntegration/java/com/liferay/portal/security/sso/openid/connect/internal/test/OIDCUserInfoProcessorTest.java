@@ -348,15 +348,16 @@ public class OIDCUserInfoProcessorTest {
 	}
 
 	private ExpandoColumn _getOrAddExpandoColumn(
-			long tableId, String columnName, int columnType)
+			long expandoTableId, String expandoColumnName,
+			int expandoColumnType)
 		throws Exception {
 
 		ExpandoColumn expandoColumn = _expandoColumnLocalService.fetchColumn(
-			tableId, columnName);
+			expandoTableId, expandoColumnName);
 
 		if (expandoColumn == null) {
 			expandoColumn = _expandoColumnLocalService.addColumn(
-				tableId, columnName, columnType);
+				expandoTableId, expandoColumnName, expandoColumnType);
 		}
 
 		return expandoColumn;
