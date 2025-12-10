@@ -8,7 +8,7 @@ package com.liferay.layout.admin.web.internal.portlet.action;
 import com.liferay.layout.admin.constants.LayoutAdminPortletKeys;
 import com.liferay.layout.admin.web.internal.handler.LayoutUtilityPageEntryPortalExceptionRequestHandlerUtil;
 import com.liferay.layout.utility.page.model.LayoutUtilityPageEntry;
-import com.liferay.layout.utility.page.service.LayoutUtilityPageEntryLocalService;
+import com.liferay.layout.utility.page.service.LayoutUtilityPageEntryService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
@@ -90,9 +90,9 @@ public class AddLayoutUtilityPageEntryMVCActionCommand
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 			actionRequest);
 
-		return _layoutUtilityPageEntryLocalService.addLayoutUtilityPageEntry(
-			null, serviceContext.getUserId(), serviceContext.getScopeGroupId(),
-			0, 0, false, name, type, masterLayoutPlid, serviceContext);
+		return _layoutUtilityPageEntryService.addLayoutUtilityPageEntry(
+			null, serviceContext.getScopeGroupId(), 0, 0, false, name, type,
+			masterLayoutPlid, serviceContext);
 	}
 
 	private String _getRedirectURL(
@@ -127,8 +127,7 @@ public class AddLayoutUtilityPageEntryMVCActionCommand
 	private LayoutLocalService _layoutLocalService;
 
 	@Reference
-	private LayoutUtilityPageEntryLocalService
-		_layoutUtilityPageEntryLocalService;
+	private LayoutUtilityPageEntryService _layoutUtilityPageEntryService;
 
 	@Reference
 	private Portal _portal;
