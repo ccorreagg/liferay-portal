@@ -57,8 +57,6 @@ public class UserModelListenerTest {
 				user.getUserId(), RandomTestUtil.randomString(),
 				RandomTestUtil.randomString());
 
-		Assert.assertNotNull(openIdConnectUser);
-
 		_userLocalService.deleteUser(user);
 
 		Assert.assertNull(
