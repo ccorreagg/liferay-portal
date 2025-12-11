@@ -166,6 +166,7 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.encryptor.Encryptor;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -1348,7 +1349,8 @@ public class ObjectEntryLocalServiceImpl
 
 		return objectEntryPersistence.dslQuery(
 			_applyOrderBy(
-				dslQuery, objectRelationship.getObjectDefinitionId2(), sorts));
+				dslQuery, objectRelationship.getObjectDefinitionId2(), start,
+				end, sorts));
 	}
 
 	@Override
@@ -1428,7 +1430,7 @@ public class ObjectEntryLocalServiceImpl
 
 		return TransformUtil.transform(
 			objectEntryPersistence.dslQuery(
-				_applyOrderBy(dslQuery, objectDefinitionId, sorts)),
+				_applyOrderBy(dslQuery, objectDefinitionId, start, end, sorts)),
 			value -> (Long)_getResult(
 				value, objectDefinitionId,
 				dynamicObjectDefinitionTable.getPrimaryKeyColumn()));
@@ -2716,8 +2718,15 @@ public class ObjectEntryLocalServiceImpl
 	}
 
 	private DSLQuery _applyOrderBy(
-			DSLQuery dslQuery, long objectDefinitionId, Sort[] sorts)
+			DSLQuery dslQuery, long objectDefinitionId, int start, int end,
+			Sort[] sorts)
 		throws PortalException {
+
+		if (((end != QueryUtil.ALL_POS) || (start != QueryUtil.ALL_POS)) &&
+			(sorts == null)) {
+
+			sorts = new Sort[] {new Sort("id", Sort.LONG_TYPE, false)};
+		}
 
 		if (sorts == null) {
 			return dslQuery;
