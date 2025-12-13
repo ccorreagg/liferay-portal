@@ -26,6 +26,8 @@ import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.verify.VerifyProcess;
 
+import java.net.URL;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -91,15 +93,23 @@ public class ServiceComponentDataCleanupVerifyProcess extends VerifyProcess {
 					continue;
 				}
 
-				Properties properties = PropertiesUtil.load(
-					bundle.getResource("service.properties"));
+				String buildNumberServiceProperties = null;
 
-				String buildNumberServiceProperties = properties.getProperty(
-					"build.number");
+				URL servicePropertiesURL = bundle.getResource(
+					"service.properties");
 
-				if (!StringUtil.equals(
-						buildNumberServiceProperties,
-						String.valueOf(serviceComponent.getBuildNumber())) ||
+				if (servicePropertiesURL != null) {
+					Properties properties = PropertiesUtil.load(
+						servicePropertiesURL);
+
+					buildNumberServiceProperties = properties.getProperty(
+						"build.number");
+				}
+
+				if (((buildNumberServiceProperties != null) &&
+					 !StringUtil.equals(
+						 buildNumberServiceProperties,
+						 String.valueOf(serviceComponent.getBuildNumber()))) ||
 					!Objects.equals(
 						serviceComponent.getData(), _generateXML(bundle))) {
 
