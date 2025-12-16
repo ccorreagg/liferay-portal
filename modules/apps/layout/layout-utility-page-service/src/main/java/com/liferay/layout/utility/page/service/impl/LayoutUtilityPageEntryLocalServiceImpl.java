@@ -390,7 +390,8 @@ public class LayoutUtilityPageEntryLocalServiceImpl
 
 	@Override
 	public LayoutUtilityPageEntry updateLayoutUtilityPageEntry(
-		long layoutUtilityPageEntryId, long previewFileEntryId) {
+			long layoutUtilityPageEntryId, long previewFileEntryId)
+		throws PortalException {
 
 		LayoutUtilityPageEntry layoutUtilityPageEntry =
 			layoutUtilityPageEntryPersistence.fetchByPrimaryKey(
