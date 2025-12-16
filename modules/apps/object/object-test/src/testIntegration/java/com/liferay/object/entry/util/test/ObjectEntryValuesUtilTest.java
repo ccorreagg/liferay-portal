@@ -44,8 +44,7 @@ public class ObjectEntryValuesUtilTest {
 		Assert.assertNull(
 			ObjectEntryValuesUtil.getTitleFieldValue(
 				ObjectFieldConstants.BUSINESS_TYPE_TEXT,
-				Collections.singletonMap(
-					name, RandomTestUtil.randomString()),
+				Collections.singletonMap(name, RandomTestUtil.randomString()),
 				objectField, null, null));
 
 		String value = RandomTestUtil.randomString();
@@ -54,10 +53,8 @@ public class ObjectEntryValuesUtilTest {
 			value,
 			ObjectEntryValuesUtil.getTitleFieldValue(
 				ObjectFieldConstants.BUSINESS_TYPE_TEXT,
-				Collections.singletonMap(
-					name, RandomTestUtil.randomString()),
-				objectField, null,
-				Collections.singletonMap(name, value)));
+				Collections.singletonMap(name, RandomTestUtil.randomString()),
+				objectField, null, Collections.singletonMap(name, value)));
 		Assert.assertEquals(
 			value,
 			ObjectEntryValuesUtil.getTitleFieldValue(
@@ -101,8 +98,7 @@ public class ObjectEntryValuesUtilTest {
 		Assert.assertEquals(
 			value,
 			ObjectEntryValuesUtil.getValue(
-				RandomTestUtil.randomString(),
-				_createObjectField(false, name),
+				RandomTestUtil.randomString(), _createObjectField(false, name),
 				HashMapBuilder.<String, Object>put(
 					name, value
 				).build()));
