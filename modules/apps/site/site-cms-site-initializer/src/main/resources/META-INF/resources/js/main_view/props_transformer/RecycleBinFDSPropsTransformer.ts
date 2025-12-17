@@ -24,6 +24,7 @@ export default function RecycleBinFDSPropsTransformer({
 	...otherProps
 }: {
 	apiURL: string;
+	id: string;
 	itemsActions?: any[];
 	otherProps: any;
 }) {
@@ -119,6 +120,7 @@ export default function RecycleBinFDSPropsTransformer({
 			if (action?.data?.id === 'delete') {
 				deleteAssetEntriesBulkAction({
 					apiURL: otherProps.apiURL,
+					dataSetId: otherProps.id,
 					selectedData,
 				});
 			}

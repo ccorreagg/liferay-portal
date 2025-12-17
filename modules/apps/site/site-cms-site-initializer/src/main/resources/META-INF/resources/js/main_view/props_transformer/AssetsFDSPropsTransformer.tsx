@@ -75,6 +75,7 @@ export default function AssetsFDSPropsTransformer({
 	additionalProps: AdditionalProps;
 	apiURL?: string;
 	creationMenu: any;
+	id?: string;
 	itemsActions?: any[];
 	views: IView[];
 }) {
@@ -376,6 +377,7 @@ export default function AssetsFDSPropsTransformer({
 						onDelete: async () => {
 							executeBulkDeleteAction(
 								otherProps.apiURL as string,
+								otherProps.id || '',
 								selectedData
 							);
 						},
@@ -388,6 +390,7 @@ export default function AssetsFDSPropsTransformer({
 						onSkip: async () => {
 							deleteAssetEntriesBulkAction({
 								apiURL: otherProps.apiURL,
+								dataSetId: otherProps.id,
 								selectedData,
 							});
 						},
