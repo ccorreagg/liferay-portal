@@ -25,6 +25,21 @@ import java.util.TreeSet;
  */
 public class PreupgradeVerifyDatabaseState extends PreupgradeVerifyProcess {
 
+	public PreupgradeVerifyDatabaseState() {
+		_falsePositive74UpgradeDroppedTableNames = new TreeSet<>(
+			String.CASE_INSENSITIVE_ORDER);
+
+		_falsePositive74UpgradeDroppedTableNames.addAll(
+			Set.of(
+				"Account_", "AccountGroupAccountEntryRel",
+				"AssetEntries_AssetCategories", "BlogsStatsUser",
+				"CAccountGroupCAccountRel", "CommerceAccount",
+				"CommerceAccountGroup", "CommerceAccountGroupRel",
+				"CommerceAccountOrganizationRel", "CommerceAccountUserRel",
+				"CommerceAddress", "CommerceCountry", "CommerceRegion",
+				"MBStatsUser", "OrgGroupRole", "RemoteAppEntry"));
+	}
+
 	public void verify() throws VerifyException {
 		try {
 			try (Connection connection = getConnection()) {
@@ -152,14 +167,6 @@ public class PreupgradeVerifyDatabaseState extends PreupgradeVerifyProcess {
 		return viewNames;
 	}
 
-	private static final Set<String> _falsePositive74UpgradeDroppedTableNames =
-		Set.of(
-			"Account_", "AccountGroupAccountEntryRel",
-			"AssetEntries_AssetCategories", "BlogsStatsUser",
-			"CAccountGroupCAccountRel", "CommerceAccount",
-			"CommerceAccountGroup", "CommerceAccountGroupRel",
-			"CommerceAccountOrganizationRel", "CommerceAccountUserRel",
-			"CommerceAddress", "CommerceCountry", "CommerceRegion",
-			"MBStatsUser", "OrgGroupRole", "RemoteAppEntry");
+	private final Set<String> _falsePositive74UpgradeDroppedTableNames;
 
 }
