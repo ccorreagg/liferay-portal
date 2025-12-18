@@ -309,6 +309,12 @@ public class FragmentCompositionLocalServiceImpl
 			fragmentCompositionPersistence.findByPrimaryKey(
 				fragmentCompositionId);
 
+		fragmentComposition.setModifiedDate(new Date());
+		fragmentComposition.setPreviewFileEntryId(previewFileEntryId);
+
+		fragmentComposition = fragmentCompositionPersistence.update(
+			fragmentComposition);
+
 		long previousPreviewFileEntryId =
 			fragmentComposition.getPreviewFileEntryId();
 
@@ -317,10 +323,7 @@ public class FragmentCompositionLocalServiceImpl
 				previousPreviewFileEntryId);
 		}
 
-		fragmentComposition.setModifiedDate(new Date());
-		fragmentComposition.setPreviewFileEntryId(previewFileEntryId);
-
-		return fragmentCompositionPersistence.update(fragmentComposition);
+		return fragmentComposition;
 	}
 
 	@Override
