@@ -111,7 +111,7 @@ public class ObjectEntryResourceImpl
 				_objectDefinition.getScope());
 
 		if (objectScopeProvider.isGroupAware()) {
-			_siteCreate(objectEntries, parameters);
+			_groupAwareCreate(objectEntries, parameters);
 		}
 		else {
 			super.create(objectEntries, parameters);
@@ -1369,9 +1369,9 @@ public class ObjectEntryResourceImpl
 		return null;
 	}
 
-	private void _siteCreate(
-		Collection<ObjectEntry> objectEntries,
-		Map<String, Serializable> parameters)
+	private void _groupAwareCreate(
+			Collection<ObjectEntry> objectEntries,
+			Map<String, Serializable> parameters)
 		throws Exception {
 
 		UnsafeFunction<ObjectEntry, ObjectEntry, Exception>
