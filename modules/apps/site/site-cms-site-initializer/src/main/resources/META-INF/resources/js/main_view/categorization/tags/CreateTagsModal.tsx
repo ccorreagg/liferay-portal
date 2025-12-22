@@ -38,7 +38,7 @@ export default function CreateTagsModalContent({
 	invalidTagCharacters: string;
 }) {
 	const [nameInputError, setNameInputError] = useState<string>('');
-	const [selectedSpaces, setSelectedSpaces] = useState<number[]>([-1]);
+	const [selectedSpaces, setSelectedSpaces] = useState<string[]>([]);
 	const [spaceInputError, setSpaceInputError] = useState('');
 	const [close, setClose] = useState(false);
 
@@ -58,8 +58,8 @@ export default function CreateTagsModalContent({
 		onSubmit: (values) => {
 			const url = `/o/headless-admin-taxonomy/v1.0/sites/${cmsGroupId}/keywords`;
 			const body = {
-				assetLibraries: selectedSpaces.map((number) => ({
-					id: number,
+				assetLibraries: selectedSpaces.map((string) => ({
+					scopeKey: string,
 				})),
 				name: values.tagName,
 			};

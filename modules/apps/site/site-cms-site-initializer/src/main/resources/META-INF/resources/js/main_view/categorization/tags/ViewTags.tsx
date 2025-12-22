@@ -3,11 +3,14 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
+import {ClayDropDownWithItems} from '@clayui/drop-down';
 import {FrontendDataSet} from '@liferay/frontend-data-set-web';
 import {openModal} from 'frontend-js-components-web';
 import {navigate, sub} from 'frontend-js-web';
-import React from 'react';
+import React, {ComponentProps} from 'react';
 
+import {ActionDropdownItemProps} from '../../../common/components/Breadcrumb';
+import {openCMSModal} from '../../../common/utils/openCMSModal';
 import MultipleSpacesRenderer from '../../props_transformer/cell_renderers/MultipleSpacesRenderer';
 import {executeAsyncItemAction} from '../../props_transformer/utils/executeAsyncItemAction';
 import CategorizationToolbar from '../CategorizationToolbar';
@@ -16,6 +19,7 @@ import EditTagsModal from './EditTagsModal';
 import MergeTagsModal from './MergeTagsModal';
 
 export default function ViewTags({
+	actionItems,
 	cmsGroupId,
 	dataSetId,
 	invalidTagCharacters,
@@ -23,6 +27,8 @@ export default function ViewTags({
 	tagsURL,
 	vocabulariesURL,
 }: {
+	actionItems: ComponentProps<typeof ClayDropDownWithItems>['items'] &
+		ActionDropdownItemProps;
 	cmsGroupId: number;
 	dataSetId: string;
 	invalidTagCharacters: string;
@@ -221,6 +227,7 @@ export default function ViewTags({
 	return (
 		<div className="categorization-section">
 			<CategorizationToolbar
+				actionItems={actionItems}
 				activeTab="tags"
 				tagsURL={tagsURL}
 				vocabulariesURL={vocabulariesURL}
