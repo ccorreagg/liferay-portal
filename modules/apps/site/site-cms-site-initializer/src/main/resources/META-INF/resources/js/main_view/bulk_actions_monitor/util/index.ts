@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
+import {IAssetObjectEntry} from '../../../common/types/AssetType';
 import {
 	IBulkActionFDSData,
 	IBulkActionFDSDataItemTransformed,
@@ -54,7 +55,7 @@ export function composeCreateTaskURL(
 }
 
 export function composeCreateTaskDTO(
-	actionKey: keyof IBulkActionTaskType,
+	type: keyof IBulkActionTaskType,
 	keyValues: IBulkActionTaskType[keyof IBulkActionTaskType] = {},
 	{items = [], selectAll = false}: IBulkActionFDSData
 ): TBulkActionTaskDTO {
@@ -66,7 +67,7 @@ export function composeCreateTaskDTO(
 					file,
 					id: classPK,
 					title: name,
-				} = {} as any,
+				} = {} as IAssetObjectEntry,
 				entryClassName,
 				externalReferenceCode,
 			}: any) => {
@@ -78,15 +79,15 @@ export function composeCreateTaskDTO(
 					name,
 				} as IBulkActionFDSDataItemTransformed;
 
-				if (actionKey === 'DownloadBulkAction') {
+				if (type === 'DownloadBulkAction') {
 					itemsTransformed.file = file;
 				}
 
 				return itemsTransformed;
 			}
 		),
-		selectionScope: {selectAll: selectAll ? true : null},
-		type: actionKey,
+		selectionScope: {selectAll},
+		type,
 		...keyValues,
 	} as TBulkActionTaskDTO;
 }
