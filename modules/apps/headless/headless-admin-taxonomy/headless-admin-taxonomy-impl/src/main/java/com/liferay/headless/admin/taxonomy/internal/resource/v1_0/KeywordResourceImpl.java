@@ -32,7 +32,6 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -306,8 +305,7 @@ public class KeywordResourceImpl
 			null);
 
 		if (FeatureFlagManagerUtil.isEnabled(
-				assetTag.getCompanyId(), "LPD-17564") &&
-			ArrayUtil.isNotEmpty(keyword.getAssetLibraries())) {
+				assetTag.getCompanyId(), "LPD-17564")) {
 
 			_assetTagGroupRelLocalService.setAssetTagGroupRels(
 				assetTag.getTagId(),
@@ -467,8 +465,7 @@ public class KeywordResourceImpl
 
 		if (FeatureFlagManagerUtil.isEnabled(
 				group.getCompanyId(), "LPD-17564") &&
-			group.isCMS() &&
-			ArrayUtil.isNotEmpty(keyword.getAssetLibraries())) {
+			group.isCMS()) {
 
 			_assetTagGroupRelLocalService.setAssetTagGroupRels(
 				assetTag.getTagId(),
