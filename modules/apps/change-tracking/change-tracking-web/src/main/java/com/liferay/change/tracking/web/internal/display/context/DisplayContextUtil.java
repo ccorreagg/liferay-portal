@@ -187,7 +187,7 @@ public class DisplayContextUtil {
 
 		JSONObject userInfoJSONObject = JSONFactoryUtil.createJSONObject();
 
-		List<User> users;
+		List<User> users = null;
 
 		try (SafeCloseable safeCloseable =
 				CTCollectionThreadLocal.setProductionModeWithSafeCloseable()) {
