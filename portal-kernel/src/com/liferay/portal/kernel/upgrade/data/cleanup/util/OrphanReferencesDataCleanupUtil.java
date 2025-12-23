@@ -59,23 +59,8 @@ public class OrphanReferencesDataCleanupUtil {
 			aliasNeeded = true;
 		}
 
-		Set<String> firstIndexColumnNames = _getFirstIndexColumnNames(
-			connection, db, targetTableName);
-
-		List<SafeCloseable> safeCloseables = new ArrayList<>();
-
-		if (firstIndexColumnNames != null) {
-			for (String targetColumnName : targetColumnNames) {
-				if (!firstIndexColumnNames.contains(
-						StringUtil.toLowerCase(targetColumnName))) {
-
-					safeCloseables.add(
-						db.addTemporaryIndex(
-							connection, targetTableName, false,
-							targetColumnName));
-				}
-			}
-		}
+		List<SafeCloseable> safeCloseables = createIndexesIfNeeded(
+			targetColumnNames, connection, db, targetTableName);
 
 		try (PreparedStatement preparedStatement1 = connection.prepareStatement(
 				StringBundler.concat(
@@ -122,6 +107,31 @@ public class OrphanReferencesDataCleanupUtil {
 				safeCloseable.close();
 			}
 		}
+	}
+
+	public static List<SafeCloseable> createIndexesIfNeeded(
+			String[] columnNames, Connection connection, DB db,
+			String tableName)
+		throws Exception {
+
+		Set<String> firstIndexColumnNames = _getFirstIndexColumnNames(
+			connection, db, tableName);
+
+		List<SafeCloseable> safeCloseables = new ArrayList<>();
+
+		if (firstIndexColumnNames != null) {
+			for (String columnName : columnNames) {
+				if (!firstIndexColumnNames.contains(
+						StringUtil.toLowerCase(columnName))) {
+
+					safeCloseables.add(
+						db.addTemporaryIndex(
+							connection, tableName, false, columnName));
+				}
+			}
+		}
+
+		return safeCloseables;
 	}
 
 	public static List<String> getNormalizedExcludedTableNames(
