@@ -111,7 +111,7 @@ public class ObjectEntryResourceImpl
 				_objectDefinition.getScope());
 
 		if (objectScopeProvider.isGroupAware()) {
-			_groupAwareCreate(objectEntries, parameters);
+			_create(objectEntries, parameters);
 		}
 		else {
 			super.create(objectEntries, parameters);
@@ -1369,7 +1369,7 @@ public class ObjectEntryResourceImpl
 		return null;
 	}
 
-	private void _groupAwareCreate(
+	private void _create(
 			Collection<ObjectEntry> objectEntries,
 			Map<String, Serializable> parameters)
 		throws Exception {
