@@ -637,6 +637,7 @@ public class KeywordResourceTest extends BaseKeywordResourceTestCase {
 		return new AssetLibrary() {
 			{
 				id = depotEntryGroup.getGroupId();
+				scopeKey = depotEntryGroup.getGroupKey();
 			}
 		};
 	}
