@@ -2298,15 +2298,6 @@ public class SitePageResourceTest extends BaseSitePageResourceTestCase {
 		};
 
 	@Inject
-	private static CompanyLocalService _companyLocalService;
-
-	@Inject
-	private static ExpandoColumnLocalService _expandoColumnLocalService;
-
-	@Inject
-	private static ExpandoTableLocalService _expandoTableLocalService;
-
-	@Inject
 	private AssetCategoryLocalService _assetCategoryLocalService;
 
 	@Inject
@@ -2328,6 +2319,15 @@ public class SitePageResourceTest extends BaseSitePageResourceTestCase {
 	@Inject
 	private ClientExtensionEntryRelLocalService
 		_clientExtensionEntryRelLocalService;
+
+	@Inject
+	private CompanyLocalService _companyLocalService;
+
+	@Inject
+	private ExpandoColumnLocalService _expandoColumnLocalService;
+
+	@Inject
+	private ExpandoTableLocalService _expandoTableLocalService;
 
 	@Inject
 	private FragmentCollectionLocalService _fragmentCollectionLocalService;
