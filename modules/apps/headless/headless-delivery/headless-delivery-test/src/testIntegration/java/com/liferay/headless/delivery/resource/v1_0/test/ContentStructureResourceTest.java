@@ -57,6 +57,7 @@ public class ContentStructureResourceTest
 
 		_addDDMStructure(
 			_portal.getClassNameId(DDMFormInstance.class), testGroup, name);
+
 		page = contentStructureResource.getSiteContentStructuresPage(
 			testGroup.getGroupId(), name, null, null, null, null);
 
