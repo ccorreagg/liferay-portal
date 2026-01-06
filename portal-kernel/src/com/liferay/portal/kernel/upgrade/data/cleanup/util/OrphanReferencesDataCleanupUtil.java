@@ -59,7 +59,7 @@ public class OrphanReferencesDataCleanupUtil {
 			aliasNeeded = true;
 		}
 
-		List<SafeCloseable> safeCloseables = createIndexesIfNeeded(
+		List<SafeCloseable> safeCloseables = addTemporaryIndexes(
 			targetColumnNames, connection, db, targetTableName);
 
 		try (PreparedStatement preparedStatement1 = connection.prepareStatement(
@@ -109,7 +109,7 @@ public class OrphanReferencesDataCleanupUtil {
 		}
 	}
 
-	public static List<SafeCloseable> createIndexesIfNeeded(
+	public static List<SafeCloseable> addTemporaryIndexes(
 			String[] columnNames, Connection connection, DB db,
 			String tableName)
 		throws Exception {
