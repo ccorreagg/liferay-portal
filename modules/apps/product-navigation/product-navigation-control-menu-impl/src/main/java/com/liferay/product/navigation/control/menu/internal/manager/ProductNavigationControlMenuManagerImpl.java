@@ -58,7 +58,7 @@ public class ProductNavigationControlMenuManagerImpl
 			(ThemeDisplay)httpServletRequest.getAttribute(
 				WebKeys.THEME_DISPLAY);
 
-		boolean hasControlMenuEntries =
+		boolean hasRelevantProductNavigationControlMenuEntries =
 			_hasRelevantProductNavigationControlMenuEntries(httpServletRequest);
 
 		Group group = themeDisplay.getScopeGroup();
@@ -67,7 +67,7 @@ public class ProductNavigationControlMenuManagerImpl
 		if ((!group.isCMS() && !group.isSite()) || layout.isDraftLayout() ||
 			layout.isTypeControlPanel()) {
 
-			return hasControlMenuEntries;
+			return hasRelevantProductNavigationControlMenuEntries;
 		}
 
 		try {
@@ -88,7 +88,7 @@ public class ProductNavigationControlMenuManagerImpl
 							accessToControlMenuRoleIds,
 							String.valueOf(role.getRoleId()))) {
 
-						return hasControlMenuEntries;
+						return hasRelevantProductNavigationControlMenuEntries;
 					}
 				}
 
@@ -99,7 +99,7 @@ public class ProductNavigationControlMenuManagerImpl
 			_log.error(exception);
 		}
 
-		return hasControlMenuEntries;
+		return hasRelevantProductNavigationControlMenuEntries;
 	}
 
 	private boolean _hasRelevantProductNavigationControlMenuEntries(
