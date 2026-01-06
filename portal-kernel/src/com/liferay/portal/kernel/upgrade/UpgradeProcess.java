@@ -6,8 +6,11 @@
 package com.liferay.portal.kernel.upgrade;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.db.BaseDBProcess;
+import com.liferay.portal.kernel.dao.db.DB;
+import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.db.DBInspector;
 import com.liferay.portal.kernel.dao.db.IndexMetadata;
 import com.liferay.portal.kernel.dao.db.IndexMetadataFactoryUtil;
@@ -172,6 +175,16 @@ public abstract class UpgradeProcess
 
 		public boolean shouldDropIndex(Collection<String> columnNames);
 
+	}
+
+	protected SafeCloseable addTemporaryIndex(
+			String tableName, boolean unique, String... columnNames)
+		throws Exception {
+
+		DB db = DBManagerUtil.getDB();
+
+		return db.addTemporaryIndex(
+				connection, tableName, unique, columnNames);
 	}
 
 	protected abstract void doUpgrade() throws Exception;
