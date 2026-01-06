@@ -34,6 +34,31 @@ import java.util.Set;
  */
 public class OrphanReferencesDataCleanupUtil {
 
+	public static List<SafeCloseable> addTemporaryIndexes(
+			String[] columnNames, Connection connection, DB db,
+			String tableName)
+		throws Exception {
+
+		Set<String> firstIndexColumnNames = _getFirstIndexColumnNames(
+			connection, db, tableName);
+
+		List<SafeCloseable> safeCloseables = new ArrayList<>();
+
+		if (firstIndexColumnNames != null) {
+			for (String columnName : columnNames) {
+				if (!firstIndexColumnNames.contains(
+						StringUtil.toLowerCase(columnName))) {
+
+					safeCloseables.add(
+						db.addTemporaryIndex(
+							connection, tableName, false, columnName));
+				}
+			}
+		}
+
+		return safeCloseables;
+	}
+
 	public static void cleanUpTable(
 			Connection connection, String sourceAdditionalWhereClause,
 			String sourceColumnName, String sourceTableName,
@@ -107,31 +132,6 @@ public class OrphanReferencesDataCleanupUtil {
 				safeCloseable.close();
 			}
 		}
-	}
-
-	public static List<SafeCloseable> addTemporaryIndexes(
-			String[] columnNames, Connection connection, DB db,
-			String tableName)
-		throws Exception {
-
-		Set<String> firstIndexColumnNames = _getFirstIndexColumnNames(
-			connection, db, tableName);
-
-		List<SafeCloseable> safeCloseables = new ArrayList<>();
-
-		if (firstIndexColumnNames != null) {
-			for (String columnName : columnNames) {
-				if (!firstIndexColumnNames.contains(
-						StringUtil.toLowerCase(columnName))) {
-
-					safeCloseables.add(
-						db.addTemporaryIndex(
-							connection, tableName, false, columnName));
-				}
-			}
-		}
-
-		return safeCloseables;
 	}
 
 	public static List<String> getNormalizedExcludedTableNames(
