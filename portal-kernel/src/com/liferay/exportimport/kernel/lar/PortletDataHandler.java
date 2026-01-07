@@ -182,6 +182,8 @@ public interface PortletDataHandler {
 
 	public String getPortletId();
 
+	public default int getPriority() { return 0; }
+
 	public int getRank();
 
 	public String getResourceName();
