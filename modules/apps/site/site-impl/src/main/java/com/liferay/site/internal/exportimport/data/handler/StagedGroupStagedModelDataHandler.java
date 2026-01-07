@@ -55,6 +55,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -491,7 +492,7 @@ public class StagedGroupStagedModelDataHandler
 
 		_permissionImporter.clearCache();
 
-		List<Element> batchPortletElements = new ArrayList<>();
+		Map<Integer, List<Element>> batchPortletElementsMap = new TreeMap<>();
 		List<Element> nonbatchPortletElements = new ArrayList<>();
 
 		for (Element portletElement : sitePortletElements) {
@@ -508,7 +509,17 @@ public class StagedGroupStagedModelDataHandler
 				portlet.getPortletDataHandlerInstance();
 
 			if (portletDataHandler.isBatch()) {
-				batchPortletElements.add(portletElement);
+				batchPortletElementsMap.compute(
+					portletDataHandler.getPriority(),
+					(priority, portletElements) -> {
+						if (portletElements == null) {
+							portletElements = new ArrayList<>();
+						}
+
+						portletElements.add(portletElement);
+
+						return portletElements;
+					});
 			}
 			else {
 				nonbatchPortletElements.add(portletElement);
@@ -517,7 +528,10 @@ public class StagedGroupStagedModelDataHandler
 
 		List<Element> orderedPortletElements = new ArrayList<>();
 
-		orderedPortletElements.addAll(batchPortletElements);
+		for (List<Element> elements : batchPortletElementsMap.values()) {
+			orderedPortletElements.addAll(elements);
+		}
+
 		orderedPortletElements.addAll(nonbatchPortletElements);
 
 		for (Element portletElement : orderedPortletElements) {
