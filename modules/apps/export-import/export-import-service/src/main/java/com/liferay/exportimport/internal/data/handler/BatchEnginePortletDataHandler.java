@@ -138,6 +138,27 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 	}
 
 	@Override
+	public int getPriority() {
+		if (_registrations.isEmpty()) {
+			return super.getPriority();
+		}
+
+		int priority = Integer.MAX_VALUE;
+
+		for (Registration registration : _registrations) {
+			ExportImportVulcanBatchEngineTaskItemDelegate.ExportImportDescriptor
+				exportImportDescriptor =
+					registration.getExportImportDescriptor();
+
+			if (exportImportDescriptor.getPriority() < priority) {
+				priority = exportImportDescriptor.getPriority();
+			}
+		}
+
+		return priority;
+	}
+
+	@Override
 	public String getSchemaVersion() {
 		return SCHEMA_VERSION;
 	}
