@@ -204,6 +204,11 @@ public class ObjectDefinitionResourceImpl
 			}
 
 			@Override
+			public int getPriority() {
+				return -1;
+			}
+
+			@Override
 			public String getResourceClassName() {
 				return ObjectDefinitionResourceImpl.class.getName();
 			}
