@@ -3063,6 +3063,10 @@ public class DLFileEntryLocalServiceImpl
 					" is invalid"));
 		}
 
+		if (dlVersionNumberIncrease == DLVersionNumberIncrease.NONE) {
+			return version;
+		}
+
 		int[] versionParts = StringUtil.split(version, StringPool.PERIOD, 0);
 
 		if (dlVersionNumberIncrease == DLVersionNumberIncrease.MAJOR) {
@@ -3557,14 +3561,6 @@ public class DLFileEntryLocalServiceImpl
 
 		// File version
 
-		if ((dlVersionNumberIncrease != DLVersionNumberIncrease.NONE) &&
-			(lastDLFileVersion.getStatus() ==
-				WorkflowConstants.STATUS_PENDING)) {
-
-			lastDLFileVersion.setVersion(
-				_getNextVersion(dlFileEntry, dlVersionNumberIncrease));
-		}
-
 		lastDLFileVersion.setUserId(latestDLFileVersion.getUserId());
 		lastDLFileVersion.setUserName(latestDLFileVersion.getUserName());
 		lastDLFileVersion.setModifiedDate(
@@ -3579,6 +3575,8 @@ public class DLFileEntryLocalServiceImpl
 			latestDLFileVersion.getExtraSettings());
 		lastDLFileVersion.setFileEntryTypeId(
 			latestDLFileVersion.getFileEntryTypeId());
+		lastDLFileVersion.setVersion(
+			_getNextVersion(dlFileEntry, dlVersionNumberIncrease));
 		lastDLFileVersion.setSize(latestDLFileVersion.getSize());
 		lastDLFileVersion.setStoreUUID(String.valueOf(UUID.randomUUID()));
 		lastDLFileVersion.setDisplayDate(latestDLFileVersion.getDisplayDate());
