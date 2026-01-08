@@ -359,7 +359,7 @@ export default function AssetsFDSPropsTransformer({
 				});
 			}
 			else if (action?.data?.id === 'edit-tags') {
-				openModal({
+				openCMSModal({
 					center: true,
 					containerProps: {
 						className: 'modal-height-lg',
