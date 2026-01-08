@@ -84,8 +84,7 @@ public class DLFileEntrySearchPermissionRoleContributorTest {
 			DepotRolesConstants.ASSET_LIBRARY_MEMBER);
 
 		Assert.assertTrue(
-			"Expected roles to contain Asset Library Member: " +
-				Arrays.toString(groupRoleIds),
+			Arrays.toString(groupRoleIds),
 			ArrayUtil.contains(
 				groupRoleIds,
 				_depotEntry.getGroupId() + StringPool.DASH + role.getRoleId()));
