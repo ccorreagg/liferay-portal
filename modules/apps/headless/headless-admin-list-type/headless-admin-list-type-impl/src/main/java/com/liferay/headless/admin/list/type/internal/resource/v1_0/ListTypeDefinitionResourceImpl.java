@@ -106,6 +106,11 @@ public class ListTypeDefinitionResourceImpl
 			}
 
 			@Override
+			public int getPriority() {
+				return -2;
+			}
+
+			@Override
 			public String getResourceClassName() {
 				return ListTypeDefinitionResourceImpl.class.getName();
 			}
