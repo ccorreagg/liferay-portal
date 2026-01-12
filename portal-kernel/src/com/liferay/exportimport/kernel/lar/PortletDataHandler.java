@@ -182,7 +182,7 @@ public interface PortletDataHandler {
 
 	public String getPortletId();
 
-	public default int getPriority() { return 0; }
+	public default int getPriority() { return DEFAULT_PRIORITY; }
 
 	public int getRank();
 
@@ -356,5 +356,7 @@ public interface PortletDataHandler {
 	public void setRank(int rank);
 
 	public boolean validateSchemaVersion(String schemaVersion);
+
+	public static final int DEFAULT_PRIORITY = 0;
 
 }

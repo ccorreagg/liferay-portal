@@ -5,6 +5,7 @@
 
 package com.liferay.headless.admin.list.type.internal.resource.v1_0;
 
+import com.liferay.exportimport.kernel.lar.PortletDataHandler;
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.headless.admin.list.type.dto.v1_0.ListTypeDefinition;
 import com.liferay.headless.admin.list.type.dto.v1_0.ListTypeEntry;
@@ -107,7 +108,7 @@ public class ListTypeDefinitionResourceImpl
 
 			@Override
 			public int getPriority() {
-				return -2;
+				return PortletDataHandler.DEFAULT_PRIORITY - 2;
 			}
 
 			@Override

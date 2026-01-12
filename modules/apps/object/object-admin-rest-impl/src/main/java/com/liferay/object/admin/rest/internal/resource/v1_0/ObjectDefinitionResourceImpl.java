@@ -7,6 +7,7 @@ package com.liferay.object.admin.rest.internal.resource.v1_0;
 
 import com.liferay.account.model.AccountEntry;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.exportimport.kernel.lar.PortletDataHandler;
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.list.type.service.ListTypeDefinitionLocalService;
 import com.liferay.list.type.service.ListTypeEntryLocalService;
@@ -205,7 +206,7 @@ public class ObjectDefinitionResourceImpl
 
 			@Override
 			public int getPriority() {
-				return -1;
+				return PortletDataHandler.DEFAULT_PRIORITY - 1;
 			}
 
 			@Override
