@@ -202,6 +202,11 @@ public class BatchEnginePortletDataHandlerTest {
 	public static void setUpClass() throws PortalException {
 		FeatureFlagTestUtil.invokeFeatureFlagListeners(
 			TestPropsValues.getCompanyId(), true, "LPD-35914");
+
+		Bundle bundle = FrameworkUtil.getBundle(
+			BatchEnginePortletDataHandlerTest.class);
+
+		_bundleContext = bundle.getBundleContext();
 	}
 
 	@AfterClass
@@ -856,12 +861,8 @@ public class BatchEnginePortletDataHandlerTest {
 
 		Group group2 = GroupTestUtil.addGroup();
 
-		Bundle bundle = FrameworkUtil.getBundle(getClass());
-
-		BundleContext bundleContext = bundle.getBundleContext();
-
 		ServiceRegistration<?> serviceRegistration =
-			bundleContext.registerService(
+			_bundleContext.registerService(
 				StagedModelDataHandler.class,
 				new BaseStagedModelDataHandler<Layout>() {
 
@@ -1498,6 +1499,124 @@ public class BatchEnginePortletDataHandlerTest {
 			_objectDefinitionLocalService,
 			new String[] {"C_A", "C_AA", "C_AAA"}, _objectEntryLocalService,
 			_objectRelationshipLocalService);
+	}
+
+	@Test
+	@TestInfo("LPD-75687")
+	public void testGetPriority() throws Exception {
+		String portletId = RandomTestUtil.randomString();
+
+		try (SafeCloseable safeCloseable = _register(
+				new TestExportImportVulcanBatchEngineTaskItemDelegateBuilder(
+				).withPortletId(
+					portletId
+				).build())) {
+
+			PortletDataHandler portletDataHandler =
+				_portletDataHandlerProvider.provide(
+					TestPropsValues.getCompanyId(), portletId);
+
+			Assert.assertEquals(
+				PortletDataHandler.DEFAULT_PRIORITY,
+				portletDataHandler.getPriority());
+		}
+
+		int priority1 = PortletDataHandler.DEFAULT_PRIORITY + 1;
+
+		try (SafeCloseable safeCloseable = _register(
+				new TestExportImportVulcanBatchEngineTaskItemDelegateBuilder(
+				).withPortletId(
+					portletId
+				).withPriority(
+					priority1
+				).build())) {
+
+			PortletDataHandler portletDataHandler =
+				_portletDataHandlerProvider.provide(
+					TestPropsValues.getCompanyId(), portletId);
+
+			Assert.assertEquals(priority1, portletDataHandler.getPriority());
+		}
+
+		int priority2 = PortletDataHandler.DEFAULT_PRIORITY - 1;
+
+		try (SafeCloseable safeCloseable = _register(
+				new TestExportImportVulcanBatchEngineTaskItemDelegateBuilder(
+				).withPortletId(
+					portletId
+				).withPriority(
+					priority2
+				).build())) {
+
+			PortletDataHandler portletDataHandler =
+				_portletDataHandlerProvider.provide(
+					TestPropsValues.getCompanyId(), portletId);
+
+			Assert.assertEquals(priority2, portletDataHandler.getPriority());
+		}
+
+		try (SafeCloseable safeCloseable1 = _register(
+				new TestExportImportVulcanBatchEngineTaskItemDelegateBuilder(
+				).withPortletId(
+					portletId
+				).build())) {
+
+			try (SafeCloseable safeCloseable2 = _register(
+					new TestExportImportVulcanBatchEngineTaskItemDelegateBuilder(
+					).withPortletId(
+						portletId
+					).withPriority(
+						priority1
+					).build())) {
+
+				PortletDataHandler portletDataHandler =
+					_portletDataHandlerProvider.provide(
+						TestPropsValues.getCompanyId(), portletId);
+
+				Assert.assertEquals(
+					PortletDataHandler.DEFAULT_PRIORITY,
+					portletDataHandler.getPriority());
+			}
+
+			try (SafeCloseable safeCloseable2 = _register(
+					new TestExportImportVulcanBatchEngineTaskItemDelegateBuilder(
+					).withPortletId(
+						portletId
+					).withPriority(
+						priority2
+					).build())) {
+
+				PortletDataHandler portletDataHandler =
+					_portletDataHandlerProvider.provide(
+						TestPropsValues.getCompanyId(), portletId);
+
+				Assert.assertEquals(
+					priority2, portletDataHandler.getPriority());
+			}
+
+			try (SafeCloseable safeCloseable3 = _register(
+					new TestExportImportVulcanBatchEngineTaskItemDelegateBuilder(
+					).withPortletId(
+						portletId
+					).withPriority(
+						priority1
+					).build());
+				SafeCloseable safeCloseable4 = _register(
+					new TestExportImportVulcanBatchEngineTaskItemDelegateBuilder(
+					).withPortletId(
+						portletId
+					).withPriority(
+						priority2
+					).build())) {
+
+				PortletDataHandler portletDataHandler =
+					_portletDataHandlerProvider.provide(
+						TestPropsValues.getCompanyId(), portletId);
+
+				Assert.assertEquals(
+					priority2, portletDataHandler.getPriority());
+			}
+		}
 	}
 
 	@Test
@@ -2317,13 +2436,25 @@ public class BatchEnginePortletDataHandlerTest {
 				testExportImportVulcanBatchEngineTaskItemDelegate)
 		throws Exception {
 
-		SafeCloseable safeCloseable1 = _registerServiceWithSafeCloseable(
-			Portlet.class,
-			new GenericPortlet() {
-			},
-			MapUtil.singletonDictionary(
-				"jakarta.portlet.name",
-				testExportImportVulcanBatchEngineTaskItemDelegate._portletId));
+		String portletId =
+			testExportImportVulcanBatchEngineTaskItemDelegate._portletId;
+
+		SafeCloseable safeCloseable1 = () -> {
+		};
+
+		if (ArrayUtil.isEmpty(
+				_bundleContext.getServiceReferences(
+					Portlet.class.getName(),
+					StringBundler.concat(
+						"(jakarta.portlet.name=", portletId, ")")))) {
+
+			safeCloseable1 = _registerServiceWithSafeCloseable(
+				Portlet.class,
+				new GenericPortlet() {
+				},
+				MapUtil.singletonDictionary("jakarta.portlet.name", portletId));
+		}
+
 		SafeCloseable safeCloseable2 = _registerServiceWithSafeCloseable(
 			VulcanBatchEngineTaskItemDelegate.class,
 			testExportImportVulcanBatchEngineTaskItemDelegate,
@@ -2341,12 +2472,14 @@ public class BatchEnginePortletDataHandlerTest {
 				"export.import.vulcan.batch.engine.task.item.delegate", "true"
 			).build());
 
+		SafeCloseable finalSafeCloseable = safeCloseable1;
+
 		return () -> {
 			try {
 				safeCloseable2.close();
 			}
 			finally {
-				safeCloseable1.close();
+				finalSafeCloseable.close();
 			}
 		};
 	}
@@ -2354,13 +2487,8 @@ public class BatchEnginePortletDataHandlerTest {
 	private <S> SafeCloseable _registerServiceWithSafeCloseable(
 		Class<S> clazz, S service, Dictionary<String, ?> properties) {
 
-		Bundle bundle = FrameworkUtil.getBundle(
-			BatchEnginePortletDataHandlerTest.class);
-
-		BundleContext bundleContext = bundle.getBundleContext();
-
 		ServiceRegistration<S> serviceRegistration =
-			bundleContext.registerService(clazz, service, properties);
+			_bundleContext.registerService(clazz, service, properties);
 
 		return serviceRegistration::unregister;
 	}
@@ -2940,6 +3068,7 @@ public class BatchEnginePortletDataHandlerTest {
 	private static final String _OBJECT_FIELD_VALUE_ATTACHMENT_USER_COMPUTER =
 		RandomTestUtil.randomString();
 
+	private static BundleContext _bundleContext;
 	private static final BiFunction
 		<FileEntry, Group, ObjectValuePair<String, Long>>
 			_defaultReportEntryBiFunction =
