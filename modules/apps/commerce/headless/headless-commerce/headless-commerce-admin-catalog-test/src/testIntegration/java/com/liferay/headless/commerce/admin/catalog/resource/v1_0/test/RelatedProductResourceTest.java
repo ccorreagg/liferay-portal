@@ -56,7 +56,6 @@ public class RelatedProductResourceTest
 		_cpDefinition1 = CPTestUtil.addCPDefinitionFromCatalog(
 			_commerceCatalog.getGroupId(), SimpleCPTypeConstants.NAME, true,
 			true);
-
 		_cpDefinition2 = CPTestUtil.addCPDefinitionFromCatalog(
 			_commerceCatalog.getGroupId(), SimpleCPTypeConstants.NAME, true,
 			true);
