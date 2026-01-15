@@ -72,8 +72,8 @@ import com.liferay.portal.kernel.portlet.constants.FriendlyURLResolverConstants;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.portlet.url.builder.ResourceURLBuilder;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
-import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutService;
 import com.liferay.portal.kernel.service.LayoutServiceUtil;
 import com.liferay.portal.kernel.service.LayoutSetBranchLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
@@ -136,14 +136,14 @@ public class LayoutsAdminDisplayContext {
 
 	public LayoutsAdminDisplayContext(
 		ItemSelector itemSelector, LayoutActionsHelper layoutActionsHelper,
-		LayoutLocalService layoutLocalService,
+		LayoutService layoutService,
 		LayoutSetPrototypeHelper layoutSetPrototypeHelper,
 		LiferayPortletRequest liferayPortletRequest,
 		LiferayPortletResponse liferayPortletResponse) {
 
 		_itemSelector = itemSelector;
 		_layoutActionsHelper = layoutActionsHelper;
-		_layoutLocalService = layoutLocalService;
+		_layoutService = layoutService;
 		_layoutSetPrototypeHelper = layoutSetPrototypeHelper;
 		_liferayPortletRequest = liferayPortletRequest;
 		_liferayPortletResponse = liferayPortletResponse;
@@ -465,8 +465,7 @@ public class LayoutsAdminDisplayContext {
 			unicodeProperties.toString(), true, true, Collections.emptyMap(),
 			layout.getMasterLayoutPlid(), serviceContext);
 
-		draftLayout = _layoutLocalService.copyLayoutContent(
-			layout, draftLayout);
+		draftLayout = _layoutService.copyLayoutContent(layout, draftLayout);
 
 		serviceContext.setAttribute(
 			LayoutTypeSettingsConstants.KEY_PUBLISHED, Boolean.TRUE);
@@ -2517,7 +2516,7 @@ public class LayoutsAdminDisplayContext {
 	private final ItemSelector _itemSelector;
 	private String _keywords;
 	private final LayoutActionsHelper _layoutActionsHelper;
-	private final LayoutLocalService _layoutLocalService;
+	private final LayoutService _layoutService;
 	private final LayoutSetPrototypeHelper _layoutSetPrototypeHelper;
 	private SearchContainer<Layout> _layoutsSearchContainer;
 	private final LiferayPortletRequest _liferayPortletRequest;
