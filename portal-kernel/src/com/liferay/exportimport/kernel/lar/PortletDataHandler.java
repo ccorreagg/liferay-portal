@@ -73,6 +73,8 @@ public interface PortletDataHandler {
 			PortletPreferences portletPreferences)
 		throws PortletDataException;
 
+	public static final int DEFAULT_PRIORITY = 0;
+
 	public default String[] getClassNames() {
 		return null;
 	}
@@ -102,19 +104,6 @@ public interface PortletDataHandler {
 		throws Exception;
 
 	/**
-	 * Returns an array of the metadata controls defined for this data handler.
-	 * These controls enable the developer to create fine grained controls over
-	 * export behavior of metadata such as tags, categories, ratings or
-	 * comments. The controls are rendered in the export UI.
-	 *
-	 * @return an array of the metadata controls defined for this data handler
-	 * @throws PortletDataException if a portlet data exception occurred
-	 */
-	public PortletDataHandlerControl[]
-			getExportMetadataPortletDataHandlerControls()
-		throws PortletDataException;
-
-	/**
 	 * Returns the number of entities defined for this data handler that are
 	 * available for export according to the provided manifest summary, or
 	 * <code>-1</code> if no entities are included in the manifest summary.
@@ -126,6 +115,19 @@ public interface PortletDataHandler {
 	 *         included in the manifest summary
 	 */
 	public long getExportModelCount(ManifestSummary manifestSummary);
+
+	/**
+	 * Returns an array of the metadata controls defined for this data handler.
+	 * These controls enable the developer to create fine grained controls over
+	 * export behavior of metadata such as tags, categories, ratings or
+	 * comments. The controls are rendered in the export UI.
+	 *
+	 * @return an array of the metadata controls defined for this data handler
+	 * @throws PortletDataException if a portlet data exception occurred
+	 */
+	public PortletDataHandlerControl[]
+			getExportMetadataPortletDataHandlerControls()
+		throws PortletDataException;
 
 	/**
 	 * Returns an array of the controls defined for this data handler. These
@@ -182,11 +184,11 @@ public interface PortletDataHandler {
 
 	public String getPortletId();
 
-	public default int getPriority() { return DEFAULT_PRIORITY; }
+	public default int getPriority() {
+		return DEFAULT_PRIORITY;
+	}
 
 	public int getRank();
-
-	public String getResourceName();
 
 	/**
 	 * Returns the schema version for this data handler, which represents the
@@ -240,21 +242,9 @@ public interface PortletDataHandler {
 	 */
 	public String getSchemaVersion();
 
+	public String getResourceName();
+
 	public String getServiceName();
-
-	/**
-	 * Returns an array of the controls defined for this data handler. These
-	 * controls enable the developer to create fine grained controls over
-	 * staging publication behavior. The controls are rendered in the publish
-	 * UI.
-	 *
-	 * @return an array of the controls defined for this data handler
-	 */
-	public default PortletDataHandlerControl[]
-		getStagingPortletDataHandlerControls() {
-
-		return new PortletDataHandlerControl[0];
-	}
 
 	/**
 	 * Handles any special processing of the data when the portlet is imported
@@ -275,6 +265,20 @@ public interface PortletDataHandler {
 			PortletDataContext portletDataContext, String portletId,
 			PortletPreferences portletPreferences, String data)
 		throws PortletDataException;
+
+	/**
+	 * Returns an array of the controls defined for this data handler. These
+	 * controls enable the developer to create fine grained controls over
+	 * staging publication behavior. The controls are rendered in the publish
+	 * UI.
+	 *
+	 * @return an array of the controls defined for this data handler
+	 */
+	public default PortletDataHandlerControl[]
+		getStagingPortletDataHandlerControls() {
+
+		return new PortletDataHandlerControl[0];
+	}
 
 	public default boolean isBatch() {
 		return false;
@@ -300,10 +304,6 @@ public interface PortletDataHandler {
 
 	public boolean isEmptyControlsAllowed();
 
-	public default boolean isEnabled(long companyId) {
-		return true;
-	}
-
 	/**
 	 * Returns whether the data exported by this handler should be included by
 	 * default when publishing to live. This should only be <code>true</code>
@@ -319,6 +319,10 @@ public interface PortletDataHandler {
 
 	public default boolean isHidden() {
 		return false;
+	}
+
+	public default boolean isEnabled(long companyId) {
+		return true;
 	}
 
 	/**
@@ -356,7 +360,5 @@ public interface PortletDataHandler {
 	public void setRank(int rank);
 
 	public boolean validateSchemaVersion(String schemaVersion);
-
-	public static final int DEFAULT_PRIORITY = 0;
 
 }
