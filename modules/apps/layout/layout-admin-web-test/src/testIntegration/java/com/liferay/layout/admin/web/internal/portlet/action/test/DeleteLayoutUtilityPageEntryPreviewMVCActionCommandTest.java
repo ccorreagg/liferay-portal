@@ -89,7 +89,7 @@ public class DeleteLayoutUtilityPageEntryPreviewMVCActionCommandTest {
 			_layoutUtilityPageEntryLocalService.addLayoutUtilityPageEntry(
 				null, TestPropsValues.getUserId(), _group.getGroupId(), 0,
 				_fileEntry.getFileEntryId(), false, name,
-				LayoutUtilityPageEntryConstants.TYPE_SC_NOT_FOUND, null,
+				LayoutUtilityPageEntryConstants.TYPE_SC_NOT_FOUND, 0,
 				ServiceContextTestUtil.getServiceContext(_group.getGroupId()));
 
 		long groupId = _group.getGroupId();
@@ -134,7 +134,7 @@ public class DeleteLayoutUtilityPageEntryPreviewMVCActionCommandTest {
 			_layoutUtilityPageEntryLocalService.addLayoutUtilityPageEntry(
 				null, TestPropsValues.getUserId(), _group.getGroupId(), 0,
 				_fileEntry.getFileEntryId(), false, name,
-				LayoutUtilityPageEntryConstants.TYPE_SC_NOT_FOUND, null,
+				LayoutUtilityPageEntryConstants.TYPE_SC_NOT_FOUND, 0,
 				ServiceContextTestUtil.getServiceContext(_group.getGroupId()));
 
 		Role role = RoleTestUtil.addRole(RoleConstants.TYPE_REGULAR);
