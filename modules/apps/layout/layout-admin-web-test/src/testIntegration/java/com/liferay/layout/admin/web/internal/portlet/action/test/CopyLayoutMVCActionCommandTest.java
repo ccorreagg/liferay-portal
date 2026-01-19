@@ -40,7 +40,6 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
-import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.ResourceLocalService;
@@ -381,7 +380,7 @@ public class CopyLayoutMVCActionCommandTest {
 		HttpServletRequest httpServletRequest = new MockHttpServletRequest();
 
 		httpServletRequest.setAttribute(
-			WebKeys.THEME_DISPLAY, _getThemeDisplay());
+			WebKeys.THEME_DISPLAY, _getThemeDisplay(TestPropsValues.getUser()));
 		httpServletRequest.setAttribute(
 			WebKeys.USER_ID, TestPropsValues.getUserId());
 
@@ -494,21 +493,6 @@ public class CopyLayoutMVCActionCommandTest {
 			group, TestPropsValues.getUserId());
 	}
 
-	private ThemeDisplay _getThemeDisplay() throws Exception {
-		ThemeDisplay themeDisplay = new ThemeDisplay();
-
-		themeDisplay.setCompany(
-			_companyLocalService.fetchCompany(_group.getCompanyId()));
-		themeDisplay.setPermissionChecker(
-			PermissionThreadLocal.getPermissionChecker());
-		themeDisplay.setRealUser(TestPropsValues.getUser());
-		themeDisplay.setScopeGroupId(_group.getGroupId());
-		themeDisplay.setSiteGroupId(_group.getGroupId());
-		themeDisplay.setUser(TestPropsValues.getUser());
-
-		return themeDisplay;
-	}
-
 	private ThemeDisplay _getThemeDisplay(User user) throws Exception {
 		ThemeDisplay themeDisplay = new ThemeDisplay();
 
@@ -531,6 +515,11 @@ public class CopyLayoutMVCActionCommandTest {
 		MockLiferayPortletActionRequest mockLiferayPortletActionRequest =
 			new MockLiferayPortletActionRequest();
 
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			mockLiferayPortletActionRequest.addParameter(
+				entry.getKey(), entry.getValue());
+		}
+
 		mockLiferayPortletActionRequest.addParameter(
 			"copyPermissions", String.valueOf(copyPermissions));
 		mockLiferayPortletActionRequest.addParameter(
@@ -541,13 +530,8 @@ public class CopyLayoutMVCActionCommandTest {
 		mockLiferayPortletActionRequest.addParameter(
 			"sourcePlid", String.valueOf(_layout.getPlid()));
 
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-			mockLiferayPortletActionRequest.addParameter(
-				entry.getKey(), entry.getValue());
-		}
-
 		mockLiferayPortletActionRequest.setAttribute(
-			WebKeys.THEME_DISPLAY, _getThemeDisplay());
+			WebKeys.THEME_DISPLAY, _getThemeDisplay(TestPropsValues.getUser()));
 
 		_mvcActionCommand.processAction(
 			mockLiferayPortletActionRequest,
@@ -561,6 +545,11 @@ public class CopyLayoutMVCActionCommandTest {
 		MockLiferayPortletActionRequest mockLiferayPortletActionRequest =
 			new MockLiferayPortletActionRequest();
 
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			mockLiferayPortletActionRequest.addParameter(
+				entry.getKey(), entry.getValue());
+		}
+
 		mockLiferayPortletActionRequest.addParameter(
 			"copyPermissions", String.valueOf(copyPermissions));
 		mockLiferayPortletActionRequest.addParameter(
@@ -570,11 +559,6 @@ public class CopyLayoutMVCActionCommandTest {
 		mockLiferayPortletActionRequest.addParameter("name", _NAME);
 		mockLiferayPortletActionRequest.addParameter(
 			"sourcePlid", String.valueOf(_layout.getPlid()));
-
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-			mockLiferayPortletActionRequest.addParameter(
-				entry.getKey(), entry.getValue());
-		}
 
 		mockLiferayPortletActionRequest.setAttribute(
 			WebKeys.THEME_DISPLAY, _getThemeDisplay(user));
