@@ -200,6 +200,11 @@ public class ConvertEmptyLayoutMVCActionCommandTest {
 		MockLiferayPortletActionRequest mockLiferayPortletActionRequest =
 			new MockLiferayPortletActionRequest();
 
+		mockLiferayPortletActionRequest.addParameter(
+			"selPlid", String.valueOf(layout.getPlid()));
+		mockLiferayPortletActionRequest.addParameter("type", type);
+		mockLiferayPortletActionRequest.addParameter(
+			"name", layout.getExternalReferenceCode());
 		mockLiferayPortletActionRequest.setAttribute(
 			JavaConstants.JAKARTA_PORTLET_CONFIG,
 			PortletConfigFactoryUtil.create(
@@ -224,12 +229,6 @@ public class ConvertEmptyLayoutMVCActionCommandTest {
 
 		mockLiferayPortletActionRequest.setAttribute(
 			WebKeys.THEME_DISPLAY, themeDisplay);
-
-		mockLiferayPortletActionRequest.addParameter(
-			"selPlid", String.valueOf(layout.getPlid()));
-		mockLiferayPortletActionRequest.addParameter("type", type);
-		mockLiferayPortletActionRequest.addParameter(
-			"name", layout.getExternalReferenceCode());
 
 		return mockLiferayPortletActionRequest;
 	}
