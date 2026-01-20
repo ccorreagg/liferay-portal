@@ -529,7 +529,6 @@ public class CopyLayoutMVCActionCommandTest {
 		mockLiferayPortletActionRequest.addParameter("name", _NAME);
 		mockLiferayPortletActionRequest.addParameter(
 			"sourcePlid", String.valueOf(_layout.getPlid()));
-
 		mockLiferayPortletActionRequest.setAttribute(
 			WebKeys.THEME_DISPLAY, _getThemeDisplay(TestPropsValues.getUser()));
 
