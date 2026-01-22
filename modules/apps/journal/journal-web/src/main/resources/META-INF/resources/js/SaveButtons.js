@@ -6,11 +6,13 @@
 import ClayButton from '@clayui/button';
 import ClayDropDown from '@clayui/drop-down';
 import ClayIcon from '@clayui/icon';
+import {sub} from 'frontend-js-web';
 import React, {useEffect, useRef, useState} from 'react';
 
 import initializeLock from './initializeLock';
 import PublishModal from './modals/PublishModal';
 import removeAlert from './removeAlert';
+import showAlert from './showAlert';
 
 const ACTION_PUBLISH = 'publish';
 const ACTION_DRAFT = 'draft';
@@ -99,6 +101,15 @@ export default function SaveButtons({
 		);
 
 		if (!titleInputComponent?.getValue(defaultLanguageId)) {
+			showAlert(
+				sub(
+					Liferay.Language.get(
+						'please-enter-a-valid-title-for-the-default-language-x'
+					),
+					defaultLanguageId.replaceAll('_', '-')
+				)
+			);
+
 			await validateRequiredFields(formId);
 
 			return;
