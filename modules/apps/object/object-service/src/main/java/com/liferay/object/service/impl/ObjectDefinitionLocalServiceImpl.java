@@ -160,6 +160,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.SystemEventLocalService;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.service.UserService;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalService;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalService;
 import com.liferay.portal.kernel.service.persistence.ResourcePermissionPersistence;
@@ -1447,6 +1448,10 @@ public class ObjectDefinitionLocalServiceImpl
 
 		name = _getName(name, system);
 
+		Locale locale = user.getLocale();
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+
 		String shortName = ObjectDefinitionImpl.getShortName(name);
 
 		dbTableName = _getDBTableName(
@@ -1552,6 +1557,8 @@ public class ObjectDefinitionLocalServiceImpl
 		objectDefinition.setSystem(system);
 		objectDefinition.setVersion(version);
 		objectDefinition.setStatus(status);
+		objectDefinition.setLabelCurrentLanguageId(languageId);
+		objectDefinition.setPluralLabelCurrentLanguageId(languageId);
 
 		objectDefinition = _update(objectDefinition);
 
@@ -2591,9 +2598,14 @@ public class ObjectDefinitionLocalServiceImpl
 
 		long oldObjectFolderId = objectDefinition.getObjectFolderId();
 		boolean oldActive = objectDefinition.isActive();
+		User user = _userService.getCurrentUser();
 		String oldClassName = objectDefinition.getClassName();
 		boolean oldEnableObjectEntrySubscription =
 			objectDefinition.isEnableObjectEntrySubscription();
+
+		Locale locale = user.getLocale();
+
+		String languageId = LocaleUtil.toLanguageId(locale);
 
 		_validateExternalReferenceCode(
 			externalReferenceCode, objectDefinition.isSystem());
@@ -2709,6 +2721,8 @@ public class ObjectDefinitionLocalServiceImpl
 		objectDefinition.setPanelCategoryKey(panelCategoryKey);
 		objectDefinition.setPluralLabelMap(pluralLabelMap);
 		objectDefinition.setPortlet(portlet);
+		objectDefinition.setLabelCurrentLanguageId(languageId);
+		objectDefinition.setPluralLabelCurrentLanguageId(languageId);
 
 		_addOrUpdateObjectDefinitionSettings(
 			objectDefinition, objectDefinitionSettings);
@@ -3885,6 +3899,9 @@ public class ObjectDefinitionLocalServiceImpl
 
 	@Reference
 	private UserLocalService _userLocalService;
+
+	@Reference
+	private UserService _userService;
 
 	@Reference
 	private WorkflowDefinitionLinkLocalService
