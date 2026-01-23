@@ -353,17 +353,14 @@ public class ProductResourceTest extends BaseProductResourceTestCase {
 				RandomTestUtil.randomString(),
 				LocaleUtil.US.getDisplayLanguage(), _serviceContext);
 
-		CPDefinition cpDefinition1 = CPTestUtil.addCPDefinition(
-			commerceCatalog.getGroupId());
-		CPDefinition cpDefinition2 = CPTestUtil.addCPDefinition(
-			commerceCatalog.getGroupId());
-
 		CPConfigurationList cpConfigurationList =
 			_cpConfigurationListLocalService.addCPConfigurationList(
 				RandomTestUtil.randomString(), _user.getUserId(),
 				commerceCatalog.getGroupId(), 0, false,
 				RandomTestUtil.randomString(), 2, 1, 1, 2024, 0, 0, 0, 0, 0, 0,
 				0, true, new ServiceContext());
+		CPDefinition cpDefinition1 = CPTestUtil.addCPDefinition(
+			commerceCatalog.getGroupId());
 
 		CPConfigurationEntry cpConfigurationEntry =
 			_cpConfigurationEntryLocalService.addCPConfigurationEntry(
@@ -376,6 +373,8 @@ public class ProductResourceTest extends BaseProductResourceTestCase {
 				BigDecimal.TEN, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ONE,
 				true, true, 1.0, true, true, 1.0, 1.0);
 
+		CPDefinition cpDefinition2 = CPTestUtil.addCPDefinition(
+			commerceCatalog.getGroupId());
 		CPConfigurationList masterCPConfigurationList =
 			_cpConfigurationListLocalService.getMasterCPConfigurationList(
 				commerceCatalog.getGroupId());
@@ -389,14 +388,9 @@ public class ProductResourceTest extends BaseProductResourceTestCase {
 		Product product1 = productResource.getChannelProduct(
 			_commerceChannel.getCommerceChannelId(),
 			cpDefinition1.getCProductId(), _accountEntry.getAccountEntryId());
-		Product product2 = productResource.getChannelProduct(
-			_commerceChannel.getCommerceChannelId(),
-			cpDefinition2.getCProductId(), _accountEntry.getAccountEntryId());
 
 		ProductConfiguration productConfiguration1 =
 			product1.getProductConfiguration();
-		ProductConfiguration productConfiguration2 =
-			product2.getProductConfiguration();
 
 		Assert.assertEquals(
 			cpConfigurationEntry.getMaxOrderQuantity(),
@@ -407,6 +401,13 @@ public class ProductResourceTest extends BaseProductResourceTestCase {
 		Assert.assertEquals(
 			cpConfigurationEntry.getMultipleOrderQuantity(),
 			productConfiguration1.getMultipleOrderQuantity());
+
+		Product product2 = productResource.getChannelProduct(
+			_commerceChannel.getCommerceChannelId(),
+			cpDefinition2.getCProductId(), _accountEntry.getAccountEntryId());
+
+		ProductConfiguration productConfiguration2 =
+			product2.getProductConfiguration();
 
 		Assert.assertEquals(
 			masterCPConfigurationEntry.getMaxOrderQuantity(),
