@@ -12,11 +12,11 @@ import {openAssetUsageListModal} from '../../common/components/asset_usage/utils
 import {AssetLibrary} from '../../common/types/AssetLibrary';
 import {ISearchAssetObjectEntry} from '../../common/types/AssetType';
 import formatActionURL from '../../common/utils/formatActionURL';
-import {
-	OBJECT_ENTRY_FOLDER_CLASS_NAME,
-	getScopeExternalReferenceCode,
-} from '../../common/utils/getScopeExternalReferenceCode';
-import CategoriesAndTagsModalContent from '../categorization/modal/CategoriesAndTagsModalContent';
+import {OBJECT_ENTRY_FOLDER_CLASS_NAME} from '../../common/utils/constants';
+import {getScopeExternalReferenceCode} from '../../common/utils/getScopeExternalReferenceCode';
+import {openCMSModal} from '../../common/utils/openCMSModal';
+import EditAssetCategoriesModalContent from '../categorization/modal/EditAssetCategoriesModalContent';
+import EditAssetTagsModalContent from '../categorization/modal/EditAssetTagsModalContent';
 import {defaultPermissionsBulkAction} from '../default_permission/BulkDefaultPermissionModalContent';
 import {permissionsBulkAction} from '../default_permission/BulkPermissionModalContent';
 import DefaultPermissionModalContent from '../default_permission/DefaultPermissionModalContent';
@@ -337,7 +337,28 @@ export default function AssetsFDSPropsTransformer({
 			action: any;
 			selectedData: any;
 		}) => {
-			if (action?.data?.id === 'categoriesAndTags') {
+			if (action?.data?.id === 'edit-categories') {
+				openCMSModal({
+					center: true,
+					containerProps: {
+						className: 'modal-height-lg',
+					},
+					contentComponent: ({
+						closeModal,
+					}: {
+						closeModal: () => void;
+					}) =>
+						EditAssetCategoriesModalContent({
+							apiURL: otherProps.apiURL,
+							assetLibraries: additionalProps.assetLibraries,
+							closeModal,
+							cmsGroupId: additionalProps.cmsGroupId as number,
+							selectedData,
+						}),
+					size: 'md',
+				});
+			}
+			else if (action?.data?.id === 'edit-tags') {
 				openModal({
 					center: true,
 					containerProps: {
@@ -348,8 +369,9 @@ export default function AssetsFDSPropsTransformer({
 					}: {
 						closeModal: () => void;
 					}) =>
-						CategoriesAndTagsModalContent({
-							apiURL: otherProps.apiURL,
+						EditAssetTagsModalContent({
+							apiURL: otherProps?.apiURL,
+							assetLibraries: additionalProps.assetLibraries,
 							closeModal,
 							cmsGroupId: additionalProps.cmsGroupId as number,
 							selectedData,
