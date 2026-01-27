@@ -912,8 +912,8 @@ public class LayoutSetPrototypePropagationTest
 		LayoutSet prototypePublicLayoutSet =
 			_layoutSetPrototypeGroup.getPublicLayoutSet();
 
-		prototypePrivateLayoutSet.setColorSchemeId(_COLOR_SCHEME_ID);
 		prototypePublicLayoutSet.setThemeId(_THEME_ID);
+		prototypePrivateLayoutSet.setColorSchemeId(_COLOR_SCHEME_ID);
 
 		LayoutSetLocalServiceUtil.updateLayoutSet(prototypePublicLayoutSet);
 
@@ -932,11 +932,11 @@ public class LayoutSetPrototypePropagationTest
 		LayoutSet propagatedLayoutSet = group.getPrivateLayoutSet();
 
 		Assert.assertEquals(
-			prototypePrivateLayoutSet.getColorSchemeId(),
-			propagatedLayoutSet.getColorSchemeId());
-		Assert.assertEquals(
 			prototypePrivateLayoutSet.getThemeId(),
 			propagatedLayoutSet.getThemeId());
+		Assert.assertEquals(
+			prototypePrivateLayoutSet.getColorSchemeId(),
+			propagatedLayoutSet.getColorSchemeId());
 	}
 
 	@FeatureFlag("LPD-38869")
