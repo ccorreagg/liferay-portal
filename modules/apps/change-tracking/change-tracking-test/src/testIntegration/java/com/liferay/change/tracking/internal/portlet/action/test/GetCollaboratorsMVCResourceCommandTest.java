@@ -49,7 +49,6 @@ public class GetCollaboratorsMVCResourceCommandTest {
 		CTCollection ctCollection = _ctCollectionLocalService.addCTCollection(
 			null, TestPropsValues.getCompanyId(), TestPropsValues.getUserId(),
 			0, RandomTestUtil.randomString(), null);
-
 		MockLiferayResourceResponse mockLiferayResourceResponse =
 			new MockLiferayResourceResponse();
 
