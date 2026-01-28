@@ -79,7 +79,7 @@ public class DDMFormInstanceRecordLocalServiceTest
 		new LiferayIntegrationTestRule();
 
 	@Test
-	public void testAddFormInstanceRecordWithLimitToOneSubmissionPerUserEnabled()
+	public void testAddFormInstanceRecordWithLimitToOneSubmissionPerUser()
 		throws Exception {
 
 		User user = TestPropsValues.getUser();
