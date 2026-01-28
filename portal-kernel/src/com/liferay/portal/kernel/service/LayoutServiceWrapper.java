@@ -300,8 +300,8 @@ public class LayoutServiceWrapper
 		throws Exception {
 
 		return _layoutService.copyLayoutContent(
-			sourceSegmentsExperienceId, sourceLayout, targetSegmentsExperienceId,
-			targetLayout);
+			sourceSegmentsExperienceId, sourceLayout,
+			targetSegmentsExperienceId, targetLayout);
 	}
 
 	/**
