@@ -89,7 +89,7 @@ public class DDMFormInstanceRecordLocalServiceTest
 		try (LogCapture logCapture = LoggerTestUtil.configureLog4JLogger(
 				SqlExceptionHelper.class.getName(), LoggerTestUtil.OFF)) {
 
-			_addConcurrentDDMFormInstanceRecords(ddmFormInstance, user);
+			_addFormInstanceRecords(ddmFormInstance, user);
 		}
 
 		Assert.assertEquals(
@@ -230,7 +230,7 @@ public class DDMFormInstanceRecordLocalServiceTest
 			"1.1", string3);
 	}
 
-	private void _addConcurrentDDMFormInstanceRecords(
+	private void _addFormInstanceRecords(
 			DDMFormInstance ddmFormInstance, User user)
 		throws Exception {
 
@@ -252,7 +252,6 @@ public class DDMFormInstanceRecordLocalServiceTest
 								readyCountDownLatch.countDown();
 
 								Assert.assertTrue(
-									"Timed out waiting to start",
 									startCountDownLatch.await(
 										30, TimeUnit.SECONDS));
 
@@ -276,13 +275,11 @@ public class DDMFormInstanceRecordLocalServiceTest
 			}
 
 			Assert.assertTrue(
-				"Timed out waiting threads to be ready",
 				readyCountDownLatch.await(30, TimeUnit.SECONDS));
 
 			startCountDownLatch.countDown();
 
 			Assert.assertTrue(
-				"Timed out waiting threads to finish",
 				finishCountDownLatch.await(60, TimeUnit.SECONDS));
 
 			executorService.awaitTermination(30, TimeUnit.SECONDS);
