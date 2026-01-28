@@ -913,6 +913,7 @@ public class LayoutSetPrototypePropagationTest
 			_layoutSetPrototypeGroup.getPublicLayoutSet();
 
 		prototypePublicLayoutSet.setThemeId(_THEME_ID);
+
 		prototypePrivateLayoutSet.setColorSchemeId(_COLOR_SCHEME_ID);
 
 		LayoutSetLocalServiceUtil.updateLayoutSet(prototypePublicLayoutSet);
