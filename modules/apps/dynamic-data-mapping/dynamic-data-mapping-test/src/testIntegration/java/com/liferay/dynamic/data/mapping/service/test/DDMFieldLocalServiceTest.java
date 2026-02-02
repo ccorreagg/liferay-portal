@@ -41,6 +41,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.After;
@@ -410,8 +411,13 @@ public class DDMFieldLocalServiceTest {
 		DDMFormValues deserializedDDMFormValues =
 			_ddmFieldLocalService.getDDMFormValues(ddmForm, _STORAGE_ID);
 
-		DDMFormFieldValue ddmFormFieldValue =
-			deserializedDDMFormValues.getDDMFormFieldValue(fieldName, false);
+		Map<String, List<DDMFormFieldValue>> ddmFormFieldValuesMap =
+			deserializedDDMFormValues.getDDMFormFieldValuesMap(false);
+
+		List<DDMFormFieldValue> ddmFormFieldValues = ddmFormFieldValuesMap.get(
+			fieldName);
+
+		DDMFormFieldValue ddmFormFieldValue = ddmFormFieldValues.get(0);
 
 		LocalizedValue localizedValue =
 			(LocalizedValue)ddmFormFieldValue.getValue();
