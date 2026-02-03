@@ -13,11 +13,17 @@ import com.liferay.osgi.util.ServiceTrackerFactory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.IOException;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -35,6 +41,15 @@ public abstract class BaseDispatchTaskExecutor implements DispatchTaskExecutor {
 	@Override
 	public void execute(long dispatchTriggerId)
 		throws IOException, PortalException {
+
+		Thread currentThread = Thread.currentThread();
+
+		_threads.computeIfAbsent(
+			dispatchTriggerId,
+			k -> Collections.synchronizedList(new ArrayList<>())
+		).add(
+			currentThread
+		);
 
 		DispatchLogLocalService dispatchLogLocalService =
 			_dispatchLogLocalServiceTracker.getService();
@@ -84,6 +99,20 @@ public abstract class BaseDispatchTaskExecutor implements DispatchTaskExecutor {
 				dispatchTaskExecutorOutput.getOutput(),
 				DispatchTaskStatus.FAILED);
 		}
+		finally {
+			_threads.computeIfPresent(
+				dispatchTriggerId,
+				(id, list) -> {
+					list.remove(currentThread);
+
+					return list;
+				});
+		}
+	}
+
+	@Override
+	public boolean isExecutionInProgress(long dispatchTriggerId) {
+		return ListUtil.isNotEmpty(_threads.get(dispatchTriggerId));
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -97,5 +126,7 @@ public abstract class BaseDispatchTaskExecutor implements DispatchTaskExecutor {
 		_dispatchTriggerLocalServiceTracker = ServiceTrackerFactory.open(
 			FrameworkUtil.getBundle(DispatchTriggerLocalService.class),
 			DispatchTriggerLocalService.class);
+	private static final Map<Long, List<Thread>> _threads =
+		new ConcurrentHashMap<>();
 
 }

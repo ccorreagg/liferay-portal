@@ -34,6 +34,8 @@ public interface DispatchTaskExecutor {
 		return false;
 	}
 
+	public boolean isExecutionInProgress(long dispatchTriggerId);
+
 	public default boolean isHiddenInUI() {
 		return false;
 	}

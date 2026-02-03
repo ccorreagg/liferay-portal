@@ -51,31 +51,57 @@ public class DispatchMessageListener extends BaseMessageListener {
 			return;
 		}
 
+		DispatchTaskExecutor dispatchTaskExecutor =
+			_dispatchTaskExecutorRegistry.fetchDispatchTaskExecutor(
+				dispatchTrigger.getDispatchTaskExecutorType());
+
 		if (!dispatchTrigger.isOverlapAllowed()) {
 			DispatchLog dispatchLog =
 				_dispatchLogLocalService.fetchLatestDispatchLog(
 					dispatchTriggerId, DispatchTaskStatus.IN_PROGRESS);
 
 			if (dispatchLog != null) {
+				String error = null;
+
+				if (dispatchTaskExecutor == null) {
+					error =
+						"Unable to find dispatch task executor of type " +
+							dispatchTrigger.getDispatchTaskExecutorType();
+				}
+				else if (!dispatchTaskExecutor.isExecutionInProgress(
+							dispatchTriggerId)) {
+
+					_dispatchLogLocalService.updateDispatchLog(
+						dispatchLog.getDispatchLogId(), new Date(),
+						"This execution is no longer in progress", null,
+						DispatchTaskStatus.FAILED);
+
+					doReceive(message);
+
+					return;
+				}
+				else {
+					error = "Only one instance in progress is allowed";
+				}
+
 				Date date = new Date();
 
 				_dispatchLogLocalService.addDispatchLog(
 					dispatchTrigger.getUserId(),
-					dispatchTrigger.getDispatchTriggerId(), date,
-					"Only one instance in progress is allowed", null, date,
-					DispatchTaskStatus.CANCELED);
+					dispatchTrigger.getDispatchTriggerId(), date, error, null,
+					date, DispatchTaskStatus.CANCELED);
 
 				return;
 			}
 		}
 
-		_execute(dispatchTrigger);
+		_execute(dispatchTaskExecutor, dispatchTrigger);
 	}
 
-	private void _execute(DispatchTrigger dispatchTrigger) throws Exception {
-		DispatchTaskExecutor dispatchTaskExecutor =
-			_dispatchTaskExecutorRegistry.fetchDispatchTaskExecutor(
-				dispatchTrigger.getDispatchTaskExecutorType());
+	private void _execute(
+			DispatchTaskExecutor dispatchTaskExecutor,
+			DispatchTrigger dispatchTrigger)
+		throws Exception {
 
 		if (dispatchTaskExecutor != null) {
 			dispatchTaskExecutor.execute(
