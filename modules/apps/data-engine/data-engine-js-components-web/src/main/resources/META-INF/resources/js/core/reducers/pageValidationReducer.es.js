@@ -40,9 +40,21 @@ export default function pageValidationReducer(state, action) {
 							firstInvalidFieldLabel === undefined)
 					) {
 						firstInvalidFieldLabel = field.label;
-						firstInvalidFieldInput = document.querySelector(
-							`[name='${field.name}']`
-						);
+
+						if (field.type === 'rich_text') {
+							const fieldInstance =
+								window.CKEDITOR?.instances[field.name];
+
+							if (fieldInstance) {
+								firstInvalidFieldInput = fieldInstance;
+							}
+						}
+						else {
+							firstInvalidFieldInput = document.querySelector(
+								`[name='${field.name}']`
+							);
+						}
+
 						firstInvalidFieldName = field.name;
 					}
 
