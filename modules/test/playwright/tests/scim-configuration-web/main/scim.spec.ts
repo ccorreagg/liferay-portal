@@ -327,6 +327,8 @@ test('LPD-23255 AC3 TC5: Verify that clicking the “Reset SCIM Client provision
 
 	await scimConfigurationPage.resetClientData();
 
+	await scimConfigurationPage.configureSCIM('email', 'Test SCIM Client');
+
 	const emptyResponse = await (await apiHelper.scim.getUsers()).text();
 
 	expect(emptyResponse).toContain('"totalResults":0');
@@ -356,6 +358,8 @@ test('LPD-23255 AC3 TC6: Verify that clicking the “Reset SCIM Client provision
 	expect(response).toContain('"totalResults":1');
 
 	await scimConfigurationPage.resetClientData();
+
+	await scimConfigurationPage.configureSCIM('email', 'Test SCIM Client');
 
 	const emptyResponse = await (await apiHelper.scim.getGroups()).text();
 
