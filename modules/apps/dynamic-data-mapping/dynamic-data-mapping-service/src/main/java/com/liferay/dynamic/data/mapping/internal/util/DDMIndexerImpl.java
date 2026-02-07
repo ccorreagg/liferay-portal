@@ -715,7 +715,8 @@ public class DDMIndexerImpl implements DDMIndexer {
 			document.addNumberSortable(name, doubles);
 		}
 		else if (value instanceof Object[]) {
-			String[] valueStringArray = ArrayUtil.toStringArray((Object[])value);
+			String[] valueStringArray = ArrayUtil.toStringArray(
+				(Object[])value);
 
 			String[] truncatedValueStringArray = valueStringArray;
 
@@ -760,7 +761,8 @@ public class DDMIndexerImpl implements DDMIndexer {
 				}
 
 				valueStringArray = richTextValues.toArray(new String[0]);
-				truncatedValueStringArray = truncatedValues.toArray(new String[0]);
+				truncatedValueStringArray = truncatedValues.toArray(
+					new String[0]);
 			}
 			else if (type.equals(DDMFormFieldTypeConstants.TEXT)) {
 				List<String> truncatedValues = new ArrayList<>(
