@@ -79,13 +79,13 @@ public class DDMFormFieldTemplateContextContributorUtilTest
 	public void testGetOptions() {
 		DDMFormFieldOptions ddmFormFieldOptions = new DDMFormFieldOptions();
 
-		ddmFormFieldOptions.setDefaultLocale(LocaleUtil.BRAZIL);
-
 		String optionLabel = RandomTestUtil.randomString();
 		String optionValue = RandomTestUtil.randomString();
 
 		ddmFormFieldOptions.addOptionLabel(
 			optionValue, LocaleUtil.US, optionLabel);
+
+		ddmFormFieldOptions.setDefaultLocale(LocaleUtil.BRAZIL);
 
 		Map<Locale, String> nameMap = LinkedHashMapBuilder.put(
 			LocaleUtil.US, optionLabel
