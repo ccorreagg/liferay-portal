@@ -87,11 +87,10 @@ public class DDMFormFieldTemplateContextContributorUtilTest
 
 		ddmFormFieldOptions.setDefaultLocale(LocaleUtil.BRAZIL);
 
+		long listTypeDefinitionId = RandomTestUtil.randomLong();
 		Map<Locale, String> nameMap = LinkedHashMapBuilder.put(
 			LocaleUtil.US, optionLabel
 		).build();
-
-		long listTypeDefinitionId = RandomTestUtil.randomLong();
 
 		List<Map<String, Object>> options =
 			DDMFormFieldTemplateContextContributorUtil.getOptions(
