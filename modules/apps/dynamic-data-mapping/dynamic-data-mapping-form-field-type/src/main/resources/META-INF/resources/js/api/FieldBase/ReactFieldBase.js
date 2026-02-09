@@ -555,7 +555,9 @@ export default function FieldBase({
 											),
 										});
 									},
-									type === 'text' ? 1000 : 0
+									type === 'fieldset' || type === 'text'
+										? 1000
+										: 0
 								);
 							}}
 							small
@@ -594,7 +596,9 @@ export default function FieldBase({
 										),
 									});
 								},
-								type === 'text' ? 1000 : 0
+								type === 'fieldset' || type === 'text'
+									? 1000
+									: 0
 							)
 						}
 						small
