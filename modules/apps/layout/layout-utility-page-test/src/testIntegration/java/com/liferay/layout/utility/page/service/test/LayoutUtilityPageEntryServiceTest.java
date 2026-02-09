@@ -198,8 +198,8 @@ public class LayoutUtilityPageEntryServiceTest {
 		LayoutUtilityPageEntry layoutUtilityPageEntry =
 			_layoutUtilityPageEntryService.addLayoutUtilityPageEntry(
 				RandomTestUtil.randomString(), _group.getGroupId(), 0, 0, true,
-				RandomTestUtil.randomString(), RandomTestUtil.randomString(),
-				null, _serviceContext);
+				RandomTestUtil.randomString(), RandomTestUtil.randomString(), 0,
+				_serviceContext);
 
 		User user = UserTestUtil.addUser();
 
