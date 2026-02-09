@@ -7232,6 +7232,12 @@ public class ObjectEntryLocalServiceImpl
 			String valueLanguageId)
 		throws PortalException {
 
+		String valueString = GetterUtil.getString(value);
+
+		if (Validator.isBlank(valueString.trim())) {
+			return;
+		}
+
 		long objectEntriesCount = 0;
 		Table<?> table = null;
 
