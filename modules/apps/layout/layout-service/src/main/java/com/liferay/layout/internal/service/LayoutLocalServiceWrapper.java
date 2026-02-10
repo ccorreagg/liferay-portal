@@ -539,7 +539,6 @@ public class LayoutLocalServiceWrapper
 					role -> !Objects.equals(
 						RoleConstants.ADMINISTRATOR, role.getName())),
 				Role::getRoleId);
-
 			String targetResourcePrimKey = PortletPermissionUtil.getPrimaryKey(
 				targetLayout.getPlid(), portletId);
 
