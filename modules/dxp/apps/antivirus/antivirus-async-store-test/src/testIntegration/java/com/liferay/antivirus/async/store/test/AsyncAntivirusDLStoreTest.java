@@ -408,10 +408,10 @@ public class AsyncAntivirusDLStoreTest {
 				Assert.assertEquals(count, firedEventPrepare.get());
 			});
 
-		String[] tempFiles = FileUtil.listFiles(
+		String[] fileNames = FileUtil.listFiles(
 			SystemProperties.get(SystemProperties.TMP_DIR));
 
-		long expectedTempFilesCount = tempFiles.length;
+		long count = fileNames.length;
 
 		_withAsyncAntivirusConfiguration(
 			"0 0/10 * * * ?", 0, false,
@@ -423,12 +423,11 @@ public class AsyncAntivirusDLStoreTest {
 				}
 			});
 
-		tempFiles = FileUtil.listFiles(
+		fileNames = FileUtil.listFiles(
 			SystemProperties.get(SystemProperties.TMP_DIR));
 
 		Assert.assertEquals(
-			Arrays.toString(tempFiles), expectedTempFilesCount,
-			tempFiles.length);
+			Arrays.toString(fileNames), count, fileNames.length);
 	}
 
 	@Test
