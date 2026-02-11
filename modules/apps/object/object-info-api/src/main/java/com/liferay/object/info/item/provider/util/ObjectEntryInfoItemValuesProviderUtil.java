@@ -22,6 +22,9 @@ import com.liferay.list.type.model.ListTypeEntry;
 import com.liferay.list.type.service.ListTypeEntryLocalService;
 import com.liferay.object.constants.ObjectActionTriggerConstants;
 import com.liferay.object.constants.ObjectFieldConstants;
+import com.liferay.object.constants.ObjectFieldSettingConstants;
+import com.liferay.object.constants.ObjectRelationshipConstants;
+import com.liferay.object.field.setting.util.ObjectFieldSettingUtil;
 import com.liferay.object.field.util.ObjectFieldUtil;
 import com.liferay.object.info.field.converter.ObjectFieldInfoFieldConverter;
 import com.liferay.object.info.field.type.util.ObjectFieldInfoFieldTypeUtil;
@@ -30,6 +33,7 @@ import com.liferay.object.info.item.util.ObjectEntryInfoItemUtil;
 import com.liferay.object.model.ObjectAction;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectField;
+import com.liferay.object.model.ObjectFieldSetting;
 import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.rest.dto.v1_0.ListEntry;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
@@ -39,6 +43,7 @@ import com.liferay.object.service.ObjectActionLocalService;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.service.ObjectFieldLocalService;
+import com.liferay.object.service.ObjectFieldSettingLocalServiceUtil;
 import com.liferay.object.service.ObjectRelationshipLocalService;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringPool;
@@ -59,6 +64,9 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
@@ -293,7 +301,7 @@ public class ObjectEntryInfoItemValuesProviderUtil {
 							_parseValue(
 								listTypeEntryLocalService, curLocale,
 								objectEntryLocalService, objectField,
-								objectRelationshipLocalService,
+								objectRelationshipLocalService, themeDisplay,
 								entry.getValue()));
 					}
 				}
@@ -302,7 +310,8 @@ public class ObjectEntryInfoItemValuesProviderUtil {
 		else {
 			infoFieldValue = _parseValue(
 				listTypeEntryLocalService, locale, objectEntryLocalService,
-				objectField, objectRelationshipLocalService, value);
+				objectField, objectRelationshipLocalService, themeDisplay,
+				value);
 		}
 
 		if (infoFieldValue == null) {
@@ -526,7 +535,7 @@ public class ObjectEntryInfoItemValuesProviderUtil {
 		ObjectEntryLocalService objectEntryLocalService,
 		ObjectField objectField,
 		ObjectRelationshipLocalService objectRelationshipLocalService,
-		Object value) {
+		ThemeDisplay themeDisplay, Object value) {
 
 		if (value == null) {
 			return null;
@@ -584,10 +593,46 @@ public class ObjectEntryInfoItemValuesProviderUtil {
 		else if (objectField.compareBusinessType(
 					ObjectFieldConstants.BUSINESS_TYPE_DATE_TIME)) {
 
-			return LocalDateTime.parse(
-				value.toString(),
+			String valueString = String.valueOf(value);
+
+			LocalDateTime localDateTime = LocalDateTime.parse(
+				valueString,
 				DateTimeFormatter.ofPattern(
-					ObjectFieldUtil.getDateTimePattern(value.toString())));
+					ObjectFieldUtil.getDateTimePattern(valueString)));
+
+			List<ObjectFieldSetting> objectFieldSettings =
+				ObjectFieldSettingLocalServiceUtil.
+					getObjectFieldObjectFieldSettings(
+						objectField.getObjectFieldId());
+
+			if (objectFieldSettings.isEmpty()) {
+				return localDateTime;
+			}
+
+			for (ObjectFieldSetting objectFieldSetting : objectFieldSettings) {
+				if (ObjectFieldSettingConstants.NAME_TIME_STORAGE.equals(
+						objectFieldSetting.getName()) &&
+					ObjectFieldSettingConstants.VALUE_USE_INPUT_AS_ENTERED.
+						equals(objectFieldSetting.getValue())) {
+
+					return localDateTime;
+				}
+			}
+
+			ZonedDateTime utcZonedDateTime = localDateTime.atZone(
+				ZoneOffset.UTC);
+
+			String zoneId = ObjectFieldSettingUtil.getTimeZoneId(
+				objectFieldSettings, themeDisplay.getUser());
+
+			if (zoneId == null) {
+				return utcZonedDateTime.toLocalDateTime();
+			}
+
+			ZonedDateTime userZonedDateTime =
+				utcZonedDateTime.withZoneSameInstant(ZoneId.of(zoneId));
+
+			return userZonedDateTime.toLocalDateTime();
 		}
 		else if (objectField.compareBusinessType(
 					ObjectFieldConstants.BUSINESS_TYPE_MULTISELECT_PICKLIST)) {
