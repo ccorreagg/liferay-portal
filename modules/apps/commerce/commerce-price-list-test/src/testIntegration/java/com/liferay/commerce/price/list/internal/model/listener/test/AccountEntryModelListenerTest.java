@@ -47,8 +47,8 @@ public class AccountEntryModelListenerTest {
 
 	@Test
 	public void testOnBeforeRemove() throws Exception {
-		User user = UserTestUtil.addUser();
 		Group group = GroupTestUtil.addGroup();
+		User user = UserTestUtil.addUser();
 
 		AccountEntry accountEntry =
 			CommerceAccountTestUtil.addPersonAccountEntry(
