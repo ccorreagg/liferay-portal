@@ -772,7 +772,8 @@ public class DDMIndexerImpl implements DDMIndexer {
 					truncatedValues.add(_truncate(valueString));
 				}
 
-				truncatedValueStringArray = truncatedValues.toArray(new String[0]);
+				truncatedValueStringArray = truncatedValues.toArray(
+					new String[0]);
 			}
 
 			if (indexType.equals("keyword")) {

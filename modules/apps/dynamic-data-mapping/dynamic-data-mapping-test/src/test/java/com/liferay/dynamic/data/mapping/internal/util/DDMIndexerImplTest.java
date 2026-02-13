@@ -562,8 +562,6 @@ public class DDMIndexerImplTest {
 			}
 		}
 
-		DDMFormField ddmFormField = ddmForm.getDDMFormField(_FIELD_NAME, false);
-
 		ddmFormField.setDDMFormFieldOptions(ddmFormFieldOptions);
 	}
 
