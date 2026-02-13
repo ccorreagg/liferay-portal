@@ -1149,7 +1149,7 @@ public class FriendlyURLServletTest {
 			_layoutUtilityPageEntryLocalService.addLayoutUtilityPageEntry(
 				null, TestPropsValues.getUserId(), group.getGroupId(), 0, 0,
 				true, "Create Account",
-				LayoutUtilityPageEntryConstants.TYPE_CREATE_ACCOUNT, null,
+				LayoutUtilityPageEntryConstants.TYPE_CREATE_ACCOUNT, 0,
 				ServiceContextTestUtil.getServiceContext());
 
 		Layout layout = LayoutTestUtil.addTypePortletLayout(group);
