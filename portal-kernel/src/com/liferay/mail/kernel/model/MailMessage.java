@@ -8,6 +8,7 @@ package com.liferay.mail.kernel.model;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.InternetHeaders;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 
@@ -47,6 +48,21 @@ public class MailMessage implements Serializable {
 		InternetAddress from, String subject, String body, boolean htmlFormat) {
 
 		this(from, null, subject, body, htmlFormat);
+	}
+
+	public void addFileAttachment(File file) {
+		addFileAttachment(file, null);
+	}
+
+	public void addFileAttachment(File file, String fileName) {
+		if (file == null) {
+			return;
+		}
+
+		FileAttachment fileAttachment = new FileAttachment(
+			file, fileName);
+
+		_fileAttachments.add(fileAttachment);
 	}
 
 	public void addFileAttachment(InputStream inputStream) {
