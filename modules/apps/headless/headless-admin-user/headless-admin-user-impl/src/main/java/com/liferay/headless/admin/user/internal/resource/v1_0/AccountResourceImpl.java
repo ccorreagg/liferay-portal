@@ -648,7 +648,7 @@ public class AccountResourceImpl
 	}
 
 	private void _addAddresses(
-			Long accountId, Account account, AccountEntry accountEntry)
+			Account account, Long accountId, AccountEntry accountEntry)
 		throws Exception {
 
 		PostalAddress[] postalAddresses = account.getPostalAddresses();
@@ -1329,7 +1329,7 @@ public class AccountResourceImpl
 			Account account, AccountEntry accountEntry, Long accountId)
 		throws Exception {
 
-		_addAddresses(accountId, account, accountEntry);
+		_addAddresses(account, accountId, accountEntry);
 
 		accountEntry = _accountEntryLocalService.updateDefaultBillingAddressId(
 			accountId,
