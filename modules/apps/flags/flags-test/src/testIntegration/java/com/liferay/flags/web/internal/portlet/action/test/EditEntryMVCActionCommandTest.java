@@ -81,9 +81,9 @@ public class EditEntryMVCActionCommandTest {
 
 		User reporterUser = TestPropsValues.getUser();
 
-		AtomicReference<String> reporterEmailAddressRef =
+		AtomicReference<String> reporterEmailAddressAtomicReference =
 			new AtomicReference<>();
-		AtomicLong reportedUserIdRef = new AtomicLong();
+		AtomicLong reporterUserIdAtomicLong = new AtomicLong();
 
 		FlagsEntryService flagsEntryService = new FlagsEntryService() {
 
@@ -93,8 +93,8 @@ public class EditEntryMVCActionCommandTest {
 				long reportedUserId, String contentTitle, String contentURL,
 				String reason, ServiceContext serviceContext) {
 
-				reporterEmailAddressRef.set(reporterEmailAddress);
-				reportedUserIdRef.set(reportedUserId);
+				reporterEmailAddressAtomicReference.set(reporterEmailAddress);
+				reporterUserIdAtomicLong.set(reportedUserId);
 			}
 
 			@Override
@@ -130,10 +130,9 @@ public class EditEntryMVCActionCommandTest {
 		}
 
 		Assert.assertEquals(
-			reporterUser.getEmailAddress(), reporterEmailAddressRef.get());
-
+			reporterUser.getEmailAddress(), reporterEmailAddressAtomicReference.get());
 		Assert.assertEquals(
-			reportedUser.getUserId(), reportedUserIdRef.longValue());
+			reportedUser.getUserId(), reporterUserIdAtomicLong.longValue());
 	}
 
 	private MockLiferayPortletActionRequest _getMockLiferayPortletActionRequest(
