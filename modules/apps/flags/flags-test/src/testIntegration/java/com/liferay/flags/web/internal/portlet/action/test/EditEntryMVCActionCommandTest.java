@@ -64,7 +64,8 @@ public class EditEntryMVCActionCommandTest {
 		User reportedUser = UserTestUtil.addUser();
 
 		ServiceContext serviceContext =
-			ServiceContextTestUtil.getServiceContext(TestPropsValues.getGroupId());
+			ServiceContextTestUtil.getServiceContext(
+				TestPropsValues.getGroupId());
 
 		MBCategory mbCategory = MBCategoryLocalServiceUtil.addCategory(
 			null, reportedUser.getUserId(),
@@ -74,10 +75,10 @@ public class EditEntryMVCActionCommandTest {
 
 		MBMessage mbMessage = _mbMessageLocalService.addMessage(
 			reportedUser.getUserId(), reportedUser.getFullName(),
-			TestPropsValues.getGroupId(),
-			mbCategory.getCategoryId(), RandomTestUtil.randomString(),
-			RandomTestUtil.randomString(), MBMessageConstants.DEFAULT_FORMAT,
-			Collections.emptyList(), false, 0, false, serviceContext);
+			TestPropsValues.getGroupId(), mbCategory.getCategoryId(),
+			RandomTestUtil.randomString(), RandomTestUtil.randomString(),
+			MBMessageConstants.DEFAULT_FORMAT, Collections.emptyList(), false,
+			0, false, serviceContext);
 
 		User reporterUser = TestPropsValues.getUser();
 
@@ -88,24 +89,26 @@ public class EditEntryMVCActionCommandTest {
 		try (AutoCloseable autoCloseable =
 				ReflectionTestUtil.setFieldValueWithAutoCloseable(
 					_mvcActionCommand, "_flagsEntryService",
-				new FlagsEntryService() {
+					new FlagsEntryService() {
 
-			@Override
-			public void addEntry(
-				String className, long classPK, String reporterEmailAddress,
-				long reportedUserId, String contentTitle, String contentURL,
-				String reason, ServiceContext serviceContext) {
+						@Override
+						public void addEntry(
+							String className, long classPK,
+							String reporterEmailAddress, long reportedUserId,
+							String contentTitle, String contentURL,
+							String reason, ServiceContext serviceContext) {
 
-				reporterEmailAddressAtomicReference.set(reporterEmailAddress);
-				reporterUserIdAtomicLong.set(reportedUserId);
-			}
+							reporterEmailAddressAtomicReference.set(
+								reporterEmailAddress);
+							reporterUserIdAtomicLong.set(reportedUserId);
+						}
 
-			@Override
-			public String getOSGiServiceIdentifier() {
-				return "";
-			}
+						@Override
+						public String getOSGiServiceIdentifier() {
+							return "";
+						}
 
-		});
+					});
 			CompanyConfigurationTemporarySwapper
 				companyConfigurationTemporarySwapper =
 					new CompanyConfigurationTemporarySwapper(
@@ -129,7 +132,8 @@ public class EditEntryMVCActionCommandTest {
 		}
 
 		Assert.assertEquals(
-			reporterUser.getEmailAddress(), reporterEmailAddressAtomicReference.get());
+			reporterUser.getEmailAddress(),
+			reporterEmailAddressAtomicReference.get());
 		Assert.assertEquals(
 			reportedUser.getUserId(), reporterUserIdAtomicLong.longValue());
 	}
