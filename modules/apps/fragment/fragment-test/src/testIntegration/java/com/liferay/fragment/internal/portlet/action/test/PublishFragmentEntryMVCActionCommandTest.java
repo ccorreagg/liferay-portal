@@ -56,6 +56,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import jakarta.portlet.ActionRequest;
+
 import org.springframework.mock.web.MockHttpServletResponse;
 
 /**
@@ -94,7 +96,7 @@ public class PublishFragmentEntryMVCActionCommandTest {
 			new MockLiferayPortletActionResponse();
 
 		_mvcActionCommand.processAction(
-			_getMockLiferayPortletActionRequest(fragmentEntry),
+			_getActionRequest(fragmentEntry),
 			mockLiferayPortletActionResponse);
 
 		MockHttpServletResponse mockHttpServletResponse =
@@ -155,7 +157,7 @@ public class PublishFragmentEntryMVCActionCommandTest {
 				fragmentEntry);
 
 			_mvcActionCommand.processAction(
-				_getMockLiferayPortletActionRequest(fragmentEntry),
+				_getActionRequest(fragmentEntry),
 				new MockLiferayPortletActionResponse());
 
 			Layout updatedLayout = _layoutLocalService.getLayout(
@@ -181,8 +183,7 @@ public class PublishFragmentEntryMVCActionCommandTest {
 				_group, TestPropsValues.getUserId()));
 	}
 
-	private MockLiferayPortletActionRequest _getMockLiferayPortletActionRequest(
-			FragmentEntry fragmentEntry)
+	private ActionRequest _getActionRequest(FragmentEntry fragmentEntry)
 		throws Exception {
 
 		MockLiferayPortletActionRequest mockLiferayPortletActionRequest =
