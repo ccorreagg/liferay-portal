@@ -11,6 +11,7 @@ import com.liferay.osgi.service.tracker.collections.map.PropertyServiceReference
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -29,12 +30,11 @@ public class LayoutDisplayPageProviderRegistryImpl
 	implements LayoutDisplayPageProviderRegistry {
 
 	@Override
-	public LayoutDisplayPageProvider<?> getLayoutDisplayPageProviderByClassName(
-		long companyId, String className) {
+	public LayoutDisplayPageProvider<?> getLayoutDisplayPageProviderByClassName(String className) {
 
 		LayoutDisplayPageProvider<?> layoutDisplayPageProvider =
 			_layoutDisplayPageProviderByClassNameServiceTrackerMap.getService(
-				_getKey(companyId, className));
+				_getKey(CompanyThreadLocal.getCompanyId(), className));
 
 		if (layoutDisplayPageProvider == null) {
 			layoutDisplayPageProvider =
@@ -47,12 +47,11 @@ public class LayoutDisplayPageProviderRegistryImpl
 
 	@Override
 	public LayoutDisplayPageProvider<?>
-		getLayoutDisplayPageProviderByURLSeparator(
-			long companyId, String urlSeparator) {
+		getLayoutDisplayPageProviderByURLSeparator(String urlSeparator) {
 
 		LayoutDisplayPageProvider<?> layoutDisplayPageProvider =
 			_layoutDisplayPageProviderByURLSeparatorServiceTrackerMap.
-				getService(_getKey(companyId, urlSeparator));
+				getService(_getKey(CompanyThreadLocal.getCompanyId(), urlSeparator));
 
 		if (layoutDisplayPageProvider == null) {
 			layoutDisplayPageProvider =

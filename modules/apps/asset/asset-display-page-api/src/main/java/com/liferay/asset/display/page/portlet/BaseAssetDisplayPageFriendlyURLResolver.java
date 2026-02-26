@@ -46,6 +46,7 @@ import com.liferay.portal.kernel.model.LayoutQueryStringComposite;
 import com.liferay.portal.kernel.module.service.Snapshot;
 import com.liferay.portal.kernel.portlet.FriendlyURLResolver;
 import com.liferay.portal.kernel.portlet.FriendlyURLResolverRegistryUtil;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
@@ -275,6 +276,14 @@ public abstract class BaseAssetDisplayPageFriendlyURLResolver
 		throws PortalException {
 
 		return _getLayoutDisplayPageProvider(companyId, friendlyURL);
+	}
+
+	protected LayoutDisplayPageProvider<?> getLayoutDisplayPageProvider(
+			String friendlyURL)
+		throws PortalException {
+
+		return _getLayoutDisplayPageProvider(
+			CompanyThreadLocal.getCompanyId(), friendlyURL);
 	}
 
 	protected Locale getLocale(Map<String, Object> requestContext) {

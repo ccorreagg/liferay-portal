@@ -24,6 +24,20 @@ import org.osgi.framework.BundleContext;
 public class FriendlyURLResolverRegistryUtil {
 
 	public static FriendlyURLResolver getFriendlyURLResolver(
+		String urlSeparator) {
+
+		for (FriendlyURLResolver friendlyURLResolver : _serviceTrackerList) {
+			if (Objects.equals(
+				friendlyURLResolver.getURLSeparator(), urlSeparator)) {
+
+				return friendlyURLResolver;
+			}
+		}
+
+		return null;
+	}
+
+	public static FriendlyURLResolver getFriendlyURLResolver(
 		long companyId, String urlSeparator) {
 
 		for (FriendlyURLResolver friendlyURLResolver : _serviceTrackerList) {
@@ -53,6 +67,11 @@ public class FriendlyURLResolverRegistryUtil {
 		}
 
 		return null;
+	}
+
+	public static Collection<FriendlyURLResolver>
+	getFriendlyURLResolversAsCollection() {
+		return _serviceTrackerList.toList();
 	}
 
 	public static Collection<FriendlyURLResolver>
