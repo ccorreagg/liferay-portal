@@ -39,6 +39,7 @@ import {HeadlessCommerceReturnApiHelper} from './HeadlessCommerceReturnApiHelper
 import {HeadlessDeliveryApiHelper} from './HeadlessDeliveryApiHelper';
 import {HeadlessPortalInstanceApiHelper} from './HeadlessPortalInstanceApiHelper';
 import {HeadlessSiteApiHelper} from './HeadlessSiteApiHelper';
+import {LanguageApiHelper} from './LanguageApiHelper';
 import {ListTypeAdminApiHelper} from './ListTypeAdminApiHelper';
 import {NotificationApiHelper} from './NotificationApiHelper';
 import {ObjectAdminApiHelper} from './ObjectAdminApiHelper';
@@ -170,6 +171,7 @@ export class ApiHelpers {
 	readonly jsonWebServicesStaging: JSONWebServicesStagingApiHelper;
 	readonly jsonWebServicesTeam: JSONWebServicesTeamApiHelper;
 	readonly jsonWebServicesUser: JSONWebServicesUserApiHelper;
+	readonly language: LanguageApiHelper;
 	readonly listTypeAdmin: ListTypeAdminApiHelper;
 	readonly notification: NotificationApiHelper;
 	readonly objectAdmin: ObjectAdminApiHelper;
@@ -272,6 +274,7 @@ export class ApiHelpers {
 		this.jsonWebServicesStaging = new JSONWebServicesStagingApiHelper(this);
 		this.jsonWebServicesTeam = new JSONWebServicesTeamApiHelper(this);
 		this.jsonWebServicesUser = new JSONWebServicesUserApiHelper(this);
+		this.language = new LanguageApiHelper(this);
 		this.listTypeAdmin = new ListTypeAdminApiHelper(this);
 		this.notification = new NotificationApiHelper(this);
 		this.objectAdmin = new ObjectAdminApiHelper(this);
