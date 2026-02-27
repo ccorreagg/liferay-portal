@@ -343,10 +343,10 @@ public class ObjectDefinitionDeployerImpl implements ObjectDefinitionDeployer {
 						factoryPid, StringPool.QUESTION);
 
 				configuration.update(
-					HashMapDictionaryBuilder.put(
+					HashMapDictionaryBuilder.<String, Object>put(
 						ExtendedObjectClassDefinition.Scope.COMPANY.
 							getPropertyKey(),
-						String.valueOf(objectDefinition.getCompanyId())
+						objectDefinition.getCompanyId()
 					).put(
 						"excludedOperationIds", excludedOperationIdsString
 					).put(
