@@ -6,21 +6,16 @@
 package com.liferay.commerce.product.service.persistence.impl;
 
 import com.liferay.commerce.product.model.CPDefinition;
-import com.liferay.commerce.product.model.impl.CPDefinitionImpl;
+import com.liferay.commerce.product.model.CPDefinitionLocalizationTable;
+import com.liferay.commerce.product.model.CPDefinitionTable;
 import com.liferay.commerce.product.service.persistence.CPDefinitionFinder;
+import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
 import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
-import com.liferay.portal.kernel.dao.orm.QueryPos;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.SQLQuery;
-import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
@@ -33,74 +28,49 @@ import org.osgi.service.component.annotations.Reference;
 public class CPDefinitionFinderImpl
 	extends CPDefinitionFinderBaseImpl implements CPDefinitionFinder {
 
-	public static final String COUNT_BY_G_P_S =
-		CPDefinitionFinder.class.getName() + ".countByG_P_S";
-
-	public static final String FIND_BY_EXPIRATION_DATE =
-		CPDefinitionFinder.class.getName() + ".findByExpirationDate";
-
-	public static final String FIND_BY_G_P_S =
-		CPDefinitionFinder.class.getName() + ".findByG_P_S";
-
 	@Override
 	public int countByG_P_S(
 		long groupId, String productTypeName, String languageId,
 		QueryDefinition<CPDefinition> queryDefinition) {
 
-		Session session = null;
-
 		try {
-			session = openSession();
+			Long count = cpDefinitionPersistence.dslQuery(
+				DSLQueryFactoryUtil.countDistinct(
+					CPDefinitionTable.INSTANCE.CPDefinitionId
+				).from(
+					CPDefinitionTable.INSTANCE
+				).leftJoinOn(
+					CPDefinitionLocalizationTable.INSTANCE,
+					CPDefinitionLocalizationTable.INSTANCE.CPDefinitionId.eq(
+						CPDefinitionTable.INSTANCE.CPDefinitionId
+					).and(
+						CPDefinitionLocalizationTable.INSTANCE.languageId.eq(
+							languageId)
+					)
+				).where(
+					CPDefinitionTable.INSTANCE.groupId.eq(
+						groupId
+					).and(
+						CPDefinitionTable.INSTANCE.productTypeName.eq(
+							productTypeName)
+					).and(
+						() -> {
+							int status = queryDefinition.getStatus();
 
-			String sql = _customSQL.get(
-				getClass(), COUNT_BY_G_P_S, queryDefinition,
-				CPDefinitionImpl.TABLE_NAME);
+							if (status == WorkflowConstants.STATUS_ANY) {
+								return CPDefinitionTable.INSTANCE.status.neq(
+									WorkflowConstants.STATUS_IN_TRASH);
+							}
 
-			if (groupId <= 0) {
-				sql = StringUtil.removeSubstring(
-					sql, "(CPDefinition.groupId = ?) AND");
-			}
+							return CPDefinitionTable.INSTANCE.status.eq(status);
+						}
+					)
+				));
 
-			if (Validator.isNull(productTypeName)) {
-				sql = StringUtil.removeSubstring(
-					sql, "(CPDefinition.productTypeName = ?) AND");
-			}
-
-			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
-
-			sqlQuery.addScalar(COUNT_COLUMN_NAME, Type.LONG);
-
-			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
-
-			queryPos.add(languageId);
-
-			if (groupId > 0) {
-				queryPos.add(groupId);
-			}
-
-			if (Validator.isNotNull(productTypeName)) {
-				queryPos.add(productTypeName);
-			}
-
-			queryPos.add(queryDefinition.getStatus());
-
-			Iterator<Long> iterator = sqlQuery.iterate();
-
-			if (iterator.hasNext()) {
-				Long count = iterator.next();
-
-				if (count != null) {
-					return count.intValue();
-				}
-			}
-
-			return 0;
+			return count.intValue();
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-		finally {
-			closeSession(session);
 		}
 	}
 
@@ -108,37 +78,35 @@ public class CPDefinitionFinderImpl
 	public List<CPDefinition> findByExpirationDate(
 		Date expirationDate, QueryDefinition<CPDefinition> queryDefinition) {
 
-		Session session = null;
-
 		try {
-			session = openSession();
+			return cpDefinitionPersistence.dslQuery(
+				DSLQueryFactoryUtil.select(
+					CPDefinitionTable.INSTANCE
+				).from(
+					CPDefinitionTable.INSTANCE
+				).where(
+					CPDefinitionTable.INSTANCE.expirationDate.isNotNull(
+					).and(
+						CPDefinitionTable.INSTANCE.expirationDate.lt(
+							expirationDate)
+					).and(
+						() -> {
+							int status = queryDefinition.getStatus();
 
-			String sql = _customSQL.get(
-				getClass(), FIND_BY_EXPIRATION_DATE, queryDefinition,
-				CPDefinitionImpl.TABLE_NAME);
+							if (status == WorkflowConstants.STATUS_ANY) {
+								return CPDefinitionTable.INSTANCE.status.neq(
+									WorkflowConstants.STATUS_IN_TRASH);
+							}
 
-			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
-
-			sqlQuery.addEntity(
-				CPDefinitionImpl.TABLE_NAME, CPDefinitionImpl.class);
-
-			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
-
-			if (expirationDate != null) {
-				queryPos.add(expirationDate);
-			}
-
-			queryPos.add(queryDefinition.getStatus());
-
-			return (List<CPDefinition>)QueryUtil.list(
-				sqlQuery, getDialect(), queryDefinition.getStart(),
-				queryDefinition.getEnd());
+							return CPDefinitionTable.INSTANCE.status.eq(status);
+						}
+					)
+				).limit(
+					queryDefinition.getStart(), queryDefinition.getEnd()
+				));
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-		finally {
-			closeSession(session);
 		}
 	}
 
@@ -147,56 +115,47 @@ public class CPDefinitionFinderImpl
 		long groupId, String productTypeName, String languageId,
 		QueryDefinition<CPDefinition> queryDefinition) {
 
-		Session session = null;
-
 		try {
-			session = openSession();
+			return cpDefinitionPersistence.dslQuery(
+				DSLQueryFactoryUtil.select(
+					CPDefinitionTable.INSTANCE
+				).from(
+					CPDefinitionTable.INSTANCE
+				).leftJoinOn(
+					CPDefinitionLocalizationTable.INSTANCE,
+					CPDefinitionLocalizationTable.INSTANCE.CPDefinitionId.eq(
+						CPDefinitionTable.INSTANCE.CPDefinitionId
+					).and(
+						CPDefinitionLocalizationTable.INSTANCE.languageId.eq(
+							languageId)
+					)
+				).where(
+					CPDefinitionTable.INSTANCE.groupId.eq(
+						groupId
+					).and(
+						CPDefinitionTable.INSTANCE.productTypeName.eq(
+							productTypeName)
+					).and(
+						() -> {
+							int status = queryDefinition.getStatus();
 
-			String sql = _customSQL.get(
-				getClass(), FIND_BY_G_P_S, queryDefinition,
-				CPDefinitionImpl.TABLE_NAME);
+							if (status == WorkflowConstants.STATUS_ANY) {
+								return CPDefinitionTable.INSTANCE.status.neq(
+									WorkflowConstants.STATUS_IN_TRASH);
+							}
 
-			sql = _customSQL.replaceOrderBy(
-				sql, queryDefinition.getOrderByComparator());
-
-			if (groupId <= 0) {
-				sql = StringUtil.removeSubstring(
-					sql, "(CPDefinition.groupId = ?) AND");
-			}
-
-			if (Validator.isNull(productTypeName)) {
-				sql = StringUtil.removeSubstring(
-					sql, "(CPDefinition.productTypeName = ?) AND");
-			}
-
-			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
-
-			sqlQuery.addEntity(
-				CPDefinitionImpl.TABLE_NAME, CPDefinitionImpl.class);
-
-			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
-
-			queryPos.add(languageId);
-
-			if (groupId > 0) {
-				queryPos.add(groupId);
-			}
-
-			if (Validator.isNotNull(productTypeName)) {
-				queryPos.add(productTypeName);
-			}
-
-			queryPos.add(queryDefinition.getStatus());
-
-			return (List<CPDefinition>)QueryUtil.list(
-				sqlQuery, getDialect(), queryDefinition.getStart(),
-				queryDefinition.getEnd());
+							return CPDefinitionTable.INSTANCE.status.eq(status);
+						}
+					)
+				).orderBy(
+					CPDefinitionTable.INSTANCE,
+					queryDefinition.getOrderByComparator()
+				).limit(
+					queryDefinition.getStart(), queryDefinition.getEnd()
+				));
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-		finally {
-			closeSession(session);
 		}
 	}
 
