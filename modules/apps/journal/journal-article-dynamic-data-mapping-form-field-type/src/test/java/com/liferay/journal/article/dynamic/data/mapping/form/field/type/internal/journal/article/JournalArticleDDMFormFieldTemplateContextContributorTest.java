@@ -71,23 +71,23 @@ public class JournalArticleDDMFormFieldTemplateContextContributorTest {
 			"title", oldTitle
 		);
 
-		String result = ReflectionTestUtil.invoke(
+		String json = ReflectionTestUtil.invoke(
 			_journalArticleDDMFormFieldTemplateContextContributor, "_getValue",
 			new Class<?>[] {String.class}, inputJSONObject.toString());
 
-		JSONObject resultJSONObject = _jsonFactory.createJSONObject(result);
+		JSONObject jsonObject = _jsonFactory.createJSONObject(json);
 
-		Assert.assertEquals(latestTitle, resultJSONObject.getString("title"));
-		Assert.assertNotEquals(oldTitle, resultJSONObject.getString("title"));
+		Assert.assertEquals(latestTitle, jsonObject.getString("title"));
+		Assert.assertNotEquals(oldTitle, jsonObject.getString("title"));
 	}
 
 	@Test
 	public void testGetValueWithNullValue() throws Exception {
-		String result = ReflectionTestUtil.invoke(
+		String value = ReflectionTestUtil.invoke(
 			_journalArticleDDMFormFieldTemplateContextContributor, "_getValue",
 			new Class<?>[] {String.class}, (Object)null);
 
-		Assert.assertEquals(StringPool.BLANK, result);
+		Assert.assertEquals(StringPool.BLANK, value);
 	}
 
 	private void _setUpJournalArticleLocalService() throws Exception {
