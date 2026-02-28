@@ -53,7 +53,7 @@ public class BlogsEntryWorkflowHandler extends BaseWorkflowHandler<BlogsEntry> {
 			return;
 		}
 
-		String layoutFullURL;
+		String layoutFullURL = null;
 
 		if (themeDisplay.getRefererPlid() == 0) {
 			layoutFullURL = _portal.getLayoutFullURL(themeDisplay);
