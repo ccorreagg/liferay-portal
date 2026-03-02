@@ -62,9 +62,6 @@ import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.DestinationNames;
-import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.messaging.MessageBus;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.model.Contact;
@@ -6101,8 +6098,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		if (authResult == Authenticator.SUCCESS) {
 			try {
 				user = _checkPasswordPolicy(user);
-
-				sendUserLoginMessage(companyId, user.getUserId());
 			}
 			catch (PortalException portalException) {
 				handleAuthenticationFailure(
@@ -6797,24 +6792,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		}
 		catch (PortalException portalException) {
 			ReflectionUtil.throwException(portalException);
-		}
-	}
-
-	protected void sendUserLoginMessage(long companyId, long userId) {
-		try {
-			MessageBus messageBus = _messageBusSnapshot.get();
-
-			Message message = new Message();
-
-			message.put("companyId", companyId);
-			message.put("userId", userId);
-
-			messageBus.sendMessage(DestinationNames.USER_LOGIN, message);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception);
-			}
 		}
 	}
 
@@ -7615,8 +7592,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 	private static final Log _log = LogFactoryUtil.getLog(
 		UserLocalServiceImpl.class);
 
-	private static final Snapshot<MessageBus> _messageBusSnapshot =
-		new Snapshot<>(UserLocalServiceImpl.class, MessageBus.class);
 	private static final TransactionConfig _transactionConfig =
 		TransactionConfig.Factory.create(
 			Propagation.SUPPORTS, new Class<?>[] {Exception.class});
