@@ -581,11 +581,7 @@ public class FragmentEntryLinkStagedModelDataHandlerTest
 		try {
 			exportStagedModel(stagedModel);
 
-			fragmentEntry.setExternalReferenceCode(
-				RandomTestUtil.randomString());
-
-			fragmentEntry = _fragmentEntryLocalService.updateFragmentEntry(
-				fragmentEntry);
+			_fragmentEntryLocalService.deleteFragmentEntry(fragmentEntry);
 
 			importStagedModel(stagedModel);
 		}
