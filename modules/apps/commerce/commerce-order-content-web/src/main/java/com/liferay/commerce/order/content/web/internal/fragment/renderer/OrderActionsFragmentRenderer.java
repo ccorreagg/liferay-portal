@@ -10,6 +10,7 @@ import com.liferay.commerce.constants.CommerceConstants;
 import com.liferay.commerce.constants.CommerceOrderConstants;
 import com.liferay.commerce.constants.CommercePortletKeys;
 import com.liferay.commerce.model.CommerceOrder;
+import com.liferay.commerce.model.CommerceOrderItemModel;
 import com.liferay.commerce.model.CommerceReturn;
 import com.liferay.commerce.order.CommerceOrderHttpHelper;
 import com.liferay.commerce.order.importer.type.CommerceOrderImporterType;
@@ -54,6 +55,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -210,6 +212,11 @@ public class OrderActionsFragmentRenderer implements FragmentRenderer {
 				).setParameter(
 					"commerceOrderUuid", commerceOrder.getUuid()
 				).buildString());
+			httpServletRequest.setAttribute(
+				"liferay-commerce:order-actions:priceOnApplication",
+				ListUtil.exists(
+					commerceOrder.getCommerceOrderItems(),
+					CommerceOrderItemModel::isPriceOnApplication));
 			httpServletRequest.setAttribute(
 				"liferay-commerce:order-actions:quickCheckoutEnabled",
 				_isQuickCheckoutEnabled(commerceChannel));

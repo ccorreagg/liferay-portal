@@ -16,6 +16,8 @@
 			).put(
 				"isOpen", open
 			).put(
+				"isPriceOnApplication", priceOnApplication
+			).put(
 				"orderId", commerceOrderId
 			).put(
 				"orderSummaryURL", orderSummaryURL

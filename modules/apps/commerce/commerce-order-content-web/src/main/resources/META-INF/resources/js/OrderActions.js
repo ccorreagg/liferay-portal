@@ -14,6 +14,7 @@ import {PAYMENT_METHOD_TYPE_OFFLINE, getOrder} from './util';
 function OrderActions({
 	checkoutURL,
 	isOpen,
+	isPriceOnApplication,
 	namespace,
 	orderId,
 	orderSummaryURL,
@@ -37,7 +38,7 @@ function OrderActions({
 				.then(({items: availableTransitions}) => {
 					let actions = availableTransitions;
 
-					if (quickCheckoutEnabled) {
+					if (!isPriceOnApplication && quickCheckoutEnabled) {
 						const quickCheckoutTransition =
 							availableTransitions.find(
 								(item) => item.name === 'quick-checkout'
@@ -76,7 +77,13 @@ function OrderActions({
 					});
 				});
 		},
-		[orderId, open, quickCheckoutEnabled, viewReturnableOrderItemsURL]
+		[
+			isPriceOnApplication,
+			orderId,
+			open,
+			quickCheckoutEnabled,
+			viewReturnableOrderItemsURL,
+		]
 	);
 
 	useEffect(() => {
