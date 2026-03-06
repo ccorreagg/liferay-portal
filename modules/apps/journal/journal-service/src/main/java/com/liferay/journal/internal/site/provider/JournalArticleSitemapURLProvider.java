@@ -14,13 +14,16 @@ import com.liferay.journal.constants.JournalArticleConstants;
 import com.liferay.journal.internal.util.JournalUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleResource;
+import com.liferay.journal.model.JournalArticleTable;
 import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.service.JournalArticleResourceLocalService;
 import com.liferay.journal.service.JournalArticleService;
 import com.liferay.layout.page.template.model.LayoutPageTemplateEntry;
 import com.liferay.layout.page.template.service.LayoutPageTemplateEntryLocalService;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -34,6 +37,7 @@ import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.portlet.FriendlyURLResolver;
 import com.liferay.portal.kernel.portlet.FriendlyURLResolverRegistryUtil;
 import com.liferay.portal.kernel.portlet.constants.FriendlyURLResolverConstants;
+import com.liferay.portal.kernel.security.permission.InlineSQLHelper;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutSetLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -113,8 +117,27 @@ public class JournalArticleSitemapURLProvider implements SitemapURLProvider {
 		int start = QueryUtil.ALL_POS;
 		int end = QueryUtil.ALL_POS;
 
-		int count = _journalArticleService.getLayoutArticlesCount(
-			layoutSet.getGroupId());
+		int count = _journalArticleLocalService.dslQueryCount(
+			DSLQueryFactoryUtil.count(
+			).from(
+				JournalArticleTable.INSTANCE
+			).where(
+				JournalArticleTable.INSTANCE.groupId.eq(
+					layoutSet.getGroupId()
+				).and(
+					JournalArticleTable.INSTANCE.classNameId.eq(0L)
+				).and(
+					JournalArticleTable.INSTANCE.layoutUuid.isNotNull()
+				).and(
+					JournalArticleTable.INSTANCE.layoutUuid.neq(
+						StringPool.BLANK)
+				).and(
+					_inlineSQLHelper.getPermissionWherePredicate(
+						JournalArticle.class,
+						JournalArticleTable.INSTANCE.resourcePrimKey,
+						layoutSet.getGroupId())
+				)
+			));
 
 		if (count > SitemapManager.MAXIMUM_ENTRIES) {
 			start = count - SitemapManager.MAXIMUM_ENTRIES;
@@ -122,8 +145,29 @@ public class JournalArticleSitemapURLProvider implements SitemapURLProvider {
 		}
 
 		List<JournalArticle> journalArticles =
-			_journalArticleService.getLayoutArticles(
-				layoutSet.getGroupId(), start, end);
+			_journalArticleLocalService.dslQuery(
+				DSLQueryFactoryUtil.select(
+				).from(
+					JournalArticleTable.INSTANCE
+				).where(
+					JournalArticleTable.INSTANCE.groupId.eq(
+						layoutSet.getGroupId()
+					).and(
+						JournalArticleTable.INSTANCE.classNameId.eq(0L)
+					).and(
+						JournalArticleTable.INSTANCE.layoutUuid.isNotNull()
+					).and(
+						JournalArticleTable.INSTANCE.layoutUuid.neq(
+							StringPool.BLANK)
+					).and(
+						_inlineSQLHelper.getPermissionWherePredicate(
+							JournalArticle.class,
+							JournalArticleTable.INSTANCE.resourcePrimKey,
+							layoutSet.getGroupId())
+					)
+				).limit(
+					start, end
+				));
 
 		visitArticles(
 			element, null, layoutSet, themeDisplay, journalArticles, true);
@@ -398,6 +442,9 @@ public class JournalArticleSitemapURLProvider implements SitemapURLProvider {
 	@Reference
 	private AssetDisplayPageEntryLocalService
 		_assetDisplayPageEntryLocalService;
+
+	@Reference
+	private InlineSQLHelper _inlineSQLHelper;
 
 	@Reference
 	private JournalArticleLocalService _journalArticleLocalService;
