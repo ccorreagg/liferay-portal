@@ -262,15 +262,15 @@ public class GetLayoutReportsLayoutItemDataStrutsAction
 	}
 
 	private void _checkLayoutUpdatePermission(
-			Layout layout, ThemeDisplay themeDisplay)
+		Layout layout, ThemeDisplay themeDisplay)
 		throws Exception {
 
 		PermissionChecker permissionChecker =
 			themeDisplay.getPermissionChecker();
 
 		if (permissionChecker.hasPermission(
-				themeDisplay.getScopeGroup(), BlogsEntry.class.getName(),
-				BlogsEntry.class.getName(), ActionKeys.UPDATE) ||
+			themeDisplay.getScopeGroup(), BlogsEntry.class.getName(),
+			BlogsEntry.class.getName(), ActionKeys.UPDATE) ||
 			permissionChecker.hasPermission(
 				themeDisplay.getScopeGroup(), DLFileEntry.class.getName(),
 				DLFileEntry.class.getName(), ActionKeys.UPDATE) ||
