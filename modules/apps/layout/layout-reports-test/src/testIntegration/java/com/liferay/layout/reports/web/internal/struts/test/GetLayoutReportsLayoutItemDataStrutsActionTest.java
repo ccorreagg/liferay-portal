@@ -112,13 +112,31 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 	}
 
 	@Test
-	public void testExecute() throws Exception {
+	public void testExecuteWithPermission() throws Exception {
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
 
-		ThemeDisplay themeDisplay = _getThemeDisplay();
+		mockHttpServletRequest.setParameter(
+			"p_l_id", String.valueOf(_layout.getPlid()));
 
 		User user = UserTestUtil.addUser();
+
+		UserLocalServiceUtil.addGroupUser(
+			_group.getGroupId(), user.getUserId());
+
+		Role documentUpdateRole = RoleTestUtil.addRole(
+			RoleConstants.TYPE_REGULAR);
+
+		UserLocalServiceUtil.addRoleUser(
+			documentUpdateRole.getRoleId(), user.getUserId());
+
+		ResourcePermissionLocalServiceUtil.setResourcePermissions(
+			user.getCompanyId(), DLFileEntry.class.getName(),
+			ResourceConstants.SCOPE_COMPANY,
+			String.valueOf(user.getCompanyId()), documentUpdateRole.getRoleId(),
+			new String[] {ActionKeys.UPDATE});
+
+		ThemeDisplay themeDisplay = _getThemeDisplay();
 
 		themeDisplay.setPermissionChecker(
 			PermissionCheckerFactoryUtil.create(user));
@@ -126,22 +144,6 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 
 		mockHttpServletRequest.setAttribute(
 			WebKeys.THEME_DISPLAY, themeDisplay);
-
-		mockHttpServletRequest.setParameter(
-			"p_l_id", String.valueOf(_layout.getPlid()));
-
-		UserLocalServiceUtil.addGroupUser(
-			_group.getGroupId(), user.getUserId());
-
-		Role role = RoleTestUtil.addRole(RoleConstants.TYPE_REGULAR);
-
-		UserLocalServiceUtil.addRoleUser(role.getRoleId(), user.getUserId());
-
-		ResourcePermissionLocalServiceUtil.setResourcePermissions(
-			user.getCompanyId(), DLFileEntry.class.getName(),
-			ResourceConstants.SCOPE_COMPANY,
-			String.valueOf(user.getCompanyId()), role.getRoleId(),
-			new String[] {ActionKeys.UPDATE});
 
 		MockHttpServletResponse mockHttpServletResponse =
 			new MockHttpServletResponse();
@@ -503,13 +505,12 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 		themeDisplay.setLayoutSet(_layout.getLayoutSet());
 		themeDisplay.setLayoutTypePortlet(
 			(LayoutTypePortlet)_layout.getLayoutType());
+		themeDisplay.setScopeGroupId(_group.getGroupId());
+		themeDisplay.setSiteGroupId(_group.getGroupId());
 
 		LayoutSet layoutSet = _group.getPublicLayoutSet();
 
 		themeDisplay.setLookAndFeel(layoutSet.getTheme(), null);
-
-		themeDisplay.setScopeGroupId(_group.getGroupId());
-		themeDisplay.setSiteGroupId(_group.getGroupId());
 
 		return themeDisplay;
 	}
@@ -518,11 +519,10 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
 
+		mockHttpServletRequest.setParameter(
+			"p_l_id", String.valueOf(_layout.getPlid()));
+
 		ThemeDisplay themeDisplay = _getThemeDisplay();
-
-		LayoutSet layoutSet = _group.getPublicLayoutSet();
-
-		themeDisplay.setLookAndFeel(layoutSet.getTheme(), null);
 
 		themeDisplay.setPermissionChecker(
 			PermissionThreadLocal.getPermissionChecker());
@@ -530,9 +530,6 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 
 		mockHttpServletRequest.setAttribute(
 			WebKeys.THEME_DISPLAY, themeDisplay);
-
-		mockHttpServletRequest.setParameter(
-			"p_l_id", String.valueOf(_layout.getPlid()));
 
 		MockHttpServletResponse mockHttpServletResponse =
 			new MockHttpServletResponse();
