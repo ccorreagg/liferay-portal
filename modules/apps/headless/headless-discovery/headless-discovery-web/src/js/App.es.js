@@ -11,7 +11,7 @@ import 'swagger-ui-react/swagger-ui.css';
 
 import APIGUI from './APIGUI';
 
-import 'graphiql/style.css';
+import 'graphiql/graphiql.css';
 
 import '../css/main.css';
 
