@@ -15,6 +15,8 @@ import SwaggerUI from 'swagger-ui-react';
 import Icon from './Icon';
 import apiFetch from './util/apiFetch';
 
+import 'graphiql/graphiql.css';
+
 import helpInputSwaggerUIPlugin from './swagger-ui/plugins/helpInput';
 
 const APIGUI = () => {
