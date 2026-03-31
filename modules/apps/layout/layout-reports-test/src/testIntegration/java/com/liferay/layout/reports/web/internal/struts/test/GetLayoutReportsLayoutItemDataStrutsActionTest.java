@@ -112,7 +112,7 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 	}
 
 	@Test
-	public void testExecuteWithPermission() throws Exception {
+	public void testExecute() throws Exception {
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
 
@@ -133,16 +133,15 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 		UserLocalServiceUtil.addGroupUser(
 			_group.getGroupId(), user.getUserId());
 
-		Role documentUpdateRole = RoleTestUtil.addRole(
+		Role role = RoleTestUtil.addRole(
 			RoleConstants.TYPE_REGULAR);
 
-		UserLocalServiceUtil.addRoleUser(
-			documentUpdateRole.getRoleId(), user.getUserId());
+		UserLocalServiceUtil.addRoleUser(role.getRoleId(), user.getUserId());
 
 		ResourcePermissionLocalServiceUtil.setResourcePermissions(
 			user.getCompanyId(), DLFileEntry.class.getName(),
 			ResourceConstants.SCOPE_COMPANY,
-			String.valueOf(user.getCompanyId()), documentUpdateRole.getRoleId(),
+			String.valueOf(user.getCompanyId()), role.getRoleId(),
 			new String[] {ActionKeys.UPDATE});
 
 		MockHttpServletResponse mockHttpServletResponse =
