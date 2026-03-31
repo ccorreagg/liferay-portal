@@ -524,6 +524,10 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 
 		ThemeDisplay themeDisplay = _getThemeDisplay();
 
+		LayoutSet layoutSet = _group.getPublicLayoutSet();
+
+		themeDisplay.setLookAndFeel(layoutSet.getTheme(), null);
+
 		themeDisplay.setPermissionChecker(
 			PermissionThreadLocal.getPermissionChecker());
 		themeDisplay.setUser(TestPropsValues.getUser());
