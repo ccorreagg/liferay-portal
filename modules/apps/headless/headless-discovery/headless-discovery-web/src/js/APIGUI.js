@@ -13,8 +13,9 @@ import React, {useCallback, useEffect, useState} from 'react';
 import SwaggerUI from 'swagger-ui-react';
 
 import Icon from './Icon';
-import helpInputSwaggerUIPlugin from './swagger-ui/plugins/helpInput';
 import apiFetch from './util/apiFetch';
+
+import helpInputSwaggerUIPlugin from './swagger-ui/plugins/helpInput';
 
 const APIGUI = () => {
 	const contextPath = window.location.pathname.substring(
