@@ -10,9 +10,6 @@ const path = require('path');
 
 const outdir = path.resolve('build', 'node', 'packageRunBuild', 'resources');
 
-/* doHover function known issue: Expected Parser stream to be available
-https://github.com/graphql/graphiql/issues/4157 */
-
 const monacoEditorPath = path.dirname(
 	require.resolve('monaco-editor/package.json')
 );
