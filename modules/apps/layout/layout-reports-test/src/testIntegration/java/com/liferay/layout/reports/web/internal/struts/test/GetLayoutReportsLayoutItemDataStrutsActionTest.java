@@ -519,9 +519,6 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
 
-		mockHttpServletRequest.setParameter(
-			"p_l_id", String.valueOf(_layout.getPlid()));
-
 		ThemeDisplay themeDisplay = _getThemeDisplay();
 
 		LayoutSet layoutSet = _group.getPublicLayoutSet();
@@ -534,6 +531,9 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 
 		mockHttpServletRequest.setAttribute(
 			WebKeys.THEME_DISPLAY, themeDisplay);
+
+		mockHttpServletRequest.setParameter(
+			"p_l_id", String.valueOf(_layout.getPlid()));
 
 		MockHttpServletResponse mockHttpServletResponse =
 			new MockHttpServletResponse();
