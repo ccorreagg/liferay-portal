@@ -262,7 +262,7 @@ public class GetLayoutReportsLayoutItemDataStrutsAction
 	}
 
 	private void _checkLayoutUpdatePermission(
-		Layout layout, ThemeDisplay themeDisplay)
+			Layout layout, ThemeDisplay themeDisplay)
 		throws Exception {
 
 		PermissionChecker permissionChecker =

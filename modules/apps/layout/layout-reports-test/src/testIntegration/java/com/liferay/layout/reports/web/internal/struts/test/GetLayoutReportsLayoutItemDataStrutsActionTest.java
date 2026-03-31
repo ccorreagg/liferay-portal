@@ -112,18 +112,9 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 	}
 
 	@Test
-	public void testExecute() throws Exception {
+	public void testExecuteWithPermission() throws Exception {
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
-
-		ThemeDisplay themeDisplay = _getThemeDisplay();
-
-		themeDisplay.setPermissionChecker(
-			PermissionCheckerFactoryUtil.create(user));
-		themeDisplay.setUser(user);
-
-		mockHttpServletRequest.setAttribute(
-			WebKeys.THEME_DISPLAY, themeDisplay);
 
 		mockHttpServletRequest.setParameter(
 			"p_l_id", String.valueOf(_layout.getPlid()));
@@ -133,16 +124,26 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 		UserLocalServiceUtil.addGroupUser(
 			_group.getGroupId(), user.getUserId());
 
-		Role role = RoleTestUtil.addRole(
+		Role documentUpdateRole = RoleTestUtil.addRole(
 			RoleConstants.TYPE_REGULAR);
 
-		UserLocalServiceUtil.addRoleUser(role.getRoleId(), user.getUserId());
+		UserLocalServiceUtil.addRoleUser(
+			documentUpdateRole.getRoleId(), user.getUserId());
 
 		ResourcePermissionLocalServiceUtil.setResourcePermissions(
 			user.getCompanyId(), DLFileEntry.class.getName(),
 			ResourceConstants.SCOPE_COMPANY,
-			String.valueOf(user.getCompanyId()), role.getRoleId(),
+			String.valueOf(user.getCompanyId()), documentUpdateRole.getRoleId(),
 			new String[] {ActionKeys.UPDATE});
+
+		ThemeDisplay themeDisplay = _getThemeDisplay();
+
+		themeDisplay.setPermissionChecker(
+			PermissionCheckerFactoryUtil.create(user));
+		themeDisplay.setUser(user);
+
+		mockHttpServletRequest.setAttribute(
+			WebKeys.THEME_DISPLAY, themeDisplay);
 
 		MockHttpServletResponse mockHttpServletResponse =
 			new MockHttpServletResponse();
