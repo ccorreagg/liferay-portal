@@ -504,12 +504,13 @@ public class GetLayoutReportsLayoutItemDataStrutsActionTest {
 		themeDisplay.setLayoutSet(_layout.getLayoutSet());
 		themeDisplay.setLayoutTypePortlet(
 			(LayoutTypePortlet)_layout.getLayoutType());
-		themeDisplay.setScopeGroupId(_group.getGroupId());
-		themeDisplay.setSiteGroupId(_group.getGroupId());
 
 		LayoutSet layoutSet = _group.getPublicLayoutSet();
 
 		themeDisplay.setLookAndFeel(layoutSet.getTheme(), null);
+
+		themeDisplay.setScopeGroupId(_group.getGroupId());
+		themeDisplay.setSiteGroupId(_group.getGroupId());
 
 		return themeDisplay;
 	}
