@@ -10,37 +10,14 @@ const path = require('path');
 
 const outdir = path.resolve('build', 'node', 'packageRunBuild', 'resources');
 
-const monacoEditorPath = path.dirname(
-	require.resolve('monaco-editor/package.json')
-);
-
-const monacoGraphqlPath = path.dirname(
-	require.resolve('monaco-graphql/package.json')
-);
-
 module.exports = {
 	customBuild: {
 		esbuild: {
 			bundle: true,
-			entryNames: '[name]',
-			entryPoints: {
-				'editor.worker': path.resolve(
-					monacoEditorPath,
-					'esm/vs/editor/editor.worker.js'
-				),
-				'graphql.worker': path.resolve(
-					monacoGraphqlPath,
-					'esm/graphql.worker.js'
-				),
-				'headless-discovery-web-min': path.resolve('src', 'index.js'),
-				'json.worker': path.resolve(
-					monacoEditorPath,
-					'esm/vs/language/json/json.worker.js'
-				),
-			},
+			entryNames: 'headless-discovery-web-min',
+			entryPoints: [path.resolve('src', 'index.js')],
 			loader: {
 				'.js': 'jsx',
-				'.ttf': 'file',
 			},
 			outdir,
 			plugins: [polyfillNode({})],
