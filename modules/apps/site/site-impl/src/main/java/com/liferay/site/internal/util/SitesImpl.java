@@ -809,6 +809,12 @@ public class SitesImpl implements Sites {
 			PortletDataHandlerKeys.PORTLET_CONFIGURATION_ALL,
 			new String[] {Boolean.TRUE.toString()}
 		).put(
+			PortletDataHandlerKeys.PORTLET_DATA,
+			new String[] {Boolean.TRUE.toString()}
+		).put(
+			PortletDataHandlerKeys.PORTLET_DATA_ALL,
+			new String[] {Boolean.TRUE.toString()}
+		).put(
 			PortletDataHandlerKeys.PORTLET_SETUP_ALL,
 			new String[] {Boolean.TRUE.toString()}
 		).put(
@@ -832,12 +838,6 @@ public class SitesImpl implements Sites {
 			parameterMap.put(
 				PortletDataHandlerKeys.LOGO,
 				new String[] {Boolean.TRUE.toString()});
-			parameterMap.put(
-				PortletDataHandlerKeys.PORTLET_DATA,
-				new String[] {Boolean.TRUE.toString()});
-			parameterMap.put(
-				PortletDataHandlerKeys.PORTLET_DATA_ALL,
-				new String[] {Boolean.TRUE.toString()});
 		}
 		else {
 			parameterMap.put(
@@ -860,13 +860,6 @@ public class SitesImpl implements Sites {
 					PortletDataHandlerKeys.LOGO,
 					new String[] {Boolean.FALSE.toString()});
 			}
-
-			parameterMap.put(
-				PortletDataHandlerKeys.PORTLET_DATA,
-				new String[] {Boolean.FALSE.toString()});
-			parameterMap.put(
-				PortletDataHandlerKeys.PORTLET_DATA_ALL,
-				new String[] {Boolean.FALSE.toString()});
 		}
 
 		return parameterMap;
