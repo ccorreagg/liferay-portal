@@ -28,11 +28,13 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
@@ -46,6 +48,7 @@ import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ResourceLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
@@ -151,6 +154,8 @@ public class CommerceShipmentLocalServiceImpl
 			String commerceShippingOptionName, ServiceContext serviceContext)
 		throws PortalException {
 
+		// Commerce Shipment
+
 		User user = _userLocalService.getUser(serviceContext.getUserId());
 
 		long commerceShipmentId = counterLocalService.increment();
@@ -182,7 +187,14 @@ public class CommerceShipmentLocalServiceImpl
 			CommerceShipmentConstants.SHIPMENT_STATUS_PROCESSING);
 		commerceShipment.setExpandoBridgeAttributes(serviceContext);
 
-		return commerceShipmentPersistence.update(commerceShipment);
+		commerceShipment = commerceShipmentPersistence.update(commerceShipment);
+
+		// Resources
+
+		_resourceLocalService.addModelResources(
+			commerceShipment, serviceContext);
+
+		return commerceShipment;
 	}
 
 	@Indexable(type = IndexableType.REINDEX)
@@ -230,6 +242,19 @@ public class CommerceShipmentLocalServiceImpl
 		return commerceShipment;
 	}
 
+	@Override
+	public CommerceShipment deleteCommerceShipment(
+		CommerceShipment commerceShipment) {
+
+		try {
+			return commerceShipmentLocalService.deleteCommerceShipment(
+				commerceShipment, false);
+		}
+		catch (PortalException portalException) {
+			throw new SystemException(portalException);
+		}
+	}
+
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
@@ -237,7 +262,16 @@ public class CommerceShipmentLocalServiceImpl
 			CommerceShipment commerceShipment, boolean restoreStockQuantity)
 		throws PortalException {
 
+		// Commerce Shipment
+
 		commerceShipment = commerceShipmentPersistence.remove(commerceShipment);
+
+		// Resources
+
+		_resourceLocalService.deleteResource(
+			commerceShipment, ResourceConstants.SCOPE_INDIVIDUAL);
+
+		// Commerce Shipment Items
 
 		_commerceShipmentItemLocalService.deleteCommerceShipmentItems(
 			commerceShipment.getCommerceShipmentId(), restoreStockQuantity);
@@ -256,7 +290,7 @@ public class CommerceShipmentLocalServiceImpl
 			commerceShipmentPersistence.findByPrimaryKey(commerceShipmentId);
 
 		return commerceShipmentLocalService.deleteCommerceShipment(
-			commerceShipment);
+			commerceShipment, false);
 	}
 
 	@Override
@@ -894,6 +928,9 @@ public class CommerceShipmentLocalServiceImpl
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private ResourceLocalService _resourceLocalService;
 
 	@Reference
 	private UserLocalService _userLocalService;
