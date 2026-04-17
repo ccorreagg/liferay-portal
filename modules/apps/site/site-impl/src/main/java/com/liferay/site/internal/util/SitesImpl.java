@@ -385,6 +385,43 @@ public class SitesImpl implements Sites {
 	}
 
 	@Override
+	public void executeLayoutSetPrototypeSync(
+			long layoutSetPrototypeId, long userId)
+		throws PortalException {
+
+		LayoutSetPrototype layoutSetPrototype =
+			_layoutSetPrototypeLocalService.fetchLayoutSetPrototype(
+				layoutSetPrototypeId);
+
+		if (layoutSetPrototype == null) {
+			return;
+		}
+
+		for (LayoutSet layoutSet :
+				_layoutSetLocalService.getLayoutSetsByLayoutSetPrototypeUuid(
+					layoutSetPrototype.getUuid())) {
+
+			try {
+				mergeLayoutSetPrototypeLayouts(layoutSet.getGroup(), layoutSet);
+			}
+			catch (Exception exception) {
+				_log.error(
+					"Unable to start site template sync for layout set " +
+						layoutSet.getLayoutSetId(),
+					exception);
+			}
+		}
+
+		// TODO LPD-82108 AC9: hook a BackgroundTaskCompleteListener on the
+		// per-site LAYOUT_SET_PROTOTYPE_MERGE_BACKGROUND_TASK_EXECUTOR tasks
+		// queued above to aggregate results and notify userId with one of:
+		// "Sync of [name] Site Template Finished Successfully."
+		// "Sync of [name] Site Template Finished with Errors."
+		// "Sync of [name] Site Template Failed and the process did not Finish."
+
+	}
+
+	@Override
 	public boolean isLayoutModifiedSinceLastMerge(Layout layout) {
 		if ((layout == null) ||
 			Validator.isNull(layout.getLayoutSetPrototypeLayoutERC()) ||
