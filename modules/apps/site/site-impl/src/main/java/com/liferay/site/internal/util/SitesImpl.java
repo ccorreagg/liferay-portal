@@ -242,19 +242,6 @@ public class SitesImpl implements Sites {
 		deleteUnreferencedPortlets(
 			targetLayoutPortletIds, targetLayout, layoutPrototypeLayout);
 
-		targetLayout = _layoutLocalService.getLayout(targetLayout.getPlid());
-
-		UnicodeProperties typeSettingsUnicodeProperties =
-			targetLayout.getTypeSettingsProperties();
-
-		Date modifiedDate = targetLayout.getModifiedDate();
-
-		typeSettingsUnicodeProperties.setProperty(
-			LAST_MERGE_TIME, String.valueOf(modifiedDate.getTime()));
-
-		_layoutLocalService.updateTypeSettings(
-			targetLayout, targetLayout.getTypeSettings());
-
 		UnicodeProperties prototypeTypeSettingsUnicodeProperties =
 			layoutPrototypeLayout.getTypeSettingsProperties();
 
