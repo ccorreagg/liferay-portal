@@ -2551,6 +2551,17 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 					segmentsExperience.getExternalReferenceCode(), pageElement);
 
 		assertValid(postPageElement);
+
+		WidgetInstancePageElementDefinition
+			postWidgetInstancePageElementDefinition =
+				(WidgetInstancePageElementDefinition)
+					postPageElement.getPageElementDefinition();
+
+		WidgetInstance postWidgetInstance =
+			postWidgetInstancePageElementDefinition.getWidgetInstance();
+
+		Assert.assertEquals(
+			undeployedPortletName, postWidgetInstance.getWidgetName());
 	}
 
 	private void _testPostSitePageSpecificationPageExperiencePageElementWithWidgetPageElement()
@@ -4389,6 +4400,17 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 					pageElement.getExternalReferenceCode(), pageElement);
 
 		assertValid(putPageElement);
+
+		WidgetInstancePageElementDefinition
+			putWidgetInstancePageElementDefinition =
+				(WidgetInstancePageElementDefinition)
+					putPageElement.getPageElementDefinition();
+
+		WidgetInstance putWidgetInstance =
+			putWidgetInstancePageElementDefinition.getWidgetInstance();
+
+		Assert.assertEquals(
+			undeployedPortletName, putWidgetInstance.getWidgetName());
 	}
 
 	private void _testPutSitePageSpecificationPageExperiencePageElementWithWidgetPageElement()
