@@ -124,7 +124,8 @@ public class AssetLibraryResourceTest extends BaseAssetLibraryResourceTestCase {
 
 			Assert.assertEquals(1, page.getTotalCount());
 
-			AssetLibrary filteredAssetLibrary = page.getItems().iterator(
+			AssetLibrary filteredAssetLibrary = page.getItems(
+			).iterator(
 			).next();
 
 			Assert.assertEquals(
