@@ -1089,7 +1089,11 @@ function getNextName({
 		return action.name!;
 	}
 
-	if (!action.label || modifiedNames.has(item.uuid)) {
+	if (
+		!action.label ||
+		modifiedNames.has(item.uuid) ||
+		('locked' in item && item.locked)
+	) {
 		return item.name;
 	}
 
