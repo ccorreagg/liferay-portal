@@ -1571,13 +1571,6 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 		return layout;
 	}
 
-	@Override
-	public Layout getLayout(long plid) throws PortalException {
-		Layout layout = layoutPersistence.findByPrimaryKey(plid);
-
-		return layout;
-	}
-
 	/**
 	 * Returns the layout matching the layout ID, group, and privacy; throws a
 	 * {@link NoSuchLayoutException} otherwise.
@@ -1592,10 +1585,7 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 	public Layout getLayout(long groupId, boolean privateLayout, long layoutId)
 		throws PortalException {
 
-		Layout layout = layoutPersistence.findByG_P_L(
-			groupId, privateLayout, layoutId);
-
-		return layout;
+		return layoutPersistence.findByG_P_L(groupId, privateLayout, layoutId);
 	}
 
 	@Override
