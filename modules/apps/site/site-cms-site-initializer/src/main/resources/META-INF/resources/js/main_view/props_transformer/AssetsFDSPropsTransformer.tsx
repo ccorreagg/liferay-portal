@@ -175,9 +175,13 @@ export default function AssetsFDSPropsTransformer({
 }) {
 	let mergedViews = views;
 
-	const isAllSectionView =
-		otherProps?.id?.endsWith(CMSSiteInitializerFDSNames.ALL_SECTION) ||
-		false;
+	const isAllSectionView = otherProps?.id?.endsWith(
+		CMSSiteInitializerFDSNames.ALL_SECTION
+	);
+
+	const hideManagementBarInEmptyState = isAllSectionView
+		? otherProps?.hideManagementBarInEmptyState
+		: true;
 
 	if (additionalProps.galleryViewEnabled) {
 		const galleryViewRenderer: IView = {
@@ -313,9 +317,7 @@ export default function AssetsFDSPropsTransformer({
 			],
 		},
 		groupedFilters: getCMSItemSelectorGroupedFilters('scopeGroupId'),
-		hideManagementBarInEmptyState: isAllSectionView
-			? otherProps?.hideManagementBarInEmptyState
-			: true,
+		hideManagementBarInEmptyState,
 		infoPanelComponent: (items: {items: ISearchAssetObjectEntry[]}) => (
 			<AssetTypeInfoPanel
 				additionalProps={additionalProps as any}
