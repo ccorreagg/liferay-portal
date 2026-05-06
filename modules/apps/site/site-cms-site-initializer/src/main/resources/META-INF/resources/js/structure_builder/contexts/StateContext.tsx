@@ -1050,7 +1050,7 @@ function getDefaultChildren(structureUuid: Uuid) {
 	const children = new Map();
 
 	const title = getDefaultField({
-		label: Liferay.Language.get('title'),
+		languageKey: 'title',
 		locked: true,
 		name: 'title',
 		parent: structureUuid,
@@ -1062,7 +1062,7 @@ function getDefaultChildren(structureUuid: Uuid) {
 
 	if (type === 'L_CMS_FILE_TYPES') {
 		const file = getDefaultField({
-			label: Liferay.Language.get('file'),
+			languageKey: 'file',
 			locked: true,
 			name: 'file',
 			parent: structureUuid,
