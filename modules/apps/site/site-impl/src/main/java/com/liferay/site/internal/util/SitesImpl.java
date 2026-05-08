@@ -71,6 +71,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortletKeys;
@@ -82,6 +83,8 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portlet.PortletPreferencesImpl;
+import com.liferay.site.internal.sync.LayoutSetPrototypeSyncContextThreadLocal;
+import com.liferay.site.sync.LayoutSetPrototypeSyncSessionManager;
 import com.liferay.sites.kernel.util.Sites;
 
 import jakarta.portlet.PortletPreferences;
@@ -383,11 +386,34 @@ public class SitesImpl implements Sites {
 			return;
 		}
 
+		List<LayoutSet> mergeableLayoutSets = new ArrayList<>();
+
 		for (LayoutSet layoutSet :
 				_layoutSetLocalService.getLayoutSetsByLayoutSetPrototypeUuid(
 					layoutSetPrototype.getUuid())) {
 
+			if (isLayoutSetMergeable(layoutSet.getGroup(), layoutSet)) {
+				mergeableLayoutSets.add(layoutSet);
+			}
+		}
+
+		String syncSessionId = PortalUUIDUtil.generate();
+
+		_layoutSetPrototypeSyncSessionManager.openSession(
+			mergeableLayoutSets.size(),
+			layoutSetPrototype.getName(LocaleUtil.US), syncSessionId, userId);
+
+		if (mergeableLayoutSets.isEmpty()) {
+			return;
+		}
+
+		for (LayoutSet layoutSet : mergeableLayoutSets) {
 			try {
+				MergeLayoutPrototypesThreadLocal.setSkipMerge(false);
+
+				LayoutSetPrototypeSyncContextThreadLocal.setSyncSessionId(
+					syncSessionId);
+
 				mergeLayoutSetPrototypeLayouts(layoutSet.getGroup(), layoutSet);
 			}
 			catch (Exception exception) {
@@ -395,16 +421,15 @@ public class SitesImpl implements Sites {
 					"Unable to start site template sync for layout set " +
 						layoutSet.getLayoutSetId(),
 					exception);
+
+				_layoutSetPrototypeSyncSessionManager.
+					recordBackgroundTaskStatus(
+						BackgroundTaskConstants.STATUS_FAILED, syncSessionId);
+			}
+			finally {
+				LayoutSetPrototypeSyncContextThreadLocal.setSyncSessionId(null);
 			}
 		}
-
-		// TODO LPD-82108 AC9: hook a BackgroundTaskCompleteListener on the
-		// per-site LAYOUT_SET_PROTOTYPE_MERGE_BACKGROUND_TASK_EXECUTOR tasks
-		// queued above to aggregate results and notify userId with one of:
-		// "Sync of [name] Site Template Finished Successfully."
-		// "Sync of [name] Site Template Finished with Errors."
-		// "Sync of [name] Site Template Failed and the process did not Finish."
-
 	}
 
 	@Override
@@ -500,6 +525,8 @@ public class SitesImpl implements Sites {
 		throws Exception {
 
 		if (MergeLayoutPrototypesThreadLocal.isSkipMerge()) {
+			_recordSyncResultIfTracked(BackgroundTaskConstants.STATUS_FAILED);
+
 			return;
 		}
 
@@ -509,6 +536,8 @@ public class SitesImpl implements Sites {
 			layoutSet.getLayoutSetId());
 
 		if (!isLayoutSetMergeable(group, layoutSet)) {
+			_recordSyncResultIfTracked(BackgroundTaskConstants.STATUS_FAILED);
+
 			return;
 		}
 
@@ -996,6 +1025,8 @@ public class SitesImpl implements Sites {
 			ExportImportThreadLocal.isImportInProcess() ||
 			ExportImportThreadLocal.isStagingInProcess()) {
 
+			_recordSyncResultIfTracked(BackgroundTaskConstants.STATUS_FAILED);
+
 			return;
 		}
 
@@ -1007,6 +1038,8 @@ public class SitesImpl implements Sites {
 					"Layout set prototype merge is in progress for layout " +
 						"set " + layoutSet.getLayoutSetId());
 			}
+
+			_recordSyncResultIfTracked(BackgroundTaskConstants.STATUS_FAILED);
 
 			return;
 		}
@@ -1024,6 +1057,13 @@ public class SitesImpl implements Sites {
 			new String[] {
 				String.valueOf(layoutSetPrototype.getLayoutSetPrototypeId())
 			});
+
+		String syncSessionId =
+			LayoutSetPrototypeSyncContextThreadLocal.getSyncSessionId();
+
+		if (Validator.isNotNull(syncSessionId)) {
+			parameterMap.put("syncSessionId", new String[] {syncSessionId});
+		}
 
 		User user = _userLocalService.getDefaultUser(layoutSet.getCompanyId());
 
@@ -1051,6 +1091,8 @@ public class SitesImpl implements Sites {
 			_log.error(
 				"Unable to add draft export-import configuration",
 				portalException);
+
+			_recordSyncResultIfTracked(BackgroundTaskConstants.STATUS_FAILED);
 
 			return;
 		}
@@ -1156,6 +1198,18 @@ public class SitesImpl implements Sites {
 		}
 
 		return owner;
+	}
+
+	private void _recordSyncResultIfTracked(int backgroundTaskStatus) {
+		String syncSessionId =
+			LayoutSetPrototypeSyncContextThreadLocal.getSyncSessionId();
+
+		if (Validator.isNull(syncSessionId)) {
+			return;
+		}
+
+		_layoutSetPrototypeSyncSessionManager.recordBackgroundTaskStatus(
+			backgroundTaskStatus, syncSessionId);
 	}
 
 	private void _releaseLock(String className, long classPK, String owner) {
@@ -1264,6 +1318,10 @@ public class SitesImpl implements Sites {
 
 	@Reference
 	private LayoutSetPrototypeLocalService _layoutSetPrototypeLocalService;
+
+	@Reference
+	private LayoutSetPrototypeSyncSessionManager
+		_layoutSetPrototypeSyncSessionManager;
 
 	@Reference
 	private LayoutSetService _layoutSetService;
