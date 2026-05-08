@@ -9,8 +9,12 @@ import com.liferay.application.list.PanelAppRegistry;
 import com.liferay.application.list.constants.ApplicationListWebKeys;
 import com.liferay.application.list.display.context.logic.PanelCategoryHelper;
 import com.liferay.layout.set.prototype.constants.LayoutSetPrototypePortletKeys;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.NoSuchLayoutSetPrototypeException;
 import com.liferay.portal.kernel.exception.RequiredLayoutSetPrototypeException;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.LayoutSetPrototype;
 import com.liferay.portal.kernel.module.service.Snapshot;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
@@ -21,6 +25,7 @@ import com.liferay.portal.kernel.service.LayoutSetPrototypeService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Localization;
@@ -123,10 +128,48 @@ public class LayoutSetPrototypePortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		Sites sites = _sitesSnapshot.get();
+		hideDefaultSuccessMessage(actionRequest);
 
-		sites.executeLayoutSetPrototypeSync(
-			layoutSetPrototypeId, themeDisplay.getUserId());
+		try {
+			Sites sites = _sitesSnapshot.get();
+
+			sites.executeLayoutSetPrototypeSync(
+				layoutSetPrototypeId, themeDisplay.getUserId());
+
+			LayoutSetPrototype layoutSetPrototype =
+				layoutSetPrototypeService.fetchLayoutSetPrototype(
+					layoutSetPrototypeId);
+
+			String layoutSetPrototypeName = StringPool.BLANK;
+
+			if (layoutSetPrototype != null) {
+				layoutSetPrototypeName = layoutSetPrototype.getName(
+					themeDisplay.getLocale());
+			}
+
+			SessionMessages.add(
+				actionRequest, "executeLayoutSetPrototypeSyncInfoMessage",
+				LanguageUtil.format(
+					themeDisplay.getLocale(),
+					"site-template-sync-started-for-x-you-will-receive-a-" +
+						"notification-when-the-process-is-complete",
+					layoutSetPrototypeName));
+		}
+		catch (Exception exception) {
+			_log.error(
+				"Unable to start site template sync for " +
+					layoutSetPrototypeId,
+				exception);
+
+			hideDefaultErrorMessage(actionRequest);
+
+			SessionMessages.add(
+				actionRequest, "executeLayoutSetPrototypeSyncErrorMessage",
+				LanguageUtil.get(
+					themeDisplay.getLocale(),
+					"an-error-has-occurred-and-site-template-sync-could-not-" +
+						"be-performed"));
+		}
 	}
 
 	public void updateLayoutSetPrototype(
@@ -258,6 +301,9 @@ public class LayoutSetPrototypePortlet extends MVCPortlet {
 
 	@Reference
 	protected PanelAppRegistry panelAppRegistry;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		LayoutSetPrototypePortlet.class);
 
 	private static final Snapshot<Sites> _sitesSnapshot = new Snapshot<>(
 		LayoutSetPrototypePortlet.class, Sites.class);
