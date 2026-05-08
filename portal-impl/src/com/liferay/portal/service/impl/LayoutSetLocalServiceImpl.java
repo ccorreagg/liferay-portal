@@ -283,6 +283,9 @@ public class LayoutSetLocalServiceImpl extends LayoutSetLocalServiceBaseImpl {
 		LayoutSet layoutSet = layoutSetPersistence.findByG_P(
 			groupId, privateLayout);
 
+		String previousLayoutSetPrototypeUuid =
+			layoutSet.getLayoutSetPrototypeUuid();
+
 		LayoutSetBranch layoutSetBranch = _getLayoutSetBranch(layoutSet);
 
 		if (layoutSetBranch == null) {
@@ -322,6 +325,13 @@ public class LayoutSetLocalServiceImpl extends LayoutSetLocalServiceBaseImpl {
 			_layoutSetBranchPersistence.update(layoutSetBranch);
 		}
 
+		if (!layoutSetPrototypeLinkEnabled ||
+			Validator.isNotNull(previousLayoutSetPrototypeUuid) ||
+			Validator.isNull(layoutSetPrototypeUuid)) {
+
+			return;
+		}
+
 		try {
 			MergeLayoutPrototypesThreadLocal.setSkipMerge(false);
 
@@ -333,7 +343,7 @@ public class LayoutSetLocalServiceImpl extends LayoutSetLocalServiceBaseImpl {
 		catch (Exception exception) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
-					"Unable to force propagation from site template to site",
+					"Unable to seed initial pages from site template",
 					exception);
 			}
 		}
