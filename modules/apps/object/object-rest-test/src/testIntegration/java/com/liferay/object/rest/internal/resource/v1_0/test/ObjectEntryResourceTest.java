@@ -7346,7 +7346,7 @@ public class ObjectEntryResourceTest {
 		// With asset library content reviewer role and shared object entry
 
 		SharingEntry sharingEntry = _sharingEntryLocalService.addSharingEntry(
-			null, TestPropsValues.getUserId(), 0, 0, user.getUserId(),
+			null, TestPropsValues.getUserId(), 0, user.getUserId(),
 			_classNameLocalService.getClassNameId(
 				objectEntry1.getModelClassName()),
 			objectEntry1.getObjectEntryId(), depotEntry.getGroupId(), true,

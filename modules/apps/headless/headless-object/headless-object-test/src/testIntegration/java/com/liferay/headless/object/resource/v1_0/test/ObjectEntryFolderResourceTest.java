@@ -1067,7 +1067,7 @@ public class ObjectEntryFolderResourceTest
 		// folder
 
 		SharingEntry sharingEntry = _sharingEntryLocalService.addSharingEntry(
-			null, TestPropsValues.getUserId(), 0, 0, user.getUserId(),
+			null, TestPropsValues.getUserId(), 0, user.getUserId(),
 			_classNameLocalService.getClassNameId(
 				objectEntryFolder.getModelClassName()),
 			objectEntryFolder.getObjectEntryFolderId(), depotEntry.getGroupId(),
