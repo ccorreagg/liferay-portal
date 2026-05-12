@@ -301,6 +301,10 @@ public class SiteResourceImpl extends BaseSiteResourceImpl {
 		Group group = _groupLocalService.getGroupByExternalReferenceCode(
 			externalReferenceCode, contextCompany.getCompanyId());
 
+		GroupPermissionUtil.check(
+			PermissionThreadLocal.getPermissionChecker(), group,
+			ActionKeys.VIEW);
+
 		return _toSite(group);
 	}
 
