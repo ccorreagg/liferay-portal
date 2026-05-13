@@ -65,7 +65,7 @@ public class UpdateStructureStrutsAction implements StrutsAction {
 						httpServletRequest, "deletedObjectRelationships"));
 			String[] deletedRepeatableGroupsERCs = ParamUtil.getStringValues(
 				httpServletRequest, "deletedRepeatableGroupsERCs");
-			String objectDefinition = ParamUtil.getString(
+			String objectDefinitionJSON = ParamUtil.getString(
 				httpServletRequest, "objectDefinition");
 			JSONArray objectRelationshipsJSONArray =
 				_jsonFactory.createJSONArray(
@@ -80,7 +80,7 @@ public class UpdateStructureStrutsAction implements StrutsAction {
 			_updateStructure(
 				deletedObjectRelationshipsJSONArray,
 				deletedRepeatableGroupsERCs, httpServletRequest,
-				objectDefinition, objectRelationshipsJSONArray,
+				objectDefinitionJSON, objectRelationshipsJSONArray,
 				repeatableGroupObjectDefinitionsJSONArray);
 		}
 		catch (Exception exception) {
@@ -175,7 +175,7 @@ public class UpdateStructureStrutsAction implements StrutsAction {
 			JSONArray deletedObjectRelationshipsJSONArray,
 			String[] deletedRepeatableGroupsERCs,
 			HttpServletRequest httpServletRequest,
-			String objectDefinitionString,
+			String objectDefinitionJSON,
 			JSONArray objectRelationshipsJSONArray,
 			JSONArray repeatableGroupObjectDefinitionsJSONArray)
 		throws Exception {
@@ -185,12 +185,12 @@ public class UpdateStructureStrutsAction implements StrutsAction {
 				WebKeys.THEME_DISPLAY);
 
 		JSONObject objectDefinitionJSONObject = _jsonFactory.createJSONObject(
-			objectDefinitionString);
+			objectDefinitionJSON);
 
 		Callable<Void> callable = new UpdateStructureCallable(
 			themeDisplay.getCompanyId(), deletedObjectRelationshipsJSONArray,
 			deletedRepeatableGroupsERCs,
-			ObjectDefinition.toDTO(objectDefinitionString),
+			ObjectDefinition.toDTO(objectDefinitionJSON),
 			objectDefinitionJSONObject.getLong("id"),
 			_getObjectRelationships(objectRelationshipsJSONArray),
 			_getObjectDefinitions(repeatableGroupObjectDefinitionsJSONArray),
