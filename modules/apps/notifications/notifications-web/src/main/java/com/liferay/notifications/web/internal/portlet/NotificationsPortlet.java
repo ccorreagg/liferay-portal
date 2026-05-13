@@ -8,7 +8,6 @@ package com.liferay.notifications.web.internal.portlet;
 import com.liferay.bulk.selection.BulkSelection;
 import com.liferay.bulk.selection.BulkSelectionFactory;
 import com.liferay.notifications.web.internal.constants.NotificationsPortletKeys;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
@@ -18,11 +17,9 @@ import com.liferay.portal.kernel.model.UserNotificationDelivery;
 import com.liferay.portal.kernel.model.UserNotificationEvent;
 import com.liferay.portal.kernel.notifications.UserNotificationDefinition;
 import com.liferay.portal.kernel.notifications.UserNotificationDeliveryType;
-import com.liferay.portal.kernel.notifications.UserNotificationFeedEntry;
 import com.liferay.portal.kernel.notifications.UserNotificationManagerUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
-import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserNotificationDeliveryLocalService;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.servlet.SessionMessages;
@@ -98,7 +95,9 @@ public class NotificationsPortlet extends MVCPortlet {
 		_sendRedirect(actionRequest, actionResponse);
 	}
 
-	public void markAsRead(ActionRequest actionRequest, String actionName)
+	public void markAsRead(
+			ActionRequest actionRequest, ActionResponse actionResponse,
+			String actionName)
 		throws Exception {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
@@ -126,6 +125,8 @@ public class NotificationsPortlet extends MVCPortlet {
 		}
 
 		_addSuccessMessage(actionRequest, message);
+
+		_sendRedirect(actionRequest, actionResponse);
 	}
 
 	public void markAsUnread(
@@ -179,20 +180,15 @@ public class NotificationsPortlet extends MVCPortlet {
 				delete(actionRequest, actionResponse, actionName);
 			}
 			else if (actionName.equals("markAllNotificationsAsRead") ||
+					 actionName.equals("markNotificationAsRead") ||
 					 actionName.equals("markNotificationsAsRead")) {
 
-				markAsRead(actionRequest, actionName);
-
-				_sendRedirect(actionRequest, actionResponse);
+				markAsRead(actionRequest, actionResponse, actionName);
 			}
 			else if (actionName.equals("markNotificationAsUnread") ||
 					 actionName.equals("markNotificationsAsUnread")) {
 
 				markAsUnread(actionRequest, actionResponse, actionName);
-			}
-			else if (actionName.equals("markNotificationAsRead")) {
-				_markAsRead(
-					actionName, actionRequest, actionResponse, themeDisplay);
 			}
 			else if (actionName.equals("unsubscribe")) {
 				unsubscribe(actionRequest, actionResponse);
@@ -319,42 +315,6 @@ public class NotificationsPortlet extends MVCPortlet {
 		).put(
 			"userId", new String[] {String.valueOf(themeDisplay.getUserId())}
 		).build();
-	}
-
-	private void _markAsRead(
-			String actionName, ActionRequest actionRequest,
-			ActionResponse actionResponse, ThemeDisplay themeDisplay)
-		throws Exception {
-
-		markAsRead(actionRequest, actionName);
-
-		UserNotificationEvent userNotificationEvent =
-			_userNotificationEventLocalService.fetchUserNotificationEvent(
-				ParamUtil.getLong(actionRequest, "userNotificationEventId"));
-
-		if (userNotificationEvent == null) {
-			_sendRedirect(actionRequest, actionResponse);
-		}
-
-		UserNotificationFeedEntry userNotificationFeedEntry =
-			UserNotificationManagerUtil.interpret(
-				StringPool.BLANK, userNotificationEvent,
-				ServiceContextFactory.getInstance(actionRequest));
-
-		if (userNotificationFeedEntry == null) {
-			_sendRedirect(actionRequest, actionResponse);
-		}
-
-		String link = userNotificationFeedEntry.getLink();
-
-		if (Validator.isNull(link)) {
-			_sendRedirect(actionRequest, actionResponse);
-		}
-
-		actionResponse.sendRedirect(
-			_portal.escapeRedirect(
-				_portal.addPreservedParameters(
-					themeDisplay, link, false, true)));
 	}
 
 	private void _sendRedirect(
