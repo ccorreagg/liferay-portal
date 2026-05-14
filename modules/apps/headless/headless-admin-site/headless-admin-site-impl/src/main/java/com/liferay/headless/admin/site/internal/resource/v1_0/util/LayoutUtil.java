@@ -82,15 +82,20 @@ import com.liferay.segments.service.SegmentsExperienceLocalServiceUtil;
 import com.liferay.style.book.model.StyleBookEntry;
 import com.liferay.style.book.service.StyleBookEntryLocalServiceUtil;
 
+import java.io.Serializable;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author Lourdes Fernández Besada
@@ -661,6 +666,65 @@ public class LayoutUtil {
 		}
 	}
 
+	private static void _fillMissingDefaultLocaleValues(
+		Map<String, Serializable> expandoBridgeAttributes) {
+
+		if (expandoBridgeAttributes == null) {
+			return;
+		}
+
+		Locale siteDefaultLocale = LocaleUtil.getSiteDefault();
+
+		String siteDefaultLanguageId = LocaleUtil.toLanguageId(
+			siteDefaultLocale);
+
+		for (Map.Entry<String, Serializable> entry :
+				expandoBridgeAttributes.entrySet()) {
+
+			if (!(entry.getValue() instanceof Map) ||
+				!_isLocalizedExpandoBridgeAttributeValue(
+					(Map<?, ?>)entry.getValue())) {
+
+				continue;
+			}
+
+			Map<Locale, Object> localizedMap =
+				(Map<Locale, Object>)entry.getValue();
+
+			if (_hasLocalizedExpandoValue(
+					localizedMap.get(siteDefaultLocale))) {
+
+				continue;
+			}
+
+			List<Map.Entry<Locale, Object>> sortedEntries = new ArrayList<>(
+				localizedMap.entrySet());
+
+			sortedEntries.sort(
+				Comparator.comparing(
+					localeEntry -> LocaleUtil.toLanguageId(
+						localeEntry.getKey())));
+
+			for (Map.Entry<Locale, Object> localeEntry : sortedEntries) {
+				if (_hasLocalizedExpandoValue(localeEntry.getValue())) {
+					localizedMap.put(siteDefaultLocale, localeEntry.getValue());
+
+					if (_log.isWarnEnabled()) {
+						_log.warn(
+							StringBundler.concat(
+								"Using value from locale ",
+								LocaleUtil.toLanguageId(localeEntry.getKey()),
+								" for expando attribute \"", entry.getKey(),
+								"\" because default locale ",
+								siteDefaultLanguageId, " has no value"));
+					}
+
+					break;
+				}
+			}
+		}
+	}
+
 	private static byte[] _getIconImageByteArray(Settings settings)
 		throws Exception {
 
@@ -769,6 +833,18 @@ public class LayoutUtil {
 		return itemExternalReference.getExternalReferenceCode();
 	}
 
+	private static boolean _hasLocalizedExpandoValue(Object value) {
+		if (value instanceof String) {
+			return Validator.isNotNull((String)value);
+		}
+
+		if (value instanceof String[]) {
+			return ArrayUtil.isNotEmpty((String[])value);
+		}
+
+		return false;
+	}
+
 	private static void _importPortletConfiguration(
 			Layout layout, String portletId,
 			WidgetPageWidgetInstance widgetPageWidgetInstance)
@@ -807,6 +883,22 @@ public class LayoutUtil {
 		PortletPreferencesPortletConfigurationImporterUtil.
 			importPortletConfiguration(
 				layout.getPlid(), portletId, configurationMap);
+	}
+
+	private static boolean _isLocalizedExpandoBridgeAttributeValue(
+		Map<?, ?> value) {
+
+		Set<? extends Map.Entry<?, ?>> set = value.entrySet();
+
+		Iterator<? extends Map.Entry<?, ?>> iterator = set.iterator();
+
+		if (!iterator.hasNext()) {
+			return false;
+		}
+
+		Map.Entry<?, ?> entry = iterator.next();
+
+		return entry.getKey() instanceof Locale;
 	}
 
 	private static void _processWidgetPageWidgetInstance(
@@ -897,10 +989,18 @@ public class LayoutUtil {
 			serviceContext.setExpandoBridgeAttributes(null);
 		}
 		else {
-			serviceContext.setExpandoBridgeAttributes(
+			Map<String, Serializable> expandoBridgeAttributes =
 				CustomFieldsUtil.toMap(
 					Layout.class.getName(), serviceContext.getCompanyId(),
-					pageSpecification.getCustomFields(), null));
+					pageSpecification.getCustomFields(),
+					LocaleUtil.getSiteDefault());
+
+			if (expandoBridgeAttributes != null) {
+				_fillMissingDefaultLocaleValues(expandoBridgeAttributes);
+
+				serviceContext.setExpandoBridgeAttributes(
+					expandoBridgeAttributes);
+			}
 		}
 	}
 
