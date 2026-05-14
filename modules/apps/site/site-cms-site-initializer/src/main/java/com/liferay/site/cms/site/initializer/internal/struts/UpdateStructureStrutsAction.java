@@ -174,8 +174,7 @@ public class UpdateStructureStrutsAction implements StrutsAction {
 	private void _updateStructure(
 			JSONArray deletedObjectRelationshipsJSONArray,
 			String[] deletedRepeatableGroupsERCs,
-			HttpServletRequest httpServletRequest,
-			String objectDefinitionJSON,
+			HttpServletRequest httpServletRequest, String objectDefinitionJSON,
 			JSONArray objectRelationshipsJSONArray,
 			JSONArray repeatableGroupObjectDefinitionsJSONArray)
 		throws Exception {
