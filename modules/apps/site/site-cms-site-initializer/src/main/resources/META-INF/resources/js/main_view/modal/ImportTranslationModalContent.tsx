@@ -40,16 +40,16 @@ interface ImportTranslationResultData {
 
 export default function ImportTranslationModalContent({
 	actionLink,
-	itemId,
 	itemName,
 	loadData,
 	onModalClose,
+	translationsAPIURL,
 }: {
 	actionLink: string;
-	itemId: number;
 	itemName: string;
 	loadData?: () => void;
 	onModalClose: () => void;
+	translationsAPIURL: string;
 }) {
 	const getItemLink = () => {
 		return `<a href="${actionLink}" class="alert-link lead"><strong>${itemName}</strong></a>`;
@@ -63,7 +63,7 @@ export default function ImportTranslationModalContent({
 		const response =
 			await ApiHelper.postFormData<ImportTranslationResultData>(
 				formData,
-				`/o/cms/basic-web-contents/${itemId}/translations`
+				translationsAPIURL
 			);
 
 		const errors = response.data?.failureMessagesJSON.map((item) => {
