@@ -6,25 +6,35 @@
 package com.liferay.account.service.test;
 
 import com.liferay.account.constants.AccountActionKeys;
+import com.liferay.account.exception.NoSuchGroupRelException;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountGroup;
-import com.liferay.account.service.AccountEntryLocalService;
+import com.liferay.account.model.AccountGroupRel;
 import com.liferay.account.service.AccountGroupLocalService;
 import com.liferay.account.service.AccountGroupRelLocalService;
 import com.liferay.account.service.AccountGroupRelService;
+import com.liferay.account.service.persistence.AccountGroupPersistence;
 import com.liferay.account.service.test.util.AccountEntryTestUtil;
 import com.liferay.account.service.test.util.AccountGroupTestUtil;
 import com.liferay.account.service.test.util.UserRoleTestUtil;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.test.context.ContextUserReplace;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -39,11 +49,19 @@ public class AccountGroupRelServiceTest {
 
 	@ClassRule
 	@Rule
-	public static final LiferayIntegrationTestRule liferayIntegrationTestRule =
-		new LiferayIntegrationTestRule();
+	public static final AggregateTestRule aggregateTestRule =
+		new AggregateTestRule(
+			new LiferayIntegrationTestRule(),
+			new TransactionalTestRule(
+				Propagation.REQUIRED, "com.liferay.account.service"));
 
 	@Before
 	public void setUp() throws Exception {
+		_accountEntry = AccountEntryTestUtil.addAccountEntry();
+		_accountGroup = AccountGroupTestUtil.addAccountGroup(
+			_accountGroupLocalService, RandomTestUtil.randomString(),
+			RandomTestUtil.randomString());
+
 		_user = UserTestUtil.addUser();
 
 		UserTestUtil.setUser(_user);
@@ -82,6 +100,61 @@ public class AccountGroupRelServiceTest {
 		_deleteAccountGroupRel();
 	}
 
+	@Test
+	public void testGetAccountGroupRel() throws Exception {
+		Assert.assertThrows(
+			NoSuchGroupRelException.class,
+			() -> _accountGroupRelService.getAccountGroupRel(
+				RandomTestUtil.randomLong()));
+
+		AccountGroupRel accountGroupRel =
+			_accountGroupRelLocalService.addAccountGroupRel(
+				_accountGroup.getAccountGroupId(), AccountEntry.class.getName(),
+				_accountEntry.getAccountEntryId());
+
+		try (ContextUserReplace contextUserReplace = new ContextUserReplace(
+				_user, PermissionCheckerFactoryUtil.create(_user))) {
+
+			_accountGroupRelService.getAccountGroupRel(
+				accountGroupRel.getAccountGroupRelId());
+
+			Assert.fail();
+		}
+		catch (Exception exception) {
+			_assertMessage(
+				AccountActionKeys.VIEW_ACCOUNTS, exception.getMessage(),
+				_user.getUserId());
+		}
+
+		_updateAccountGroup(RandomTestUtil.randomLong());
+
+		try (ContextUserReplace contextUserReplace = new ContextUserReplace(
+				_user, PermissionCheckerFactoryUtil.create(_user))) {
+
+			_accountGroupRelService.getAccountGroupRel(
+				accountGroupRel.getAccountGroupRelId());
+
+			Assert.fail();
+		}
+		catch (Exception exception) {
+			_assertMessage(
+				ActionKeys.VIEW, exception.getMessage(), _user.getUserId());
+		}
+
+		_updateAccountGroup(TestPropsValues.getCompanyId());
+
+		UserRoleTestUtil.addResourcePermission(
+			AccountActionKeys.VIEW_ACCOUNTS, AccountGroup.class.getName(),
+			_user.getUserId());
+
+		try (ContextUserReplace contextUserReplace = new ContextUserReplace(
+				_user, PermissionCheckerFactoryUtil.create(_user))) {
+
+			_accountGroupRelService.getAccountGroupRel(
+				accountGroupRel.getAccountGroupRelId());
+		}
+	}
+
 	private void _addAccountGroupRel() throws Exception {
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry();
 		AccountGroup accountGroup = AccountGroupTestUtil.addAccountGroup(
@@ -91,6 +164,14 @@ public class AccountGroupRelServiceTest {
 		_accountGroupRelService.addAccountGroupRel(
 			accountGroup.getAccountGroupId(), AccountEntry.class.getName(),
 			accountEntry.getAccountEntryId());
+	}
+
+	private void _assertMessage(String actionId, String message, long userId) {
+		Assert.assertTrue(
+			message.contains(
+				StringBundler.concat(
+					"User ", userId, " must have ", actionId,
+					" permission for")));
 	}
 
 	private void _deleteAccountGroupRel() throws Exception {
@@ -108,11 +189,20 @@ public class AccountGroupRelServiceTest {
 			new long[] {accountEntry.getAccountEntryId()});
 	}
 
-	@Inject
-	private AccountEntryLocalService _accountEntryLocalService;
+	private void _updateAccountGroup(long companyId) {
+		_accountGroup.setCompanyId(companyId);
+
+		_accountGroup = _accountGroupPersistence.update(_accountGroup);
+	}
+
+	private AccountEntry _accountEntry;
+	private AccountGroup _accountGroup;
 
 	@Inject
 	private AccountGroupLocalService _accountGroupLocalService;
+
+	@Inject
+	private AccountGroupPersistence _accountGroupPersistence;
 
 	@Inject
 	private AccountGroupRelLocalService _accountGroupRelLocalService;
