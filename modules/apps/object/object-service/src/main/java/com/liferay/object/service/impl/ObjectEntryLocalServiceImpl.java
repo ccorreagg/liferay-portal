@@ -3177,6 +3177,7 @@ public class ObjectEntryLocalServiceImpl
 					ObjectEntryTable.INSTANCE.status.notIn(
 						new Integer[] {
 							WorkflowConstants.STATUS_DRAFT,
+							WorkflowConstants.STATUS_EXPIRED,
 							WorkflowConstants.STATUS_IN_TRASH,
 							WorkflowConstants.STATUS_PENDING
 						})
