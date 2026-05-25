@@ -3619,3 +3619,534 @@ test(
 		}
 	}
 );
+
+test(
+	'Content can be filtered by Create Date',
+	{tag: ['@LPD-85551', '@LPD-87955']},
+	async ({apiHelpers, assetsPage, page}) => {
+		const applicationName = 'cms/basic-web-contents';
+		const fileTitle = `Content ${getRandomString()}`;
+		let objectEntry;
+
+		try {
+			await test.step('Create a content', async () => {
+				objectEntry = await apiHelpers.objectEntry.postObjectEntry(
+					{
+						objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+						title: fileTitle,
+					},
+					applicationName,
+					'Default'
+				);
+
+				await assetsPage.gotoAll();
+
+				await expect(
+					page.getByRole('cell', {exact: true, name: fileTitle})
+				).toBeVisible();
+			});
+
+			await test.step('Apply Create Date filter', async () => {
+				await page.getByRole('button', {name: 'Filter'}).click();
+
+				await page.getByRole('menuitem', {name: 'Create Date'}).click();
+
+				const fromDate = new Date();
+				const toDate = new Date();
+
+				fromDate.setDate(fromDate.getDate() - 1);
+
+				await page
+					.getByLabel('From')
+					.fill(fromDate.toISOString().split('T')[0]);
+				await page
+					.getByLabel('To', {exact: true})
+					.fill(toDate.toISOString().split('T')[0]);
+
+				await page.getByRole('button', {name: 'Add Filter'}).click();
+			});
+
+			await test.step('Check filter chip and entry are visible', async () => {
+				await expect(
+					page
+						.getByRole('button', {name: /Create Date:/})
+						.locator('.label-section')
+				).toBeVisible();
+
+				await expect(
+					page.getByRole('cell', {exact: true, name: fileTitle})
+				).toBeVisible();
+			});
+		}
+		finally {
+			if (objectEntry) {
+				await apiHelpers.objectEntry.deleteObjectEntry(
+					applicationName,
+					String(objectEntry.id)
+				);
+			}
+		}
+	}
+);
+
+test(
+	'Content can be filtered by Display Date',
+	{tag: ['@LPD-85551', '@LPD-87955']},
+	async ({apiHelpers, assetsPage, page}) => {
+		const applicationName = 'cms/basic-web-contents';
+		const matchingTitle = `Matching ${getRandomString()}`;
+		const otherTitle = `Other ${getRandomString()}`;
+		let matchingEntry;
+		let otherEntry;
+
+		try {
+			await test.step('Create matching and non-matching contents', async () => {
+				const matchingDisplayDate = new Date();
+
+				matchingDisplayDate.setDate(matchingDisplayDate.getDate() + 5);
+
+				matchingEntry = await apiHelpers.objectEntry.postObjectEntry(
+					{
+						displayDate: matchingDisplayDate.toISOString(),
+						objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+						title: matchingTitle,
+					},
+					applicationName,
+					'Default'
+				);
+
+				otherEntry = await apiHelpers.objectEntry.postObjectEntry(
+					{
+						objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+						title: otherTitle,
+					},
+					applicationName,
+					'Default'
+				);
+
+				await assetsPage.gotoAll();
+
+				await expect(
+					page.getByRole('cell', {
+						exact: true,
+						name: matchingTitle,
+					})
+				).toBeVisible();
+				await expect(
+					page.getByRole('cell', {
+						exact: true,
+						name: otherTitle,
+					})
+				).toBeVisible();
+			});
+
+			await test.step('Apply Display Date filter', async () => {
+				await page.getByRole('button', {name: 'Filter'}).click();
+
+				await page
+					.getByRole('menuitem', {name: 'Display Date'})
+					.click();
+
+				const fromDate = new Date();
+				const toDate = new Date();
+
+				fromDate.setDate(fromDate.getDate() + 4);
+				toDate.setDate(toDate.getDate() + 6);
+
+				await page
+					.getByLabel('From')
+					.fill(fromDate.toISOString().split('T')[0]);
+				await page
+					.getByLabel('To', {exact: true})
+					.fill(toDate.toISOString().split('T')[0]);
+
+				await page.getByRole('button', {name: 'Add Filter'}).click();
+			});
+
+			await test.step('Check only the matching content remains visible', async () => {
+				await expect(
+					page
+						.getByRole('button', {name: /Display Date:/})
+						.locator('.label-section')
+				).toBeVisible();
+
+				await expect(
+					page.getByRole('cell', {
+						exact: true,
+						name: matchingTitle,
+					})
+				).toBeVisible();
+				await expect(
+					page.getByRole('cell', {
+						exact: true,
+						name: otherTitle,
+					})
+				).not.toBeVisible();
+			});
+		}
+		finally {
+			if (matchingEntry) {
+				await apiHelpers.objectEntry.deleteObjectEntry(
+					applicationName,
+					String(matchingEntry.id)
+				);
+			}
+			if (otherEntry) {
+				await apiHelpers.objectEntry.deleteObjectEntry(
+					applicationName,
+					String(otherEntry.id)
+				);
+			}
+		}
+	}
+);
+
+test(
+	'Content can be filtered by Modified Date',
+	{tag: ['@LPD-85551', '@LPD-87955']},
+	async ({apiHelpers, assetsPage, page}) => {
+		const applicationName = 'cms/basic-web-contents';
+		const fileTitle = `Content ${getRandomString()}`;
+		let objectEntry;
+
+		try {
+			await test.step('Create a content', async () => {
+				objectEntry = await apiHelpers.objectEntry.postObjectEntry(
+					{
+						objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+						title: fileTitle,
+					},
+					applicationName,
+					'Default'
+				);
+
+				await assetsPage.gotoAll();
+
+				await expect(
+					page.getByRole('cell', {exact: true, name: fileTitle})
+				).toBeVisible();
+			});
+
+			await test.step('Apply Modified Date filter', async () => {
+				await page.getByRole('button', {name: 'Filter'}).click();
+
+				await page
+					.getByRole('menuitem', {name: 'Modified Date'})
+					.click();
+
+				const fromDate = new Date();
+				const toDate = new Date();
+
+				fromDate.setDate(fromDate.getDate() - 1);
+
+				await page
+					.getByLabel('From')
+					.fill(fromDate.toISOString().split('T')[0]);
+				await page
+					.getByLabel('To', {exact: true})
+					.fill(toDate.toISOString().split('T')[0]);
+
+				await page.getByRole('button', {name: 'Add Filter'}).click();
+			});
+
+			await test.step('Check filter chip and entry are visible', async () => {
+				await expect(
+					page
+						.getByRole('button', {name: /Modified Date:/})
+						.locator('.label-section')
+				).toBeVisible();
+
+				await expect(
+					page.getByRole('cell', {exact: true, name: fileTitle})
+				).toBeVisible();
+			});
+		}
+		finally {
+			if (objectEntry) {
+				await apiHelpers.objectEntry.deleteObjectEntry(
+					applicationName,
+					String(objectEntry.id)
+				);
+			}
+		}
+	}
+);
+
+test(
+	"Author filter lists only members of the current user's Spaces",
+	{tag: '@LPD-70773'},
+	async ({apiHelpers, assetsPage, page}) => {
+		const space1 = await apiHelpers.headlessAssetLibrary.createAssetLibrary(
+			{
+				name: `Space ${getRandomString()}`,
+				settings: {},
+				type: 'Space',
+			}
+		);
+
+		const space2 = await apiHelpers.headlessAssetLibrary.createAssetLibrary(
+			{
+				name: `Space ${getRandomString()}`,
+				settings: {},
+				type: 'Space',
+			}
+		);
+
+		const viewer = await apiHelpers.headlessAdminUser.postUserAccount();
+
+		userData[viewer.alternateName] = {
+			name: viewer.givenName,
+			password: 'test',
+			surname: viewer.familyName,
+		};
+
+		await apiHelpers.headlessAssetLibrary.putAssetLibraryUserAccount(
+			space1.externalReferenceCode,
+			viewer.externalReferenceCode
+		);
+
+		const insider = await apiHelpers.headlessAdminUser.postUserAccount();
+		const insiderFullName = `${insider.givenName} ${insider.familyName}`;
+
+		await apiHelpers.headlessAssetLibrary.putAssetLibraryUserAccount(
+			space1.externalReferenceCode,
+			insider.externalReferenceCode
+		);
+
+		const outsider = await apiHelpers.headlessAdminUser.postUserAccount();
+		const outsiderFullName = `${outsider.givenName} ${outsider.familyName}`;
+
+		await apiHelpers.headlessAssetLibrary.putAssetLibraryUserAccount(
+			space2.externalReferenceCode,
+			outsider.externalReferenceCode
+		);
+
+		await performUserSwitchViaApi(page, viewer.alternateName);
+
+		await assetsPage.gotoAll();
+
+		await page.getByRole('button', {name: 'Filter'}).click();
+		await page.getByRole('menuitem', {name: 'Author'}).click();
+
+		await expect(
+			page.getByRole('checkbox', {name: insiderFullName})
+		).toBeVisible();
+		await expect(
+			page.getByRole('checkbox', {name: outsiderFullName})
+		).toBeHidden();
+	}
+);
+
+test(
+	"All section lists only content from the current user's Spaces",
+	{tag: '@LPD-76453'},
+	async ({apiHelpers, assetsPage, page}) => {
+		const space1 = await apiHelpers.headlessAssetLibrary.createAssetLibrary(
+			{
+				name: `Space ${getRandomString()}`,
+				settings: {},
+				type: 'Space',
+			}
+		);
+
+		const space2 = await apiHelpers.headlessAssetLibrary.createAssetLibrary(
+			{
+				name: `Space ${getRandomString()}`,
+				settings: {},
+				type: 'Space',
+			}
+		);
+
+		const insideTitle = getRandomString();
+		const outsideTitle = getRandomString();
+
+		await apiHelpers.objectEntry.postObjectEntry(
+			{
+				objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+				title: insideTitle,
+			},
+			'cms/basic-web-contents',
+			space1.name
+		);
+
+		await apiHelpers.objectEntry.postObjectEntry(
+			{
+				objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+				title: outsideTitle,
+			},
+			'cms/basic-web-contents',
+			space2.name
+		);
+
+		const viewer = await apiHelpers.headlessAdminUser.postUserAccount();
+
+		userData[viewer.alternateName] = {
+			name: viewer.givenName,
+			password: 'test',
+			surname: viewer.familyName,
+		};
+
+		await apiHelpers.headlessAssetLibrary.putAssetLibraryUserAccount(
+			space1.externalReferenceCode,
+			viewer.externalReferenceCode
+		);
+
+		await performUserSwitchViaApi(page, viewer.alternateName);
+
+		await assetsPage.gotoAll();
+
+		await expect(assetsPage.getItem(insideTitle)).toBeVisible();
+		await expect(assetsPage.getItem(outsideTitle)).toBeHidden();
+
+		await test.step("Search results are scoped to the viewer's Spaces", async () => {
+			await assetsPage.dataSetFragmentPage.search(outsideTitle);
+
+			await expect(assetsPage.getItem(insideTitle)).toBeHidden();
+			await expect(assetsPage.getItem(outsideTitle)).toBeHidden();
+		});
+	}
+);
+
+test(
+	'All section can be filtered by Space',
+	{tag: '@LPD-91933'},
+	async ({apiHelpers, assetsPage, page}) => {
+		const applicationName = 'cms/basic-web-contents';
+		const space1Name = `Space ${getRandomString()}`;
+		const space2Name = `Space ${getRandomString()}`;
+		const space1ContentTitle = `Content ${getRandomString()}`;
+		const space2ContentTitle = `Content ${getRandomString()}`;
+
+		await test.step('Create two Spaces with one content each', async () => {
+			await apiHelpers.headlessAssetLibrary.createAssetLibrary({
+				name: space1Name,
+				settings: {},
+				type: 'Space',
+			});
+
+			await apiHelpers.headlessAssetLibrary.createAssetLibrary({
+				name: space2Name,
+				settings: {},
+				type: 'Space',
+			});
+
+			await apiHelpers.objectEntry.postObjectEntry(
+				{
+					objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+					title: space1ContentTitle,
+				},
+				applicationName,
+				space1Name
+			);
+
+			await apiHelpers.objectEntry.postObjectEntry(
+				{
+					objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+					title: space2ContentTitle,
+				},
+				applicationName,
+				space2Name
+			);
+		});
+
+		await test.step('Both contents are visible before filtering', async () => {
+			await assetsPage.gotoAll();
+
+			await expect(assetsPage.getItem(space1ContentTitle)).toBeVisible();
+			await expect(assetsPage.getItem(space2ContentTitle)).toBeVisible();
+		});
+
+		await test.step('Filter by Space and check only the matching content is visible', async () => {
+			await page
+				.getByRole('button', {exact: true, name: 'Filter'})
+				.click();
+
+			await page
+				.getByRole('menuitem', {exact: true, name: 'Space'})
+				.click();
+
+			await page
+				.getByRole('checkbox', {exact: true, name: space1Name})
+				.check();
+
+			await page
+				.getByRole('button', {exact: true, name: 'Add Filter'})
+				.click();
+
+			await expect(
+				page.getByRole('button', {name: `Space: ${space1Name}`})
+			).toBeVisible();
+
+			await expect(assetsPage.getItem(space1ContentTitle)).toBeVisible();
+			await expect(assetsPage.getItem(space2ContentTitle)).toBeHidden();
+		});
+	}
+);
+
+test(
+	'All section can be filtered by Status',
+	{tag: '@LPD-91933'},
+	async ({apiHelpers, assetsPage, page}) => {
+		const applicationName = 'cms/basic-web-contents';
+		const approvedTitle = `Content A ${getRandomString()}`;
+		const expiredTitle = `Content B ${getRandomString()}`;
+
+		await test.step('Create one approved and one expired content in the Default Space', async () => {
+			await apiHelpers.objectEntry.postObjectEntry(
+				{
+					objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+					title: approvedTitle,
+				},
+				applicationName,
+				'Default'
+			);
+
+			const expiredEntry = await apiHelpers.objectEntry.postObjectEntry(
+				{
+					objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+					title: expiredTitle,
+				},
+				applicationName,
+				'Default'
+			);
+
+			await apiHelpers.objectEntry.expireObjectEntryByExternalReferenceCode(
+				applicationName,
+				'Default',
+				expiredEntry.externalReferenceCode
+			);
+		});
+
+		await test.step('Both contents are visible before filtering', async () => {
+			await assetsPage.gotoAll();
+
+			await expect(assetsPage.getItem(approvedTitle)).toBeVisible();
+			await expect(assetsPage.getItem(expiredTitle)).toBeVisible();
+		});
+
+		await test.step('Filter by Status Approved and check only the approved content is visible', async () => {
+			await page
+				.getByRole('button', {exact: true, name: 'Filter'})
+				.click();
+
+			await page
+				.getByRole('menuitem', {exact: true, name: 'Status'})
+				.click();
+
+			await page
+				.getByRole('checkbox', {exact: true, name: 'Approved'})
+				.check();
+
+			await page
+				.getByRole('button', {exact: true, name: 'Add Filter'})
+				.click();
+
+			await expect(
+				page.getByRole('button', {name: 'Status: Approved'})
+			).toBeVisible();
+
+			await expect(assetsPage.getItem(approvedTitle)).toBeVisible();
+			await expect(assetsPage.getItem(expiredTitle)).toBeHidden();
+		});
+	}
+);

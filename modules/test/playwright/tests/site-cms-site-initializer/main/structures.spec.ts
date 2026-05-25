@@ -497,3 +497,335 @@ test(
 		await expect(contentCountBadge).toHaveText(String(initialCount + 1));
 	}
 );
+
+test(
+	'Content Structure can be exported as JSON and imported back to override changes',
+	{tag: '@LPD-89302'},
+	async ({page, structureBuilderPage, structuresPage}) => {
+		const structureLabel = `Structure${getRandomInt()}`;
+
+		await structureBuilderPage.createStructureFromData({
+			label: structureLabel,
+			name: structureLabel,
+			page: structureBuilderPage,
+		});
+
+		await structuresPage.goto();
+
+		const downloadPromise = page.waitForEvent('download');
+
+		await structuresPage.execItemAction({
+			action: 'Export as JSON',
+			filter: structureLabel,
+		});
+
+		const download = await downloadPromise;
+
+		const jsonFilePath = `${getTempDir()}/${download.suggestedFilename()}`;
+
+		await download.saveAs(jsonFilePath);
+
+		await page.getByRole('link', {name: structureLabel}).click();
+
+		await structureBuilderPage.addField('Long Text');
+
+		await expect(
+			page.locator('.treeview-link', {hasText: 'Long Text'})
+		).toBeVisible();
+
+		await structureBuilderPage.publishStructure();
+
+		await structuresPage.goto();
+
+		await structuresPage.execItemAction({
+			action: 'Import and Override',
+			filter: structureLabel,
+		});
+
+		const importDialog = page.getByRole('dialog', {
+			name: 'Import and Override Content Structure',
+		});
+
+		const fileChooserPromise = page.waitForEvent('filechooser');
+
+		await importDialog.getByRole('button', {name: 'Add'}).click();
+
+		const fileChooser = await fileChooserPromise;
+
+		await fileChooser.setFiles(jsonFilePath);
+
+		const importButton = importDialog.getByRole('button', {
+			name: 'Import and Override',
+		});
+
+		await expect(importButton).toBeEnabled();
+
+		await importButton.click();
+
+		await expect(importDialog).not.toBeAttached();
+
+		await page.getByRole('link', {name: structureLabel}).click();
+
+		await expect(
+			page.getByRole('heading', {name: structureLabel})
+		).toBeVisible();
+
+		await expect(
+			page.locator('.treeview-link', {hasText: 'Long Text'})
+		).not.toBeVisible();
+	}
+);
+
+test(
+	'New fields can be added and removed on Basic Web Content but existing fields are locked',
+	{tag: '@LPD-89302'},
+	async ({page, structureBuilderPage, structuresPage}) => {
+		await structuresPage.goto();
+
+		await page.getByRole('link', {name: 'Basic Web Content'}).click();
+
+		const contentTreeItem = page.locator('.treeview-link', {
+			hasText: 'Content',
+		});
+		const titleTreeItem = page.locator('.treeview-link', {
+			hasText: 'Title',
+		});
+
+		await structureBuilderPage.selectFields([{label: 'Content'}]);
+
+		await expect(
+			contentTreeItem.getByLabel('Field Options')
+		).not.toBeVisible();
+
+		await structureBuilderPage.selectFields([{label: 'Title'}]);
+
+		await expect(
+			titleTreeItem.getByLabel('Field Options')
+		).not.toBeVisible();
+
+		await structureBuilderPage.addField('Long Text');
+
+		const longTextTreeItem = page.locator('.treeview-link', {
+			hasText: 'Long Text',
+		});
+
+		await expect(longTextTreeItem).toBeVisible();
+
+		await structureBuilderPage.deleteFields([{label: 'Long Text'}]);
+
+		await expect(longTextTreeItem).not.toBeVisible();
+	}
+);
+
+test(
+	'Basic Web Content usages list includes assets that use the structure',
+	{tag: '@LPD-89302'},
+	async ({apiHelpers, page, structuresPage}) => {
+		const applicationName = 'cms/basic-web-contents';
+		const title = `Content ${getRandomString()}`;
+
+		const objectEntry = await apiHelpers.objectEntry.postObjectEntry(
+			{
+				objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+				title,
+			},
+			applicationName,
+			'Default'
+		);
+
+		try {
+			await structuresPage.goto();
+
+			await structuresPage.execItemAction({
+				action: 'View Usages',
+				filter: 'Basic Web Content',
+			});
+
+			await page.locator('.fds').waitFor();
+
+			await expect(page.getByRole('row', {name: title})).toBeVisible();
+		}
+		finally {
+			await apiHelpers.objectEntry.deleteObjectEntry(
+				applicationName,
+				String(objectEntry.id)
+			);
+		}
+	}
+);
+
+test(
+	'Permissions of a Content Structure can be modified',
+	{tag: '@LPD-89302'},
+	async ({apiHelpers, page, structuresPage}) => {
+		const objectDefinition =
+			(await apiHelpers.objectAdmin.postRandomObjectDefinition({
+				objectFolderExternalReferenceCode: 'L_CMS_CONTENT_STRUCTURES',
+				scope: 'depot',
+				status: {code: 0},
+			})) as ObjectDefinition;
+
+		apiHelpers.data.push({
+			id: objectDefinition.id,
+			type: 'objectDefinition',
+		});
+
+		const structureName = objectDefinition.name;
+
+		await structuresPage.goto();
+
+		await structuresPage.execItemAction({
+			action: 'Permissions',
+			filter: structureName,
+		});
+
+		const permissionsDialog = page.getByRole('dialog', {
+			name: 'Permissions',
+		});
+		const permissionsFrame = permissionsDialog.frameLocator('iframe');
+
+		const siteMemberDeleteCheckbox = permissionsFrame.getByLabel(
+			'Give Delete permission to users with the Site Member role.'
+		);
+		const siteMemberPermissionsCheckbox = permissionsFrame.getByLabel(
+			'Give Permissions permission to users with the Site Member role.'
+		);
+		const siteMemberUpdateCheckbox = permissionsFrame.getByLabel(
+			'Give Update permission to users with the Site Member role.'
+		);
+		const siteMemberViewCheckbox = permissionsFrame.getByLabel(
+			'Give View permission to users with the Site Member role.'
+		);
+
+		await siteMemberDeleteCheckbox.check();
+		await siteMemberPermissionsCheckbox.check();
+		await siteMemberUpdateCheckbox.check();
+		await siteMemberViewCheckbox.check();
+
+		await permissionsFrame.getByRole('button', {name: 'Save'}).click();
+
+		await waitForAlert(permissionsFrame);
+
+		await permissionsDialog.getByLabel('Close', {exact: true}).click();
+
+		await expect(permissionsDialog).not.toBeAttached();
+
+		await structuresPage.execItemAction({
+			action: 'Permissions',
+			filter: structureName,
+		});
+
+		await expect(siteMemberDeleteCheckbox).toBeChecked();
+		await expect(siteMemberPermissionsCheckbox).toBeChecked();
+		await expect(siteMemberUpdateCheckbox).toBeChecked();
+		await expect(siteMemberViewCheckbox).toBeChecked();
+	}
+);
+
+test(
+	'Content Structure can be scoped to specific spaces',
+	{tag: '@LPD-89302'},
+	async ({apiHelpers, page, structureBuilderPage, structuresPage}) => {
+		const spaceName1 = `Space ${getRandomString()}`;
+		const spaceName2 = `Space ${getRandomString()}`;
+		const structureLabel = `Structure${getRandomInt()}`;
+
+		await apiHelpers.headlessAssetLibrary.createAssetLibrary({
+			name: spaceName1,
+			settings: {},
+			type: 'Space',
+		});
+
+		await apiHelpers.headlessAssetLibrary.createAssetLibrary({
+			name: spaceName2,
+			settings: {},
+			type: 'Space',
+		});
+
+		await structureBuilderPage.createStructureFromData({
+			label: structureLabel,
+			name: structureLabel,
+			page: structureBuilderPage,
+			spaces: [spaceName1, spaceName2],
+		});
+
+		await structuresPage.goto();
+
+		const row = page.getByRole('row', {name: structureLabel});
+
+		await expect(row).toBeVisible();
+		await expect(row.getByText('All Spaces')).not.toBeVisible();
+
+		await page.getByRole('link', {name: structureLabel}).click();
+
+		await expect(
+			page.locator('.label-secondary', {hasText: spaceName1})
+		).toBeVisible();
+		await expect(
+			page.locator('.label-secondary', {hasText: spaceName2})
+		).toBeVisible();
+	}
+);
+
+async function applySpaceFilter(
+	page: Page,
+	{exclude = false, space}: {exclude?: boolean; space: string}
+) {
+	await page.getByRole('button', {exact: true, name: 'Filter'}).click();
+	await page.getByRole('menuitem', {exact: true, name: 'Space'}).click();
+	await page.getByRole('checkbox', {exact: true, name: space}).check();
+
+	if (exclude) {
+		await page.getByRole('switch', {exact: true, name: 'Exclude'}).click();
+	}
+
+	await page.getByRole('button', {exact: true, name: 'Add Filter'}).click();
+
+	const chipName = exclude ? `Space: (Exclude) ${space}` : `Space: ${space}`;
+
+	await expect(page.getByRole('button', {name: chipName})).toBeVisible();
+}
+
+test(
+	'Content Structures list can be filtered by space with include and exclude',
+	{tag: ['@LPD-89342', '@LPD-91933']},
+	async ({apiHelpers, page, structureBuilderPage, structuresPage}) => {
+		const spaceName1 = `Space ${getRandomString()}`;
+		const spaceName2 = `Space ${getRandomString()}`;
+		const structureLabel = `Structure${getRandomString()}`;
+
+		await apiHelpers.headlessAssetLibrary.createAssetLibrary({
+			name: spaceName1,
+			settings: {},
+		});
+
+		await apiHelpers.headlessAssetLibrary.createAssetLibrary({
+			name: spaceName2,
+			settings: {},
+		});
+
+		await structureBuilderPage.createStructureFromData({
+			label: structureLabel,
+			page: structureBuilderPage,
+			spaces: [spaceName1],
+		});
+
+		const row = structuresPage.getItem(structureLabel);
+
+		await structuresPage.goto();
+		await applySpaceFilter(page, {space: spaceName1});
+		await expect(row).toBeVisible();
+
+		await structuresPage.goto();
+		await applySpaceFilter(page, {space: spaceName2});
+		await expect(row).toBeHidden();
+
+		await structuresPage.goto();
+		await applySpaceFilter(page, {exclude: true, space: spaceName1});
+		await expect(row).toBeHidden();
+
+		await structuresPage.goto();
+		await applySpaceFilter(page, {exclude: true, space: spaceName2});
+		await expect(row).toBeVisible();
+	}
+);
