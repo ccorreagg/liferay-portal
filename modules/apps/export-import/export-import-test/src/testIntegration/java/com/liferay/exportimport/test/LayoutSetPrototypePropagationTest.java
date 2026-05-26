@@ -21,6 +21,7 @@ import com.liferay.journal.util.JournalContent;
 import com.liferay.layout.constants.LayoutTypeSettingsConstants;
 import com.liferay.layout.page.template.constants.LayoutPageTemplateEntryTypeConstants;
 import com.liferay.layout.page.template.model.LayoutPageTemplateEntry;
+import com.liferay.layout.page.template.service.LayoutPageTemplateEntryLocalServiceUtil;
 import com.liferay.layout.page.template.test.util.LayoutPageTemplateTestUtil;
 import com.liferay.layout.set.prototype.helper.LayoutSetPrototypeHelper;
 import com.liferay.layout.test.util.ContentLayoutTestUtil;
@@ -249,13 +250,9 @@ public class LayoutSetPrototypePropagationTest
 			_layoutSetPrototypeGroup, true, false,
 			masterLayoutPageTemplateEntry.getExternalReferenceCode());
 
-		propagateChanges(group);
-
 		LayoutTestUtil.addTypeContentLayout(
 			_layoutSetPrototypeGroup, true, false,
 			masterLayoutPageTemplateEntry.getExternalReferenceCode());
-
-		propagateChanges(group);
 
 		Assert.assertEquals(
 			0,
@@ -263,17 +260,32 @@ public class LayoutSetPrototypePropagationTest
 				group.getGroupId(),
 				masterLayoutPageTemplateEntry.getExternalReferenceCode()));
 
-		Layout masterLayout = LayoutLocalServiceUtil.getLayout(
-			masterLayoutPageTemplateEntry.getPlid());
+		Assert.assertNull(
+			LayoutPageTemplateEntryLocalServiceUtil.
+				fetchLayoutPageTemplateEntryByExternalReferenceCode(
+					masterLayoutPageTemplateEntry.getExternalReferenceCode(),
+					group.getGroupId()));
 
-		Layout siteMasterLayout = LayoutLocalServiceUtil.getFriendlyURLLayout(
-			group.getGroupId(), false, masterLayout.getFriendlyURL());
+		propagateChanges(group);
 
 		Assert.assertEquals(
 			4,
 			LayoutLocalServiceUtil.getMasterLayoutsCount(
 				group.getGroupId(),
-				siteMasterLayout.getMasterLayoutPageTemplateEntryERC()));
+				masterLayoutPageTemplateEntry.getExternalReferenceCode()));
+
+		Assert.assertNotNull(
+			LayoutPageTemplateEntryLocalServiceUtil.
+				fetchLayoutPageTemplateEntryByExternalReferenceCode(
+					masterLayoutPageTemplateEntry.getExternalReferenceCode(),
+					group.getGroupId()));
+
+		Layout masterLayout = LayoutLocalServiceUtil.getLayout(
+			masterLayoutPageTemplateEntry.getPlid());
+
+		Assert.assertNotNull(
+			LayoutLocalServiceUtil.fetchLayoutByExternalReferenceCode(
+				masterLayout.getExternalReferenceCode(), group.getGroupId()));
 	}
 
 	@Test
