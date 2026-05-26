@@ -1004,8 +1004,6 @@ public class LayoutSetPrototypePropagationTest
 
 		propagateChanges(group);
 
-		// Portlet data is no longer propagated once the group has been created
-
 		for (String languageId : journalArticle.getAvailableLanguageIds()) {
 			String localization = content.get(languageId);
 
@@ -1013,7 +1011,12 @@ public class LayoutSetPrototypePropagationTest
 				journalArticle.getGroupId(), journalArticle.getArticleId(),
 				Constants.VIEW, languageId);
 
-			Assert.assertEquals(localization, importedLocalization);
+			if (linkEnabled) {
+				Assert.assertEquals("New Test Content", importedLocalization);
+			}
+			else {
+				Assert.assertEquals(localization, importedLocalization);
+			}
 		}
 	}
 
