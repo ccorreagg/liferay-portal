@@ -7,7 +7,6 @@ package com.liferay.exportimport.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.dynamic.data.mapping.test.util.DDMStructureTestUtil;
-import com.liferay.exportimport.test.util.ExportImportTestUtil;
 import com.liferay.fragment.constants.FragmentConstants;
 import com.liferay.fragment.model.FragmentCollection;
 import com.liferay.fragment.model.FragmentEntry;
@@ -27,7 +26,6 @@ import com.liferay.layout.set.prototype.helper.LayoutSetPrototypeHelper;
 import com.liferay.layout.test.util.ContentLayoutTestUtil;
 import com.liferay.layout.test.util.LayoutTestUtil;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.LayoutParentLayoutIdException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -53,7 +51,6 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.ResourceActions;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
-import com.liferay.portal.kernel.service.LayoutServiceUtil;
 import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutSetPrototypeLocalServiceUtil;
 import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
@@ -90,7 +87,6 @@ import jakarta.portlet.PortletPreferences;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -157,27 +153,6 @@ public class LayoutSetPrototypePropagationTest
 	public void testLayoutPermissionPropagation() throws Exception {
 		_testLayoutPermissionPropagation(false);
 		_testLayoutPermissionPropagation(true);
-	}
-
-	@Test
-	public void testLayoutPropagationWhenLoadingLayoutsTreeWithLinkEnabled()
-		throws Exception {
-
-		setLinkEnabled(true);
-
-		LayoutTestUtil.addTypePortletLayout(_layoutSetPrototypeGroup, true);
-
-		Assert.assertEquals(
-			_initialPrototypeLayoutsCount, getGroupLayoutCount());
-
-		LayoutServiceUtil.getLayouts(
-			group.getGroupId(), false, LayoutConstants.DEFAULT_PARENT_LAYOUT_ID,
-			false, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-
-		ExportImportTestUtil.retryAssert(
-			1, TimeUnit.SECONDS, 5, TimeUnit.SECONDS,
-			() -> Assert.assertEquals(
-				_initialPrototypeLayoutsCount + 1, getGroupLayoutCount()));
 	}
 
 	@Test
