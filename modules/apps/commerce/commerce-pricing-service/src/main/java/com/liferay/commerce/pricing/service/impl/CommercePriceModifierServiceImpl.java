@@ -16,6 +16,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.math.BigDecimal;
 
@@ -49,8 +50,8 @@ public class CommercePriceModifierServiceImpl
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		_commercePriceListModelResourcePermission.check(
-			getPermissionChecker(), commercePriceListId, ActionKeys.UPDATE);
+		_checkCommercePriceModifierPermission(
+			commercePriceListId, 0, ActionKeys.UPDATE);
 
 		return commercePriceModifierLocalService.addCommercePriceModifier(
 			groupId, title, target, commercePriceListId, modifierType,
@@ -74,8 +75,31 @@ public class CommercePriceModifierServiceImpl
 			ServiceContext serviceContext)
 		throws PortalException {
 
+		CommercePriceModifier commercePriceModifier =
+			commercePriceModifierLocalService.fetchCommercePriceModifier(
+				commercePriceModifierId);
+
+		if ((commercePriceModifier == null) &&
+			Validator.isNotNull(externalReferenceCode)) {
+
+			commercePriceModifier =
+				commercePriceModifierLocalService.
+					fetchCommercePriceModifierByExternalReferenceCode(
+						externalReferenceCode, serviceContext.getCompanyId());
+		}
+
 		_commercePriceListModelResourcePermission.check(
 			getPermissionChecker(), commercePriceListId, ActionKeys.UPDATE);
+
+		if ((commercePriceModifier != null) &&
+			(commercePriceModifier.getCommercePriceListId() !=
+				commercePriceListId)) {
+
+			_commercePriceListModelResourcePermission.check(
+				getPermissionChecker(),
+				commercePriceModifier.getCommercePriceListId(),
+				ActionKeys.UPDATE);
+		}
 
 		return commercePriceModifierLocalService.
 			addOrUpdateCommercePriceModifier(
@@ -97,9 +121,9 @@ public class CommercePriceModifierServiceImpl
 			commercePriceModifierLocalService.getCommercePriceModifier(
 				commercePriceModifierId);
 
-		_commercePriceListModelResourcePermission.check(
-			getPermissionChecker(),
-			commercePriceModifier.getCommercePriceListId(), ActionKeys.UPDATE);
+		_checkCommercePriceModifierPermission(
+			commercePriceModifier.getCommercePriceListId(),
+			commercePriceModifierId, ActionKeys.UPDATE);
 
 		return commercePriceModifierLocalService.deleteCommercePriceModifier(
 			commercePriceModifier);
@@ -115,10 +139,9 @@ public class CommercePriceModifierServiceImpl
 				commercePriceModifierId);
 
 		if (commercePriceModifier != null) {
-			_commercePriceListModelResourcePermission.check(
-				getPermissionChecker(),
+			_checkCommercePriceModifierPermission(
 				commercePriceModifier.getCommercePriceListId(),
-				ActionKeys.VIEW);
+				commercePriceModifierId, ActionKeys.VIEW);
 		}
 
 		return commercePriceModifier;
@@ -136,9 +159,9 @@ public class CommercePriceModifierServiceImpl
 					externalReferenceCode, companyId);
 
 		if (commercePriceModifier != null) {
-			_commercePriceListModelResourcePermission.check(
-				getPermissionChecker(),
+			_checkCommercePriceModifierPermission(
 				commercePriceModifier.getCommercePriceListId(),
+				commercePriceModifier.getCommercePriceModifierId(),
 				ActionKeys.VIEW);
 		}
 
@@ -154,9 +177,10 @@ public class CommercePriceModifierServiceImpl
 			commercePriceModifierLocalService.getCommercePriceModifier(
 				commercePriceModifierId);
 
-		_commercePriceListModelResourcePermission.check(
-			getPermissionChecker(),
-			commercePriceModifier.getCommercePriceListId(), ActionKeys.VIEW);
+		_checkCommercePriceModifierPermission(
+			commercePriceModifier.getCommercePriceListId(),
+			commercePriceModifier.getCommercePriceModifierId(),
+			ActionKeys.VIEW);
 
 		return commercePriceModifier;
 	}
@@ -167,8 +191,8 @@ public class CommercePriceModifierServiceImpl
 			OrderByComparator<CommercePriceModifier> orderByComparator)
 		throws PortalException {
 
-		_commercePriceListModelResourcePermission.check(
-			getPermissionChecker(), commercePriceListId, ActionKeys.VIEW);
+		_checkCommercePriceModifierPermission(
+			commercePriceListId, 0, ActionKeys.VIEW);
 
 		return commercePriceModifierLocalService.getCommercePriceModifiers(
 			commercePriceListId, start, end, orderByComparator);
@@ -199,8 +223,8 @@ public class CommercePriceModifierServiceImpl
 	public int getCommercePriceModifiersCount(long commercePriceListId)
 		throws PortalException {
 
-		_commercePriceListModelResourcePermission.check(
-			getPermissionChecker(), commercePriceListId, ActionKeys.VIEW);
+		_checkCommercePriceModifierPermission(
+			commercePriceListId, 0, ActionKeys.VIEW);
 
 		return commercePriceModifierLocalService.getCommercePriceModifiersCount(
 			commercePriceListId);
@@ -232,8 +256,8 @@ public class CommercePriceModifierServiceImpl
 			boolean neverExpire, ServiceContext serviceContext)
 		throws PortalException {
 
-		_commercePriceListModelResourcePermission.check(
-			getPermissionChecker(), commercePriceListId, ActionKeys.UPDATE);
+		_checkCommercePriceModifierPermission(
+			commercePriceListId, commercePriceModifierId, ActionKeys.UPDATE);
 
 		return commercePriceModifierLocalService.updateCommercePriceModifier(
 			commercePriceModifierId, groupId, title, target,
@@ -242,6 +266,28 @@ public class CommercePriceModifierServiceImpl
 			displayDateMinute, expirationDateMonth, expirationDateDay,
 			expirationDateYear, expirationDateHour, expirationDateMinute,
 			neverExpire, serviceContext);
+	}
+
+	private void _checkCommercePriceModifierPermission(
+			long commercePriceListId, long commercePriceModifierId,
+			String actionId)
+		throws PortalException {
+
+		_commercePriceListModelResourcePermission.check(
+			getPermissionChecker(), commercePriceListId, actionId);
+
+		CommercePriceModifier commercePriceModifier =
+			commercePriceModifierLocalService.fetchCommercePriceModifier(
+				commercePriceModifierId);
+
+		if ((commercePriceModifier != null) &&
+			(commercePriceModifier.getCommercePriceListId() !=
+				commercePriceListId)) {
+
+			_commercePriceListModelResourcePermission.check(
+				getPermissionChecker(),
+				commercePriceModifier.getCommercePriceListId(), actionId);
+		}
 	}
 
 	@Reference(
