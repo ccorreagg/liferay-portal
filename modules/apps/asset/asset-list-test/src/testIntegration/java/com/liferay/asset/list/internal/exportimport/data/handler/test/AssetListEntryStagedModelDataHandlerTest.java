@@ -9,7 +9,6 @@ import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.asset.list.constants.AssetListEntryTypeConstants;
 import com.liferay.asset.list.model.AssetListEntry;
 import com.liferay.asset.list.service.AssetListEntryLocalService;
-import com.liferay.asset.list.service.AssetListEntrySegmentsEntryRelLocalService;
 import com.liferay.asset.list.test.util.AssetListTestUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
@@ -197,10 +196,6 @@ public class AssetListEntryStagedModelDataHandlerTest
 
 	@Inject
 	private AssetListEntryLocalService _assetListEntryLocalService;
-
-	@Inject
-	private AssetListEntrySegmentsEntryRelLocalService
-		_assetListEntrySegmentsEntryRelLocalService;
 
 	@Inject(
 		filter = "segments.criteria.contributor.key=user",
