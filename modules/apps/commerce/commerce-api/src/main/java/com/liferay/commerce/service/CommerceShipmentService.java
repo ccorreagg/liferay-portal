@@ -101,7 +101,8 @@ public interface CommerceShipmentService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CommerceShipment> getCommerceShipmentsByOrderId(
-		long commerceOrderId, int start, int end);
+			long commerceOrderId, int start, int end)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCommerceShipmentsCount(long companyId) throws PortalException;
@@ -122,7 +123,8 @@ public interface CommerceShipmentService extends BaseService {
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCommerceShipmentsCountByOrderId(long commerceOrderId);
+	public int getCommerceShipmentsCountByOrderId(long commerceOrderId)
+		throws PortalException;
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -189,4 +191,4 @@ public interface CommerceShipmentService extends BaseService {
 		throws PortalException;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1240790909
+// LIFERAY-SERVICE-BUILDER-HASH:-1847475971

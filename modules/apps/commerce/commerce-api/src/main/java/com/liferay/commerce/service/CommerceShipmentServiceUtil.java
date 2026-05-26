@@ -124,7 +124,8 @@ public class CommerceShipmentServiceUtil {
 	}
 
 	public static List<CommerceShipment> getCommerceShipmentsByOrderId(
-		long commerceOrderId, int start, int end) {
+			long commerceOrderId, int start, int end)
+		throws PortalException {
 
 		return getService().getCommerceShipmentsByOrderId(
 			commerceOrderId, start, end);
@@ -161,7 +162,9 @@ public class CommerceShipmentServiceUtil {
 			excludeShipmentStatus);
 	}
 
-	public static int getCommerceShipmentsCountByOrderId(long commerceOrderId) {
+	public static int getCommerceShipmentsCountByOrderId(long commerceOrderId)
+		throws PortalException {
+
 		return getService().getCommerceShipmentsCountByOrderId(commerceOrderId);
 	}
 
@@ -297,4 +300,4 @@ public class CommerceShipmentServiceUtil {
 			CommerceShipmentServiceUtil.class, CommerceShipmentService.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-102631805
+// LIFERAY-SERVICE-BUILDER-HASH:-650059225

@@ -144,4 +144,4 @@ public interface CommerceShipmentItemService extends BaseService {
 		throws PortalException;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:357941565
+// LIFERAY-SERVICE-BUILDER-HASH:1277719209

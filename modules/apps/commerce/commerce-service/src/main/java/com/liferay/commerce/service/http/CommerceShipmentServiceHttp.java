@@ -472,9 +472,10 @@ public class CommerceShipmentServiceHttp {
 	}
 
 	public static java.util.List<com.liferay.commerce.model.CommerceShipment>
-		getCommerceShipmentsByOrderId(
-			HttpPrincipal httpPrincipal, long commerceOrderId, int start,
-			int end) {
+			getCommerceShipmentsByOrderId(
+				HttpPrincipal httpPrincipal, long commerceOrderId, int start,
+				int end)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -491,6 +492,13 @@ public class CommerceShipmentServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
@@ -671,7 +679,8 @@ public class CommerceShipmentServiceHttp {
 	}
 
 	public static int getCommerceShipmentsCountByOrderId(
-		HttpPrincipal httpPrincipal, long commerceOrderId) {
+			HttpPrincipal httpPrincipal, long commerceOrderId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -688,6 +697,13 @@ public class CommerceShipmentServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
@@ -1269,4 +1285,4 @@ public class CommerceShipmentServiceHttp {
 		new Class[] {long.class, int.class};
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-380570676
+// LIFERAY-SERVICE-BUILDER-HASH:811451280
