@@ -1052,7 +1052,7 @@ public class LayoutSetPrototypePropagationTest
 	}
 
 	protected void propagateChanges(Group group) throws Exception {
-		propagateChanges(false, group);
+		propagateChanges(RandomTestUtil.randomBoolean(), group);
 	}
 
 	protected void setLayoutsUpdateable(boolean layoutsUpdateable)
