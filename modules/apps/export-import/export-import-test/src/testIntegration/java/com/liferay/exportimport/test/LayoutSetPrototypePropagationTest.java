@@ -154,32 +154,9 @@ public class LayoutSetPrototypePropagationTest
 	}
 
 	@Test
-	public void testLayoutPermissionPropagationWithLinkEnabled()
-		throws Exception {
-
-		setLinkEnabled(true);
-
-		Role role = RoleLocalServiceUtil.getRole(
-			TestPropsValues.getCompanyId(), RoleConstants.POWER_USER);
-
-		ResourcePermissionServiceUtil.setIndividualResourcePermissions(
-			prototypeLayout.getGroupId(), prototypeLayout.getCompanyId(),
-			Layout.class.getName(),
-			String.valueOf(prototypeLayout.getPrimaryKey()), role.getRoleId(),
-			new String[] {ActionKeys.CUSTOMIZE});
-
-		prototypeLayout = updateModifiedDate(
-			prototypeLayout,
-			new Date(System.currentTimeMillis() + Time.MINUTE));
-
-		propagateChanges(group);
-
-		Assert.assertTrue(
-			ResourcePermissionLocalServiceUtil.hasResourcePermission(
-				layout.getCompanyId(), Layout.class.getName(),
-				ResourceConstants.SCOPE_INDIVIDUAL,
-				String.valueOf(layout.getPrimaryKey()), role.getRoleId(),
-				ActionKeys.CUSTOMIZE));
+	public void testLayoutPermissionPropagation() throws Exception {
+		_testLayoutPermissionPropagation(false);
+		_testLayoutPermissionPropagation(true);
 	}
 
 	@Test
@@ -1064,12 +1041,18 @@ public class LayoutSetPrototypePropagationTest
 		return LayoutLocalServiceUtil.getLayoutsCount(group, false);
 	}
 
-	protected void propagateChanges(Group group) throws Exception {
+	protected void propagateChanges(boolean initial, Group group)
+		throws Exception {
+
 		_layoutSetPrototypeHelper.executeLayoutSetSync(
-			false,
+			initial,
 			LayoutSetLocalServiceUtil.getLayoutSet(group.getGroupId(), false));
 
 		Thread.sleep(2000);
+	}
+
+	protected void propagateChanges(Group group) throws Exception {
+		propagateChanges(false, group);
 	}
 
 	protected void setLayoutsUpdateable(boolean layoutsUpdateable)
@@ -1231,6 +1214,35 @@ public class LayoutSetPrototypePropagationTest
 			).put(
 				"jakarta.portlet.name", portletName
 			).build());
+	}
+
+	private void _testLayoutPermissionPropagation(boolean initial)
+		throws Exception {
+
+		setLinkEnabled(true);
+
+		Role role = RoleLocalServiceUtil.getRole(
+			TestPropsValues.getCompanyId(), RoleConstants.POWER_USER);
+
+		ResourcePermissionServiceUtil.setIndividualResourcePermissions(
+			prototypeLayout.getGroupId(), prototypeLayout.getCompanyId(),
+			Layout.class.getName(),
+			String.valueOf(prototypeLayout.getPrimaryKey()), role.getRoleId(),
+			new String[] {ActionKeys.CUSTOMIZE});
+
+		prototypeLayout = updateModifiedDate(
+			prototypeLayout,
+			new Date(System.currentTimeMillis() + Time.MINUTE));
+
+		propagateChanges(initial, group);
+
+		Assert.assertEquals(
+			initial,
+			ResourcePermissionLocalServiceUtil.hasResourcePermission(
+				layout.getCompanyId(), Layout.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL,
+				String.valueOf(layout.getPrimaryKey()), role.getRoleId(),
+				ActionKeys.CUSTOMIZE));
 	}
 
 	private void _verifyPortletPreferenceValue(
