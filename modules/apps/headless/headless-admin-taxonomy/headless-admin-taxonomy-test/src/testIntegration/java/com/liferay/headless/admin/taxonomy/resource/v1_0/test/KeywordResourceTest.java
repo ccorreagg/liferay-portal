@@ -395,6 +395,8 @@ public class KeywordResourceTest extends BaseKeywordResourceTestCase {
 		irrelevantGroup = originalIrrelevantGroup;
 		testGroup = originalTestGroup;
 
+		_testGetSiteKeywordsPageWithSpaceDepotEntry();
+
 		_cmsAdministratorUser = UserTestUtil.addUser(
 			testCompany, RoleConstants.CMS_ADMINISTRATOR);
 
@@ -408,7 +410,6 @@ public class KeywordResourceTest extends BaseKeywordResourceTestCase {
 
 		_testGetSiteKeywordsPageWithUser(_cmsAdministratorUser);
 		_testGetSiteKeywordsPageWithUser(_regularUser);
-		_testGetSiteKeywordsPageWithSpaceDepotEntry();
 	}
 
 	@Ignore
