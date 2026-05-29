@@ -1067,6 +1067,11 @@ public class LayoutSetPrototypePropagationTest
 		return LayoutLocalServiceUtil.getLayout(layout.getPlid());
 	}
 
+	@Override
+	protected boolean propagatesLocalEntityReferences() {
+		return true;
+	}
+
 	protected void setLayoutsUpdateable(boolean layoutsUpdateable)
 		throws Exception {
 
