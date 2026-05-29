@@ -715,6 +715,7 @@ public abstract class BaseSectionDisplayContextTestCase
 			"&nestedFields=embedded,embeddedTaxonomyCategory,",
 			"file.metadata,file.previewURL,file.thumbnailURL,",
 			"numberOfObjectEntries,numberOfObjectEntryFolders,",
+			"systemProperties.collaboratorBrief,",
 			"systemProperties.objectDefinitionBrief&sort=dateModified:desc");
 	}
 
