@@ -6,6 +6,8 @@
 package com.liferay.layout.set.prototype.internal.helper.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
+import com.liferay.layout.set.prototype.exception.LayoutSetPrototypeSyncException;
 import com.liferay.layout.set.prototype.helper.LayoutSetPrototypeHelper;
 import com.liferay.layout.test.util.LayoutTestUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -26,6 +28,7 @@ import com.liferay.sites.kernel.util.Sites;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -133,6 +136,18 @@ public class LayoutSetPrototypeHelperTest {
 			Assert.assertTrue(
 				duplicatedFriendlyURLPlids.contains(layout.getPlid()));
 		}
+	}
+
+	@Test
+	public void testExecuteLayoutSetPrototypeSyncExportImportInProcess()
+		throws Exception {
+
+		_testExecuteLayoutSetPrototypeSyncExportImportInProcess(
+			ExportImportThreadLocal::setLayoutExportInProcess);
+		_testExecuteLayoutSetPrototypeSyncExportImportInProcess(
+			ExportImportThreadLocal::setLayoutImportInProcess);
+		_testExecuteLayoutSetPrototypeSyncExportImportInProcess(
+			ExportImportThreadLocal::setLayoutStagingInProcess);
 	}
 
 	@Test
@@ -273,6 +288,27 @@ public class LayoutSetPrototypeHelperTest {
 		_sites.updateLayoutSetPrototypesLinks(
 			_group, _layoutSetPrototype.getLayoutSetPrototypeId(), 0, true,
 			false);
+	}
+
+	private void _testExecuteLayoutSetPrototypeSyncExportImportInProcess(
+			Consumer<Boolean> exportImportThreadLocalConsumer)
+		throws Exception {
+
+		try {
+			exportImportThreadLocalConsumer.accept(true);
+
+			_layoutSetPrototypeHelper.executeLayoutSetPrototypeSync(
+				_layoutSetPrototype.getLayoutSetPrototypeId(),
+				TestPropsValues.getUserId());
+
+			Assert.fail();
+		}
+		catch (LayoutSetPrototypeSyncException.MustNotHaveExportImportInProgress
+					layoutSetPrototypeSyncException) {
+		}
+		finally {
+			exportImportThreadLocalConsumer.accept(false);
+		}
 	}
 
 	@DeleteAfterTestRun
