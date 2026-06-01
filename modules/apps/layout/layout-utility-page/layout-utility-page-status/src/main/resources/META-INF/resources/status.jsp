@@ -21,14 +21,10 @@
 	if (status > 0) {
 		response.setStatus(status);
 	}
-
-	Exception statusException = statusDisplayContext.getException();
-
-	Class<?> statusExceptionClass = (statusException == null) ? null : statusException.getClass();
 	%>
 
 	<c:choose>
-		<c:when test="<%= statusException instanceof PrincipalException %>">
+		<c:when test="<%= SessionErrors.contains(request, PrincipalException.getNestedClasses()) %>">
 			<clay:alert
 				displayType="danger"
 				message="forbidden"
@@ -44,7 +40,7 @@
 
 			<a href="javascript:history.go(-1);">&laquo; <liferay-ui:message key="back" /></a>
 		</c:when>
-		<c:when test="<%= (statusExceptionClass == PortalException.class) || (statusExceptionClass == SystemException.class) %>">
+		<c:when test="<%= SessionErrors.contains(request, PortalException.class.getName()) || SessionErrors.contains(request, SystemException.class.getName()) %>">
 			<clay:alert
 				displayType="danger"
 				message="internal-server-error"
@@ -60,7 +56,7 @@
 
 			<a href="javascript:history.go(-1);">&laquo; <liferay-ui:message key="back" /></a>
 		</c:when>
-		<c:when test="<%= statusExceptionClass == TransformException.class %>">
+		<c:when test="<%= SessionErrors.contains(request, TransformException.class.getName()) %>">
 			<clay:alert
 				displayType="danger"
 				message="internal-server-error"
@@ -75,7 +71,7 @@
 			<br /><br />
 
 			<%
-			TransformException te = (TransformException)statusException;
+			TransformException te = (TransformException)SessionErrors.get(request, TransformException.class.getName());
 			%>
 
 			<div>
@@ -120,7 +116,7 @@
 				<code class="lfr-url-error"><%= statusDisplayContext.getEscapedURL(themeDisplay) %></code>
 
 				<%
-				statusDisplayContext.logException();
+				statusDisplayContext.logSessionErrors();
 				%>
 
 			</liferay-layout:render-layout-utility-page-entry>
@@ -138,7 +134,7 @@
 			<code class="lfr-url-error"><%= statusDisplayContext.getEscapedURL(themeDisplay) %></code>
 
 			<%
-			statusDisplayContext.logException();
+			statusDisplayContext.logSessionErrors();
 			%>
 
 			<hr class="separator" />
