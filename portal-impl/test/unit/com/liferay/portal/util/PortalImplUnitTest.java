@@ -61,8 +61,11 @@ import jakarta.portlet.PortletException;
 import jakarta.portlet.PortletMode;
 import jakarta.portlet.WindowState;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -86,7 +89,6 @@ import org.osgi.framework.ServiceRegistration;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
 
 /**
  * @author Miguel Pastor
@@ -828,7 +830,21 @@ public class PortalImplUnitTest {
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
 
-		MockHttpSession mockHttpSession = new MockHttpSession();
+		HttpSession mockHttpSession = Mockito.mock(HttpSession.class);
+
+		ServletContext mockServletContext = Mockito.mock(ServletContext.class);
+
+		Mockito.when(
+			mockHttpSession.getServletContext()
+		).thenReturn(
+			mockServletContext
+		);
+
+		Mockito.when(
+			mockServletContext.getRequestDispatcher(Mockito.anyString())
+		).thenReturn(
+			Mockito.mock(RequestDispatcher.class)
+		);
 
 		mockHttpServletRequest.setSession(mockHttpSession);
 
