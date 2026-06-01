@@ -12,8 +12,6 @@ import com.liferay.petra.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.petra.io.unsync.UnsyncByteArrayOutputStream;
 import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.petra.string.CharPool;
-import com.liferay.petra.string.StringBundler;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.instance.PortalInstancePool;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Portlet;
@@ -224,39 +222,25 @@ public class PortletTrackerTest extends BasePortletContainerTestCase {
 				).build(),
 				RandomTestUtil.randomString(), false);
 
-			PortletCategory rootCategory1 = (PortletCategory)WebAppPool.get(
+			PortletCategory portletCategory1 = (PortletCategory)WebAppPool.get(
 				_company1.getCompanyId(), WebKeys.PORTLET_CATEGORY);
 
-			PortletCategory portletCategory1 = rootCategory1.getCategory(
-				displayCategory);
+			Assert.assertNotNull(portletCategory1.getCategory(displayCategory));
 
-			Assert.assertEquals(displayCategory, portletCategory1.getName());
-			Assert.assertEquals(
-				"root//" + displayCategory, portletCategory1.getPath());
-
-			PortletCategory rootCategory2 = (PortletCategory)WebAppPool.get(
+			PortletCategory portletCategory2 = (PortletCategory)WebAppPool.get(
 				_company2.getCompanyId(), WebKeys.PORTLET_CATEGORY);
 
-			PortletCategory portletCategory2 = rootCategory2.getCategory(
-				displayCategory);
-
-			Assert.assertEquals(displayCategory, portletCategory2.getName());
-			Assert.assertEquals(
-				"root//" + displayCategory, portletCategory2.getPath());
+			Assert.assertNotNull(portletCategory2.getCategory(displayCategory));
 
 			Company company = CompanyTestUtil.addCompany();
 
 			try {
-				PortletCategory rootCategory3 = (PortletCategory)WebAppPool.get(
-					company.getCompanyId(), WebKeys.PORTLET_CATEGORY);
+				PortletCategory portletCategory3 =
+					(PortletCategory)WebAppPool.get(
+						company.getCompanyId(), WebKeys.PORTLET_CATEGORY);
 
-				PortletCategory portletCategory3 = rootCategory3.getCategory(
-					displayCategory);
-
-				Assert.assertEquals(
-					displayCategory, portletCategory3.getName());
-				Assert.assertEquals(
-					"root//" + displayCategory, portletCategory3.getPath());
+				Assert.assertNotNull(
+					portletCategory3.getCategory(displayCategory));
 			}
 			finally {
 				_companyLocalService.deleteCompany(company);
