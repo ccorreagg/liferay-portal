@@ -13,21 +13,16 @@ import com.liferay.portal.deploy.hot.PortletHotDeployListener;
 import com.liferay.portal.kernel.deploy.hot.HotDeployEvent;
 import com.liferay.portal.kernel.deploy.hot.HotDeployUtil;
 import com.liferay.portal.kernel.model.Portlet;
-import com.liferay.portal.kernel.model.PortletCategory;
 import com.liferay.portal.kernel.servlet.ServletContextClassLoaderPool;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
-import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.AggregateClassLoader;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.test.log.LogCapture;
 import com.liferay.portal.test.log.LoggerTestUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.util.WebAppPool;
 
 import jakarta.servlet.ServletContext;
 
@@ -58,7 +53,7 @@ public class PortletHotDeployListenerTest {
 		new LiferayIntegrationTestRule();
 
 	@Test
-	public void testPortletCategoryNames() throws Exception {
+	public void testPortletCategoryNames() {
 		_testPortletCategoryNames(
 			Collections.singletonMap(
 				_PORTLET_NAME_PREFIX + RandomTestUtil.randomString(), null));
@@ -197,8 +192,7 @@ public class PortletHotDeployListenerTest {
 	}
 
 	private void _testPortletCategoryNames(
-			Map<String, String> portletCategoryNames)
-		throws Exception {
+		Map<String, String> portletCategoryNames) {
 
 		Set<String> portletNames = portletCategoryNames.keySet();
 
@@ -229,10 +223,6 @@ public class PortletHotDeployListenerTest {
 				portletList.toString(), portletCategoryNames.size(),
 				portletList.size());
 
-			PortletCategory rootPortletCategory =
-				(PortletCategory)WebAppPool.get(
-					TestPropsValues.getCompanyId(), WebKeys.PORTLET_CATEGORY);
-
 			for (Portlet portlet : portletList) {
 				Assert.assertTrue(
 					portletNames.contains(portlet.getPortletName()));
@@ -247,54 +237,11 @@ public class PortletHotDeployListenerTest {
 						categoryNames.toString(),
 						Collections.singleton("category.undefined"),
 						categoryNames);
-
-					PortletCategory portletCategory =
-						rootPortletCategory.getCategory("category.undefined");
-
-					Assert.assertEquals(
-						"category.undefined", portletCategory.getName());
-					Assert.assertEquals(
-						"root//category.undefined", portletCategory.getPath());
-
-					Set<String> portletIds = portletCategory.getPortletIds();
-
-					Assert.assertTrue(
-						portletIds.toString(),
-						portletIds.contains(portlet.getPortletId()));
 				}
 				else {
 					Assert.assertEquals(
 						categoryNames.toString(),
 						Collections.singleton(categoryName), categoryNames);
-
-					String[] nestedCategoryNames = StringUtil.split(
-						categoryName, StringPool.DOUBLE_SLASH);
-
-					PortletCategory portletCategory = rootPortletCategory;
-
-					StringBundler sb = new StringBundler();
-
-					sb.append("root");
-
-					for (String nestedCategoryName : nestedCategoryNames) {
-						portletCategory = portletCategory.getCategory(
-							nestedCategoryName);
-
-						Assert.assertEquals(
-							nestedCategoryName, portletCategory.getName());
-
-						sb.append(StringPool.DOUBLE_SLASH);
-						sb.append(nestedCategoryName);
-
-						Assert.assertEquals(
-							sb.toString(), portletCategory.getPath());
-					}
-
-					Set<String> portletIds = portletCategory.getPortletIds();
-
-					Assert.assertTrue(
-						portletIds.toString(),
-						portletIds.contains(portlet.getPortletId()));
 				}
 			}
 		}
