@@ -166,13 +166,15 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 			return;
 		}
 
-		PortletCategory rootPortletCategory = new PortletCategory();
-
 		PortletCategory newPortletCategory = new PortletCategory(categoryName);
 
-		rootPortletCategory.addCategory(newPortletCategory.getRootCategory());
+		if (newPortletCategory.getParentCategory() == null) {
+			PortletCategory rootPortletCategory = new PortletCategory();
 
-		portletCategory.merge(rootPortletCategory);
+			rootPortletCategory.addCategory(newPortletCategory);
+		}
+
+		portletCategory.merge(newPortletCategory.getRootCategory());
 	}
 
 	@Override
@@ -2956,19 +2958,20 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 		portletCategory.separate(portlet.getPortletId());
 
 		for (String categoryName : portlet.getCategoryNames()) {
-			PortletCategory rootPortletCategory = new PortletCategory();
-
 			PortletCategory newPortletCategory = new PortletCategory(
 				categoryName);
 
-			rootPortletCategory.addCategory(
-				newPortletCategory.getRootCategory());
+			if (newPortletCategory.getParentCategory() == null) {
+				PortletCategory rootPortletCategory = new PortletCategory();
+
+				rootPortletCategory.addCategory(newPortletCategory);
+			}
 
 			Set<String> portletIds = newPortletCategory.getPortletIds();
 
 			portletIds.add(portlet.getPortletId());
 
-			portletCategory.merge(rootPortletCategory);
+			portletCategory.merge(newPortletCategory.getRootCategory());
 		}
 	}
 
