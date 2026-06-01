@@ -9,6 +9,7 @@ import com.liferay.layout.utility.page.kernel.StatusLayoutUtilityPageEntryReques
 import com.liferay.petra.io.BigEndianCodec;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.exception.NoSuchImageException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
@@ -831,7 +832,7 @@ public class PortalImplUnitTest {
 
 		mockHttpServletRequest.setSession(mockHttpSession);
 
-		Exception exception = new Exception();
+		NoSuchImageException noSuchImageException = new NoSuchImageException();
 
 		try (MockedStatic<PortalSessionThreadLocal>
 				portalSessionThreadLocalMockedStatic = Mockito.mockStatic(
@@ -851,16 +852,17 @@ public class PortalImplUnitTest {
 			);
 
 			_portalImpl.sendError(
-				0, exception, mockHttpServletRequest,
+				0, noSuchImageException, mockHttpServletRequest,
 				new MockHttpServletResponse());
 
 			sessionErrorsMockedStatic.verify(
 				() -> SessionErrors.add(
-					mockHttpSession, Exception.class, exception));
+					mockHttpSession, NoSuchImageException.class,
+					noSuchImageException));
 		}
 
 		Assert.assertSame(
-			exception,
+			noSuchImageException,
 			mockHttpServletRequest.getAttribute(WebKeys.PORTAL_STATUS_EXCEPTION));
 	}
 
