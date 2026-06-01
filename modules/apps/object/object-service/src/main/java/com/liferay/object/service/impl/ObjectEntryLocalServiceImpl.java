@@ -2303,8 +2303,9 @@ public class ObjectEntryLocalServiceImpl
 				_objectDefinitionPersistence.findByPrimaryKey(
 					node.getPrimaryKey());
 
-			Indexer<ObjectEntry> indexer = IndexerRegistryUtil.getIndexer(
-				objectDefinition.getClassName());
+			Indexer<ObjectEntry> indexer =
+				IndexerRegistryUtil.nullSafeGetIndexer(
+					objectDefinition.getClassName());
 
 			_performActions(
 				objectDefinition.getObjectDefinitionId(),
