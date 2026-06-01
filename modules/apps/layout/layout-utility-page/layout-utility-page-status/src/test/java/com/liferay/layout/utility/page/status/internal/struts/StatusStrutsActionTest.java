@@ -71,16 +71,18 @@ public class StatusStrutsActionTest {
 
 	@Test
 	@TestInfo("LPD-85590")
-	public void testExecuteWithPortalStatusException() throws Exception {
-		String htmlInit = _HTML_INIT + RandomTestUtil.randomString();
-		String htmlEnd = RandomTestUtil.randomString() + _HTML_END;
+	public void testExecuteRemovesSeededPortalStatusExceptionFromSessionErrors()
+		throws Exception {
+
+		String bodyContentInit = _HTML_INIT + RandomTestUtil.randomString();
+		String bodyContentEnd = RandomTestUtil.randomString() + _HTML_END;
 
 		String expected = StringBundler.concat(
-			htmlInit, "\n  <div id=\"content\">\n   ", _STATUS_PAGE_CONTENT,
-			"\n  </div>", htmlEnd);
+			bodyContentInit, "\n  <div id=\"content\">\n   ",
+			_STATUS_PAGE_CONTENT, "\n  </div>", bodyContentEnd);
 		String html = StringBundler.concat(
-			htmlInit, "<div id=\"content\">", RandomTestUtil.randomString(),
-			"</div>", htmlEnd);
+			bodyContentInit, "<div id=\"content\">",
+			RandomTestUtil.randomString(), "</div>", bodyContentEnd);
 
 		_sessionErrorsMockedStatic.clearInvocations();
 
