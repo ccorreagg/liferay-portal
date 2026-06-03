@@ -7168,13 +7168,13 @@ public class DefaultObjectEntryManagerImplTest
 		CommerceCatalog commerceCatalog = CPTestUtil.getSystemCommerceCatalog(
 			TestPropsValues.getCompanyId());
 
-		ObjectDefinition cpDefinitionObjectDefinition =
-			objectDefinitionLocalService.fetchSystemObjectDefinition(
-				companyId, "CPDefinition");
-
 		CPDefinition cpDefinition = CPTestUtil.addCPDefinitionFromCatalog(
 			commerceCatalog.getGroupId(), SimpleCPTypeConstants.NAME, true,
 			true);
+
+		ObjectDefinition cpDefinitionObjectDefinition =
+			objectDefinitionLocalService.fetchSystemObjectDefinition(
+				companyId, "CPDefinition");
 
 		ObjectRelationship objectRelationship =
 			_objectRelationshipLocalService.addObjectRelationship(
