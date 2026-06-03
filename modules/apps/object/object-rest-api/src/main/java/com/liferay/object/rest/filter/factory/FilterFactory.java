@@ -18,6 +18,13 @@ public interface FilterFactory<T> {
 		EntityModel entityModel, String filterString,
 		ObjectDefinition objectDefinition);
 
+	public default T create(
+		Expression filterExpression, Long[] groupIds,
+		ObjectDefinition objectDefinition) {
+
+		return null;
+	}
+
 	public T create(
 		Expression filterExpression, ObjectDefinition objectDefinition);
 

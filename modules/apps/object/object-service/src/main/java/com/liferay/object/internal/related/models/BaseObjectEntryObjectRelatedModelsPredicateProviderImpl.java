@@ -38,7 +38,8 @@ public abstract class BaseObjectEntryObjectRelatedModelsPredicateProviderImpl
 
 	@Override
 	public Predicate getPredicate(
-			ObjectRelationship objectRelationship, Predicate predicate)
+			Long[] groupIds, ObjectRelationship objectRelationship,
+			Predicate predicate)
 		throws PortalException {
 
 		ObjectDefinition relatedObjectDefinition =
@@ -51,13 +52,21 @@ public abstract class BaseObjectEntryObjectRelatedModelsPredicateProviderImpl
 		}
 
 		return getPredicate(
-			objectRelationship, predicate, relatedObjectDefinition);
+			groupIds, objectRelationship, predicate, relatedObjectDefinition);
 	}
 
 	public abstract Predicate getPredicate(
-			ObjectRelationship objectRelationship, Predicate predicate,
-			ObjectDefinition relatedObjectDefinition)
+			Long[] groupIds, ObjectRelationship objectRelationship,
+			Predicate predicate, ObjectDefinition relatedObjectDefinition)
 		throws PortalException;
+
+	@Override
+	public Predicate getPredicate(
+			ObjectRelationship objectRelationship, Predicate predicate)
+		throws PortalException {
+
+		return getPredicate(null, objectRelationship, predicate);
+	}
 
 	protected DynamicObjectDefinitionTable getDynamicObjectDefinitionTable(
 		ObjectDefinition objectDefinition) {
