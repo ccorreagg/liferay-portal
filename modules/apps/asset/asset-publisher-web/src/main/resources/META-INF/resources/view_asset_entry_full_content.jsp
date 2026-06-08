@@ -92,6 +92,7 @@ Map<String, Object> fragmentsEditorData = HashMapBuilder.<String, Object>put(
 						cssClass="header-back-to lfr-portal-tooltip"
 						href="<%= redirect %>"
 						icon="angle-left"
+						rel="nofollow"
 						title='<%= LanguageUtil.get(request, "back") %>'
 					/>
 				</c:if>
