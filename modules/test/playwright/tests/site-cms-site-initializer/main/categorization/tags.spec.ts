@@ -5,16 +5,20 @@
 
 import {expect, mergeTests} from '@playwright/test';
 
+import {dataApiHelpersTest} from '../../../../fixtures/dataApiHelpersTest';
 import {featureFlagsTest} from '../../../../fixtures/featureFlagsTest';
 import {loginTest} from '../../../../fixtures/loginTest';
+import {applyFDSSelectionFilter} from '../../../../utils/applyFDSSelectionFilter';
 import {checkAccessibility} from '../../../../utils/checkAccessibility';
 import {clickAndExpectToBeHidden} from '../../../../utils/clickAndExpectToBeHidden';
 import {clickAndExpectToBeVisible} from '../../../../utils/clickAndExpectToBeVisible';
 import {getRandomInt} from '../../../../utils/getRandomInt';
+import getRandomString from '../../../../utils/getRandomString';
 import {cmsPagesTest} from '../fixtures/cmsPagesTest';
 
 const test = mergeTests(
 	cmsPagesTest,
+	dataApiHelpersTest,
 	featureFlagsTest({
 		'LPD-17564': {enabled: true},
 	}),
@@ -466,3 +470,131 @@ test('Validate tag inputs', {tag: ['@LPD-69687']}, async ({page, tagsPage}) => {
 
 	await expect(tagsPage.saveButton).toBeDisabled();
 });
+
+test(
+	'Tags with the same name can be created',
+	{tag: ['@LPD-69204', '@LPD-92491']},
+	async ({apiHelpers, assetsPage, infoPanelPage, page}) => {
+		const applicationName = 'cms/basic-web-contents';
+		const contentTitle = `title ${getRandomString()}`;
+		let objectEntry: ObjectEntry;
+		const tagNameBase = getRandomString().substring(0, 7);
+		const tagName1 = `A${tagNameBase}`;
+		const tagName2 = `a${tagNameBase}`;
+
+		try {
+			objectEntry = await apiHelpers.objectEntry.postObjectEntry(
+				{
+					objectEntryFolderExternalReferenceCode: 'L_CONTENTS',
+					title: contentTitle,
+				},
+				applicationName,
+				'Default'
+			);
+
+			await assetsPage.gotoAll();
+
+			await assetsPage.execItemAction({
+				action: 'Show Details',
+				filter: contentTitle,
+			});
+
+			await expect(
+				page.getByRole('heading', {name: contentTitle})
+			).toBeVisible();
+
+			await infoPanelPage.selectTab('Categorization').click();
+
+			await page.getByPlaceholder('Add tag').fill(tagName1);
+
+			const newTagOption = page.getByRole('option', {
+				name: 'Create New Tag:',
+			});
+
+			await newTagOption.waitFor();
+			await newTagOption.click();
+
+			await expect(page.getByText(tagName1, {exact: true})).toBeVisible();
+
+			await expect(async () => {
+				await page.getByPlaceholder('Add tag').fill(tagName2);
+
+				await newTagOption.waitFor();
+				await newTagOption.click();
+
+				await expect(
+					page.getByText(tagName2, {exact: true})
+				).toBeVisible();
+			}).toPass({timeout: 5000});
+		}
+		finally {
+			if (objectEntry) {
+				await apiHelpers.objectEntry.deleteObjectEntry(
+					applicationName,
+					String(objectEntry.id)
+				);
+			}
+		}
+	}
+);
+
+test(
+	'Filtering tags by Space shows the tags scoped to that Space',
+	{tag: '@LPD-89720'},
+	async ({apiHelpers, page, tagsPage}) => {
+		const {id: siteId} =
+			await apiHelpers.headlessAdminUser.getSiteByFriendlyUrlPath('cms');
+
+		// Create two Spaces, with one tag scoped to each one
+
+		const spaceName = getRandomString();
+
+		const space = await apiHelpers.headlessAssetLibrary.createAssetLibrary({
+			name: spaceName,
+			type: 'Space',
+		});
+
+		const anotherSpace =
+			await apiHelpers.headlessAssetLibrary.createAssetLibrary({
+				name: getRandomString(),
+				type: 'Space',
+			});
+
+		const tagName = getRandomString();
+
+		await apiHelpers.headlessAdminTaxonomy.postSiteKeyword({
+			assetLibraries: [
+				{externalReferenceCode: space.externalReferenceCode},
+			],
+			name: tagName,
+			siteId,
+		});
+
+		const anotherTagName = getRandomString();
+
+		await apiHelpers.headlessAdminTaxonomy.postSiteKeyword({
+			assetLibraries: [
+				{externalReferenceCode: anotherSpace.externalReferenceCode},
+			],
+			name: anotherTagName,
+			siteId,
+		});
+
+		// Both tags are listed before filtering
+
+		await tagsPage.goto();
+
+		await expect(tagsPage.getItem(tagName)).toBeVisible();
+		await expect(tagsPage.getItem(anotherTagName)).toBeVisible();
+
+		// Filtering by a Space keeps the tag scoped to it and hides the rest
+
+		await applyFDSSelectionFilter(page, {
+			filter: 'Space',
+			value: spaceName,
+		});
+
+		await expect(tagsPage.getItem(tagName)).toBeVisible();
+		await expect(tagsPage.getItem(anotherTagName)).toBeHidden();
+	}
+);
