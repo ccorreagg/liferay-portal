@@ -177,5 +177,10 @@ testWithSiteTemplateSync(
 				webContentName.toLowerCase()
 			);
 		}).toPass();
+
+		// Give the asynchronous sync time to finalize before the fixture
+		// deletes the Site, so its cleanup does not contend with the sync
+
+		await page.waitForTimeout(1000);
 	}
 );
