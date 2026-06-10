@@ -14,6 +14,7 @@ import com.liferay.layout.set.prototype.exception.LayoutSetPrototypeSyncExceptio
 import com.liferay.layout.set.prototype.helper.LayoutSetPrototypeHelper;
 import com.liferay.layout.test.util.LayoutTestUtil;
 import com.liferay.petra.lang.SafeCloseable;
+import com.liferay.portal.image.ImageToolUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskExecutor;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskResult;
@@ -24,11 +25,14 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.model.LayoutSetPrototype;
 import com.liferay.portal.kernel.model.UserNotificationEvent;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutSetPrototypeLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
@@ -46,6 +50,8 @@ import com.liferay.portal.test.log.LoggerTestUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.sites.kernel.util.Sites;
+
+import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -216,6 +222,54 @@ public class LayoutSetPrototypeHelperTest {
 	}
 
 	@Test
+	public void testExecuteLayoutSetPrototypeSyncDoesNotPropagateDeletions()
+		throws Exception {
+
+		long userId = TestPropsValues.getUserId();
+
+		int initialCount = _layoutLocalService.getLayoutsCount(
+			_group.getGroupId(), false);
+
+		Layout layout1 = LayoutTestUtil.addTypePortletLayout(
+			_layoutSetPrototypeGroup, true);
+
+		Layout layout2 = LayoutTestUtil.addTypePortletLayout(
+			_layoutSetPrototypeGroup, true);
+
+		_layoutSetPrototypeHelper.executeLayoutSetPrototypeSync(
+			_layoutSetPrototype.getLayoutSetPrototypeId(), userId);
+
+		Assert.assertEquals(
+			initialCount + 2,
+			_layoutLocalService.getLayoutsCount(_group.getGroupId(), false));
+
+		_layoutLocalService.deleteLayout(layout1);
+
+		long timestamp = System.currentTimeMillis();
+
+		_layoutSetPrototypeHelper.executeLayoutSetPrototypeSync(
+			_layoutSetPrototype.getLayoutSetPrototypeId(), userId);
+
+		Assert.assertEquals(
+			LayoutSetPrototypeConstants.STATUS_SUCCESSFUL,
+			_getLatestSyncNotificationResult(timestamp, userId));
+
+		Assert.assertEquals(
+			initialCount + 2,
+			_layoutLocalService.getLayoutsCount(_group.getGroupId(), false));
+
+		layout1 = LayoutLocalServiceUtil.getFriendlyURLLayout(
+			_group.getGroupId(), false, layout1.getFriendlyURL());
+
+		Assert.assertNull(layout1.getLayoutSetPrototypeLayout());
+
+		layout2 = LayoutLocalServiceUtil.getFriendlyURLLayout(
+			_group.getGroupId(), false, layout2.getFriendlyURL());
+
+		Assert.assertNotNull(layout2.getLayoutSetPrototypeLayout());
+	}
+
+	@Test
 	public void testExecuteLayoutSetPrototypeSyncExportImportInProcess()
 		throws Exception {
 
@@ -225,6 +279,95 @@ public class LayoutSetPrototypeHelperTest {
 			ExportImportThreadLocal::setLayoutImportInProcess);
 		_testExecuteLayoutSetPrototypeSyncExportImportInProcess(
 			ExportImportThreadLocal::setLayoutStagingInProcess);
+	}
+
+	@Test
+	public void testExecuteLayoutSetPrototypeSyncPropagatesThemeAndLogo()
+		throws Exception {
+
+		long userId = TestPropsValues.getUserId();
+
+		LayoutSet layoutSetPrototypeLayoutSet =
+			LayoutSetLocalServiceUtil.getLayoutSet(
+				_layoutSetPrototypeGroup.getGroupId(), true);
+
+		String colorSchemeId = RandomTestUtil.randomString();
+
+		layoutSetPrototypeLayoutSet.setColorSchemeId(colorSchemeId);
+
+		String themeId = "minium_WAR_miniumtheme";
+
+		layoutSetPrototypeLayoutSet.setThemeId(themeId);
+
+		LayoutSetLocalServiceUtil.updateLayoutSet(layoutSetPrototypeLayoutSet);
+
+		LayoutSetLocalServiceUtil.updateLogo(
+			_layoutSetPrototypeGroup.getGroupId(), true, true,
+			ImageToolUtil.getBytes(
+				new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB), "png"));
+
+		LayoutSet layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
+			_group.getGroupId(), false);
+
+		long initialLogoId = layoutSet.getLogoId();
+
+		long timestamp = System.currentTimeMillis();
+
+		_layoutSetPrototypeHelper.executeLayoutSetPrototypeSync(
+			_layoutSetPrototype.getLayoutSetPrototypeId(), userId);
+
+		Assert.assertEquals(
+			LayoutSetPrototypeConstants.STATUS_SUCCESSFUL,
+			_getLatestSyncNotificationResult(timestamp, userId));
+
+		layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
+			_group.getGroupId(), false);
+
+		Assert.assertEquals(colorSchemeId, layoutSet.getColorSchemeId());
+		Assert.assertNotEquals(initialLogoId, layoutSet.getLogoId());
+		Assert.assertEquals(themeId, layoutSet.getThemeId());
+	}
+
+	@Test
+	public void testExecuteLayoutSetPrototypeSyncPropagatesToAllLinkedSites()
+		throws Exception {
+
+		long userId = TestPropsValues.getUserId();
+
+		Group group = GroupTestUtil.addGroup();
+
+		try {
+			_sites.updateLayoutSetPrototypesLinks(
+				group, _layoutSetPrototype.getLayoutSetPrototypeId(), 0, true,
+				false);
+
+			int initialCount1 = _layoutLocalService.getLayoutsCount(
+				_group.getGroupId(), false);
+			int initialCount2 = _layoutLocalService.getLayoutsCount(
+				group.getGroupId(), false);
+
+			LayoutTestUtil.addTypePortletLayout(_layoutSetPrototypeGroup, true);
+
+			long timestamp = System.currentTimeMillis();
+
+			_layoutSetPrototypeHelper.executeLayoutSetPrototypeSync(
+				_layoutSetPrototype.getLayoutSetPrototypeId(), userId);
+
+			Assert.assertEquals(
+				LayoutSetPrototypeConstants.STATUS_SUCCESSFUL,
+				_getLatestSyncNotificationResult(timestamp, userId));
+
+			Assert.assertEquals(
+				initialCount1 + 1,
+				_layoutLocalService.getLayoutsCount(
+					_group.getGroupId(), false));
+			Assert.assertEquals(
+				initialCount2 + 1,
+				_layoutLocalService.getLayoutsCount(group.getGroupId(), false));
+		}
+		finally {
+			GroupLocalServiceUtil.deleteGroup(group);
+		}
 	}
 
 	@Test
@@ -268,6 +411,34 @@ public class LayoutSetPrototypeHelperTest {
 		Assert.assertNull(
 			_getLatestSyncNotificationResult(
 				timestamp, TestPropsValues.getUserId()));
+	}
+
+	@Test
+	public void testExecuteLayoutSetPrototypeSyncWithoutLinkedSites()
+		throws Exception {
+
+		long userId = TestPropsValues.getUserId();
+
+		LayoutSetPrototype layoutSetPrototype =
+			LayoutTestUtil.addLayoutSetPrototype(RandomTestUtil.randomString());
+
+		try {
+			LayoutTestUtil.addTypePortletLayout(
+				layoutSetPrototype.getGroup(), true);
+
+			long timestamp = System.currentTimeMillis();
+
+			_layoutSetPrototypeHelper.executeLayoutSetPrototypeSync(
+				layoutSetPrototype.getLayoutSetPrototypeId(), userId);
+
+			Assert.assertEquals(
+				LayoutSetPrototypeConstants.STATUS_SUCCESSFUL,
+				_getLatestSyncNotificationResult(timestamp, userId));
+		}
+		finally {
+			LayoutSetPrototypeLocalServiceUtil.deleteLayoutSetPrototype(
+				layoutSetPrototype);
+		}
 	}
 
 	@Test
@@ -475,7 +646,7 @@ public class LayoutSetPrototypeHelperTest {
 						HashMapDictionaryBuilder.<String, Object>put(
 							"background.task.executor.class.name",
 							BackgroundTaskExecutorNames.
-								LAYOUT_SET_PROTOTYPE_SYNC_BACKGROUND_TASK_EXECUTOR
+								LAYOUT_SET_PROTOTYPE_SYNC_EXPORT_IMPORT_BACKGROUND_TASK_EXECUTOR
 						).put(
 							"service.ranking", 1000
 						).build(),
