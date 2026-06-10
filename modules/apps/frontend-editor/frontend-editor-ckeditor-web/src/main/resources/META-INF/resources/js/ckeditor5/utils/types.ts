@@ -32,6 +32,7 @@ export interface LiferayEditorConfig extends EditorConfig {
 	filebrowserVideoBrowseUrl?: string;
 	itemSelectorEventName?: string;
 	preset?: EEditorConfigPreset;
+	showAICreator?: boolean;
 }
 
 export type TEditor = BalloonEditor | ClassicEditor;
