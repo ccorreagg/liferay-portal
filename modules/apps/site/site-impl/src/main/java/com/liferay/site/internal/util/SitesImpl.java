@@ -425,7 +425,7 @@ public class SitesImpl implements Sites {
 	public void mergeLayoutSetPrototypeLayouts(Group group, LayoutSet layoutSet)
 		throws Exception {
 
-		_layoutSetPrototypeHelper.executeLayoutSetSync(layoutSet);
+		_layoutSetPrototypeHelper.mergeLayoutSetPrototypeLayouts(layoutSet);
 	}
 
 	@Override

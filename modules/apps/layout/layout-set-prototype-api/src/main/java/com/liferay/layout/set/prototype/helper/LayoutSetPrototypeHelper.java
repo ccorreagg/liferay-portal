@@ -26,8 +26,6 @@ public interface LayoutSetPrototypeHelper {
 			long layoutSetPrototypeId, long userId)
 		throws PortalException;
 
-	public void executeLayoutSetSync(LayoutSet layoutSet) throws Exception;
-
 	public List<Layout> getDuplicatedFriendlyURLLayouts(Layout layout)
 		throws PortalException;
 
@@ -44,6 +42,9 @@ public interface LayoutSetPrototypeHelper {
 			String layoutUuid, long groupId, boolean privateLayout,
 			String friendlyURL)
 		throws PortalException;
+
+	public void mergeLayoutSetPrototypeLayouts(LayoutSet layoutSet)
+		throws Exception;
 
 	public void resetPrototype(Layout layout) throws PortalException;
 

@@ -92,7 +92,7 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 					layoutSetPrototype.getUuid())) {
 
 			try {
-				executeLayoutSetSync(layoutSet);
+				mergeLayoutSetPrototypeLayouts(layoutSet);
 			}
 			catch (Exception exception) {
 				_log.error(
@@ -101,35 +101,6 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 					exception);
 			}
 		}
-	}
-
-	@Override
-	public void executeLayoutSetSync(LayoutSet layoutSet) throws Exception {
-		MergeLayoutPrototypesThreadLocal.setSkipMerge(false);
-
-		if (MergeLayoutPrototypesThreadLocal.isSkipMerge()) {
-			return;
-		}
-
-		MergeLayoutPrototypesThreadLocal.setSkipMerge(true);
-
-		Group group = layoutSet.getGroup();
-
-		layoutSet = _layoutSetLocalService.fetchLayoutSet(
-			layoutSet.getLayoutSetId());
-
-		if (!_isLayoutSetMergeable(group, layoutSet)) {
-			return;
-		}
-
-		LayoutSetPrototype layoutSetPrototype =
-			_layoutSetPrototypeLocalService.
-				getLayoutSetPrototypeByUuidAndCompanyId(
-					layoutSet.getLayoutSetPrototypeUuid(),
-					layoutSet.getCompanyId());
-
-		_mergeLayoutSetPrototypeLayoutsInBackground(
-			layoutSetPrototype, layoutSet);
 	}
 
 	@Override
@@ -399,6 +370,31 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 
 		return _hasDuplicatedFriendlyURLPrototypeLayout(
 			layoutExternalReferenceCode, groupId, privateLayout, friendlyURL);
+	}
+
+	@Override
+	public void mergeLayoutSetPrototypeLayouts(LayoutSet layoutSet)
+		throws Exception {
+
+		MergeLayoutPrototypesThreadLocal.setSkipMerge(true);
+
+		Group group = layoutSet.getGroup();
+
+		layoutSet = _layoutSetLocalService.fetchLayoutSet(
+			layoutSet.getLayoutSetId());
+
+		if (!_isLayoutSetMergeable(group, layoutSet)) {
+			return;
+		}
+
+		LayoutSetPrototype layoutSetPrototype =
+			_layoutSetPrototypeLocalService.
+				getLayoutSetPrototypeByUuidAndCompanyId(
+					layoutSet.getLayoutSetPrototypeUuid(),
+					layoutSet.getCompanyId());
+
+		_mergeLayoutSetPrototypeLayoutsInBackground(
+			layoutSetPrototype, layoutSet);
 	}
 
 	/**
@@ -688,17 +684,7 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 		return true;
 	}
 
-	private boolean _isLayoutSetMergeable(Group group, LayoutSet layoutSet) {
-		if (layoutSet.isLayoutSetPrototypeLinkActive() &&
-			!group.isLayoutPrototype() && !group.isLayoutSetPrototype()) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	private boolean _isLayoutSetPrototypeMergeBackgroundTaskExists(
+	private boolean _hasLayoutSetPrototypeMergeBackgroundTask(
 			LayoutSetPrototype layoutSetPrototype, LayoutSet layoutSet)
 		throws Exception {
 
@@ -752,6 +738,16 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 		return false;
 	}
 
+	private boolean _isLayoutSetMergeable(Group group, LayoutSet layoutSet) {
+		if (layoutSet.isLayoutSetPrototypeLinkActive() &&
+			!group.isLayoutPrototype() && !group.isLayoutSetPrototype()) {
+
+			return true;
+		}
+
+		return false;
+	}
+
 	private void _mergeLayoutSetPrototypeLayoutsInBackground(
 			LayoutSetPrototype layoutSetPrototype, LayoutSet layoutSet)
 		throws Exception {
@@ -763,7 +759,7 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 			return;
 		}
 
-		if (_isLayoutSetPrototypeMergeBackgroundTaskExists(
+		if (_hasLayoutSetPrototypeMergeBackgroundTask(
 				layoutSetPrototype, layoutSet)) {
 
 			if (_log.isDebugEnabled()) {
