@@ -20,6 +20,7 @@ import com.liferay.layout.set.prototype.internal.sync.LayoutSetPrototypeSyncSess
 import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
 import com.liferay.petra.sql.dsl.expression.Predicate;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -101,10 +102,10 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 			if (_isLayoutSetMergeable(layoutSet)) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(
-						StringBundler.concat("Adding layout set ",
-							layoutSet.getLayoutSetId(),
-							" as a layout set mergeable of the layout set prototype ",
-							layoutSetPrototypeId));
+						StringBundler.concat(
+							"Adding mergeable layout set ",
+							layoutSet.getLayoutSetId(), " of the layout set ",
+							"prototype ", layoutSetPrototypeId));
 				}
 
 				mergeableLayoutSets.add(layoutSet);
