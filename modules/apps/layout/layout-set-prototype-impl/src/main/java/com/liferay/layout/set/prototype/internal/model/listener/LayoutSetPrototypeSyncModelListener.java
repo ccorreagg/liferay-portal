@@ -35,8 +35,7 @@ public class LayoutSetPrototypeSyncModelListener
 		TransactionCommitCallbackUtil.registerCallback(
 			() -> {
 				try {
-					_layoutSetPrototypeHelper.syncLayoutSet(
-						true, layoutSet);
+					_layoutSetPrototypeHelper.syncLayoutSet(true, layoutSet);
 				}
 				catch (Exception exception) {
 					if (_log.isWarnEnabled()) {

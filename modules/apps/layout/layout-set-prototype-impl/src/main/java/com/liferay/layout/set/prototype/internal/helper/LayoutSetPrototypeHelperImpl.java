@@ -73,128 +73,6 @@ import org.osgi.service.component.annotations.Reference;
 public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 
 	@Override
-	public void syncLayoutSetPrototype(
-			long layoutSetPrototypeId, long userId)
-		throws PortalException {
-
-		if (ExportImportThreadLocal.isExportInProcess() ||
-			ExportImportThreadLocal.isImportInProcess() ||
-			ExportImportThreadLocal.isStagingInProcess()) {
-
-			throw new LayoutSetPrototypeSyncException.
-				MustNotHaveExportImportInProgress();
-		}
-
-		LayoutSetPrototype layoutSetPrototype =
-			_layoutSetPrototypeLocalService.fetchLayoutSetPrototype(
-				layoutSetPrototypeId);
-
-		if (layoutSetPrototype == null) {
-			return;
-		}
-
-		List<LayoutSet> mergeableLayoutSets = new ArrayList<>();
-
-		for (LayoutSet layoutSet :
-				_layoutSetLocalService.getLayoutSetsByLayoutSetPrototypeUuid(
-					layoutSetPrototype.getUuid())) {
-
-			if (_isLayoutSetMergeable(layoutSet)) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						StringBundler.concat(
-							"Adding mergeable layout set ",
-							layoutSet.getLayoutSetId(), " of the layout set ",
-							"prototype ", layoutSetPrototypeId));
-				}
-
-				mergeableLayoutSets.add(layoutSet);
-			}
-		}
-
-		Map<Long, ExportImportConfiguration> exportImportConfigurations =
-			new HashMap<>();
-
-		boolean preValidationErrors = false;
-
-		for (Iterator<LayoutSet> iterator = mergeableLayoutSets.iterator();
-			 iterator.hasNext();) {
-
-			LayoutSet layoutSet = iterator.next();
-
-			try {
-				exportImportConfigurations.put(
-					layoutSet.getLayoutSetId(),
-					_buildExportImportConfiguration(false, layoutSet, userId));
-			}
-			catch (PortalException portalException) {
-				_log.error(
-					"Unable to add draft export-import configuration for " +
-						"layout set " + layoutSet.getLayoutSetId(),
-					portalException);
-
-				iterator.remove();
-
-				preValidationErrors = true;
-			}
-		}
-
-		if (mergeableLayoutSets.isEmpty() && preValidationErrors) {
-			LayoutSetPrototypeSyncSessionManagerUtil.postFailureNotification(
-				layoutSetPrototype.getNameMap(), userId);
-
-			return;
-		}
-
-		try (SafeCloseable safeCloseable =
-				LayoutSetPrototypeSyncSessionManagerUtil.openSession(
-					layoutSetPrototype, mergeableLayoutSets,
-					preValidationErrors, userId)) {
-
-			for (LayoutSet layoutSet : mergeableLayoutSets) {
-				try {
-					_runSyncInBackground(
-						exportImportConfigurations.get(
-							layoutSet.getLayoutSetId()),
-						layoutSet, userId);
-				}
-				catch (Exception exception) {
-					_log.error(
-						"Unable to sync layout set " +
-							layoutSet.getLayoutSetId(),
-						exception);
-				}
-			}
-		}
-	}
-
-	@Override
-	public void syncLayoutSet(boolean initialSync, LayoutSet layoutSet)
-		throws PortalException {
-
-		if (ExportImportThreadLocal.isExportInProcess() ||
-			ExportImportThreadLocal.isImportInProcess() ||
-			ExportImportThreadLocal.isStagingInProcess()) {
-
-			throw new LayoutSetPrototypeSyncException.
-				MustNotHaveExportImportInProgress();
-		}
-
-		layoutSet = _layoutSetLocalService.fetchLayoutSet(
-			layoutSet.getLayoutSetId());
-
-		if (!_isLayoutSetMergeable(layoutSet)) {
-			return;
-		}
-
-		long userId = PrincipalThreadLocal.getUserId();
-
-		_runSyncInBackground(
-			_buildExportImportConfiguration(initialSync, layoutSet, userId),
-			layoutSet, userId);
-	}
-
-	@Override
 	public List<Layout> getDuplicatedFriendlyURLLayouts(Layout layout)
 		throws PortalException {
 
@@ -483,6 +361,127 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 				layoutPrototypeLayout.isPrivateLayout(),
 				layoutPrototypeLayout.getLayoutId(),
 				layoutPrototypeLayout.getTypeSettings());
+		}
+	}
+
+	@Override
+	public void syncLayoutSet(boolean initialSync, LayoutSet layoutSet)
+		throws PortalException {
+
+		if (ExportImportThreadLocal.isExportInProcess() ||
+			ExportImportThreadLocal.isImportInProcess() ||
+			ExportImportThreadLocal.isStagingInProcess()) {
+
+			throw new LayoutSetPrototypeSyncException.
+				MustNotHaveExportImportInProgress();
+		}
+
+		layoutSet = _layoutSetLocalService.fetchLayoutSet(
+			layoutSet.getLayoutSetId());
+
+		if (!_isLayoutSetMergeable(layoutSet)) {
+			return;
+		}
+
+		long userId = PrincipalThreadLocal.getUserId();
+
+		_runSyncInBackground(
+			_buildExportImportConfiguration(initialSync, layoutSet, userId),
+			layoutSet, userId);
+	}
+
+	@Override
+	public void syncLayoutSetPrototype(long layoutSetPrototypeId, long userId)
+		throws PortalException {
+
+		if (ExportImportThreadLocal.isExportInProcess() ||
+			ExportImportThreadLocal.isImportInProcess() ||
+			ExportImportThreadLocal.isStagingInProcess()) {
+
+			throw new LayoutSetPrototypeSyncException.
+				MustNotHaveExportImportInProgress();
+		}
+
+		LayoutSetPrototype layoutSetPrototype =
+			_layoutSetPrototypeLocalService.fetchLayoutSetPrototype(
+				layoutSetPrototypeId);
+
+		if (layoutSetPrototype == null) {
+			return;
+		}
+
+		List<LayoutSet> mergeableLayoutSets = new ArrayList<>();
+
+		for (LayoutSet layoutSet :
+				_layoutSetLocalService.getLayoutSetsByLayoutSetPrototypeUuid(
+					layoutSetPrototype.getUuid())) {
+
+			if (_isLayoutSetMergeable(layoutSet)) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						StringBundler.concat(
+							"Adding mergeable layout set ",
+							layoutSet.getLayoutSetId(), " of the layout set ",
+							"prototype ", layoutSetPrototypeId));
+				}
+
+				mergeableLayoutSets.add(layoutSet);
+			}
+		}
+
+		Map<Long, ExportImportConfiguration> exportImportConfigurations =
+			new HashMap<>();
+
+		boolean preValidationErrors = false;
+
+		for (Iterator<LayoutSet> iterator = mergeableLayoutSets.iterator();
+			 iterator.hasNext();) {
+
+			LayoutSet layoutSet = iterator.next();
+
+			try {
+				exportImportConfigurations.put(
+					layoutSet.getLayoutSetId(),
+					_buildExportImportConfiguration(false, layoutSet, userId));
+			}
+			catch (PortalException portalException) {
+				_log.error(
+					"Unable to add draft export-import configuration for " +
+						"layout set " + layoutSet.getLayoutSetId(),
+					portalException);
+
+				iterator.remove();
+
+				preValidationErrors = true;
+			}
+		}
+
+		if (mergeableLayoutSets.isEmpty() && preValidationErrors) {
+			LayoutSetPrototypeSyncSessionManagerUtil.postFailureNotification(
+				layoutSetPrototype.getNameMap(), userId);
+
+			return;
+		}
+
+		try (SafeCloseable safeCloseable =
+				LayoutSetPrototypeSyncSessionManagerUtil.openSession(
+					layoutSetPrototype, mergeableLayoutSets,
+					preValidationErrors, userId)) {
+
+			for (LayoutSet layoutSet : mergeableLayoutSets) {
+				try {
+					_runSyncInBackground(
+						exportImportConfigurations.get(
+							layoutSet.getLayoutSetId()),
+						layoutSet, userId);
+				}
+				catch (Exception exception) {
+					_log.error(
+						"Unable to sync layout set " +
+							layoutSet.getLayoutSetId(),
+						exception);
+				}
+			}
 		}
 	}
 

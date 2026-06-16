@@ -22,13 +22,6 @@ import java.util.Map;
 @ProviderType
 public interface LayoutSetPrototypeHelper {
 
-	public void syncLayoutSetPrototype(
-			long layoutSetPrototypeId, long userId)
-		throws PortalException;
-
-	public void syncLayoutSet(boolean initialSync, LayoutSet layoutSet)
-		throws PortalException;
-
 	public List<Layout> getDuplicatedFriendlyURLLayouts(Layout layout)
 		throws PortalException;
 
@@ -50,6 +43,12 @@ public interface LayoutSetPrototypeHelper {
 
 	public void setMergeFailCount(
 			LayoutPrototype layoutPrototype, int newMergeFailCount)
+		throws PortalException;
+
+	public void syncLayoutSet(boolean initialSync, LayoutSet layoutSet)
+		throws PortalException;
+
+	public void syncLayoutSetPrototype(long layoutSetPrototypeId, long userId)
 		throws PortalException;
 
 }
