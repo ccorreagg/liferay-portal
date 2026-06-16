@@ -174,7 +174,7 @@ public class LayoutLayoutSetPrototypeLayoutERCUpgradeProcessTest
 
 		layoutSet = _layoutSetLocalService.updateLayoutSet(layoutSet);
 
-		_layoutSetPrototypeHelper.executeLayoutSetSync(false, layoutSet);
+		_layoutSetPrototypeHelper.syncLayoutSet(false, layoutSet);
 	}
 
 	@Inject

@@ -620,7 +620,7 @@ public class LayoutFriendlyURLTest {
 			Group group, LayoutSet layoutSet, Layout layoutSetPrototypeLayout)
 		throws Exception {
 
-		_layoutSetPrototypeHelper.executeLayoutSetSync(false, layoutSet);
+		_layoutSetPrototypeHelper.syncLayoutSet(false, layoutSet);
 
 		Layout groupLayout = _layoutLocalService.fetchLayoutByUuidAndGroupId(
 			layoutSetPrototypeLayout.getUuid(), group.getGroupId(),

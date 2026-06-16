@@ -73,7 +73,7 @@ import org.osgi.service.component.annotations.Reference;
 public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 
 	@Override
-	public void executeLayoutSetPrototypeSync(
+	public void syncLayoutSetPrototype(
 			long layoutSetPrototypeId, long userId)
 		throws PortalException {
 
@@ -169,7 +169,7 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 	}
 
 	@Override
-	public void executeLayoutSetSync(boolean initialSync, LayoutSet layoutSet)
+	public void syncLayoutSet(boolean initialSync, LayoutSet layoutSet)
 		throws PortalException {
 
 		if (ExportImportThreadLocal.isExportInProcess() ||

@@ -22,11 +22,11 @@ import java.util.Map;
 @ProviderType
 public interface LayoutSetPrototypeHelper {
 
-	public void executeLayoutSetPrototypeSync(
+	public void syncLayoutSetPrototype(
 			long layoutSetPrototypeId, long userId)
 		throws PortalException;
 
-	public void executeLayoutSetSync(boolean initialSync, LayoutSet layoutSet)
+	public void syncLayoutSet(boolean initialSync, LayoutSet layoutSet)
 		throws PortalException;
 
 	public List<Layout> getDuplicatedFriendlyURLLayouts(Layout layout)

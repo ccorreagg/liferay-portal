@@ -130,7 +130,7 @@ public class LayoutSetPrototypePortlet extends MVCPortlet {
 		hideDefaultSuccessMessage(actionRequest);
 
 		try {
-			layoutSetPrototypeHelper.executeLayoutSetPrototypeSync(
+			layoutSetPrototypeHelper.syncLayoutSetPrototype(
 				layoutSetPrototypeId, themeDisplay.getUserId());
 
 			LayoutSetPrototype layoutSetPrototype =

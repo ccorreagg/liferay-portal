@@ -96,7 +96,7 @@ public class LayoutSetPrototypePropagationCTTest {
 		LayoutSet layoutSet = _layoutSetLocalService.getLayoutSet(
 			group.getGroupId(), false);
 
-		_layoutSetPrototypeHelper.executeLayoutSetSync(false, layoutSet);
+		_layoutSetPrototypeHelper.syncLayoutSet(false, layoutSet);
 
 		Thread.sleep(2000);
 

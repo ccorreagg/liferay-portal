@@ -676,7 +676,7 @@ public class LayoutSetPrototypePropagationTest
 				testGroup, 0, layoutSetPrototype.getLayoutSetPrototypeId(),
 				false, true);
 
-			_layoutSetPrototypeHelper.executeLayoutSetSync(
+			_layoutSetPrototypeHelper.syncLayoutSet(
 				false, testGroup.getPrivateLayoutSet());
 
 			LayoutSet publicLayoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
@@ -744,7 +744,7 @@ public class LayoutSetPrototypePropagationTest
 				testGroup, layoutSetPrototype.getLayoutSetPrototypeId(), 0,
 				true, false);
 
-			_layoutSetPrototypeHelper.executeLayoutSetSync(
+			_layoutSetPrototypeHelper.syncLayoutSet(
 				false, testGroup.getPublicLayoutSet());
 
 			publicLayoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
@@ -1065,7 +1065,7 @@ public class LayoutSetPrototypePropagationTest
 	}
 
 	protected void propagateChanges(Group group) throws Exception {
-		_layoutSetPrototypeHelper.executeLayoutSetSync(
+		_layoutSetPrototypeHelper.syncLayoutSet(
 			false,
 			LayoutSetLocalServiceUtil.getLayoutSet(group.getGroupId(), false));
 

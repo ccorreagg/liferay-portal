@@ -288,7 +288,7 @@ public class ExportImportPerformanceTest {
 			true);
 
 		try (Closeable closeable = new PerformanceTimer(_logFilePath, 1000)) {
-			_layoutSetPrototypeHelper.executeLayoutSetSync(
+			_layoutSetPrototypeHelper.syncLayoutSet(
 				false, _group.getPublicLayoutSet());
 		}
 	}
