@@ -99,6 +99,14 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 					layoutSetPrototype.getUuid())) {
 
 			if (_isLayoutSetMergeable(layoutSet)) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						StringBundler.concat("Adding layout set ",
+							layoutSet.getLayoutSetId(),
+							" as a layout set mergeable of the layout set prototype ",
+							layoutSetPrototypeId));
+				}
+
 				mergeableLayoutSets.add(layoutSet);
 			}
 		}
@@ -151,7 +159,7 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 				}
 				catch (Exception exception) {
 					_log.error(
-						"Unable to start site template sync for layout set " +
+						"Unable to sync layout set " +
 							layoutSet.getLayoutSetId(),
 						exception);
 				}
