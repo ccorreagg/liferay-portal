@@ -1,12 +1,15 @@
+import * as API from 'shared/api';
 import List from '../List';
 import mockStore from 'test/mock-store';
 import React from 'react';
+import {AccountMetricType} from 'contacts/pages/account/utils/types';
 import {ChannelContext} from 'shared/context/channel';
 import {cleanup, render, screen} from '@testing-library/react';
 import {createMemoryHistory} from 'history';
 import {mockChannelContext} from 'test/mock-channel-context';
 import {Provider} from 'react-redux';
 import {Router} from 'react-router-dom';
+import {TrendClassification} from 'segment/types';
 import {waitForLoadingToBeRemoved} from 'test/helpers';
 
 jest.unmock('react-dom');
@@ -53,6 +56,33 @@ const buildHistory = (path = '/workspace/23/123/accounts') => {
 
 const store = mockStore();
 
+const accountMetrics = [
+	{
+		metricType: AccountMetricType.Total,
+		trend: {
+			percentage: 50,
+			trendClassification: TrendClassification.Positive
+		},
+		value: 15
+	},
+	{
+		metricType: AccountMetricType.New,
+		trend: {
+			percentage: -30,
+			trendClassification: TrendClassification.Negative
+		},
+		value: 10
+	},
+	{
+		metricType: AccountMetricType.Active,
+		trend: {
+			percentage: 0,
+			trendClassification: TrendClassification.Neutral
+		},
+		value: 1
+	}
+];
+
 // Helper: wrap List in the minimum context providers it needs.
 
 const renderList = (
@@ -79,11 +109,11 @@ describe('List', () => {
 		useHistory.mockReturnValue({push: mockHistoryPush});
 
 		const useRequest = require('shared/hooks/useRequest');
-		useRequest.useRequest = jest.fn(() => ({
-			data: {
-				total: 1
-			}
-		}));
+		useRequest.useRequest = jest.fn(({dataSourceFn}) =>
+			dataSourceFn === API.accounts.fetchMetrics
+				? {data: accountMetrics}
+				: {data: {total: 1}}
+		);
 	});
 
 	afterEach(cleanup);

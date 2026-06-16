@@ -100,17 +100,26 @@ exports[`List rendering should match the snapshot 1`] = `
                 <span
                   class="text-7"
                 >
-                  0 Accounts
+                  15 Accounts
                 </span>
               </span>
               <span
                 class="text-secondary"
               >
+                <svg
+                  class="lexicon-icon lexicon-icon-caret-top-l"
+                  role="presentation"
+                  style="color: rgb(40, 125, 60);"
+                >
+                  <use
+                    href="#caret-top-l"
+                  />
+                </svg>
                 <span
                   class="mr-1"
-                  style="color: rgb(107, 108, 126);"
+                  style="color: rgb(40, 125, 60);"
                 >
-                  0%
+                  50%
                 </span>
                  vs. Previous 90 days
               </span>
@@ -150,17 +159,26 @@ exports[`List rendering should match the snapshot 1`] = `
                 <span
                   class="text-7"
                 >
-                  0 Accounts
+                  10 Accounts
                 </span>
               </span>
               <span
                 class="text-secondary"
               >
+                <svg
+                  class="lexicon-icon lexicon-icon-caret-bottom-l"
+                  role="presentation"
+                  style="color: rgb(218, 20, 20);"
+                >
+                  <use
+                    href="#caret-bottom-l"
+                  />
+                </svg>
                 <span
                   class="mr-1"
-                  style="color: rgb(107, 108, 126);"
+                  style="color: rgb(218, 20, 20);"
                 >
-                  0%
+                  30%
                 </span>
                  vs. Previous 90 days
               </span>
@@ -200,7 +218,7 @@ exports[`List rendering should match the snapshot 1`] = `
                 <span
                   class="text-7"
                 >
-                  0 Accounts
+                  1 Account
                 </span>
               </span>
               <span

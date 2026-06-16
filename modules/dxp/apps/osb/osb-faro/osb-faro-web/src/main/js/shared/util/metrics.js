@@ -22,7 +22,7 @@ export const getIcon = number => {
 
 /**
  * Return the current color
- * @param {string} str
+ * @param {string} [str]
  */
 export const getStatsColor = str => {
 	if (str) {
