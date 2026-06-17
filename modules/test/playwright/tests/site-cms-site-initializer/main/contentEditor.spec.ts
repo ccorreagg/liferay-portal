@@ -1129,6 +1129,12 @@ test.describe('Categorization Panel', () => {
 			).toBeFocused();
 
 			await expect(
+				page.getByText(
+					'Please enter at least one category for all mandatory vocabularies.'
+				)
+			).toBeVisible();
+
+			await expect(
 				page.locator('.label-item', {hasText: tagName})
 			).toBeAttached();
 
@@ -1200,6 +1206,12 @@ test.describe('Categorization Panel', () => {
 			).toBeAttached();
 
 			await expect(page.locator('.form-group.has-error')).toBeHidden();
+
+			await expect(
+				page.getByText(
+					'Please enter at least one category for all mandatory vocabularies.'
+				)
+			).toBeHidden();
 
 			await contentsPage.publishButton.click();
 
