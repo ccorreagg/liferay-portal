@@ -7,7 +7,6 @@ package com.liferay.fragment.internal.exportimport.data.handler;
 
 import com.liferay.exportimport.kernel.lar.BasePortletDataHandler;
 import com.liferay.exportimport.kernel.lar.ExportImportDateUtil;
-import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataHandler;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerBoolean;
@@ -16,19 +15,16 @@ import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.exportimport.kernel.staging.Staging;
 import com.liferay.exportimport.portlet.data.handler.helper.PortletDataHandlerHelper;
 import com.liferay.exportimport.staged.model.repository.StagedModelRepository;
-import com.liferay.fragment.configuration.FragmentServiceConfiguration;
 import com.liferay.fragment.constants.FragmentConstants;
 import com.liferay.fragment.constants.FragmentPortletKeys;
 import com.liferay.fragment.model.FragmentCollection;
 import com.liferay.fragment.model.FragmentEntry;
 import com.liferay.layout.util.LayoutServiceContextHelper;
-import com.liferay.portal.configuration.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.xml.Element;
-import com.liferay.staging.StagingGroupHelper;
 
 import jakarta.portlet.PortletPreferences;
 
@@ -173,25 +169,6 @@ public class FragmentPortletDataHandler extends BasePortletDataHandler {
 			return null;
 		}
 
-		FragmentServiceConfiguration fragmentServiceConfiguration =
-			_configurationProvider.getCompanyConfiguration(
-				FragmentServiceConfiguration.class,
-				portletDataContext.getCompanyId());
-
-		if (!fragmentServiceConfiguration.propagateChanges() ||
-			(ExportImportThreadLocal.isStagingInProcess() &&
-			 _stagingGroupHelper.isStagedPortlet(
-				 portletDataContext.getGroupId(),
-				 FragmentPortletKeys.FRAGMENT))) {
-
-			for (Element fragmentEntryElement : fragmentEntryElements) {
-				StagedModelDataHandlerUtil.importStagedModel(
-					portletDataContext, fragmentEntryElement);
-			}
-
-			return null;
-		}
-
 		try (AutoCloseable autoCloseable =
 				_layoutServiceContextHelper.getServiceContextAutoCloseable(
 					_companyLocalService.getCompany(
@@ -241,9 +218,6 @@ public class FragmentPortletDataHandler extends BasePortletDataHandler {
 	@Reference
 	private CompanyLocalService _companyLocalService;
 
-	@Reference
-	private ConfigurationProvider _configurationProvider;
-
 	@Reference(
 		target = "(model.class.name=com.liferay.fragment.model.FragmentCollection)",
 		unbind = "-"
@@ -269,8 +243,5 @@ public class FragmentPortletDataHandler extends BasePortletDataHandler {
 
 	@Reference
 	private Staging _staging;
-
-	@Reference
-	private StagingGroupHelper _stagingGroupHelper;
 
 }
