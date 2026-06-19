@@ -6,18 +6,28 @@
 package com.liferay.headless.asset.library.resource.v1_0.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.exportimport.kernel.service.StagingLocalService;
 import com.liferay.headless.asset.library.client.dto.v1_0.ConnectedSite;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
+import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
+import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.test.rule.FeatureFlag;
+import com.liferay.portal.test.rule.Inject;
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -28,6 +38,13 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class ConnectedSiteResourceTest
 	extends BaseConnectedSiteResourceTestCase {
+
+	@ClassRule
+	@Rule
+	public static final AggregateTestRule aggregateTestRule =
+		new AggregateTestRule(
+			new LiferayIntegrationTestRule(),
+			PermissionCheckerMethodTestRule.INSTANCE);
 
 	@Before
 	@Override
@@ -41,6 +58,14 @@ public class ConnectedSiteResourceTest
 	@Override
 	@Test
 	public void testBatchEngineDeleteImportTask() {
+	}
+
+	@Override
+	@Test
+	public void testPutAssetLibraryConnectedSite() throws Exception {
+		super.testPutAssetLibraryConnectedSite();
+
+		_testPutAssetLibraryConnectedSiteReturnsStagingType();
 	}
 
 	@Override
@@ -148,8 +173,59 @@ public class ConnectedSiteResourceTest
 		};
 	}
 
+	private void _enableLocalStaging(Group group) throws Exception {
+		_stagingLocalService.enableLocalStaging(
+			TestPropsValues.getUserId(), group, true, false,
+			ServiceContextTestUtil.getServiceContext(
+				group, TestPropsValues.getUserId()));
+	}
+
+	private void _testPutAssetLibraryConnectedSiteReturnsStagingType()
+		throws Exception {
+
+		Group assetLibraryGroup = testDepotEntry.getGroup();
+
+		String assetLibraryExternalReferenceCode =
+			assetLibraryGroup.getExternalReferenceCode();
+
+		Group group = GroupTestUtil.addGroup();
+
+		_groups.add(group);
+
+		ConnectedSite connectedSite =
+			connectedSiteResource.putAssetLibraryConnectedSite(
+				assetLibraryExternalReferenceCode,
+				group.getExternalReferenceCode(), new ConnectedSite());
+
+		Assert.assertNull(connectedSite.getStagingType());
+
+		_enableLocalStaging(group);
+
+		ConnectedSite liveConnectedSite =
+			connectedSiteResource.getAssetLibraryConnectedSite(
+				assetLibraryExternalReferenceCode,
+				group.getExternalReferenceCode());
+
+		Assert.assertEquals(
+			ConnectedSite.StagingType.LIVE, liveConnectedSite.getStagingType());
+
+		Group stagingGroup = group.getStagingGroup();
+
+		ConnectedSite stagingConnectedSite =
+			connectedSiteResource.getAssetLibraryConnectedSite(
+				assetLibraryExternalReferenceCode,
+				stagingGroup.getExternalReferenceCode());
+
+		Assert.assertEquals(
+			ConnectedSite.StagingType.STAGING,
+			stagingConnectedSite.getStagingType());
+	}
+
 	@DeleteAfterTestRun
 	private List<Group> _groups = new ArrayList<>();
+
+	@Inject
+	private StagingLocalService _stagingLocalService;
 
 	private ConnectedSite _testConnectedSite;
 

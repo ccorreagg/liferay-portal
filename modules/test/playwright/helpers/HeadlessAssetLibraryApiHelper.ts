@@ -47,6 +47,17 @@ export class HeadlessAssetLibraryApiHelper {
 		return assetLibrary;
 	}
 
+	async connectSite(
+		assetLibraryExternalReferenceCode: string,
+		connectedSiteExternalReferenceCode: string,
+		body: Record<string, any> = {searchable: true}
+	) {
+		return this.apiHelpers.put(
+			`${this.apiHelpers.baseUrl}${this.basePath}/asset-libraries/${assetLibraryExternalReferenceCode}/connected-sites/${connectedSiteExternalReferenceCode}`,
+			{data: body}
+		);
+	}
+
 	async getAssetLibrariesPage(filter?: string) {
 		const response = await this.apiHelpers.get(
 			`${this.apiHelpers.baseUrl}${this.basePath}/asset-libraries${filter ? `?filter=${encodeURIComponent(filter)}` : ''}`
