@@ -29,6 +29,14 @@ const showSuccessMessage = (message: string) => {
 	});
 };
 
+const getConnectionLabel = (site: Site) => {
+	if (site.stagingType === 'STAGING') {
+		return `${site.descriptiveName} (${Liferay.Language.get('staging')})`;
+	}
+
+	return site.descriptiveName;
+};
+
 const ConnectedSiteActions = ({
 	externalReferenceCode,
 	onSiteChange,
@@ -344,7 +352,7 @@ export default function SpaceConnectedSitesModal({
 												/>
 											</ClaySticker>
 
-											{site.descriptiveName}
+											{getConnectionLabel(site)}
 										</div>
 
 										{hasConnectSitesPermission && (
