@@ -142,6 +142,18 @@ public class ConnectedSiteSerDes {
 			sb.append(connectedSite.getSearchable());
 		}
 
+		if (connectedSite.getStagingType() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"stagingType\": ");
+
+			sb.append("\"");
+			sb.append(connectedSite.getStagingType());
+			sb.append("\"");
+		}
+
 		sb.append("}");
 
 		return sb.toString();
@@ -224,6 +236,14 @@ public class ConnectedSiteSerDes {
 				"searchable", String.valueOf(connectedSite.getSearchable()));
 		}
 
+		if (connectedSite.getStagingType() == null) {
+			map.put("stagingType", null);
+		}
+		else {
+			map.put(
+				"stagingType", String.valueOf(connectedSite.getStagingType()));
+		}
+
 		return map;
 	}
 
@@ -268,6 +288,9 @@ public class ConnectedSiteSerDes {
 				return true;
 			}
 			else if (Objects.equals(jsonParserFieldName, "searchable")) {
+				return false;
+			}
+			else if (Objects.equals(jsonParserFieldName, "stagingType")) {
 				return false;
 			}
 
@@ -326,6 +349,13 @@ public class ConnectedSiteSerDes {
 			else if (Objects.equals(jsonParserFieldName, "searchable")) {
 				if (jsonParserFieldValue != null) {
 					connectedSite.setSearchable((Boolean)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "stagingType")) {
+				if (jsonParserFieldValue != null) {
+					connectedSite.setStagingType(
+						ConnectedSite.StagingType.create(
+							(String)jsonParserFieldValue));
 				}
 			}
 		}
@@ -409,4 +439,4 @@ public class ConnectedSiteSerDes {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:1034132650
+// LIFERAY-REST-BUILDER-HASH:-33851994

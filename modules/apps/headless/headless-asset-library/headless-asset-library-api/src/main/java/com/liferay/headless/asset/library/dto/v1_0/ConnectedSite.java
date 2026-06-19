@@ -5,9 +5,12 @@
 
 package com.liferay.headless.asset.library.dto.v1_0;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
@@ -388,6 +391,62 @@ public class ConnectedSite implements Serializable {
 	@JsonIgnore
 	private Supplier<Boolean> _searchableSupplier;
 
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "The connected site's staging type."
+	)
+	@JsonGetter("stagingType")
+	@Valid
+	public StagingType getStagingType() {
+		if (_stagingTypeSupplier != null) {
+			stagingType = _stagingTypeSupplier.get();
+
+			_stagingTypeSupplier = null;
+		}
+
+		return stagingType;
+	}
+
+	@JsonIgnore
+	public String getStagingTypeAsString() {
+		StagingType stagingType = getStagingType();
+
+		if (stagingType == null) {
+			return null;
+		}
+
+		return stagingType.toString();
+	}
+
+	public void setStagingType(StagingType stagingType) {
+		this.stagingType = stagingType;
+
+		_stagingTypeSupplier = null;
+	}
+
+	@JsonIgnore
+	public void setStagingType(
+		UnsafeSupplier<StagingType, Exception> stagingTypeUnsafeSupplier) {
+
+		_stagingTypeSupplier = () -> {
+			try {
+				return stagingTypeUnsafeSupplier.get();
+			}
+			catch (RuntimeException runtimeException) {
+				throw runtimeException;
+			}
+			catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		};
+	}
+
+	@GraphQLField(description = "The connected site's staging type.")
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	protected StagingType stagingType;
+
+	@JsonIgnore
+	private Supplier<StagingType> _stagingTypeSupplier;
+
 	@Override
 	public boolean equals(Object object) {
 		if (this == object) {
@@ -527,6 +586,20 @@ public class ConnectedSite implements Serializable {
 			sb.append(searchable);
 		}
 
+		StagingType stagingType = getStagingType();
+
+		if (stagingType != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"stagingType\": ");
+
+			sb.append("\"");
+			sb.append(stagingType);
+			sb.append("\"");
+		}
+
 		sb.append("}");
 
 		return sb.toString();
@@ -538,6 +611,44 @@ public class ConnectedSite implements Serializable {
 		name = "x-class-name"
 	)
 	public String xClassName;
+
+	@GraphQLName("StagingType")
+	public static enum StagingType {
+
+		LIVE("LIVE"), STAGING("STAGING");
+
+		@JsonCreator
+		public static StagingType create(String value) {
+			if ((value == null) || value.equals("")) {
+				return null;
+			}
+
+			for (StagingType stagingType : values()) {
+				if (Objects.equals(stagingType.getValue(), value)) {
+					return stagingType;
+				}
+			}
+
+			throw new IllegalArgumentException("Invalid enum value: " + value);
+		}
+
+		@JsonValue
+		public String getValue() {
+			return _value;
+		}
+
+		@Override
+		public String toString() {
+			return _value;
+		}
+
+		private StagingType(String value) {
+			_value = value;
+		}
+
+		private final String _value;
+
+	}
 
 	private static String _escape(Object object) {
 		return StringUtil.replace(
@@ -628,4 +739,4 @@ public class ConnectedSite implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:1457832937
+// LIFERAY-REST-BUILDER-HASH:1556111572
