@@ -739,9 +739,12 @@ public class FragmentEntryLinkLocalServiceImpl
 			fragmentEntryLink);
 
 		if (modified) {
-			try (SafeCloseable safeCloseable =
+			try (SafeCloseable safeCloseable1 =
 					CheckNoninstanceablePortletThreadLocal.
-						setCheckNoninstanceablePortletWithSafeCloseable(true)) {
+						setCheckNoninstanceablePortletWithSafeCloseable(true);
+				SafeCloseable safeCloseable2 =
+					UpdateLayoutStatusThreadLocal.
+						setUpdateLayoutStatusWithSafeCloseable(false)) {
 
 				_updateFragmentEntryLinkLayout(fragmentEntryLink);
 
