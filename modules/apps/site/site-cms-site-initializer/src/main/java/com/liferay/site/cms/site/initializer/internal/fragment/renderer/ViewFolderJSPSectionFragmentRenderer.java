@@ -5,6 +5,7 @@
 
 package com.liferay.site.cms.site.initializer.internal.fragment.renderer;
 
+import com.liferay.depot.model.DepotEntry;
 import com.liferay.depot.service.DepotEntryLocalService;
 import com.liferay.document.library.configuration.DLConfiguration;
 import com.liferay.fragment.renderer.FragmentRenderer;
@@ -16,6 +17,7 @@ import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.sharing.service.SharingEntryLocalService;
 import com.liferay.site.cms.site.initializer.internal.display.context.ViewFolderSectionDisplayContext;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,11 +56,12 @@ public class ViewFolderJSPSectionFragmentRenderer
 		HttpServletRequest httpServletRequest) {
 
 		return new ViewFolderSectionDisplayContext(
-			_depotEntryLocalService, _dlConfiguration, _groupLocalService,
-			httpServletRequest, language, _objectDefinitionService,
-			_objectDefinitionSettingLocalService,
+			_depotEntryLocalService, _depotEntryModelResourcePermission,
+			_dlConfiguration, _groupLocalService, httpServletRequest, language,
+			_objectDefinitionService, _objectDefinitionSettingLocalService,
 			_objectEntryFolderLocalService,
 			_objectEntryFolderModelResourcePermission, _portal,
+			_sharingEntryLocalService,
 			translationInfoItemFieldValuesExporterRegistry);
 	}
 
@@ -69,6 +72,10 @@ public class ViewFolderJSPSectionFragmentRenderer
 
 	@Reference
 	private DepotEntryLocalService _depotEntryLocalService;
+
+	@Reference(target = "(model.class.name=com.liferay.depot.model.DepotEntry)")
+	private ModelResourcePermission<DepotEntry>
+		_depotEntryModelResourcePermission;
 
 	private volatile DLConfiguration _dlConfiguration;
 
@@ -93,5 +100,8 @@ public class ViewFolderJSPSectionFragmentRenderer
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private SharingEntryLocalService _sharingEntryLocalService;
 
 }
