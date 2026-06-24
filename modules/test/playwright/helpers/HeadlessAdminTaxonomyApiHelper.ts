@@ -51,11 +51,6 @@ interface postAssetLibraryKeywordProps {
 }
 
 interface postSiteKeywordProps {
-	assetLibraries?: Array<{
-		externalReferenceCode?: string;
-		id?: number;
-		scopeKey?: string;
-	}>;
 	name: string;
 	siteId: string;
 }
@@ -213,18 +208,15 @@ export class HeadlessAdminTaxonomyApiHelper {
 	 *
 	 * @param name the name of the tag
 	 * @param siteId the id of the site in which the tag will be created
-	 * @param assetLibraries the spaces the tag is scoped to (CMS only); omit to
-	 * make the tag available in all spaces
 	 */
 
 	async postSiteKeyword({
-		assetLibraries,
 		name,
 		siteId,
 	}: postSiteKeywordProps): Promise<{id: number}> {
 		return this.apiHelpers.post(
 			`${this.apiHelpers.baseUrl}${this.basePath}/sites/${siteId}/keywords`,
-			{data: {assetLibraries, name}}
+			{data: {name}}
 		);
 	}
 
