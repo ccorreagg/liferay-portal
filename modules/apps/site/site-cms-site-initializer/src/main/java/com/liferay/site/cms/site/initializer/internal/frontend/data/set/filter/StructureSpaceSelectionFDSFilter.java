@@ -32,7 +32,7 @@ public class StructureSpaceSelectionFDSFilter extends BaseSelectionFDSFilter {
 
 	@Override
 	public String getEntityFieldType() {
-		return FDSEntityFieldTypes.COLLECTION_INTEGER;
+		return FDSEntityFieldTypes.COLLECTION;
 	}
 
 	@Override
