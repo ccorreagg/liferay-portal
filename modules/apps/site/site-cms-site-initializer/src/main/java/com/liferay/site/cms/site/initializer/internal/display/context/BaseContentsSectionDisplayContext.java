@@ -112,12 +112,12 @@ public abstract class BaseContentsSectionDisplayContext
 			new FDSActionDropdownItem(
 				null, "pencil", "edit-categories",
 				LanguageUtil.get(httpServletRequest, "edit-categories"), "post",
-				"edit-categories", null));
+				"update", null));
 		fdsBulkActionDropdownItems.add(
 			new FDSActionDropdownItem(
 				null, "pencil", "edit-tags",
 				LanguageUtil.get(httpServletRequest, "edit-tags"), "post",
-				"edit-tags", null));
+				"update", null));
 		fdsBulkActionDropdownItems.add(
 			new FDSActionDropdownItem(
 				"#", "password-policies", "permissions",
