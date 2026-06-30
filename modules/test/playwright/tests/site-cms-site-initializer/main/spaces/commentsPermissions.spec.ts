@@ -9,10 +9,7 @@ import {dataApiHelpersTest} from '../../../../fixtures/dataApiHelpersTest';
 import {featureFlagsTest} from '../../../../fixtures/featureFlagsTest';
 import {loginTest} from '../../../../fixtures/loginTest';
 import getRandomString from '../../../../utils/getRandomString';
-import {
-	performUserSwitchViaApi,
-	userData,
-} from '../../../../utils/performLogin';
+import {performUserSwitch, userData} from '../../../../utils/performLogin';
 import {PORTLET_URLS} from '../../../../utils/portletUrls';
 import {cmsPagesTest} from '../fixtures/cmsPagesTest';
 
@@ -96,7 +93,7 @@ test(
 			.filter({hasText: contentTitle});
 
 		await test.step('Space Administrator can edit and delete the admin comment', async () => {
-			await performUserSwitchViaApi(page, spaceAdmin.alternateName);
+			await performUserSwitch(page, spaceAdmin.alternateName);
 
 			await spaceSummaryPage.goto(spaceName);
 
@@ -111,7 +108,7 @@ test(
 		});
 
 		await test.step('Space Member cannot edit or delete the admin comment', async () => {
-			await performUserSwitchViaApi(page, spaceMember.alternateName);
+			await performUserSwitch(page, spaceMember.alternateName);
 
 			await spaceSummaryPage.goto(spaceName);
 
