@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.PropsValues;
 import com.liferay.portal.vulcan.jaxrs.serializer.JSONArrayStdSerializer;
 import com.liferay.portal.vulcan.jaxrs.serializer.JSONObjectStdSerializer;
+import com.liferay.portal.vulcan.jaxrs.serializer.ScopeBeanSerializerModifier;
 import com.liferay.portal.vulcan.jaxrs.serializer.UnsafeSupplierJsonSerializer;
 
 import java.text.DateFormat;
@@ -58,6 +59,8 @@ public class ObjectMapperProviderUtil {
 								(Class<UnsafeSupplier<Object, Exception>>)
 									(Class<?>)UnsafeSupplier.class,
 								new UnsafeSupplierJsonSerializer());
+							setSerializerModifier(
+								new ScopeBeanSerializerModifier());
 						}
 					});
 
