@@ -5,6 +5,7 @@
 
 package com.liferay.portal.kernel.util;
 
+import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -68,6 +69,61 @@ public class ScopeUtilTest {
 	}
 
 	@Test
+	public void testGetItemGroupIdWhileStagingInProcess() {
+		Group liveGroup = _getGroup(
+			RandomTestUtil.randomString(), RandomTestUtil.randomLong());
+
+		Group stagingGroup = _getStagingGroup(
+			RandomTestUtil.randomString(), RandomTestUtil.randomLong(),
+			liveGroup);
+
+		Mockito.when(
+			GroupLocalServiceUtil.fetchGroupByExternalReferenceCode(
+				stagingGroup.getExternalReferenceCode(), _COMPANY_ID)
+		).thenReturn(
+			stagingGroup
+		);
+
+		Long scopeGroupId = RandomTestUtil.randomLong();
+
+		Assert.assertEquals(
+			Long.valueOf(stagingGroup.getGroupId()),
+			ScopeUtil.getItemGroupId(
+				_COMPANY_ID, stagingGroup.getExternalReferenceCode(),
+				scopeGroupId));
+
+		ExportImportThreadLocal.setLayoutStagingInProcess(true);
+
+		try {
+			Assert.assertEquals(
+				Long.valueOf(liveGroup.getGroupId()),
+				ScopeUtil.getItemGroupId(
+					_COMPANY_ID, stagingGroup.getExternalReferenceCode(),
+					scopeGroupId));
+
+			Group orphanStagingGroup = _getStagingGroup(
+				RandomTestUtil.randomString(), RandomTestUtil.randomLong(),
+				null);
+
+			Mockito.when(
+				GroupLocalServiceUtil.fetchGroupByExternalReferenceCode(
+					orphanStagingGroup.getExternalReferenceCode(), _COMPANY_ID)
+			).thenReturn(
+				orphanStagingGroup
+			);
+
+			Assert.assertEquals(
+				Long.valueOf(orphanStagingGroup.getGroupId()),
+				ScopeUtil.getItemGroupId(
+					_COMPANY_ID, orphanStagingGroup.getExternalReferenceCode(),
+					scopeGroupId));
+		}
+		finally {
+			ExportImportThreadLocal.setLayoutStagingInProcess(false);
+		}
+	}
+
+	@Test
 	public void testGetItemScopeExternalReferenceCode() throws Exception {
 		Group group = _getGroup(
 			RandomTestUtil.randomString(), RandomTestUtil.randomLong());
@@ -111,8 +167,72 @@ public class ScopeUtilTest {
 				scopeGroupId, scopeGroupId));
 	}
 
+	@Test
+	public void testGetItemScopeExternalReferenceCodeWhileStagingInProcess()
+		throws Exception {
+
+		Group liveGroup = _getGroup(
+			RandomTestUtil.randomString(), RandomTestUtil.randomLong());
+
+		Group stagingGroup = _getStagingGroup(
+			RandomTestUtil.randomString(), RandomTestUtil.randomLong(),
+			liveGroup);
+
+		Group scopeGroup = _getGroup(
+			RandomTestUtil.randomString(), RandomTestUtil.randomLong());
+
+		Mockito.when(
+			GroupLocalServiceUtil.fetchGroupByExternalReferenceCode(
+				stagingGroup.getExternalReferenceCode(), _COMPANY_ID)
+		).thenReturn(
+			stagingGroup
+		);
+
+		Mockito.when(
+			GroupLocalServiceUtil.getGroup(liveGroup.getGroupId())
+		).thenReturn(
+			liveGroup
+		);
+
+		Mockito.when(
+			GroupLocalServiceUtil.getGroup(scopeGroup.getGroupId())
+		).thenReturn(
+			scopeGroup
+		);
+
+		Assert.assertEquals(
+			stagingGroup.getExternalReferenceCode(),
+			ScopeUtil.getItemScopeExternalReferenceCode(
+				stagingGroup.getExternalReferenceCode(),
+				scopeGroup.getGroupId()));
+
+		ExportImportThreadLocal.setLayoutStagingInProcess(true);
+
+		try {
+			Assert.assertEquals(
+				liveGroup.getExternalReferenceCode(),
+				ScopeUtil.getItemScopeExternalReferenceCode(
+					stagingGroup.getExternalReferenceCode(),
+					scopeGroup.getGroupId()));
+
+			Assert.assertNull(
+				ScopeUtil.getItemScopeExternalReferenceCode(
+					stagingGroup.getExternalReferenceCode(),
+					liveGroup.getGroupId()));
+		}
+		finally {
+			ExportImportThreadLocal.setLayoutStagingInProcess(false);
+		}
+	}
+
 	private Group _getGroup(String externalReferenceCode, long groupId) {
 		Group group = Mockito.mock(Group.class);
+
+		Mockito.when(
+			group.getCompanyId()
+		).thenReturn(
+			_COMPANY_ID
+		);
 
 		Mockito.when(
 			group.getExternalReferenceCode()
@@ -124,6 +244,26 @@ public class ScopeUtilTest {
 			group.getGroupId()
 		).thenReturn(
 			groupId
+		);
+
+		return group;
+	}
+
+	private Group _getStagingGroup(
+		String externalReferenceCode, long groupId, Group liveGroup) {
+
+		Group group = _getGroup(externalReferenceCode, groupId);
+
+		Mockito.when(
+			group.getLiveGroup()
+		).thenReturn(
+			liveGroup
+		);
+
+		Mockito.when(
+			group.isStagingGroup()
+		).thenReturn(
+			true
 		);
 
 		return group;
