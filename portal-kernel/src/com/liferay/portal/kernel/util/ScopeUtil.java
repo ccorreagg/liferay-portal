@@ -5,7 +5,11 @@
 
 package com.liferay.portal.kernel.util;
 
+import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -29,6 +33,10 @@ public class ScopeUtil {
 
 		if (group == null) {
 			return null;
+		}
+
+		if (ExportImportThreadLocal.isStagingInProcess()) {
+			group = _getLiveGroup(group);
 		}
 
 		return group.getGroupId();
@@ -56,6 +64,11 @@ public class ScopeUtil {
 		}
 
 		Group group = GroupLocalServiceUtil.getGroup(scopeGroupId);
+
+		if (ExportImportThreadLocal.isStagingInProcess()) {
+			itemScopeExternalReferenceCode = _getLiveGroupExternalReferenceCode(
+				group.getCompanyId(), itemScopeExternalReferenceCode);
+		}
 
 		if (StringUtil.equals(
 				itemScopeExternalReferenceCode,
@@ -91,5 +104,41 @@ public class ScopeUtil {
 			"Neither service context thread local nor group thread local are " +
 				"initialized");
 	}
+
+	private static Group _getLiveGroup(Group group) {
+		Group liveGroup = group.getLiveGroup();
+
+		if (liveGroup == null) {
+			return group;
+		}
+
+		if (_log.isDebugEnabled()) {
+			_log.debug(
+				StringBundler.concat(
+					"Replacing staging group external reference code ",
+					group.getExternalReferenceCode(),
+					" with live group external reference code ",
+					liveGroup.getExternalReferenceCode()));
+		}
+
+		return liveGroup;
+	}
+
+	private static String _getLiveGroupExternalReferenceCode(
+		long companyId, String itemScopeExternalReferenceCode) {
+
+		Group group = GroupLocalServiceUtil.fetchGroupByExternalReferenceCode(
+			itemScopeExternalReferenceCode, companyId);
+
+		if (group == null) {
+			return itemScopeExternalReferenceCode;
+		}
+
+		group = _getLiveGroup(group);
+
+		return group.getExternalReferenceCode();
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(ScopeUtil.class);
 
 }
