@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.Reference;
 @Component(
 	property = {
 		"default=true",
-		"dto.class.name=import com.liferay.layout.page.template.model.LayoutPageTemplateStructureRel"
+		"dto.class.name=com.liferay.layout.page.template.model.LayoutPageTemplateStructureRel"
 	},
 	service = DTOConverter.class
 )
