@@ -33,10 +33,17 @@ public class ServiceBag<V> {
 		_bundleContext = bundleContext;
 		_serviceReference = serviceReference;
 
-		Object previousService = serviceWrapper.getWrappedService();
+		Object nextTarget = null;
 
-		if (!(previousService instanceof ServiceWrapper)) {
-			if (!_isLiferayOwned(previousService)) {
+		// Read, compose, and write the target as a single atomic step so that
+		// concurrent registrations do not overwrite each other's wrappers
+
+		synchronized (aopInvocationHandler) {
+			Object previousService = aopInvocationHandler.getTarget();
+
+			if (!(previousService instanceof ServiceWrapper) &&
+				!_isLiferayOwned(previousService)) {
+
 				Class<?> previousServiceClass = previousService.getClass();
 
 				ClassLoader classLoader = _getClassLoader(
@@ -52,90 +59,97 @@ public class ServiceBag<V> {
 			}
 
 			serviceWrapper.setWrappedService((V)previousService);
+
+			nextTarget = serviceWrapper;
+
+			if (!_isLiferayOwned(nextTarget)) {
+				Class<?> clazz = serviceWrapper.getClass();
+
+				nextTarget = ProxyUtil.newProxyInstance(
+					_getClassLoader(
+						serviceTypeClass.getClassLoader(),
+						IdentifiableOSGiService.class),
+					new Class<?>[] {serviceTypeClass, ServiceWrapper.class},
+					new ClassLoaderBeanHandler(
+						serviceWrapper, clazz.getClassLoader()));
+			}
+
+			aopInvocationHandler.setTarget(nextTarget);
 		}
-
-		Object nextTarget = serviceWrapper;
-
-		if (!_isLiferayOwned(nextTarget)) {
-			Class<?> clazz = serviceWrapper.getClass();
-
-			nextTarget = ProxyUtil.newProxyInstance(
-				_getClassLoader(
-					serviceTypeClass.getClassLoader(),
-					IdentifiableOSGiService.class),
-				new Class<?>[] {serviceTypeClass, ServiceWrapper.class},
-				new ClassLoaderBeanHandler(
-					serviceWrapper, clazz.getClassLoader()));
-		}
-
-		_aopInvocationHandler.setTarget(nextTarget);
 
 		_serviceWrapper = (ServiceWrapper<?>)nextTarget;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T> void replace() {
-		Object currentService = _aopInvocationHandler.getTarget();
 
-		ServiceWrapper<T> previousService = null;
+		// Walk and rewrite the chain as a single atomic step so that
+		// concurrent registrations do not overwrite each other's wrappers
 
-		// Loop through services
+		synchronized (_aopInvocationHandler) {
+			Object currentService = _aopInvocationHandler.getTarget();
 
-		while (true) {
+			ServiceWrapper<T> previousService = null;
 
-			// A matching service was found
+			// Loop through services
 
-			if (currentService == _serviceWrapper) {
-				Object wrappedService = _serviceWrapper.getWrappedService();
+			while (true) {
 
-				if (previousService == null) {
+				// A matching service was found
 
-					// There is no previous service, so we need to unwrap the
-					// portal class loader bean handler and change the target
-					// source
+				if (currentService == _serviceWrapper) {
+					Object wrappedService = _serviceWrapper.getWrappedService();
 
-					if (!(wrappedService instanceof ServiceWrapper) &&
-						ProxyUtil.isProxyClass(wrappedService.getClass())) {
+					if (previousService == null) {
 
-						InvocationHandler invocationHandler =
-							ProxyUtil.getInvocationHandler(wrappedService);
+						// There is no previous service, so we need to unwrap
+						// the portal class loader bean handler and change the
+						// target source
 
-						if (invocationHandler instanceof
-								ClassLoaderBeanHandler) {
+						if (!(wrappedService instanceof ServiceWrapper) &&
+							ProxyUtil.isProxyClass(wrappedService.getClass())) {
 
-							ClassLoaderBeanHandler classLoaderBeanHandler =
-								(ClassLoaderBeanHandler)invocationHandler;
+							InvocationHandler invocationHandler =
+								ProxyUtil.getInvocationHandler(wrappedService);
 
-							wrappedService = classLoaderBeanHandler.getBean();
+							if (invocationHandler instanceof
+									ClassLoaderBeanHandler) {
+
+								ClassLoaderBeanHandler classLoaderBeanHandler =
+									(ClassLoaderBeanHandler)invocationHandler;
+
+								wrappedService =
+									classLoaderBeanHandler.getBean();
+							}
 						}
+
+						_aopInvocationHandler.setTarget(wrappedService);
+					}
+					else {
+
+						// Take ourselves out of the chain by setting our
+						// wrapped service as the previous without changing the
+						// target source
+
+						previousService.setWrappedService((T)wrappedService);
 					}
 
-					_aopInvocationHandler.setTarget(wrappedService);
-				}
-				else {
-
-					// Take ourselves out of the chain by setting our
-					// wrapped service as the previous without changing the
-					// target source
-
-					previousService.setWrappedService((T)wrappedService);
+					break;
 				}
 
-				break;
+				// Every item in the chain is a ServiceWrapper except the
+				// original service
+
+				if (!(currentService instanceof ServiceWrapper)) {
+					break;
+				}
+
+				// Check the next service because no matching service was found
+
+				previousService = (ServiceWrapper<T>)currentService;
+
+				currentService = previousService.getWrappedService();
 			}
-
-			// Every item in the chain is a ServiceWrapper except the original
-			// service
-
-			if (!(currentService instanceof ServiceWrapper)) {
-				break;
-			}
-
-			// Check the next service because no matching service was found
-
-			previousService = (ServiceWrapper<T>)currentService;
-
-			currentService = previousService.getWrappedService();
 		}
 
 		if (_serviceReference != null) {
