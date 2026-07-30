@@ -112,9 +112,6 @@ public class ServiceWrapperRegistry {
 				ProxyUtil.fetchInvocationHandler(
 					serviceProxy, AopInvocationHandler.class);
 
-			serviceWrapper.setWrappedService(
-				(T)aopInvocationHandler.getTarget());
-
 			return new ServiceBag<>(
 				aopInvocationHandler, serviceTypeClass, serviceWrapper,
 				_bundleContext, serviceReference);
