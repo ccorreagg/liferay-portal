@@ -108,13 +108,11 @@ public class ServiceWrapperRegistry {
 				return null;
 			}
 
-			AopInvocationHandler aopInvocationHandler =
-				ProxyUtil.fetchInvocationHandler(
-					serviceProxy, AopInvocationHandler.class);
-
 			return new ServiceBag<>(
-				aopInvocationHandler, serviceTypeClass, serviceWrapper,
-				_bundleContext, serviceReference);
+				ProxyUtil.fetchInvocationHandler(
+					serviceProxy, AopInvocationHandler.class),
+				serviceTypeClass, serviceWrapper, _bundleContext,
+				serviceReference);
 		}
 
 		private <T> Closeable _getServiceBag(ServiceWrapper<T> serviceWrapper)
