@@ -708,6 +708,135 @@ public class ObjectField implements Serializable {
 	private Supplier<String> _objectDefinitionExternalReferenceCode1Supplier;
 
 	@io.swagger.v3.oas.annotations.media.Schema
+	public Boolean getObjectDefinitionModifiable1() {
+		if (_objectDefinitionModifiable1Supplier != null) {
+			objectDefinitionModifiable1 =
+				_objectDefinitionModifiable1Supplier.get();
+
+			_objectDefinitionModifiable1Supplier = null;
+		}
+
+		return objectDefinitionModifiable1;
+	}
+
+	public void setObjectDefinitionModifiable1(
+		Boolean objectDefinitionModifiable1) {
+
+		this.objectDefinitionModifiable1 = objectDefinitionModifiable1;
+
+		_objectDefinitionModifiable1Supplier = null;
+	}
+
+	@JsonIgnore
+	public void setObjectDefinitionModifiable1(
+		UnsafeSupplier<Boolean, Exception>
+			objectDefinitionModifiable1UnsafeSupplier) {
+
+		_objectDefinitionModifiable1Supplier = () -> {
+			try {
+				return objectDefinitionModifiable1UnsafeSupplier.get();
+			}
+			catch (RuntimeException runtimeException) {
+				throw runtimeException;
+			}
+			catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		};
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Boolean objectDefinitionModifiable1;
+
+	@JsonIgnore
+	private Supplier<Boolean> _objectDefinitionModifiable1Supplier;
+
+	@io.swagger.v3.oas.annotations.media.Schema
+	public String getObjectDefinitionScope1() {
+		if (_objectDefinitionScope1Supplier != null) {
+			objectDefinitionScope1 = _objectDefinitionScope1Supplier.get();
+
+			_objectDefinitionScope1Supplier = null;
+		}
+
+		return objectDefinitionScope1;
+	}
+
+	public void setObjectDefinitionScope1(String objectDefinitionScope1) {
+		this.objectDefinitionScope1 = objectDefinitionScope1;
+
+		_objectDefinitionScope1Supplier = null;
+	}
+
+	@JsonIgnore
+	public void setObjectDefinitionScope1(
+		UnsafeSupplier<String, Exception>
+			objectDefinitionScope1UnsafeSupplier) {
+
+		_objectDefinitionScope1Supplier = () -> {
+			try {
+				return objectDefinitionScope1UnsafeSupplier.get();
+			}
+			catch (RuntimeException runtimeException) {
+				throw runtimeException;
+			}
+			catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		};
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected String objectDefinitionScope1;
+
+	@JsonIgnore
+	private Supplier<String> _objectDefinitionScope1Supplier;
+
+	@io.swagger.v3.oas.annotations.media.Schema
+	public Boolean getObjectDefinitionSystem1() {
+		if (_objectDefinitionSystem1Supplier != null) {
+			objectDefinitionSystem1 = _objectDefinitionSystem1Supplier.get();
+
+			_objectDefinitionSystem1Supplier = null;
+		}
+
+		return objectDefinitionSystem1;
+	}
+
+	public void setObjectDefinitionSystem1(Boolean objectDefinitionSystem1) {
+		this.objectDefinitionSystem1 = objectDefinitionSystem1;
+
+		_objectDefinitionSystem1Supplier = null;
+	}
+
+	@JsonIgnore
+	public void setObjectDefinitionSystem1(
+		UnsafeSupplier<Boolean, Exception>
+			objectDefinitionSystem1UnsafeSupplier) {
+
+		_objectDefinitionSystem1Supplier = () -> {
+			try {
+				return objectDefinitionSystem1UnsafeSupplier.get();
+			}
+			catch (RuntimeException runtimeException) {
+				throw runtimeException;
+			}
+			catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		};
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Boolean objectDefinitionSystem1;
+
+	@JsonIgnore
+	private Supplier<Boolean> _objectDefinitionSystem1Supplier;
+
+	@io.swagger.v3.oas.annotations.media.Schema
 	@Valid
 	public ObjectFieldSetting[] getObjectFieldSettings() {
 		if (_objectFieldSettingsSupplier != null) {
@@ -1407,6 +1536,46 @@ public class ObjectField implements Serializable {
 			sb.append("\"");
 		}
 
+		Boolean objectDefinitionModifiable1 = getObjectDefinitionModifiable1();
+
+		if (objectDefinitionModifiable1 != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"objectDefinitionModifiable1\": ");
+
+			sb.append(objectDefinitionModifiable1);
+		}
+
+		String objectDefinitionScope1 = getObjectDefinitionScope1();
+
+		if (objectDefinitionScope1 != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"objectDefinitionScope1\": ");
+
+			sb.append("\"");
+
+			sb.append(_escape(objectDefinitionScope1));
+
+			sb.append("\"");
+		}
+
+		Boolean objectDefinitionSystem1 = getObjectDefinitionSystem1();
+
+		if (objectDefinitionSystem1 != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"objectDefinitionSystem1\": ");
+
+			sb.append(objectDefinitionSystem1);
+		}
+
 		ObjectFieldSetting[] objectFieldSettings = getObjectFieldSettings();
 
 		if (objectFieldSettings != null) {
@@ -1877,4 +2046,4 @@ public class ObjectField implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:2002146318
+// LIFERAY-REST-BUILDER-HASH:1447427350

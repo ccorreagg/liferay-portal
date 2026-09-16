@@ -364,6 +364,76 @@ public class ObjectField implements Cloneable, Serializable {
 
 	protected String objectDefinitionExternalReferenceCode1;
 
+	public Boolean getObjectDefinitionModifiable1() {
+		return objectDefinitionModifiable1;
+	}
+
+	public void setObjectDefinitionModifiable1(
+		Boolean objectDefinitionModifiable1) {
+
+		this.objectDefinitionModifiable1 = objectDefinitionModifiable1;
+	}
+
+	public void setObjectDefinitionModifiable1(
+		UnsafeSupplier<Boolean, Exception>
+			objectDefinitionModifiable1UnsafeSupplier) {
+
+		try {
+			objectDefinitionModifiable1 =
+				objectDefinitionModifiable1UnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean objectDefinitionModifiable1;
+
+	public String getObjectDefinitionScope1() {
+		return objectDefinitionScope1;
+	}
+
+	public void setObjectDefinitionScope1(String objectDefinitionScope1) {
+		this.objectDefinitionScope1 = objectDefinitionScope1;
+	}
+
+	public void setObjectDefinitionScope1(
+		UnsafeSupplier<String, Exception>
+			objectDefinitionScope1UnsafeSupplier) {
+
+		try {
+			objectDefinitionScope1 = objectDefinitionScope1UnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected String objectDefinitionScope1;
+
+	public Boolean getObjectDefinitionSystem1() {
+		return objectDefinitionSystem1;
+	}
+
+	public void setObjectDefinitionSystem1(Boolean objectDefinitionSystem1) {
+		this.objectDefinitionSystem1 = objectDefinitionSystem1;
+	}
+
+	public void setObjectDefinitionSystem1(
+		UnsafeSupplier<Boolean, Exception>
+			objectDefinitionSystem1UnsafeSupplier) {
+
+		try {
+			objectDefinitionSystem1 =
+				objectDefinitionSystem1UnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean objectDefinitionSystem1;
+
 	public ObjectFieldSetting[] getObjectFieldSettings() {
 		return objectFieldSettings;
 	}
@@ -819,4 +889,4 @@ public class ObjectField implements Cloneable, Serializable {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:528363235
+// LIFERAY-REST-BUILDER-HASH:-52799118
