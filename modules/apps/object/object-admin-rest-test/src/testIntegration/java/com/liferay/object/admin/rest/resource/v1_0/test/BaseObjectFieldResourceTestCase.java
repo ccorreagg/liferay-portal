@@ -2373,16 +2373,6 @@ public abstract class BaseObjectFieldResourceTestCase {
 			}
 
 			if (Objects.equals(
-					"objectDefinitionModifiable1", additionalAssertFieldName)) {
-
-				if (objectField.getObjectDefinitionModifiable1() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals(
 					"objectDefinitionScope1", additionalAssertFieldName)) {
 
 				if (objectField.getObjectDefinitionScope1() == null) {
@@ -2783,19 +2773,6 @@ public abstract class BaseObjectFieldResourceTestCase {
 							getObjectDefinitionExternalReferenceCode1(),
 						objectField2.
 							getObjectDefinitionExternalReferenceCode1())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals(
-					"objectDefinitionModifiable1", additionalAssertFieldName)) {
-
-				if (!Objects.deepEquals(
-						objectField1.getObjectDefinitionModifiable1(),
-						objectField2.getObjectDefinitionModifiable1())) {
 
 					return false;
 				}
@@ -3374,11 +3351,6 @@ public abstract class BaseObjectFieldResourceTestCase {
 			return sb.toString();
 		}
 
-		if (entityFieldName.equals("objectDefinitionModifiable1")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
-		}
-
 		if (entityFieldName.equals("objectDefinitionScope1")) {
 			Object object = objectField.getObjectDefinitionScope1();
 
@@ -3626,7 +3598,6 @@ public abstract class BaseObjectFieldResourceTestCase {
 				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
 				objectDefinitionExternalReferenceCode1 = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
-				objectDefinitionModifiable1 = RandomTestUtil.randomBoolean();
 				objectDefinitionScope1 = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
 				objectDefinitionSystem1 = RandomTestUtil.randomBoolean();
@@ -3907,4 +3878,4 @@ public abstract class BaseObjectFieldResourceTestCase {
 		_vulcanCRUDItemDelegateBuilderRegistry;
 
 }
-// LIFERAY-REST-BUILDER-HASH:1991832389
+// LIFERAY-REST-BUILDER-HASH:294359810

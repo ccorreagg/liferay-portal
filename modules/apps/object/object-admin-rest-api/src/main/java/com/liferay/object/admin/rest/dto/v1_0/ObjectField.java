@@ -708,51 +708,6 @@ public class ObjectField implements Serializable {
 	private Supplier<String> _objectDefinitionExternalReferenceCode1Supplier;
 
 	@io.swagger.v3.oas.annotations.media.Schema
-	public Boolean getObjectDefinitionModifiable1() {
-		if (_objectDefinitionModifiable1Supplier != null) {
-			objectDefinitionModifiable1 =
-				_objectDefinitionModifiable1Supplier.get();
-
-			_objectDefinitionModifiable1Supplier = null;
-		}
-
-		return objectDefinitionModifiable1;
-	}
-
-	public void setObjectDefinitionModifiable1(
-		Boolean objectDefinitionModifiable1) {
-
-		this.objectDefinitionModifiable1 = objectDefinitionModifiable1;
-
-		_objectDefinitionModifiable1Supplier = null;
-	}
-
-	@JsonIgnore
-	public void setObjectDefinitionModifiable1(
-		UnsafeSupplier<Boolean, Exception>
-			objectDefinitionModifiable1UnsafeSupplier) {
-
-		_objectDefinitionModifiable1Supplier = () -> {
-			try {
-				return objectDefinitionModifiable1UnsafeSupplier.get();
-			}
-			catch (RuntimeException runtimeException) {
-				throw runtimeException;
-			}
-			catch (Exception exception) {
-				throw new RuntimeException(exception);
-			}
-		};
-	}
-
-	@GraphQLField
-	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
-	protected Boolean objectDefinitionModifiable1;
-
-	@JsonIgnore
-	private Supplier<Boolean> _objectDefinitionModifiable1Supplier;
-
-	@io.swagger.v3.oas.annotations.media.Schema
 	public String getObjectDefinitionScope1() {
 		if (_objectDefinitionScope1Supplier != null) {
 			objectDefinitionScope1 = _objectDefinitionScope1Supplier.get();
@@ -1536,18 +1491,6 @@ public class ObjectField implements Serializable {
 			sb.append("\"");
 		}
 
-		Boolean objectDefinitionModifiable1 = getObjectDefinitionModifiable1();
-
-		if (objectDefinitionModifiable1 != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"objectDefinitionModifiable1\": ");
-
-			sb.append(objectDefinitionModifiable1);
-		}
-
 		String objectDefinitionScope1 = getObjectDefinitionScope1();
 
 		if (objectDefinitionScope1 != null) {
@@ -2046,4 +1989,4 @@ public class ObjectField implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:1447427350
+// LIFERAY-REST-BUILDER-HASH:-1010298918
