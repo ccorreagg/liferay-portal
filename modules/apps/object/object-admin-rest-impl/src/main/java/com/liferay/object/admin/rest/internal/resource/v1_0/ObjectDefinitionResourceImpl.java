@@ -1342,8 +1342,7 @@ public class ObjectDefinitionResourceImpl
 						serviceBuilderObjectDefinition2.getCompanyId(),
 						contextUser.getUserId(),
 						serviceBuilderObjectDefinition2.getObjectFolderId(),
-						GetterUtil.get(
-							objectField.getObjectDefinitionModifiable1(), true),
+						true,
 						GetterUtil.get(
 							objectField.getObjectDefinitionScope1(),
 							ObjectDefinitionConstants.SCOPE_COMPANY),
