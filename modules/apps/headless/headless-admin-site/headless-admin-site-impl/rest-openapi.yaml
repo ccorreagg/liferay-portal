@@ -5935,6 +5935,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/StyleBook"
             tags: ["StyleBook"]
+            x-feature-flag: LPD-57283
         put:
             # @review
             description:
@@ -7560,6 +7561,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/PageExperience"
             tags: ["PageExperience"]
+            x-feature-flag: LPD-74328
         put:
             # @review
             description:
@@ -7727,6 +7729,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/PageSpecification"
             tags: ["PageSpecification"]
+            x-feature-flag: LPD-74328
         put:
             # @review
             description:
@@ -8143,6 +8146,7 @@ paths:
                     description:
                         "The requested page specification, page experience, or page element could not be found."
             tags: ["PageElement"]
+            x-feature-flag: LPD-74328
         put:
             # @review
             description:
@@ -10188,6 +10192,7 @@ paths:
                     description:
                         "The requested site page or widget instance could not be found."
             tags: ["WidgetPageWidgetInstance"]
+            x-feature-flag: LPD-74328
         put:
             # @review
             description:
@@ -10451,6 +10456,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/StyleBook"
             tags: ["StyleBook"]
+            x-feature-flag: LPD-57283
         put:
             # @review
             description:
