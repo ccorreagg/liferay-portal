@@ -66,13 +66,11 @@ public class SiteObjectEntryBatchEnginePortletDataHandlerTest
 
 	@Override
 	protected void addEntry(
-			String externalReferenceCode, long groupId, Date modifiedDate,
-			long userId)
+			String externalReferenceCode, long groupId, long userId)
 		throws Exception {
 
 		ObjectEntryTestUtil.addObjectEntry(
-			_objectDefinition, externalReferenceCode, groupId, modifiedDate,
-			userId);
+			_objectDefinition, externalReferenceCode, groupId, userId);
 	}
 
 	@Override
@@ -162,6 +160,15 @@ public class SiteObjectEntryBatchEnginePortletDataHandlerTest
 
 		ObjectEntryTestUtil.updateObjectEntry(
 			_fetchObjectEntry(externalReferenceCode, groupId));
+	}
+
+	@Override
+	protected void updateModifiedDate(
+			String externalReferenceCode, long groupId, Date modifiedDate)
+		throws Exception {
+
+		ObjectEntryTestUtil.updateModifiedDate(
+			_fetchObjectEntry(externalReferenceCode, groupId), modifiedDate);
 	}
 
 	private ObjectEntry _fetchObjectEntry(

@@ -48,27 +48,21 @@ public class ObjectEntryTestUtil {
 
 	public static ObjectEntry addObjectEntry(
 			ObjectDefinition objectDefinition, String externalReferenceCode,
-			long groupId, Date modifiedDate, long userId)
+			long groupId, long userId)
 		throws Exception {
 
 		objectDefinition = _getObjectDefinition(objectDefinition, groupId);
 
 		groupId = _getGroupId(objectDefinition, groupId);
 
-		ObjectEntry objectEntry =
-			ObjectEntryLocalServiceUtil.addOrUpdateObjectEntry(
-				externalReferenceCode, groupId, userId,
-				objectDefinition.getObjectDefinitionId(),
-				ObjectEntryFolderConstants.
-					PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
-				Collections.singletonMap(
-					_OBJECT_FIELD_NAME, RandomTestUtil.randomString()),
-				ServiceContextTestUtil.getServiceContext(
-					objectDefinition.getCompanyId(), groupId, userId));
-
-		objectEntry.setModifiedDate(modifiedDate);
-
-		return ObjectEntryLocalServiceUtil.updateObjectEntry(objectEntry);
+		return ObjectEntryLocalServiceUtil.addOrUpdateObjectEntry(
+			externalReferenceCode, groupId, userId,
+			objectDefinition.getObjectDefinitionId(),
+			ObjectEntryFolderConstants.PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
+			Collections.singletonMap(
+				_OBJECT_FIELD_NAME, RandomTestUtil.randomString()),
+			ServiceContextTestUtil.getServiceContext(
+				objectDefinition.getCompanyId(), groupId, userId));
 	}
 
 	public static ObjectEntry fetchObjectEntry(
@@ -128,6 +122,15 @@ public class ObjectEntryTestUtil {
 
 		return ObjectDefinitionLocalServiceUtil.publishCustomObjectDefinition(
 			userId, objectDefinition.getObjectDefinitionId());
+	}
+
+	public static ObjectEntry updateModifiedDate(
+			ObjectEntry objectEntry, Date modifiedDate)
+		throws Exception {
+
+		objectEntry.setModifiedDate(modifiedDate);
+
+		return ObjectEntryLocalServiceUtil.updateObjectEntry(objectEntry);
 	}
 
 	public static ObjectEntry updateObjectEntry(ObjectEntry objectEntry)

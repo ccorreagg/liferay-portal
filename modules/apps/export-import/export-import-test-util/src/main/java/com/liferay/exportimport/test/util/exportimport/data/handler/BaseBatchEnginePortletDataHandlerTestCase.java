@@ -100,9 +100,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 
 		String externalReferenceCode = RandomTestUtil.randomString();
 
-		addEntry(
-			externalReferenceCode, groupId, new Date(),
-			TestPropsValues.getUserId());
+		addEntry(externalReferenceCode, groupId, TestPropsValues.getUserId());
 
 		String body = RandomTestUtil.randomString();
 
@@ -142,12 +140,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		String externalReferenceCode1 = RandomTestUtil.randomString();
 		String externalReferenceCode2 = RandomTestUtil.randomString();
 
-		addEntry(
-			externalReferenceCode1, groupId, new Date(),
-			TestPropsValues.getUserId());
-		addEntry(
-			externalReferenceCode2, groupId, new Date(),
-			TestPropsValues.getUserId());
+		addEntry(externalReferenceCode1, groupId, TestPropsValues.getUserId());
+		addEntry(externalReferenceCode2, groupId, TestPropsValues.getUserId());
 
 		_exportImport(Collections.emptyMap(), null, null);
 
@@ -164,12 +158,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		String externalReferenceCode1 = RandomTestUtil.randomString();
 		String externalReferenceCode2 = RandomTestUtil.randomString();
 
-		addEntry(
-			externalReferenceCode1, groupId, new Date(),
-			TestPropsValues.getUserId());
-		addEntry(
-			externalReferenceCode2, groupId, new Date(),
-			TestPropsValues.getUserId());
+		addEntry(externalReferenceCode1, groupId, TestPropsValues.getUserId());
+		addEntry(externalReferenceCode2, groupId, TestPropsValues.getUserId());
 
 		_exportImport(Collections.emptyMap(), null, null);
 
@@ -202,12 +192,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		String externalReferenceCode1 = RandomTestUtil.randomString();
 		String externalReferenceCode2 = RandomTestUtil.randomString();
 
-		addEntry(
-			externalReferenceCode1, groupId, new Date(),
-			TestPropsValues.getUserId());
-		addEntry(
-			externalReferenceCode2, groupId, new Date(),
-			TestPropsValues.getUserId());
+		addEntry(externalReferenceCode1, groupId, TestPropsValues.getUserId());
+		addEntry(externalReferenceCode2, groupId, TestPropsValues.getUserId());
 
 		ChangesetCollection changesetCollection =
 			_changesetCollectionLocalService.fetchOrAddChangesetCollection(
@@ -240,9 +226,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 
 		String externalReferenceCode = RandomTestUtil.randomString();
 
-		addEntry(
-			externalReferenceCode, group.getGroupId(), new Date(),
-			user.getUserId());
+		addEntry(externalReferenceCode, group.getGroupId(), user.getUserId());
 
 		_exportImport(
 			HashMapBuilder.put(
@@ -265,9 +249,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 
 		String externalReferenceCode = RandomTestUtil.randomString();
 
-		addEntry(
-			externalReferenceCode, group.getGroupId(), new Date(),
-			user.getUserId());
+		addEntry(externalReferenceCode, group.getGroupId(), user.getUserId());
 
 		_exportImport(
 			HashMapBuilder.put(
@@ -291,9 +273,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 
 		String externalReferenceCode = RandomTestUtil.randomString();
 
-		addEntry(
-			externalReferenceCode, groupId, new Date(),
-			TestPropsValues.getUserId());
+		addEntry(externalReferenceCode, groupId, TestPropsValues.getUserId());
 
 		Role role = addRole();
 
@@ -328,21 +308,21 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 	public void testExportImportWithDateRange() throws Exception {
 		long groupId = group.getGroupId();
 
-		long time = System.currentTimeMillis();
-
 		String externalReferenceCode1 = RandomTestUtil.randomString();
 		String externalReferenceCode2 = RandomTestUtil.randomString();
 		String externalReferenceCode3 = RandomTestUtil.randomString();
 
-		addEntry(
-			externalReferenceCode1, groupId, new Date(time - (4 * Time.DAY)),
-			TestPropsValues.getUserId());
-		addEntry(
-			externalReferenceCode2, groupId, new Date(time - (2 * Time.DAY)),
-			TestPropsValues.getUserId());
-		addEntry(
-			externalReferenceCode3, groupId, new Date(time),
-			TestPropsValues.getUserId());
+		addEntry(externalReferenceCode1, groupId, TestPropsValues.getUserId());
+		addEntry(externalReferenceCode2, groupId, TestPropsValues.getUserId());
+		addEntry(externalReferenceCode3, groupId, TestPropsValues.getUserId());
+
+		long time = System.currentTimeMillis();
+
+		updateModifiedDate(
+			externalReferenceCode1, groupId, new Date(time - (4 * Time.DAY)));
+		updateModifiedDate(
+			externalReferenceCode2, groupId, new Date(time - (2 * Time.DAY)));
+		updateModifiedDate(externalReferenceCode3, groupId, new Date(time));
 
 		Date startDate = new Date(time - (3 * Time.DAY));
 		Date endDate = new Date(time - Time.DAY);
@@ -420,8 +400,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 	}
 
 	protected abstract void addEntry(
-			String externalReferenceCode, long groupId, Date modifiedDate,
-			long userId)
+			String externalReferenceCode, long groupId, long userId)
 		throws Exception;
 
 	protected ExportImportConfiguration addExportConfiguration(
@@ -540,6 +519,10 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		return ExportImportConfigurationLocalServiceUtil.
 			updateExportImportConfiguration(exportImportConfiguration);
 	}
+
+	protected abstract void updateModifiedDate(
+			String externalReferenceCode, long groupId, Date modifiedDate)
+		throws Exception;
 
 	protected Group group;
 	protected Group targetGroup;
