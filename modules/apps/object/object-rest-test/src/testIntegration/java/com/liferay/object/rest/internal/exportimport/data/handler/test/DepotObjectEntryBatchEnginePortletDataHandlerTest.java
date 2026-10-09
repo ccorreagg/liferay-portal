@@ -65,21 +65,23 @@ public class DepotObjectEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEmptyEntry(long groupId, long userId) throws Exception {
-		ObjectEntry objectEntry = ObjectEntryTestUtil.addEmptyObjectEntry(
-			_objectDefinition, groupId, userId);
+	protected void addEmptyEntry(
+			String externalReferenceCode, long groupId, long userId)
+		throws Exception {
 
-		return objectEntry.getExternalReferenceCode();
+		ObjectEntryTestUtil.addEmptyObjectEntry(
+			_objectDefinition, externalReferenceCode, groupId, userId);
 	}
 
 	@Override
-	protected String addEntry(long groupId, Date modifiedDate, long userId)
+	protected void addEntry(
+			String externalReferenceCode, long groupId, Date modifiedDate,
+			long userId)
 		throws Exception {
 
-		ObjectEntry objectEntry = ObjectEntryTestUtil.addObjectEntry(
-			_objectDefinition, groupId, modifiedDate, userId);
-
-		return objectEntry.getExternalReferenceCode();
+		ObjectEntryTestUtil.addObjectEntry(
+			_objectDefinition, externalReferenceCode, groupId, modifiedDate,
+			userId);
 	}
 
 	@Override

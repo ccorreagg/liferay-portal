@@ -35,34 +35,36 @@ import java.util.Objects;
 public class ObjectEntryTestUtil {
 
 	public static ObjectEntry addEmptyObjectEntry(
-			ObjectDefinition objectDefinition, long groupId, long userId)
+			ObjectDefinition objectDefinition, String externalReferenceCode,
+			long groupId, long userId)
 		throws Exception {
 
 		objectDefinition = _getObjectDefinition(objectDefinition, groupId);
 
 		return ObjectEntryLocalServiceUtil.getOrAddEmptyObjectEntry(
-			RandomTestUtil.randomString(),
-			_getGroupId(objectDefinition, groupId), userId,
-			objectDefinition.getObjectDefinitionId());
+			externalReferenceCode, _getGroupId(objectDefinition, groupId),
+			userId, objectDefinition.getObjectDefinitionId());
 	}
 
 	public static ObjectEntry addObjectEntry(
-			ObjectDefinition objectDefinition, long groupId, Date modifiedDate,
-			long userId)
+			ObjectDefinition objectDefinition, String externalReferenceCode,
+			long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		objectDefinition = _getObjectDefinition(objectDefinition, groupId);
 
 		groupId = _getGroupId(objectDefinition, groupId);
 
-		ObjectEntry objectEntry = ObjectEntryLocalServiceUtil.addObjectEntry(
-			groupId, userId, objectDefinition.getObjectDefinitionId(),
-			ObjectEntryFolderConstants.PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
-			null,
-			Collections.singletonMap(
-				_OBJECT_FIELD_NAME, RandomTestUtil.randomString()),
-			ServiceContextTestUtil.getServiceContext(
-				objectDefinition.getCompanyId(), groupId, userId));
+		ObjectEntry objectEntry =
+			ObjectEntryLocalServiceUtil.addOrUpdateObjectEntry(
+				externalReferenceCode, groupId, userId,
+				objectDefinition.getObjectDefinitionId(),
+				ObjectEntryFolderConstants.
+					PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
+				Collections.singletonMap(
+					_OBJECT_FIELD_NAME, RandomTestUtil.randomString()),
+				ServiceContextTestUtil.getServiceContext(
+					objectDefinition.getCompanyId(), groupId, userId));
 
 		objectEntry.setModifiedDate(modifiedDate);
 
