@@ -146,6 +146,14 @@ public class ObjectEntryTestUtil {
 				objectEntry.getUserId()));
 	}
 
+	public static ObjectEntry updateUserId(ObjectEntry objectEntry, long userId)
+		throws Exception {
+
+		objectEntry.setUserId(userId);
+
+		return ObjectEntryLocalServiceUtil.updateObjectEntry(objectEntry);
+	}
+
 	private static long _getGroupId(
 		ObjectDefinition objectDefinition, long groupId) {
 

@@ -100,7 +100,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		String externalReferenceCode = RandomTestUtil.randomString();
 
-		addEntry(externalReferenceCode, TestPropsValues.getUserId());
+		addEntry(externalReferenceCode);
 
 		String body = RandomTestUtil.randomString();
 
@@ -138,8 +138,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		String externalReferenceCode1 = RandomTestUtil.randomString();
 		String externalReferenceCode2 = RandomTestUtil.randomString();
 
-		addEntry(externalReferenceCode1, TestPropsValues.getUserId());
-		addEntry(externalReferenceCode2, TestPropsValues.getUserId());
+		addEntry(externalReferenceCode1);
+		addEntry(externalReferenceCode2);
 
 		_exportImport(Collections.emptyMap(), null, null);
 
@@ -156,8 +156,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		String externalReferenceCode1 = RandomTestUtil.randomString();
 		String externalReferenceCode2 = RandomTestUtil.randomString();
 
-		addEntry(externalReferenceCode1, TestPropsValues.getUserId());
-		addEntry(externalReferenceCode2, TestPropsValues.getUserId());
+		addEntry(externalReferenceCode1);
+		addEntry(externalReferenceCode2);
 
 		_exportImport(Collections.emptyMap(), null, null);
 
@@ -190,8 +190,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		String externalReferenceCode1 = RandomTestUtil.randomString();
 		String externalReferenceCode2 = RandomTestUtil.randomString();
 
-		addEntry(externalReferenceCode1, TestPropsValues.getUserId());
-		addEntry(externalReferenceCode2, TestPropsValues.getUserId());
+		addEntry(externalReferenceCode1);
+		addEntry(externalReferenceCode2);
 
 		ChangesetCollection changesetCollection =
 			_changesetCollectionLocalService.fetchOrAddChangesetCollection(
@@ -224,7 +224,11 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		String externalReferenceCode = RandomTestUtil.randomString();
 
-		addEntry(externalReferenceCode, user.getUserId());
+		addEntry(externalReferenceCode);
+
+		updateUserId(
+			fetchEntry(externalReferenceCode, group.getGroupId()),
+			user.getUserId());
 
 		_exportImport(
 			HashMapBuilder.put(
@@ -248,7 +252,11 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		String externalReferenceCode = RandomTestUtil.randomString();
 
-		addEntry(externalReferenceCode, user.getUserId());
+		addEntry(externalReferenceCode);
+
+		updateUserId(
+			fetchEntry(externalReferenceCode, group.getGroupId()),
+			user.getUserId());
 
 		_exportImport(
 			HashMapBuilder.put(
@@ -273,7 +281,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		String externalReferenceCode = RandomTestUtil.randomString();
 
-		addEntry(externalReferenceCode, TestPropsValues.getUserId());
+		addEntry(externalReferenceCode);
 
 		Role role = addRole();
 
@@ -314,9 +322,9 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		String externalReferenceCode2 = RandomTestUtil.randomString();
 		String externalReferenceCode3 = RandomTestUtil.randomString();
 
-		addEntry(externalReferenceCode1, TestPropsValues.getUserId());
-		addEntry(externalReferenceCode2, TestPropsValues.getUserId());
-		addEntry(externalReferenceCode3, TestPropsValues.getUserId());
+		addEntry(externalReferenceCode1);
+		addEntry(externalReferenceCode2);
+		addEntry(externalReferenceCode3);
 
 		long time = System.currentTimeMillis();
 
@@ -358,8 +366,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			ExportImportThreadLocal.setPortletImportInProcess(true);
 
 			try {
-				addEmptyEntry(
-					externalReferenceCode, TestPropsValues.getUserId());
+				addEmptyEntry(externalReferenceCode);
 			}
 			finally {
 				ExportImportThreadLocal.setPortletImportInProcess(false);
@@ -396,13 +403,13 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		permissionCheckerMethodTestRule =
 			PermissionCheckerMethodTestRule.INSTANCE;
 
-	protected void addEmptyEntry(String externalReferenceCode, long userId)
+	protected void addEmptyEntry(String externalReferenceCode)
 		throws Exception {
 
 		throw new UnsupportedOperationException();
 	}
 
-	protected abstract void addEntry(String externalReferenceCode, long userId)
+	protected abstract void addEntry(String externalReferenceCode)
 		throws Exception;
 
 	protected ExportImportConfiguration addExportConfiguration(
@@ -513,6 +520,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 	protected abstract void updateModifiedDate(T entry, Date modifiedDate)
 		throws Exception;
+
+	protected abstract void updateUserId(T entry, long userId) throws Exception;
 
 	protected Group group;
 	protected Group targetGroup;
