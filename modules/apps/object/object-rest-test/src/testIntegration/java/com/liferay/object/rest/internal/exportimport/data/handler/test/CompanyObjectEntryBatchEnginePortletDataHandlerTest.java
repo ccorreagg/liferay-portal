@@ -13,6 +13,7 @@ import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.rest.internal.exportimport.data.handler.test.util.ObjectEntryTestUtil;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.test.util.ObjectDefinitionTestUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
@@ -45,22 +46,27 @@ public class CompanyObjectEntryBatchEnginePortletDataHandlerTest
 	@Before
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
+
 		_objectDefinition = ObjectEntryTestUtil.publishObjectDefinition(
 			null, ObjectDefinitionTestUtil.getRandomName(),
 			Collections.emptyList(), ObjectDefinitionConstants.SCOPE_COMPANY,
 			TestPropsValues.getUserId());
 
-		super.setUp();
+		Group targetGroup = getTargetGroup();
 
 		_targetObjectDefinition = ObjectEntryTestUtil.publishObjectDefinition(
 			_objectDefinition.getExternalReferenceCode(),
 			_objectDefinition.getShortName(), Collections.emptyList(),
-			ObjectDefinitionConstants.SCOPE_COMPANY, targetUser.getUserId());
+			ObjectDefinitionConstants.SCOPE_COMPANY,
+			targetGroup.getCreatorUserId());
 	}
 
 	@Override
 	protected ObjectEntry addEmptyEntry(String externalReferenceCode)
 		throws Exception {
+
+		Group group = getGroup();
 
 		return ObjectEntryTestUtil.addEmptyObjectEntry(
 			_objectDefinition, externalReferenceCode, group.getGroupId(),
@@ -70,6 +76,8 @@ public class CompanyObjectEntryBatchEnginePortletDataHandlerTest
 	@Override
 	protected ObjectEntry addEntry(String externalReferenceCode)
 		throws Exception {
+
+		Group group = getGroup();
 
 		return ObjectEntryTestUtil.addObjectEntry(
 			_objectDefinition, externalReferenceCode, group.getGroupId(),

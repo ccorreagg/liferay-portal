@@ -13,6 +13,7 @@ import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.rest.internal.exportimport.data.handler.test.util.ObjectEntryTestUtil;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.test.util.ObjectDefinitionTestUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
@@ -57,6 +58,8 @@ public class SiteObjectEntryBatchEnginePortletDataHandlerTest
 	protected ObjectEntry addEmptyEntry(String externalReferenceCode)
 		throws Exception {
 
+		Group group = getGroup();
+
 		return ObjectEntryTestUtil.addEmptyObjectEntry(
 			_objectDefinition, externalReferenceCode, group.getGroupId(),
 			TestPropsValues.getUserId());
@@ -65,6 +68,8 @@ public class SiteObjectEntryBatchEnginePortletDataHandlerTest
 	@Override
 	protected ObjectEntry addEntry(String externalReferenceCode)
 		throws Exception {
+
+		Group group = getGroup();
 
 		return ObjectEntryTestUtil.addObjectEntry(
 			_objectDefinition, externalReferenceCode, group.getGroupId(),

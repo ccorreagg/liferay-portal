@@ -14,6 +14,7 @@ import com.liferay.layout.test.util.LayoutTestUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.FileUtil;
@@ -37,21 +38,21 @@ public abstract class BaseSiteBatchEnginePortletDataHandlerTestCase<T>
 	@Before
 	@Override
 	public void setUp() throws Exception {
-		group = addGroup();
-		targetGroup = addGroup();
-		targetUser = TestPropsValues.getUser();
-
-		_layout = LayoutTestUtil.addTypePortletLayout(group.getGroupId());
-		_targetLayout = LayoutTestUtil.addTypePortletLayout(
-			targetGroup.getGroupId());
-
 		super.setUp();
+
+		_group = addGroup();
+		_targetGroup = addGroup();
+		_user = TestPropsValues.getUser();
+
+		_layout = LayoutTestUtil.addTypePortletLayout(_group.getGroupId());
+		_targetLayout = LayoutTestUtil.addTypePortletLayout(
+			_targetGroup.getGroupId());
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		GroupTestUtil.deleteGroup(targetGroup);
-		GroupTestUtil.deleteGroup(group);
+		GroupTestUtil.deleteGroup(_group);
+		GroupTestUtil.deleteGroup(_targetGroup);
 	}
 
 	protected Group addGroup() throws Exception {
@@ -75,7 +76,7 @@ public abstract class BaseSiteBatchEnginePortletDataHandlerTestCase<T>
 				endDate,
 				ExportImportConfigurationSettingsMapFactoryUtil.
 					buildExportPortletSettingsMap(
-						targetUser, _layout.getPlid(), _layout.getGroupId(),
+						_user, _layout.getPlid(), _layout.getGroupId(),
 						portletId, parameterMap, StringPool.BLANK),
 				startDate,
 				ExportImportConfigurationConstants.TYPE_PUBLISH_PORTLET_LOCAL);
@@ -88,9 +89,9 @@ public abstract class BaseSiteBatchEnginePortletDataHandlerTestCase<T>
 				exportImportConfiguration,
 				ExportImportConfigurationSettingsMapFactoryUtil.
 					buildImportPortletSettingsMap(
-						targetUser, _targetLayout.getPlid(),
+						_user, _targetLayout.getPlid(),
 						_targetLayout.getGroupId(), portletId, parameterMap),
-				_targetLayout.getGroupId(), targetUser);
+				_targetLayout.getGroupId(), _user);
 
 			_exportImportLocalService.importPortletDataDeletions(
 				exportImportConfiguration, larFile);
@@ -103,10 +104,23 @@ public abstract class BaseSiteBatchEnginePortletDataHandlerTestCase<T>
 		}
 	}
 
+	@Override
+	protected Group getGroup() {
+		return _group;
+	}
+
+	@Override
+	protected Group getTargetGroup() {
+		return _targetGroup;
+	}
+
 	@Inject
 	private ExportImportLocalService _exportImportLocalService;
 
+	private Group _group;
 	private Layout _layout;
+	private Group _targetGroup;
 	private Layout _targetLayout;
+	private User _user;
 
 }

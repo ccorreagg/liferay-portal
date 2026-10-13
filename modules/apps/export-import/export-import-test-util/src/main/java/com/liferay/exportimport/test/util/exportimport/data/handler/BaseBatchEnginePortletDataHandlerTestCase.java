@@ -73,6 +73,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 	@Before
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
+
 		ExportImportVulcanBatchEngineTaskItemDelegate<?>
 			exportImportVulcanBatchEngineTaskItemDelegate =
 				(ExportImportVulcanBatchEngineTaskItemDelegate<?>)
@@ -84,8 +86,6 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		_exportImportDescriptor =
 			exportImportVulcanBatchEngineTaskItemDelegate.
 				getExportImportDescriptor();
-
-		super.setUp();
 	}
 
 	@Test
@@ -94,8 +94,6 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			return;
 		}
 
-		long groupId = group.getGroupId();
-
 		String externalReferenceCode = RandomTestUtil.randomString();
 
 		T entry = addEntry(externalReferenceCode);
@@ -103,7 +101,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		String body = RandomTestUtil.randomString();
 
 		_commentManager.addComment(
-			TestPropsValues.getUserId(), groupId,
+			TestPropsValues.getUserId(), _getGroupId(),
 			_exportImportDescriptor.getModelClassName(), getPrimaryKey(entry),
 			body,
 			className -> {
@@ -124,7 +122,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			null);
 
 		List<String> comments = _getComments(
-			externalReferenceCode, targetGroup.getGroupId());
+			externalReferenceCode, _getTargetGroupId());
 
 		Assert.assertTrue(
 			comments.toString(),
@@ -142,7 +140,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		_exportImport(null, Collections.emptyMap(), null);
 
-		long targetGroupId = targetGroup.getGroupId();
+		long targetGroupId = _getTargetGroupId();
 
 		Assert.assertNotNull(fetchEntry(externalReferenceCode1, targetGroupId));
 		Assert.assertNotNull(fetchEntry(externalReferenceCode2, targetGroupId));
@@ -159,7 +157,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		_exportImport(null, Collections.emptyMap(), null);
 
-		long targetGroupId = targetGroup.getGroupId();
+		long targetGroupId = _getTargetGroupId();
 
 		Assert.assertNotNull(fetchEntry(externalReferenceCode1, targetGroupId));
 		Assert.assertNotNull(fetchEntry(externalReferenceCode2, targetGroupId));
@@ -184,8 +182,6 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			return;
 		}
 
-		long groupId = group.getGroupId();
-
 		String externalReferenceCode1 = RandomTestUtil.randomString();
 		String externalReferenceCode2 = RandomTestUtil.randomString();
 
@@ -195,7 +191,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		ChangesetCollection changesetCollection =
 			_changesetCollectionLocalService.fetchOrAddChangesetCollection(
-				groupId,
+				_getGroupId(),
 				StagingConstants.RANGE_FROM_LAST_PUBLISH_DATE_CHANGESET_NAME);
 
 		_changesetEntryLocalService.fetchOrAddChangesetEntry(
@@ -213,7 +209,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			).build(),
 			null);
 
-		long targetGroupId = targetGroup.getGroupId();
+		long targetGroupId = _getTargetGroupId();
 
 		Assert.assertNotNull(fetchEntry(externalReferenceCode1, targetGroupId));
 		Assert.assertNull(fetchEntry(externalReferenceCode2, targetGroupId));
@@ -236,8 +232,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			null);
 
 		User targetUser = _userLocalService.getUser(
-			getUserId(
-				fetchEntry(externalReferenceCode, targetGroup.getGroupId())));
+			getUserId(fetchEntry(externalReferenceCode, _getTargetGroupId())));
 
 		Assert.assertEquals(
 			user.getExternalReferenceCode(),
@@ -260,10 +255,12 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			).build(),
 			null);
 
+		User targetUser = _userLocalService.getUser(
+			getUserId(fetchEntry(externalReferenceCode, _getTargetGroupId())));
+
 		Assert.assertEquals(
 			targetUser.getUserId(),
-			getUserId(
-				fetchEntry(externalReferenceCode, targetGroup.getGroupId())));
+			getUserId(fetchEntry(externalReferenceCode, _getTargetGroupId())));
 	}
 
 	@Test
@@ -292,6 +289,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 				new String[] {Boolean.TRUE.toString()}
 			).build(),
 			null);
+
+		Group targetGroup = getTargetGroup();
 
 		Role targetRole = _roleLocalService.getRoleByExternalReferenceCode(
 			role.getExternalReferenceCode(), targetGroup.getCompanyId());
@@ -328,7 +327,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		_exportImport(endDate, Collections.emptyMap(), startDate);
 
-		long targetGroupId = targetGroup.getGroupId();
+		long targetGroupId = _getTargetGroupId();
 
 		Assert.assertNull(fetchEntry(externalReferenceCode1, targetGroupId));
 		Assert.assertNotNull(fetchEntry(externalReferenceCode2, targetGroupId));
@@ -340,8 +339,6 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		if (!supportsEmptyEntries()) {
 			return;
 		}
-
-		long groupId = group.getGroupId();
 
 		String externalReferenceCode = RandomTestUtil.randomString();
 
@@ -360,7 +357,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		Assert.assertEquals(
 			WorkflowConstants.STATUS_APPROVED,
-			getStatus(fetchEntry(externalReferenceCode, groupId)));
+			getStatus(fetchEntry(externalReferenceCode, _getGroupId())));
 
 		exportImportReportEntry = _getEmptyExportImportReportEntry(
 			externalReferenceCode);
@@ -416,6 +413,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 	protected abstract String getEntityClassName();
 
+	protected abstract Group getGroup();
+
 	@Override
 	protected String getPortletId() {
 		return _exportImportDescriptor.getPortletId();
@@ -427,6 +426,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		throw new UnsupportedOperationException();
 	}
 
+	protected abstract Group getTargetGroup();
+
 	protected String getTargetModelClassName() {
 		return _exportImportDescriptor.getModelClassName();
 	}
@@ -437,8 +438,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 	protected void initContext() throws Exception {
 		super.initContext();
 
-		portletDataContext.setGroupId(group.getGroupId());
-		portletDataContext.setScopeGroupId(group.getGroupId());
+		portletDataContext.setGroupId(_getGroupId());
+		portletDataContext.setScopeGroupId(_getGroupId());
 	}
 
 	protected abstract boolean supportsComments();
@@ -473,10 +474,6 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		throws Exception;
 
 	protected abstract void updateUserId(T entry, long userId) throws Exception;
-
-	protected Group group;
-	protected Group targetGroup;
-	protected User targetUser;
 
 	private T _addEmptyEntry(String externalReferenceCode) throws Exception {
 		try (SafeCloseable safeCloseable =
@@ -565,6 +562,18 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		}
 
 		return null;
+	}
+
+	private long _getGroupId() {
+		Group group = getGroup();
+
+		return group.getGroupId();
+	}
+
+	private long _getTargetGroupId() {
+		Group group = getTargetGroup();
+
+		return group.getGroupId();
 	}
 
 	@Inject
