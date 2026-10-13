@@ -56,17 +56,19 @@ public class SiteObjectEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void addEmptyEntry(String externalReferenceCode)
+	protected ObjectEntry addEmptyEntry(String externalReferenceCode)
 		throws Exception {
 
-		ObjectEntryTestUtil.addEmptyObjectEntry(
+		return ObjectEntryTestUtil.addEmptyObjectEntry(
 			_objectDefinition, externalReferenceCode, group.getGroupId(),
 			TestPropsValues.getUserId());
 	}
 
 	@Override
-	protected void addEntry(String externalReferenceCode) throws Exception {
-		ObjectEntryTestUtil.addObjectEntry(
+	protected ObjectEntry addEntry(String externalReferenceCode)
+		throws Exception {
+
+		return ObjectEntryTestUtil.addObjectEntry(
 			_objectDefinition, externalReferenceCode, group.getGroupId(),
 			TestPropsValues.getUserId());
 	}
