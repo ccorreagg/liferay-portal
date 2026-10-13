@@ -106,11 +106,6 @@ public class DepotObjectEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getCreatorUserId(ObjectEntry objectEntry) {
-		return objectEntry.getUserId();
-	}
-
-	@Override
 	protected ExportImportVulcanBatchEngineTaskItemDelegate<?>
 			getExportImportVulcanBatchEngineTaskItemDelegate()
 		throws Exception {
@@ -128,6 +123,11 @@ public class DepotObjectEntryBatchEnginePortletDataHandlerTest
 	@Override
 	protected int getStatus(ObjectEntry objectEntry) {
 		return objectEntry.getStatus();
+	}
+
+	@Override
+	protected long getUserId(ObjectEntry objectEntry) {
+		return objectEntry.getUserId();
 	}
 
 	@Override

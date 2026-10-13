@@ -238,7 +238,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			null);
 
 		User targetUser = _userLocalService.getUser(
-			getCreatorUserId(
+			getUserId(
 				fetchEntry(externalReferenceCode, targetGroup.getGroupId())));
 
 		Assert.assertEquals(
@@ -264,7 +264,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		Assert.assertEquals(
 			targetUser.getUserId(),
-			getCreatorUserId(
+			getUserId(
 				fetchEntry(externalReferenceCode, targetGroup.getGroupId())));
 	}
 
@@ -416,8 +416,6 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 	protected abstract T fetchEntry(String externalReferenceCode, long groupId)
 		throws Exception;
 
-	protected abstract long getCreatorUserId(T entry) throws Exception;
-
 	protected abstract ExportImportVulcanBatchEngineTaskItemDelegate<?>
 			getExportImportVulcanBatchEngineTaskItemDelegate()
 		throws Exception;
@@ -454,6 +452,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 	protected String getTargetModelClassName() {
 		return _exportImportDescriptor.getModelClassName();
 	}
+
+	protected abstract long getUserId(T entry) throws Exception;
 
 	@Override
 	protected void initContext() throws Exception {
