@@ -103,17 +103,18 @@ public abstract class BaseCompanyBatchEnginePortletDataHandlerTestCase<T>
 
 	@Override
 	protected void exportImport(
-			Map<String, String[]> parameterMap, Date startDate, Date endDate)
+			Date endDate, Map<String, String[]> parameterMap, Date startDate)
 		throws Exception {
 
 		ExportImportConfiguration exportImportConfiguration =
 			addExportConfiguration(
-				ExportImportConfigurationConstants.TYPE_EXPORT_LAYOUT,
+				endDate,
 				ExportImportConfigurationSettingsMapFactoryUtil.
 					buildExportLayoutSettingsMap(
 						TestPropsValues.getUser(), group.getGroupId(), false,
 						new long[0], parameterMap),
-				startDate, endDate);
+				startDate,
+				ExportImportConfigurationConstants.TYPE_EXPORT_LAYOUT);
 
 		File larFile = ExportImportLocalServiceUtil.exportLayoutsAsFile(
 			exportImportConfiguration);
@@ -126,12 +127,12 @@ public abstract class BaseCompanyBatchEnginePortletDataHandlerTestCase<T>
 				PermissionCheckerFactoryUtil.create(targetUser));
 
 			exportImportConfiguration = updateImportConfiguration(
-				exportImportConfiguration, targetUser,
+				exportImportConfiguration,
 				ExportImportConfigurationSettingsMapFactoryUtil.
 					buildImportLayoutSettingsMap(
 						targetUser, targetGroup.getGroupId(), false, null,
 						parameterMap),
-				targetGroup.getGroupId());
+				targetGroup.getGroupId(), targetUser);
 
 			ExportImportLocalServiceUtil.importLayoutsDataDeletions(
 				exportImportConfiguration, larFile);

@@ -118,11 +118,12 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			});
 
 		_exportImport(
+			null,
 			HashMapBuilder.put(
 				PortletDataHandlerKeys.COMMENTS,
 				new String[] {Boolean.TRUE.toString()}
 			).build(),
-			null, null);
+			null);
 
 		List<String> comments = _getComments(
 			externalReferenceCode, targetGroup.getGroupId());
@@ -141,7 +142,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		addEntry(externalReferenceCode1);
 		addEntry(externalReferenceCode2);
 
-		_exportImport(Collections.emptyMap(), null, null);
+		_exportImport(null, Collections.emptyMap(), null);
 
 		long targetGroupId = targetGroup.getGroupId();
 
@@ -158,7 +159,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		addEntry(externalReferenceCode2);
 
-		_exportImport(Collections.emptyMap(), null, null);
+		_exportImport(null, Collections.emptyMap(), null);
 
 		long targetGroupId = targetGroup.getGroupId();
 
@@ -168,11 +169,12 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		deleteEntry(entry1);
 
 		_exportImport(
+			null,
 			HashMapBuilder.put(
 				PortletDataHandlerKeys.DELETIONS,
 				new String[] {Boolean.TRUE.toString()}
 			).build(),
-			null, null);
+			null);
 
 		Assert.assertNull(fetchEntry(externalReferenceCode1, targetGroupId));
 		Assert.assertNotNull(fetchEntry(externalReferenceCode2, targetGroupId));
@@ -206,11 +208,12 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			getPrimaryKey(entry1));
 
 		_exportImport(
+			null,
 			HashMapBuilder.put(
 				ExportImportDateUtil.RANGE,
 				new String[] {ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE}
 			).build(),
-			null, null);
+			null);
 
 		long targetGroupId = targetGroup.getGroupId();
 
@@ -227,11 +230,12 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		updateUserId(addEntry(externalReferenceCode), user.getUserId());
 
 		_exportImport(
+			null,
 			HashMapBuilder.put(
 				PortletDataHandlerKeys.USER_ID_STRATEGY,
 				new String[] {UserIdStrategy.CURRENT_USER_ID}
 			).build(),
-			null, null);
+			null);
 
 		User targetUser = _userLocalService.getUser(
 			getCreatorUserId(
@@ -251,11 +255,12 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		updateUserId(addEntry(externalReferenceCode), user.getUserId());
 
 		_exportImport(
+			null,
 			HashMapBuilder.put(
 				PortletDataHandlerKeys.USER_ID_STRATEGY,
 				new String[] {UserIdStrategy.ALWAYS_CURRENT_USER_ID}
 			).build(),
-			null, null);
+			null);
 
 		Assert.assertEquals(
 			targetUser.getUserId(),
@@ -283,11 +288,12 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			new String[] {ActionKeys.VIEW});
 
 		_exportImport(
+			null,
 			HashMapBuilder.put(
 				PortletDataHandlerKeys.PERMISSIONS,
 				new String[] {Boolean.TRUE.toString()}
 			).build(),
-			null, null);
+			null);
 
 		Role targetRole = _roleLocalService.getRoleByExternalReferenceCode(
 			role.getExternalReferenceCode(), targetGroup.getCompanyId());
@@ -322,7 +328,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		Date startDate = new Date(time - (3 * Time.DAY));
 		Date endDate = new Date(time - Time.DAY);
 
-		_exportImport(Collections.emptyMap(), startDate, endDate);
+		_exportImport(endDate, Collections.emptyMap(), startDate);
 
 		long targetGroupId = targetGroup.getGroupId();
 
@@ -379,8 +385,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		throws Exception;
 
 	protected ExportImportConfiguration addExportConfiguration(
-			int type, Map<String, Serializable> settingsMap, Date startDate,
-			Date endDate)
+			Date endDate, Map<String, Serializable> settingsMap, Date startDate,
+			int type)
 		throws Exception {
 
 		if ((endDate != null) && (startDate != null)) {
@@ -404,7 +410,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 	protected abstract void deleteEntry(T entry) throws Exception;
 
 	protected abstract void exportImport(
-			Map<String, String[]> parameterMap, Date startDate, Date endDate)
+			Date endDate, Map<String, String[]> parameterMap, Date startDate)
 		throws Exception;
 
 	protected abstract T fetchEntry(String externalReferenceCode, long groupId)
@@ -466,8 +472,9 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 	protected abstract void updateEntry(T entry) throws Exception;
 
 	protected ExportImportConfiguration updateImportConfiguration(
-			ExportImportConfiguration exportImportConfiguration, User user,
-			Map<String, Serializable> settingsMap, long targetGroupId)
+			ExportImportConfiguration exportImportConfiguration,
+			Map<String, Serializable> settingsMap, long targetGroupId,
+			User user)
 		throws Exception {
 
 		exportImportConfiguration =
@@ -510,10 +517,11 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 	}
 
 	private void _exportImport(
-			Map<String, String[]> parameterMap, Date startDate, Date endDate)
+			Date endDate, Map<String, String[]> parameterMap, Date startDate)
 		throws Exception {
 
 		exportImport(
+			endDate,
 			HashMapBuilder.put(
 				ExportImportDateUtil.RANGE,
 				new String[] {ExportImportDateUtil.RANGE_ALL}
@@ -537,7 +545,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			).putAll(
 				parameterMap
 			).build(),
-			startDate, endDate);
+			startDate);
 	}
 
 	private List<String> _getComments(

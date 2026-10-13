@@ -59,7 +59,7 @@ public abstract class BaseSiteBatchEnginePortletDataHandlerTestCase<T>
 
 	@Override
 	protected void exportImport(
-			Map<String, String[]> parameterMap, Date startDate, Date endDate)
+			Date endDate, Map<String, String[]> parameterMap, Date startDate)
 		throws Exception {
 
 		parameterMap = HashMapBuilder.put(
@@ -71,24 +71,25 @@ public abstract class BaseSiteBatchEnginePortletDataHandlerTestCase<T>
 
 		ExportImportConfiguration exportImportConfiguration =
 			addExportConfiguration(
-				ExportImportConfigurationConstants.TYPE_PUBLISH_PORTLET_LOCAL,
+				endDate,
 				ExportImportConfigurationSettingsMapFactoryUtil.
 					buildExportPortletSettingsMap(
 						targetUser, _layout.getPlid(), _layout.getGroupId(),
 						portletId, parameterMap, StringPool.BLANK),
-				startDate, endDate);
+				startDate,
+				ExportImportConfigurationConstants.TYPE_PUBLISH_PORTLET_LOCAL);
 
 		File larFile = ExportImportLocalServiceUtil.exportPortletInfoAsFile(
 			exportImportConfiguration);
 
 		try {
 			exportImportConfiguration = updateImportConfiguration(
-				exportImportConfiguration, targetUser,
+				exportImportConfiguration,
 				ExportImportConfigurationSettingsMapFactoryUtil.
 					buildImportPortletSettingsMap(
 						targetUser, _targetLayout.getPlid(),
 						_targetLayout.getGroupId(), portletId, parameterMap),
-				_targetLayout.getGroupId());
+				_targetLayout.getGroupId(), targetUser);
 
 			ExportImportLocalServiceUtil.importPortletDataDeletions(
 				exportImportConfiguration, larFile);
