@@ -49,13 +49,12 @@ import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
+import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegateRegistry;
 
 import java.io.Serializable;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -64,11 +63,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 
 /**
  * @author Alberto Javier Moreno Lage
@@ -81,7 +75,11 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 	public void setUp() throws Exception {
 		ExportImportVulcanBatchEngineTaskItemDelegate<?>
 			exportImportVulcanBatchEngineTaskItemDelegate =
-				getExportImportVulcanBatchEngineTaskItemDelegate();
+				(ExportImportVulcanBatchEngineTaskItemDelegate<?>)
+					_vulcanBatchEngineTaskItemDelegateRegistry.
+						getVulcanBatchEngineTaskItemDelegate(
+							TestPropsValues.getCompanyId(),
+							getEntityClassName());
 
 		_exportImportDescriptor =
 			exportImportVulcanBatchEngineTaskItemDelegate.
@@ -416,27 +414,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 	protected abstract T fetchEntry(String externalReferenceCode, long groupId)
 		throws Exception;
 
-	protected abstract ExportImportVulcanBatchEngineTaskItemDelegate<?>
-			getExportImportVulcanBatchEngineTaskItemDelegate()
-		throws Exception;
-
-	protected <T> ExportImportVulcanBatchEngineTaskItemDelegate<?>
-			getExportImportVulcanBatchEngineTaskItemDelegate(
-				Class<T> clazz, String filterString)
-		throws Exception {
-
-		Bundle bundle = FrameworkUtil.getBundle(getClass());
-
-		BundleContext bundleContext = bundle.getBundleContext();
-
-		Collection<ServiceReference<T>> serviceReferences =
-			bundleContext.getServiceReferences(clazz, filterString);
-
-		Iterator<ServiceReference<T>> iterator = serviceReferences.iterator();
-
-		return (ExportImportVulcanBatchEngineTaskItemDelegate<?>)
-			bundleContext.getService(iterator.next());
-	}
+	protected abstract String getEntityClassName();
 
 	@Override
 	protected String getPortletId() {
@@ -619,5 +597,9 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 	@Inject
 	private UserLocalService _userLocalService;
+
+	@Inject
+	private VulcanBatchEngineTaskItemDelegateRegistry
+		_vulcanBatchEngineTaskItemDelegateRegistry;
 
 }

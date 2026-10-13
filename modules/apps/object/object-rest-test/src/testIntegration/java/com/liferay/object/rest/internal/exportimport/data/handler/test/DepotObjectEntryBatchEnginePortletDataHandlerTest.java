@@ -7,14 +7,12 @@ package com.liferay.object.rest.internal.exportimport.data.handler.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.exportimport.test.util.exportimport.data.handler.BaseDepotBatchEnginePortletDataHandlerTestCase;
-import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.object.constants.ObjectDefinitionConstants;
 import com.liferay.object.constants.ObjectDefinitionSettingConstants;
 import com.liferay.object.definition.setting.builder.ObjectDefinitionSettingBuilder;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.rest.internal.exportimport.data.handler.test.util.ObjectEntryTestUtil;
-import com.liferay.object.rest.resource.v1_0.ObjectEntryResource;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.test.util.ObjectDefinitionTestUtil;
 import com.liferay.petra.string.StringPool;
@@ -106,13 +104,8 @@ public class DepotObjectEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected ExportImportVulcanBatchEngineTaskItemDelegate<?>
-			getExportImportVulcanBatchEngineTaskItemDelegate()
-		throws Exception {
-
-		return getExportImportVulcanBatchEngineTaskItemDelegate(
-			ObjectEntryResource.class,
-			ObjectEntryTestUtil.getFilterString(_objectDefinition));
+	protected String getEntityClassName() {
+		return ObjectEntryTestUtil.getEntityClassName(_objectDefinition);
 	}
 
 	@Override
