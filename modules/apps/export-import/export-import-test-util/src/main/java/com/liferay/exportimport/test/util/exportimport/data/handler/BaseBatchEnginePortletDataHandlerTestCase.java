@@ -14,7 +14,7 @@ import com.liferay.exportimport.kernel.lar.PortletDataHandlerControl;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerKeys;
 import com.liferay.exportimport.kernel.lar.UserIdStrategy;
 import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
-import com.liferay.exportimport.kernel.service.ExportImportConfigurationLocalServiceUtil;
+import com.liferay.exportimport.kernel.service.ExportImportConfigurationLocalService;
 import com.liferay.exportimport.kernel.staging.constants.StagingConstants;
 import com.liferay.exportimport.report.constants.ExportImportReportEntryConstants;
 import com.liferay.exportimport.report.model.ExportImportReportEntry;
@@ -394,7 +394,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 			settingsMap.put("startDate", startDate);
 		}
 
-		return ExportImportConfigurationLocalServiceUtil.
+		return _exportImportConfigurationLocalService.
 			addDraftExportImportConfiguration(
 				TestPropsValues.getUserId(), type, settingsMap);
 	}
@@ -478,7 +478,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 		throws Exception {
 
 		exportImportConfiguration =
-			ExportImportConfigurationLocalServiceUtil.
+			_exportImportConfigurationLocalService.
 				updateExportImportConfiguration(
 					user.getUserId(),
 					exportImportConfiguration.getExportImportConfigurationId(),
@@ -487,7 +487,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 		exportImportConfiguration.setGroupId(targetGroupId);
 
-		return ExportImportConfigurationLocalServiceUtil.
+		return _exportImportConfigurationLocalService.
 			updateExportImportConfiguration(exportImportConfiguration);
 	}
 
@@ -600,6 +600,10 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 	@Inject
 	private CommentManager _commentManager;
+
+	@Inject
+	private ExportImportConfigurationLocalService
+		_exportImportConfigurationLocalService;
 
 	private ExportImportDescriptor<?> _exportImportDescriptor;
 

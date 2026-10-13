@@ -9,7 +9,7 @@ import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationSe
 import com.liferay.exportimport.kernel.configuration.constants.ExportImportConfigurationConstants;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerKeys;
 import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
-import com.liferay.exportimport.kernel.service.ExportImportLocalServiceUtil;
+import com.liferay.exportimport.kernel.service.ExportImportLocalService;
 import com.liferay.layout.test.util.LayoutTestUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.test.rule.Inject;
 
 import java.io.File;
 
@@ -79,7 +80,7 @@ public abstract class BaseSiteBatchEnginePortletDataHandlerTestCase<T>
 				startDate,
 				ExportImportConfigurationConstants.TYPE_PUBLISH_PORTLET_LOCAL);
 
-		File larFile = ExportImportLocalServiceUtil.exportPortletInfoAsFile(
+		File larFile = _exportImportLocalService.exportPortletInfoAsFile(
 			exportImportConfiguration);
 
 		try {
@@ -91,16 +92,19 @@ public abstract class BaseSiteBatchEnginePortletDataHandlerTestCase<T>
 						_targetLayout.getGroupId(), portletId, parameterMap),
 				_targetLayout.getGroupId(), targetUser);
 
-			ExportImportLocalServiceUtil.importPortletDataDeletions(
+			_exportImportLocalService.importPortletDataDeletions(
 				exportImportConfiguration, larFile);
 
-			ExportImportLocalServiceUtil.importPortletInfo(
+			_exportImportLocalService.importPortletInfo(
 				exportImportConfiguration, larFile);
 		}
 		finally {
 			FileUtil.delete(larFile);
 		}
 	}
+
+	@Inject
+	private ExportImportLocalService _exportImportLocalService;
 
 	private Layout _layout;
 	private Layout _targetLayout;

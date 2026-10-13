@@ -9,7 +9,7 @@ import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationSe
 import com.liferay.exportimport.kernel.configuration.constants.ExportImportConfigurationConstants;
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
-import com.liferay.exportimport.kernel.service.ExportImportLocalServiceUtil;
+import com.liferay.exportimport.kernel.service.ExportImportLocalService;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.RoleConstants;
@@ -17,7 +17,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.util.CompanyTestUtil;
@@ -54,7 +54,7 @@ public abstract class BaseCompanyBatchEnginePortletDataHandlerTestCase<T>
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		CompanyLocalServiceUtil.deleteCompany(_targetCompany);
+		_companyLocalService.deleteCompany(_targetCompany);
 	}
 
 	@Before
@@ -116,7 +116,7 @@ public abstract class BaseCompanyBatchEnginePortletDataHandlerTestCase<T>
 				startDate,
 				ExportImportConfigurationConstants.TYPE_EXPORT_LAYOUT);
 
-		File larFile = ExportImportLocalServiceUtil.exportLayoutsAsFile(
+		File larFile = _exportImportLocalService.exportLayoutsAsFile(
 			exportImportConfiguration);
 
 		PermissionChecker permissionChecker =
@@ -134,10 +134,10 @@ public abstract class BaseCompanyBatchEnginePortletDataHandlerTestCase<T>
 						parameterMap),
 				targetGroup.getGroupId(), targetUser);
 
-			ExportImportLocalServiceUtil.importLayoutsDataDeletions(
+			_exportImportLocalService.importLayoutsDataDeletions(
 				exportImportConfiguration, larFile);
 
-			ExportImportLocalServiceUtil.importLayouts(
+			_exportImportLocalService.importLayouts(
 				exportImportConfiguration, larFile);
 		}
 		finally {
@@ -152,7 +152,13 @@ public abstract class BaseCompanyBatchEnginePortletDataHandlerTestCase<T>
 		return DataLevel.PORTAL;
 	}
 
+	@Inject
+	private static CompanyLocalService _companyLocalService;
+
 	private static Company _targetCompany;
+
+	@Inject
+	private ExportImportLocalService _exportImportLocalService;
 
 	@Inject
 	private RoleLocalService _roleLocalService;
