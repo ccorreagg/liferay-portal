@@ -71,7 +71,7 @@ public abstract class BaseSiteBatchEnginePortletDataHandlerTestCase<T>
 		).build();
 
 		ExportImportConfiguration exportImportConfiguration =
-			addExportConfiguration(
+			addExportImportConfiguration(
 				endDate,
 				ExportImportConfigurationSettingsMapFactoryUtil.
 					buildExportPortletSettingsMap(
@@ -84,7 +84,7 @@ public abstract class BaseSiteBatchEnginePortletDataHandlerTestCase<T>
 			exportImportConfiguration);
 
 		try {
-			exportImportConfiguration = updateImportConfiguration(
+			exportImportConfiguration = updateExportImportConfiguration(
 				exportImportConfiguration,
 				ExportImportConfigurationSettingsMapFactoryUtil.
 					buildImportPortletSettingsMap(

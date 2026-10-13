@@ -107,7 +107,7 @@ public abstract class BaseCompanyBatchEnginePortletDataHandlerTestCase<T>
 		throws Exception {
 
 		ExportImportConfiguration exportImportConfiguration =
-			addExportConfiguration(
+			addExportImportConfiguration(
 				endDate,
 				ExportImportConfigurationSettingsMapFactoryUtil.
 					buildExportLayoutSettingsMap(
@@ -126,7 +126,7 @@ public abstract class BaseCompanyBatchEnginePortletDataHandlerTestCase<T>
 			PermissionThreadLocal.setPermissionChecker(
 				PermissionCheckerFactoryUtil.create(targetUser));
 
-			exportImportConfiguration = updateImportConfiguration(
+			exportImportConfiguration = updateExportImportConfiguration(
 				exportImportConfiguration,
 				ExportImportConfigurationSettingsMapFactoryUtil.
 					buildImportLayoutSettingsMap(

@@ -382,7 +382,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 	protected abstract T addEntry(String externalReferenceCode)
 		throws Exception;
 
-	protected ExportImportConfiguration addExportConfiguration(
+	protected ExportImportConfiguration addExportImportConfiguration(
 			Date endDate, Map<String, Serializable> settingsMap, Date startDate,
 			int type)
 		throws Exception {
@@ -449,7 +449,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase<T>
 
 	protected abstract void updateEntry(T entry) throws Exception;
 
-	protected ExportImportConfiguration updateImportConfiguration(
+	protected ExportImportConfiguration updateExportImportConfiguration(
 			ExportImportConfiguration exportImportConfiguration,
 			Map<String, Serializable> settingsMap, long targetGroupId,
 			User user)
