@@ -66,6 +66,8 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsValues;
+import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.TempFileEntryUtil;
 import com.liferay.portal.test.log.LogCapture;
 import com.liferay.portal.test.log.LoggerTestUtil;
@@ -80,6 +82,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -568,6 +571,20 @@ public class ImportProcessResourceTest
 		return layout.getPlid();
 	}
 
+	private void _assertTempFileNames(Set<String> tempFileNames)
+		throws Exception {
+
+		ExportImportTestUtil.retryAssert(
+			1, TimeUnit.SECONDS, 30, TimeUnit.SECONDS,
+			() -> {
+				Set<String> newTempFileNames = _getTempFileNames();
+
+				newTempFileNames.removeAll(tempFileNames);
+
+				Assert.assertEquals(Collections.emptySet(), newTempFileNames);
+			});
+	}
+
 	private void _deleteTempFileEntries(long groupId) throws Exception {
 		String folderName = DigesterUtil.digestHex(
 			DigesterUtil.SHA_256,
@@ -660,6 +677,13 @@ public class ImportProcessResourceTest
 			externalReferenceCode, TestPropsValues.getCompanyId());
 
 		return group.getGroupId();
+	}
+
+	private Set<String> _getTempFileNames() {
+		File tempDir = new File(SystemProperties.get(SystemProperties.TMP_DIR));
+
+		return SetUtil.fromArray(
+			tempDir.list((dir, name) -> name.endsWith(".lar")));
 	}
 
 	private void _importLayoutSet(
@@ -802,6 +826,8 @@ public class ImportProcessResourceTest
 
 		File file = exportFileUnsafeSupplier.get();
 
+		Set<String> tempFileNames = _getTempFileNames();
+
 		_objectEntryLocalService.deleteObjectEntry(
 			objectEntry.getObjectEntryId());
 
@@ -840,6 +866,8 @@ public class ImportProcessResourceTest
 			_objectEntryLocalService.fetchObjectEntry(
 				objectEntry.getExternalReferenceCode(), objectEntryGroupId,
 				objectDefinition.getObjectDefinitionId()));
+
+		_assertTempFileNames(tempFileNames);
 	}
 
 	private void _testPostImportProcessWithPreviewForOtherGroup(

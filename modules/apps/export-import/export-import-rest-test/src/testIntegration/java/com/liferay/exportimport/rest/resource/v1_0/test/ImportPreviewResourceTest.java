@@ -18,6 +18,7 @@ import com.liferay.exportimport.rest.client.dto.v1_0.PreviewPortletDataHandlerSe
 import com.liferay.exportimport.rest.client.dto.v1_0.PreviewSite;
 import com.liferay.exportimport.rest.client.http.HttpInvoker;
 import com.liferay.exportimport.rest.client.resource.v1_0.ImportPreviewResource;
+import com.liferay.exportimport.test.util.ExportImportTestUtil;
 import com.liferay.layout.admin.constants.LayoutAdminPortletKeys;
 import com.liferay.layout.test.util.LayoutTestUtil;
 import com.liferay.object.constants.ObjectDefinitionConstants;
@@ -52,6 +53,8 @@ import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.test.log.LogCapture;
 import com.liferay.portal.test.log.LoggerTestUtil;
 import com.liferay.portal.test.rule.FeatureFlag;
@@ -68,6 +71,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -309,6 +314,20 @@ public class ImportPreviewResourceTest
 			ServiceContextTestUtil.getServiceContext());
 	}
 
+	private void _assertTempFileNames(Set<String> tempFileNames)
+		throws Exception {
+
+		ExportImportTestUtil.retryAssert(
+			1, TimeUnit.SECONDS, 30, TimeUnit.SECONDS,
+			() -> {
+				Set<String> newTempFileNames = _getTempFileNames();
+
+				newTempFileNames.removeAll(tempFileNames);
+
+				Assert.assertEquals(Collections.emptySet(), newTempFileNames);
+			});
+	}
+
 	private File _exportLayoutAsFile(long groupId, Group... groups)
 		throws Exception {
 
@@ -444,6 +463,13 @@ public class ImportPreviewResourceTest
 		return null;
 	}
 
+	private Set<String> _getTempFileNames() {
+		File tempDir = new File(SystemProperties.get(SystemProperties.TMP_DIR));
+
+		return SetUtil.fromArray(
+			tempDir.list((dir, name) -> name.endsWith(".lar")));
+	}
+
 	private ImportPreview _postImportPreview(File file) throws Exception {
 		return importPreviewResource.postImportPreview(
 			0L, null, null,
@@ -488,6 +514,8 @@ public class ImportPreviewResourceTest
 
 		FileUtil.write(file, RandomTestUtil.randomBytes());
 
+		Set<String> tempFileNames = _getTempFileNames();
+
 		try (LogCapture logCapture1 = LoggerTestUtil.configureLog4JLogger(
 				"com.liferay.portal.vulcan.internal.jaxrs.exception.mapper." +
 					"WebApplicationExceptionMapper",
@@ -498,6 +526,8 @@ public class ImportPreviewResourceTest
 
 			assertHttpResponseStatusCode(400, unsafeFunction.apply(file));
 		}
+
+		_assertTempFileNames(tempFileNames);
 	}
 
 	private void _testPostImportPreviewWithObjectEntries(
@@ -505,8 +535,13 @@ public class ImportPreviewResourceTest
 			UnsafeFunction<File, ImportPreview, Exception> unsafeFunction)
 		throws Exception {
 
-		ImportPreview importPreview = unsafeFunction.apply(
-			_exportLayoutAsFile(groupId));
+		File file = _exportLayoutAsFile(groupId);
+
+		Set<String> tempFileNames = _getTempFileNames();
+
+		ImportPreview importPreview = unsafeFunction.apply(file);
+
+		_assertTempFileNames(tempFileNames);
 
 		long additionCount = _getAdditionCount(
 			importPreview, objectDefinition.getPortletId());
@@ -577,9 +612,14 @@ public class ImportPreviewResourceTest
 			UnsafeFunction<File, ImportPreview, Exception> unsafeFunction)
 		throws Exception {
 
-		ImportPreview importPreview = unsafeFunction.apply(
-			_exportPortletAsFile(
-				groupId, plid, objectDefinition.getPortletId()));
+		File file = _exportPortletAsFile(
+			groupId, plid, objectDefinition.getPortletId());
+
+		Set<String> tempFileNames = _getTempFileNames();
+
+		ImportPreview importPreview = unsafeFunction.apply(file);
+
+		_assertTempFileNames(tempFileNames);
 
 		long additionCount = _getAdditionCount(
 			importPreview, objectDefinition.getPortletId());
