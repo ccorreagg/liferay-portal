@@ -43,6 +43,7 @@ import com.liferay.portal.test.rule.FeatureFlags;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
+import com.liferay.staging.StagingGroupHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -81,7 +82,7 @@ public class GroupExportImportTest {
 
 	@Before
 	public void setUp() throws Exception {
-		_companyGroup = _groupLocalService.getCompanyGroup(
+		_companyGroup = _stagingGroupHelper.fetchCompanyGroup(
 			TestPropsValues.getCompanyId());
 
 		_group = GroupTestUtil.addGroup();
@@ -503,6 +504,9 @@ public class GroupExportImportTest {
 
 	@Inject
 	private LayoutService _layoutService;
+
+	@Inject
+	private StagingGroupHelper _stagingGroupHelper;
 
 	@Inject
 	private ZipReaderFactory _zipReaderFactory;
