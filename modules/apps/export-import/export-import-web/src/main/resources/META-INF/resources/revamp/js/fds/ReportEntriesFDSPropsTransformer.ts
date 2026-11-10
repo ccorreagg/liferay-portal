@@ -9,6 +9,7 @@ import {
 } from '@liferay/frontend-data-set-web';
 
 import ReportEntryStatusRenderer from './cell_renderers/ReportEntryStatusRenderer';
+import ReportEntryTextRenderer from './cell_renderers/ReportEntryTextRenderer';
 
 export default function ReportEntriesFDSPropsTransformer({...otherProps}) {
 	return {
@@ -19,6 +20,11 @@ export default function ReportEntriesFDSPropsTransformer({...otherProps}) {
 				{
 					component: ReportEntryStatusRenderer,
 					name: 'reportEntryStatusRenderer',
+					type: 'internal',
+				} as IInternalRenderer,
+				{
+					component: ReportEntryTextRenderer,
+					name: 'reportEntryTextRenderer',
 					type: 'internal',
 				} as IInternalRenderer,
 			],

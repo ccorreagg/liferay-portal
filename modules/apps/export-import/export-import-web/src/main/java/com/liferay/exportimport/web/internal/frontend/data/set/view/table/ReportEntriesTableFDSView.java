@@ -37,14 +37,20 @@ public class ReportEntriesTableFDSView extends BaseTableFDSView {
 
 		return fdsTableSchemaBuilder.add(
 			"modelName", "entity-type",
-			fdsTableSchemaField -> fdsTableSchemaField.setSortable(true)
+			fdsTableSchemaField -> {
+				fdsTableSchemaField.setContentRenderer(
+					"reportEntryTextRenderer");
+				fdsTableSchemaField.setSortable(true);
+			}
 		).add(
 			"classExternalReferenceCode", "external-reference-code",
 			fdsTableSchemaField -> fdsTableSchemaField.setSortable(true)
 		).add(
 			"type.label", "type"
 		).add(
-			"errorMessage", "description"
+			"errorMessage", "description",
+			fdsTableSchemaField -> fdsTableSchemaField.setContentRenderer(
+				"reportEntryTextRenderer")
 		).add(
 			"status", "status",
 			fdsTableSchemaField -> fdsTableSchemaField.setContentRenderer(
