@@ -240,9 +240,15 @@ function ProfileForm({
 							setFieldValue('profilePath', toProfilePath(value));
 						}}
 						prefix={
-							<Text as="p" size={2} weight="semi-bold">
-								{`${getProfileURL('')}${isDefaultProfile ? '' : '/'}`}
-							</Text>
+							<div className="mb-2">
+								<Text
+									color="secondary"
+									size={2}
+									weight="semi-bold"
+								>
+									{`${getProfileURL('')}${isDefaultProfile ? '' : '/'}`}
+								</Text>
+							</div>
 						}
 						required={!isDefaultProfile}
 						suffix={
