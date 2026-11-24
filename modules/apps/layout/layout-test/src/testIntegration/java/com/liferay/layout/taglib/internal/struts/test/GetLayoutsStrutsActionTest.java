@@ -172,7 +172,7 @@ public class GetLayoutsStrutsActionTest {
 
 		try (SafeCloseable safeCloseable =
 				LaunchThreadLocal.setLaunchSetIdWithSafeCloseable(
-					launchSetId, LaunchThreadLocal.Mode.PREVIEW)) {
+					launchSetId, LaunchThreadLocal.LaunchSetMode.PREVIEW)) {
 
 			_assertLayoutInTree(true, layout);
 		}

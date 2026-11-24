@@ -511,10 +511,10 @@ public class PortalImpl implements Portal {
 
 		_reservedParams.add("p_j_a_id"); // LPS-16418
 
-		// Portal launch
+		// Portal launch set
 
-		_reservedParams.add("p_launch_id");
-		_reservedParams.add("p_launch_mode");
+		_reservedParams.add("p_launch_set_id");
+		_reservedParams.add("p_launch_set_mode");
 
 		// Miscellaneous
 
@@ -809,13 +809,13 @@ public class PortalImpl implements Portal {
 				url, "previewCTIndicator", true);
 		}
 
-		if (LaunchThreadLocal.isPreview()) {
+		if (LaunchThreadLocal.isLaunchSetModePreview()) {
 			url = HttpComponentsUtil.setParameter(
 				url, "p_l_mode", Constants.PREVIEW);
 			url = HttpComponentsUtil.setParameter(
-				url, "p_launch_id", LaunchThreadLocal.getLaunchSetId());
+				url, "p_launch_set_id", LaunchThreadLocal.getLaunchSetId());
 			url = HttpComponentsUtil.setParameter(
-				url, "p_launch_mode", Constants.PREVIEW);
+				url, "p_launch_set_mode", Constants.PREVIEW);
 		}
 
 		return url;

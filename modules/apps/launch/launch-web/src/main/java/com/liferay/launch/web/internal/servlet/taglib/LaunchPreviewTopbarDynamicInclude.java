@@ -100,7 +100,7 @@ public class LaunchPreviewTopbarDynamicInclude extends BaseDynamicInclude {
 	private ThemeDisplay _getLaunchPreviewThemeDisplay(
 		HttpServletRequest httpServletRequest) {
 
-		if (!LaunchThreadLocal.isPreview() ||
+		if (!LaunchThreadLocal.isLaunchSetModePreview() ||
 			!Objects.equals(
 				Constants.PREVIEW,
 				ParamUtil.getString(httpServletRequest, "p_l_mode"))) {
@@ -124,7 +124,7 @@ public class LaunchPreviewTopbarDynamicInclude extends BaseDynamicInclude {
 
 	private String _getNoLaunchURL(HttpServletRequest httpServletRequest) {
 		return HttpComponentsUtil.setParameter(
-			_portal.getCurrentURL(httpServletRequest), "p_launch_id", 0);
+			_portal.getCurrentURL(httpServletRequest), "p_launch_set_id", 0);
 	}
 
 	private void _writeCSSLink(

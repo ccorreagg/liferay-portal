@@ -621,7 +621,7 @@ public class FragmentEntryFragmentRendererTest {
 	}
 
 	@Test
-	public void testRenderWithLaunchEditMode() throws Exception {
+	public void testRenderWithLaunchSetModeEdit() throws Exception {
 		FragmentEntry fragmentEntry = _getFragmentEntry(true);
 
 		FragmentEntryLink fragmentEntryLink =
@@ -638,7 +638,8 @@ public class FragmentEntryFragmentRendererTest {
 
 		try (SafeCloseable safeCloseable =
 				LaunchThreadLocal.setLaunchSetIdWithSafeCloseable(
-					RandomTestUtil.randomLong(), LaunchThreadLocal.Mode.EDIT)) {
+					RandomTestUtil.randomLong(),
+					LaunchThreadLocal.LaunchSetMode.EDIT)) {
 
 			_renderFragmentEntryLink(fragmentEntryLink);
 		}
