@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,14 +148,19 @@ public abstract class BasePersistenceFinder
 			FinderColumn<T> finderColumn = finderColumns[i];
 
 			if (!Objects.equals(
-					finderColumn.getColumnName(), "externalReferenceCode") ||
-				(values[i] == null)) {
+					finderColumn.getColumnName(), "externalReferenceCode")) {
 
 				continue;
 			}
 
-			noSuchModelException.setExternalReferenceCode(
-				GetterUtil.getString(values[i]));
+			String externalReferenceCode = GetterUtil.getString(values[i]);
+
+			if (Validator.isNotNull(externalReferenceCode)) {
+				noSuchModelException.setExternalReferenceCode(
+					externalReferenceCode);
+			}
+
+			break;
 		}
 
 		return noSuchModelException;
