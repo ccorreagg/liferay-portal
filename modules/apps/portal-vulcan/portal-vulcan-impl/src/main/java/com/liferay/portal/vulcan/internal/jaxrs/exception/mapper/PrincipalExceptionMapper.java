@@ -5,7 +5,6 @@
 
 package com.liferay.portal.vulcan.internal.jaxrs.exception.mapper;
 
-import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -18,6 +17,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.servlet.HttpMethods;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.service.PersistedModelLocalServiceRegistryUtil;
 import com.liferay.portal.vulcan.jaxrs.exception.mapper.BaseExceptionMapper;
 import com.liferay.portal.vulcan.jaxrs.exception.mapper.Problem;
 
@@ -47,13 +47,6 @@ import java.util.List;
  */
 public class PrincipalExceptionMapper
 	extends BaseExceptionMapper<PrincipalException> {
-
-	public PrincipalExceptionMapper(
-		ServiceTrackerMap<String, PersistedModelLocalService>
-			serviceTrackerMap) {
-
-		_serviceTrackerMap = serviceTrackerMap;
-	}
 
 	@Override
 	public Response toResponse(PrincipalException principalException) {
@@ -118,7 +111,8 @@ public class PrincipalExceptionMapper
 		}
 
 		PersistedModelLocalService persistedModelLocalService =
-			_serviceTrackerMap.getService(mustHavePermission.resourceName);
+			PersistedModelLocalServiceRegistryUtil.
+				getPersistedModelLocalService(mustHavePermission.resourceName);
 
 		if (persistedModelLocalService == null) {
 			return null;
@@ -190,9 +184,6 @@ public class PrincipalExceptionMapper
 
 	@Context
 	private Providers _providers;
-
-	private final ServiceTrackerMap<String, PersistedModelLocalService>
-		_serviceTrackerMap;
 
 	@Context
 	private UriInfo _uriInfo;
