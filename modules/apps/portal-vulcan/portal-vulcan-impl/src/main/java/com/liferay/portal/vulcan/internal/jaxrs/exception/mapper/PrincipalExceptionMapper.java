@@ -30,6 +30,7 @@ import jakarta.ws.rs.core.UriInfo;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Providers;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -51,33 +52,42 @@ public class PrincipalExceptionMapper
 	public Response toResponse(PrincipalException principalException) {
 		String method = _httpServletRequest.getMethod();
 
+		if (!(principalException instanceof
+				PrincipalException.MustHavePermission)) {
+
+			if (method.equals(HttpMethods.GET)) {
+				return _toNotFoundResponse(principalException);
+			}
+
+			return super.toResponse(principalException);
+		}
+
+		PrincipalException.MustHavePermission mustHavePermission =
+			(PrincipalException.MustHavePermission)principalException;
+
 		if (!method.equals(HttpMethods.GET) &&
-			!_isViewPermissionException(principalException)) {
+			!Arrays.equals(
+				mustHavePermission.actionId, new String[] {ActionKeys.VIEW})) {
 
 			return super.toResponse(principalException);
 		}
 
 		String externalReferenceCode = _getExternalReferenceCode(
-			principalException);
+			mustHavePermission);
 
-		if (externalReferenceCode != null) {
-			NoSuchModelException noSuchModelException =
-				new NoSuchModelException(principalException);
-
-			noSuchModelException.setExternalReferenceCode(
-				externalReferenceCode);
-
-			ExceptionMapper<NoSuchModelException> exceptionMapper =
-				_providers.getExceptionMapper(NoSuchModelException.class);
-
-			return exceptionMapper.toResponse(noSuchModelException);
+		if (externalReferenceCode == null) {
+			return _toNotFoundResponse(principalException);
 		}
 
-		ExceptionMapper<NotFoundException> exceptionMapper =
-			_providers.getExceptionMapper(NotFoundException.class);
+		NoSuchModelException noSuchModelException = new NoSuchModelException(
+			principalException);
 
-		return exceptionMapper.toResponse(
-			new NotFoundException(principalException));
+		noSuchModelException.setExternalReferenceCode(externalReferenceCode);
+
+		ExceptionMapper<NoSuchModelException> exceptionMapper =
+			_providers.getExceptionMapper(NoSuchModelException.class);
+
+		return exceptionMapper.toResponse(noSuchModelException);
 	}
 
 	@Override
@@ -92,16 +102,7 @@ public class PrincipalExceptionMapper
 	}
 
 	private String _getExternalReferenceCode(
-		PrincipalException principalException) {
-
-		if (!(principalException instanceof
-				PrincipalException.MustHavePermission)) {
-
-			return null;
-		}
-
-		PrincipalException.MustHavePermission mustHavePermission =
-			(PrincipalException.MustHavePermission)principalException;
+		PrincipalException.MustHavePermission mustHavePermission) {
 
 		if ((mustHavePermission.resourceId == 0) ||
 			Validator.isNull(mustHavePermission.resourceName)) {
@@ -147,25 +148,14 @@ public class PrincipalExceptionMapper
 		return null;
 	}
 
-	private boolean _isViewPermissionException(
+	private Response _toNotFoundResponse(
 		PrincipalException principalException) {
 
-		if (!(principalException instanceof
-				PrincipalException.MustHavePermission)) {
+		ExceptionMapper<NotFoundException> exceptionMapper =
+			_providers.getExceptionMapper(NotFoundException.class);
 
-			return false;
-		}
-
-		PrincipalException.MustHavePermission mustHavePermission =
-			(PrincipalException.MustHavePermission)principalException;
-
-		String[] actionIds = mustHavePermission.actionId;
-
-		if ((actionIds.length == 1) && ActionKeys.VIEW.equals(actionIds[0])) {
-			return true;
-		}
-
-		return false;
+		return exceptionMapper.toResponse(
+			new NotFoundException(principalException));
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
