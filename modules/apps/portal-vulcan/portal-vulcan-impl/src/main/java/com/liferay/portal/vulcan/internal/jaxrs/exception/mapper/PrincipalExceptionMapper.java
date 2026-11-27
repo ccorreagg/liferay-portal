@@ -6,7 +6,6 @@
 package com.liferay.portal.vulcan.internal.jaxrs.exception.mapper;
 
 import com.liferay.portal.kernel.exception.NoSuchModelException;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -118,26 +117,19 @@ public class PrincipalExceptionMapper
 			return null;
 		}
 
-		String externalReferenceCode = null;
+		PersistedModel persistedModel =
+			persistedModelLocalService.fetchPersistedModel(
+				mustHavePermission.resourceId);
 
-		try {
-			PersistedModel persistedModel =
-				persistedModelLocalService.getPersistedModel(
-					mustHavePermission.resourceId);
-
-			if (persistedModel instanceof ExternalReferenceCodeModel) {
-				ExternalReferenceCodeModel externalReferenceCodeModel =
-					(ExternalReferenceCodeModel)persistedModel;
-
-				externalReferenceCode =
-					externalReferenceCodeModel.getExternalReferenceCode();
-			}
+		if (!(persistedModel instanceof ExternalReferenceCodeModel)) {
+			return null;
 		}
-		catch (PortalException portalException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(portalException);
-			}
-		}
+
+		ExternalReferenceCodeModel externalReferenceCodeModel =
+			(ExternalReferenceCodeModel)persistedModel;
+
+		String externalReferenceCode =
+			externalReferenceCodeModel.getExternalReferenceCode();
 
 		if (Validator.isNull(externalReferenceCode)) {
 			return null;
